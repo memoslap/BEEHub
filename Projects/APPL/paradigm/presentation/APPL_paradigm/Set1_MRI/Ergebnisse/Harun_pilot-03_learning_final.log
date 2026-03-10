@@ -1,0 +1,31 @@
+Scenario - fMRI-SET-1
+Logfile written - 02/15/2024 15:49:15
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+Harun_pilot	0	Picture	Hello - Intro	10500	10500	1	326733	1	0	next	other	0
+Harun_pilot	0	Port Input	99	229775	229775	1
+Harun_pilot	0	Response	1	229775	229775	1
+Harun_pilot	0	Port Input	100	236652	236652	1
+Harun_pilot	0	Response	2	236652	236652	1
+Harun_pilot	0	Quit		304367	304367	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	326733	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "Harun_pilot",
+   "timestamp": "2024/02/15 14:48:39 GMT"
+}

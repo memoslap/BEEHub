@@ -1,0 +1,15 @@
+Scenario - fMRI-SET-1
+Logfile written - 06/20/2023 13:21:45
+1-JA; 2-NEIN
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+Pliot_1	1	Pulse	0	0	0	NA
+Pliot_1	2	Pulse	0	45000	45000	NA
+Pliot_1	2	Picture	learning/PICTURE_97.jpg;Pase;Pase;c;block1;LS1	45303	45303	1	20834	1	0	25000	other	0
+Pliot_1	2	Quit		58773	58773	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	learning/PICTURE_97.jpg;Pase;Pase;c;block1;LS1	other				45303	1	20834	1	0	25000

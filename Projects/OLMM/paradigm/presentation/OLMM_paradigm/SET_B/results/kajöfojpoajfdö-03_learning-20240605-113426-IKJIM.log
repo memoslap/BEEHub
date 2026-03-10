@@ -1,0 +1,245 @@
+Scenario - block_1
+Logfile written - 06/05/2024 11:40:13
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+kajöfojpoajfdö	0	Pulse	0	0	0	NA
+kajöfojpoajfdö	1	Picture	Hello - Intro	333	0	1	134835	1	0	next	other	0
+kajöfojpoajfdö	1	Response	1	15619	15287	0
+kajöfojpoajfdö	1	Response	1	38674	38341	0
+kajöfojpoajfdö	1	Pulse	0	45000	44667	NA
+kajöfojpoajfdö	1	Response	1	74084	73752	0
+kajöfojpoajfdö	1	Response	1	81179	80846	0
+kajöfojpoajfdö	1	Response	1	83418	83085	0
+kajöfojpoajfdö	1	Response	1	84945	84612	0
+kajöfojpoajfdö	1	Pulse	0	90000	89667	NA
+kajöfojpoajfdö	1	Pulse	0	135000	134667	NA
+kajöfojpoajfdö	2	Picture	fix	135168	0	1	45111	1	0	next	other	0
+kajöfojpoajfdö	2	Pulse	0	180000	44832	NA
+kajöfojpoajfdö	3	Picture	fix	180279	0	1	45111	1	0	next	other	0
+kajöfojpoajfdö	3	Pulse	0	225000	44721	NA
+kajöfojpoajfdö	4	Picture	fix	225390	0	1	45611	1	0	next	other	0
+kajöfojpoajfdö	4	Pulse	0	270000	44610	NA
+kajöfojpoajfdö	5	Picture	bubbles/learning.png	271001	0	1	46277	1	0	next	other	0
+kajöfojpoajfdö	5	Pulse	0	315000	43999	NA
+kajöfojpoajfdö	6	Picture	h97_p19_h95_p1_i_down_right_left.jpg;block1;LS1	317278	0	1	26301	1	0	next	other	0
+kajöfojpoajfdö	7	Picture	to late	343579	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	7	Pulse	0	360000	16421	NA
+kajöfojpoajfdö	8	Picture	h102_p53_h101_p30_k_down_left_right.jpg;block1;LS1	364720	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	9	Picture	to late	390855	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	9	Pulse	0	405000	14145	NA
+kajöfojpoajfdö	10	Picture	h20_p41_h27_p56_k_down_right_left.jpg;block1;LS1	411995	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	11	Picture	to late	438130	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	11	Pulse	0	450000	11870	NA
+kajöfojpoajfdö	12	Picture	h77_p16_h76_p45_k_down_right_left.jpg;block1;LS1	459271	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	13	Picture	to late	485406	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	13	Pulse	0	495000	9594	NA
+kajöfojpoajfdö	14	Picture	h97_p1_h95_p19_k_down_right_left.jpg;block1;LS1	506380	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	15	Picture	to late	532515	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	15	Pulse	0	540000	7486	NA
+kajöfojpoajfdö	16	Picture	h84_p24_h80_p32_i_down_right_left.jpg;block1;LS1	553655	0	1	26301	1	0	next	other	0
+kajöfojpoajfdö	17	Picture	to late	579956	0	1	21307	1	0	next	other	0
+kajöfojpoajfdö	17	Pulse	0	585000	5044	NA
+kajöfojpoajfdö	18	Picture	h102_p20_h101_p39_i_down_left_right.jpg;block1;LS1	601264	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	19	Picture	to late	627398	0	1	21307	1	0	next	other	0
+kajöfojpoajfdö	19	Pulse	0	630000	2602	NA
+kajöfojpoajfdö	20	Picture	h50_p26_h75_p45_i_down_right_left.jpg;block1;LS1	648706	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	21	Picture	to late	674840	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	21	Pulse	0	675000	160	NA
+kajöfojpoajfdö	22	Picture	h93_p10_h88_p43_k_down_right_left.jpg;block1;LS1	695981	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	22	Pulse	0	720000	24019	NA
+kajöfojpoajfdö	23	Picture	to late	722116	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	24	Picture	h77_p25_h76_p45_i_down_right_left.jpg;block1;LS1	743257	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	24	Pulse	0	765000	21743	NA
+kajöfojpoajfdö	25	Picture	to late	769391	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	26	Picture	h84_p32_h80_p24_k_down_right_left.jpg;block1;LS1	790366	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	26	Pulse	0	810000	19634	NA
+kajöfojpoajfdö	27	Picture	to late	816500	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	28	Picture	h50_p65_h75_p48_k_down_right_left.jpg;block1;LS1	837475	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	28	Pulse	0	855000	17525	NA
+kajöfojpoajfdö	29	Picture	to late	863609	0	1	21807	1	0	next	other	0
+kajöfojpoajfdö	30	Picture	h93_p10_h88_p52_i_down_right_left.jpg;block1;LS1	885416	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	30	Pulse	0	900000	14584	NA
+kajöfojpoajfdö	31	Picture	to late	911551	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	32	Picture	h20_p41_h27_p20_i_down_right_left.jpg;block1;LS1	932691	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	32	Pulse	0	945000	12309	NA
+kajöfojpoajfdö	33	Picture	to late	958826	0	1	20142	1	0	next	other	0
+kajöfojpoajfdö	34	Picture	fix	978968	0	1	46110	1	0	next	other	0
+kajöfojpoajfdö	34	Pulse	0	990000	11032	NA
+kajöfojpoajfdö	35	Picture	h84_p32_h80_p24_k_down_right_left.jpg;block1;LS2	1025078	0	1	17479	1	0	next	other	0
+kajöfojpoajfdö	35	Pulse	0	1035000	9922	NA
+kajöfojpoajfdö	35	Response	1	1041448	16369	0
+kajöfojpoajfdö	36	Picture	extra Pic Time	1042557	0	1	8823	1	0	next	other	0
+kajöfojpoajfdö	37	Picture	correct;h84_p32_h80_p24_k_down_right_left.jpg	1051379	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	38	Picture	h20_p41_h27_p56_k_down_right_left.jpg;block1;LS2	1072354	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	38	Pulse	0	1080000	7646	NA
+kajöfojpoajfdö	39	Picture	to late	1098488	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	40	Picture	h77_p32_h76_p24_i_down_right_left.jpg;block1;LS2	1119629	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	40	Pulse	0	1125000	5371	NA
+kajöfojpoajfdö	41	Picture	to late	1145764	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	42	Picture	h102_p53_h101_p30_k_down_left_right.jpg;block1;LS2	1166738	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	42	Pulse	0	1170000	3262	NA
+kajöfojpoajfdö	43	Picture	to late	1192873	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	44	Picture	h50_p65_h75_p48_k_down_right_left.jpg;block1;LS2	1213847	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	44	Pulse	0	1215000	1153	NA
+kajöfojpoajfdö	45	Picture	to late	1239982	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	45	Response	1	1256405	16423	0
+kajöfojpoajfdö	45	Pulse	0	1260000	20018	NA
+kajöfojpoajfdö	46	Picture	h93_p10_h88_p43_k_down_right_left.jpg;block1;LS2	1260956	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	47	Picture	to late	1287091	0	1	21307	1	0	next	other	0
+kajöfojpoajfdö	47	Pulse	0	1305000	17909	NA
+kajöfojpoajfdö	48	Picture	h97_p1_h95_p62_i_down_right_left.jpg;block1;LS2	1308398	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	49	Picture	to late	1334533	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	49	Pulse	0	1350000	15467	NA
+kajöfojpoajfdö	50	Picture	h93_p43_h88_p10_i_down_right_left.jpg;block1;LS2	1355674	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	51	Picture	to late	1381808	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	51	Pulse	0	1395000	13192	NA
+kajöfojpoajfdö	52	Picture	h97_p1_h95_p19_k_down_right_left.jpg;block1;LS2	1402783	0	1	14815	1	0	next	other	0
+kajöfojpoajfdö	52	Response	1	1416582	13799	0
+kajöfojpoajfdö	53	Picture	extra Pic Time	1417598	0	1	11319	1	0	next	other	0
+kajöfojpoajfdö	54	Picture	correct;h97_p1_h95_p19_k_down_right_left.jpg	1428917	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	54	Pulse	0	1440000	11083	NA
+kajöfojpoajfdö	55	Picture	h20_p56_h27_p41_i_down_right_left.jpg;block1;LS2	1450058	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	56	Picture	to late	1476193	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	56	Pulse	0	1485000	8807	NA
+kajöfojpoajfdö	57	Picture	h77_p16_h76_p45_k_down_right_left.jpg;block1;LS2	1497167	0	1	22306	1	0	next	other	0
+kajöfojpoajfdö	57	Response	2	1518463	21296	0
+kajöfojpoajfdö	58	Picture	extra Pic Time	1519473	0	1	3829	1	0	next	other	0
+kajöfojpoajfdö	59	Picture	incorrect;h77_p16_h76_p45_k_down_right_left.jpg	1523302	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	59	Pulse	0	1530000	6698	NA
+kajöfojpoajfdö	60	Picture	h50_p47_h75_p48_i_down_right_left.jpg;block1;LS2	1544443	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	61	Picture	to late	1570577	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	61	Pulse	0	1575000	4423	NA
+kajöfojpoajfdö	62	Picture	h84_p33_h80_p24_i_down_right_left.jpg;block1;LS2	1591718	0	1	1665	1	0	next	other	0
+kajöfojpoajfdö	62	Response	1	1592288	570	0
+kajöfojpoajfdö	63	Picture	extra Pic Time	1593383	0	1	24636	1	0	next	other	0
+kajöfojpoajfdö	64	Picture	incorrect;h84_p32_h80_p24_k_down_right_left.jpg	1618019	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	64	Pulse	0	1620000	1981	NA
+kajöfojpoajfdö	65	Picture	h102_p28_h101_p30_i_down_left_right.jpg;block1;LS2	1639160	0	1	12651	1	0	next	other	0
+kajöfojpoajfdö	65	Response	1	1650724	11564	0
+kajöfojpoajfdö	66	Picture	extra Pic Time	1651811	0	1	13650	1	0	next	other	0
+kajöfojpoajfdö	66	Pulse	0	1665000	13189	NA
+kajöfojpoajfdö	67	Picture	incorrect;h102_p53_h101_p30_k_down_left_right.jpg	1665461	0	1	20142	1	0	next	other	0
+kajöfojpoajfdö	68	Picture	fix	1685603	0	1	46110	1	0	next	other	0
+kajöfojpoajfdö	68	Pulse	0	1710000	24397	NA
+kajöfojpoajfdö	69	Picture	h97_p1_h95_p19_k_down_right_left.jpg;block1;LS3	1731713	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	69	Pulse	0	1755000	23287	NA
+kajöfojpoajfdö	70	Picture	to late	1757848	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	71	Picture	h93_p10_h88_p43_k_down_right_left.jpg;block1;LS3	1778822	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	71	Pulse	0	1800000	21178	NA
+kajöfojpoajfdö	72	Picture	to late	1804957	0	1	21307	1	0	next	other	0
+kajöfojpoajfdö	73	Picture	h97_p30_h95_p53_i_down_right_left.jpg;block1;LS3	1826264	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	73	Pulse	0	1845000	18736	NA
+kajöfojpoajfdö	74	Picture	to late	1852399	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	75	Picture	h50_p65_h75_p48_k_down_right_left.jpg;block1;LS3	1873373	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	75	Pulse	0	1890000	16627	NA
+kajöfojpoajfdö	76	Picture	to late	1899508	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	77	Picture	h102_p30_h101_p53_i_down_left_right.jpg;block1;LS3	1920649	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	77	Pulse	0	1935000	14351	NA
+kajöfojpoajfdö	78	Picture	to late	1946783	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	79	Picture	h77_p16_h76_p45_k_down_right_left.jpg;block1;LS3	1967758	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	79	Pulse	0	1980000	12242	NA
+kajöfojpoajfdö	80	Picture	to late	1993892	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	81	Picture	h84_p32_h80_p24_k_down_right_left.jpg;block1;LS3	2014867	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	81	Pulse	0	2025000	10133	NA
+kajöfojpoajfdö	82	Picture	to late	2041001	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	83	Picture	h20_p65_h27_p48_i_down_right_left.jpg;block1;LS3	2062142	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	83	Pulse	0	2070000	7858	NA
+kajöfojpoajfdö	84	Picture	to late	2088277	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	85	Picture	h102_p53_h101_p30_k_down_left_right.jpg;block1;LS3	2109251	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	85	Pulse	0	2115000	5749	NA
+kajöfojpoajfdö	86	Picture	to late	2135386	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	87	Picture	h20_p41_h27_p56_k_down_right_left.jpg;block1;LS3	2156360	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	87	Pulse	0	2160000	3640	NA
+kajöfojpoajfdö	88	Picture	to late	2182495	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	89	Picture	h77_p45_h76_p26_i_down_right_left.jpg;block1;LS3	2203636	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	89	Pulse	0	2205000	1364	NA
+kajöfojpoajfdö	90	Picture	to late	2229770	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	90	Pulse	0	2250000	20230	NA
+kajöfojpoajfdö	91	Picture	h50_p48_h75_p65_i_down_right_left.jpg;block1;LS3	2250911	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	92	Picture	to late	2277046	0	1	21141	1	0	next	other	0
+kajöfojpoajfdö	92	Pulse	0	2295000	17954	NA
+kajöfojpoajfdö	93	Picture	h93_p8_h88_p59_i_down_right_left.jpg;block1;LS3	2298187	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	94	Picture	to late	2324321	0	1	21807	1	0	next	other	0
+kajöfojpoajfdö	94	Pulse	0	2340000	15679	NA
+kajöfojpoajfdö	95	Picture	h84_p43_h80_p9_i_down_left_right.jpg;block1;LS3	2346128	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	96	Picture	to late	2372263	0	1	20142	1	0	next	other	0
+kajöfojpoajfdö	96	Pulse	0	2385000	12738	NA
+kajöfojpoajfdö	97	Picture	fix	2392405	0	1	46110	1	0	next	other	0
+kajöfojpoajfdö	97	Pulse	0	2430000	37595	NA
+kajöfojpoajfdö	98	Picture	h20_p41_h27_p20_i_down_right_left.jpg;block1;LS4	2438515	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	99	Picture	to late	2464649	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	99	Pulse	0	2475000	10351	NA
+kajöfojpoajfdö	100	Picture	h50_p26_h75_p45_i_down_right_left.jpg;block1;LS4	2485624	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	101	Picture	to late	2511758	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	101	Pulse	0	2520000	8242	NA
+kajöfojpoajfdö	102	Picture	h97_p1_h95_p19_k_down_right_left.jpg;block1;LS4	2532733	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	103	Picture	to late	2558867	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	103	Pulse	0	2565000	6133	NA
+kajöfojpoajfdö	104	Picture	h102_p53_h101_p30_k_down_left_right.jpg;block1;LS4	2579842	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	105	Picture	to late	2605976	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	105	Pulse	0	2610000	4024	NA
+kajöfojpoajfdö	106	Picture	h77_p25_h76_p45_i_down_right_left.jpg;block1;LS4	2626951	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	107	Picture	to late	2653085	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	107	Pulse	0	2655000	1915	NA
+kajöfojpoajfdö	108	Picture	h84_p32_h80_p24_k_down_right_left.jpg;block1;LS4	2674060	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	108	Pulse	0	2700000	25940	NA
+kajöfojpoajfdö	109	Picture	to late	2700194	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	110	Picture	h20_p41_h27_p56_k_down_right_left.jpg;block1;LS4	2721169	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	110	Pulse	0	2745000	23831	NA
+kajöfojpoajfdö	111	Picture	to late	2747303	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	112	Picture	h93_p10_h88_p43_k_down_right_left.jpg;block1;LS4	2768278	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	112	Pulse	0	2790000	21722	NA
+kajöfojpoajfdö	113	Picture	to late	2794412	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	114	Picture	h77_p16_h76_p45_k_down_right_left.jpg;block1;LS4	2815387	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	114	Pulse	0	2835000	19613	NA
+kajöfojpoajfdö	115	Picture	to late	2841521	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	116	Picture	h97_p19_h95_p1_i_down_right_left.jpg;block1;LS4	2862496	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	116	Pulse	0	2880000	17504	NA
+kajöfojpoajfdö	117	Picture	to late	2888630	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	118	Picture	h102_p20_h101_p39_i_down_left_right.jpg;block1;LS4	2909605	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	118	Pulse	0	2925000	15395	NA
+kajöfojpoajfdö	119	Picture	to late	2935739	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	120	Picture	h84_p24_h80_p32_i_down_right_left.jpg;block1;LS4	2956714	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	120	Pulse	0	2970000	13286	NA
+kajöfojpoajfdö	121	Picture	to late	2982848	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	122	Picture	h50_p65_h75_p48_k_down_right_left.jpg;block1;LS4	3003823	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	122	Pulse	0	3015000	11177	NA
+kajöfojpoajfdö	123	Picture	to late	3029957	0	1	20974	1	0	next	other	0
+kajöfojpoajfdö	124	Picture	h93_p10_h88_p52_i_down_right_left.jpg;block1;LS4	3050932	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	124	Pulse	0	3060000	9068	NA
+kajöfojpoajfdö	125	Picture	to late	3077066	0	1	20142	1	0	next	other	0
+kajöfojpoajfdö	126	Picture	fix	3097208	0	1	45111	1	0	next	other	0
+kajöfojpoajfdö	126	Pulse	0	3105000	7792	NA
+kajöfojpoajfdö	127	Picture	fix	3142320	0	1	45111	1	0	next	other	0
+kajöfojpoajfdö	127	Pulse	0	3150000	7680	NA
+kajöfojpoajfdö	128	Picture	fix	3187431	0	1	45111	1	0	next	other	0
+kajöfojpoajfdö	128	Pulse	0	3195000	7569	NA
+kajöfojpoajfdö	129	Picture	fix	3232543	0	1	45611	1	0	next	other	0
+kajöfojpoajfdö	129	Pulse	0	3240000	7457	NA
+kajöfojpoajfdö	130	Picture	bubbles/control.png	3278154	0	1	46110	1	0	next	other	0
+kajöfojpoajfdö	130	Pulse	0	3285000	6846	NA
+kajöfojpoajfdö	131	Picture	h26_p8_h27_p20_i_up_right.jpg;crt1-r;LS1	3324264	0	1	25136	1	0	next	other	0
+kajöfojpoajfdö	131	Pulse	0	3330000	5736	NA
+kajöfojpoajfdö	132	Picture	to late	3349400	0	1	26301	1	0	next	other	0
+kajöfojpoajfdö	132	Pulse	0	3375000	25600	NA
+kajöfojpoajfdö	133	Picture	h74_p31_h102_p45_k_up_left.jpg;crt1-r;LS1	3375701	0	1	25136	1	0	next	other	0
+kajöfojpoajfdö	134	Picture	to late	3400837	0	1	26135	1	0	next	other	0
+kajöfojpoajfdö	134	Pulse	0	3420000	19163	NA
+kajöfojpoajfdö	135	Picture	h56_p65_h51_p15_i_up_left.jpg;crt1-r;LS1	3426971	0	1	24693	1	0	next	other	0
+kajöfojpoajfdö	135	Quit		3443941	16970	NA
+
+
+{
+   "app": "Presentation Version 20.3 Build 02.01.19",
+   "device": "HP HP EliteBook 840 G3",
+   "experiment": "{DAED9F8E-CE21-41E2-A450-B84AB5F8B400}",
+   "os": "Windows 7 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "kajöfojpoajfdö",
+   "timestamp": "2024/06/05 09:34:26 GMT"
+}

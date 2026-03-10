@@ -1,0 +1,33 @@
+{
+  "TaskName": "EMOTREG",
+  "TaskDescription": "Binary-coded accuracy (ACCBIN) per trial: 1 = correct, 0 = incorrect. (EMOTREG project)",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "RT converted to seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "accuracy_binary": {
+    "Description": "Binary response accuracy.",
+    "Levels": {
+      "1": "Correct",
+      "0": "Incorrect",
+      "n/a": "No feedback"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage within the session (e.g. LS1-LS4)."
+  },
+  "stimulus": {
+    "Description": "Filename or path of the presented stimulus."
+  }
+}

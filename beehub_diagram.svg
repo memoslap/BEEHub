@@ -1,0 +1,395 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" width="900" height="640"
+     font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eef6f1"/>
+      <stop offset="50%" stop-color="#f5faf7"/>
+      <stop offset="100%" stop-color="#e8f4ee"/>
+    </linearGradient>
+
+    <!-- Layer gradients -->
+    <linearGradient id="layerInput" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d0eedd"/>
+      <stop offset="100%" stop-color="#b8e2cc"/>
+    </linearGradient>
+    <linearGradient id="layerProcess" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a8d8c8"/>
+      <stop offset="100%" stop-color="#88ccb8"/>
+    </linearGradient>
+    <linearGradient id="layerOutput" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c8ece0"/>
+      <stop offset="100%" stop-color="#a0d8c4"/>
+    </linearGradient>
+
+    <!-- Card gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
+      <stop offset="100%" stop-color="rgba(232,248,240,0.90)"/>
+    </linearGradient>
+
+    <!-- Hub center gradient -->
+    <radialGradient id="hubGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#5ab88a"/>
+      <stop offset="50%" stop-color="#2d8659"/>
+      <stop offset="100%" stop-color="#1a5c3f"/>
+    </radialGradient>
+
+    <!-- Hub ring -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#40e0d0"/>
+      <stop offset="50%" stop-color="#2d8659"/>
+      <stop offset="100%" stop-color="#40e0d0"/>
+    </linearGradient>
+
+    <!-- Accent for metric pills -->
+    <linearGradient id="pillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d8659"/>
+      <stop offset="100%" stop-color="#40e0d0"/>
+    </linearGradient>
+
+    <!-- Arrow marker -->
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2d8659" opacity="0.7"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#40e0d0" opacity="0.8"/>
+    </marker>
+
+    <!-- Drop shadow -->
+    <filter id="cardShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(45,134,89,0.18)"/>
+    </filter>
+    <filter id="hubShadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="rgba(45,134,89,0.35)"/>
+    </filter>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(45,134,89,0.15)"/>
+    </filter>
+
+    <!-- Metallic sheen for cards -->
+    <linearGradient id="cardSheen" x1="0%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.5)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ══ Background ══ -->
+  <rect width="900" height="640" fill="url(#bgGrad)" rx="16"/>
+
+  <!-- Subtle grid texture -->
+  <g stroke="rgba(64,158,128,0.06)" stroke-width="1">
+    <line x1="0" y1="80" x2="900" y2="80"/>
+    <line x1="0" y1="160" x2="900" y2="160"/>
+    <line x1="0" y1="240" x2="900" y2="240"/>
+    <line x1="0" y1="320" x2="900" y2="320"/>
+    <line x1="0" y1="400" x2="900" y2="400"/>
+    <line x1="0" y1="480" x2="900" y2="480"/>
+    <line x1="0" y1="560" x2="900" y2="560"/>
+    <line x1="80" y1="0" x2="80" y2="640"/>
+    <line x1="180" y1="0" x2="180" y2="640"/>
+    <line x1="280" y1="0" x2="280" y2="640"/>
+    <line x1="380" y1="0" x2="380" y2="640"/>
+    <line x1="480" y1="0" x2="480" y2="640"/>
+    <line x1="580" y1="0" x2="580" y2="640"/>
+    <line x1="680" y1="0" x2="680" y2="640"/>
+    <line x1="780" y1="0" x2="780" y2="640"/>
+  </g>
+
+  <!-- ══ Title bar ══ -->
+  <rect x="0" y="0" width="900" height="58" rx="16" fill="url(#hubGrad)" opacity="0.92"/>
+  <rect x="0" y="42" width="900" height="16" fill="url(#hubGrad)" opacity="0.92"/><!-- square bottom corners -->
+  <text x="450" y="36" text-anchor="middle" font-size="18" font-weight="700"
+        letter-spacing="3" fill="rgba(255,255,255,0.95)" font-family="Georgia, serif">
+    BEE Hub — Platform Architecture
+  </text>
+
+  <!-- ══ LAYER LABELS (left spine) ══ -->
+  <!-- Input Layer label -->
+  <rect x="14" y="82" width="22" height="150" rx="6" fill="#2d8659" opacity="0.18"/>
+  <text x="25" y="162" text-anchor="middle" font-size="10" font-weight="600"
+        fill="#1a5c3f" letter-spacing="1.5" transform="rotate(-90, 25, 162)">INPUT</text>
+
+  <!-- Processing Layer label -->
+  <rect x="14" y="248" width="22" height="130" rx="6" fill="#2d8659" opacity="0.18"/>
+  <text x="25" y="313" text-anchor="middle" font-size="10" font-weight="600"
+        fill="#1a5c3f" letter-spacing="1.5" transform="rotate(-90, 25, 313)">PROCESSING</text>
+
+  <!-- Output Layer label -->
+  <rect x="14" y="394" width="22" height="200" rx="6" fill="#2d8659" opacity="0.18"/>
+  <text x="25" y="494" text-anchor="middle" font-size="10" font-weight="600"
+        fill="#1a5c3f" letter-spacing="1.5" transform="rotate(-90, 25, 494)">DISCOVERY</text>
+
+
+  <!-- ══════════════════════════════════════════════
+       LAYER 1 — INPUT  (y 82–230)
+  ══════════════════════════════════════════════ -->
+  <rect x="46" y="82" width="820" height="155" rx="12"
+        fill="url(#layerInput)" opacity="0.35" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+
+  <!-- INPUT CARDS -->
+  <!-- Card: Raw Trial Data -->
+  <rect x="64" y="100" width="148" height="116" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="64" y="100" width="148" height="116" rx="10" fill="url(#cardSheen)" opacity="0.5"/>
+  <rect x="64" y="100" width="148" height="5" rx="3" fill="url(#pillGrad)"/>
+  <text x="138" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5c3f">Raw Trial Data</text>
+  <line x1="74" y1="130" x2="202" y2="130" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="138" y="146" text-anchor="middle" font-size="9.5" fill="#4a6e5a">RT · Accuracy</text>
+  <text x="138" y="160" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Trial-level TSV files</text>
+  <text x="138" y="174" text-anchor="middle" font-size="9.5" fill="#4a6e5a">BIDS-compatible</text>
+  <text x="138" y="188" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">*_RT_beh.tsv</text>
+  <text x="138" y="202" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">*_ACC_beh.tsv</text>
+
+  <!-- Card: Paradigm Code -->
+  <rect x="228" y="100" width="148" height="116" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="228" y="100" width="148" height="116" rx="10" fill="url(#cardSheen)" opacity="0.5"/>
+  <rect x="228" y="100" width="148" height="5" rx="3" fill="url(#pillGrad)"/>
+  <text x="302" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5c3f">Paradigm Code</text>
+  <line x1="238" y1="130" x2="366" y2="130" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="302" y="146" text-anchor="middle" font-size="9.5" fill="#4a6e5a">PsychoPy scripts</text>
+  <text x="302" y="160" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Full + Short versions</text>
+  <text x="302" y="174" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Git-versioned</text>
+  <text x="302" y="188" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">Pavlovia-ready</text>
+
+  <!-- Card: Participant Metadata -->
+  <rect x="392" y="100" width="148" height="116" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="392" y="100" width="148" height="116" rx="10" fill="url(#cardSheen)" opacity="0.5"/>
+  <rect x="392" y="100" width="148" height="5" rx="3" fill="url(#pillGrad)"/>
+  <text x="466" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5c3f">Participant Data</text>
+  <line x1="402" y1="130" x2="530" y2="130" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="466" y="146" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Age · Sex</text>
+  <text x="466" y="160" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Sample size</text>
+  <text x="466" y="174" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Clinical / healthy</text>
+  <text x="466" y="188" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">participants.tsv</text>
+
+  <!-- Card: Publications -->
+  <rect x="556" y="100" width="148" height="116" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="556" y="100" width="148" height="116" rx="10" fill="url(#cardSheen)" opacity="0.5"/>
+  <rect x="556" y="100" width="148" height="5" rx="3" fill="url(#pillGrad)"/>
+  <text x="630" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5c3f">Publications</text>
+  <line x1="566" y1="130" x2="694" y2="130" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="630" y="146" text-anchor="middle" font-size="9.5" fill="#4a6e5a">DOI · Authors</text>
+  <text x="630" y="160" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Open Access flag</text>
+  <text x="630" y="174" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Reliability from paper</text>
+  <text x="630" y="188" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">bibliography.json</text>
+
+  <!-- Card: Modality Tags -->
+  <rect x="720" y="100" width="136" height="116" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="720" y="100" width="136" height="116" rx="10" fill="url(#cardSheen)" opacity="0.5"/>
+  <rect x="720" y="100" width="136" height="5" rx="3" fill="url(#pillGrad)"/>
+  <text x="788" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5c3f">Paradigm Tags</text>
+  <line x1="730" y1="130" x2="846" y2="130" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="788" y="146" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Cognitive domain</text>
+  <text x="788" y="160" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Modality · Difficulty</text>
+  <text x="788" y="174" text-anchor="middle" font-size="9.5" fill="#4a6e5a">Task type</text>
+  <text x="788" y="188" text-anchor="middle" font-size="9" fill="#7a9e8a" font-style="italic">project_info dict</text>
+
+  <!-- Down arrows from input to processing -->
+  <g stroke="#2d8659" stroke-width="1.5" fill="none" opacity="0.55" marker-end="url(#arrowGreen)">
+    <line x1="138" y1="218" x2="138" y2="244"/>
+    <line x1="302" y1="218" x2="302" y2="244"/>
+    <line x1="466" y1="218" x2="466" y2="244"/>
+    <line x1="630" y1="218" x2="630" y2="244"/>
+    <line x1="788" y1="218" x2="788" y2="244"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════
+       LAYER 2 — PROCESSING  (y 248–378)
+  ══════════════════════════════════════════════ -->
+  <rect x="46" y="248" width="820" height="138" rx="12"
+        fill="url(#layerProcess)" opacity="0.30" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+
+  <!-- Processing pipeline steps -->
+  <!-- Step 1 -->
+  <rect x="64" y="266" width="132" height="100" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="64" y="266" width="132" height="100" rx="10" fill="url(#cardSheen)" opacity="0.4"/>
+  <rect x="64" y="266" width="132" height="4" rx="2" fill="#2d8659"/>
+  <text x="130" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">Data Ingestion</text>
+  <text x="130" y="300" text-anchor="middle" font-size="9" fill="#4a6e5a">Load TSV · Parse BIDS</text>
+  <text x="130" y="314" text-anchor="middle" font-size="9" fill="#4a6e5a">Attach sub/session</text>
+  <text x="130" y="328" text-anchor="middle" font-size="9" fill="#4a6e5a">Validate columns</text>
+  <text x="130" y="346" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">load_outcome_data()</text>
+
+  <!-- Arrow -->
+  <line x1="197" y1="316" x2="222" y2="316" stroke="#2d8659" stroke-width="1.8"
+        marker-end="url(#arrowGreen)" opacity="0.65"/>
+
+  <!-- Step 2 -->
+  <rect x="224" y="266" width="132" height="100" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="224" y="266" width="132" height="100" rx="10" fill="url(#cardSheen)" opacity="0.4"/>
+  <rect x="224" y="266" width="132" height="4" rx="2" fill="#2d8659"/>
+  <text x="290" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">Condition Split</text>
+  <text x="290" y="300" text-anchor="middle" font-size="9" fill="#4a6e5a">Task vs. Control</text>
+  <text x="290" y="314" text-anchor="middle" font-size="9" fill="#4a6e5a">Trial types × Session</text>
+  <text x="290" y="328" text-anchor="middle" font-size="9" fill="#4a6e5a">Stage detection</text>
+  <text x="290" y="346" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">data_by_condition{}</text>
+
+  <!-- Arrow -->
+  <line x1="357" y1="316" x2="382" y2="316" stroke="#2d8659" stroke-width="1.8"
+        marker-end="url(#arrowGreen)" opacity="0.65"/>
+
+  <!-- Step 3 -->
+  <rect x="384" y="266" width="132" height="100" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="384" y="266" width="132" height="100" rx="10" fill="url(#cardSheen)" opacity="0.4"/>
+  <rect x="384" y="266" width="132" height="4" rx="2" fill="#409e80"/>
+  <text x="450" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">Reliability Metrics</text>
+  <text x="450" y="300" text-anchor="middle" font-size="9" fill="#4a6e5a">ICC(3,1) test-retest</text>
+  <text x="450" y="314" text-anchor="middle" font-size="9" fill="#4a6e5a">Pearson r</text>
+  <text x="450" y="328" text-anchor="middle" font-size="9" fill="#4a6e5a">Cohen's d · CV</text>
+  <text x="450" y="346" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">_calculate_reliability()</text>
+
+  <!-- Arrow -->
+  <line x1="517" y1="316" x2="542" y2="316" stroke="#2d8659" stroke-width="1.8"
+        marker-end="url(#arrowGreen)" opacity="0.65"/>
+
+  <!-- Step 4 -->
+  <rect x="544" y="266" width="132" height="100" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="544" y="266" width="132" height="100" rx="10" fill="url(#cardSheen)" opacity="0.4"/>
+  <rect x="544" y="266" width="132" height="4" rx="2" fill="#40e0d0"/>
+  <text x="610" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">Profile Export</text>
+  <text x="610" y="300" text-anchor="middle" font-size="9" fill="#4a6e5a">Reliability profile</text>
+  <text x="610" y="314" text-anchor="middle" font-size="9" fill="#4a6e5a">Demographics</text>
+  <text x="610" y="328" text-anchor="middle" font-size="9" fill="#4a6e5a">Structured JSON</text>
+  <text x="610" y="346" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">{proj}_data.json</text>
+
+  <!-- Arrow -->
+  <line x1="677" y1="316" x2="702" y2="316" stroke="#2d8659" stroke-width="1.8"
+        marker-end="url(#arrowGreen)" opacity="0.65"/>
+
+  <!-- Step 5 -->
+  <rect x="704" y="266" width="148" height="100" rx="10" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="704" y="266" width="148" height="100" rx="10" fill="url(#cardSheen)" opacity="0.4"/>
+  <rect x="704" y="266" width="148" height="4" rx="2" fill="#40e0d0"/>
+  <text x="778" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">HTML Reports</text>
+  <text x="778" y="300" text-anchor="middle" font-size="9" fill="#4a6e5a">Per-project page</text>
+  <text x="778" y="314" text-anchor="middle" font-size="9" fill="#4a6e5a">Violin · Scatter · Radar</text>
+  <text x="778" y="328" text-anchor="middle" font-size="9" fill="#4a6e5a">Publications box</text>
+  <text x="778" y="346" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">generate_project_html()</text>
+
+  <!-- Down arrows to discovery layer -->
+  <g stroke="#2d8659" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arrowGreen)">
+    <line x1="290" y1="368" x2="290" y2="390"/>
+    <line x1="450" y1="368" x2="450" y2="390"/>
+    <line x1="610" y1="368" x2="610" y2="390"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════
+       LAYER 3 — DISCOVERY / OUTPUT  (y 394–596)
+  ══════════════════════════════════════════════ -->
+  <rect x="46" y="394" width="820" height="196" rx="12"
+        fill="url(#layerOutput)" opacity="0.28" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+
+  <!-- Discovery section title -->
+  <text x="456" y="412" text-anchor="middle" font-size="11" font-weight="600"
+        fill="#1a5c3f" letter-spacing="1">Interactive Dashboard  —  BEE Hub</text>
+
+  <!-- ── Dashboard card (center, large) ── -->
+  <rect x="200" y="424" width="500" height="156" rx="12" fill="white" filter="url(#hubShadow)" opacity="0.96"/>
+  <rect x="200" y="424" width="500" height="156" rx="12" fill="url(#cardSheen)" opacity="0.4"/>
+  <!-- Top accent bar -->
+  <rect x="200" y="424" width="500" height="5" rx="3" fill="url(#ringGrad)"/>
+
+  <!-- Dashboard inner layout sketch -->
+  <!-- Filter panel -->
+  <rect x="216" y="440" width="130" height="60" rx="7" fill="rgba(64,158,128,0.10)" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+  <text x="281" y="457" text-anchor="middle" font-size="9" font-weight="600" fill="#2d7a52">Filter Panel</text>
+  <text x="281" y="470" text-anchor="middle" font-size="8" fill="#5a8a6a">Modality · Domain</text>
+  <text x="281" y="482" text-anchor="middle" font-size="8" fill="#5a8a6a">ICC · Age · N</text>
+  <text x="281" y="494" text-anchor="middle" font-size="8" fill="#7a9e8a" font-style="italic">Sliders + dropdowns</text>
+
+  <!-- Project cards area -->
+  <rect x="358" y="440" width="150" height="60" rx="7" fill="rgba(64,158,128,0.10)" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+  <text x="433" y="457" text-anchor="middle" font-size="9" font-weight="600" fill="#2d7a52">Project Cards</text>
+  <text x="433" y="470" text-anchor="middle" font-size="8" fill="#5a8a6a">Name · Domain · Tags</text>
+  <text x="433" y="482" text-anchor="middle" font-size="8" fill="#5a8a6a">ICC · N · Age summary</text>
+  <text x="433" y="494" text-anchor="middle" font-size="8" fill="#7a9e8a" font-style="italic">Live filtered grid</text>
+
+  <!-- Radar charts area -->
+  <rect x="520" y="440" width="162" height="60" rx="7" fill="rgba(64,158,128,0.10)" stroke="rgba(64,158,128,0.25)" stroke-width="1"/>
+  <text x="601" y="457" text-anchor="middle" font-size="9" font-weight="600" fill="#2d7a52">Radar Charts</text>
+  <text x="601" y="470" text-anchor="middle" font-size="8" fill="#5a8a6a">RT ICC · ACC ICC</text>
+  <text x="601" y="482" text-anchor="middle" font-size="8" fill="#5a8a6a">Stability · Consistency</text>
+  <text x="601" y="494" text-anchor="middle" font-size="8" fill="#7a9e8a" font-style="italic">Cross-project Plotly</text>
+
+  <!-- Bottom row of dashboard: paradigm detail link -->
+  <rect x="216" y="512" width="466" height="56" rx="7"
+        fill="rgba(45,134,89,0.08)" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="449" y="530" text-anchor="middle" font-size="9.5" font-weight="600" fill="#2d7a52">Project Detail Page  (per paradigm)</text>
+  <text x="449" y="546" text-anchor="middle" font-size="8.5" fill="#5a8a6a">
+    Violin &amp; Scatter plots  ·  Reliability Radar  ·  Learning Stages  ·  Publications
+  </text>
+  <text x="449" y="558" text-anchor="middle" font-size="8" fill="#7a9e8a" font-style="italic">
+    {proj}_overview.html  — linked from dashboard cards
+  </text>
+
+  <!-- ── FAIR / Git badge (left of dashboard) ── -->
+  <rect x="64" y="434" width="118" height="136" rx="10" fill="url(#cardGrad)" filter="url(#softShadow)"/>
+  <rect x="64" y="434" width="118" height="4" rx="2" fill="#2d8659"/>
+  <text x="123" y="452" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">FAIR Principles</text>
+  <line x1="74" y1="458" x2="172" y2="458" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="123" y="472" text-anchor="middle" font-size="9" fill="#2d8659" font-weight="600">F</text>
+  <text x="136" y="472" font-size="9" fill="#4a6e5a">indable</text>
+  <text x="123" y="487" text-anchor="middle" font-size="9" fill="#2d8659" font-weight="600">A</text>
+  <text x="136" y="487" font-size="9" fill="#4a6e5a">ccessible</text>
+  <text x="123" y="502" text-anchor="middle" font-size="9" fill="#2d8659" font-weight="600">I</text>
+  <text x="136" y="502" font-size="9" fill="#4a6e5a">nteroperable</text>
+  <text x="123" y="517" text-anchor="middle" font-size="9" fill="#2d8659" font-weight="600">R</text>
+  <text x="136" y="517" font-size="9" fill="#4a6e5a">eusable</text>
+  <line x1="74" y1="527" x2="172" y2="527" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="123" y="541" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">Git-versioned</text>
+  <text x="123" y="554" text-anchor="middle" font-size="8.5" fill="#7a9e8a" font-style="italic">Open source</text>
+
+  <!-- ── Use cases badge (right of dashboard) ── -->
+  <rect x="726" y="434" width="130" height="136" rx="10" fill="url(#cardGrad)" filter="url(#softShadow)"/>
+  <rect x="726" y="434" width="130" height="4" rx="2" fill="#40e0d0"/>
+  <text x="791" y="452" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5c3f">Use Cases</text>
+  <line x1="736" y1="458" x2="846" y2="458" stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+  <text x="741" y="474" font-size="8.5" fill="#4a6e5a">Select paradigm</text>
+  <text x="741" y="488" font-size="8.5" fill="#4a6e5a">Compare reliability</text>
+  <text x="741" y="502" font-size="8.5" fill="#4a6e5a">Power estimation</text>
+  <text x="741" y="516" font-size="8.5" fill="#4a6e5a">Meta-analysis</text>
+  <text x="741" y="530" font-size="8.5" fill="#4a6e5a">Replicate studies</text>
+  <text x="741" y="544" font-size="8.5" fill="#4a6e5a">Test pilot data</text>
+
+  <!-- ══ Metric pills at bottom ══ -->
+  <rect x="46" y="600" width="820" height="28" rx="8" fill="rgba(45,134,89,0.08)"
+        stroke="rgba(64,158,128,0.2)" stroke-width="1"/>
+
+  <!-- Pills -->
+  <g font-size="9" font-weight="600">
+    <!-- ICC -->
+    <rect x="62" y="607" width="68" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="96" y="618" text-anchor="middle" fill="white">ICC(3,1)</text>
+    <!-- Pearson -->
+    <rect x="140" y="607" width="62" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="171" y="618" text-anchor="middle" fill="white">Pearson r</text>
+    <!-- Cohen -->
+    <rect x="212" y="607" width="62" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="243" y="618" text-anchor="middle" fill="white">Cohen's d</text>
+    <!-- CV -->
+    <rect x="284" y="607" width="38" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="303" y="618" text-anchor="middle" fill="white">CV%</text>
+    <!-- N -->
+    <rect x="332" y="607" width="72" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="368" y="618" text-anchor="middle" fill="white">Sample Size</text>
+    <!-- Age -->
+    <rect x="414" y="607" width="44" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="436" y="618" text-anchor="middle" fill="white">Age</text>
+    <!-- Modality -->
+    <rect x="468" y="607" width="56" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="496" y="618" text-anchor="middle" fill="white">Modality</text>
+    <!-- Domain -->
+    <rect x="534" y="607" width="86" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="577" y="618" text-anchor="middle" fill="white">Cog. Domain</text>
+    <!-- Stability -->
+    <rect x="630" y="607" width="58" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="659" y="618" text-anchor="middle" fill="white">Stability</text>
+    <!-- Consistency -->
+    <rect x="698" y="607" width="76" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="736" y="618" text-anchor="middle" fill="white">Consistency</text>
+    <!-- Open Access -->
+    <rect x="784" y="607" width="74" height="14" rx="7" fill="url(#pillGrad)"/>
+    <text x="821" y="618" text-anchor="middle" fill="white">Open Access</text>
+  </g>
+
+</svg>

@@ -1,0 +1,57 @@
+Scenario - block_1
+Logfile written - 09/14/2025 09:55:02
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub1181_p1_s3_task2	1	Picture	Hello - Intro	10500	0	1	686580	1	0	next	other	0
+sub1181_p1_s3_task2	1	Port Input	115	666838	656338	1
+sub1181_p1_s3_task2	1	Pulse	30	666838	656338	1
+sub1181_p1_s3_task2	1	Port Input	115	676906	666406	1
+sub1181_p1_s3_task2	1	Pulse	30	676906	666406	1
+sub1181_p1_s3_task2	1	Port Input	115	686973	676473	1
+sub1181_p1_s3_task2	1	Pulse	30	686973	676473	1
+sub1181_p1_s3_task2	1	Port Input	115	696881	686381	1
+sub1181_p1_s3_task2	1	Pulse	30	696881	686381	1
+sub1181_p1_s3_task2	2	Picture	fix	697079	0	1	45161	1	0	next	other	0
+sub1181_p1_s3_task2	2	Port Input	115	706948	9869	1
+sub1181_p1_s3_task2	2	Pulse	30	706948	9869	1
+sub1181_p1_s3_task2	2	Port Input	115	716856	19777	1
+sub1181_p1_s3_task2	2	Pulse	30	716856	19777	1
+sub1181_p1_s3_task2	2	Port Input	115	726922	29843	1
+sub1181_p1_s3_task2	2	Pulse	30	726922	29843	1
+sub1181_p1_s3_task2	2	Port Input	115	736990	39910	1
+sub1181_p1_s3_task2	2	Pulse	30	736990	39910	1
+sub1181_p1_s3_task2	3	Picture	fix	742240	0	1	45161	1	0	next	other	0
+sub1181_p1_s3_task2	3	Port Input	115	746897	4657	1
+sub1181_p1_s3_task2	3	Pulse	30	746897	4657	1
+sub1181_p1_s3_task2	3	Port Input	115	756966	14725	1
+sub1181_p1_s3_task2	3	Pulse	30	756966	14725	1
+sub1181_p1_s3_task2	4	Picture	fix	787401	0	1	45494	1	0	next	other	0
+sub1181_p1_s3_task2	5	Picture	bubbles/learning.png	832896	0	1	45994	1	0	next	other	0
+sub1181_p1_s3_task2	6	Picture	h83_p29_k_up_right.jpg;block1;LS1	878890	0	1	37520	1	0	next	other	0
+sub1181_p1_s3_task2	6	Quit		882881	3991	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	686580	1	0	next
+Picture	fix	other				697079	1	45161	1	0	next
+Picture	fix	other				742240	1	45161	1	0	next
+Picture	fix	other				787401	1	45494	1	0	next
+Picture	bubbles/learning.png	other				832896	1	45994	1	0	next
+Picture	h83_p29_k_up_right.jpg;block1;LS1	other				878890	1	37520	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "sub1181_p1_s3_task2",
+   "timestamp": "2025/09/14 08:53:28 GMT"
+}

@@ -1,0 +1,189 @@
+Scenario - fMRI-SET-1
+Logfile written - 12/13/2023 12:54:59
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+1234567890	1	Picture	Hello - Intro	10333	0	1	428945	1	0	next	other	0
+1234567890	1	Port Input	115	379129	368796	1
+1234567890	1	Pulse	30	379129	368796	1
+1234567890	1	Port Input	115	399113	388780	1
+1234567890	1	Pulse	30	399113	388780	1
+1234567890	1	Port Input	115	419098	408765	1
+1234567890	1	Pulse	30	419098	408765	1
+1234567890	1	Port Input	115	439083	428750	1
+1234567890	1	Pulse	30	439083	428750	1
+1234567890	2	Picture	fix	439278	0	1	45161	1	0	next	other	0
+1234567890	2	Port Input	115	459067	19789	1
+1234567890	2	Pulse	30	459067	19789	1
+1234567890	2	Port Input	115	479052	39774	1
+1234567890	2	Pulse	30	479052	39774	1
+1234567890	3	Picture	fix	484439	0	1	45161	1	0	next	other	0
+1234567890	3	Port Input	115	499037	14598	1
+1234567890	3	Pulse	30	499037	14598	1
+1234567890	3	Port Input	115	519022	34583	1
+1234567890	3	Pulse	30	519022	34583	1
+1234567890	4	Picture	fix	529599	0	1	45327	1	0	next	other	0
+1234567890	4	Port Input	115	539008	9409	1
+1234567890	4	Pulse	30	539008	9409	1
+1234567890	4	Port Input	115	559153	29553	1
+1234567890	4	Pulse	30	559153	29553	1
+1234567890	5	Picture	bubbles/learning.jpg	574927	0	1	45328	1	0	next	other	0
+1234567890	5	Port Input	115	579138	4211	1
+1234567890	5	Pulse	30	579138	4211	1
+1234567890	5	Port Input	115	599123	24196	1
+1234567890	5	Pulse	30	599123	24196	1
+1234567890	5	Port Input	115	619106	44179	1
+1234567890	5	Pulse	30	619106	44179	1
+1234567890	6	Picture	learning/PICTURE_358.jpg;Schiehel;Schiehel;c;block1;LS1	620254	0	1	25163	1	0	25000	other	0
+1234567890	6	Port Input	99	626140	5886	1
+1234567890	6	Response	1	626140	5886	1
+1234567890	6	Port Input	115	639091	18837	1
+1234567890	6	Pulse	30	639091	18837	1
+1234567890	7	Picture	Korrekt, das ist Schiehel	645584	0	1	20497	1	0	next	other	0
+1234567890	7	Port Input	115	659076	13491	1
+1234567890	7	Pulse	30	659076	13491	1
+1234567890	8	Picture	learning/PICTURE_148.jpg;Flehsen;Neffit;i;block1;LS1	666082	0	1	25163	1	0	25000	other	0
+1234567890	8	Port Input	100	671226	5145	1
+1234567890	8	Response	2	671226	5145	1
+1234567890	8	Port Input	115	679060	12978	1
+1234567890	8	Pulse	30	679060	12978	1
+1234567890	9	Picture	Korrekt, das ist Neffit	691412	0	1	20497	1	0	next	other	0
+1234567890	9	Port Input	115	699044	7632	1
+1234567890	9	Pulse	30	699044	7632	1
+1234567890	10	Picture	learning/PICTURE_358.jpg;Nergunt;Schiehel;i;block1;LS1	711909	0	1	25163	1	0	25000	other	0
+1234567890	10	Port Input	100	715831	3922	1
+1234567890	10	Response	2	715831	3922	1
+1234567890	10	Port Input	115	719029	7119	1
+1234567890	10	Pulse	30	719029	7119	1
+1234567890	11	Picture	Korrekt, das ist Schiehel	737239	0	1	20497	1	0	next	other	0
+1234567890	11	Port Input	115	739014	1775	1
+1234567890	11	Pulse	30	739014	1775	1
+1234567890	12	Picture	learning/PICTURE_202.jpg;Nehel;Nehel;c;block1;LS1	757737	0	1	25163	1	0	25000	other	0
+1234567890	12	Port Input	115	759160	1424	1
+1234567890	12	Pulse	30	759160	1424	1
+1234567890	12	Port Input	99	762198	4461	1
+1234567890	12	Response	1	762198	4461	1
+1234567890	12	Port Input	115	779145	21409	1
+1234567890	12	Pulse	30	779145	21409	1
+1234567890	13	Picture	Korrekt, das ist Nehel	783067	0	1	20497	1	0	next	other	0
+1234567890	13	Port Input	115	799130	16063	1
+1234567890	13	Pulse	30	799130	16063	1
+1234567890	14	Picture	learning/PICTURE_453.jpg;Fohreng;Sprünte;i;block1;LS1	803564	0	1	25163	1	0	25000	other	0
+1234567890	14	Port Input	115	819115	15551	1
+1234567890	14	Pulse	30	819115	15551	1
+1234567890	15	Picture	Zu spät das ist Sprünte	828894	0	1	20497	1	0	next	other	0
+1234567890	15	Port Input	115	839099	10205	1
+1234567890	15	Pulse	30	839099	10205	1
+1234567890	16	Picture	learning/PICTURE_165.jpg;Ferlas;Flofe;i;block1;LS1	849391	0	1	25163	1	0	25000	other	0
+1234567890	16	Port Input	100	852848	3457	1
+1234567890	16	Response	2	852848	3457	1
+1234567890	16	Port Input	115	859084	9692	1
+1234567890	16	Pulse	30	859084	9692	1
+1234567890	17	Picture	Korrekt, das ist Flofe	874722	0	1	20331	1	0	next	other	0
+1234567890	17	Port Input	115	879067	4346	1
+1234567890	17	Pulse	30	879067	4346	1
+1234567890	18	Picture	learning/PICTURE_453.jpg;Sprünte;Sprünte;c;block1;LS1	895052	0	1	25163	1	0	25000	other	0
+1234567890	18	Port Input	115	899052	3999	1
+1234567890	18	Pulse	30	899052	3999	1
+1234567890	18	Port Input	115	919036	23984	1
+1234567890	18	Pulse	30	919036	23984	1
+1234567890	19	Picture	Zu spät das ist Sprünte	920382	0	1	20331	1	0	next	other	0
+1234567890	19	Port Input	115	939021	18639	1
+1234567890	19	Pulse	30	939021	18639	1
+1234567890	20	Picture	learning/PICTURE_148.jpg;Neffit;Neffit;c;block1;LS1	940713	0	1	25163	1	0	25000	other	0
+1234567890	20	Port Input	115	959006	18293	1
+1234567890	20	Pulse	30	959006	18293	1
+1234567890	21	Picture	Zu spät das ist Neffit	966043	0	1	20331	1	0	next	other	0
+1234567890	21	Port Input	115	979150	13107	1
+1234567890	21	Pulse	30	979150	13107	1
+1234567890	22	Picture	learning/PICTURE_165.jpg;Flofe;Flofe;c;block1;LS1	986374	0	1	25163	1	0	25000	other	0
+1234567890	22	Port Input	115	999134	12761	1
+1234567890	22	Pulse	30	999134	12761	1
+1234567890	23	Picture	Zu spät das ist Flofe	1011704	0	1	20331	1	0	next	other	0
+1234567890	23	Port Input	115	1019119	7416	1
+1234567890	23	Pulse	30	1019119	7416	1
+1234567890	24	Picture	learning/PICTURE_202.jpg;Negasch;Nehel;i;block1;LS1	1032035	0	1	25163	1	0	25000	other	0
+1234567890	24	Port Input	115	1039105	7070	1
+1234567890	24	Pulse	30	1039105	7070	1
+1234567890	24	Port Input	100	1039264	7230	1
+1234567890	24	Response	2	1039264	7230	1
+1234567890	25	Picture	Korrekt, das ist Nehel	1057365	0	1	20164	1	0	next	other	0
+1234567890	25	Port Input	115	1059089	1724	1
+1234567890	25	Pulse	30	1059089	1724	1
+1234567890	26	Picture	fix	1077529	0	1	45327	1	0	next	other	0
+1234567890	26	Port Input	115	1079077	1548	1
+1234567890	26	Pulse	30	1079077	1548	1
+1234567890	26	Port Input	115	1099060	21531	1
+1234567890	26	Pulse	30	1099060	21531	1
+1234567890	26	Port Input	115	1119046	41517	1
+1234567890	26	Pulse	30	1119046	41517	1
+1234567890	27	Picture	learning/PICTURE_148.jpg;Neffit;Neffit;c;block1;LS2	1122856	0	1	25330	1	0	25000	other	0
+1234567890	27	Port Input	99	1130236	7380	1
+1234567890	27	Response	1	1130236	7380	1
+1234567890	27	Port Input	115	1139029	16173	1
+1234567890	27	Pulse	30	1139029	16173	1
+1234567890	28	Picture	Korrekt, das ist Neffit	1148520	0	1	20497	1	0	next	other	0
+1234567890	28	Port Input	115	1159013	10493	1
+1234567890	28	Pulse	30	1159013	10493	1
+1234567890	29	Picture	learning/PICTURE_165.jpg;Nergunt;Flofe;i;block1;LS2	1169017	0	1	25330	1	0	25000	other	0
+1234567890	29	Port Input	115	1179157	10140	1
+1234567890	29	Pulse	30	1179157	10140	1
+1234567890	29	Port Input	100	1191308	22291	1
+1234567890	29	Response	2	1191308	22291	1
+1234567890	30	Picture	Korrekt, das ist Flofe	1194680	0	1	20497	1	0	next	other	0
+1234567890	30	Port Input	115	1199142	4462	1
+1234567890	30	Pulse	30	1199142	4462	1
+1234567890	31	Picture	learning/PICTURE_453.jpg;Ferlas;Sprünte;i;block1;LS2	1215178	0	1	62333	1	0	25000	other	0
+1234567890	31	Port Input	115	1219127	3949	1
+1234567890	31	Pulse	30	1219127	3949	1
+1234567890	31	Quit		1226268	11090	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	428945	1	0	next
+Picture	fix	other				439278	1	45161	1	0	next
+Picture	fix	other				484439	1	45161	1	0	next
+Picture	fix	other				529599	1	45327	1	0	next
+Picture	bubbles/learning.jpg	other				574927	1	45328	1	0	next
+Picture	learning/PICTURE_358.jpg;Schiehel;Schiehel;c;block1;LS1	other				620254	1	25163	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				645584	1	20497	1	0	next
+Picture	learning/PICTURE_148.jpg;Flehsen;Neffit;i;block1;LS1	other				666082	1	25163	1	0	25000
+Picture	Korrekt, das ist Neffit	other				691412	1	20497	1	0	next
+Picture	learning/PICTURE_358.jpg;Nergunt;Schiehel;i;block1;LS1	other				711909	1	25163	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				737239	1	20497	1	0	next
+Picture	learning/PICTURE_202.jpg;Nehel;Nehel;c;block1;LS1	other				757737	1	25163	1	0	25000
+Picture	Korrekt, das ist Nehel	other				783067	1	20497	1	0	next
+Picture	learning/PICTURE_453.jpg;Fohreng;Sprünte;i;block1;LS1	other				803564	1	25163	1	0	25000
+Picture	Zu spät das ist Sprünte	other				828894	1	20497	1	0	next
+Picture	learning/PICTURE_165.jpg;Ferlas;Flofe;i;block1;LS1	other				849391	1	25163	1	0	25000
+Picture	Korrekt, das ist Flofe	other				874722	1	20331	1	0	next
+Picture	learning/PICTURE_453.jpg;Sprünte;Sprünte;c;block1;LS1	other				895052	1	25163	1	0	25000
+Picture	Zu spät das ist Sprünte	other				920382	1	20331	1	0	next
+Picture	learning/PICTURE_148.jpg;Neffit;Neffit;c;block1;LS1	other				940713	1	25163	1	0	25000
+Picture	Zu spät das ist Neffit	other				966043	1	20331	1	0	next
+Picture	learning/PICTURE_165.jpg;Flofe;Flofe;c;block1;LS1	other				986374	1	25163	1	0	25000
+Picture	Zu spät das ist Flofe	other				1011704	1	20331	1	0	next
+Picture	learning/PICTURE_202.jpg;Negasch;Nehel;i;block1;LS1	other				1032035	1	25163	1	0	25000
+Picture	Korrekt, das ist Nehel	other				1057365	1	20164	1	0	next
+Picture	fix	other				1077529	1	45327	1	0	next
+Picture	learning/PICTURE_148.jpg;Neffit;Neffit;c;block1;LS2	other				1122856	1	25330	1	0	25000
+Picture	Korrekt, das ist Neffit	other				1148520	1	20497	1	0	next
+Picture	learning/PICTURE_165.jpg;Nergunt;Flofe;i;block1;LS2	other				1169017	1	25330	1	0	25000
+Picture	Korrekt, das ist Flofe	other				1194680	1	20497	1	0	next
+Picture	learning/PICTURE_453.jpg;Ferlas;Sprünte;i;block1;LS2	other				1215178	1	62333	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "1234567890",
+   "timestamp": "2023/12/13 11:52:48 GMT"
+}

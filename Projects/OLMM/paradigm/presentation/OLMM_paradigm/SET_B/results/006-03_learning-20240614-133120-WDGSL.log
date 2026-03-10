@@ -1,0 +1,1710 @@
+Scenario - block_1
+Logfile written - 06/14/2024 14:01:36
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+006	0	Pulse	0	0	0	NA
+006	1	Picture	Hello - Intro	333	0	1	134841	1	0	next	other	0
+006	1	Response	1	33726	33393	0
+006	1	Pulse	0	45000	44667	NA
+006	1	Pulse	0	90000	89667	NA
+006	1	Pulse	0	135000	134667	NA
+006	2	Picture	fix	135174	0	1	45114	1	0	next	other	0
+006	2	Pulse	0	180000	44826	NA
+006	3	Picture	fix	180287	0	1	45114	1	0	next	other	0
+006	3	Pulse	0	225000	44713	NA
+006	4	Picture	fix	225401	0	1	45613	1	0	next	other	0
+006	4	Pulse	0	270000	44599	NA
+006	5	Picture	bubbles/learning.png	271014	0	1	46445	1	0	next	other	0
+006	5	Pulse	0	315000	43986	NA
+006	6	Picture	h114_p35_k_up_right.jpg;block1;LS1	317459	0	1	26302	1	0	next	other	0
+006	7	Picture	to late	343761	0	1	21308	1	0	next	other	0
+006	7	Pulse	0	360000	16239	NA
+006	8	Picture	h116_p53_i_up_right.jpg;block1;LS1	365070	0	1	8490	1	0	next	other	0
+006	8	Response	1	372266	7196	0
+006	9	Picture	extra Pic Time	373560	0	1	17979	1	0	next	other	0
+006	10	Picture	incorrect;h116_p28_k_up_right.jpg	391539	0	1	21142	1	0	next	other	0
+006	10	Pulse	0	405000	13461	NA
+006	11	Picture	h32_p32_i_down_right.jpg;block1;LS1	412680	0	1	10821	1	0	next	other	0
+006	11	Response	1	422177	9497	0
+006	12	Picture	extra Pic Time	423501	0	1	15648	1	0	next	other	0
+006	13	Picture	incorrect;h32_p31_k_down_right.jpg	439149	0	1	21142	1	0	next	other	0
+006	13	Pulse	0	450000	10851	NA
+006	14	Picture	h28_p11_i_down_right.jpg;block1;LS1	460291	0	1	9988	1	0	next	other	0
+006	14	Response	2	469038	8747	0
+006	15	Picture	extra Pic Time	470279	0	1	16481	1	0	next	other	0
+006	16	Picture	correct;h28_p46_k_down_right.jpg	486760	0	1	21142	1	0	next	other	0
+006	16	Pulse	0	495000	8240	NA
+006	17	Picture	h117_p10_i_up_left.jpg;block1;LS1	507901	0	1	7991	1	0	next	other	0
+006	17	Response	2	514680	6779	0
+006	18	Picture	extra Pic Time	515892	0	1	18312	1	0	next	other	0
+006	19	Picture	correct;h117_p9_k_up_left.jpg	534204	0	1	21142	1	0	next	other	0
+006	19	Pulse	0	540000	5796	NA
+006	20	Picture	h29_p2_i_down_right.jpg;block1;LS1	555346	0	1	9156	1	0	next	other	0
+006	20	Response	2	563147	7801	0
+006	21	Picture	extra Pic Time	564501	0	1	17313	1	0	next	other	0
+006	22	Picture	correct;h29_p3_k_down_left.jpg	581814	0	1	21475	1	0	next	other	0
+006	22	Pulse	0	585000	3186	NA
+006	23	Picture	h111_p47_k_up_left.jpg;block1;LS1	603289	0	1	7991	1	0	next	other	0
+006	23	Response	1	610055	6766	0
+006	24	Picture	extra Pic Time	611280	0	1	18312	1	0	next	other	0
+006	25	Picture	correct;h111_p47_k_up_left.jpg	629591	0	1	21142	1	0	next	other	0
+006	25	Pulse	0	630000	409	NA
+006	26	Picture	h32_p31_k_down_right.jpg;block1;LS1	650733	0	1	8656	1	0	next	other	0
+006	26	Response	1	658274	7541	0
+006	27	Picture	extra Pic Time	659390	0	1	17646	1	0	next	other	0
+006	27	Pulse	0	675000	15610	NA
+006	28	Picture	correct;h32_p31_k_down_right.jpg	677036	0	1	21142	1	0	next	other	0
+006	29	Picture	h116_p28_k_up_right.jpg;block1;LS1	698177	0	1	8989	1	0	next	other	0
+006	29	Response	2	705926	7749	0
+006	30	Picture	extra Pic Time	707167	0	1	17479	1	0	next	other	0
+006	30	Pulse	0	720000	12833	NA
+006	31	Picture	incorrect;h116_p28_k_up_right.jpg	724646	0	1	21142	1	0	next	other	0
+006	32	Picture	h111_p10_i_up_left.jpg;block1;LS1	745788	0	1	9655	1	0	next	other	0
+006	32	Response	1	754270	8482	0
+006	33	Picture	extra Pic Time	755443	0	1	16647	1	0	next	other	0
+006	33	Pulse	0	765000	9557	NA
+006	34	Picture	incorrect;h111_p47_k_up_left.jpg	772090	0	1	21142	1	0	next	other	0
+006	35	Picture	h28_p46_k_down_right.jpg;block1;LS1	793232	0	1	8823	1	0	next	other	0
+006	35	Response	1	800873	7641	0
+006	36	Picture	extra Pic Time	802055	0	1	17479	1	0	next	other	0
+006	36	Pulse	0	810000	7945	NA
+006	37	Picture	correct;h28_p46_k_down_right.jpg	819534	0	1	20975	1	0	next	other	0
+006	38	Picture	h117_p9_k_up_left.jpg;block1;LS1	840510	0	1	8490	1	0	next	other	0
+006	38	Response	1	847921	7411	0
+006	39	Picture	extra Pic Time	849000	0	1	17812	1	0	next	other	0
+006	39	Pulse	0	855000	6000	NA
+006	40	Picture	correct;h117_p9_k_up_left.jpg	866812	0	1	21142	1	0	next	other	0
+006	41	Picture	h29_p3_k_down_left.jpg;block1;LS1	887954	0	1	8823	1	0	next	other	0
+006	41	Response	2	895514	7560	0
+006	42	Picture	extra Pic Time	896777	0	1	17646	1	0	next	other	0
+006	42	Pulse	0	900000	3223	NA
+006	43	Picture	incorrect;h29_p3_k_down_left.jpg	914423	0	1	21308	1	0	next	other	0
+006	44	Picture	h114_p28_i_up_right.jpg;block1;LS1	935731	0	1	12152	1	0	next	other	0
+006	44	Pulse	0	945000	9269	NA
+006	44	Response	1	946664	10933	0
+006	45	Picture	extra Pic Time	947883	0	1	14150	1	0	next	other	0
+006	46	Picture	incorrect;h114_p35_k_up_right.jpg	962033	0	1	20143	1	0	next	other	0
+006	47	Picture	fix	982176	0	1	46279	1	0	next	other	0
+006	47	Pulse	0	990000	7824	NA
+006	48	Picture	h117_p6_i_up_left.jpg;block1;LS2	1028455	0	1	9156	1	0	next	other	0
+006	48	Pulse	0	1035000	6545	NA
+006	48	Response	1	1036562	8107	0
+006	49	Picture	extra Pic Time	1037611	0	1	16980	1	0	next	other	0
+006	50	Picture	incorrect;h117_p9_k_up_left.jpg	1054591	0	1	21142	1	0	next	other	0
+006	51	Picture	h28_p2_i_down_right.jpg;block1;LS2	1075733	0	1	10321	1	0	next	other	0
+006	51	Pulse	0	1080000	4267	NA
+006	51	Response	2	1084827	9095	0
+006	52	Picture	extra Pic Time	1086054	0	1	16148	1	0	next	other	0
+006	53	Picture	correct;h28_p46_k_down_right.jpg	1102201	0	1	21308	1	0	next	other	0
+006	54	Picture	h111_p17_i_up_left.jpg;block1;LS2	1123510	0	1	9988	1	0	next	other	0
+006	54	Pulse	0	1125000	1490	NA
+006	54	Response	2	1132260	8751	0
+006	55	Picture	extra Pic Time	1133498	0	1	16314	1	0	next	other	0
+006	56	Picture	correct;h111_p47_k_up_left.jpg	1149812	0	1	21142	1	0	next	other	0
+006	56	Pulse	0	1170000	20188	NA
+006	57	Picture	h29_p46_i_down_right.jpg;block1;LS2	1170954	0	1	9655	1	0	next	other	0
+006	57	Response	1	1179400	8446	0
+006	58	Picture	extra Pic Time	1180609	0	1	16647	1	0	next	other	0
+006	59	Picture	incorrect;h29_p3_k_down_left.jpg	1197256	0	1	21308	1	0	next	other	0
+006	59	Pulse	0	1215000	17744	NA
+006	60	Picture	h32_p31_k_down_right.jpg;block1;LS2	1218564	0	1	11819	1	0	next	other	0
+006	60	Response	1	1229096	10532	0
+006	61	Picture	extra Pic Time	1230384	0	1	14649	1	0	next	other	0
+006	62	Picture	correct;h32_p31_k_down_right.jpg	1245033	0	1	21142	1	0	next	other	0
+006	62	Pulse	0	1260000	14967	NA
+006	63	Picture	h114_p35_k_up_right.jpg;block1;LS2	1266175	0	1	9822	1	0	next	other	0
+006	63	Response	2	1274760	8586	0
+006	64	Picture	extra Pic Time	1275997	0	1	16647	1	0	next	other	0
+006	65	Picture	incorrect;h114_p35_k_up_right.jpg	1292644	0	1	21808	1	0	next	other	0
+006	65	Pulse	0	1305000	12356	NA
+006	66	Picture	h32_p50_i_down_right.jpg;block1;LS2	1314451	0	1	11486	1	0	next	other	0
+006	66	Response	2	1324748	10296	0
+006	67	Picture	extra Pic Time	1325938	0	1	14816	1	0	next	other	0
+006	68	Picture	correct;h32_p31_k_down_right.jpg	1340754	0	1	21142	1	0	next	other	0
+006	68	Pulse	0	1350000	9246	NA
+006	69	Picture	h116_p28_k_up_right.jpg;block1;LS2	1361895	0	1	11320	1	0	next	other	0
+006	69	Response	2	1371997	10101	0
+006	70	Picture	extra Pic Time	1373215	0	1	15149	1	0	next	other	0
+006	71	Picture	incorrect;h116_p28_k_up_right.jpg	1388364	0	1	21308	1	0	next	other	0
+006	71	Pulse	0	1395000	6636	NA
+006	72	Picture	h114_p36_i_up_right.jpg;block1;LS2	1409673	0	1	9988	1	0	next	other	0
+006	72	Response	2	1418523	8850	0
+006	73	Picture	extra Pic Time	1419661	0	1	16314	1	0	next	other	0
+006	74	Picture	correct;h114_p35_k_up_right.jpg	1435975	0	1	21142	1	0	next	other	0
+006	74	Pulse	0	1440000	4025	NA
+006	75	Picture	h28_p46_k_down_right.jpg;block1;LS2	1457117	0	1	8157	1	0	next	other	0
+006	75	Response	1	1464057	6940	0
+006	76	Picture	extra Pic Time	1465274	0	1	18145	1	0	next	other	0
+006	77	Picture	correct;h28_p46_k_down_right.jpg	1483419	0	1	21142	1	0	next	other	0
+006	77	Pulse	0	1485000	1581	NA
+006	78	Picture	h116_p57_i_up_right.jpg;block1;LS2	1504561	0	1	9322	1	0	next	other	0
+006	78	Response	1	1512635	8074	0
+006	79	Picture	extra Pic Time	1513883	0	1	17146	1	0	next	other	0
+006	79	Pulse	0	1530000	16117	NA
+006	80	Picture	incorrect;h116_p28_k_up_right.jpg	1531030	0	1	21142	1	0	next	other	0
+006	81	Picture	h117_p9_k_up_left.jpg;block1;LS2	1552171	0	1	10821	1	0	next	other	0
+006	81	Response	1	1561899	9727	0
+006	82	Picture	extra Pic Time	1562992	0	1	15482	1	0	next	other	0
+006	82	Pulse	0	1575000	12008	NA
+006	83	Picture	correct;h117_p9_k_up_left.jpg	1578474	0	1	21308	1	0	next	other	0
+006	84	Picture	h111_p47_k_up_left.jpg;block1;LS2	1599782	0	1	8656	1	0	next	other	0
+006	84	Response	1	1607285	7503	0
+006	85	Picture	extra Pic Time	1608438	0	1	17646	1	0	next	other	0
+006	85	Pulse	0	1620000	11562	NA
+006	86	Picture	correct;h111_p47_k_up_left.jpg	1626084	0	1	21142	1	0	next	other	0
+006	87	Picture	h29_p3_k_down_left.jpg;block1;LS2	1647226	0	1	10987	1	0	next	other	0
+006	87	Response	2	1656912	9686	0
+006	88	Picture	extra Pic Time	1658213	0	1	15482	1	0	next	other	0
+006	88	Pulse	0	1665000	6787	NA
+006	89	Picture	incorrect;h29_p3_k_down_left.jpg	1673695	0	1	20143	1	0	next	other	0
+006	90	Picture	fix	1693838	0	1	46112	1	0	next	other	0
+006	90	Pulse	0	1710000	16162	NA
+006	91	Picture	h28_p3_i_down_left.jpg;block1;LS3	1739950	0	1	9655	1	0	next	other	0
+006	91	Response	2	1748353	8403	0
+006	92	Picture	extra Pic Time	1749605	0	1	16814	1	0	next	other	0
+006	92	Pulse	0	1755000	5395	NA
+006	93	Picture	correct;h28_p46_k_down_right.jpg	1766419	0	1	21308	1	0	next	other	0
+006	94	Picture	h114_p58_i_up_right.jpg;block1;LS3	1787727	0	1	9322	1	0	next	other	0
+006	94	Response	2	1795706	7978	0
+006	95	Picture	extra Pic Time	1797050	0	1	17146	1	0	next	other	0
+006	95	Pulse	0	1800000	2950	NA
+006	96	Picture	correct;h114_p35_k_up_right.jpg	1814196	0	1	21142	1	0	next	other	0
+006	97	Picture	h116_p28_k_up_right.jpg;block1;LS3	1835338	0	1	10488	1	0	next	other	0
+006	97	Response	1	1844597	9259	0
+006	97	Pulse	0	1845000	9662	NA
+006	98	Picture	extra Pic Time	1845825	0	1	15815	1	0	next	other	0
+006	99	Picture	correct;h116_p28_k_up_right.jpg	1861640	0	1	21308	1	0	next	other	0
+006	100	Picture	h28_p46_k_down_right.jpg;block1;LS3	1882948	0	1	9322	1	0	next	other	0
+006	100	Pulse	0	1890000	7052	NA
+006	100	Response	1	1890981	8033	0
+006	101	Picture	extra Pic Time	1892271	0	1	17146	1	0	next	other	0
+006	102	Picture	correct;h28_p46_k_down_right.jpg	1909417	0	1	21808	1	0	next	other	0
+006	103	Picture	h32_p61_i_down_right.jpg;block1;LS3	1931225	0	1	8490	1	0	next	other	0
+006	103	Pulse	0	1935000	3775	NA
+006	103	Response	1	1938555	7331	0
+006	104	Picture	extra Pic Time	1939715	0	1	17812	1	0	next	other	0
+006	105	Picture	incorrect;h32_p31_k_down_right.jpg	1957527	0	1	21142	1	0	next	other	0
+006	106	Picture	h117_p9_k_up_left.jpg;block1;LS3	1978669	0	1	9489	1	0	next	other	0
+006	106	Pulse	0	1980000	1331	NA
+006	106	Response	1	1987046	8377	0
+006	107	Picture	extra Pic Time	1988158	0	1	16814	1	0	next	other	0
+006	108	Picture	correct;h117_p9_k_up_left.jpg	2004971	0	1	21142	1	0	next	other	0
+006	108	Pulse	0	2025000	20029	NA
+006	109	Picture	h111_p47_k_up_left.jpg;block1;LS3	2026113	0	1	8656	1	0	next	other	0
+006	109	Response	1	2033535	7422	0
+006	110	Picture	extra Pic Time	2034770	0	1	17812	1	0	next	other	0
+006	111	Picture	correct;h111_p47_k_up_left.jpg	2052582	0	1	21142	1	0	next	other	0
+006	111	Pulse	0	2070000	17418	NA
+006	112	Picture	h29_p4_i_down_left.jpg;block1;LS3	2073724	0	1	10155	1	0	next	other	0
+006	112	Response	1	2082715	8991	0
+006	113	Picture	extra Pic Time	2083878	0	1	16148	1	0	next	other	0
+006	114	Picture	incorrect;h29_p3_k_down_left.jpg	2100026	0	1	21142	1	0	next	other	0
+006	114	Pulse	0	2115000	14974	NA
+006	115	Picture	h116_p59_i_up_right.jpg;block1;LS3	2121168	0	1	9655	1	0	next	other	0
+006	115	Response	1	2129641	8473	0
+006	116	Picture	extra Pic Time	2130823	0	1	16647	1	0	next	other	0
+006	116	Response	1	2132124	1301	0
+006	117	Picture	incorrect;h116_p28_k_up_right.jpg	2147470	0	1	21142	1	0	next	other	0
+006	117	Pulse	0	2160000	12530	NA
+006	118	Picture	h29_p3_k_down_left.jpg;block1;LS3	2168612	0	1	11486	1	0	next	other	0
+006	118	Response	1	2178936	10325	0
+006	119	Picture	extra Pic Time	2180098	0	1	14816	1	0	next	other	0
+006	120	Picture	correct;h29_p3_k_down_left.jpg	2194914	0	1	21142	1	0	next	other	0
+006	120	Pulse	0	2205000	10086	NA
+006	121	Picture	h114_p35_k_up_right.jpg;block1;LS3	2216056	0	1	11819	1	0	next	other	0
+006	121	Response	1	2226684	10628	0
+006	122	Picture	extra Pic Time	2227875	0	1	14483	1	0	next	other	0
+006	123	Picture	correct;h114_p35_k_up_right.jpg	2242358	0	1	21308	1	0	next	other	0
+006	123	Pulse	0	2250000	7642	NA
+006	124	Picture	h111_p65_i_up_left.jpg;block1;LS3	2263667	0	1	12652	1	0	next	other	0
+006	124	Response	2	2275143	11476	0
+006	125	Picture	extra Pic Time	2276318	0	1	13651	1	0	next	other	0
+006	126	Picture	correct;h111_p47_k_up_left.jpg	2289969	0	1	21142	1	0	next	other	0
+006	126	Pulse	0	2295000	5031	NA
+006	127	Picture	h32_p31_k_down_right.jpg;block1;LS3	2311111	0	1	9655	1	0	next	other	0
+006	127	Response	1	2319581	8470	0
+006	128	Picture	extra Pic Time	2320766	0	1	16647	1	0	next	other	0
+006	129	Picture	correct;h32_p31_k_down_right.jpg	2337413	0	1	21308	1	0	next	other	0
+006	129	Pulse	0	2340000	2587	NA
+006	130	Picture	h117_p8_i_up_left.jpg;block1;LS3	2358721	0	1	13484	1	0	next	other	0
+006	130	Response	2	2371205	12484	0
+006	131	Picture	extra Pic Time	2372205	0	1	12652	1	0	next	other	0
+006	132	Picture	correct;h117_p9_k_up_left.jpg	2384857	0	1	20143	1	0	next	other	0
+006	132	Pulse	0	2385000	143	NA
+006	133	Picture	fix	2405000	0	1	46112	1	0	next	other	0
+006	133	Pulse	0	2430000	25000	NA
+006	134	Picture	h117_p10_i_up_left.jpg;block1;LS4	2451112	0	1	9988	1	0	next	other	0
+006	134	Response	1	2459981	8868	0
+006	135	Picture	extra Pic Time	2461101	0	1	16314	1	0	next	other	0
+006	135	Pulse	0	2475000	13899	NA
+006	136	Picture	incorrect;h117_p9_k_up_left.jpg	2477415	0	1	21142	1	0	next	other	0
+006	137	Picture	h29_p3_k_down_left.jpg;block1;LS4	2498557	0	1	12485	1	0	next	other	0
+006	137	Response	1	2509808	11251	0
+006	138	Picture	extra Pic Time	2511042	0	1	13984	1	0	next	other	0
+006	138	Pulse	0	2520000	8958	NA
+006	139	Picture	correct;h29_p3_k_down_left.jpg	2525025	0	1	21142	1	0	next	other	0
+006	140	Picture	h28_p46_k_down_right.jpg;block1;LS4	2546167	0	1	7491	1	0	next	other	0
+006	140	Response	1	2552476	6309	0
+006	141	Picture	extra Pic Time	2553658	0	1	18811	1	0	next	other	0
+006	141	Pulse	0	2565000	11342	NA
+006	142	Picture	correct;h28_p46_k_down_right.jpg	2572469	0	1	21142	1	0	next	other	0
+006	143	Picture	h114_p35_k_up_right.jpg;block1;LS4	2593611	0	1	8823	1	0	next	other	0
+006	143	Response	1	2601220	7608	0
+006	144	Picture	extra Pic Time	2602434	0	1	17479	1	0	next	other	0
+006	144	Pulse	0	2610000	7566	NA
+006	145	Picture	correct;h114_p35_k_up_right.jpg	2619914	0	1	21142	1	0	next	other	0
+006	146	Picture	h32_p31_k_down_right.jpg;block1;LS4	2641055	0	1	10155	1	0	next	other	0
+006	146	Response	1	2650067	9012	0
+006	147	Picture	extra Pic Time	2651210	0	1	16148	1	0	next	other	0
+006	147	Pulse	0	2655000	3790	NA
+006	148	Picture	correct;h32_p31_k_down_right.jpg	2667358	0	1	21142	1	0	next	other	0
+006	149	Picture	h111_p47_k_up_left.jpg;block1;LS4	2688499	0	1	7158	1	0	next	other	0
+006	149	Response	1	2694549	6049	0
+006	150	Picture	extra Pic Time	2695658	0	1	19144	1	0	next	other	0
+006	150	Pulse	0	2700000	4342	NA
+006	151	Picture	correct;h111_p47_k_up_left.jpg	2714802	0	1	20975	1	0	next	other	0
+006	152	Picture	h28_p11_i_down_right.jpg;block1;LS4	2735777	0	1	9489	1	0	next	other	0
+006	152	Response	2	2744017	8240	0
+006	152	Pulse	0	2745000	9223	NA
+006	153	Picture	extra Pic Time	2745266	0	1	16980	1	0	next	other	0
+006	154	Picture	correct;h28_p46_k_down_right.jpg	2762246	0	1	20975	1	0	next	other	0
+006	155	Picture	h117_p9_k_up_left.jpg;block1;LS4	2783221	0	1	7491	1	0	next	other	0
+006	155	Response	1	2789711	6489	0
+006	155	Pulse	0	2790000	6779	NA
+006	156	Picture	extra Pic Time	2790712	0	1	18645	1	0	next	other	0
+006	157	Picture	correct;h117_p9_k_up_left.jpg	2809357	0	1	20975	1	0	next	other	0
+006	158	Picture	h111_p10_i_up_left.jpg;block1;LS4	2830332	0	1	8490	1	0	next	other	0
+006	158	Pulse	0	2835000	4668	NA
+006	158	Response	2	2837685	7353	0
+006	159	Picture	extra Pic Time	2838822	0	1	17812	1	0	next	other	0
+006	160	Picture	correct;h111_p47_k_up_left.jpg	2856635	0	1	20975	1	0	next	other	0
+006	161	Picture	h114_p28_i_up_right.jpg;block1;LS4	2877610	0	1	8490	1	0	next	other	0
+006	161	Pulse	0	2880000	2390	NA
+006	161	Response	1	2884920	7310	0
+006	162	Picture	extra Pic Time	2886100	0	1	17812	1	0	next	other	0
+006	163	Picture	incorrect;h114_p35_k_up_right.jpg	2903912	0	1	20975	1	0	next	other	0
+006	164	Picture	h29_p2_i_down_right.jpg;block1;LS4	2924888	0	1	10488	1	0	next	other	0
+006	164	Pulse	0	2925000	112	NA
+006	164	Response	2	2934175	9287	0
+006	165	Picture	extra Pic Time	2935375	0	1	15815	1	0	next	other	0
+006	166	Picture	correct;h29_p3_k_down_left.jpg	2951190	0	1	20975	1	0	next	other	0
+006	166	Response	2	2958133	6943	0
+006	166	Pulse	0	2970000	18810	NA
+006	167	Picture	h116_p53_i_up_right.jpg;block1;LS4	2972165	0	1	11819	1	0	next	other	0
+006	167	Response	2	2982831	10666	0
+006	168	Picture	extra Pic Time	2983985	0	1	14483	1	0	next	other	0
+006	169	Picture	correct;h116_p28_k_up_right.jpg	2998468	0	1	20975	1	0	next	other	0
+006	169	Pulse	0	3015000	16532	NA
+006	170	Picture	h32_p32_i_down_right.jpg;block1;LS4	3019443	0	1	12485	1	0	next	other	0
+006	170	Response	2	3030780	11337	0
+006	171	Picture	extra Pic Time	3031928	0	1	13817	1	0	next	other	0
+006	172	Picture	correct;h32_p31_k_down_right.jpg	3045745	0	1	21142	1	0	next	other	0
+006	172	Pulse	0	3060000	14255	NA
+006	173	Picture	h116_p28_k_up_right.jpg;block1;LS4	3066887	0	1	11320	1	0	next	other	0
+006	173	Response	1	3077051	10164	0
+006	174	Picture	extra Pic Time	3078207	0	1	14982	1	0	next	other	0
+006	175	Picture	correct;h116_p28_k_up_right.jpg	3093189	0	1	20143	1	0	next	other	0
+006	175	Pulse	0	3105000	11811	NA
+006	176	Picture	fix	3113332	0	1	45114	1	0	next	other	0
+006	176	Pulse	0	3150000	36668	NA
+006	177	Picture	fix	3158446	0	1	45114	1	0	next	other	0
+006	177	Pulse	0	3195000	36554	NA
+006	178	Picture	fix	3203559	0	1	45113	1	0	next	other	0
+006	178	Pulse	0	3240000	36441	NA
+006	179	Picture	fix	3248673	0	1	45446	1	0	next	other	0
+006	179	Pulse	0	3285000	36327	NA
+006	180	Picture	bubbles/learning.png	3294119	0	1	46112	1	0	next	other	0
+006	180	Pulse	0	3330000	35881	NA
+006	181	Picture	h36_p18_i_down_left.jpg;block2;LS1	3340232	0	1	10821	1	0	next	other	0
+006	181	Response	1	3349805	9573	0
+006	182	Picture	extra Pic Time	3351052	0	1	15648	1	0	next	other	0
+006	183	Picture	incorrect;h36_p12_k_down_left.jpg	3366701	0	1	21142	1	0	next	other	0
+006	183	Pulse	0	3375000	8299	NA
+006	184	Picture	h35_p61_i_down_right.jpg;block2;LS1	3387842	0	1	14483	1	0	next	other	0
+006	184	Response	1	3401061	13219	0
+006	185	Picture	extra Pic Time	3402325	0	1	11986	1	0	next	other	0
+006	186	Picture	incorrect;h35_p50_k_down_right.jpg	3414311	0	1	21142	1	0	next	other	0
+006	186	Pulse	0	3420000	5689	NA
+006	187	Picture	h33_p17_i_down_right.jpg;block2;LS1	3435453	0	1	7824	1	0	next	other	0
+006	187	Response	2	3441954	6501	0
+006	188	Picture	extra Pic Time	3443277	0	1	18645	1	0	next	other	0
+006	189	Picture	correct;h33_p11_k_down_right.jpg	3461922	0	1	21475	1	0	next	other	0
+006	189	Pulse	0	3465000	3078	NA
+006	190	Picture	h42_p5_k_down_left.jpg;block2;LS1	3483396	0	1	9156	1	0	next	other	0
+006	190	Response	2	3491390	7993	0
+006	191	Picture	extra Pic Time	3492552	0	1	17146	1	0	next	other	0
+006	192	Picture	incorrect;h42_p5_k_down_left.jpg	3509699	0	1	21308	1	0	next	other	0
+006	192	Pulse	0	3510000	301	NA
+006	193	Picture	h85_p11_k_up_left.jpg;block2;LS1	3531007	0	1	8656	1	0	next	other	0
+006	193	Response	1	3538515	7508	0
+006	194	Picture	extra Pic Time	3539663	0	1	17646	1	0	next	other	0
+006	194	Pulse	0	3555000	15337	NA
+006	195	Picture	correct;h85_p11_k_up_left.jpg	3557309	0	1	21142	1	0	next	other	0
+006	196	Picture	h36_p12_k_down_left.jpg;block2;LS1	3578451	0	1	9655	1	0	next	other	0
+006	196	Response	1	3586875	8424	0
+006	197	Picture	extra Pic Time	3588106	0	1	16814	1	0	next	other	0
+006	197	Pulse	0	3600000	11894	NA
+006	198	Picture	correct;h36_p12_k_down_left.jpg	3604920	0	1	21142	1	0	next	other	0
+006	199	Picture	h82_p24_i_up_right.jpg;block2;LS1	3626062	0	1	8823	1	0	next	other	0
+006	199	Response	1	3633461	7399	0
+006	200	Picture	extra Pic Time	3634885	0	1	17812	1	0	next	other	0
+006	200	Pulse	0	3645000	10115	NA
+006	201	Picture	incorrect;h82_p21_k_up_right.jpg	3652697	0	1	21142	1	0	next	other	0
+006	202	Picture	h33_p11_k_down_right.jpg;block2;LS1	3673839	0	1	6992	1	0	next	other	0
+006	202	Response	2	3679568	5730	0
+006	203	Picture	extra Pic Time	3680831	0	1	19477	1	0	next	other	0
+006	203	Pulse	0	3690000	9169	NA
+006	204	Picture	incorrect;h33_p11_k_down_right.jpg	3700308	0	1	21142	1	0	next	other	0
+006	205	Picture	h82_p21_k_up_right.jpg;block2;LS1	3721449	0	1	10321	1	0	next	other	0
+006	205	Response	1	3730579	9130	0
+006	206	Picture	extra Pic Time	3731771	0	1	15981	1	0	next	other	0
+006	206	Pulse	0	3735000	3229	NA
+006	207	Picture	correct;h82_p21_k_up_right.jpg	3747752	0	1	21308	1	0	next	other	0
+006	208	Picture	h83_p57_i_up_right.jpg;block2;LS1	3769060	0	1	11154	1	0	next	other	0
+006	208	Response	1	3778813	9753	0
+006	208	Pulse	0	3780000	10940	NA
+006	209	Picture	extra Pic Time	3780213	0	1	15482	1	0	next	other	0
+006	210	Picture	incorrect;h83_p29_k_up_right.jpg	3795695	0	1	21142	1	0	next	other	0
+006	211	Picture	h35_p50_k_down_right.jpg;block2;LS1	3816837	0	1	9988	1	0	next	other	0
+006	211	Pulse	0	3825000	8163	NA
+006	211	Response	1	3825600	8762	0
+006	212	Picture	extra Pic Time	3826825	0	1	16481	1	0	next	other	0
+006	213	Picture	correct;h35_p50_k_down_right.jpg	3843306	0	1	21142	1	0	next	other	0
+006	214	Picture	h42_p56_i_down_left.jpg;block2;LS1	3864448	0	1	10155	1	0	next	other	0
+006	214	Pulse	0	3870000	5552	NA
+006	214	Response	1	3873444	8996	0
+006	215	Picture	extra Pic Time	3874602	0	1	16148	1	0	next	other	0
+006	216	Picture	incorrect;h42_p5_k_down_left.jpg	3890750	0	1	21308	1	0	next	other	0
+006	217	Picture	h85_p17_i_up_left.jpg;block2;LS1	3912058	0	1	9988	1	0	next	other	0
+006	217	Pulse	0	3915000	2942	NA
+006	217	Response	2	3920898	8840	0
+006	218	Picture	extra Pic Time	3922046	0	1	16314	1	0	next	other	0
+006	219	Picture	correct;h85_p11_k_up_left.jpg	3938361	0	1	21142	1	0	next	other	0
+006	219	Response	2	3940000	1639	0
+006	220	Picture	h83_p29_k_up_right.jpg;block2;LS1	3959502	0	1	7325	1	0	next	other	0
+006	220	Pulse	0	3960000	498	NA
+006	220	Response	1	3965645	6143	0
+006	221	Picture	extra Pic Time	3966827	0	1	18978	1	0	next	other	0
+006	222	Picture	correct;h83_p29_k_up_right.jpg	3985805	0	1	20143	1	0	next	other	0
+006	222	Pulse	0	4005000	19195	NA
+006	223	Picture	fix	4005948	0	1	46112	1	0	next	other	0
+006	223	Pulse	0	4050000	44052	NA
+006	224	Picture	h33_p12_i_down_right.jpg;block2;LS2	4052060	0	1	9322	1	0	next	other	0
+006	224	Response	1	4060288	8229	0
+006	225	Picture	extra Pic Time	4061382	0	1	16980	1	0	next	other	0
+006	226	Picture	incorrect;h33_p11_k_down_right.jpg	4078362	0	1	21142	1	0	next	other	0
+006	226	Pulse	0	4095000	16638	NA
+006	227	Picture	h82_p20_i_up_right.jpg;block2;LS2	4099504	0	1	9489	1	0	next	other	0
+006	227	Response	2	4107761	8257	0
+006	228	Picture	extra Pic Time	4108993	0	1	16980	1	0	next	other	0
+006	229	Picture	correct;h82_p21_k_up_right.jpg	4125973	0	1	21475	1	0	next	other	0
+006	229	Pulse	0	4140000	14027	NA
+006	230	Picture	h36_p13_i_down_left.jpg;block2;LS2	4147448	0	1	9822	1	0	next	other	0
+006	230	Response	1	4155959	8511	0
+006	231	Picture	extra Pic Time	4157269	0	1	16647	1	0	next	other	0
+006	232	Picture	incorrect;h36_p12_k_down_left.jpg	4173916	0	1	21142	1	0	next	other	0
+006	232	Pulse	0	4185000	11084	NA
+006	233	Picture	h83_p37_i_up_right.jpg;block2;LS2	4195058	0	1	11154	1	0	next	other	0
+006	233	Response	2	4205018	9960	0
+006	234	Picture	extra Pic Time	4206212	0	1	15149	1	0	next	other	0
+006	235	Picture	correct;h83_p29_k_up_right.jpg	4221360	0	1	21475	1	0	next	other	0
+006	235	Pulse	0	4230000	8640	NA
+006	236	Picture	h42_p5_k_down_left.jpg;block2;LS2	4242835	0	1	10821	1	0	next	other	0
+006	236	Response	2	4252129	9293	0
+006	237	Picture	extra Pic Time	4253656	0	1	15815	1	0	next	other	0
+006	238	Picture	incorrect;h42_p5_k_down_left.jpg	4269471	0	1	21308	1	0	next	other	0
+006	238	Pulse	0	4275000	5529	NA
+006	239	Picture	h35_p38_i_down_right.jpg;block2;LS2	4290779	0	1	12152	1	0	next	other	0
+006	239	Response	2	4301537	10758	0
+006	240	Picture	extra Pic Time	4302931	0	1	14483	1	0	next	other	0
+006	241	Picture	correct;h35_p50_k_down_right.jpg	4317414	0	1	21475	1	0	next	other	0
+006	241	Pulse	0	4320000	2586	NA
+006	242	Picture	h85_p12_i_up_left.jpg;block2;LS2	4338889	0	1	7991	1	0	next	other	0
+006	242	Response	1	4345602	6714	0
+006	243	Picture	extra Pic Time	4346879	0	1	18478	1	0	next	other	0
+006	243	Pulse	0	4365000	18121	NA
+006	244	Picture	incorrect;h85_p11_k_up_left.jpg	4365358	0	1	21308	1	0	next	other	0
+006	245	Picture	h35_p50_k_down_right.jpg;block2;LS2	4386666	0	1	9489	1	0	next	other	0
+006	245	Response	1	4394849	8183	0
+006	246	Picture	extra Pic Time	4396155	0	1	16980	1	0	next	other	0
+006	246	Pulse	0	4410000	13845	NA
+006	247	Picture	correct;h35_p50_k_down_right.jpg	4413135	0	1	21308	1	0	next	other	0
+006	248	Picture	h83_p29_k_up_right.jpg;block2;LS2	4434443	0	1	10321	1	0	next	other	0
+006	248	Response	2	4443554	9111	0
+006	249	Picture	extra Pic Time	4444764	0	1	15981	1	0	next	other	0
+006	249	Pulse	0	4455000	10236	NA
+006	250	Picture	incorrect;h83_p29_k_up_right.jpg	4460745	0	1	21308	1	0	next	other	0
+006	251	Picture	h82_p21_k_up_right.jpg;block2;LS2	4482053	0	1	12152	1	0	next	other	0
+006	251	Response	1	4492991	10937	0
+006	252	Picture	extra Pic Time	4494206	0	1	14150	1	0	next	other	0
+006	252	Pulse	0	4500000	5794	NA
+006	253	Picture	correct;h82_p21_k_up_right.jpg	4508356	0	1	21142	1	0	next	other	0
+006	254	Picture	h85_p11_k_up_left.jpg;block2;LS2	4529498	0	1	6492	1	0	next	other	0
+006	254	Response	1	4534818	5320	0
+006	255	Picture	extra Pic Time	4535990	0	1	19810	1	0	next	other	0
+006	255	Pulse	0	4545000	9010	NA
+006	256	Picture	correct;h85_p11_k_up_left.jpg	4555800	0	1	21142	1	0	next	other	0
+006	257	Picture	h33_p11_k_down_right.jpg;block2;LS2	4576942	0	1	11653	1	0	next	other	0
+006	257	Response	2	4587470	10529	0
+006	258	Picture	extra Pic Time	4588595	0	1	14649	1	0	next	other	0
+006	258	Pulse	0	4590000	1405	NA
+006	259	Picture	incorrect;h33_p11_k_down_right.jpg	4603244	0	1	21142	1	0	next	other	0
+006	260	Picture	h36_p12_k_down_left.jpg;block2;LS2	4624386	0	1	9489	1	0	next	other	0
+006	260	Response	1	4632740	8355	0
+006	261	Picture	extra Pic Time	4633875	0	1	16814	1	0	next	other	0
+006	261	Pulse	0	4635000	1125	NA
+006	262	Picture	correct;h36_p12_k_down_left.jpg	4650688	0	1	21142	1	0	next	other	0
+006	263	Picture	h42_p55_i_down_left.jpg;block2;LS2	4671830	0	1	12152	1	0	next	other	0
+006	263	Pulse	0	4680000	8170	NA
+006	263	Response	2	4682707	10878	1
+006	264	Picture	extra Pic Time	4683982	0	1	14316	1	0	next	other	0
+006	265	Picture	correct;h42_p5_k_down_left.jpg	4698299	0	1	20143	1	0	next	other	0
+006	266	Picture	fix	4718442	0	1	46279	1	0	next	other	0
+006	266	Pulse	0	4725000	6558	NA
+006	267	Picture	h82_p15_i_up_right.jpg;block2;LS3	4764720	0	1	10821	1	0	next	other	0
+006	267	Pulse	0	4770000	5280	NA
+006	267	Response	2	4774397	9676	0
+006	268	Picture	extra Pic Time	4775541	0	1	15482	1	0	next	other	0
+006	269	Picture	correct;h82_p21_k_up_right.jpg	4791023	0	1	21142	1	0	next	other	0
+006	270	Picture	h33_p11_k_down_right.jpg;block2;LS3	4812165	0	1	11154	1	0	next	other	0
+006	270	Pulse	0	4815000	2835	NA
+006	270	Response	2	4822193	10029	0
+006	271	Picture	extra Pic Time	4823318	0	1	15149	1	0	next	other	0
+006	272	Picture	incorrect;h33_p11_k_down_right.jpg	4838467	0	1	21142	1	0	next	other	0
+006	273	Picture	h83_p29_k_up_right.jpg;block2;LS3	4859609	0	1	14316	1	0	next	other	0
+006	273	Pulse	0	4860000	391	NA
+006	273	Response	1	4872676	13067	0
+006	274	Picture	extra Pic Time	4873925	0	1	12152	1	0	next	other	0
+006	275	Picture	correct;h83_p29_k_up_right.jpg	4886077	0	1	21142	1	0	next	other	0
+006	275	Pulse	0	4905000	18923	NA
+006	276	Picture	h85_p11_k_up_left.jpg;block2;LS3	4907219	0	1	7658	1	0	next	other	0
+006	276	Response	1	4913712	6492	0
+006	277	Picture	extra Pic Time	4914877	0	1	18645	1	0	next	other	0
+006	278	Picture	correct;h85_p11_k_up_left.jpg	4933522	0	1	21142	1	0	next	other	0
+006	278	Pulse	0	4950000	16478	NA
+006	279	Picture	h36_p11_i_down_left.jpg;block2;LS3	4954663	0	1	13984	1	0	next	other	0
+006	279	Response	1	4967537	12873	0
+006	280	Picture	extra Pic Time	4968647	0	1	12319	1	0	next	other	0
+006	281	Picture	incorrect;h36_p12_k_down_left.jpg	4980966	0	1	21142	1	0	next	other	0
+006	281	Pulse	0	4995000	14034	NA
+006	282	Picture	h42_p5_k_down_left.jpg;block2;LS3	5002107	0	1	13151	1	0	next	other	0
+006	282	Response	1	5014034	11927	0
+006	283	Picture	extra Pic Time	5015259	0	1	13318	1	0	next	other	0
+006	284	Picture	correct;h42_p5_k_down_left.jpg	5028576	0	1	21142	1	0	next	other	0
+006	284	Pulse	0	5040000	11424	NA
+006	285	Picture	h35_p31_i_down_right.jpg;block2;LS3	5049718	0	1	10821	1	0	next	other	0
+006	285	Response	2	5059300	9582	0
+006	286	Picture	extra Pic Time	5060539	0	1	15648	1	0	next	other	0
+006	287	Picture	correct;h35_p50_k_down_right.jpg	5076187	0	1	21142	1	0	next	other	0
+006	287	Pulse	0	5085000	8813	NA
+006	288	Picture	h42_p48_i_down_left.jpg;block2;LS3	5097329	0	1	9822	1	0	next	other	0
+006	288	Response	2	5105972	8644	0
+006	289	Picture	extra Pic Time	5107150	0	1	16481	1	0	next	other	0
+006	290	Picture	correct;h42_p5_k_down_left.jpg	5123631	0	1	21142	1	0	next	other	0
+006	290	Pulse	0	5130000	6369	NA
+006	291	Picture	h85_p10_i_up_left.jpg;block2;LS3	5144773	0	1	10488	1	0	next	other	0
+006	291	Response	2	5154139	9367	0
+006	292	Picture	extra Pic Time	5155260	0	1	15815	1	0	next	other	0
+006	293	Picture	correct;h85_p11_k_up_left.jpg	5171075	0	1	21142	1	0	next	other	0
+006	293	Pulse	0	5175000	3925	NA
+006	294	Picture	h35_p50_k_down_right.jpg;block2;LS3	5192217	0	1	10987	1	0	next	other	0
+006	294	Response	1	5201972	9755	0
+006	295	Picture	extra Pic Time	5203204	0	1	15315	1	0	next	other	0
+006	296	Picture	correct;h35_p50_k_down_right.jpg	5218519	0	1	21142	1	0	next	other	0
+006	296	Pulse	0	5220000	1481	NA
+006	297	Picture	h36_p12_k_down_left.jpg;block2;LS3	5239661	0	1	26302	1	0	next	other	0
+006	297	Pulse	0	5265000	25339	NA
+006	298	Picture	to late	5265963	0	1	21641	1	0	next	other	0
+006	299	Picture	h33_p10_i_down_right.jpg;block2;LS3	5287605	0	1	15149	1	0	next	other	0
+006	299	Response	1	5301510	13906	0
+006	300	Picture	extra Pic Time	5302753	0	1	11320	1	0	next	other	0
+006	300	Pulse	0	5310000	7247	NA
+006	301	Picture	incorrect;h33_p11_k_down_right.jpg	5314073	0	1	21308	1	0	next	other	0
+006	302	Picture	h83_p24_i_up_right.jpg;block2;LS3	5335382	0	1	16314	1	0	next	other	0
+006	302	Response	2	5350468	15087	0
+006	303	Picture	extra Pic Time	5351696	0	1	10155	1	0	next	other	0
+006	303	Pulse	0	5355000	3304	NA
+006	304	Picture	correct;h83_p29_k_up_right.jpg	5361850	0	1	21142	1	0	next	other	0
+006	305	Picture	h82_p21_k_up_right.jpg;block2;LS3	5382992	0	1	11154	1	0	next	other	0
+006	305	Response	1	5392957	9965	0
+006	306	Picture	extra Pic Time	5394146	0	1	15149	1	0	next	other	0
+006	306	Pulse	0	5400000	5854	NA
+006	307	Picture	correct;h82_p21_k_up_right.jpg	5409295	0	1	20143	1	0	next	other	0
+006	308	Picture	fix	5429437	0	1	46112	1	0	next	other	0
+006	308	Pulse	0	5445000	15563	NA
+006	309	Picture	h42_p5_k_down_left.jpg;block2;LS4	5475550	0	1	12985	1	0	next	other	0
+006	309	Response	1	5487366	11816	0
+006	310	Picture	extra Pic Time	5488534	0	1	13318	1	0	next	other	0
+006	310	Pulse	0	5490000	1466	NA
+006	311	Picture	correct;h42_p5_k_down_left.jpg	5501852	0	1	21142	1	0	next	other	0
+006	312	Picture	h35_p50_k_down_right.jpg;block2;LS4	5522994	0	1	8323	1	0	next	other	0
+006	312	Response	1	5530162	7168	0
+006	313	Picture	extra Pic Time	5531317	0	1	17979	1	0	next	other	0
+006	313	Pulse	0	5535000	3683	NA
+006	314	Picture	correct;h35_p50_k_down_right.jpg	5549296	0	1	21142	1	0	next	other	0
+006	315	Picture	h82_p21_k_up_right.jpg;block2;LS4	5570438	0	1	9489	1	0	next	other	0
+006	315	Response	1	5578791	8353	0
+006	316	Picture	extra Pic Time	5579927	0	1	16814	1	0	next	other	0
+006	316	Pulse	0	5580000	73	NA
+006	317	Picture	correct;h82_p21_k_up_right.jpg	5596740	0	1	21142	1	0	next	other	0
+006	318	Picture	h85_p11_k_up_left.jpg;block2;LS4	5617882	0	1	8490	1	0	next	other	0
+006	318	Pulse	0	5625000	7118	NA
+006	318	Response	1	5625115	7233	0
+006	319	Picture	extra Pic Time	5626372	0	1	17979	1	0	next	other	0
+006	320	Picture	correct;h85_p11_k_up_left.jpg	5644351	0	1	20975	1	0	next	other	0
+006	321	Picture	h36_p13_i_down_left.jpg;block2;LS4	5665326	0	1	10821	1	0	next	other	0
+006	321	Pulse	0	5670000	4674	NA
+006	321	Response	2	5675023	9696	0
+006	322	Picture	extra Pic Time	5676147	0	1	15482	1	0	next	other	0
+006	323	Picture	correct;h36_p12_k_down_left.jpg	5691629	0	1	20975	1	0	next	other	0
+006	324	Picture	h33_p12_i_down_right.jpg;block2;LS4	5712604	0	1	16148	1	0	next	other	0
+006	324	Pulse	0	5715000	2396	NA
+006	324	Response	2	5727582	14978	0
+006	325	Picture	extra Pic Time	5728751	0	1	10155	1	0	next	other	0
+006	326	Picture	correct;h33_p11_k_down_right.jpg	5738906	0	1	20975	1	0	next	other	0
+006	327	Picture	h42_p55_i_down_left.jpg;block2;LS4	5759882	0	1	9489	1	0	next	other	0
+006	327	Pulse	0	5760000	118	NA
+006	327	Response	2	5768135	8253	0
+006	328	Picture	extra Pic Time	5769370	0	1	16980	1	0	next	other	0
+006	329	Picture	correct;h42_p5_k_down_left.jpg	5786350	0	1	20975	1	0	next	other	0
+006	329	Pulse	0	5805000	18650	NA
+006	330	Picture	h85_p12_i_up_left.jpg;block2;LS4	5807326	0	1	10821	1	0	next	other	0
+006	330	Response	2	5816888	9563	0
+006	331	Picture	extra Pic Time	5818146	0	1	15648	1	0	next	other	0
+006	332	Picture	correct;h85_p11_k_up_left.jpg	5833794	0	1	21142	1	0	next	other	0
+006	332	Pulse	0	5850000	16206	NA
+006	333	Picture	h35_p38_i_down_right.jpg;block2;LS4	5854936	0	1	10488	1	0	next	other	0
+006	333	Response	2	5864179	9243	0
+006	334	Picture	extra Pic Time	5865424	0	1	15981	1	0	next	other	0
+006	335	Picture	correct;h35_p50_k_down_right.jpg	5881405	0	1	21142	1	0	next	other	0
+006	335	Pulse	0	5895000	13595	NA
+006	336	Picture	h83_p37_i_up_right.jpg;block2;LS4	5902547	0	1	11819	1	0	next	other	0
+006	336	Response	2	5913188	10641	0
+006	337	Picture	extra Pic Time	5914366	0	1	14483	1	0	next	other	0
+006	338	Picture	correct;h83_p29_k_up_right.jpg	5928849	0	1	21142	1	0	next	other	0
+006	338	Pulse	0	5940000	11151	NA
+006	339	Picture	h33_p11_k_down_right.jpg;block2;LS4	5949991	0	1	11154	1	0	next	other	0
+006	339	Response	1	5959860	9869	0
+006	340	Picture	extra Pic Time	5961144	0	1	15315	1	0	next	other	0
+006	341	Picture	correct;h33_p11_k_down_right.jpg	5976460	0	1	20975	1	0	next	other	0
+006	341	Pulse	0	5985000	8540	NA
+006	342	Picture	h82_p20_i_up_right.jpg;block2;LS4	5997435	0	1	11154	1	0	next	other	0
+006	342	Response	2	6007469	10034	0
+006	343	Picture	extra Pic Time	6008589	0	1	15149	1	0	next	other	0
+006	344	Picture	correct;h82_p21_k_up_right.jpg	6023737	0	1	21142	1	0	next	other	0
+006	344	Pulse	0	6030000	6263	NA
+006	345	Picture	h36_p12_k_down_left.jpg;block2;LS4	6044879	0	1	12152	1	0	next	other	0
+006	345	Response	2	6055871	10992	0
+006	346	Picture	extra Pic Time	6057031	0	1	14150	1	0	next	other	0
+006	347	Picture	incorrect;h36_p12_k_down_left.jpg	6071181	0	1	21142	1	0	next	other	0
+006	347	Pulse	0	6075000	3819	NA
+006	348	Picture	h83_p29_k_up_right.jpg;block2;LS4	6092323	0	1	11486	1	0	next	other	0
+006	348	Response	1	6102644	10320	0
+006	349	Picture	extra Pic Time	6103810	0	1	14816	1	0	next	other	0
+006	350	Picture	correct;h83_p29_k_up_right.jpg	6118626	0	1	20143	1	0	next	other	0
+006	350	Pulse	0	6120000	1374	NA
+006	351	Picture	fix	6138769	0	1	45113	1	0	next	other	0
+006	351	Pulse	0	6165000	26231	NA
+006	352	Picture	fix	6183882	0	1	45114	1	0	next	other	0
+006	352	Pulse	0	6210000	26118	NA
+006	353	Picture	fix	6228996	0	1	45114	1	0	next	other	0
+006	353	Pulse	0	6255000	26004	NA
+006	354	Picture	fix	6274109	0	1	45446	1	0	next	other	0
+006	354	Pulse	0	6300000	25891	NA
+006	355	Picture	bubbles/control.png	6319556	0	1	46112	1	0	next	other	0
+006	355	Pulse	0	6345000	25444	NA
+006	356	Picture	h48_p41_k_down_right.jpg;crt1-l;LS1	6365668	0	1	25137	1	0	next	other	0
+006	356	Response	1	6378536	12868	0
+006	356	Response	2	6381895	16227	0
+006	356	Pulse	0	6390000	24332	NA
+006	357	Picture	incorrect;h48_p41_k_down_right.jpg	6390805	0	1	21308	1	0	next	other	0
+006	358	Picture	h22_p21_k_down_left.jpg;crt1-l;LS1	6412113	0	1	25137	1	0	next	other	0
+006	358	Response	1	6418581	6468	0
+006	358	Pulse	0	6435000	22887	NA
+006	359	Picture	correct;h22_p21_k_down_left.jpg	6437250	0	1	21308	1	0	next	other	0
+006	360	Picture	h108_p34_i_up_right.jpg;crt1-l;LS1	6458559	0	1	25137	1	0	next	other	0
+006	360	Response	2	6463303	4745	0
+006	360	Pulse	0	6480000	21441	NA
+006	361	Picture	correct;h108_p34_i_up_right.jpg	6483696	0	1	21142	1	0	next	other	0
+006	362	Picture	h18_p6_i_down_right.jpg;crt1-l;LS1	6504837	0	1	25137	1	0	next	other	0
+006	362	Response	2	6510413	5576	0
+006	362	Pulse	0	6525000	20163	NA
+006	363	Picture	correct;h18_p6_i_down_right.jpg	6529974	0	1	21142	1	0	next	other	0
+006	364	Picture	h85_p10_i_up_left.jpg;crt1-l;LS1	6551116	0	1	25137	1	0	next	other	0
+006	364	Response	1	6558996	7880	0
+006	364	Pulse	0	6570000	18884	NA
+006	365	Picture	correct;h85_p10_i_up_left.jpg	6576253	0	1	21308	1	0	next	other	0
+006	366	Picture	h107_p63_i_up_right.jpg;crt1-l;LS1	6597561	0	1	25137	1	0	next	other	0
+006	366	Response	2	6600821	3259	0
+006	366	Pulse	0	6615000	17439	NA
+006	367	Picture	correct;h107_p63_i_up_right.jpg	6622698	0	1	21142	1	0	next	other	0
+006	368	Picture	h12_p4_k_down_left.jpg;crt1-l;LS1	6643840	0	1	25137	1	0	next	other	0
+006	368	Response	1	6650629	6788	0
+006	368	Pulse	0	6660000	16160	NA
+006	369	Picture	correct;h12_p4_k_down_left.jpg	6668977	0	1	21142	1	0	next	other	0
+006	369	Response	1	6688017	19040	0
+006	370	Picture	h109_p23_i_up_left.jpg;crt1-l;LS1	6690119	0	1	25137	1	0	next	other	0
+006	370	Response	1	6697034	6914	0
+006	370	Pulse	0	6705000	14881	NA
+006	371	Picture	correct;h109_p23_i_up_left.jpg	6715256	0	1	21142	1	0	next	other	0
+006	372	Picture	h33_p11_k_down_right.jpg;crt1-l;LS1	6736398	0	1	25137	1	0	next	other	0
+006	372	Response	2	6742523	6125	0
+006	372	Pulse	0	6750000	13602	NA
+006	373	Picture	correct;h33_p11_k_down_right.jpg	6761535	0	1	21142	1	0	next	other	0
+006	374	Picture	h46_p23_i_down_right.jpg;crt1-l;LS1	6782677	0	1	25137	1	0	next	other	0
+006	374	Response	2	6789905	7229	0
+006	374	Pulse	0	6795000	12323	NA
+006	375	Picture	correct;h46_p23_i_down_right.jpg	6807814	0	1	21142	1	0	next	other	0
+006	376	Picture	h36_p12_k_down_left.jpg;crt1-l;LS1	6828956	0	1	25137	1	0	next	other	0
+006	376	Response	1	6833607	4651	0
+006	376	Pulse	0	6840000	11044	NA
+006	377	Picture	correct;h36_p12_k_down_left.jpg	6854093	0	1	21308	1	0	next	other	0
+006	378	Picture	h94_p3_i_up_left.jpg;crt1-l;LS1	6875401	0	1	25137	1	0	next	other	0
+006	378	Response	1	6880715	5314	0
+006	378	Pulse	0	6885000	9599	NA
+006	379	Picture	correct;h94_p3_i_up_left.jpg	6900538	0	1	21308	1	0	next	other	0
+006	380	Picture	h53_p32_i_down_right.jpg;crt1-l;LS1	6921846	0	1	25137	1	0	next	other	0
+006	380	Response	2	6927864	6018	0
+006	380	Pulse	0	6930000	8154	NA
+006	381	Picture	correct;h53_p32_i_down_right.jpg	6946983	0	1	21142	1	0	next	other	0
+006	382	Picture	h25_p48_i_down_left.jpg;crt1-l;LS1	6968125	0	1	25137	1	0	next	other	0
+006	382	Response	1	6974320	6195	0
+006	382	Pulse	0	6975000	6875	NA
+006	383	Picture	correct;h25_p48_i_down_left.jpg	6993262	0	1	20143	1	0	next	other	0
+006	384	Picture	fix	7013405	0	1	46112	1	0	next	other	0
+006	384	Pulse	0	7020000	6595	NA
+006	385	Picture	h46_p23_i_down_right.jpg;crt1-l;LS2	7059517	0	1	25137	1	0	next	other	0
+006	385	Pulse	0	7065000	5483	NA
+006	385	Response	2	7066485	6968	0
+006	386	Picture	correct;h46_p23_i_down_right.jpg	7084654	0	1	21142	1	0	next	other	0
+006	387	Picture	h36_p12_k_down_left.jpg;crt1-l;LS2	7105796	0	1	25137	1	0	next	other	0
+006	387	Pulse	0	7110000	4204	NA
+006	387	Response	1	7113482	7686	0
+006	388	Picture	correct;h36_p12_k_down_left.jpg	7130933	0	1	21142	1	0	next	other	0
+006	389	Picture	h22_p21_k_down_left.jpg;crt1-l;LS2	7152075	0	1	25137	1	0	next	other	0
+006	389	Pulse	0	7155000	2925	NA
+006	389	Response	1	7157831	5756	0
+006	390	Picture	correct;h22_p21_k_down_left.jpg	7177212	0	1	21142	1	0	next	other	0
+006	391	Picture	h12_p4_k_down_left.jpg;crt1-l;LS2	7198354	0	1	25137	1	0	next	other	0
+006	391	Pulse	0	7200000	1646	NA
+006	391	Response	1	7202465	4111	0
+006	392	Picture	correct;h12_p4_k_down_left.jpg	7223491	0	1	21142	1	0	next	other	0
+006	393	Picture	h33_p11_k_down_right.jpg;crt1-l;LS2	7244633	0	1	25137	1	0	next	other	0
+006	393	Pulse	0	7245000	367	NA
+006	393	Response	2	7249483	4850	0
+006	394	Picture	correct;h33_p11_k_down_right.jpg	7269770	0	1	21142	1	0	next	other	0
+006	394	Pulse	0	7290000	20230	NA
+006	395	Picture	h94_p3_i_up_left.jpg;crt1-l;LS2	7290911	0	1	25137	1	0	next	other	0
+006	395	Response	1	7296062	5151	0
+006	396	Picture	correct;h94_p3_i_up_left.jpg	7316048	0	1	21142	1	0	next	other	0
+006	396	Pulse	0	7335000	18952	NA
+006	397	Picture	h108_p34_i_up_right.jpg;crt1-l;LS2	7337190	0	1	25137	1	0	next	other	0
+006	397	Response	2	7342973	5783	0
+006	398	Picture	correct;h108_p34_i_up_right.jpg	7362327	0	1	21142	1	0	next	other	0
+006	398	Pulse	0	7380000	17673	NA
+006	399	Picture	h48_p41_k_down_right.jpg;crt1-l;LS2	7383469	0	1	25137	1	0	next	other	0
+006	399	Response	2	7395287	11818	0
+006	400	Picture	correct;h48_p41_k_down_right.jpg	7408606	0	1	21142	1	0	next	other	0
+006	400	Pulse	0	7425000	16394	NA
+006	401	Picture	h18_p6_i_down_right.jpg;crt1-l;LS2	7429748	0	1	25137	1	0	next	other	0
+006	401	Response	2	7437374	7626	0
+006	402	Picture	correct;h18_p6_i_down_right.jpg	7454885	0	1	21142	1	0	next	other	0
+006	402	Pulse	0	7470000	15115	NA
+006	403	Picture	h107_p63_i_up_right.jpg;crt1-l;LS2	7476027	0	1	25137	1	0	next	other	0
+006	403	Response	2	7481286	5259	0
+006	404	Picture	correct;h107_p63_i_up_right.jpg	7501164	0	1	21142	1	0	next	other	0
+006	404	Pulse	0	7515000	13836	NA
+006	405	Picture	h85_p10_i_up_left.jpg;crt1-l;LS2	7522305	0	1	25137	1	0	next	other	0
+006	405	Response	1	7528452	6147	0
+006	406	Picture	correct;h85_p10_i_up_left.jpg	7547443	0	1	21142	1	0	next	other	0
+006	406	Pulse	0	7560000	12557	NA
+006	407	Picture	h53_p32_i_down_right.jpg;crt1-l;LS2	7568584	0	1	25137	1	0	next	other	0
+006	407	Response	2	7575315	6731	0
+006	408	Picture	correct;h53_p32_i_down_right.jpg	7593721	0	1	21142	1	0	next	other	0
+006	408	Pulse	0	7605000	11279	NA
+006	409	Picture	h109_p23_i_up_left.jpg;crt1-l;LS2	7614863	0	1	25137	1	0	next	other	0
+006	409	Response	1	7620377	5514	0
+006	410	Picture	correct;h109_p23_i_up_left.jpg	7640000	0	1	21142	1	0	next	other	0
+006	410	Pulse	0	7650000	10000	NA
+006	411	Picture	h25_p48_i_down_left.jpg;crt1-l;LS2	7661142	0	1	25137	1	0	next	other	0
+006	411	Response	1	7666995	5853	0
+006	412	Picture	correct;h25_p48_i_down_left.jpg	7686279	0	1	20143	1	0	next	other	0
+006	412	Pulse	0	7695000	8721	NA
+006	413	Picture	fix	7706422	0	1	46112	1	0	next	other	0
+006	413	Pulse	0	7740000	33578	NA
+006	414	Picture	h107_p63_i_up_right.jpg;crt1-l;LS3	7752534	0	1	25137	1	0	next	other	0
+006	414	Response	2	7758590	6056	0
+006	415	Picture	correct;h107_p63_i_up_right.jpg	7777671	0	1	21142	1	0	next	other	0
+006	415	Pulse	0	7785000	7329	NA
+006	416	Picture	h33_p11_k_down_right.jpg;crt1-l;LS3	7798813	0	1	25137	1	0	next	other	0
+006	416	Response	2	7803131	4318	0
+006	417	Picture	correct;h33_p11_k_down_right.jpg	7823950	0	1	21142	1	0	next	other	0
+006	417	Pulse	0	7830000	6050	NA
+006	418	Picture	h108_p34_i_up_right.jpg;crt1-l;LS3	7845092	0	1	25137	1	0	next	other	0
+006	418	Response	1	7853314	8222	0
+006	419	Picture	incorrect;h108_p34_i_up_right.jpg	7870229	0	1	21308	1	0	next	other	0
+006	419	Pulse	0	7875000	4771	NA
+006	420	Picture	h22_p21_k_down_left.jpg;crt1-l;LS3	7891537	0	1	25137	1	0	next	other	0
+006	420	Response	1	7897193	5655	0
+006	421	Picture	correct;h22_p21_k_down_left.jpg	7916674	0	1	21142	1	0	next	other	0
+006	421	Pulse	0	7920000	3326	NA
+006	422	Picture	h53_p32_i_down_right.jpg;crt1-l;LS3	7937816	0	1	25137	1	0	next	other	0
+006	422	Response	2	7945150	7334	0
+006	423	Picture	correct;h53_p32_i_down_right.jpg	7962953	0	1	21142	1	0	next	other	0
+006	423	Pulse	0	7965000	2047	NA
+006	424	Picture	h36_p12_k_down_left.jpg;crt1-l;LS3	7984095	0	1	25137	1	0	next	other	0
+006	424	Response	1	7990078	5983	0
+006	425	Picture	correct;h36_p12_k_down_left.jpg	8009232	0	1	21142	1	0	next	other	0
+006	425	Pulse	0	8010000	768	NA
+006	426	Picture	h12_p4_k_down_left.jpg;crt1-l;LS3	8030374	0	1	25137	1	0	next	other	0
+006	426	Response	1	8035558	5184	0
+006	426	Pulse	0	8055000	24626	NA
+006	427	Picture	correct;h12_p4_k_down_left.jpg	8055511	0	1	21142	1	0	next	other	0
+006	428	Picture	h94_p3_i_up_left.jpg;crt1-l;LS3	8076652	0	1	25137	1	0	next	other	0
+006	428	Response	1	8082190	5538	0
+006	428	Pulse	0	8100000	23348	NA
+006	429	Picture	correct;h94_p3_i_up_left.jpg	8101790	0	1	21142	1	0	next	other	0
+006	430	Picture	h85_p10_i_up_left.jpg;crt1-l;LS3	8122931	0	1	25137	1	0	next	other	0
+006	430	Response	1	8128664	5732	0
+006	430	Pulse	0	8145000	22069	NA
+006	431	Picture	correct;h85_p10_i_up_left.jpg	8148068	0	1	21142	1	0	next	other	0
+006	432	Picture	h48_p41_k_down_right.jpg;crt1-l;LS3	8169210	0	1	25137	1	0	next	other	0
+006	432	Response	2	8174121	4911	0
+006	432	Pulse	0	8190000	20790	NA
+006	433	Picture	correct;h48_p41_k_down_right.jpg	8194347	0	1	21142	1	0	next	other	0
+006	434	Picture	h18_p6_i_down_right.jpg;crt1-l;LS3	8215489	0	1	25137	1	0	next	other	0
+006	434	Response	2	8223567	8078	0
+006	434	Pulse	0	8235000	19511	NA
+006	435	Picture	correct;h18_p6_i_down_right.jpg	8240626	0	1	21142	1	0	next	other	0
+006	436	Picture	h25_p48_i_down_left.jpg;crt1-l;LS3	8261768	0	1	25137	1	0	next	other	0
+006	436	Response	1	8267060	5292	0
+006	436	Pulse	0	8280000	18232	NA
+006	437	Picture	correct;h25_p48_i_down_left.jpg	8286905	0	1	21142	1	0	next	other	0
+006	438	Picture	h46_p23_i_down_right.jpg;crt1-l;LS3	8308047	0	1	25137	1	0	next	other	0
+006	438	Response	2	8312964	4917	0
+006	438	Pulse	0	8325000	16953	NA
+006	439	Picture	correct;h46_p23_i_down_right.jpg	8333184	0	1	21142	1	0	next	other	0
+006	440	Picture	h109_p23_i_up_left.jpg;crt1-l;LS3	8354325	0	1	25137	1	0	next	other	0
+006	440	Response	1	8359120	4795	0
+006	440	Pulse	0	8370000	15675	NA
+006	441	Picture	correct;h109_p23_i_up_left.jpg	8379462	0	1	20143	1	0	next	other	0
+006	442	Picture	fix	8399605	0	1	46112	1	0	next	other	0
+006	442	Pulse	0	8415000	15395	NA
+006	443	Picture	h25_p48_i_down_left.jpg;crt1-l;LS4	8445718	0	1	25137	1	0	next	other	0
+006	443	Response	1	8456008	10290	0
+006	443	Pulse	0	8460000	14282	NA
+006	444	Picture	correct;h25_p48_i_down_left.jpg	8470855	0	1	21142	1	0	next	other	0
+006	445	Picture	h107_p63_i_up_right.jpg;crt1-l;LS4	8491997	0	1	25137	1	0	next	other	0
+006	445	Response	2	8497331	5334	0
+006	445	Pulse	0	8505000	13003	NA
+006	446	Picture	correct;h107_p63_i_up_right.jpg	8517134	0	1	21142	1	0	next	other	0
+006	447	Picture	h46_p23_i_down_right.jpg;crt1-l;LS4	8538275	0	1	25137	1	0	next	other	0
+006	447	Response	2	8544017	5742	0
+006	447	Pulse	0	8550000	11725	NA
+006	448	Picture	correct;h46_p23_i_down_right.jpg	8563412	0	1	21142	1	0	next	other	0
+006	449	Picture	h36_p12_k_down_left.jpg;crt1-l;LS4	8584554	0	1	25137	1	0	next	other	0
+006	449	Response	1	8589608	5053	0
+006	449	Pulse	0	8595000	10446	NA
+006	450	Picture	correct;h36_p12_k_down_left.jpg	8609691	0	1	21142	1	0	next	other	0
+006	451	Picture	h33_p11_k_down_right.jpg;crt1-l;LS4	8630833	0	1	25137	1	0	next	other	0
+006	451	Response	2	8636700	5867	0
+006	451	Pulse	0	8640000	9167	NA
+006	452	Picture	correct;h33_p11_k_down_right.jpg	8655970	0	1	21142	1	0	next	other	0
+006	453	Picture	h109_p23_i_up_left.jpg;crt1-l;LS4	8677112	0	1	25137	1	0	next	other	0
+006	453	Response	1	8681927	4815	0
+006	453	Pulse	0	8685000	7888	NA
+006	454	Picture	correct;h109_p23_i_up_left.jpg	8702249	0	1	21142	1	0	next	other	0
+006	455	Picture	h48_p41_k_down_right.jpg;crt1-l;LS4	8723391	0	1	25137	1	0	next	other	0
+006	455	Response	2	8729486	6096	0
+006	455	Pulse	0	8730000	6609	NA
+006	456	Picture	correct;h48_p41_k_down_right.jpg	8748528	0	1	21142	1	0	next	other	0
+006	457	Picture	h18_p6_i_down_right.jpg;crt1-l;LS4	8769669	0	1	25137	1	0	next	other	0
+006	457	Response	2	8773822	4153	0
+006	457	Pulse	0	8775000	5331	NA
+006	458	Picture	correct;h18_p6_i_down_right.jpg	8794807	0	1	21142	1	0	next	other	0
+006	459	Picture	h53_p32_i_down_right.jpg;crt1-l;LS4	8815948	0	1	25137	1	0	next	other	0
+006	459	Pulse	0	8820000	4052	NA
+006	459	Response	2	8821354	5406	0
+006	460	Picture	correct;h53_p32_i_down_right.jpg	8841085	0	1	21142	1	0	next	other	0
+006	461	Picture	h85_p10_i_up_left.jpg;crt1-l;LS4	8862227	0	1	25137	1	0	next	other	0
+006	461	Pulse	0	8865000	2773	NA
+006	461	Response	1	8868561	6333	0
+006	462	Picture	correct;h85_p10_i_up_left.jpg	8887364	0	1	21142	1	0	next	other	0
+006	463	Picture	h22_p21_k_down_left.jpg;crt1-l;LS4	8908506	0	1	25137	1	0	next	other	0
+006	463	Pulse	0	8910000	1494	NA
+006	463	Response	1	8913837	5331	0
+006	464	Picture	correct;h22_p21_k_down_left.jpg	8933643	0	1	21142	1	0	next	other	0
+006	465	Picture	h94_p3_i_up_left.jpg;crt1-l;LS4	8954785	0	1	25137	1	0	next	other	0
+006	465	Pulse	0	8955000	215	NA
+006	465	Response	1	8963629	8844	0
+006	466	Picture	correct;h94_p3_i_up_left.jpg	8979922	0	1	21142	1	0	next	other	0
+006	466	Pulse	0	9000000	20078	NA
+006	467	Picture	h12_p4_k_down_left.jpg;crt1-l;LS4	9001064	0	1	25137	1	0	next	other	0
+006	467	Response	1	9009194	8130	0
+006	468	Picture	correct;h12_p4_k_down_left.jpg	9026201	0	1	21142	1	0	next	other	0
+006	468	Pulse	0	9045000	18799	NA
+006	469	Picture	h108_p34_i_up_right.jpg;crt1-l;LS4	9047342	0	1	25137	1	0	next	other	0
+006	469	Response	2	9052132	4790	0
+006	470	Picture	correct;h108_p34_i_up_right.jpg	9072479	0	1	20143	1	0	next	other	0
+006	470	Pulse	0	9090000	17521	NA
+006	471	Picture	fix	9092622	0	1	45114	1	0	next	other	0
+006	471	Pulse	0	9135000	42378	NA
+006	472	Picture	fix	9137736	0	1	45114	1	0	next	other	0
+006	472	Pulse	0	9180000	42264	NA
+006	473	Picture	fix	9182849	0	1	45114	1	0	next	other	0
+006	473	Pulse	0	9225000	42151	NA
+006	474	Picture	fix	9227963	0	1	45446	1	0	next	other	0
+006	474	Pulse	0	9270000	42037	NA
+006	475	Picture	bubbles/learning.png	9273409	0	1	46112	1	0	next	other	0
+006	475	Pulse	0	9315000	41591	NA
+006	476	Picture	h98_p18_i_up_right.jpg;block3;LS1	9319522	0	1	11154	1	0	next	other	0
+006	476	Response	1	9329396	9874	0
+006	477	Picture	extra Pic Time	9330675	0	1	15315	1	0	next	other	0
+006	478	Picture	incorrect;h98_p19_k_up_right.jpg	9345991	0	1	21142	1	0	next	other	0
+006	478	Pulse	0	9360000	14009	NA
+006	479	Picture	h46_p19_i_down_left.jpg;block3;LS1	9367132	0	1	7991	1	0	next	other	0
+006	479	Response	2	9373877	6745	0
+006	480	Picture	extra Pic Time	9375123	0	1	18478	1	0	next	other	0
+006	481	Picture	correct;h46_p18_k_down_left.jpg	9393601	0	1	21308	1	0	next	other	0
+006	481	Pulse	0	9405000	11399	NA
+006	482	Picture	h48_p42_i_down_left.jpg;block3;LS1	9414909	0	1	8324	1	0	next	other	0
+006	482	Response	1	9421977	7068	0
+006	483	Picture	extra Pic Time	9423233	0	1	18145	1	0	next	other	0
+006	484	Picture	incorrect;h48_p41_k_down_right.jpg	9441378	0	1	21308	1	0	next	other	0
+006	484	Pulse	0	9450000	8622	NA
+006	485	Picture	h94_p2_k_up_left.jpg;block3;LS1	9462686	0	1	8823	1	0	next	other	0
+006	485	Response	1	9470332	7646	0
+006	486	Picture	extra Pic Time	9471509	0	1	17479	1	0	next	other	0
+006	487	Picture	correct;h94_p2_k_up_left.jpg	9488989	0	1	21142	1	0	next	other	0
+006	487	Pulse	0	9495000	6011	NA
+006	488	Picture	h87_p6_i_up_left.jpg;block3;LS1	9510131	0	1	7491	1	0	next	other	0
+006	488	Response	2	9516389	6259	0
+006	489	Picture	extra Pic Time	9517622	0	1	18978	1	0	next	other	0
+006	490	Picture	correct;h87_p9_k_up_left.jpg	9536599	0	1	21142	1	0	next	other	0
+006	490	Pulse	0	9540000	3401	NA
+006	491	Picture	h46_p18_k_down_left.jpg;block3;LS1	9557741	0	1	7325	1	0	next	other	0
+006	491	Response	1	9563910	6169	0
+006	492	Picture	extra Pic Time	9565066	0	1	18978	1	0	next	other	0
+006	493	Picture	correct;h46_p18_k_down_left.jpg	9584043	0	1	21142	1	0	next	other	0
+006	493	Pulse	0	9585000	957	NA
+006	494	Picture	h94_p3_i_up_left.jpg;block3;LS1	9605185	0	1	7158	1	0	next	other	0
+006	494	Response	1	9611076	5890	0
+006	495	Picture	extra Pic Time	9612344	0	1	19311	1	0	next	other	0
+006	495	Pulse	0	9630000	17656	NA
+006	496	Picture	incorrect;h94_p2_k_up_left.jpg	9631654	0	1	21475	1	0	next	other	0
+006	497	Picture	h53_p33_k_down_right.jpg;block3;LS1	9653129	0	1	12152	1	0	next	other	0
+006	497	Response	1	9664001	10872	0
+006	498	Picture	extra Pic Time	9665281	0	1	14317	1	0	next	other	0
+006	498	Pulse	0	9675000	9719	NA
+006	499	Picture	correct;h53_p33_k_down_right.jpg	9679598	0	1	21142	1	0	next	other	0
+006	500	Picture	h87_p9_k_up_left.jpg;block3;LS1	9700739	0	1	10488	1	0	next	other	0
+006	500	Response	1	9710097	9357	0
+006	501	Picture	extra Pic Time	9711227	0	1	15815	1	0	next	other	0
+006	501	Pulse	0	9720000	8773	NA
+006	502	Picture	correct;h87_p9_k_up_left.jpg	9727042	0	1	21142	1	0	next	other	0
+006	503	Picture	h98_p19_k_up_right.jpg;block3;LS1	9748183	0	1	10155	1	0	next	other	0
+006	503	Response	1	9757234	9050	0
+006	504	Picture	extra Pic Time	9758338	0	1	16148	1	0	next	other	0
+006	504	Pulse	0	9765000	6662	NA
+006	505	Picture	correct;h98_p19_k_up_right.jpg	9774486	0	1	21142	1	0	next	other	0
+006	506	Picture	h53_p34_i_down_left.jpg;block3;LS1	9795628	0	1	10821	1	0	next	other	0
+006	506	Response	2	9805305	9677	0
+006	507	Picture	extra Pic Time	9806448	0	1	15482	1	0	next	other	0
+006	507	Pulse	0	9810000	3552	NA
+006	508	Picture	correct;h53_p33_k_down_right.jpg	9821930	0	1	21308	1	0	next	other	0
+006	509	Picture	h89_p39_k_up_left.jpg;block3;LS1	9843238	0	1	11154	1	0	next	other	0
+006	509	Response	2	9853150	9912	0
+006	510	Picture	extra Pic Time	9854392	0	1	15315	1	0	next	other	0
+006	510	Pulse	0	9855000	608	NA
+006	511	Picture	incorrect;h89_p39_k_up_left.jpg	9869707	0	1	21142	1	0	next	other	0
+006	512	Picture	h48_p41_k_down_right.jpg;block3;LS1	9890849	0	1	13651	1	0	next	other	0
+006	512	Pulse	0	9900000	9151	NA
+006	512	Response	1	9903278	12429	0
+006	513	Picture	extra Pic Time	9904499	0	1	12818	1	0	next	other	0
+006	514	Picture	correct;h48_p41_k_down_right.jpg	9917318	0	1	21142	1	0	next	other	0
+006	515	Picture	h89_p38_i_up_left.jpg;block3;LS1	9938459	0	1	11154	1	0	next	other	0
+006	515	Pulse	0	9945000	6541	NA
+006	515	Response	1	9948435	9976	0
+006	516	Picture	extra Pic Time	9949613	0	1	15149	1	0	next	other	0
+006	517	Picture	incorrect;h89_p39_k_up_left.jpg	9964762	0	1	20143	1	0	next	other	0
+006	518	Picture	fix	9984905	0	1	46112	1	0	next	other	0
+006	518	Pulse	0	9990000	5095	NA
+006	519	Picture	h98_p13_i_up_right.jpg;block3;LS2	10031017	0	1	11154	1	0	next	other	0
+006	519	Pulse	0	10035000	3983	NA
+006	519	Response	1	10041005	9988	0
+006	520	Picture	extra Pic Time	10042171	0	1	15149	1	0	next	other	0
+006	521	Picture	incorrect;h98_p19_k_up_right.jpg	10057319	0	1	21142	1	0	next	other	0
+006	522	Picture	h46_p12_i_down_left.jpg;block3;LS2	10078461	0	1	10654	1	0	next	other	0
+006	522	Pulse	0	10080000	1539	NA
+006	522	Response	1	10087889	9428	0
+006	523	Picture	extra Pic Time	10089115	0	1	15815	1	0	next	other	0
+006	524	Picture	incorrect;h46_p18_k_down_left.jpg	10104930	0	1	21142	1	0	next	other	0
+006	524	Pulse	0	10125000	20070	NA
+006	525	Picture	h53_p33_k_down_right.jpg;block3;LS2	10126072	0	1	11154	1	0	next	other	0
+006	525	Response	1	10136072	10000	0
+006	526	Picture	extra Pic Time	10137225	0	1	15149	1	0	next	other	0
+006	527	Picture	correct;h53_p33_k_down_right.jpg	10152374	0	1	21308	1	0	next	other	0
+006	527	Pulse	0	10170000	17626	NA
+006	528	Picture	h94_p1_i_up_left.jpg;block3;LS2	10173682	0	1	10654	1	0	next	other	0
+006	528	Response	1	10183205	9523	0
+006	529	Picture	extra Pic Time	10184336	0	1	15648	1	0	next	other	0
+006	530	Picture	incorrect;h94_p2_k_up_left.jpg	10199985	0	1	21308	1	0	next	other	0
+006	530	Pulse	0	10215000	15015	NA
+006	531	Picture	h87_p10_i_up_left.jpg;block3;LS2	10221293	0	1	10488	1	0	next	other	0
+006	531	Response	2	10230653	9360	0
+006	532	Picture	extra Pic Time	10231781	0	1	15815	1	0	next	other	0
+006	533	Picture	correct;h87_p9_k_up_left.jpg	10247595	0	1	21142	1	0	next	other	0
+006	533	Pulse	0	10260000	12405	NA
+006	534	Picture	h48_p41_k_down_right.jpg;block3;LS2	10268737	0	1	12152	1	0	next	other	0
+006	534	Response	1	10279614	10877	0
+006	535	Picture	extra Pic Time	10280889	0	1	14316	1	0	next	other	0
+006	536	Picture	correct;h48_p41_k_down_right.jpg	10295206	0	1	21142	1	0	next	other	0
+006	536	Pulse	0	10305000	9794	NA
+006	537	Picture	h94_p2_k_up_left.jpg;block3;LS2	10316348	0	1	8490	1	0	next	other	0
+006	537	Response	1	10323717	7370	0
+006	538	Picture	extra Pic Time	10324838	0	1	17812	1	0	next	other	0
+006	539	Picture	correct;h94_p2_k_up_left.jpg	10342650	0	1	21142	1	0	next	other	0
+006	539	Pulse	0	10350000	7350	NA
+006	540	Picture	h53_p32_i_down_right.jpg;block3;LS2	10363792	0	1	9655	1	0	next	other	0
+006	540	Response	2	10372278	8486	0
+006	541	Picture	extra Pic Time	10373447	0	1	16647	1	0	next	other	0
+006	542	Picture	correct;h53_p33_k_down_right.jpg	10390094	0	1	21142	1	0	next	other	0
+006	542	Pulse	0	10395000	4906	NA
+006	543	Picture	h87_p9_k_up_left.jpg;block3;LS2	10411236	0	1	8989	1	0	next	other	0
+006	543	Response	1	10419085	7849	0
+006	544	Picture	extra Pic Time	10420225	0	1	17313	1	0	next	other	0
+006	545	Picture	correct;h87_p9_k_up_left.jpg	10437538	0	1	21142	1	0	next	other	0
+006	545	Pulse	0	10440000	2462	NA
+006	546	Picture	h89_p39_k_up_left.jpg;block3;LS2	10458680	0	1	11653	1	0	next	other	0
+006	546	Response	1	10469067	10387	0
+006	547	Picture	extra Pic Time	10470333	0	1	14816	1	0	next	other	0
+006	547	Pulse	0	10485000	14667	NA
+006	548	Picture	correct;h89_p39_k_up_left.jpg	10485149	0	1	21142	1	0	next	other	0
+006	549	Picture	h98_p19_k_up_right.jpg;block3;LS2	10506290	0	1	9156	1	0	next	other	0
+006	549	Response	2	10514245	7954	0
+006	550	Picture	extra Pic Time	10515446	0	1	17146	1	0	next	other	0
+006	550	Pulse	0	10530000	14554	NA
+006	551	Picture	incorrect;h98_p19_k_up_right.jpg	10532593	0	1	21308	1	0	next	other	0
+006	552	Picture	h48_p40_i_down_right.jpg;block3;LS2	10553901	0	1	11486	1	0	next	other	0
+006	552	Response	2	10564156	10255	0
+006	553	Picture	extra Pic Time	10565388	0	1	14982	1	0	next	other	0
+006	553	Pulse	0	10575000	9612	NA
+006	554	Picture	correct;h48_p41_k_down_right.jpg	10580370	0	1	21142	1	0	next	other	0
+006	555	Picture	h46_p18_k_down_left.jpg;block3;LS2	10601512	0	1	8324	1	0	next	other	0
+006	555	Response	2	10608690	7179	0
+006	556	Picture	extra Pic Time	10609835	0	1	17979	1	0	next	other	0
+006	556	Pulse	0	10620000	10165	NA
+006	557	Picture	incorrect;h46_p18_k_down_left.jpg	10627814	0	1	21142	1	0	next	other	0
+006	558	Picture	h89_p31_i_up_left.jpg;block3;LS2	10648956	0	1	9489	1	0	next	other	0
+006	558	Response	2	10657325	8369	0
+006	559	Picture	extra Pic Time	10658445	0	1	16814	1	0	next	other	0
+006	559	Pulse	0	10665000	6555	NA
+006	560	Picture	correct;h89_p39_k_up_left.jpg	10675258	0	1	20143	1	0	next	other	0
+006	561	Picture	fix	10695401	0	1	46112	1	0	next	other	0
+006	561	Pulse	0	10710000	14599	NA
+006	562	Picture	h53_p34_i_down_left.jpg;block3;LS3	10741513	0	1	11653	1	0	next	other	0
+006	562	Response	2	10751986	10472	0
+006	563	Picture	extra Pic Time	10753166	0	1	14649	1	0	next	other	0
+006	563	Pulse	0	10755000	1834	NA
+006	564	Picture	correct;h53_p33_k_down_right.jpg	10767816	0	1	20975	1	0	next	other	0
+006	565	Picture	h48_p42_i_down_left.jpg;block3;LS3	10788791	0	1	9988	1	0	next	other	0
+006	565	Response	1	10797581	8790	0
+006	566	Picture	extra Pic Time	10798779	0	1	16314	1	0	next	other	0
+006	566	Pulse	0	10800000	1221	NA
+006	567	Picture	incorrect;h48_p41_k_down_right.jpg	10815093	0	1	21142	1	0	next	other	0
+006	568	Picture	h87_p9_k_up_left.jpg;block3;LS3	10836235	0	1	11819	1	0	next	other	0
+006	568	Pulse	0	10845000	8765	NA
+006	568	Response	1	10846828	10592	0
+006	569	Picture	extra Pic Time	10848055	0	1	14649	1	0	next	other	0
+006	570	Picture	correct;h87_p9_k_up_left.jpg	10862704	0	1	21142	1	0	next	other	0
+006	571	Picture	h53_p33_k_down_right.jpg;block3;LS3	10883846	0	1	9156	1	0	next	other	0
+006	571	Pulse	0	10890000	6154	NA
+006	571	Response	1	10891779	7933	0
+006	572	Picture	extra Pic Time	10893002	0	1	17146	1	0	next	other	0
+006	573	Picture	correct;h53_p33_k_down_right.jpg	10910148	0	1	21142	1	0	next	other	0
+006	574	Picture	h89_p39_k_up_left.jpg;block3;LS3	10931290	0	1	10821	1	0	next	other	0
+006	574	Pulse	0	10935000	3710	NA
+006	574	Response	1	10940990	9700	0
+006	575	Picture	extra Pic Time	10942110	0	1	15482	1	0	next	other	0
+006	576	Picture	correct;h89_p39_k_up_left.jpg	10957592	0	1	21142	1	0	next	other	0
+006	577	Picture	h48_p41_k_down_right.jpg;block3;LS3	10978734	0	1	9156	1	0	next	other	0
+006	577	Pulse	0	10980000	1266	NA
+006	577	Response	1	10986794	8060	0
+006	578	Picture	extra Pic Time	10987890	0	1	17147	1	0	next	other	0
+006	579	Picture	correct;h48_p41_k_down_right.jpg	11005036	0	1	20975	1	0	next	other	0
+006	579	Pulse	0	11025000	19964	NA
+006	580	Picture	h46_p19_i_down_left.jpg;block3;LS3	11026012	0	1	11153	1	0	next	other	0
+006	580	Response	2	11035927	9916	0
+006	581	Picture	extra Pic Time	11037165	0	1	15315	1	0	next	other	0
+006	582	Picture	correct;h46_p18_k_down_left.jpg	11052480	0	1	21142	1	0	next	other	0
+006	582	Pulse	0	11070000	17520	NA
+006	583	Picture	h94_p2_k_up_left.jpg;block3;LS3	11073622	0	1	10488	1	0	next	other	0
+006	583	Response	1	11083019	9397	0
+006	584	Picture	extra Pic Time	11084110	0	1	15815	1	0	next	other	0
+006	585	Picture	correct;h94_p2_k_up_left.jpg	11099925	0	1	20975	1	0	next	other	0
+006	585	Pulse	0	11115000	15075	NA
+006	586	Picture	h87_p6_i_up_left.jpg;block3;LS3	11120900	0	1	8490	1	0	next	other	0
+006	586	Response	2	11128265	7365	0
+006	587	Picture	extra Pic Time	11129390	0	1	17812	1	0	next	other	0
+006	588	Picture	correct;h87_p9_k_up_left.jpg	11147202	0	1	20975	1	0	next	other	0
+006	588	Pulse	0	11160000	12798	NA
+006	589	Picture	h98_p18_i_up_right.jpg;block3;LS3	11168177	0	1	9156	1	0	next	other	0
+006	589	Response	2	11176219	8042	0
+006	590	Picture	extra Pic Time	11177333	0	1	17147	1	0	next	other	0
+006	591	Picture	correct;h98_p19_k_up_right.jpg	11194480	0	1	20975	1	0	next	other	0
+006	591	Pulse	0	11205000	10520	NA
+006	592	Picture	h94_p3_i_up_left.jpg;block3;LS3	11215455	0	1	10821	1	0	next	other	0
+006	592	Response	2	11225109	9654	0
+006	593	Picture	extra Pic Time	11226276	0	1	15482	1	0	next	other	0
+006	594	Picture	correct;h94_p2_k_up_left.jpg	11241757	0	1	21142	1	0	next	other	0
+006	594	Pulse	0	11250000	8243	NA
+006	595	Picture	h46_p18_k_down_left.jpg;block3;LS3	11262899	0	1	11320	1	0	next	other	0
+006	595	Response	2	11272952	10053	0
+006	596	Picture	extra Pic Time	11274219	0	1	15149	1	0	next	other	0
+006	597	Picture	incorrect;h46_p18_k_down_left.jpg	11289368	0	1	20975	1	0	next	other	0
+006	597	Pulse	0	11295000	5632	NA
+006	598	Picture	h89_p38_i_up_left.jpg;block3;LS3	11310343	0	1	9489	1	0	next	other	0
+006	598	Response	2	11318556	8213	0
+006	599	Picture	extra Pic Time	11319832	0	1	16980	1	0	next	other	0
+006	600	Picture	correct;h89_p39_k_up_left.jpg	11336812	0	1	21308	1	0	next	other	0
+006	600	Pulse	0	11340000	3188	NA
+006	601	Picture	h98_p19_k_up_right.jpg;block3;LS3	11358120	0	1	9156	1	0	next	other	0
+006	601	Response	2	11366146	8025	0
+006	602	Picture	extra Pic Time	11367276	0	1	17146	1	0	next	other	0
+006	603	Picture	incorrect;h98_p19_k_up_right.jpg	11384423	0	1	20143	1	0	next	other	0
+006	603	Pulse	0	11385000	577	NA
+006	604	Picture	fix	11404566	0	1	46112	1	0	next	other	0
+006	604	Pulse	0	11430000	25434	NA
+006	605	Picture	h46_p23_i_down_left.jpg;block3;LS4	11450678	0	1	10321	1	0	next	other	0
+006	605	Response	2	11459878	9200	0
+006	606	Picture	extra Pic Time	11460999	0	1	15981	1	0	next	other	0
+006	606	Pulse	0	11475000	14001	NA
+006	607	Picture	correct;h46_p18_k_down_left.jpg	11476980	0	1	21142	1	0	next	other	0
+006	608	Picture	h98_p62_i_up_right.jpg;block3;LS4	11498122	0	1	9822	1	0	next	other	0
+006	608	Response	2	11506673	8551	0
+006	609	Picture	extra Pic Time	11507944	0	1	16647	1	0	next	other	0
+006	609	Pulse	0	11520000	12056	NA
+006	610	Picture	correct;h98_p19_k_up_right.jpg	11524591	0	1	21142	1	0	next	other	0
+006	611	Picture	h94_p2_k_up_left.jpg;block3;LS4	11545733	0	1	9655	1	0	next	other	0
+006	611	Response	1	11554125	8393	0
+006	612	Picture	extra Pic Time	11555388	0	1	16814	1	0	next	other	0
+006	612	Pulse	0	11565000	9612	NA
+006	613	Picture	correct;h94_p2_k_up_left.jpg	11572202	0	1	21142	1	0	next	other	0
+006	614	Picture	h89_p50_i_up_left.jpg;block3;LS4	11593343	0	1	10321	1	0	next	other	0
+006	614	Response	2	11602493	9149	0
+006	615	Picture	extra Pic Time	11603665	0	1	15981	1	0	next	other	0
+006	615	Pulse	0	11610000	6335	NA
+006	616	Picture	correct;h89_p39_k_up_left.jpg	11619646	0	1	21142	1	0	next	other	0
+006	617	Picture	h87_p9_k_up_left.jpg;block3;LS4	11640787	0	1	8989	1	0	next	other	0
+006	617	Response	1	11648633	7845	0
+006	618	Picture	extra Pic Time	11649777	0	1	17313	1	0	next	other	0
+006	618	Pulse	0	11655000	5223	NA
+006	619	Picture	correct;h87_p9_k_up_left.jpg	11667090	0	1	21308	1	0	next	other	0
+006	620	Picture	h94_p46_i_up_left.jpg;block3;LS4	11688398	0	1	8157	1	0	next	other	0
+006	620	Response	2	11695379	6981	0
+006	621	Picture	extra Pic Time	11696555	0	1	18145	1	0	next	other	0
+006	621	Pulse	0	11700000	3445	NA
+006	622	Picture	correct;h94_p2_k_up_left.jpg	11714700	0	1	21142	1	0	next	other	0
+006	623	Picture	h87_p8_i_up_left.jpg;block3;LS4	11735842	0	1	10321	1	0	next	other	0
+006	623	Response	2	11744911	9069	0
+006	623	Pulse	0	11745000	9158	NA
+006	624	Picture	extra Pic Time	11746163	0	1	16148	1	0	next	other	0
+006	625	Picture	correct;h87_p9_k_up_left.jpg	11762311	0	1	21142	1	0	next	other	0
+006	626	Picture	h48_p49_i_down_right.jpg;block3;LS4	11783453	0	1	9156	1	0	next	other	0
+006	626	Pulse	0	11790000	6547	NA
+006	626	Response	2	11791413	7961	0
+006	627	Picture	extra Pic Time	11792609	0	1	17146	1	0	next	other	0
+006	628	Picture	correct;h48_p41_k_down_right.jpg	11809755	0	1	21142	1	0	next	other	0
+006	629	Picture	h98_p19_k_up_right.jpg;block3;LS4	11830897	0	1	9489	1	0	next	other	0
+006	629	Pulse	0	11835000	4103	NA
+006	629	Response	2	11839136	8239	0
+006	630	Picture	extra Pic Time	11840386	0	1	16980	1	0	next	other	0
+006	631	Picture	incorrect;h98_p19_k_up_right.jpg	11857366	0	1	21142	1	0	next	other	0
+006	632	Picture	h48_p41_k_down_right.jpg;block3;LS4	11878507	0	1	11986	1	0	next	other	0
+006	632	Pulse	0	11880000	1493	NA
+006	632	Response	1	11889358	10850	0
+006	633	Picture	extra Pic Time	11890493	0	1	14317	1	0	next	other	0
+006	634	Picture	correct;h48_p41_k_down_right.jpg	11904810	0	1	21142	1	0	next	other	0
+006	634	Pulse	0	11925000	20190	NA
+006	635	Picture	h53_p33_k_down_right.jpg;block3;LS4	11925952	0	1	9489	1	0	next	other	0
+006	635	Response	1	11934163	8212	0
+006	636	Picture	extra Pic Time	11935440	0	1	16980	1	0	next	other	0
+006	637	Picture	correct;h53_p33_k_down_right.jpg	11952420	0	1	21142	1	0	next	other	0
+006	637	Pulse	0	11970000	17580	NA
+006	638	Picture	h89_p39_k_up_left.jpg;block3;LS4	11973562	0	1	9489	1	0	next	other	0
+006	638	Response	1	11981755	8193	0
+006	639	Picture	extra Pic Time	11983051	0	1	16980	1	0	next	other	0
+006	640	Picture	correct;h89_p39_k_up_left.jpg	12000031	0	1	21475	1	0	next	other	0
+006	640	Pulse	0	12015000	14969	NA
+006	641	Picture	h46_p18_k_down_left.jpg;block3;LS4	12021506	0	1	12985	1	0	next	other	0
+006	641	Response	1	12033030	11524	0
+006	642	Picture	extra Pic Time	12034490	0	1	13651	1	0	next	other	0
+006	643	Picture	correct;h46_p18_k_down_left.jpg	12048141	0	1	21308	1	0	next	other	0
+006	643	Pulse	0	12060000	11859	NA
+006	644	Picture	h53_p64_i_down_right.jpg;block3;LS4	12069449	0	1	10987	1	0	next	other	0
+006	644	Response	2	12079278	9829	0
+006	645	Picture	extra Pic Time	12080436	0	1	15315	1	0	next	other	0
+006	646	Picture	correct;h53_p33_k_down_right.jpg	12095752	0	1	20143	1	0	next	other	0
+006	646	Pulse	0	12105000	9248	NA
+006	647	Picture	fix	12115894	0	1	45113	1	0	next	other	0
+006	647	Pulse	0	12150000	34106	NA
+006	648	Picture	fix	12161008	0	1	45114	1	0	next	other	0
+006	648	Pulse	0	12195000	33992	NA
+006	649	Picture	fix	12206122	0	1	45113	1	0	next	other	0
+006	649	Pulse	0	12240000	33878	NA
+006	650	Picture	fix	12251235	0	1	45447	1	0	next	other	0
+006	650	Pulse	0	12285000	33765	NA
+006	651	Picture	bubbles/control.png	12296682	0	1	46279	1	0	next	other	0
+006	651	Pulse	0	12330000	33318	NA
+006	652	Picture	h87_p8_i_up_left.jpg;crt2-r;LS1	12342960	0	1	25137	1	0	next	other	0
+006	652	Response	2	12360370	17410	0
+006	653	Picture	correct;h87_p8_i_up_left.jpg	12368097	0	1	21475	1	0	next	other	0
+006	653	Pulse	0	12375000	6903	NA
+006	654	Picture	h42_p5_k_down_left.jpg;crt2-r;LS1	12389572	0	1	25137	1	0	next	other	0
+006	654	Response	2	12396250	6678	0
+006	655	Picture	correct;h42_p5_k_down_left.jpg	12414709	0	1	21308	1	0	next	other	0
+006	655	Pulse	0	12420000	5291	NA
+006	656	Picture	h114_p36_i_up_right.jpg;crt2-r;LS1	12436017	0	1	25137	1	0	next	other	0
+006	656	Response	2	12441543	5526	0
+006	657	Picture	incorrect;h114_p36_i_up_right.jpg	12461154	0	1	21308	1	0	next	other	0
+006	657	Pulse	0	12465000	3846	NA
+006	658	Picture	h98_p62_i_up_right.jpg;crt2-r;LS1	12482463	0	1	25137	1	0	next	other	0
+006	658	Response	1	12491493	9030	0
+006	659	Picture	correct;h98_p62_i_up_right.jpg	12507600	0	1	21308	1	0	next	other	0
+006	659	Pulse	0	12510000	2400	NA
+006	660	Picture	h35_p38_i_down_right.jpg;crt2-r;LS1	12528908	0	1	25137	1	0	next	other	0
+006	660	Response	1	12535707	6799	0
+006	661	Picture	correct;h35_p38_i_down_right.jpg	12554045	0	1	21142	1	0	next	other	0
+006	661	Pulse	0	12555000	955	NA
+006	662	Picture	h32_p61_i_down_right.jpg;crt2-r;LS1	12575187	0	1	25137	1	0	next	other	0
+006	662	Response	1	12581306	6119	0
+006	662	Pulse	0	12600000	24813	NA
+006	663	Picture	correct;h32_p61_i_down_right.jpg	12600324	0	1	21308	1	0	next	other	0
+006	664	Picture	h111_p10_i_up_left.jpg;crt2-r;LS1	12621632	0	1	25137	1	0	next	other	0
+006	664	Response	2	12626984	5352	0
+006	664	Pulse	0	12645000	23368	NA
+006	665	Picture	correct;h111_p10_i_up_left.jpg	12646769	0	1	21475	1	0	next	other	0
+006	666	Picture	h117_p6_i_up_left.jpg;crt2-r;LS1	12668244	0	1	25137	1	0	next	other	0
+006	666	Response	2	12674690	6446	0
+006	666	Pulse	0	12690000	21756	NA
+006	667	Picture	correct;h117_p6_i_up_left.jpg	12693381	0	1	21308	1	0	next	other	0
+006	668	Picture	h116_p57_i_up_right.jpg;crt2-r;LS1	12714689	0	1	25137	1	0	next	other	0
+006	668	Response	1	12720533	5844	0
+006	668	Pulse	0	12735000	20311	NA
+006	669	Picture	correct;h116_p57_i_up_right.jpg	12739826	0	1	21308	1	0	next	other	0
+006	670	Picture	h89_p31_i_up_left.jpg;crt2-r;LS1	12761134	0	1	25137	1	0	next	other	0
+006	670	Response	2	12774911	13777	0
+006	670	Pulse	0	12780000	18866	NA
+006	671	Picture	correct;h89_p31_i_up_left.jpg	12786271	0	1	21308	1	0	next	other	0
+006	672	Picture	h48_p40_i_down_right.jpg;crt2-r;LS1	12807580	0	1	25137	1	0	next	other	0
+006	672	Response	1	12814026	6446	0
+006	672	Pulse	0	12825000	17420	NA
+006	673	Picture	correct;h48_p40_i_down_right.jpg	12832717	0	1	21308	1	0	next	other	0
+006	674	Picture	h94_p1_i_up_left.jpg;crt2-r;LS1	12854025	0	1	25137	1	0	next	other	0
+006	674	Response	2	12862793	8769	0
+006	674	Pulse	0	12870000	15975	NA
+006	675	Picture	correct;h94_p1_i_up_left.jpg	12879162	0	1	21308	1	0	next	other	0
+006	676	Picture	h28_p46_k_down_left.jpg;crt2-r;LS1	12900470	0	1	25137	1	0	next	other	0
+006	676	Response	2	12909058	8588	0
+006	676	Pulse	0	12915000	14530	NA
+006	677	Picture	correct;h28_p46_k_down_left.jpg	12925607	0	1	21308	1	0	next	other	0
+006	678	Picture	h53_p32_i_down_right.jpg;crt2-r;LS1	12946916	0	1	25137	1	0	next	other	0
+006	678	Response	1	12952088	5173	0
+006	678	Pulse	0	12960000	13084	NA
+006	679	Picture	correct;h53_p32_i_down_right.jpg	12972053	0	1	20143	1	0	next	other	0
+006	680	Picture	fix	12992196	0	1	46112	1	0	next	other	0
+006	680	Pulse	0	13005000	12804	NA
+006	681	Picture	h32_p61_i_down_right.jpg;crt2-r;LS2	13038308	0	1	25137	1	0	next	other	0
+006	681	Response	1	13045996	7688	0
+006	681	Pulse	0	13050000	11692	NA
+006	682	Picture	correct;h32_p61_i_down_right.jpg	13063445	0	1	21142	1	0	next	other	0
+006	683	Picture	h98_p62_i_up_right.jpg;crt2-r;LS2	13084587	0	1	25137	1	0	next	other	0
+006	683	Response	1	13092456	7870	0
+006	683	Pulse	0	13095000	10413	NA
+006	684	Picture	correct;h98_p62_i_up_right.jpg	13109724	0	1	21142	1	0	next	other	0
+006	685	Picture	h87_p8_i_up_left.jpg;crt2-r;LS2	13130866	0	1	25137	1	0	next	other	0
+006	685	Response	2	13139948	9083	0
+006	685	Pulse	0	13140000	9134	NA
+006	686	Picture	correct;h87_p8_i_up_left.jpg	13156003	0	1	21142	1	0	next	other	0
+006	687	Picture	h48_p40_i_down_right.jpg;crt2-r;LS2	13177144	0	1	25137	1	0	next	other	0
+006	687	Response	1	13183970	6825	0
+006	687	Pulse	0	13185000	7856	NA
+006	688	Picture	correct;h48_p40_i_down_right.jpg	13202281	0	1	21142	1	0	next	other	0
+006	689	Picture	h28_p46_k_down_left.jpg;crt2-r;LS2	13223423	0	1	25137	1	0	next	other	0
+006	689	Pulse	0	13230000	6577	NA
+006	689	Response	2	13231106	7683	0
+006	690	Picture	correct;h28_p46_k_down_left.jpg	13248560	0	1	21142	1	0	next	other	0
+006	691	Picture	h89_p31_i_up_left.jpg;crt2-r;LS2	13269702	0	1	25137	1	0	next	other	0
+006	691	Pulse	0	13275000	5298	NA
+006	691	Response	2	13281003	11301	0
+006	692	Picture	correct;h89_p31_i_up_left.jpg	13294839	0	1	21142	1	0	next	other	0
+006	693	Picture	h94_p1_i_up_left.jpg;crt2-r;LS2	13315981	0	1	25137	1	0	next	other	0
+006	693	Pulse	0	13320000	4019	NA
+006	693	Response	2	13325446	9466	0
+006	694	Picture	correct;h94_p1_i_up_left.jpg	13341118	0	1	21142	1	0	next	other	0
+006	695	Picture	h35_p38_i_down_right.jpg;crt2-r;LS2	13362260	0	1	25137	1	0	next	other	0
+006	695	Pulse	0	13365000	2740	NA
+006	695	Response	1	13368350	6090	0
+006	696	Picture	correct;h35_p38_i_down_right.jpg	13387397	0	1	21142	1	0	next	other	0
+006	697	Picture	h53_p32_i_down_right.jpg;crt2-r;LS2	13408538	0	1	25137	1	0	next	other	0
+006	697	Pulse	0	13410000	1462	NA
+006	697	Response	1	13413248	4709	0
+006	698	Picture	correct;h53_p32_i_down_right.jpg	13433676	0	1	21308	1	0	next	other	0
+006	699	Picture	h117_p6_i_up_left.jpg;crt2-r;LS2	13454984	0	1	25137	1	0	next	other	0
+006	699	Pulse	0	13455000	16	NA
+006	699	Response	2	13463164	8181	0
+006	700	Picture	correct;h117_p6_i_up_left.jpg	13480121	0	1	21142	1	0	next	other	0
+006	700	Pulse	0	13500000	19879	NA
+006	701	Picture	h114_p36_i_up_right.jpg;crt2-r;LS2	13501263	0	1	25137	1	0	next	other	0
+006	701	Response	1	13506731	5468	0
+006	702	Picture	correct;h114_p36_i_up_right.jpg	13526400	0	1	21142	1	0	next	other	0
+006	702	Pulse	0	13545000	18600	NA
+006	703	Picture	h111_p10_i_up_left.jpg;crt2-r;LS2	13547541	0	1	25137	1	0	next	other	0
+006	703	Response	2	13553535	5993	0
+006	704	Picture	correct;h111_p10_i_up_left.jpg	13572678	0	1	21308	1	0	next	other	0
+006	704	Pulse	0	13590000	17322	NA
+006	705	Picture	h42_p5_k_down_left.jpg;crt2-r;LS2	13593987	0	1	25137	1	0	next	other	0
+006	705	Response	2	13601837	7851	0
+006	706	Picture	correct;h42_p5_k_down_left.jpg	13619124	0	1	21142	1	0	next	other	0
+006	706	Pulse	0	13635000	15876	NA
+006	707	Picture	h116_p57_i_up_right.jpg;crt2-r;LS2	13640266	0	1	25137	1	0	next	other	0
+006	707	Response	1	13646175	5909	0
+006	708	Picture	correct;h116_p57_i_up_right.jpg	13665403	0	1	20143	1	0	next	other	0
+006	708	Pulse	0	13680000	14597	NA
+006	709	Picture	fix	13685545	0	1	46112	1	0	next	other	0
+006	709	Pulse	0	13725000	39455	NA
+006	710	Picture	h53_p32_i_down_right.jpg;crt2-r;LS3	13731658	0	1	25137	1	0	next	other	0
+006	710	Response	1	13742360	10702	0
+006	711	Picture	correct;h53_p32_i_down_right.jpg	13756795	0	1	21142	1	0	next	other	0
+006	711	Pulse	0	13770000	13205	NA
+006	712	Picture	h94_p1_i_up_left.jpg;crt2-r;LS3	13777937	0	1	25137	1	0	next	other	0
+006	712	Response	2	13784793	6856	0
+006	713	Picture	correct;h94_p1_i_up_left.jpg	13803074	0	1	21142	1	0	next	other	0
+006	713	Pulse	0	13815000	11926	NA
+006	714	Picture	h48_p40_i_down_right.jpg;crt2-r;LS3	13824215	0	1	25137	1	0	next	other	0
+006	714	Response	2	13831249	7034	0
+006	715	Picture	incorrect;h48_p40_i_down_right.jpg	13849353	0	1	21142	1	0	next	other	0
+006	715	Pulse	0	13860000	10647	NA
+006	716	Picture	h111_p10_i_up_left.jpg;crt2-r;LS3	13870494	0	1	25137	1	0	next	other	0
+006	716	Response	2	13878740	8245	0
+006	717	Picture	correct;h111_p10_i_up_left.jpg	13895631	0	1	21142	1	0	next	other	0
+006	717	Pulse	0	13905000	9369	NA
+006	718	Picture	h32_p61_i_down_right.jpg;crt2-r;LS3	13916773	0	1	25137	1	0	next	other	0
+006	718	Response	1	13923961	7188	0
+006	719	Picture	correct;h32_p61_i_down_right.jpg	13941910	0	1	21142	1	0	next	other	0
+006	719	Pulse	0	13950000	8090	NA
+006	720	Picture	h89_p31_i_up_left.jpg;crt2-r;LS3	13963052	0	1	25137	1	0	next	other	0
+006	720	Response	2	13970350	7299	0
+006	721	Picture	correct;h89_p31_i_up_left.jpg	13988189	0	1	21308	1	0	next	other	0
+006	721	Pulse	0	13995000	6811	NA
+006	722	Picture	h117_p6_i_up_left.jpg;crt2-r;LS3	14009497	0	1	25137	1	0	next	other	0
+006	722	Response	2	14015938	6440	0
+006	723	Picture	correct;h117_p6_i_up_left.jpg	14034634	0	1	21142	1	0	next	other	0
+006	723	Pulse	0	14040000	5366	NA
+006	724	Picture	h35_p38_i_down_right.jpg;crt2-r;LS3	14055776	0	1	25137	1	0	next	other	0
+006	724	Response	1	14061442	5666	0
+006	725	Picture	correct;h35_p38_i_down_right.jpg	14080913	0	1	21142	1	0	next	other	0
+006	725	Pulse	0	14085000	4087	NA
+006	726	Picture	h114_p36_i_up_right.jpg;crt2-r;LS3	14102055	0	1	25137	1	0	next	other	0
+006	726	Response	1	14111801	9746	0
+006	727	Picture	correct;h114_p36_i_up_right.jpg	14127192	0	1	21142	1	0	next	other	0
+006	727	Pulse	0	14130000	2808	NA
+006	728	Picture	h98_p62_i_up_right.jpg;crt2-r;LS3	14148334	0	1	25137	1	0	next	other	0
+006	728	Response	1	14154742	6408	0
+006	729	Picture	correct;h98_p62_i_up_right.jpg	14173471	0	1	21308	1	0	next	other	0
+006	729	Pulse	0	14175000	1529	NA
+006	730	Picture	h42_p5_k_down_left.jpg;crt2-r;LS3	14194779	0	1	25137	1	0	next	other	0
+006	730	Response	2	14200999	6220	0
+006	731	Picture	correct;h42_p5_k_down_left.jpg	14219916	0	1	21142	1	0	next	other	0
+006	731	Pulse	0	14220000	84	NA
+006	732	Picture	h28_p46_k_down_left.jpg;crt2-r;LS3	14241058	0	1	25137	1	0	next	other	0
+006	732	Response	2	14249091	8033	0
+006	732	Pulse	0	14265000	23942	NA
+006	733	Picture	correct;h28_p46_k_down_left.jpg	14266195	0	1	21142	1	0	next	other	0
+006	734	Picture	h87_p8_i_up_left.jpg;crt2-r;LS3	14287337	0	1	25137	1	0	next	other	0
+006	734	Response	2	14294324	6987	0
+006	734	Pulse	0	14310000	22663	NA
+006	735	Picture	correct;h87_p8_i_up_left.jpg	14312474	0	1	21142	1	0	next	other	0
+006	736	Picture	h116_p57_i_up_right.jpg;crt2-r;LS3	14333615	0	1	25137	1	0	next	other	0
+006	736	Response	1	14340962	7346	0
+006	736	Pulse	0	14355000	21385	NA
+006	737	Picture	correct;h116_p57_i_up_right.jpg	14358752	0	1	20143	1	0	next	other	0
+006	738	Picture	fix	14378895	0	1	46112	1	0	next	other	0
+006	738	Pulse	0	14400000	21105	NA
+006	739	Picture	h35_p38_i_down_right.jpg;crt2-r;LS4	14425008	0	1	25137	1	0	next	other	0
+006	739	Response	1	14434472	9464	0
+006	739	Pulse	0	14445000	19992	NA
+006	740	Picture	correct;h35_p38_i_down_right.jpg	14450145	0	1	21308	1	0	next	other	0
+006	741	Picture	h117_p6_i_up_left.jpg;crt2-r;LS4	14471453	0	1	25137	1	0	next	other	0
+006	741	Response	2	14478097	6644	0
+006	741	Pulse	0	14490000	18547	NA
+006	742	Picture	correct;h117_p6_i_up_left.jpg	14496590	0	1	21142	1	0	next	other	0
+006	743	Picture	h116_p57_i_up_right.jpg;crt2-r;LS4	14517732	0	1	25137	1	0	next	other	0
+006	743	Response	1	14525048	7316	0
+006	743	Pulse	0	14535000	17268	NA
+006	744	Picture	correct;h116_p57_i_up_right.jpg	14542869	0	1	21142	1	0	next	other	0
+006	745	Picture	h53_p32_i_down_right.jpg;crt2-r;LS4	14564011	0	1	25137	1	0	next	other	0
+006	745	Response	1	14569881	5870	0
+006	745	Pulse	0	14580000	15989	NA
+006	746	Picture	correct;h53_p32_i_down_right.jpg	14589148	0	1	21142	1	0	next	other	0
+006	747	Picture	h89_p31_i_up_left.jpg;crt2-r;LS4	14610289	0	1	25137	1	0	next	other	0
+006	747	Response	2	14615109	4819	0
+006	747	Pulse	0	14625000	14711	NA
+006	748	Picture	correct;h89_p31_i_up_left.jpg	14635427	0	1	21142	1	0	next	other	0
+006	749	Picture	h48_p40_i_down_right.jpg;crt2-r;LS4	14656568	0	1	25137	1	0	next	other	0
+006	749	Response	1	14662620	6052	0
+006	749	Pulse	0	14670000	13432	NA
+006	750	Picture	correct;h48_p40_i_down_right.jpg	14681705	0	1	21142	1	0	next	other	0
+006	751	Picture	h32_p61_i_down_right.jpg;crt2-r;LS4	14702847	0	1	25137	1	0	next	other	0
+006	751	Response	1	14708582	5735	0
+006	751	Pulse	0	14715000	12153	NA
+006	752	Picture	correct;h32_p61_i_down_right.jpg	14727984	0	1	21142	1	0	next	other	0
+006	753	Picture	h94_p1_i_up_left.jpg;crt2-r;LS4	14749126	0	1	25137	1	0	next	other	0
+006	753	Response	2	14757170	8044	0
+006	753	Pulse	0	14760000	10874	NA
+006	754	Picture	correct;h94_p1_i_up_left.jpg	14774263	0	1	21142	1	0	next	other	0
+006	755	Picture	h28_p46_k_down_left.jpg;crt2-r;LS4	14795405	0	1	25137	1	0	next	other	0
+006	755	Response	2	14803033	7629	0
+006	755	Pulse	0	14805000	9595	NA
+006	756	Picture	correct;h28_p46_k_down_left.jpg	14820542	0	1	21142	1	0	next	other	0
+006	757	Picture	h114_p36_i_up_right.jpg;crt2-r;LS4	14841684	0	1	25137	1	0	next	other	0
+006	757	Response	1	14847982	6299	0
+006	757	Pulse	0	14850000	8316	NA
+006	758	Picture	correct;h114_p36_i_up_right.jpg	14866821	0	1	21142	1	0	next	other	0
+006	759	Picture	h87_p8_i_up_left.jpg;crt2-r;LS4	14887962	0	1	25137	1	0	next	other	0
+006	759	Pulse	0	14895000	7038	NA
+006	759	Response	2	14895314	7351	0
+006	760	Picture	correct;h87_p8_i_up_left.jpg	14913099	0	1	21142	1	0	next	other	0
+006	761	Picture	h98_p62_i_up_right.jpg;crt2-r;LS4	14934241	0	1	25137	1	0	next	other	0
+006	761	Pulse	0	14940000	5759	NA
+006	761	Response	1	14940511	6270	0
+006	762	Picture	correct;h98_p62_i_up_right.jpg	14959378	0	1	21142	1	0	next	other	0
+006	763	Picture	h42_p5_k_down_left.jpg;crt2-r;LS4	14980520	0	1	25137	1	0	next	other	0
+006	763	Pulse	0	14985000	4480	NA
+006	763	Response	2	14987075	6555	0
+006	764	Picture	correct;h42_p5_k_down_left.jpg	15005657	0	1	21142	1	0	next	other	0
+006	765	Picture	h111_p10_i_up_left.jpg;crt2-r;LS4	15026799	0	1	25137	1	0	next	other	0
+006	765	Pulse	0	15030000	3201	NA
+006	765	Response	1	15037399	10600	0
+006	765	Response	1	15039428	12630	0
+006	765	Response	2	15041260	14461	0
+006	766	Picture	incorrect;h111_p10_i_up_left.jpg	15051936	0	1	20143	1	0	next	other	0
+006	767	Picture	fix	15072079	0	1	45114	1	0	next	other	0
+006	767	Pulse	0	15075000	2921	NA
+006	768	Picture	fix	15117192	0	1	45114	1	0	next	other	0
+006	768	Pulse	0	15120000	2808	NA
+006	769	Picture	fix	15162306	0	1	45114	1	0	next	other	0
+006	769	Pulse	0	15165000	2694	NA
+006	770	Picture	fix	15207419	0	1	45446	1	0	next	other	0
+006	770	Pulse	0	15210000	2581	NA
+006	771	Picture	bubbles/learning.png	15252866	0	1	46279	1	0	next	other	0
+006	771	Pulse	0	15255000	2134	NA
+006	772	Picture	h108_p27_k_up_right.jpg;block4;LS1	15299145	0	1	11486	1	0	next	other	0
+006	772	Pulse	0	15300000	855	NA
+006	772	Response	2	15309467	10322	0
+006	773	Picture	extra Pic Time	15310631	0	1	14816	1	0	next	other	0
+006	774	Picture	incorrect;h108_p27_k_up_right.jpg	15325447	0	1	21142	1	0	next	other	0
+006	774	Pulse	0	15345000	19553	NA
+006	775	Picture	h18_p16_i_down_right.jpg;block4;LS1	15346589	0	1	8656	1	0	next	other	0
+006	775	Response	1	15353930	7341	0
+006	776	Picture	extra Pic Time	15355245	0	1	17812	1	0	next	other	0
+006	777	Picture	incorrect;h18_p7_k_down_right.jpg	15373058	0	1	21308	1	0	next	other	0
+006	777	Pulse	0	15390000	16942	NA
+006	778	Picture	h12_p4_k_down_left.jpg;block4;LS1	15394366	0	1	8490	1	0	next	other	0
+006	778	Response	1	15401619	7253	0
+006	779	Picture	extra Pic Time	15402856	0	1	17979	1	0	next	other	0
+006	780	Picture	correct;h12_p4_k_down_left.jpg	15420835	0	1	21808	1	0	next	other	0
+006	780	Pulse	0	15435000	14165	NA
+006	781	Picture	h109_p51_k_up_left.jpg;block4;LS1	15442642	0	1	12818	1	0	next	other	0
+006	781	Response	2	15454445	11803	0
+006	782	Picture	extra Pic Time	15455461	0	1	13318	1	0	next	other	0
+006	783	Picture	incorrect;h109_p51_k_up_left.jpg	15468778	0	1	21142	1	0	next	other	0
+006	783	Pulse	0	15480000	11222	NA
+006	784	Picture	h108_p34_i_up_right.jpg;block4;LS1	15489920	0	1	10488	1	0	next	other	0
+006	784	Response	1	15499255	9335	0
+006	785	Picture	extra Pic Time	15500408	0	1	15815	1	0	next	other	0
+006	786	Picture	incorrect;h108_p27_k_up_right.jpg	15516222	0	1	21142	1	0	next	other	0
+006	786	Pulse	0	15525000	8778	NA
+006	787	Picture	h22_p15_i_down_left.jpg;block4;LS1	15537364	0	1	9489	1	0	next	other	0
+006	787	Response	1	15545440	8076	0
+006	788	Picture	extra Pic Time	15546853	0	1	17146	1	0	next	other	0
+006	789	Picture	incorrect;h22_p21_k_down_left.jpg	15563999	0	1	21308	1	0	next	other	0
+006	789	Pulse	0	15570000	6001	NA
+006	790	Picture	h107_p41_i_up_left.jpg;block4;LS1	15585308	0	1	7824	1	0	next	other	0
+006	790	Response	2	15591969	6661	0
+006	791	Picture	extra Pic Time	15593132	0	1	18478	1	0	next	other	0
+006	792	Picture	correct;h107_p42_k_up_right.jpg	15611610	0	1	21308	1	0	next	other	0
+006	792	Pulse	0	15615000	3390	NA
+006	793	Picture	h25_p14_k_down_left.jpg;block4;LS1	15632918	0	1	9322	1	0	next	other	0
+006	793	Response	2	15641044	8126	0
+006	794	Picture	extra Pic Time	15642241	0	1	16980	1	0	next	other	0
+006	795	Picture	incorrect;h25_p14_k_down_left.jpg	15659221	0	1	21142	1	0	next	other	0
+006	795	Pulse	0	15660000	779	NA
+006	796	Picture	h12_p13_i_down_left.jpg;block4;LS1	15680362	0	1	8823	1	0	next	other	0
+006	796	Response	1	15687931	7568	0
+006	797	Picture	extra Pic Time	15689185	0	1	17646	1	0	next	other	0
+006	797	Response	1	15690273	1087	0
+006	797	Pulse	0	15705000	15815	NA
+006	798	Picture	incorrect;h12_p4_k_down_left.jpg	15706831	0	1	21308	1	0	next	other	0
+006	799	Picture	h25_p13_i_down_left.jpg;block4;LS1	15728139	0	1	12319	1	0	next	other	0
+006	799	Response	2	15739345	11205	0
+006	800	Picture	extra Pic Time	15740458	0	1	13984	1	0	next	other	0
+006	800	Pulse	0	15750000	9542	NA
+006	801	Picture	correct;h25_p14_k_down_left.jpg	15754442	0	1	21308	1	0	next	other	0
+006	802	Picture	h109_p23_i_up_left.jpg;block4;LS1	15775750	0	1	10488	1	0	next	other	0
+006	802	Response	2	15785252	9502	0
+006	803	Picture	extra Pic Time	15786238	0	1	15648	1	0	next	other	0
+006	803	Pulse	0	15795000	8762	NA
+006	804	Picture	correct;h109_p51_k_up_left.jpg	15801886	0	1	21142	1	0	next	other	0
+006	805	Picture	h22_p21_k_down_left.jpg;block4;LS1	15823028	0	1	13817	1	0	next	other	0
+006	805	Response	1	15835665	12638	0
+006	806	Picture	extra Pic Time	15836845	0	1	12485	1	0	next	other	0
+006	806	Pulse	0	15840000	3155	NA
+006	807	Picture	correct;h22_p21_k_down_left.jpg	15849330	0	1	21142	1	0	next	other	0
+006	808	Picture	h18_p7_k_down_right.jpg;block4;LS1	15870472	0	1	13151	1	0	next	other	0
+006	808	Response	1	15882456	11984	0
+006	809	Picture	extra Pic Time	15883623	0	1	13151	1	0	next	other	0
+006	809	Pulse	0	15885000	1377	NA
+006	810	Picture	correct;h18_p7_k_down_right.jpg	15896774	0	1	21142	1	0	next	other	0
+006	811	Picture	h107_p42_k_up_right.jpg;block4;LS1	15917916	0	1	10321	1	0	next	other	0
+006	811	Response	2	15927025	9109	0
+006	812	Picture	extra Pic Time	15928237	0	1	15981	1	0	next	other	0
+006	812	Pulse	0	15930000	1763	NA
+006	813	Picture	incorrect;h107_p42_k_up_right.jpg	15944218	0	1	20143	1	0	next	other	0
+006	814	Picture	fix	15964361	0	1	46112	1	0	next	other	0
+006	814	Pulse	0	15975000	10639	NA
+006	815	Picture	h107_p42_k_up_right.jpg;block4;LS2	16010474	0	1	26302	1	0	next	other	0
+006	815	Pulse	0	16020000	9526	NA
+006	816	Picture	to late	16036776	0	1	21308	1	0	next	other	0
+006	817	Picture	h108_p51_i_up_left.jpg;block4;LS2	16058084	0	1	10488	1	0	next	other	0
+006	817	Pulse	0	16065000	6916	NA
+006	817	Response	1	16067298	9214	0
+006	818	Picture	extra Pic Time	16068572	0	1	15981	1	0	next	other	0
+006	819	Picture	incorrect;h108_p27_k_up_right.jpg	16084553	0	1	21142	1	0	next	other	0
+006	820	Picture	h25_p14_k_down_left.jpg;block4;LS2	16105695	0	1	9822	1	0	next	other	0
+006	820	Pulse	0	16110000	4305	NA
+006	820	Response	1	16114250	8555	0
+006	821	Picture	extra Pic Time	16115516	0	1	16647	1	0	next	other	0
+006	822	Picture	correct;h25_p14_k_down_left.jpg	16132164	0	1	21142	1	0	next	other	0
+006	823	Picture	h12_p3_i_down_left.jpg;block4;LS2	16153305	0	1	17479	1	0	next	other	0
+006	823	Pulse	0	16155000	1695	NA
+006	823	Response	2	16169613	16308	0
+006	824	Picture	extra Pic Time	16170785	0	1	8823	1	0	next	other	0
+006	825	Picture	correct;h12_p4_k_down_left.jpg	16179608	0	1	21142	1	0	next	other	0
+006	825	Pulse	0	16200000	20392	NA
+006	826	Picture	h25_p48_i_down_left.jpg;block4;LS2	16200749	0	1	13651	1	0	next	other	0
+006	826	Response	2	16213244	12495	0
+006	827	Picture	extra Pic Time	16214400	0	1	12652	1	0	next	other	0
+006	828	Picture	correct;h25_p14_k_down_left.jpg	16227052	0	1	21142	1	0	next	other	0
+006	828	Pulse	0	16245000	17948	NA
+006	829	Picture	h22_p21_k_down_left.jpg;block4;LS2	16248193	0	1	8989	1	0	next	other	0
+006	829	Response	1	16256079	7886	0
+006	830	Picture	extra Pic Time	16257183	0	1	17313	1	0	next	other	0
+006	831	Picture	correct;h22_p21_k_down_left.jpg	16274496	0	1	21142	1	0	next	other	0
+006	831	Pulse	0	16290000	15504	NA
+006	832	Picture	h109_p27_i_up_right.jpg;block4;LS2	16295638	0	1	9655	1	0	next	other	0
+006	832	Response	1	16304241	8603	0
+006	833	Picture	extra Pic Time	16305293	0	1	16481	1	0	next	other	0
+006	834	Picture	incorrect;h109_p51_k_up_left.jpg	16321773	0	1	21142	1	0	next	other	0
+006	834	Pulse	0	16335000	13227	NA
+006	835	Picture	h108_p27_k_up_right.jpg;block4;LS2	16342915	0	1	10987	1	0	next	other	0
+006	835	Response	1	16352644	9729	0
+006	836	Picture	extra Pic Time	16353902	0	1	15482	1	0	next	other	0
+006	837	Picture	correct;h108_p27_k_up_right.jpg	16369384	0	1	21308	1	0	next	other	0
+006	837	Pulse	0	16380000	10616	NA
+006	838	Picture	h107_p43_i_up_right.jpg;block4;LS2	16390692	0	1	11320	1	0	next	other	0
+006	838	Response	1	16400784	10092	0
+006	839	Picture	extra Pic Time	16402012	0	1	15149	1	0	next	other	0
+006	840	Picture	incorrect;h107_p42_k_up_right.jpg	16417161	0	1	21142	1	0	next	other	0
+006	840	Pulse	0	16425000	7839	NA
+006	841	Picture	h18_p6_i_down_right.jpg;block4;LS2	16438303	0	1	9489	1	0	next	other	0
+006	841	Response	2	16446597	8294	0
+006	842	Picture	extra Pic Time	16447792	0	1	16814	1	0	next	other	0
+006	843	Picture	correct;h18_p7_k_down_right.jpg	16464605	0	1	20975	1	0	next	other	0
+006	843	Pulse	0	16470000	5395	NA
+006	844	Picture	h109_p51_k_up_left.jpg;block4;LS2	16485580	0	1	10488	1	0	next	other	0
+006	844	Response	1	16495072	9491	0
+006	845	Picture	extra Pic Time	16496068	0	1	15648	1	0	next	other	0
+006	846	Picture	correct;h109_p51_k_up_left.jpg	16511716	0	1	21142	1	0	next	other	0
+006	846	Pulse	0	16515000	3284	NA
+006	847	Picture	h22_p20_i_down_left.jpg;block4;LS2	16532858	0	1	10654	1	0	next	other	0
+006	847	Response	2	16542248	9390	0
+006	848	Picture	extra Pic Time	16543512	0	1	15815	1	0	next	other	0
+006	849	Picture	correct;h22_p21_k_down_left.jpg	16559327	0	1	21142	1	0	next	other	0
+006	849	Pulse	0	16560000	673	NA
+006	850	Picture	h18_p7_k_down_right.jpg;block4;LS2	16580469	0	1	9822	1	0	next	other	0
+006	850	Response	1	16589067	8599	0
+006	851	Picture	extra Pic Time	16590291	0	1	16481	1	0	next	other	0
+006	851	Pulse	0	16605000	14709	NA
+006	852	Picture	correct;h18_p7_k_down_right.jpg	16606771	0	1	21142	1	0	next	other	0
+006	853	Picture	h12_p4_k_down_left.jpg;block4;LS2	16627913	0	1	9655	1	0	next	other	0
+006	853	Response	2	16636453	8540	0
+006	854	Picture	extra Pic Time	16637568	0	1	16647	1	0	next	other	0
+006	854	Pulse	0	16650000	12432	NA
+006	855	Picture	incorrect;h12_p4_k_down_left.jpg	16654215	0	1	20143	1	0	next	other	0
+006	856	Picture	fix	16674358	0	1	46112	1	0	next	other	0
+006	856	Pulse	0	16695000	20642	NA
+006	857	Picture	h108_p27_k_up_right.jpg;block4;LS3	16720470	0	1	13151	1	0	next	other	0
+006	857	Response	1	16732415	11944	0
+006	858	Picture	extra Pic Time	16733622	0	1	13151	1	0	next	other	0
+006	858	Pulse	0	16740000	6378	NA
+006	859	Picture	correct;h108_p27_k_up_right.jpg	16746773	0	1	21308	1	0	next	other	0
+006	860	Picture	h109_p64_i_up_left.jpg;block4;LS3	16768081	0	1	9156	1	0	next	other	0
+006	860	Response	2	16776198	8117	0
+006	861	Picture	extra Pic Time	16777237	0	1	16980	1	0	next	other	0
+006	861	Pulse	0	16785000	7763	NA
+006	862	Picture	correct;h109_p51_k_up_left.jpg	16794217	0	1	21142	1	0	next	other	0
+006	863	Picture	h18_p7_k_down_right.jpg;block4;LS3	16815359	0	1	9822	1	0	next	other	0
+006	863	Response	1	16824073	8714	0
+006	864	Picture	extra Pic Time	16825180	0	1	16481	1	0	next	other	0
+006	864	Pulse	0	16830000	4820	NA
+006	865	Picture	correct;h18_p7_k_down_right.jpg	16841661	0	1	21142	1	0	next	other	0
+006	866	Picture	h107_p42_k_up_right.jpg;block4;LS3	16862803	0	1	10987	1	0	next	other	0
+006	866	Response	1	16872671	9868	0
+006	867	Picture	extra Pic Time	16873790	0	1	15315	1	0	next	other	0
+006	867	Pulse	0	16875000	1210	NA
+006	868	Picture	correct;h107_p42_k_up_right.jpg	16889105	0	1	21142	1	0	next	other	0
+006	869	Picture	h22_p21_k_down_left.jpg;block4;LS3	16910247	0	1	9156	1	0	next	other	0
+006	869	Response	1	16918307	8060	0
+006	870	Picture	extra Pic Time	16919403	0	1	17146	1	0	next	other	0
+006	870	Pulse	0	16920000	597	NA
+006	871	Picture	correct;h22_p21_k_down_left.jpg	16936549	0	1	20975	1	0	next	other	0
+006	872	Picture	h109_p51_k_up_left.jpg;block4;LS3	16957525	0	1	8324	1	0	next	other	0
+006	872	Response	1	16964737	7212	0
+006	872	Pulse	0	16965000	7475	NA
+006	873	Picture	extra Pic Time	16965848	0	1	17979	1	0	next	other	0
+006	874	Picture	correct;h109_p51_k_up_left.jpg	16983827	0	1	21142	1	0	next	other	0
+006	875	Picture	h12_p4_k_down_left.jpg;block4;LS3	17004969	0	1	8989	1	0	next	other	0
+006	875	Pulse	0	17010000	5031	NA
+006	875	Response	1	17012795	7826	0
+006	876	Picture	extra Pic Time	17013958	0	1	17313	1	0	next	other	0
+006	877	Picture	correct;h12_p4_k_down_left.jpg	17031271	0	1	21308	1	0	next	other	0
+006	878	Picture	h107_p63_i_up_right.jpg;block4;LS3	17052579	0	1	8989	1	0	next	other	0
+006	878	Pulse	0	17055000	2421	NA
+006	878	Response	2	17060345	7766	0
+006	879	Picture	extra Pic Time	17061569	0	1	17313	1	0	next	other	0
+006	880	Picture	correct;h107_p42_k_up_right.jpg	17078881	0	1	21142	1	0	next	other	0
+006	880	Pulse	0	17100000	21119	NA
+006	881	Picture	h25_p14_k_down_left.jpg;block4;LS3	17100023	0	1	12152	1	0	next	other	0
+006	881	Response	1	17111079	11056	0
+006	882	Picture	extra Pic Time	17112176	0	1	14150	1	0	next	other	0
+006	883	Picture	correct;h25_p14_k_down_left.jpg	17126326	0	1	21142	1	0	next	other	0
+006	883	Pulse	0	17145000	18674	NA
+006	884	Picture	h18_p8_i_down_right.jpg;block4;LS3	17147468	0	1	9655	1	0	next	other	0
+006	884	Response	2	17155968	8501	0
+006	885	Picture	extra Pic Time	17157123	0	1	16647	1	0	next	other	0
+006	886	Picture	correct;h18_p7_k_down_right.jpg	17173770	0	1	21142	1	0	next	other	0
+006	886	Pulse	0	17190000	16230	NA
+006	887	Picture	h25_p56_i_down_left.jpg;block4;LS3	17194912	0	1	8989	1	0	next	other	0
+006	887	Response	2	17202699	7788	0
+006	888	Picture	extra Pic Time	17203901	0	1	17313	1	0	next	other	0
+006	889	Picture	correct;h25_p14_k_down_left.jpg	17221214	0	1	21142	1	0	next	other	0
+006	889	Pulse	0	17235000	13786	NA
+006	890	Picture	h108_p52_i_up_right.jpg;block4;LS3	17242356	0	1	10321	1	0	next	other	0
+006	890	Response	2	17251559	9204	0
+006	891	Picture	extra Pic Time	17252677	0	1	15981	1	0	next	other	0
+006	892	Picture	correct;h108_p27_k_up_right.jpg	17268658	0	1	21308	1	0	next	other	0
+006	892	Pulse	0	17280000	11342	NA
+006	893	Picture	h12_p48_i_down_left.jpg;block4;LS3	17289966	0	1	8989	1	0	next	other	0
+006	893	Response	2	17297815	7849	0
+006	894	Picture	extra Pic Time	17298956	0	1	17313	1	0	next	other	0
+006	895	Picture	correct;h12_p4_k_down_left.jpg	17316269	0	1	21308	1	0	next	other	0
+006	895	Pulse	0	17325000	8731	NA
+006	896	Picture	h22_p24_i_down_left.jpg;block4;LS3	17337577	0	1	8157	1	0	next	other	0
+006	896	Response	2	17344601	7024	0
+006	897	Picture	extra Pic Time	17345734	0	1	18145	1	0	next	other	0
+006	898	Picture	correct;h22_p21_k_down_left.jpg	17363879	0	1	20143	1	0	next	other	0
+006	898	Pulse	0	17370000	6121	NA
+006	899	Picture	fix	17384022	0	1	46112	1	0	next	other	0
+006	899	Pulse	0	17415000	30978	NA
+006	900	Picture	h22_p15_i_down_left.jpg;block4;LS4	17430135	0	1	13151	1	0	next	other	0
+006	900	Response	1	17442042	11907	0
+006	901	Picture	extra Pic Time	17443286	0	1	13318	1	0	next	other	0
+006	902	Picture	incorrect;h22_p21_k_down_left.jpg	17456603	0	1	20975	1	0	next	other	0
+006	902	Pulse	0	17460000	3397	NA
+006	903	Picture	h107_p41_i_up_left.jpg;block4;LS4	17477579	0	1	14150	1	0	next	other	0
+006	903	Response	2	17490467	12888	0
+006	904	Picture	extra Pic Time	17491729	0	1	12319	1	0	next	other	0
+006	905	Picture	correct;h107_p42_k_up_right.jpg	17504047	0	1	21142	1	0	next	other	0
+006	905	Pulse	0	17505000	953	NA
+006	906	Picture	h25_p14_k_down_left.jpg;block4;LS4	17525189	0	1	9156	1	0	next	other	0
+006	906	Response	1	17533151	7962	0
+006	907	Picture	extra Pic Time	17534345	0	1	17146	1	0	next	other	0
+006	907	Pulse	0	17550000	15655	NA
+006	908	Picture	correct;h25_p14_k_down_left.jpg	17551492	0	1	21142	1	0	next	other	0
+006	909	Picture	h12_p4_k_down_left.jpg;block4;LS4	17572633	0	1	7824	1	0	next	other	0
+006	909	Response	1	17579296	6663	0
+006	910	Picture	extra Pic Time	17580457	0	1	18478	1	0	next	other	0
+006	910	Pulse	0	17595000	14543	NA
+006	911	Picture	correct;h12_p4_k_down_left.jpg	17598936	0	1	21142	1	0	next	other	0
+006	912	Picture	h22_p21_k_down_left.jpg;block4;LS4	17620077	0	1	8490	1	0	next	other	0
+006	912	Response	1	17627424	7347	0
+006	913	Picture	extra Pic Time	17628567	0	1	17812	1	0	next	other	0
+006	913	Pulse	0	17640000	11433	NA
+006	914	Picture	correct;h22_p21_k_down_left.jpg	17646380	0	1	21142	1	0	next	other	0
+006	915	Picture	h18_p7_k_down_right.jpg;block4;LS4	17667522	0	1	11819	1	0	next	other	0
+006	915	Response	1	17678220	10698	0
+006	916	Picture	extra Pic Time	17679341	0	1	14483	1	0	next	other	0
+006	916	Pulse	0	17685000	5659	NA
+006	917	Picture	correct;h18_p7_k_down_right.jpg	17693824	0	1	20975	1	0	next	other	0
+006	918	Picture	h109_p51_k_up_left.jpg;block4;LS4	17714799	0	1	12818	1	0	next	other	0
+006	918	Response	1	17726513	11714	0
+006	919	Picture	extra Pic Time	17727617	0	1	13484	1	0	next	other	0
+006	919	Pulse	0	17730000	2383	NA
+006	920	Picture	correct;h109_p51_k_up_left.jpg	17741102	0	1	21142	1	0	next	other	0
+006	921	Picture	h108_p27_k_up_right.jpg;block4;LS4	17762243	0	1	5660	1	0	next	other	0
+006	921	Response	2	17766706	4463	0
+006	922	Picture	extra Pic Time	17767903	0	1	20642	1	0	next	other	0
+006	922	Response	2	17768477	574	0
+006	922	Response	1	17770482	2578	0
+006	922	Pulse	0	17775000	7097	NA
+006	923	Picture	incorrect;h108_p27_k_up_right.jpg	17788546	0	1	20975	1	0	next	other	0
+006	924	Picture	h18_p16_i_down_right.jpg;block4;LS4	17809521	0	1	10155	1	0	next	other	0
+006	924	Response	1	17818557	9036	0
+006	925	Picture	extra Pic Time	17819676	0	1	16148	1	0	next	other	0
+006	925	Pulse	0	17820000	324	NA
+006	926	Picture	incorrect;h18_p7_k_down_right.jpg	17835823	0	1	20975	1	0	next	other	0
+006	927	Picture	h108_p34_i_up_right.jpg;block4;LS4	17856799	0	1	10821	1	0	next	other	0
+006	927	Pulse	0	17865000	8201	NA
+006	927	Response	2	17866423	9625	0
+006	928	Picture	extra Pic Time	17867619	0	1	15482	1	0	next	other	0
+006	929	Picture	correct;h108_p27_k_up_right.jpg	17883101	0	1	20975	1	0	next	other	0
+006	930	Picture	h109_p23_i_up_left.jpg;block4;LS4	17904076	0	1	9655	1	0	next	other	0
+006	930	Pulse	0	17910000	5924	NA
+006	930	Response	2	17912601	8525	0
+006	931	Picture	extra Pic Time	17913732	0	1	16647	1	0	next	other	0
+006	932	Picture	correct;h109_p51_k_up_left.jpg	17930379	0	1	21142	1	0	next	other	0
+006	933	Picture	h107_p42_k_up_right.jpg;block4;LS4	17951520	0	1	11320	1	0	next	other	0
+006	933	Pulse	0	17955000	3480	NA
+006	933	Response	1	17961719	10198	0
+006	934	Picture	extra Pic Time	17962840	0	1	14982	1	0	next	other	0
+006	935	Picture	correct;h107_p42_k_up_right.jpg	17977823	0	1	20975	1	0	next	other	0
+006	936	Picture	h25_p13_i_down_left.jpg;block4;LS4	17998798	0	1	9988	1	0	next	other	0
+006	936	Pulse	0	18000000	1202	NA
+006	936	Response	2	18007566	8768	0
+006	937	Picture	extra Pic Time	18008786	0	1	16314	1	0	next	other	0
+006	938	Picture	correct;h25_p14_k_down_left.jpg	18025100	0	1	20975	1	0	next	other	0
+006	938	Pulse	0	18045000	19900	NA
+006	939	Picture	h12_p13_i_down_left.jpg;block4;LS4	18046076	0	1	9822	1	0	next	other	0
+006	939	Response	2	18054748	8672	0
+006	940	Picture	extra Pic Time	18055897	0	1	16481	1	0	next	other	0
+006	941	Picture	correct;h12_p4_k_down_left.jpg	18072378	0	1	20143	1	0	next	other	0
+006	941	Pulse	0	18090000	17622	NA
+006	942	Picture	fix	18092521	0	1	52313	1	0	next	other	0
+006	942	Pulse	0	18135000	42479	NA
+
+
+{
+   "app": "Presentation Version 20.3 Build 02.01.19",
+   "device": "HP HP EliteBook 840 G3",
+   "experiment": "{DAED9F8E-CE21-41E2-A450-B84AB5F8B400}",
+   "os": "Windows 7 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "006",
+   "timestamp": "2024/06/14 11:31:20 GMT"
+}

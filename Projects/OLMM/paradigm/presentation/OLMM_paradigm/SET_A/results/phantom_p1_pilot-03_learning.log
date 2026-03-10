@@ -1,0 +1,463 @@
+Scenario - block_1
+Logfile written - 05/26/2024 13:59:42
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+phantom_p1_pilot	1	Picture	Hello - Intro	10333	0	1	389949	1	0	next	other	0
+phantom_p1_pilot	1	Port Input	115	370032	359699	1
+phantom_p1_pilot	1	Pulse	30	370032	359699	1
+phantom_p1_pilot	1	Port Input	115	380107	369774	1
+phantom_p1_pilot	1	Pulse	30	380107	369774	1
+phantom_p1_pilot	1	Port Input	115	390021	379689	1
+phantom_p1_pilot	1	Pulse	30	390021	379689	1
+phantom_p1_pilot	1	Port Input	115	400097	389764	1
+phantom_p1_pilot	1	Pulse	30	400097	389764	1
+phantom_p1_pilot	2	Picture	fix	400282	0	1	45161	1	0	next	other	0
+phantom_p1_pilot	2	Port Input	115	410012	9730	1
+phantom_p1_pilot	2	Pulse	30	410012	9730	1
+phantom_p1_pilot	2	Port Input	115	420087	19805	1
+phantom_p1_pilot	2	Pulse	30	420087	19805	1
+phantom_p1_pilot	2	Port Input	115	430002	29720	1
+phantom_p1_pilot	2	Pulse	30	430002	29720	1
+phantom_p1_pilot	2	Port Input	115	440077	39795	1
+phantom_p1_pilot	2	Pulse	30	440077	39795	1
+phantom_p1_pilot	3	Picture	fix	445443	0	1	45161	1	0	next	other	0
+phantom_p1_pilot	3	Port Input	115	449993	4550	1
+phantom_p1_pilot	3	Pulse	30	449993	4550	1
+phantom_p1_pilot	3	Port Input	115	460067	14624	1
+phantom_p1_pilot	3	Pulse	30	460067	14624	1
+phantom_p1_pilot	3	Port Input	115	469983	24540	1
+phantom_p1_pilot	3	Pulse	30	469983	24540	1
+phantom_p1_pilot	3	Port Input	115	480058	34615	1
+phantom_p1_pilot	3	Pulse	30	480058	34615	1
+phantom_p1_pilot	3	Port Input	115	490133	44690	1
+phantom_p1_pilot	3	Pulse	30	490133	44690	1
+phantom_p1_pilot	4	Picture	fix	490604	0	1	45327	1	0	next	other	0
+phantom_p1_pilot	4	Port Input	115	500048	9445	1
+phantom_p1_pilot	4	Pulse	30	500048	9445	1
+phantom_p1_pilot	4	Port Input	115	510123	19520	1
+phantom_p1_pilot	4	Pulse	30	510123	19520	1
+phantom_p1_pilot	4	Port Input	115	520038	29435	1
+phantom_p1_pilot	4	Pulse	30	520038	29435	1
+phantom_p1_pilot	4	Port Input	115	530113	39510	1
+phantom_p1_pilot	4	Pulse	30	530113	39510	1
+phantom_p1_pilot	5	Picture	bubbles/learning.png	535931	0	1	45827	1	0	next	other	0
+phantom_p1_pilot	5	Port Input	115	540028	4097	1
+phantom_p1_pilot	5	Pulse	30	540028	4097	1
+phantom_p1_pilot	5	Port Input	115	550104	14173	1
+phantom_p1_pilot	5	Pulse	30	550104	14173	1
+phantom_p1_pilot	5	Port Input	115	560019	24088	1
+phantom_p1_pilot	5	Pulse	30	560019	24088	1
+phantom_p1_pilot	5	Port Input	115	570094	34163	1
+phantom_p1_pilot	5	Pulse	30	570094	34163	1
+phantom_p1_pilot	5	Port Input	115	580010	44079	1
+phantom_p1_pilot	5	Pulse	30	580010	44079	1
+phantom_p1_pilot	6	Picture	h54_p3_k_up_q2_right.jpg;block1;LS1	581758	0	1	8332	1	0	next	other	0
+phantom_p1_pilot	6	Port Input	98	589285	7527	1
+phantom_p1_pilot	6	Response	1	589285	7527	1
+phantom_p1_pilot	6	Port Input	115	590085	8327	1
+phantom_p1_pilot	6	Pulse	30	590085	8327	1
+phantom_p1_pilot	7	Picture	extra Pic Time	590091	0	1	17664	1	0	next	other	0
+phantom_p1_pilot	7	Port Input	115	600000	9910	1
+phantom_p1_pilot	7	Pulse	30	600000	9910	1
+phantom_p1_pilot	8	Picture	correct;h54_p3_k_up_q2_right.jpg	607755	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	8	Port Input	115	610075	2320	1
+phantom_p1_pilot	8	Pulse	30	610075	2320	1
+phantom_p1_pilot	8	Port Input	115	619991	12235	1
+phantom_p1_pilot	8	Pulse	30	619991	12235	1
+phantom_p1_pilot	9	Picture	h56_p14_i_up_right.jpg;block1;LS1	628586	0	1	8666	1	0	next	other	0
+phantom_p1_pilot	9	Port Input	115	630066	1480	1
+phantom_p1_pilot	9	Pulse	30	630066	1480	1
+phantom_p1_pilot	9	Port Input	97	636303	7717	1
+phantom_p1_pilot	9	Response	2	636303	7717	1
+phantom_p1_pilot	10	Picture	extra Pic Time	637251	0	1	17498	1	0	next	other	0
+phantom_p1_pilot	10	Port Input	115	639981	2730	1
+phantom_p1_pilot	10	Pulse	30	639981	2730	1
+phantom_p1_pilot	10	Port Input	115	650057	12805	1
+phantom_p1_pilot	10	Pulse	30	650057	12805	1
+phantom_p1_pilot	11	Picture	correct;h56_p13_k_up_q2_right.jpg	654749	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	11	Port Input	115	660132	5383	1
+phantom_p1_pilot	11	Pulse	30	660132	5383	1
+phantom_p1_pilot	11	Port Input	115	670047	15298	1
+phantom_p1_pilot	11	Pulse	30	670047	15298	1
+phantom_p1_pilot	12	Picture	h58_p6_k_down_q3_right.jpg;block1;LS1	675579	0	1	10832	1	0	next	other	0
+phantom_p1_pilot	12	Port Input	115	680122	4542	1
+phantom_p1_pilot	12	Pulse	30	680122	4542	1
+phantom_p1_pilot	12	Port Input	98	685399	9820	1
+phantom_p1_pilot	12	Response	1	685399	9820	1
+phantom_p1_pilot	13	Picture	extra Pic Time	686411	0	1	15331	1	0	next	other	0
+phantom_p1_pilot	13	Port Input	115	690037	3625	1
+phantom_p1_pilot	13	Pulse	30	690037	3625	1
+phantom_p1_pilot	13	Port Input	115	700113	13701	1
+phantom_p1_pilot	13	Pulse	30	700113	13701	1
+phantom_p1_pilot	14	Picture	correct;h58_p6_k_down_q3_right.jpg	701743	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	14	Port Input	115	710027	8285	1
+phantom_p1_pilot	14	Pulse	30	710027	8285	1
+phantom_p1_pilot	14	Port Input	115	720103	18360	1
+phantom_p1_pilot	14	Pulse	30	720103	18360	1
+phantom_p1_pilot	15	Picture	h50_p45_k_up_q3_right.jpg;block1;LS1	722573	0	1	9999	1	0	next	other	0
+phantom_p1_pilot	15	Port Input	115	730018	7445	1
+phantom_p1_pilot	15	Pulse	30	730018	7445	1
+phantom_p1_pilot	15	Port Input	97	731617	9044	1
+phantom_p1_pilot	15	Response	2	731617	9044	1
+phantom_p1_pilot	16	Picture	extra Pic Time	732572	0	1	16165	1	0	next	other	0
+phantom_p1_pilot	16	Port Input	115	740093	7521	1
+phantom_p1_pilot	16	Pulse	30	740093	7521	1
+phantom_p1_pilot	17	Picture	incorrect;h50_p45_k_up_q3_right.jpg	748737	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	17	Port Input	115	750008	1272	1
+phantom_p1_pilot	17	Pulse	30	750008	1272	1
+phantom_p1_pilot	17	Port Input	115	760083	11346	1
+phantom_p1_pilot	17	Pulse	30	760083	11346	1
+phantom_p1_pilot	18	Picture	h57_p37_i_down_left.jpg;block1;LS1	769567	0	1	8166	1	0	next	other	0
+phantom_p1_pilot	18	Port Input	115	769998	431	1
+phantom_p1_pilot	18	Pulse	30	769998	431	1
+phantom_p1_pilot	18	Port Input	98	776715	7148	1
+phantom_p1_pilot	18	Response	1	776715	7148	1
+phantom_p1_pilot	19	Picture	extra Pic Time	777733	0	1	17998	1	0	next	other	0
+phantom_p1_pilot	19	Port Input	115	780073	2340	1
+phantom_p1_pilot	19	Pulse	30	780073	2340	1
+phantom_p1_pilot	19	Port Input	115	789989	12256	1
+phantom_p1_pilot	19	Pulse	30	789989	12256	1
+phantom_p1_pilot	20	Picture	incorrect;h57_p36_k_down_q1_left.jpg	795731	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	20	Port Input	115	800064	4334	1
+phantom_p1_pilot	20	Pulse	30	800064	4334	1
+phantom_p1_pilot	20	Port Input	115	809979	14249	1
+phantom_p1_pilot	20	Pulse	30	809979	14249	1
+phantom_p1_pilot	21	Picture	h55_p22_k_down_q4_right.jpg;block1;LS1	816561	0	1	10165	1	0	next	other	0
+phantom_p1_pilot	21	Port Input	115	820054	3493	1
+phantom_p1_pilot	21	Pulse	30	820054	3493	1
+phantom_p1_pilot	21	Port Input	97	825972	9411	1
+phantom_p1_pilot	21	Response	2	825972	9411	1
+phantom_p1_pilot	22	Picture	extra Pic Time	826726	0	1	15831	1	0	next	other	0
+phantom_p1_pilot	22	Port Input	115	830129	3403	1
+phantom_p1_pilot	22	Pulse	30	830129	3403	1
+phantom_p1_pilot	22	Port Input	115	840045	13318	1
+phantom_p1_pilot	22	Pulse	30	840045	13318	1
+phantom_p1_pilot	23	Picture	incorrect;h55_p22_k_down_q4_right.jpg	842558	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	23	Port Input	115	850120	7562	1
+phantom_p1_pilot	23	Pulse	30	850120	7562	1
+phantom_p1_pilot	23	Port Input	115	860035	17477	1
+phantom_p1_pilot	23	Pulse	30	860035	17477	1
+phantom_p1_pilot	24	Picture	h51_p24_k_up_q3_right.jpg;block1;LS1	863388	0	1	15998	1	0	next	other	0
+phantom_p1_pilot	24	Port Input	115	870110	6722	1
+phantom_p1_pilot	24	Pulse	30	870110	6722	1
+phantom_p1_pilot	24	Port Input	97	878426	15038	1
+phantom_p1_pilot	24	Response	2	878426	15038	1
+phantom_p1_pilot	25	Picture	extra Pic Time	879386	0	1	10165	1	0	next	other	0
+phantom_p1_pilot	25	Port Input	115	880025	639	1
+phantom_p1_pilot	25	Pulse	30	880025	639	1
+phantom_p1_pilot	26	Picture	incorrect;h51_p24_k_up_q3_right.jpg	889552	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	26	Port Input	115	890100	549	1
+phantom_p1_pilot	26	Pulse	30	890100	549	1
+phantom_p1_pilot	26	Port Input	115	900016	10464	1
+phantom_p1_pilot	26	Pulse	30	900016	10464	1
+phantom_p1_pilot	26	Port Input	115	909552	20001	718
+phantom_p1_pilot	26	Pulse	30	909552	20001	718
+phantom_p1_pilot	27	Picture	h57_p36_k_down_q1_left.jpg;block1;LS1	910382	0	1	11499	1	0	next	other	0
+phantom_p1_pilot	27	Port Input	115	920006	9623	1
+phantom_p1_pilot	27	Pulse	30	920006	9623	1
+phantom_p1_pilot	27	Port Input	98	920965	10583	1
+phantom_p1_pilot	27	Response	1	920965	10583	1
+phantom_p1_pilot	28	Picture	extra Pic Time	921881	0	1	14498	1	0	next	other	0
+phantom_p1_pilot	28	Port Input	115	930081	8200	1
+phantom_p1_pilot	28	Pulse	30	930081	8200	1
+phantom_p1_pilot	29	Picture	correct;h57_p36_k_down_q1_left.jpg	936379	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	29	Port Input	115	939997	3618	1
+phantom_p1_pilot	29	Pulse	30	939997	3618	1
+phantom_p1_pilot	29	Port Input	115	950072	13693	1
+phantom_p1_pilot	29	Pulse	30	950072	13693	1
+phantom_p1_pilot	30	Picture	h56_p13_k_up_q2_right.jpg;block1;LS1	957209	0	1	11832	1	0	next	other	0
+phantom_p1_pilot	30	Port Input	115	959987	2777	1
+phantom_p1_pilot	30	Pulse	30	959987	2777	1
+phantom_p1_pilot	30	Port Input	97	968143	10933	1
+phantom_p1_pilot	30	Response	2	968143	10933	1
+phantom_p1_pilot	31	Picture	extra Pic Time	969041	0	1	14165	1	0	next	other	0
+phantom_p1_pilot	31	Port Input	115	970062	1021	1
+phantom_p1_pilot	31	Pulse	30	970062	1021	1
+phantom_p1_pilot	31	Port Input	115	979977	10936	1
+phantom_p1_pilot	31	Pulse	30	979977	10936	1
+phantom_p1_pilot	32	Picture	incorrect;h56_p13_k_up_q2_right.jpg	983206	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	32	Port Input	115	990052	6846	1
+phantom_p1_pilot	32	Pulse	30	990052	6846	1
+phantom_p1_pilot	32	Port Input	115	1000128	16922	1
+phantom_p1_pilot	32	Pulse	30	1000128	16922	1
+phantom_p1_pilot	33	Picture	h50_p37_i_up_right.jpg;block1;LS1	1004037	0	1	15831	1	0	next	other	0
+phantom_p1_pilot	33	Port Input	115	1010042	6006	1
+phantom_p1_pilot	33	Pulse	30	1010042	6006	1
+phantom_p1_pilot	33	Port Input	98	1018998	14961	1
+phantom_p1_pilot	33	Response	1	1018998	14961	1
+phantom_p1_pilot	34	Picture	extra Pic Time	1019868	0	1	10165	1	0	next	other	0
+phantom_p1_pilot	34	Port Input	115	1020118	250	1
+phantom_p1_pilot	34	Pulse	30	1020118	250	1
+phantom_p1_pilot	34	Port Input	115	1030033	10165	1
+phantom_p1_pilot	34	Pulse	30	1030033	10165	1
+phantom_p1_pilot	35	Picture	incorrect;h50_p45_k_up_q3_right.jpg	1030033	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	35	Port Input	115	1040108	10075	1
+phantom_p1_pilot	35	Pulse	30	1040108	10075	1
+phantom_p1_pilot	35	Port Input	115	1050023	19990	1
+phantom_p1_pilot	35	Pulse	30	1050023	19990	1
+phantom_p1_pilot	36	Picture	h54_p46_i_up_left.jpg;block1;LS1	1050864	0	1	9832	1	0	next	other	0
+phantom_p1_pilot	36	Port Input	98	1059778	8914	1
+phantom_p1_pilot	36	Response	1	1059778	8914	1
+phantom_p1_pilot	36	Port Input	115	1059779	8915	723
+phantom_p1_pilot	36	Pulse	30	1059779	8915	723
+phantom_p1_pilot	37	Picture	extra Pic Time	1060696	0	1	16165	1	0	next	other	0
+phantom_p1_pilot	37	Port Input	115	1070014	9318	1
+phantom_p1_pilot	37	Pulse	30	1070014	9318	1
+phantom_p1_pilot	38	Picture	incorrect;h54_p3_k_up_q2_right.jpg	1076861	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	38	Port Input	115	1080089	3228	1
+phantom_p1_pilot	38	Pulse	30	1080089	3228	1
+phantom_p1_pilot	38	Port Input	115	1090004	13143	1
+phantom_p1_pilot	38	Pulse	30	1090004	13143	1
+phantom_p1_pilot	39	Picture	h58_p8_i_down_right.jpg;block1;LS1	1097691	0	1	13832	1	0	next	other	0
+phantom_p1_pilot	39	Port Input	115	1100079	2388	1
+phantom_p1_pilot	39	Pulse	30	1100079	2388	1
+phantom_p1_pilot	39	Port Input	115	1109994	12303	1
+phantom_p1_pilot	39	Pulse	30	1109994	12303	1
+phantom_p1_pilot	39	Port Input	98	1110634	12943	1
+phantom_p1_pilot	39	Response	1	1110634	12943	1
+phantom_p1_pilot	40	Picture	extra Pic Time	1111523	0	1	12165	1	0	next	other	0
+phantom_p1_pilot	40	Port Input	115	1120069	8546	1
+phantom_p1_pilot	40	Pulse	30	1120069	8546	1
+phantom_p1_pilot	41	Picture	incorrect;h58_p6_k_down_q3_right.jpg	1123688	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	41	Port Input	115	1129985	6297	1
+phantom_p1_pilot	41	Pulse	30	1129985	6297	1
+phantom_p1_pilot	41	Port Input	115	1140060	16372	1
+phantom_p1_pilot	41	Pulse	30	1140060	16372	1
+phantom_p1_pilot	42	Picture	h55_p26_i_down_right.jpg;block1;LS1	1144518	0	1	13998	1	0	next	other	0
+phantom_p1_pilot	42	Port Input	115	1149975	5456	1
+phantom_p1_pilot	42	Pulse	30	1149975	5456	1
+phantom_p1_pilot	42	Port Input	98	1157811	13292	1
+phantom_p1_pilot	42	Response	1	1157811	13292	1
+phantom_p1_pilot	43	Picture	extra Pic Time	1158517	0	1	11832	1	0	next	other	0
+phantom_p1_pilot	43	Port Input	115	1160050	1533	1
+phantom_p1_pilot	43	Pulse	30	1160050	1533	1
+phantom_p1_pilot	43	Port Input	115	1170125	11608	1
+phantom_p1_pilot	43	Pulse	30	1170125	11608	1
+phantom_p1_pilot	44	Picture	incorrect;h55_p22_k_down_q4_right.jpg	1170348	0	1	20831	1	0	next	other	0
+phantom_p1_pilot	44	Port Input	115	1180040	9692	1
+phantom_p1_pilot	44	Pulse	30	1180040	9692	1
+phantom_p1_pilot	44	Port Input	115	1190115	19767	1
+phantom_p1_pilot	44	Pulse	30	1190115	19767	1
+phantom_p1_pilot	45	Picture	h51_p21_i_up_right.jpg;block1;LS1	1191179	0	1	12165	1	0	next	other	0
+phantom_p1_pilot	45	Port Input	115	1200031	8852	1
+phantom_p1_pilot	45	Pulse	30	1200031	8852	1
+phantom_p1_pilot	45	Port Input	98	1202269	11091	1
+phantom_p1_pilot	45	Response	1	1202269	11091	1
+phantom_p1_pilot	46	Picture	extra Pic Time	1203344	0	1	14165	1	0	next	other	0
+phantom_p1_pilot	46	Port Input	115	1210106	6762	1
+phantom_p1_pilot	46	Pulse	30	1210106	6762	1
+phantom_p1_pilot	47	Picture	incorrect;h51_p24_k_up_q3_right.jpg	1217509	0	1	20331	1	0	next	other	0
+phantom_p1_pilot	47	Port Input	115	1220021	2513	1
+phantom_p1_pilot	47	Pulse	30	1220021	2513	1
+phantom_p1_pilot	47	Port Input	115	1230096	12588	1
+phantom_p1_pilot	47	Pulse	30	1230096	12588	1
+phantom_p1_pilot	48	Picture	fix	1237840	0	1	45994	1	0	next	other	0
+phantom_p1_pilot	48	Port Input	115	1240011	2172	1
+phantom_p1_pilot	48	Pulse	30	1240011	2172	1
+phantom_p1_pilot	48	Port Input	115	1250086	12247	1
+phantom_p1_pilot	48	Pulse	30	1250086	12247	1
+phantom_p1_pilot	48	Port Input	115	1260001	22162	1
+phantom_p1_pilot	48	Pulse	30	1260001	22162	1
+phantom_p1_pilot	48	Port Input	115	1270077	32237	1
+phantom_p1_pilot	48	Pulse	30	1270077	32237	1
+phantom_p1_pilot	48	Port Input	115	1279992	42152	1
+phantom_p1_pilot	48	Pulse	30	1279992	42152	1
+phantom_p1_pilot	49	Picture	h56_p13_k_up_q2_right.jpg;block1;LS2	1283834	0	1	12998	1	0	next	other	0
+phantom_p1_pilot	49	Port Input	115	1290066	6233	1
+phantom_p1_pilot	49	Pulse	30	1290066	6233	1
+phantom_p1_pilot	49	Port Input	98	1295823	11990	1
+phantom_p1_pilot	49	Response	1	1295823	11990	1
+phantom_p1_pilot	50	Picture	extra Pic Time	1296832	0	1	13325	7	0	next	other	0
+phantom_p1_pilot	50	Port Input	115	1299981	3149	1
+phantom_p1_pilot	50	Pulse	30	1299981	3149	1
+phantom_p1_pilot	50	Port Input	115	1310057	13225	1
+phantom_p1_pilot	50	Pulse	30	1310057	13225	1
+phantom_p1_pilot	51	Picture	correct;h56_p13_k_up_q2_right.jpg	1310157	0	7	20837	7	0	next	other	0
+phantom_p1_pilot	51	Port Input	115	1319972	9816	1
+phantom_p1_pilot	51	Pulse	30	1319972	9816	1
+phantom_p1_pilot	51	Port Input	115	1330048	19891	1
+phantom_p1_pilot	51	Pulse	30	1330048	19891	1
+phantom_p1_pilot	52	Picture	h50_p29_i_up_right.jpg;block1;LS2	1330994	0	1	12665	1	0	next	other	0
+phantom_p1_pilot	52	Port Input	115	1340123	9129	1
+phantom_p1_pilot	52	Pulse	30	1340123	9129	1
+phantom_p1_pilot	52	Port Input	98	1342681	11687	1
+phantom_p1_pilot	52	Response	1	1342681	11687	1
+phantom_p1_pilot	53	Picture	extra Pic Time	1343659	0	1	13498	1	0	next	other	0
+phantom_p1_pilot	53	Port Input	115	1350038	6379	1
+phantom_p1_pilot	53	Pulse	30	1350038	6379	1
+phantom_p1_pilot	54	Picture	incorrect;h50_p45_k_up_q3_right.jpg	1357157	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	54	Port Input	115	1360113	2955	1
+phantom_p1_pilot	54	Pulse	30	1360113	2955	1
+phantom_p1_pilot	54	Port Input	115	1370028	12871	1
+phantom_p1_pilot	54	Pulse	30	1370028	12871	1
+phantom_p1_pilot	55	Picture	h58_p1_i_down_right.jpg;block1;LS2	1378155	0	1	20331	1	0	next	other	0
+phantom_p1_pilot	55	Port Input	115	1380104	1949	1
+phantom_p1_pilot	55	Pulse	30	1380104	1949	1
+phantom_p1_pilot	55	Port Input	115	1390019	11864	1
+phantom_p1_pilot	55	Pulse	30	1390019	11864	1
+phantom_p1_pilot	55	Port Input	98	1397535	19381	1
+phantom_p1_pilot	55	Response	1	1397535	19381	1
+phantom_p1_pilot	56	Picture	extra Pic Time	1398485	0	1	5833	1	0	next	other	0
+phantom_p1_pilot	56	Port Input	115	1400094	1609	1
+phantom_p1_pilot	56	Pulse	30	1400094	1609	1
+phantom_p1_pilot	56	Port Input	97	1402333	3848	1
+phantom_p1_pilot	56	Response	2	1402333	3848	1
+phantom_p1_pilot	57	Picture	incorrect;h58_p6_k_down_q3_right.jpg	1404318	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	57	Port Input	115	1410009	5691	1
+phantom_p1_pilot	57	Pulse	30	1410009	5691	1
+phantom_p1_pilot	57	Port Input	115	1420084	15767	1
+phantom_p1_pilot	57	Pulse	30	1420084	15767	1
+phantom_p1_pilot	58	Picture	h57_p36_k_down_q1_left.jpg;block1;LS2	1425315	0	1	12332	1	0	next	other	0
+phantom_p1_pilot	58	Port Input	115	1430000	4685	1
+phantom_p1_pilot	58	Pulse	30	1430000	4685	1
+phantom_p1_pilot	58	Port Input	98	1436716	11401	1
+phantom_p1_pilot	58	Response	1	1436716	11401	1
+phantom_p1_pilot	59	Picture	extra Pic Time	1437647	0	1	13832	1	0	next	other	0
+phantom_p1_pilot	59	Port Input	115	1440075	2428	1
+phantom_p1_pilot	59	Pulse	30	1440075	2428	1
+phantom_p1_pilot	59	Port Input	115	1449990	12343	1
+phantom_p1_pilot	59	Pulse	30	1449990	12343	1
+phantom_p1_pilot	60	Picture	correct;h57_p36_k_down_q1_left.jpg	1451478	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	60	Port Input	115	1460065	8587	1
+phantom_p1_pilot	60	Pulse	30	1460065	8587	1
+phantom_p1_pilot	60	Port Input	115	1469981	18503	1
+phantom_p1_pilot	60	Pulse	30	1469981	18503	1
+phantom_p1_pilot	61	Picture	h54_p3_k_up_q2_right.jpg;block1;LS2	1472476	0	1	15665	1	0	next	other	0
+phantom_p1_pilot	61	Port Input	115	1480055	7580	1
+phantom_p1_pilot	61	Pulse	30	1480055	7580	1
+phantom_p1_pilot	61	Port Input	97	1487251	14776	1
+phantom_p1_pilot	61	Response	2	1487251	14776	1
+phantom_p1_pilot	62	Picture	extra Pic Time	1488140	0	1	10499	1	0	next	other	0
+phantom_p1_pilot	62	Port Input	115	1489971	1831	1
+phantom_p1_pilot	62	Pulse	30	1489971	1831	1
+phantom_p1_pilot	63	Picture	incorrect;h54_p3_k_up_q2_right.jpg	1498639	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	63	Port Input	115	1500046	1407	1
+phantom_p1_pilot	63	Pulse	30	1500046	1407	1
+phantom_p1_pilot	63	Port Input	115	1510121	11482	1
+phantom_p1_pilot	63	Pulse	30	1510121	11482	1
+phantom_p1_pilot	64	Picture	h58_p6_k_down_q3_right.jpg;block1;LS2	1519636	0	1	17164	1	0	next	other	0
+phantom_p1_pilot	64	Port Input	115	1520035	399	1
+phantom_p1_pilot	64	Pulse	30	1520035	399	1
+phantom_p1_pilot	64	Port Input	115	1530111	10475	1
+phantom_p1_pilot	64	Pulse	30	1530111	10475	1
+phantom_p1_pilot	64	Port Input	98	1535868	16232	1
+phantom_p1_pilot	64	Response	1	1535868	16232	1
+phantom_p1_pilot	65	Picture	extra Pic Time	1536801	0	1	8999	1	0	next	other	0
+phantom_p1_pilot	65	Port Input	115	1540026	3225	1
+phantom_p1_pilot	65	Pulse	30	1540026	3225	1
+phantom_p1_pilot	66	Picture	correct;h58_p6_k_down_q3_right.jpg	1545799	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	66	Port Input	115	1550101	4301	1
+phantom_p1_pilot	66	Pulse	30	1550101	4301	1
+phantom_p1_pilot	66	Port Input	115	1560015	14216	1
+phantom_p1_pilot	66	Pulse	30	1560015	14216	1
+phantom_p1_pilot	67	Picture	h51_p24_k_up_q3_right.jpg;block1;LS2	1566797	0	1	21164	1	0	next	other	0
+phantom_p1_pilot	67	Port Input	115	1570091	3294	1
+phantom_p1_pilot	67	Pulse	30	1570091	3294	1
+phantom_p1_pilot	67	Port Input	115	1580005	13209	1
+phantom_p1_pilot	67	Pulse	30	1580005	13209	1
+phantom_p1_pilot	67	Port Input	98	1586883	20086	1
+phantom_p1_pilot	67	Response	1	1586883	20086	1
+phantom_p1_pilot	68	Picture	extra Pic Time	1587961	0	1	5166	1	0	next	other	0
+phantom_p1_pilot	68	Port Input	115	1590081	2121	1
+phantom_p1_pilot	68	Pulse	30	1590081	2121	1
+phantom_p1_pilot	69	Picture	correct;h51_p24_k_up_q3_right.jpg	1593127	0	1	20997	1	0	next	other	0
+phantom_p1_pilot	69	Port Input	115	1599997	6870	1
+phantom_p1_pilot	69	Pulse	30	1599997	6870	1
+phantom_p1_pilot	69	Port Input	115	1610072	16945	1
+phantom_p1_pilot	69	Pulse	30	1610072	16945	1
+phantom_p1_pilot	70	Picture	h50_p45_k_up_q3_right.jpg;block1;LS2	1614124	0	1	25997	1	0	next	other	0
+phantom_p1_pilot	70	Port Input	115	1619987	5863	1
+phantom_p1_pilot	70	Pulse	30	1619987	5863	1
+phantom_p1_pilot	71	Picture	to late	1640120	0	1	45794	1	0	next	other	0
+phantom_p1_pilot	71	Quit		1652006	11885	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	389949	1	0	next
+Picture	fix	other				400282	1	45161	1	0	next
+Picture	fix	other				445443	1	45161	1	0	next
+Picture	fix	other				490604	1	45327	1	0	next
+Picture	bubbles/learning.png	other				535931	1	45827	1	0	next
+Picture	h54_p3_k_up_q2_right.jpg;block1;LS1	other				581758	1	8332	1	0	next
+Picture	extra Pic Time	other				590091	1	17664	1	0	next
+Picture	correct;h54_p3_k_up_q2_right.jpg	other				607755	1	20831	1	0	next
+Picture	h56_p14_i_up_right.jpg;block1;LS1	other				628586	1	8666	1	0	next
+Picture	extra Pic Time	other				637251	1	17498	1	0	next
+Picture	correct;h56_p13_k_up_q2_right.jpg	other				654749	1	20831	1	0	next
+Picture	h58_p6_k_down_q3_right.jpg;block1;LS1	other				675579	1	10832	1	0	next
+Picture	extra Pic Time	other				686411	1	15331	1	0	next
+Picture	correct;h58_p6_k_down_q3_right.jpg	other				701743	1	20831	1	0	next
+Picture	h50_p45_k_up_q3_right.jpg;block1;LS1	other				722573	1	9999	1	0	next
+Picture	extra Pic Time	other				732572	1	16165	1	0	next
+Picture	incorrect;h50_p45_k_up_q3_right.jpg	other				748737	1	20831	1	0	next
+Picture	h57_p37_i_down_left.jpg;block1;LS1	other				769567	1	8166	1	0	next
+Picture	extra Pic Time	other				777733	1	17998	1	0	next
+Picture	incorrect;h57_p36_k_down_q1_left.jpg	other				795731	1	20831	1	0	next
+Picture	h55_p22_k_down_q4_right.jpg;block1;LS1	other				816561	1	10165	1	0	next
+Picture	extra Pic Time	other				826726	1	15831	1	0	next
+Picture	incorrect;h55_p22_k_down_q4_right.jpg	other				842558	1	20831	1	0	next
+Picture	h51_p24_k_up_q3_right.jpg;block1;LS1	other				863388	1	15998	1	0	next
+Picture	extra Pic Time	other				879386	1	10165	1	0	next
+Picture	incorrect;h51_p24_k_up_q3_right.jpg	other				889552	1	20831	1	0	next
+Picture	h57_p36_k_down_q1_left.jpg;block1;LS1	other				910382	1	11499	1	0	next
+Picture	extra Pic Time	other				921881	1	14498	1	0	next
+Picture	correct;h57_p36_k_down_q1_left.jpg	other				936379	1	20831	1	0	next
+Picture	h56_p13_k_up_q2_right.jpg;block1;LS1	other				957209	1	11832	1	0	next
+Picture	extra Pic Time	other				969041	1	14165	1	0	next
+Picture	incorrect;h56_p13_k_up_q2_right.jpg	other				983206	1	20831	1	0	next
+Picture	h50_p37_i_up_right.jpg;block1;LS1	other				1004037	1	15831	1	0	next
+Picture	extra Pic Time	other				1019868	1	10165	1	0	next
+Picture	incorrect;h50_p45_k_up_q3_right.jpg	other				1030033	1	20831	1	0	next
+Picture	h54_p46_i_up_left.jpg;block1;LS1	other				1050864	1	9832	1	0	next
+Picture	extra Pic Time	other				1060696	1	16165	1	0	next
+Picture	incorrect;h54_p3_k_up_q2_right.jpg	other				1076861	1	20831	1	0	next
+Picture	h58_p8_i_down_right.jpg;block1;LS1	other				1097691	1	13832	1	0	next
+Picture	extra Pic Time	other				1111523	1	12165	1	0	next
+Picture	incorrect;h58_p6_k_down_q3_right.jpg	other				1123688	1	20831	1	0	next
+Picture	h55_p26_i_down_right.jpg;block1;LS1	other				1144518	1	13998	1	0	next
+Picture	extra Pic Time	other				1158517	1	11832	1	0	next
+Picture	incorrect;h55_p22_k_down_q4_right.jpg	other				1170348	1	20831	1	0	next
+Picture	h51_p21_i_up_right.jpg;block1;LS1	other				1191179	1	12165	1	0	next
+Picture	extra Pic Time	other				1203344	1	14165	1	0	next
+Picture	incorrect;h51_p24_k_up_q3_right.jpg	other				1217509	1	20331	1	0	next
+Picture	fix	other				1237840	1	45994	1	0	next
+Picture	h56_p13_k_up_q2_right.jpg;block1;LS2	other				1283834	1	12998	1	0	next
+Picture	extra Pic Time	other				1296832	1	13325	7	0	next
+Picture	correct;h56_p13_k_up_q2_right.jpg	other				1310157	7	20837	7	0	next
+Picture	h50_p29_i_up_right.jpg;block1;LS2	other				1330994	1	12665	1	0	next
+Picture	extra Pic Time	other				1343659	1	13498	1	0	next
+Picture	incorrect;h50_p45_k_up_q3_right.jpg	other				1357157	1	20997	1	0	next
+Picture	h58_p1_i_down_right.jpg;block1;LS2	other				1378155	1	20331	1	0	next
+Picture	extra Pic Time	other				1398485	1	5833	1	0	next
+Picture	incorrect;h58_p6_k_down_q3_right.jpg	other				1404318	1	20997	1	0	next
+Picture	h57_p36_k_down_q1_left.jpg;block1;LS2	other				1425315	1	12332	1	0	next
+Picture	extra Pic Time	other				1437647	1	13832	1	0	next
+Picture	correct;h57_p36_k_down_q1_left.jpg	other				1451478	1	20997	1	0	next
+Picture	h54_p3_k_up_q2_right.jpg;block1;LS2	other				1472476	1	15665	1	0	next
+Picture	extra Pic Time	other				1488140	1	10499	1	0	next
+Picture	incorrect;h54_p3_k_up_q2_right.jpg	other				1498639	1	20997	1	0	next
+Picture	h58_p6_k_down_q3_right.jpg;block1;LS2	other				1519636	1	17164	1	0	next
+Picture	extra Pic Time	other				1536801	1	8999	1	0	next
+Picture	correct;h58_p6_k_down_q3_right.jpg	other				1545799	1	20997	1	0	next
+Picture	h51_p24_k_up_q3_right.jpg;block1;LS2	other				1566797	1	21164	1	0	next
+Picture	extra Pic Time	other				1587961	1	5166	1	0	next
+Picture	correct;h51_p24_k_up_q3_right.jpg	other				1593127	1	20997	1	0	next
+Picture	h50_p45_k_up_q3_right.jpg;block1;LS2	other				1614124	1	25997	1	0	next
+Picture	to late	other				1640120	1	45794	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "phantom_p1_pilot",
+   "timestamp": "2024/05/26 11:56:51 GMT"
+}

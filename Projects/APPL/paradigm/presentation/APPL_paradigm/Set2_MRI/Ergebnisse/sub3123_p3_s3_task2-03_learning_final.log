@@ -1,0 +1,396 @@
+Scenario - fMRI-SET-2
+Logfile written - 06/16/2024 14:30:42
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub3123_p3_s3_task2	1	Picture	Hello - Intro	10333	0	1	170145	1	0	next	other	0
+sub3123_p3_s3_task2	1	Port Input	115	150461	140128	1
+sub3123_p3_s3_task2	1	Pulse	30	150461	140128	1
+sub3123_p3_s3_task2	1	Port Input	115	160376	150043	1
+sub3123_p3_s3_task2	1	Pulse	30	160376	150043	1
+sub3123_p3_s3_task2	1	Port Input	115	170451	160118	1
+sub3123_p3_s3_task2	1	Pulse	30	170451	160118	1
+sub3123_p3_s3_task2	1	Port Input	115	180365	170032	1
+sub3123_p3_s3_task2	1	Pulse	30	180365	170032	1
+sub3123_p3_s3_task2	2	Picture	fix	180478	0	1	45161	1	0	next	other	0
+sub3123_p3_s3_task2	2	Port Input	115	190440	9962	1
+sub3123_p3_s3_task2	2	Pulse	30	190440	9962	1
+sub3123_p3_s3_task2	2	Port Input	115	200354	19876	1
+sub3123_p3_s3_task2	2	Pulse	30	200354	19876	1
+sub3123_p3_s3_task2	2	Port Input	115	210428	29950	1
+sub3123_p3_s3_task2	2	Pulse	30	210428	29950	1
+sub3123_p3_s3_task2	2	Port Input	115	220343	39865	1
+sub3123_p3_s3_task2	2	Pulse	30	220343	39865	1
+sub3123_p3_s3_task2	3	Picture	fix	225639	0	1	45161	1	0	next	other	0
+sub3123_p3_s3_task2	3	Port Input	115	230418	4779	1
+sub3123_p3_s3_task2	3	Pulse	30	230418	4779	1
+sub3123_p3_s3_task2	3	Port Input	115	240332	14693	1
+sub3123_p3_s3_task2	3	Pulse	30	240332	14693	1
+sub3123_p3_s3_task2	3	Port Input	115	250407	24769	1
+sub3123_p3_s3_task2	3	Pulse	30	250407	24769	1
+sub3123_p3_s3_task2	3	Port Input	115	260482	34843	1
+sub3123_p3_s3_task2	3	Pulse	30	260482	34843	1
+sub3123_p3_s3_task2	3	Port Input	115	270397	44758	1
+sub3123_p3_s3_task2	3	Pulse	30	270397	44758	1
+sub3123_p3_s3_task2	4	Picture	fix	270800	0	1	45328	1	0	next	other	0
+sub3123_p3_s3_task2	4	Port Input	115	280472	9672	1
+sub3123_p3_s3_task2	4	Pulse	30	280472	9672	1
+sub3123_p3_s3_task2	4	Port Input	115	290387	19587	1
+sub3123_p3_s3_task2	4	Pulse	30	290387	19587	1
+sub3123_p3_s3_task2	4	Port Input	115	300462	29662	1
+sub3123_p3_s3_task2	4	Pulse	30	300462	29662	1
+sub3123_p3_s3_task2	4	Port Input	115	310376	39576	1
+sub3123_p3_s3_task2	4	Pulse	30	310376	39576	1
+sub3123_p3_s3_task2	5	Picture	bubbles/learning.jpg	316127	0	1	45328	1	0	next	other	0
+sub3123_p3_s3_task2	5	Port Input	115	320450	4323	1
+sub3123_p3_s3_task2	5	Pulse	30	320450	4323	1
+sub3123_p3_s3_task2	5	Port Input	115	330365	14238	1
+sub3123_p3_s3_task2	5	Pulse	30	330365	14238	1
+sub3123_p3_s3_task2	5	Port Input	115	340440	24313	1
+sub3123_p3_s3_task2	5	Pulse	30	340440	24313	1
+sub3123_p3_s3_task2	5	Port Input	115	350356	34228	1
+sub3123_p3_s3_task2	5	Pulse	30	350356	34228	1
+sub3123_p3_s3_task2	5	Port Input	115	360430	44303	1
+sub3123_p3_s3_task2	5	Pulse	30	360430	44303	1
+sub3123_p3_s3_task2	6	Picture	learning/PICTURE_610.jpg;Efter;Efdi;i;block1;LS1	361455	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	6	Port Input	115	370345	8890	1
+sub3123_p3_s3_task2	6	Pulse	30	370345	8890	1
+sub3123_p3_s3_task2	6	Port Input	115	380420	18965	1
+sub3123_p3_s3_task2	6	Pulse	30	380420	18965	1
+sub3123_p3_s3_task2	7	Picture	Zu spät, das ist Efdi	386785	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	7	Port Input	115	390334	3549	1
+sub3123_p3_s3_task2	7	Pulse	30	390334	3549	1
+sub3123_p3_s3_task2	7	Port Input	115	400408	13623	1
+sub3123_p3_s3_task2	7	Pulse	30	400408	13623	1
+sub3123_p3_s3_task2	8	Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS1	407116	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	8	Port Input	115	410483	3367	1
+sub3123_p3_s3_task2	8	Pulse	30	410483	3367	1
+sub3123_p3_s3_task2	8	Port Input	115	420398	13282	1
+sub3123_p3_s3_task2	8	Pulse	30	420398	13282	1
+sub3123_p3_s3_task2	8	Port Input	115	430473	23357	1
+sub3123_p3_s3_task2	8	Pulse	30	430473	23357	1
+sub3123_p3_s3_task2	9	Picture	Zu spät, das ist Stise	432446	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	9	Port Input	115	440388	7942	1
+sub3123_p3_s3_task2	9	Pulse	30	440388	7942	1
+sub3123_p3_s3_task2	9	Port Input	115	450462	18017	1
+sub3123_p3_s3_task2	9	Pulse	30	450462	18017	1
+sub3123_p3_s3_task2	10	Picture	learning/PICTURE_720.jpg;Tulser;Tulser;c;block1;LS1	452777	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	10	Port Input	115	460377	7600	1
+sub3123_p3_s3_task2	10	Pulse	30	460377	7600	1
+sub3123_p3_s3_task2	10	Port Input	115	470452	17675	1
+sub3123_p3_s3_task2	10	Pulse	30	470452	17675	1
+sub3123_p3_s3_task2	11	Picture	Zu spät, das ist Tulser	478107	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	11	Port Input	115	480367	2260	1
+sub3123_p3_s3_task2	11	Pulse	30	480367	2260	1
+sub3123_p3_s3_task2	11	Port Input	115	490441	12335	1
+sub3123_p3_s3_task2	11	Pulse	30	490441	12335	1
+sub3123_p3_s3_task2	12	Picture	learning/PICTURE_43.jpg;Klosal;Klotel;i;block1;LS1	498437	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	12	Port Input	115	500357	1919	1
+sub3123_p3_s3_task2	12	Pulse	30	500357	1919	1
+sub3123_p3_s3_task2	12	Port Input	115	510431	11994	1
+sub3123_p3_s3_task2	12	Pulse	30	510431	11994	1
+sub3123_p3_s3_task2	12	Port Input	115	520345	21908	1
+sub3123_p3_s3_task2	12	Pulse	30	520345	21908	1
+sub3123_p3_s3_task2	13	Picture	Zu spät, das ist Klotel	523768	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	13	Port Input	115	530420	6653	1
+sub3123_p3_s3_task2	13	Pulse	30	530420	6653	1
+sub3123_p3_s3_task2	13	Port Input	115	540335	16568	1
+sub3123_p3_s3_task2	13	Pulse	30	540335	16568	1
+sub3123_p3_s3_task2	14	Picture	learning/PICTURE_599.jpg;Seimer;Seise;i;block1;LS1	544098	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	14	Port Input	115	550410	6311	1
+sub3123_p3_s3_task2	14	Pulse	30	550410	6311	1
+sub3123_p3_s3_task2	14	Port Input	115	560484	16386	1
+sub3123_p3_s3_task2	14	Pulse	30	560484	16386	1
+sub3123_p3_s3_task2	15	Picture	Zu spät, das ist Seise	569428	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	15	Port Input	115	570399	970	1
+sub3123_p3_s3_task2	15	Pulse	30	570399	970	1
+sub3123_p3_s3_task2	15	Port Input	115	580474	11045	1
+sub3123_p3_s3_task2	15	Pulse	30	580474	11045	1
+sub3123_p3_s3_task2	16	Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block1;LS1	589759	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	16	Port Input	115	590388	629	1
+sub3123_p3_s3_task2	16	Pulse	30	590388	629	1
+sub3123_p3_s3_task2	16	Port Input	115	600463	10704	1
+sub3123_p3_s3_task2	16	Pulse	30	600463	10704	1
+sub3123_p3_s3_task2	16	Port Input	115	610378	20619	1
+sub3123_p3_s3_task2	16	Pulse	30	610378	20619	1
+sub3123_p3_s3_task2	17	Picture	Zu spät, das ist Klotel	615089	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	17	Port Input	115	620452	5363	1
+sub3123_p3_s3_task2	17	Pulse	30	620452	5363	1
+sub3123_p3_s3_task2	17	Port Input	115	630367	15278	1
+sub3123_p3_s3_task2	17	Pulse	30	630367	15278	1
+sub3123_p3_s3_task2	18	Picture	learning/PICTURE_610.jpg;Efdi;Efdi;c;block1;LS1	635420	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	18	Port Input	115	640442	5022	1
+sub3123_p3_s3_task2	18	Pulse	30	640442	5022	1
+sub3123_p3_s3_task2	18	Port Input	115	650356	14936	1
+sub3123_p3_s3_task2	18	Pulse	30	650356	14936	1
+sub3123_p3_s3_task2	18	Port Input	115	660430	25011	1
+sub3123_p3_s3_task2	18	Pulse	30	660430	25011	1
+sub3123_p3_s3_task2	19	Picture	Zu spät, das ist Efdi	660750	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	19	Port Input	115	670346	9595	1
+sub3123_p3_s3_task2	19	Pulse	30	670346	9595	1
+sub3123_p3_s3_task2	19	Port Input	115	680420	19670	1
+sub3123_p3_s3_task2	19	Pulse	30	680420	19670	1
+sub3123_p3_s3_task2	20	Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS1	681081	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	20	Port Input	115	690335	9254	1
+sub3123_p3_s3_task2	20	Pulse	30	690335	9254	1
+sub3123_p3_s3_task2	20	Port Input	115	700410	19329	1
+sub3123_p3_s3_task2	20	Pulse	30	700410	19329	1
+sub3123_p3_s3_task2	21	Picture	Zu spät, das ist Soktau	706411	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	21	Port Input	115	710484	4074	1
+sub3123_p3_s3_task2	21	Pulse	30	710484	4074	1
+sub3123_p3_s3_task2	21	Port Input	115	720399	13988	1
+sub3123_p3_s3_task2	21	Pulse	30	720399	13988	1
+sub3123_p3_s3_task2	22	Picture	learning/PICTURE_235.jpg;Finser;Finser;c;block1;LS1	726742	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	22	Port Input	115	730474	3733	1
+sub3123_p3_s3_task2	22	Pulse	30	730474	3733	1
+sub3123_p3_s3_task2	22	Port Input	115	740389	13648	1
+sub3123_p3_s3_task2	22	Pulse	30	740389	13648	1
+sub3123_p3_s3_task2	22	Port Input	115	750464	23722	1
+sub3123_p3_s3_task2	22	Pulse	30	750464	23722	1
+sub3123_p3_s3_task2	23	Picture	Zu spät, das ist Finser	752072	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	23	Port Input	115	760378	8307	1
+sub3123_p3_s3_task2	23	Pulse	30	760378	8307	1
+sub3123_p3_s3_task2	23	Port Input	115	770453	18381	1
+sub3123_p3_s3_task2	23	Pulse	30	770453	18381	1
+sub3123_p3_s3_task2	24	Picture	learning/PICTURE_599.jpg;Seise;Seise;c;block1;LS1	772403	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	24	Port Input	115	780368	7965	1
+sub3123_p3_s3_task2	24	Pulse	30	780368	7965	1
+sub3123_p3_s3_task2	24	Port Input	115	790442	18040	1
+sub3123_p3_s3_task2	24	Pulse	30	790442	18040	1
+sub3123_p3_s3_task2	25	Picture	Zu spät, das ist Seise	797733	0	1	20497	1	0	next	other	0
+sub3123_p3_s3_task2	25	Port Input	115	800357	2624	1
+sub3123_p3_s3_task2	25	Pulse	30	800357	2624	1
+sub3123_p3_s3_task2	25	Port Input	115	810431	12698	1
+sub3123_p3_s3_task2	25	Pulse	30	810431	12698	1
+sub3123_p3_s3_task2	26	Picture	learning/PICTURE_741.jpg;Stitons;Stise;i;block1;LS1	818230	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	26	Port Input	115	820346	2116	1
+sub3123_p3_s3_task2	26	Pulse	30	820346	2116	1
+sub3123_p3_s3_task2	26	Port Input	115	830421	12191	1
+sub3123_p3_s3_task2	26	Pulse	30	830421	12191	1
+sub3123_p3_s3_task2	26	Port Input	115	840335	22105	1
+sub3123_p3_s3_task2	26	Pulse	30	840335	22105	1
+sub3123_p3_s3_task2	27	Picture	Zu spät, das ist Stise	843560	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	27	Port Input	115	850410	6850	1
+sub3123_p3_s3_task2	27	Pulse	30	850410	6850	1
+sub3123_p3_s3_task2	27	Port Input	115	860484	16924	1
+sub3123_p3_s3_task2	27	Pulse	30	860484	16924	1
+sub3123_p3_s3_task2	28	Picture	learning/PICTURE_247.jpg;Soklet;Soktau;i;block1;LS1	863891	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	28	Port Input	115	870399	6508	1
+sub3123_p3_s3_task2	28	Pulse	30	870399	6508	1
+sub3123_p3_s3_task2	28	Port Input	115	880474	16583	1
+sub3123_p3_s3_task2	28	Pulse	30	880474	16583	1
+sub3123_p3_s3_task2	29	Picture	Zu spät, das ist Soktau	889221	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	29	Port Input	115	890389	1168	1
+sub3123_p3_s3_task2	29	Pulse	30	890389	1168	1
+sub3123_p3_s3_task2	29	Port Input	115	900464	11243	1
+sub3123_p3_s3_task2	29	Pulse	30	900464	11243	1
+sub3123_p3_s3_task2	30	Picture	learning/PICTURE_720.jpg;Tulte;Tulser;i;block1;LS1	909552	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	30	Port Input	115	910378	827	1
+sub3123_p3_s3_task2	30	Pulse	30	910378	827	1
+sub3123_p3_s3_task2	30	Port Input	115	920453	10901	1
+sub3123_p3_s3_task2	30	Pulse	30	920453	10901	1
+sub3123_p3_s3_task2	30	Port Input	115	930367	20816	1
+sub3123_p3_s3_task2	30	Pulse	30	930367	20816	1
+sub3123_p3_s3_task2	31	Picture	Zu spät, das ist Tulser	934882	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	31	Port Input	115	940442	5561	1
+sub3123_p3_s3_task2	31	Pulse	30	940442	5561	1
+sub3123_p3_s3_task2	31	Port Input	115	950357	15475	1
+sub3123_p3_s3_task2	31	Pulse	30	950357	15475	1
+sub3123_p3_s3_task2	32	Picture	learning/PICTURE_235.jpg;Finsin;Finser;i;block1;LS1	955213	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	32	Port Input	115	960431	5218	1
+sub3123_p3_s3_task2	32	Pulse	30	960431	5218	1
+sub3123_p3_s3_task2	32	Port Input	115	970345	15133	1
+sub3123_p3_s3_task2	32	Pulse	30	970345	15133	1
+sub3123_p3_s3_task2	32	Port Input	115	980421	25209	2
+sub3123_p3_s3_task2	32	Pulse	30	980421	25209	2
+sub3123_p3_s3_task2	33	Picture	Zu spät, das ist Finser	980543	0	1	20164	1	0	next	other	0
+sub3123_p3_s3_task2	33	Port Input	115	990335	9792	1
+sub3123_p3_s3_task2	33	Pulse	30	990335	9792	1
+sub3123_p3_s3_task2	33	Port Input	115	1000409	19867	1
+sub3123_p3_s3_task2	33	Pulse	30	1000409	19867	1
+sub3123_p3_s3_task2	34	Picture	fix	1000707	0	1	45328	1	0	next	other	0
+sub3123_p3_s3_task2	34	Port Input	115	1010484	9777	1
+sub3123_p3_s3_task2	34	Pulse	30	1010484	9777	1
+sub3123_p3_s3_task2	34	Port Input	115	1020399	19692	1
+sub3123_p3_s3_task2	34	Pulse	30	1020399	19692	1
+sub3123_p3_s3_task2	34	Port Input	115	1030474	29767	1
+sub3123_p3_s3_task2	34	Pulse	30	1030474	29767	1
+sub3123_p3_s3_task2	34	Port Input	115	1040388	39681	1
+sub3123_p3_s3_task2	34	Pulse	30	1040388	39681	1
+sub3123_p3_s3_task2	35	Picture	learning/PICTURE_741.jpg;Stisin;Stise;i;block1;LS2	1046034	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	35	Port Input	115	1050463	4429	1
+sub3123_p3_s3_task2	35	Pulse	30	1050463	4429	1
+sub3123_p3_s3_task2	35	Port Input	115	1060378	14343	1
+sub3123_p3_s3_task2	35	Pulse	30	1060378	14343	1
+sub3123_p3_s3_task2	35	Port Input	115	1070452	24418	1
+sub3123_p3_s3_task2	35	Pulse	30	1070452	24418	1
+sub3123_p3_s3_task2	36	Picture	Zu spät, das ist Stise	1071364	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	36	Port Input	115	1080367	9003	1
+sub3123_p3_s3_task2	36	Pulse	30	1080367	9003	1
+sub3123_p3_s3_task2	36	Port Input	115	1090442	19077	1
+sub3123_p3_s3_task2	36	Pulse	30	1090442	19077	1
+sub3123_p3_s3_task2	37	Picture	learning/PICTURE_720.jpg;Tulpos;Tulser;i;block1;LS2	1091695	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	37	Port Input	115	1100356	8661	1
+sub3123_p3_s3_task2	37	Pulse	30	1100356	8661	1
+sub3123_p3_s3_task2	37	Port Input	115	1110431	18736	1
+sub3123_p3_s3_task2	37	Pulse	30	1110431	18736	1
+sub3123_p3_s3_task2	38	Picture	Zu spät, das ist Tulser	1117025	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	38	Port Input	115	1120345	3320	1
+sub3123_p3_s3_task2	38	Pulse	30	1120345	3320	1
+sub3123_p3_s3_task2	38	Port Input	115	1130420	13395	1
+sub3123_p3_s3_task2	38	Pulse	30	1130420	13395	1
+sub3123_p3_s3_task2	39	Picture	learning/PICTURE_235.jpg;Finser;Finser;c;block1;LS2	1137356	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	39	Port Input	115	1140335	2979	1
+sub3123_p3_s3_task2	39	Pulse	30	1140335	2979	1
+sub3123_p3_s3_task2	39	Port Input	115	1150409	13053	1
+sub3123_p3_s3_task2	39	Pulse	30	1150409	13053	1
+sub3123_p3_s3_task2	39	Port Input	115	1160484	23129	1
+sub3123_p3_s3_task2	39	Pulse	30	1160484	23129	1
+sub3123_p3_s3_task2	40	Picture	Zu spät, das ist Finser	1162686	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	40	Port Input	115	1170399	7713	1
+sub3123_p3_s3_task2	40	Pulse	30	1170399	7713	1
+sub3123_p3_s3_task2	40	Port Input	115	1180474	17788	1
+sub3123_p3_s3_task2	40	Pulse	30	1180474	17788	1
+sub3123_p3_s3_task2	41	Picture	learning/PICTURE_599.jpg;Seise;Seise;c;block1;LS2	1183017	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	41	Port Input	115	1190389	7372	1
+sub3123_p3_s3_task2	41	Pulse	30	1190389	7372	1
+sub3123_p3_s3_task2	41	Port Input	115	1200464	17447	1
+sub3123_p3_s3_task2	41	Pulse	30	1200464	17447	1
+sub3123_p3_s3_task2	42	Picture	Zu spät, das ist Seise	1208347	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	42	Port Input	115	1210378	2031	1
+sub3123_p3_s3_task2	42	Pulse	30	1210378	2031	1
+sub3123_p3_s3_task2	42	Port Input	115	1220453	12106	1
+sub3123_p3_s3_task2	42	Pulse	30	1220453	12106	1
+sub3123_p3_s3_task2	43	Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS2	1228678	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	43	Port Input	115	1230368	1690	1
+sub3123_p3_s3_task2	43	Pulse	30	1230368	1690	1
+sub3123_p3_s3_task2	43	Port Input	115	1240442	11765	1
+sub3123_p3_s3_task2	43	Pulse	30	1240442	11765	1
+sub3123_p3_s3_task2	43	Port Input	115	1250357	21679	1
+sub3123_p3_s3_task2	43	Pulse	30	1250357	21679	1
+sub3123_p3_s3_task2	44	Picture	Zu spät, das ist Soktau	1254008	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	44	Port Input	115	1260431	6424	1
+sub3123_p3_s3_task2	44	Pulse	30	1260431	6424	1
+sub3123_p3_s3_task2	44	Port Input	115	1270346	16338	1
+sub3123_p3_s3_task2	44	Pulse	30	1270346	16338	1
+sub3123_p3_s3_task2	45	Picture	learning/PICTURE_610.jpg;Efto;Efdi;i;block1;LS2	1274339	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	45	Port Input	115	1280421	6082	1
+sub3123_p3_s3_task2	45	Pulse	30	1280421	6082	1
+sub3123_p3_s3_task2	45	Port Input	115	1290335	15997	1
+sub3123_p3_s3_task2	45	Pulse	30	1290335	15997	1
+sub3123_p3_s3_task2	46	Picture	Zu spät, das ist Efdi	1299669	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	46	Port Input	115	1300410	742	1
+sub3123_p3_s3_task2	46	Pulse	30	1300410	742	1
+sub3123_p3_s3_task2	46	Port Input	115	1310485	10817	1
+sub3123_p3_s3_task2	46	Pulse	30	1310485	10817	1
+sub3123_p3_s3_task2	47	Picture	learning/PICTURE_43.jpg;Klotons;Klotel;i;block1;LS2	1319999	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	47	Port Input	115	1320399	400	1
+sub3123_p3_s3_task2	47	Pulse	30	1320399	400	1
+sub3123_p3_s3_task2	47	Port Input	115	1330474	10475	1
+sub3123_p3_s3_task2	47	Pulse	30	1330474	10475	1
+sub3123_p3_s3_task2	47	Port Input	115	1340388	20389	1
+sub3123_p3_s3_task2	47	Pulse	30	1340388	20389	1
+sub3123_p3_s3_task2	48	Picture	Zu spät, das ist Klotel	1345329	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	48	Port Input	115	1350463	5134	1
+sub3123_p3_s3_task2	48	Pulse	30	1350463	5134	1
+sub3123_p3_s3_task2	48	Port Input	115	1360378	15049	1
+sub3123_p3_s3_task2	48	Pulse	30	1360378	15049	1
+sub3123_p3_s3_task2	49	Picture	learning/PICTURE_247.jpg;Soktal;Soktau;i;block1;LS2	1365660	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	49	Port Input	115	1370453	4792	1
+sub3123_p3_s3_task2	49	Pulse	30	1370453	4792	1
+sub3123_p3_s3_task2	49	Port Input	115	1380367	14707	1
+sub3123_p3_s3_task2	49	Pulse	30	1380367	14707	1
+sub3123_p3_s3_task2	49	Port Input	115	1390442	24782	1
+sub3123_p3_s3_task2	49	Pulse	30	1390442	24782	1
+sub3123_p3_s3_task2	50	Picture	Zu spät, das ist Soktau	1390990	0	1	20331	1	0	next	other	0
+sub3123_p3_s3_task2	50	Port Input	115	1400357	9367	1
+sub3123_p3_s3_task2	50	Pulse	30	1400357	9367	1
+sub3123_p3_s3_task2	50	Port Input	115	1410432	19442	1
+sub3123_p3_s3_task2	50	Pulse	30	1410432	19442	1
+sub3123_p3_s3_task2	51	Picture	learning/PICTURE_599.jpg;Seitos;Seise;i;block1;LS2	1411321	0	1	25163	1	0	25000	other	0
+sub3123_p3_s3_task2	51	Port Input	115	1420347	9026	1
+sub3123_p3_s3_task2	51	Pulse	30	1420347	9026	1
+sub3123_p3_s3_task2	51	Port Input	115	1430423	19102	1
+sub3123_p3_s3_task2	51	Pulse	30	1430423	19102	1
+sub3123_p3_s3_task2	52	Picture	Zu spät, das ist Seise	1436651	0	1	20497	1	0	next	other	0
+sub3123_p3_s3_task2	52	Port Input	115	1440338	3687	1
+sub3123_p3_s3_task2	52	Pulse	30	1440338	3687	1
+sub3123_p3_s3_task2	52	Port Input	115	1450412	13761	1
+sub3123_p3_s3_task2	52	Pulse	30	1450412	13761	1
+sub3123_p3_s3_task2	53	Picture	learning/PICTURE_610.jpg;Efdi;Efdi;c;block1;LS2	1457149	0	1	16353	1	0	25000	other	0
+sub3123_p3_s3_task2	53	Port Input	115	1460328	3179	1
+sub3123_p3_s3_task2	53	Pulse	30	1460328	3179	1
+sub3123_p3_s3_task2	53	Port Input	115	1470403	13254	1
+sub3123_p3_s3_task2	53	Pulse	30	1470403	13254	1
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	170145	1	0	next
+Picture	fix	other				180478	1	45161	1	0	next
+Picture	fix	other				225639	1	45161	1	0	next
+Picture	fix	other				270800	1	45328	1	0	next
+Picture	bubbles/learning.jpg	other				316127	1	45328	1	0	next
+Picture	learning/PICTURE_610.jpg;Efter;Efdi;i;block1;LS1	other				361455	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				386785	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS1	other				407116	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				432446	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Tulser;Tulser;c;block1;LS1	other				452777	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				478107	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klosal;Klotel;i;block1;LS1	other				498437	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				523768	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Seimer;Seise;i;block1;LS1	other				544098	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				569428	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block1;LS1	other				589759	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				615089	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Efdi;Efdi;c;block1;LS1	other				635420	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				660750	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS1	other				681081	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				706411	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Finser;Finser;c;block1;LS1	other				726742	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				752072	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Seise;Seise;c;block1;LS1	other				772403	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				797733	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Stitons;Stise;i;block1;LS1	other				818230	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				843560	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Soklet;Soktau;i;block1;LS1	other				863891	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				889221	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Tulte;Tulser;i;block1;LS1	other				909552	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				934882	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Finsin;Finser;i;block1;LS1	other				955213	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				980543	1	20164	1	0	next
+Picture	fix	other				1000707	1	45328	1	0	next
+Picture	learning/PICTURE_741.jpg;Stisin;Stise;i;block1;LS2	other				1046034	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				1071364	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Tulpos;Tulser;i;block1;LS2	other				1091695	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				1117025	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Finser;Finser;c;block1;LS2	other				1137356	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				1162686	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Seise;Seise;c;block1;LS2	other				1183017	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				1208347	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS2	other				1228678	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				1254008	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Efto;Efdi;i;block1;LS2	other				1274339	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				1299669	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotons;Klotel;i;block1;LS2	other				1319999	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				1345329	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Soktal;Soktau;i;block1;LS2	other				1365660	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				1390990	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Seitos;Seise;i;block1;LS2	other				1411321	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				1436651	1	20497	1	0	next
+Picture	learning/PICTURE_610.jpg;Efdi;Efdi;c;block1;LS2	other				1457149	1	16353	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "sub3123_p3_s3_task2",
+   "timestamp": "2024/06/16 12:28:15 GMT"
+}

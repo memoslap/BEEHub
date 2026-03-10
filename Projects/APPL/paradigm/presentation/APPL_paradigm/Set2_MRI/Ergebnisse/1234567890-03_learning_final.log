@@ -1,0 +1,157 @@
+Scenario - fMRI-SET-2
+Logfile written - 12/13/2023 12:51:44
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+1234567890	1	Picture	Hello - Intro	10500	0	1	1718445	1	0	next	other	0
+1234567890	1	Port Input	115	1668625	1658126	1
+1234567890	1	Pulse	30	1668625	1658126	1
+1234567890	1	Port Input	115	1688610	1678111	1
+1234567890	1	Pulse	30	1688610	1678111	1
+1234567890	1	Port Input	115	1708754	1698254	1
+1234567890	1	Pulse	30	1708754	1698254	1
+1234567890	1	Port Input	115	1728736	1718237	1
+1234567890	1	Pulse	30	1728736	1718237	1
+1234567890	2	Picture	fix	1728945	0	1	45161	1	0	next	other	0
+1234567890	2	Port Input	115	1748721	19776	1
+1234567890	2	Pulse	30	1748721	19776	1
+1234567890	2	Port Input	115	1768706	39761	1
+1234567890	2	Pulse	30	1768706	39761	1
+1234567890	3	Picture	fix	1774105	0	1	45161	1	0	next	other	0
+1234567890	3	Port Input	115	1788692	14586	1
+1234567890	3	Pulse	30	1788692	14586	1
+1234567890	3	Port Input	115	1808675	34569	1
+1234567890	3	Pulse	30	1808675	34569	1
+1234567890	4	Picture	fix	1819266	0	1	45327	1	0	next	other	0
+1234567890	4	Port Input	115	1828659	9393	1
+1234567890	4	Pulse	30	1828659	9393	1
+1234567890	4	Port Input	115	1848643	29376	1
+1234567890	4	Pulse	30	1848643	29376	1
+1234567890	5	Picture	bubbles/learning.jpg	1864594	0	1	45328	1	0	next	other	0
+1234567890	5	Port Input	115	1868629	4035	1
+1234567890	5	Pulse	30	1868629	4035	1
+1234567890	5	Port Input	115	1888615	24021	1
+1234567890	5	Pulse	30	1888615	24021	1
+1234567890	5	Port Input	115	1908759	44165	1
+1234567890	5	Pulse	30	1908759	44165	1
+1234567890	6	Picture	learning/PICTURE_297.jpg;Emkor;Trelle;i;block1;LS1	1909921	0	1	25163	1	0	25000	other	0
+1234567890	6	Port Input	97	1922988	13067	1
+1234567890	6	Port Input	115	1928744	18823	1
+1234567890	6	Pulse	30	1928744	18823	1
+1234567890	7	Picture	Zu späz das ist Trelle	1935251	0	1	20331	1	0	next	other	0
+1234567890	7	Port Input	115	1948729	13477	1
+1234567890	7	Pulse	30	1948729	13477	1
+1234567890	8	Picture	learning/PICTURE_720.jpg;Efdi;Efdi;c;block1;LS1	1955582	0	1	25163	1	0	25000	other	0
+1234567890	8	Port Input	98	1960720	5138	1
+1234567890	8	Port Input	115	1968713	13131	1
+1234567890	8	Pulse	30	1968713	13131	1
+1234567890	9	Picture	Zu späz das ist Efdi	1980912	0	1	20331	1	0	next	other	0
+1234567890	9	Port Input	115	1988696	7784	1
+1234567890	9	Pulse	30	1988696	7784	1
+1234567890	10	Picture	learning/PICTURE_746.jpg;Tulser;Tulser;c;block1;LS1	2001243	0	1	25163	1	0	25000	other	0
+1234567890	10	Port Input	115	2008680	7437	1
+1234567890	10	Pulse	30	2008680	7437	1
+1234567890	10	Port Input	99	2013156	11913	1
+1234567890	10	Response	1	2013156	11913	1
+1234567890	11	Picture	Korrekt, das ist Tulser	2026573	0	1	20331	1	0	next	other	0
+1234567890	11	Port Input	115	2028665	2092	1
+1234567890	11	Pulse	30	2028665	2092	1
+1234567890	12	Picture	learning/PICTURE_297.jpg;Trelle;Trelle;c;block1;LS1	2046904	0	1	25163	1	0	25000	other	0
+1234567890	12	Port Input	115	2048650	1746	1
+1234567890	12	Pulse	30	2048650	1746	1
+1234567890	12	Port Input	99	2062079	15176	1
+1234567890	12	Response	1	2062079	15176	1
+1234567890	12	Port Input	115	2068634	21731	1
+1234567890	12	Pulse	30	2068634	21731	1
+1234567890	13	Picture	Korrekt, das ist Trelle	2072234	0	1	20331	1	0	next	other	0
+1234567890	13	Port Input	115	2088619	16385	1
+1234567890	13	Pulse	30	2088619	16385	1
+1234567890	14	Picture	learning/PICTURE_23.jpg;Kropis;Eume;i;block1;LS1	2092564	0	1	25163	1	0	25000	other	0
+1234567890	14	Port Input	100	2097572	5008	1
+1234567890	14	Response	2	2097572	5008	1
+1234567890	14	Port Input	115	2108604	16039	1
+1234567890	14	Pulse	30	2108604	16039	1
+1234567890	15	Picture	Korrekt, das ist Eume	2117894	0	1	20497	1	0	next	other	0
+1234567890	15	Port Input	115	2128747	10853	1
+1234567890	15	Pulse	30	2128747	10853	1
+1234567890	16	Picture	learning/PICTURE_746.jpg;Tonte;Tulser;i;block1;LS1	2138392	0	1	25163	1	0	25000	other	0
+1234567890	16	Port Input	100	2142176	3784	1
+1234567890	16	Response	2	2142176	3784	1
+1234567890	16	Port Input	115	2148732	10340	1
+1234567890	16	Pulse	30	2148732	10340	1
+1234567890	17	Picture	Korrekt, das ist Tulser	2163722	0	1	20497	1	0	next	other	0
+1234567890	17	Port Input	115	2168716	4994	1
+1234567890	17	Pulse	30	2168716	4994	1
+1234567890	18	Picture	learning/PICTURE_235.jpg;Kopran;Kopran;c;block1;LS1	2184219	0	1	25330	1	0	25000	other	0
+1234567890	18	Port Input	99	2187582	3362	1
+1234567890	18	Response	1	2187582	3362	1
+1234567890	18	Port Input	115	2188701	4482	1
+1234567890	18	Pulse	30	2188701	4482	1
+1234567890	18	Port Input	115	2208685	24466	1
+1234567890	18	Pulse	30	2208685	24466	1
+1234567890	19	Picture	Korrekt, das ist Kopran	2209883	0	1	20664	1	0	next	other	0
+1234567890	19	Port Input	115	2228670	18788	1
+1234567890	19	Pulse	30	2228670	18788	1
+1234567890	20	Picture	learning/PICTURE_720.jpg;Kollter;Efdi;i;block1;LS1	2230547	0	1	25330	1	0	25000	other	0
+1234567890	20	Port Input	100	2234425	3879	1
+1234567890	20	Response	2	2234425	3879	1
+1234567890	20	Port Input	115	2248655	18108	1
+1234567890	20	Pulse	30	2248655	18108	1
+1234567890	21	Picture	Korrekt, das ist Efdi	2256210	0	1	20497	1	0	next	other	0
+1234567890	21	Port Input	115	2268640	12430	1
+1234567890	21	Pulse	30	2268640	12430	1
+1234567890	22	Picture	learning/PICTURE_23.jpg;Eume;Eume;c;block1;LS1	2276707	0	1	25330	1	0	25000	other	0
+1234567890	22	Port Input	99	2283187	6480	1
+1234567890	22	Response	1	2283187	6480	1
+1234567890	22	Port Input	115	2288623	11916	1
+1234567890	22	Pulse	30	2288623	11916	1
+1234567890	23	Picture	Korrekt, das ist Eume	2302371	0	1	20497	1	0	next	other	0
+1234567890	23	Port Input	115	2308605	6235	1
+1234567890	23	Pulse	30	2308605	6235	1
+1234567890	24	Picture	learning/PICTURE_235.jpg;Knustel;Kopran;i;block1;LS1	2322868	0	1	46815	1	0	25000	other	0
+1234567890	24	Port Input	115	2328749	5881	1
+1234567890	24	Pulse	30	2328749	5881	1
+1234567890	24	Quit		2336344	13476	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	1718445	1	0	next
+Picture	fix	other				1728945	1	45161	1	0	next
+Picture	fix	other				1774105	1	45161	1	0	next
+Picture	fix	other				1819266	1	45327	1	0	next
+Picture	bubbles/learning.jpg	other				1864594	1	45328	1	0	next
+Picture	learning/PICTURE_297.jpg;Emkor;Trelle;i;block1;LS1	other				1909921	1	25163	1	0	25000
+Picture	Zu späz das ist Trelle	other				1935251	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Efdi;Efdi;c;block1;LS1	other				1955582	1	25163	1	0	25000
+Picture	Zu späz das ist Efdi	other				1980912	1	20331	1	0	next
+Picture	learning/PICTURE_746.jpg;Tulser;Tulser;c;block1;LS1	other				2001243	1	25163	1	0	25000
+Picture	Korrekt, das ist Tulser	other				2026573	1	20331	1	0	next
+Picture	learning/PICTURE_297.jpg;Trelle;Trelle;c;block1;LS1	other				2046904	1	25163	1	0	25000
+Picture	Korrekt, das ist Trelle	other				2072234	1	20331	1	0	next
+Picture	learning/PICTURE_23.jpg;Kropis;Eume;i;block1;LS1	other				2092564	1	25163	1	0	25000
+Picture	Korrekt, das ist Eume	other				2117894	1	20497	1	0	next
+Picture	learning/PICTURE_746.jpg;Tonte;Tulser;i;block1;LS1	other				2138392	1	25163	1	0	25000
+Picture	Korrekt, das ist Tulser	other				2163722	1	20497	1	0	next
+Picture	learning/PICTURE_235.jpg;Kopran;Kopran;c;block1;LS1	other				2184219	1	25330	1	0	25000
+Picture	Korrekt, das ist Kopran	other				2209883	1	20664	1	0	next
+Picture	learning/PICTURE_720.jpg;Kollter;Efdi;i;block1;LS1	other				2230547	1	25330	1	0	25000
+Picture	Korrekt, das ist Efdi	other				2256210	1	20497	1	0	next
+Picture	learning/PICTURE_23.jpg;Eume;Eume;c;block1;LS1	other				2276707	1	25330	1	0	25000
+Picture	Korrekt, das ist Eume	other				2302371	1	20497	1	0	next
+Picture	learning/PICTURE_235.jpg;Knustel;Kopran;i;block1;LS1	other				2322868	1	46815	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "1234567890",
+   "timestamp": "2023/12/13 11:47:40 GMT"
+}

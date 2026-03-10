@@ -1,0 +1,374 @@
+Scenario - block_1
+Logfile written - 06/06/2024 17:46:53
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+mohamed	0	Pulse	0	0	0	NA
+mohamed	1	Picture	Hello - Intro	333	0	1	134839	1	0	next	other	0
+mohamed	1	Pulse	0	45000	44667	NA
+mohamed	1	Response	1	70777	70444	0
+mohamed	1	Pulse	0	90000	89667	NA
+mohamed	1	Pulse	0	135000	134667	NA
+mohamed	2	Picture	fix	135172	0	1	45113	1	0	next	other	0
+mohamed	2	Pulse	0	180000	44828	NA
+mohamed	3	Picture	fix	180285	0	1	45113	1	0	next	other	0
+mohamed	3	Pulse	0	225000	44715	NA
+mohamed	4	Picture	fix	225398	0	1	45779	1	0	next	other	0
+mohamed	4	Pulse	0	270000	44602	NA
+mohamed	5	Picture	bubbles/learning.png	271177	0	1	46278	1	0	next	other	0
+mohamed	5	Pulse	0	315000	43823	NA
+mohamed	6	Picture	h25_p13_i_down_left.jpg;block1;LS1	317455	0	1	26468	1	0	next	other	0
+mohamed	7	Picture	to late	343923	0	1	21308	1	0	next	other	0
+mohamed	7	Pulse	0	360000	16077	NA
+mohamed	8	Picture	h12_p4_k_down_left.jpg;block1;LS1	365231	0	1	16147	1	0	next	other	0
+mohamed	8	Response	1	379978	14747	0
+mohamed	9	Picture	extra Pic Time	381379	0	1	10488	1	0	next	other	0
+mohamed	10	Picture	correct;h12_p4_k_down_left.jpg	391866	0	1	21141	1	0	next	other	0
+mohamed	10	Pulse	0	405000	13134	NA
+mohamed	11	Picture	h18_p16_i_down_right.jpg;block1;LS1	413008	0	1	13484	1	0	next	other	0
+mohamed	11	Response	1	425201	12193	0
+mohamed	12	Picture	extra Pic Time	426492	0	1	12985	1	0	next	other	0
+mohamed	13	Picture	incorrect;h18_p7_k_down_right.jpg	439476	0	1	21308	1	0	next	other	0
+mohamed	13	Pulse	0	450000	10524	NA
+mohamed	14	Picture	h25_p14_k_down_left.jpg;block1;LS1	460784	0	1	14816	1	0	next	other	0
+mohamed	14	Response	1	474344	13559	0
+mohamed	15	Picture	extra Pic Time	475600	0	1	11653	1	0	next	other	0
+mohamed	16	Picture	correct;h25_p14_k_down_left.jpg	487253	0	1	21308	1	0	next	other	0
+mohamed	16	Pulse	0	495000	7747	NA
+mohamed	17	Picture	h108_p27_k_up_right.jpg;block1;LS1	508561	0	1	10820	1	0	next	other	0
+mohamed	17	Response	1	518170	9609	0
+mohamed	18	Picture	extra Pic Time	519381	0	1	15482	1	0	next	other	0
+mohamed	19	Picture	correct;h108_p27_k_up_right.jpg	534863	0	1	21141	1	0	next	other	0
+mohamed	19	Pulse	0	540000	5137	NA
+mohamed	20	Picture	h18_p7_k_down_right.jpg;block1;LS1	556004	0	1	5993	1	0	next	other	0
+mohamed	20	Response	1	560752	4748	0
+mohamed	21	Picture	extra Pic Time	561997	0	1	20476	1	0	next	other	0
+mohamed	22	Picture	correct;h18_p7_k_down_right.jpg	582473	0	1	21141	1	0	next	other	0
+mohamed	22	Pulse	0	585000	2527	NA
+mohamed	23	Picture	h109_p23_i_up_left.jpg;block1;LS1	603614	0	1	6326	1	0	next	other	0
+mohamed	23	Response	1	608930	5316	0
+mohamed	24	Picture	extra Pic Time	609940	0	1	19810	1	0	next	other	0
+mohamed	25	Picture	incorrect;h109_p51_k_up_left.jpg	629750	0	1	21141	1	0	next	other	0
+mohamed	25	Pulse	0	630000	250	NA
+mohamed	26	Picture	h22_p21_k_down_left.jpg;block1;LS1	650891	0	1	5826	1	0	next	other	0
+mohamed	26	Response	1	655532	4641	0
+mohamed	27	Picture	extra Pic Time	656718	0	1	20476	1	0	next	other	0
+mohamed	27	Pulse	0	675000	18282	NA
+mohamed	28	Picture	correct;h22_p21_k_down_left.jpg	677193	0	1	20975	1	0	next	other	0
+mohamed	29	Picture	h109_p51_k_up_left.jpg;block1;LS1	698168	0	1	8989	1	0	next	other	0
+mohamed	29	Response	1	706105	7936	0
+mohamed	30	Picture	extra Pic Time	707158	0	1	17146	1	0	next	other	0
+mohamed	30	Pulse	0	720000	12842	NA
+mohamed	31	Picture	correct;h109_p51_k_up_left.jpg	724304	0	1	21141	1	0	next	other	0
+mohamed	32	Picture	h12_p13_i_down_left.jpg;block1;LS1	745445	0	1	20143	1	0	next	other	0
+mohamed	32	Response	1	764345	18899	0
+mohamed	32	Pulse	0	765000	19555	NA
+mohamed	33	Picture	extra Pic Time	765588	0	1	6326	1	0	next	other	0
+mohamed	34	Picture	incorrect;h12_p4_k_down_left.jpg	771914	0	1	21142	1	0	next	other	0
+mohamed	35	Response	1	793027	163	0
+mohamed	35	Picture	h107_p41_i_up_left.jpg;block1;LS1	793055	192	1	1332	1	0	next	other	0
+mohamed	36	Picture	to late	794387	0	1	21142	1	0	next	other	0
+mohamed	36	Pulse	0	810000	15613	NA
+mohamed	37	Picture	h22_p15_i_down_left.jpg;block1;LS1	815529	0	1	7491	1	0	next	other	0
+mohamed	37	Response	1	821697	6168	0
+mohamed	38	Picture	extra Pic Time	823020	0	1	18977	1	0	next	other	0
+mohamed	39	Picture	incorrect;h22_p21_k_down_left.jpg	841997	0	1	21308	1	0	next	other	0
+mohamed	39	Pulse	0	855000	13003	NA
+mohamed	39	Response	1	861877	19880	0
+mohamed	40	Picture	h107_p42_k_up_right.jpg;block1;LS1	863305	0	1	26302	1	0	next	other	0
+mohamed	41	Picture	to late	889607	0	1	21142	1	0	next	other	0
+mohamed	41	Pulse	0	900000	10393	NA
+mohamed	42	Picture	h108_p34_i_up_right.jpg;block1;LS1	910749	0	1	5826	1	0	next	other	0
+mohamed	42	Response	1	915365	4616	0
+mohamed	43	Picture	extra Pic Time	916575	0	1	20476	1	0	next	other	0
+mohamed	44	Picture	incorrect;h108_p27_k_up_right.jpg	937051	0	1	20143	1	0	next	other	0
+mohamed	44	Pulse	0	945000	7949	NA
+mohamed	45	Picture	fix	957193	0	1	46112	1	0	next	other	0
+mohamed	45	Pulse	0	990000	32807	NA
+mohamed	46	Picture	h12_p3_i_down_left.jpg;block1;LS2	1003305	0	1	1665	1	0	next	other	0
+mohamed	46	Response	1	1003802	497	0
+mohamed	47	Picture	extra Pic Time	1004970	0	1	24637	1	0	next	other	0
+mohamed	48	Picture	incorrect;h12_p4_k_down_left.jpg	1029607	0	1	21142	1	0	next	other	0
+mohamed	48	Pulse	0	1035000	5393	NA
+mohamed	48	Response	1	1035289	5682	0
+mohamed	49	Picture	h18_p7_k_down_right.jpg;block1;LS2	1050749	0	1	16980	1	0	next	other	0
+mohamed	49	Response	1	1066563	15814	0
+mohamed	50	Picture	extra Pic Time	1067728	0	1	9322	1	0	next	other	0
+mohamed	51	Picture	correct;h18_p7_k_down_right.jpg	1077051	0	1	21308	1	0	next	other	0
+mohamed	51	Pulse	0	1080000	2949	NA
+mohamed	52	Picture	h22_p21_k_down_left.jpg;block1;LS2	1098358	0	1	6326	1	0	next	other	0
+mohamed	52	Response	1	1103395	5036	0
+mohamed	53	Picture	extra Pic Time	1104684	0	1	20143	1	0	next	other	0
+mohamed	54	Picture	correct;h22_p21_k_down_left.jpg	1124827	0	1	21142	1	0	next	other	0
+mohamed	54	Pulse	0	1125000	173	NA
+mohamed	55	Picture	h107_p43_i_up_right.jpg;block1;LS2	1145968	0	1	5327	1	0	next	other	0
+mohamed	55	Response	1	1149957	3989	0
+mohamed	56	Picture	extra Pic Time	1151295	0	1	21142	1	0	next	other	0
+mohamed	56	Pulse	0	1170000	18705	NA
+mohamed	57	Picture	incorrect;h107_p42_k_up_right.jpg	1172437	0	1	21141	1	0	next	other	0
+mohamed	58	Picture	h12_p4_k_down_left.jpg;block1;LS2	1193578	0	1	5660	1	0	next	other	0
+mohamed	58	Response	1	1198008	4429	0
+mohamed	59	Picture	extra Pic Time	1199238	0	1	20809	1	0	next	other	0
+mohamed	59	Pulse	0	1215000	15762	NA
+mohamed	60	Picture	correct;h12_p4_k_down_left.jpg	1220047	0	1	21142	1	0	next	other	0
+mohamed	61	Picture	h109_p27_i_up_right.jpg;block1;LS2	1241188	0	1	22473	1	0	next	other	0
+mohamed	61	Pulse	0	1260000	18812	NA
+mohamed	61	Response	1	1262491	21303	0
+mohamed	62	Picture	extra Pic Time	1263662	0	1	3829	1	0	next	other	0
+mohamed	63	Picture	incorrect;h109_p51_k_up_left.jpg	1267490	0	1	21141	1	0	next	other	0
+mohamed	64	Picture	h22_p20_i_down_left.jpg;block1;LS2	1288632	0	1	25803	1	0	next	other	0
+mohamed	64	Pulse	0	1305000	16368	NA
+mohamed	64	Response	1	1313101	24469	0
+mohamed	65	Picture	extra Pic Time	1314435	0	1	666	1	0	next	other	0
+mohamed	66	Picture	incorrect;h22_p21_k_down_left.jpg	1315100	0	1	21308	1	0	next	other	0
+mohamed	67	Picture	h107_p42_k_up_right.jpg;block1;LS2	1336408	0	1	26302	1	0	next	other	0
+mohamed	67	Pulse	0	1350000	13592	NA
+mohamed	68	Picture	to late	1362710	0	1	21142	1	0	next	other	0
+mohamed	69	Picture	h108_p51_i_up_left.jpg;block1;LS2	1383852	0	1	3995	1	0	next	other	0
+mohamed	69	Response	1	1386591	2739	0
+mohamed	70	Picture	extra Pic Time	1387847	0	1	22473	1	0	next	other	0
+mohamed	70	Pulse	0	1395000	7153	NA
+mohamed	71	Picture	incorrect;h108_p27_k_up_right.jpg	1410320	0	1	21141	1	0	next	other	0
+mohamed	72	Picture	h109_p51_k_up_left.jpg;block1;LS2	1431462	0	1	16314	1	0	next	other	0
+mohamed	72	Pulse	0	1440000	8538	NA
+mohamed	72	Response	1	1446657	15195	0
+mohamed	73	Picture	extra Pic Time	1447776	0	1	9988	1	0	next	other	0
+mohamed	74	Picture	correct;h109_p51_k_up_left.jpg	1457764	0	1	21141	1	0	next	other	0
+mohamed	75	Picture	h25_p48_i_down_left.jpg;block1;LS2	1478905	0	1	2497	1	0	next	other	0
+mohamed	75	Response	1	1480068	1163	0
+mohamed	76	Picture	extra Pic Time	1481402	0	1	23971	1	0	next	other	0
+mohamed	76	Pulse	0	1485000	3598	NA
+mohamed	77	Picture	incorrect;h25_p14_k_down_left.jpg	1505374	0	1	21141	1	0	next	other	0
+mohamed	77	Response	1	1524963	19590	0
+mohamed	78	Picture	h18_p6_i_down_right.jpg;block1;LS2	1526515	0	1	9156	1	0	next	other	0
+mohamed	78	Pulse	0	1530000	3485	NA
+mohamed	78	Response	1	1534286	7771	0
+mohamed	79	Picture	extra Pic Time	1535671	0	1	17313	1	0	next	other	0
+mohamed	80	Picture	incorrect;h18_p7_k_down_right.jpg	1552984	0	1	21308	1	0	next	other	0
+mohamed	81	Picture	h108_p27_k_up_right.jpg;block1;LS2	1574292	0	1	1665	1	0	next	other	0
+mohamed	81	Response	1	1574581	289	0
+mohamed	81	Pulse	0	1575000	708	NA
+mohamed	82	Picture	extra Pic Time	1575956	0	1	24804	1	0	next	other	0
+mohamed	83	Picture	correct;h108_p27_k_up_right.jpg	1600760	0	1	21308	1	0	next	other	0
+mohamed	83	Pulse	0	1620000	19240	NA
+mohamed	84	Picture	h25_p14_k_down_left.jpg;block1;LS2	1622068	0	1	10820	1	0	next	other	0
+mohamed	84	Response	1	1631614	9545	0
+mohamed	85	Picture	extra Pic Time	1632889	0	1	15648	1	0	next	other	0
+mohamed	86	Picture	correct;h25_p14_k_down_left.jpg	1648537	0	1	20143	1	0	next	other	0
+mohamed	86	Pulse	0	1665000	16463	NA
+mohamed	87	Picture	fix	1668679	0	1	46112	1	0	next	other	0
+mohamed	87	Pulse	0	1710000	41321	NA
+mohamed	88	Picture	h108_p52_i_up_right.jpg;block1;LS3	1714791	0	1	18811	1	0	next	other	0
+mohamed	88	Response	1	1732285	17494	0
+mohamed	89	Picture	extra Pic Time	1733602	0	1	7658	1	0	next	other	0
+mohamed	90	Picture	incorrect;h108_p27_k_up_right.jpg	1741260	0	1	21142	1	0	next	other	0
+mohamed	90	Pulse	0	1755000	13740	NA
+mohamed	91	Picture	h109_p51_k_up_left.jpg;block1;LS3	1762401	0	1	26136	1	0	next	other	0
+mohamed	92	Picture	to late	1788537	0	1	21142	1	0	next	other	0
+mohamed	92	Pulse	0	1800000	11463	NA
+mohamed	92	Response	1	1805160	16624	0
+mohamed	93	Picture	h22_p24_i_down_left.jpg;block1;LS3	1809678	0	1	26302	1	0	next	other	0
+mohamed	94	Picture	to late	1835980	0	1	21142	1	0	next	other	0
+mohamed	94	Pulse	0	1845000	9020	NA
+mohamed	95	Picture	h18_p8_i_down_right.jpg;block1;LS3	1857122	0	1	26302	1	0	next	other	0
+mohamed	96	Picture	to late	1883424	0	1	21308	1	0	next	other	0
+mohamed	96	Pulse	0	1890000	6576	NA
+mohamed	96	Response	1	1901102	17679	0
+mohamed	97	Picture	h25_p14_k_down_left.jpg;block1;LS3	1904732	0	1	26302	1	0	next	other	0
+mohamed	98	Picture	to late	1931034	0	1	21308	1	0	next	other	0
+mohamed	98	Pulse	0	1935000	3966	NA
+mohamed	99	Picture	h108_p27_k_up_right.jpg;block1;LS3	1952342	0	1	26302	1	0	next	other	0
+mohamed	100	Picture	to late	1978644	0	1	21308	1	0	next	other	0
+mohamed	100	Pulse	0	1980000	1356	NA
+mohamed	100	Response	1	1982096	3453	0
+mohamed	101	Picture	h22_p21_k_down_left.jpg;block1;LS3	1999952	0	1	10488	1	0	next	other	0
+mohamed	101	Response	1	2009055	9104	0
+mohamed	102	Picture	extra Pic Time	2010439	0	1	16147	1	0	next	other	0
+mohamed	102	Response	1	2019313	8874	0
+mohamed	102	Pulse	0	2025000	14561	NA
+mohamed	103	Picture	correct;h22_p21_k_down_left.jpg	2026587	0	1	21141	1	0	next	other	0
+mohamed	104	Picture	h107_p63_i_up_right.jpg;block1;LS3	2047728	0	1	13151	1	0	next	other	0
+mohamed	104	Response	1	2059489	11761	0
+mohamed	105	Picture	extra Pic Time	2060879	0	1	13484	1	0	next	other	0
+mohamed	105	Pulse	0	2070000	9121	NA
+mohamed	106	Picture	incorrect;h107_p42_k_up_right.jpg	2074363	0	1	21142	1	0	next	other	0
+mohamed	107	Picture	h25_p56_i_down_left.jpg;block1;LS3	2095504	0	1	6492	1	0	next	other	0
+mohamed	107	Response	1	2100606	5101	0
+mohamed	108	Picture	extra Pic Time	2101997	0	1	19976	1	0	next	other	0
+mohamed	108	Pulse	0	2115000	13003	NA
+mohamed	109	Picture	incorrect;h25_p14_k_down_left.jpg	2121973	0	1	21308	1	0	next	other	0
+mohamed	110	Picture	h12_p4_k_down_left.jpg;block1;LS3	2143281	0	1	6825	1	0	next	other	0
+mohamed	110	Response	1	2148854	5573	0
+mohamed	111	Picture	extra Pic Time	2150106	0	1	19643	1	0	next	other	0
+mohamed	111	Pulse	0	2160000	9894	NA
+mohamed	112	Picture	correct;h12_p4_k_down_left.jpg	2169749	0	1	21141	1	0	next	other	0
+mohamed	113	Picture	h109_p64_i_up_left.jpg;block1;LS3	2190891	0	1	6825	1	0	next	other	0
+mohamed	113	Response	1	2196520	5630	0
+mohamed	114	Picture	extra Pic Time	2197716	0	1	19477	1	0	next	other	0
+mohamed	114	Pulse	0	2205000	7284	NA
+mohamed	115	Picture	incorrect;h109_p51_k_up_left.jpg	2217193	0	1	21308	1	0	next	other	0
+mohamed	116	Picture	h107_p42_k_up_right.jpg;block1;LS3	2238501	0	1	6825	1	0	next	other	0
+mohamed	116	Response	1	2244026	5525	0
+mohamed	117	Picture	extra Pic Time	2245326	0	1	19643	1	0	next	other	0
+mohamed	117	Pulse	0	2250000	4674	NA
+mohamed	118	Picture	correct;h107_p42_k_up_right.jpg	2264969	0	1	21141	1	0	next	other	0
+mohamed	119	Picture	h12_p48_i_down_left.jpg;block1;LS3	2286111	0	1	5493	1	0	next	other	0
+mohamed	119	Response	1	2290255	4144	0
+mohamed	120	Picture	extra Pic Time	2291604	0	1	20975	1	0	next	other	0
+mohamed	120	Pulse	0	2295000	3396	NA
+mohamed	121	Picture	incorrect;h12_p4_k_down_left.jpg	2312579	0	1	21308	1	0	next	other	0
+mohamed	122	Picture	h18_p7_k_down_right.jpg;block1;LS3	2333887	0	1	6159	1	0	next	other	0
+mohamed	122	Response	1	2338657	4770	0
+mohamed	122	Pulse	0	2340000	6113	NA
+mohamed	123	Picture	extra Pic Time	2340047	0	1	20476	1	0	next	other	0
+mohamed	124	Picture	correct;h18_p7_k_down_right.jpg	2360522	0	1	20143	1	0	next	other	0
+mohamed	124	Response	1	2369352	8830	0
+mohamed	125	Picture	fix	2380665	0	1	46112	1	0	next	other	0
+mohamed	125	Pulse	0	2385000	4335	NA
+mohamed	126	Picture	h107_p41_i_up_left.jpg;block1;LS4	2426777	0	1	6825	1	0	next	other	0
+mohamed	126	Pulse	0	2430000	3223	NA
+mohamed	126	Response	1	2432271	5495	0
+mohamed	127	Picture	extra Pic Time	2433602	0	1	19643	1	0	next	other	0
+mohamed	128	Picture	incorrect;h107_p42_k_up_right.jpg	2453245	0	1	21142	1	0	next	other	0
+mohamed	128	Response	1	2463920	10675	0
+mohamed	129	Picture	h25_p13_i_down_left.jpg;block1;LS4	2474387	0	1	9988	1	0	next	other	0
+mohamed	129	Pulse	0	2475000	613	NA
+mohamed	129	Response	1	2483062	8675	0
+mohamed	130	Picture	extra Pic Time	2484375	0	1	16480	1	0	next	other	0
+mohamed	131	Picture	incorrect;h25_p14_k_down_left.jpg	2500855	0	1	21142	1	0	next	other	0
+mohamed	131	Pulse	0	2520000	19145	NA
+mohamed	132	Picture	h18_p16_i_down_right.jpg;block1;LS4	2521997	0	1	19144	1	0	next	other	0
+mohamed	132	Response	1	2539928	17932	0
+mohamed	133	Picture	extra Pic Time	2541140	0	1	7158	1	0	next	other	0
+mohamed	134	Picture	incorrect;h18_p7_k_down_right.jpg	2548299	0	1	21142	1	0	next	other	0
+mohamed	134	Pulse	0	2565000	16701	NA
+mohamed	135	Picture	h22_p21_k_down_left.jpg;block1;LS4	2569440	0	1	26302	1	0	next	other	0
+mohamed	136	Picture	to late	2595742	0	1	20975	1	0	next	other	0
+mohamed	136	Pulse	0	2610000	14258	NA
+mohamed	137	Picture	h108_p34_i_up_right.jpg;block1;LS4	2616717	0	1	26302	1	0	next	other	0
+mohamed	138	Picture	to late	2643019	0	1	21308	1	0	next	other	0
+mohamed	138	Pulse	0	2655000	11981	NA
+mohamed	139	Picture	h18_p7_k_down_right.jpg;block1;LS4	2664327	0	1	8490	1	0	next	other	0
+mohamed	139	Response	1	2671576	7249	0
+mohamed	140	Picture	extra Pic Time	2672817	0	1	17979	1	0	next	other	0
+mohamed	141	Picture	correct;h18_p7_k_down_right.jpg	2690796	0	1	21308	1	0	next	other	0
+mohamed	141	Pulse	0	2700000	9204	NA
+mohamed	142	Picture	h25_p14_k_down_left.jpg;block1;LS4	2712104	0	1	7491	1	0	next	other	0
+mohamed	142	Response	1	2718359	6255	0
+mohamed	143	Picture	extra Pic Time	2719595	0	1	18977	1	0	next	other	0
+mohamed	144	Picture	correct;h25_p14_k_down_left.jpg	2738572	0	1	21142	1	0	next	other	0
+mohamed	144	Pulse	0	2745000	6428	NA
+mohamed	145	Picture	h109_p23_i_up_left.jpg;block1;LS4	2759714	0	1	26136	1	0	next	other	0
+mohamed	146	Picture	to late	2785849	0	1	21308	1	0	next	other	0
+mohamed	146	Pulse	0	2790000	4151	NA
+mohamed	147	Picture	h12_p4_k_down_left.jpg;block1;LS4	2807157	0	1	26302	1	0	next	other	0
+mohamed	148	Picture	to late	2833459	0	1	21142	1	0	next	other	0
+mohamed	148	Pulse	0	2835000	1541	NA
+mohamed	149	Picture	h109_p51_k_up_left.jpg;block1;LS4	2854601	0	1	26136	1	0	next	other	0
+mohamed	149	Pulse	0	2880000	25399	NA
+mohamed	150	Picture	to late	2880736	0	1	21141	1	0	next	other	0
+mohamed	151	Picture	h107_p42_k_up_right.jpg;block1;LS4	2901878	0	1	26302	1	0	next	other	0
+mohamed	151	Pulse	0	2925000	23122	NA
+mohamed	152	Picture	to late	2928180	0	1	21142	1	0	next	other	0
+mohamed	153	Picture	h22_p15_i_down_left.jpg;block1;LS4	2949321	0	1	26136	1	0	next	other	0
+mohamed	153	Pulse	0	2970000	20679	NA
+mohamed	154	Picture	to late	2975457	0	1	21141	1	0	next	other	0
+mohamed	155	Picture	h108_p27_k_up_right.jpg;block1;LS4	2996598	0	1	12985	1	0	next	other	0
+mohamed	155	Response	1	3008294	11696	0
+mohamed	156	Picture	extra Pic Time	3009583	0	1	13484	1	0	next	other	0
+mohamed	156	Pulse	0	3015000	5417	NA
+mohamed	157	Picture	correct;h108_p27_k_up_right.jpg	3023067	0	1	21141	1	0	next	other	0
+mohamed	158	Picture	h12_p13_i_down_left.jpg;block1;LS4	3044208	0	1	7658	1	0	next	other	0
+mohamed	158	Response	1	3050542	6334	0
+mohamed	159	Picture	extra Pic Time	3051866	0	1	18811	1	0	next	other	0
+mohamed	159	Pulse	0	3060000	8134	NA
+mohamed	160	Picture	incorrect;h12_p4_k_down_left.jpg	3070677	0	1	20143	1	0	next	other	0
+mohamed	161	Picture	fix	3090819	0	1	45113	1	0	next	other	0
+mohamed	161	Pulse	0	3105000	14181	NA
+mohamed	162	Picture	fix	3135932	0	1	45113	1	0	next	other	0
+mohamed	162	Pulse	0	3150000	14068	NA
+mohamed	163	Picture	fix	3181045	0	1	45113	1	0	next	other	0
+mohamed	163	Pulse	0	3195000	13955	NA
+mohamed	164	Picture	fix	3226158	0	1	45446	1	0	next	other	0
+mohamed	164	Pulse	0	3240000	13842	NA
+mohamed	165	Picture	bubbles/control.png	3271604	0	1	46445	1	0	next	other	0
+mohamed	165	Pulse	0	3285000	13396	NA
+mohamed	166	Picture	h22_p21_k_down_left.jpg;crt1-l;LS1	3318049	0	1	25137	1	0	next	other	0
+mohamed	166	Pulse	0	3330000	11951	NA
+mohamed	166	Response	1	3335063	17015	0
+mohamed	167	Picture	correct;h22_p21_k_down_left.jpg	3343185	0	1	21142	1	0	next	other	0
+mohamed	168	Picture	h53_p32_i_down_right.jpg;crt1-l;LS1	3364327	0	1	25137	1	0	next	other	0
+mohamed	168	Response	1	3372449	8122	0
+mohamed	168	Pulse	0	3375000	10673	NA
+mohamed	169	Picture	incorrect;h53_p32_i_down_right.jpg	3389464	0	1	21308	1	0	next	other	0
+mohamed	170	Picture	h48_p41_k_down_right.jpg;crt1-l;LS1	3410772	0	1	25137	1	0	next	other	0
+mohamed	170	Pulse	0	3420000	9228	NA
+mohamed	170	Response	1	3423374	12602	0
+mohamed	171	Picture	incorrect;h48_p41_k_down_right.jpg	3435908	0	1	21141	1	0	next	other	0
+mohamed	172	Picture	h46_p23_i_down_right.jpg;crt1-l;LS1	3457050	0	1	25137	1	0	next	other	0
+mohamed	172	Pulse	0	3465000	7950	NA
+mohamed	172	Response	1	3465428	8378	0
+mohamed	173	Picture	incorrect;h46_p23_i_down_right.jpg	3482187	0	1	21141	1	0	next	other	0
+mohamed	174	Picture	h107_p63_i_up_right.jpg;crt1-l;LS1	3503328	0	1	25137	1	0	next	other	0
+mohamed	174	Pulse	0	3510000	6672	NA
+mohamed	174	Response	2	3513250	9922	0
+mohamed	175	Picture	correct;h107_p63_i_up_right.jpg	3528465	0	1	21141	1	0	next	other	0
+mohamed	176	Picture	h18_p6_i_down_right.jpg;crt1-l;LS1	3549606	0	1	25137	1	0	next	other	0
+mohamed	176	Response	2	3554662	5056	0
+mohamed	176	Pulse	0	3555000	5394	NA
+mohamed	177	Picture	correct;h18_p6_i_down_right.jpg	3574743	0	1	21141	1	0	next	other	0
+mohamed	178	Picture	h25_p48_i_down_left.jpg;crt1-l;LS1	3595884	0	1	25137	1	0	next	other	0
+mohamed	178	Pulse	0	3600000	4116	NA
+mohamed	178	Response	2	3601173	5289	0
+mohamed	179	Picture	incorrect;h25_p48_i_down_left.jpg	3621021	0	1	21142	1	0	next	other	0
+mohamed	180	Picture	h109_p23_i_up_left.jpg;crt1-l;LS1	3642163	0	1	25137	1	0	next	other	0
+mohamed	180	Pulse	0	3645000	2837	NA
+mohamed	180	Response	2	3646461	4298	0
+mohamed	181	Picture	incorrect;h109_p23_i_up_left.jpg	3667299	0	1	21141	1	0	next	other	0
+mohamed	182	Picture	h12_p4_k_down_left.jpg;crt1-l;LS1	3688441	0	1	25137	1	0	next	other	0
+mohamed	182	Pulse	0	3690000	1559	NA
+mohamed	182	Response	2	3693215	4774	0
+mohamed	183	Picture	incorrect;h12_p4_k_down_left.jpg	3713578	0	1	21141	1	0	next	other	0
+mohamed	184	Picture	h36_p12_k_down_left.jpg;crt1-l;LS1	3734719	0	1	25137	1	0	next	other	0
+mohamed	184	Pulse	0	3735000	281	NA
+mohamed	184	Response	2	3738138	3419	0
+mohamed	185	Picture	incorrect;h36_p12_k_down_left.jpg	3759856	0	1	21141	1	0	next	other	0
+mohamed	185	Pulse	0	3780000	20144	NA
+mohamed	186	Picture	h33_p11_k_down_right.jpg;crt1-l;LS1	3780997	0	1	25137	1	0	next	other	0
+mohamed	186	Response	2	3786384	5387	0
+mohamed	187	Picture	correct;h33_p11_k_down_right.jpg	3806134	0	1	21141	1	0	next	other	0
+mohamed	187	Pulse	0	3825000	18866	NA
+mohamed	188	Picture	h94_p3_i_up_left.jpg;crt1-l;LS1	3827276	0	1	25137	1	0	next	other	0
+mohamed	188	Response	2	3833663	6387	0
+mohamed	189	Picture	incorrect;h94_p3_i_up_left.jpg	3852412	0	1	21142	1	0	next	other	0
+mohamed	189	Pulse	0	3870000	17588	NA
+mohamed	190	Picture	h85_p10_i_up_left.jpg;crt1-l;LS1	3873554	0	1	25137	1	0	next	other	0
+mohamed	190	Response	2	3878588	5034	0
+mohamed	191	Picture	incorrect;h85_p10_i_up_left.jpg	3898691	0	1	21142	1	0	next	other	0
+mohamed	191	Pulse	0	3915000	16309	NA
+mohamed	192	Picture	h108_p34_i_up_right.jpg;crt1-l;LS1	3919832	0	1	25137	1	0	next	other	0
+mohamed	192	Response	2	3926341	6509	0
+mohamed	193	Picture	correct;h108_p34_i_up_right.jpg	3944969	0	1	20143	1	0	next	other	0
+mohamed	193	Pulse	0	3960000	15031	NA
+mohamed	194	Picture	fix	3965112	0	1	46112	1	0	next	other	0
+mohamed	194	Pulse	0	4005000	39888	NA
+mohamed	195	Picture	h107_p63_i_up_right.jpg;crt1-l;LS2	4011223	0	1	25137	1	0	next	other	0
+mohamed	196	Picture	to late	4036360	0	1	26136	1	0	next	other	0
+mohamed	196	Pulse	0	4050000	13640	NA
+mohamed	197	Picture	h94_p3_i_up_left.jpg;crt1-l;LS2	4062496	0	1	15182	1	0	next	other	0
+mohamed	197	Quit		4069753	7257	NA
+
+
+{
+   "app": "Presentation Version 20.3 Build 02.01.19",
+   "device": "HP HP EliteBook 840 G3",
+   "experiment": "{DAED9F8E-CE21-41E2-A450-B84AB5F8B400}",
+   "os": "Windows 7 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "mohamed",
+   "timestamp": "2024/06/06 15:40:04 GMT"
+}

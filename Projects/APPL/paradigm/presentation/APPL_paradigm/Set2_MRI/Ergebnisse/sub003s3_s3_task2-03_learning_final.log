@@ -1,0 +1,31 @@
+Scenario - fMRI-SET-2
+Logfile written - 10/25/2023 14:06:34
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub003s3_s3_task2	0	Picture	Hello - Intro	10333	10333	1	624987	1	0	next	other	0
+sub003s3_s3_task2	0	Port Input	99	21360	21360	1
+sub003s3_s3_task2	0	Response	yes	21360	21360	1
+sub003s3_s3_task2	0	Port Input	100	25034	25034	1
+sub003s3_s3_task2	0	Response	no	25034	25034	1
+sub003s3_s3_task2	0	Quit		629363	629363	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	624987	1	0	next
+
+
+{
+   "app": "Presentation Version 20.1 Build 12.04.17",
+   "device": "Microsoft Corporation Surface Pro 7+",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "sub003s3_s3_task2",
+   "timestamp": "2023/10/25 12:05:29 GMT"
+}

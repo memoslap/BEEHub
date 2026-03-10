@@ -1,0 +1,61 @@
+Scenario - block_1
+Logfile written - 06/05/2024 15:12:17
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+xcvncnfhj	0	Pulse	0	0	0	NA
+xcvncnfhj	1	Picture	Hello - Intro	333	0	1	134835	1	0	next	other	0
+xcvncnfhj	1	Pulse	0	45000	44667	NA
+xcvncnfhj	1	Pulse	0	90000	89667	NA
+xcvncnfhj	1	Pulse	0	135000	134667	NA
+xcvncnfhj	2	Picture	fix	135168	0	1	45111	1	0	next	other	0
+xcvncnfhj	2	Response	1	149916	14749	0
+xcvncnfhj	2	Response	1	166003	30835	0
+xcvncnfhj	2	Response	1	172749	37581	0
+xcvncnfhj	2	Pulse	0	180000	44832	NA
+xcvncnfhj	3	Picture	fix	180279	0	1	45111	1	0	next	other	0
+xcvncnfhj	3	Response	1	180544	265	0
+xcvncnfhj	3	Response	1	184919	4640	0
+xcvncnfhj	3	Response	1	189223	8944	0
+xcvncnfhj	3	Response	1	192316	12037	0
+xcvncnfhj	3	Response	1	194250	13971	0
+xcvncnfhj	3	Pulse	0	225000	44721	NA
+xcvncnfhj	4	Picture	fix	225390	0	1	45444	1	0	next	other	0
+xcvncnfhj	4	Pulse	0	270000	44610	NA
+xcvncnfhj	5	Picture	bubbles/learning.png	270835	0	1	46277	1	0	next	other	0
+xcvncnfhj	5	Pulse	0	315000	44165	NA
+xcvncnfhj	6	Picture	h44_p43_h57_p8_k_up_right_left.jpg;block1;LS1	317112	0	1	26135	1	0	next	other	0
+xcvncnfhj	7	Picture	to late	343246	0	1	21307	1	0	next	other	0
+xcvncnfhj	7	Response	1	358710	15464	0
+xcvncnfhj	7	Pulse	0	360000	16754	NA
+xcvncnfhj	8	Picture	h30_p14_h34_p49_i_up_right_left.jpg;block1;LS1	364553	0	1	5660	1	0	next	other	0
+xcvncnfhj	8	Response	1	368946	4392	0
+xcvncnfhj	9	Picture	extra Pic Time	370213	0	1	20808	1	0	next	other	0
+xcvncnfhj	10	Picture	incorrect;h30_p14_h34_p41_k_up_right_left.jpg	391021	0	1	21307	1	0	next	other	0
+xcvncnfhj	10	Pulse	0	405000	13979	NA
+xcvncnfhj	11	Picture	h38_p20_h101_p8_i_up_right_left.jpg;block1;LS1	412328	0	1	8157	1	0	next	other	0
+xcvncnfhj	11	Response	1	419271	6942	0
+xcvncnfhj	12	Picture	extra Pic Time	420485	0	1	18144	1	0	next	other	0
+xcvncnfhj	13	Picture	incorrect;h38_p37_h101_p46_k_up_right_left.jpg	438629	0	1	21141	1	0	next	other	0
+xcvncnfhj	13	Pulse	0	450000	11371	NA
+xcvncnfhj	14	Picture	h20_p19_h24_p40_k_up_right_left.jpg;block1;LS1	459770	0	1	4827	1	0	next	other	0
+xcvncnfhj	14	Response	1	463479	3709	0
+xcvncnfhj	15	Picture	extra Pic Time	464598	0	1	21474	1	0	next	other	0
+xcvncnfhj	16	Picture	correct;h20_p19_h24_p40_k_up_right_left.jpg	486071	0	1	17866	1	0	next	other	0
+xcvncnfhj	16	Pulse	0	495000	8929	NA
+xcvncnfhj	16	Quit		496021	9949	NA
+
+
+{
+   "app": "Presentation Version 20.3 Build 02.01.19",
+   "device": "HP HP EliteBook 840 G3",
+   "experiment": "{DAED9F8E-CE21-41E2-A450-B84AB5F8B400}",
+   "os": "Windows 7 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "xcvncnfhj",
+   "timestamp": "2024/06/05 13:11:23 GMT"
+}

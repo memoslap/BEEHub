@@ -1,0 +1,16 @@
+{
+  "Name": "APPL Behavioral Dataset",
+  "BIDSVersion": "1.6.0",
+  "DatasetType": "raw",
+  "Authors": [
+    "Behavioral_Exp_Hub Contributors"
+  ],
+  "GeneratedBy": [
+    {
+      "Name": "Behavioral_Exp_Hub Conversion Pipeline",
+      "Version": "3.0",
+      "Description": "Produces one TSV per outcome measure (RT / ACC / ACCBIN) with JSON sidecars.",
+      "CodeURL": "https://github.com/yourusername/BEHub"
+    }
+  ]
+}

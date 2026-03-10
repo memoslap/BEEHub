@@ -1,0 +1,33 @@
+{
+  "TaskName": "OLMM",
+  "TaskDescription": "Accuracy (ACC) per trial: correct / incorrect / n/a. (OLMM project)",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "RT converted to seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "accuracy": {
+    "Description": "Response accuracy from feedback trial.",
+    "Levels": {
+      "correct": "Correct response",
+      "incorrect": "Incorrect response (Falsch)",
+      "n/a": "No feedback available"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier (LS1-LS4)."
+  },
+  "stimulus": {
+    "Description": "Stimulus filename presented."
+  }
+}

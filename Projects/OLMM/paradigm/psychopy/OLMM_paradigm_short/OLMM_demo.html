@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOCATO – Spatial Memory Task (Demo)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg:      #0a0a0f;
+    --surface: #13131c;
+    --border:  #252535;
+    --accent:  #5ee7b0;
+    --warn:    #f5a623;
+    --error:   #e05c5c;
+    --text:    #d8d8e8;
+    --muted:   #6a6a8a;
+    --radius:  6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Layout ─────────────────────────────────────── */
+  #app {
+    width: 100%;
+    max-width: 960px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── Header bar ─────────────────────────────────── */
+  #header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  #header .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--accent);
+  }
+  #header .phase-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  #progress-bar-wrap {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── Screens ─────────────────────────────────────── */
+  .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
+  .screen.active { display: flex; }
+
+  /* ── Instruction screen ──────────────────────────── */
+  #instr-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 44px 52px;
+    max-width: 720px;
+    width: 100%;
+    text-align: left;
+  }
+  #instr-content h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  #instr-content h2 {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  #instr-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  #instr-content .key-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .key-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-bottom-width: 3px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    min-width: 36px;
+    white-space: nowrap;
+  }
+  #instr-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+  }
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 10px 28px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn:hover { background: var(--accent); color: var(--bg); }
+  .btn.secondary { border-color: var(--border); color: var(--muted); }
+  .btn.secondary:hover { background: var(--border); color: var(--text); }
+
+  /* ── Trial screen ─────────────────────────────────── */
+  #trial-screen { gap: 16px; }
+
+  #trial-meta {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  #map-container {
+    position: relative;
+    width: 760px;
+    height: 560px;
+    max-width: 100%;
+    background: #ffffff;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* SVG map (simplified Greifswald-style street grid) */
+  #street-map {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  #house-img {
+    position: absolute;
+    width: 120px;
+    height: auto;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  }
+
+  #timer-bar-wrap {
+    width: 760px;
+    max-width: 100%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  #timer-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 100%;
+    transform-origin: left;
+    transition: transform linear;
+  }
+  #timer-bar.warning { background: var(--warn); }
+  #timer-bar.danger  { background: var(--error); }
+
+  #question-box {
+    font-size: 19px;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    text-align: center;
+    min-height: 30px;
+  }
+
+  #key-row {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+  }
+  .key-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+  }
+  .key-btn:active { transform: scale(0.94); }
+  .key-big {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px; height: 60px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom-width: 4px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    color: var(--accent);
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .key-btn:hover .key-big { background: var(--border); border-color: var(--accent); }
+  .key-label { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+  /* ── Feedback screen ─────────────────────────────── */
+  #feedback-screen { gap: 16px; }
+  #fb-text {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    padding: 14px 24px;
+    border-radius: var(--radius);
+    border-left: 4px solid;
+    width: 760px;
+    max-width: 100%;
+  }
+  #fb-text.correct   { background: #0e2e1e; border-color: var(--accent); color: var(--accent); }
+  #fb-text.incorrect { background: #2e120e; border-color: var(--error);  color: var(--error); }
+  #fb-text.timeout   { background: #2e220e; border-color: var(--warn);   color: var(--warn); }
+
+  #fb-map-container {
+    position: relative;
+    width: 760px; height: 560px;
+    max-width: 100%;
+    background: #ffffff;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #fb-house-img {
+    position: absolute;
+    width: 120px;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  }
+
+  /* ── AFC screen ──────────────────────────────────── */
+  #afc-screen { gap: 24px; }
+  #afc-question {
+    font-size: 18px;
+    color: #ffffff;
+    text-align: center;
+  }
+  #afc-grid {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .afc-option {
+    position: relative;
+    width: 220px;
+    background: #ffffff;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.1s;
+  }
+  .afc-option:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .afc-option:active { transform: scale(0.97); }
+  .afc-option .afc-map {
+    width: 100%; height: 165px;
+    position: relative; overflow: hidden;
+  }
+  .afc-option .afc-map svg { width: 100%; height: 100%; }
+  .afc-option .afc-house {
+    position: absolute;
+    width: 44px;
+  }
+  .afc-option-label {
+    text-align: center;
+    padding: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .afc-option.selected { border-color: var(--accent); }
+  .afc-option.selected .afc-option-label { color: var(--accent); }
+
+  /* ── Results screen ──────────────────────────────── */
+  #results-screen { gap: 28px; align-items: center; }
+  .results-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 44px;
+    max-width: 600px;
+    width: 100%;
+  }
+  .results-card h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .results-table th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 400;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .results-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .results-table tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag.correct   { background: #0e2e1e; color: var(--accent); }
+  .tag.incorrect { background: #2e120e; color: var(--error); }
+  .tag.timeout   { background: #2e220e; color: var(--warn); }
+
+  /* ── Fixation screen ─────────────────────────────── */
+  #fix-screen {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  #fix-screen.active { display: flex; }
+
+  /* ── Scrollable results ──────────────────────────── */
+  .scroll-table { max-height: 300px; overflow-y: auto; }
+  .scroll-table::-webkit-scrollbar { width: 5px; }
+  .scroll-table::-webkit-scrollbar-track { background: var(--bg); }
+  .scroll-table::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Header -->
+  <div id="header">
+    <span class="logo">LOCATO</span>
+    <span class="phase-tag" id="phase-label">Demo</span>
+  </div>
+  <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+  <!-- ── WELCOME ────────────────────────────────── -->
+  <div class="screen active" id="welcome-screen">
+    <div id="instr-content">
+      <h1>Willkommen</h1>
+      <h2>Räumliche Gedächtnisaufgabe</h2>
+      <p>In diesem Experiment lernen Sie, wo verschiedene Gebäude in einer Stadt verortet sind. Sie sehen jeweils eine Karte mit einem eingezeichneten Gebäude und entscheiden, ob die gezeigte Position <strong>korrekt</strong> oder <strong>falsch</strong> ist.</p>
+      <p>Nach jeder Antwort erhalten Sie ein Feedback. Am Ende folgt ein Wiedererkennungstest.</p>
+      <p style="color:var(--muted); font-size:14px;">Dies ist eine interaktive Demo. Tastatursteuerung wird unterstützt.</p>
+      <div class="key-legend">
+        <div class="key-item"><span class="key">←</span> <span>Korrekte Position</span></div>
+        <div class="key-item"><span class="key">→</span> <span>Falsche Position</span></div>
+        <div class="key-item"><span class="key">1 2 3</span> <span>AFC-Auswahl</span></div>
+      </div>
+      <div id="instr-nav">
+        <button class="btn" onclick="startExperiment()">Experiment starten &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INSTRUCTIONS ───────────────────────────── -->
+  <div class="screen" id="instr-screen">
+    <div id="instr-content">
+      <h1 id="instr-tag">Anleitung 1 / 3</h1>
+      <h2 id="instr-title"></h2>
+      <div id="instr-body"></div>
+      <div id="instr-nav">
+        <button class="btn secondary" onclick="prevInstr()" id="prev-btn" style="margin-right:12px">← Zurück</button>
+        <button class="btn" onclick="nextInstr()" id="next-btn">Weiter →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TRIAL ──────────────────────────────────── -->
+  <div class="screen" id="trial-screen">
+    <div id="trial-meta">
+      <span id="trial-counter">Durchgang 1/10</span>
+      <span id="trial-phase-label">Lernphase</span>
+    </div>
+    <div id="map-container">
+      <svg id="street-map" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
+        <!-- Street grid – simplified city map -->
+        <rect width="760" height="560" fill="#f5f5f0"/>
+        <!-- Horizontal streets -->
+        <rect x="0"   y="120" width="760" height="18" fill="#d0d0c8" rx="1"/>
+        <rect x="0"   y="270" width="760" height="22" fill="#c8c8c0" rx="1"/>
+        <rect x="0"   y="400" width="760" height="18" fill="#d0d0c8" rx="1"/>
+        <rect x="0"   y="490" width="760" height="14" fill="#d8d8d0" rx="1"/>
+        <!-- Vertical streets -->
+        <rect x="90"  y="0"   width="16" height="560" fill="#d0d0c8" rx="1"/>
+        <rect x="240" y="0"   width="20" height="560" fill="#c8c8c0" rx="1"/>
+        <rect x="430" y="0"   width="16" height="560" fill="#d0d0c8" rx="1"/>
+        <rect x="590" y="0"   width="20" height="560" fill="#c8c8c0" rx="1"/>
+        <rect x="690" y="0"   width="14" height="560" fill="#d8d8d0" rx="1"/>
+        <!-- Diagonal street -->
+        <polygon points="180,0 210,0 310,270 270,270" fill="#c8c8c0"/>
+        <polygon points="270,270 310,270 410,560 360,560" fill="#c8c8c0"/>
+        <!-- Small cross streets -->
+        <rect x="0"   y="55"  width="200" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="330" y="55"  width="430" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="0"   y="200" width="160" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="450" y="200" width="310" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="450" y="330" width="310" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="140" y="460" width="230" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="450" y="460" width="150" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="340" y="55"  width="10" height="80"  fill="#dcdcd4" rx="1"/>
+        <rect x="540" y="130" width="10" height="80"  fill="#dcdcd4" rx="1"/>
+        <rect x="150" y="130" width="10" height="80"  fill="#dcdcd4" rx="1"/>
+        <rect x="600" y="270" width="10" height="80"  fill="#dcdcd4" rx="1"/>
+        <rect x="150" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
+        <rect x="440" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
+        <rect x="600" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
+      </svg>
+      <div id="house-img-wrap">
+        <!-- House placeholder rendered as SVG building -->
+        <svg id="house-svg" width="90" height="70" viewBox="0 0 90 70"
+             style="position:absolute; display:none;">
+          <rect x="5"  y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
+          <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
+          <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
+          <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+          <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+    <div id="question-box">Ist dies die korrekte Position des Hauses auf der Karte?</div>
+    <div id="key-row">
+      <div class="key-btn" onclick="submitResponse('left')">
+        <div class="key-big">←</div>
+        <div class="key-label">KORREKT</div>
+      </div>
+      <div class="key-btn" onclick="submitResponse('right')">
+        <div class="key-big">→</div>
+        <div class="key-label">FALSCH</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FEEDBACK ───────────────────────────────── -->
+  <div class="screen" id="feedback-screen">
+    <div id="fb-text" class="correct">Richtig, die korrekte Position ist:</div>
+    <div id="fb-map-container">
+      <svg id="fb-street-map" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
+        <rect width="760" height="560" fill="#f5f5f0"/>
+        <rect x="0" y="120" width="760" height="18" fill="#d0d0c8" rx="1"/>
+        <rect x="0" y="270" width="760" height="22" fill="#c8c8c0" rx="1"/>
+        <rect x="0" y="400" width="760" height="18" fill="#d0d0c8" rx="1"/>
+        <rect x="0" y="490" width="760" height="14" fill="#d8d8d0" rx="1"/>
+        <rect x="90"  y="0" width="16" height="560" fill="#d0d0c8" rx="1"/>
+        <rect x="240" y="0" width="20" height="560" fill="#c8c8c0" rx="1"/>
+        <rect x="430" y="0" width="16" height="560" fill="#d0d0c8" rx="1"/>
+        <rect x="590" y="0" width="20" height="560" fill="#c8c8c0" rx="1"/>
+        <rect x="690" y="0" width="14" height="560" fill="#d8d8d0" rx="1"/>
+        <polygon points="180,0 210,0 310,270 270,270" fill="#c8c8c0"/>
+        <polygon points="270,270 310,270 410,560 360,560" fill="#c8c8c0"/>
+        <rect x="0" y="55" width="200" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="330" y="55" width="430" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="0" y="200" width="160" height="10" fill="#dcdcd4" rx="1"/>
+        <rect x="450" y="200" width="310" height="10" fill="#dcdcd4" rx="1"/>
+      </svg>
+      <svg id="fb-house-svg" width="90" height="70" viewBox="0 0 90 70"
+           style="position:absolute; display:none;">
+        <rect x="5"  y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
+        <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
+        <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
+        <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+        <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ── CONTROL INSTRUCTIONS ───────────────────── -->
+  <div class="screen" id="ctrl-instr-screen">
+    <div id="instr-content">
+      <h1>Kontrollbedingung</h1>
+      <h2>Ist das Haus auf der rechten Seite der Karte?</h2>
+      <p>Im nächsten Abschnitt sehen Sie wieder Karten mit Gebäuden. Bitte entscheiden Sie nun, ob das eingezeichnete Haus auf der <strong>rechten Seite</strong> der Karte liegt.</p>
+      <div class="key-legend">
+        <div class="key-item"><span class="key">←</span> <span>Ja – rechte Seite</span></div>
+        <div class="key-item"><span class="key">→</span> <span>Nein – nicht rechts</span></div>
+      </div>
+      <div id="instr-nav">
+        <button class="btn" onclick="startControlBlock()">Weiter →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AFC INSTRUCTIONS ───────────────────────── -->
+  <div class="screen" id="afc-instr-screen">
+    <div id="instr-content">
+      <h1>Anleitung AFC-Test</h1>
+      <h2>Wo befand sich das Haus auf der Karte?</h2>
+      <p>Nun folgt der Gedächtnistest. Ihnen werden drei Karten gezeigt, auf denen dasselbe Haus an drei verschiedenen Positionen eingezeichnet ist.</p>
+      <p>Wählen Sie die Position, die Sie als <strong>korrekt</strong> gelernt haben.</p>
+      <div class="key-legend">
+        <div class="key-item"><span class="key">1</span> <span>Linke Option</span></div>
+        <div class="key-item"><span class="key">2</span> <span>Mittlere Option</span></div>
+        <div class="key-item"><span class="key">3</span> <span>Rechte Option</span></div>
+      </div>
+      <div id="instr-nav">
+        <button class="btn" onclick="startAFCBlock()">Test beginnen →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AFC TRIAL ──────────────────────────────── -->
+  <div class="screen" id="afc-screen">
+    <div id="trial-meta">
+      <span id="afc-counter">AFC 1/5</span>
+      <span>Gedächtnistest</span>
+    </div>
+    <div id="afc-question">Wo befand sich das Haus? Wählen Sie die korrekte Position (1, 2 oder 3).</div>
+    <div id="afc-grid"></div>
+  </div>
+
+  <!-- ── RESULTS ────────────────────────────────── -->
+  <div class="screen" id="results-screen">
+    <div class="results-card">
+      <h2>Ergebnisse</h2>
+      <div class="stat-row">
+        <span>Lernphase – Korrektheit</span>
+        <span class="stat-val" id="res-learn-pct">–</span>
+      </div>
+      <div class="stat-row">
+        <span>Kontrollbedingung – Korrektheit</span>
+        <span class="stat-val" id="res-ctrl-pct">–</span>
+      </div>
+      <div class="stat-row">
+        <span>AFC-Test – Korrektheit</span>
+        <span class="stat-val" id="res-afc-pct">–</span>
+      </div>
+      <div class="stat-row">
+        <span>Ø Reaktionszeit (Lernen)</span>
+        <span class="stat-val" id="res-rt">–</span>
+      </div>
+    </div>
+    <div class="results-card">
+      <h2>Alle Durchgänge</h2>
+      <div class="scroll-table">
+        <table class="results-table">
+          <thead>
+            <tr><th>#</th><th>Phase</th><th>Stimulus</th><th>Antwort</th><th>Ergebnis</th><th>RT (ms)</th></tr>
+          </thead>
+          <tbody id="trial-log-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <button class="btn" onclick="resetExperiment()">Neu starten</button>
+  </div>
+</div>
+
+<!-- Fixation cross overlay -->
+<div id="fix-screen">+</div>
+
+<script>
+// ================================================================
+// EXPERIMENT STATE
+// ================================================================
+const TRIAL_DUR    = 2500;   // ms
+const FEEDBACK_DUR = 2000;   // ms
+const FIX_DUR      = 2000;   // ms (shortened for demo)
+const PRAC_REPS    = 2;
+const LEARN_REPS   = 4;
+
+// Predefined house positions on map (x%, y% relative to map container)
+// Each entry: { id, isCorrect, direction, side, x, y }
+const POSITIONS = [
+  { id:'h1_p37',  direction:'up',   side:'right', correctX: 78, correctY: 67, foilX: 30, foilY: 20 },
+  { id:'h1_p43',  direction:'up',   side:'right', correctX: 65, correctY: 55, foilX: 15, foilY: 65 },
+  { id:'h4_p31',  direction:'up',   side:'left',  correctX: 20, correctY: 45, foilX: 70, foilY: 30 },
+  { id:'h8_p6',   direction:'up',   side:'left',  correctX: 18, correctY: 22, foilX: 65, foilY: 70 },
+  { id:'h16_p11', direction:'up',   side:'left',  correctX: 22, correctY: 55, foilX: 72, foilY: 20 },
+  { id:'h17_p33', direction:'up',   side:'left',  correctX: 12, correctY: 35, foilX: 80, foilY: 65 },
+  { id:'h103_p16',direction:'down', side:'right', correctX: 75, correctY: 73, foilX: 22, foilY: 30 },
+  { id:'h104_p35',direction:'down', side:'left',  correctX: 17, correctY: 72, foilX: 68, foilY: 20 },
+  { id:'h105_p17',direction:'down', side:'right', correctX: 72, correctY: 38, foilX: 25, foilY: 70 },
+  { id:'h113_p20',direction:'down', side:'left',  correctX: 14, correctY: 50, foilX: 75, foilY: 25 },
+];
+
+// Practice positions (subset)
+const PRAC_POSITIONS = POSITIONS.slice(0, 4);
+// Learning positions (all)
+const LEARN_POSITIONS = [...POSITIONS];
+
+// State
+let state = {
+  phase: 'welcome',
+  trialLog: [],
+  currentTrialList: [],
+  trialIndex: 0,
+  repIndex: 0,
+  responseGiven: false,
+  timerHandle: null,
+  trialStartTime: null,
+};
+
+// ================================================================
+// UTILITIES
+// ================================================================
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function setPhaseLabel(txt) {
+  document.getElementById('phase-label').textContent = txt;
+}
+
+function updateProgress(val) {
+  document.getElementById('progress-bar').style.width = Math.min(100, val * 100) + '%';
+}
+
+function showFixation(duration, callback) {
+  const fs = document.getElementById('fix-screen');
+  fs.classList.add('active');
+  setTimeout(() => { fs.classList.remove('active'); callback(); }, duration);
+}
+
+// ================================================================
+// INSTRUCTION SLIDES
+// ================================================================
+const INSTRUCTIONS = [
+  {
+    tag: 'Anleitung 1 / 4',
+    title: 'Lernaufgabe: Räumliche Positionen',
+    body: `
+      <p>Sie nehmen an einem räumlichen Gedächtnisexperiment teil. Ihnen werden Karten einer Stadt gezeigt, auf denen jeweils ein Gebäude an einer bestimmten Position eingezeichnet ist.</p>
+      <p>Ihre Aufgabe ist es zu entscheiden, ob die gezeigte Position die <strong>korrekte</strong> oder eine <strong>falsche</strong> Position des Gebäudes ist.</p>
+      <div class="key-legend">
+        <div class="key-item"><span class="key">← Links</span><span>Korrekte Position</span></div>
+        <div class="key-item"><span class="key">→ Rechts</span><span>Falsche Position</span></div>
+      </div>`
+  },
+  {
+    tag: 'Anleitung 2 / 4',
+    title: 'Feedback & Zeitlimit',
+    body: `
+      <p>Nach jeder Antwort erhalten Sie ein Feedback, das Ihnen die tatsächlich korrekte Position zeigt.</p>
+      <p>Sie haben <strong>2,5 Sekunden</strong> Zeit für jede Antwort. Wenn Sie nicht rechtzeitig antworten, wird das als „zu spät" gewertet und die korrekte Position gezeigt.</p>
+      <p>Versuchen Sie so schnell und so genau wie möglich zu antworten.</p>`
+  },
+  {
+    tag: 'Anleitung 3 / 4',
+    title: 'Übungsphase',
+    body: `
+      <p>Zunächst folgt eine <strong>Übungsphase</strong> mit wenigen Durchgängen, damit Sie sich mit der Aufgabe vertraut machen können.</p>
+      <p>Die Übungsdurchgänge werden <strong>nicht</strong> in die Wertung einbezogen.</p>
+      <p>Drücken Sie <strong>←</strong> zum Weitergehen.</p>`
+  },
+  {
+    tag: 'Anleitung 4 / 4',
+    title: 'Bereit?',
+    body: `
+      <p>Die Übungsphase beginnt jetzt. Viel Erfolg!</p>
+      <p style="color:var(--muted); font-size:14px;">Drücken Sie <strong>→</strong> um zu starten.</p>`
+  }
+];
+
+let instrIndex = 0;
+
+function renderInstr() {
+  const sl = INSTRUCTIONS[instrIndex];
+  document.getElementById('instr-tag').textContent   = sl.tag;
+  document.getElementById('instr-title').textContent = sl.title;
+  document.getElementById('instr-body').innerHTML    = sl.body;
+  document.getElementById('prev-btn').style.visibility = instrIndex === 0 ? 'hidden' : 'visible';
+  document.getElementById('next-btn').textContent =
+    instrIndex === INSTRUCTIONS.length - 1 ? 'Starten →' : 'Weiter →';
+}
+
+function startExperiment() {
+  instrIndex = 0;
+  renderInstr();
+  showScreen('instr-screen');
+  setPhaseLabel('Anleitung');
+  updateProgress(0);
+  addKeyListener();
+}
+
+function nextInstr() {
+  if (instrIndex < INSTRUCTIONS.length - 1) {
+    instrIndex++;
+    renderInstr();
+  } else {
+    startPractice();
+  }
+}
+
+function prevInstr() {
+  if (instrIndex > 0) { instrIndex--; renderInstr(); }
+}
+
+// ================================================================
+// PRACTICE BLOCK
+// ================================================================
+function startPractice() {
+  setPhaseLabel('Übung');
+  updateProgress(0.05);
+  // Build trial list: correct + foil for each practice pair
+  let trials = [];
+  PRAC_POSITIONS.forEach(pos => {
+    trials.push({ ...pos, isCorrect: true });
+    trials.push({ ...pos, isCorrect: false });
+  });
+  state.currentTrialList = shuffle(trials);
+  state.trialIndex = 0;
+  state.repIndex   = 1;
+  state.phase      = 'practice';
+  state.practiceRepsLeft = PRAC_REPS;
+  state.practiceRepIdx   = 1;
+  presentTrial();
+}
+
+// ================================================================
+// LEARNING BLOCK
+// ================================================================
+function startLearning(blockNum) {
+  setPhaseLabel(`Lernblock ${blockNum}`);
+  let trials = [];
+  LEARN_POSITIONS.forEach(pos => {
+    trials.push({ ...pos, isCorrect: true });
+    trials.push({ ...pos, isCorrect: false });
+  });
+  state.currentTrialList = shuffle(trials);
+  state.trialIndex = 0;
+  state.repIndex   = 1;
+  state.phase      = `learning-${blockNum}`;
+  state.learnBlockNum  = blockNum;
+  state.learnRepIdx    = 1;
+  presentTrial();
+}
+
+// ================================================================
+// CONTROL BLOCK
+// ================================================================
+function startControlBlock() {
+  setPhaseLabel('Kontrollbedingung');
+  // Pick 5 random positions
+  let ctrlPositions = shuffle([...LEARN_POSITIONS]).slice(0, 5);
+  let trials = [];
+  ctrlPositions.forEach(pos => {
+    trials.push({ ...pos, isCorrect: true, controlMode: true });
+    trials.push({ ...pos, isCorrect: false, controlMode: true });
+  });
+  state.currentTrialList = shuffle(trials);
+  state.trialIndex = 0;
+  state.phase      = 'control';
+  presentTrial();
+}
+
+// ================================================================
+// PRESENT TRIAL
+// ================================================================
+function positionHouse(trial, mapId, houseId) {
+  const map = document.getElementById(mapId);
+  const rect = map.getBoundingClientRect();
+  const mapW = map.offsetWidth;
+  const mapH = map.offsetHeight;
+
+  const px = trial.isCorrect ? trial.correctX : trial.foilX;
+  const py = trial.isCorrect ? trial.correctY : trial.foilY;
+
+  const el = document.getElementById(houseId);
+  el.style.display = 'block';
+  el.style.left = `calc(${px}% - 45px)`;
+  el.style.top  = `calc(${py}% - 35px)`;
+}
+
+function presentTrial() {
+  if (state.trialIndex >= state.currentTrialList.length) {
+    endBlock();
+    return;
+  }
+
+  const trial = state.currentTrialList[state.trialIndex];
+  state.responseGiven = false;
+
+  // Update UI labels
+  const total = state.currentTrialList.length;
+  document.getElementById('trial-counter').textContent =
+    `Durchgang ${state.trialIndex + 1}/${total}`;
+  document.getElementById('trial-phase-label').textContent =
+    trial.controlMode ? 'Kontrollbedingung' : (state.phase.startsWith('practice') ? 'Übung' : 'Lernphase');
+
+  if (trial.controlMode) {
+    document.getElementById('question-box').textContent =
+      'Ist das Haus auf der rechten Seite der Karte?';
+  } else {
+    document.getElementById('question-box').textContent =
+      'Ist dies die korrekte Position des Hauses auf der Karte?';
+  }
+
+  showScreen('trial-screen');
+  positionHouse(trial, 'map-container', 'house-svg');
+
+  // Start timer bar
+  const timerBar = document.getElementById('timer-bar');
+  timerBar.classList.remove('warning','danger');
+  timerBar.style.transition = 'none';
+  timerBar.style.transform  = 'scaleX(1)';
+  requestAnimationFrame(() => {
+    timerBar.style.transition = `transform ${TRIAL_DUR}ms linear`;
+    timerBar.style.transform  = 'scaleX(0)';
+  });
+
+  state.trialStartTime = performance.now();
+
+  // Timeout
+  clearTimeout(state.timerHandle);
+  state.timerHandle = setTimeout(() => {
+    if (!state.responseGiven) submitResponse(null);
+  }, TRIAL_DUR);
+}
+
+// ================================================================
+// RESPONSE HANDLER
+// ================================================================
+function submitResponse(key) {
+  if (state.responseGiven) return;
+  state.responseGiven = true;
+  clearTimeout(state.timerHandle);
+
+  const rt = key ? Math.round(performance.now() - state.trialStartTime) : null;
+  const trial = state.currentTrialList[state.trialIndex];
+
+  let correct;
+  if (!key) {
+    correct = 'timeout';
+  } else if (trial.controlMode) {
+    // control: left = yes (house on right), right = no
+    const isRight = trial.side === 'right';
+    correct = (isRight && key === 'left') || (!isRight && key === 'right')
+              ? 'correct' : 'incorrect';
+  } else {
+    // learning: left = correct position, right = foil
+    correct = (trial.isCorrect && key === 'left') || (!trial.isCorrect && key === 'right')
+              ? 'correct' : 'incorrect';
+  }
+
+  // Log
+  state.trialLog.push({
+    phase:    state.phase,
+    trial:    state.trialIndex + 1,
+    stimulus: trial.id + (trial.isCorrect ? '_k' : '_i') + `_${trial.direction}_${trial.side}`,
+    response: key || '—',
+    correct,
+    rt: rt || '—',
+  });
+
+  showFeedback(trial, correct);
+}
+
+// ================================================================
+// FEEDBACK
+// ================================================================
+function showFeedback(trial, correct) {
+  const fbText = document.getElementById('fb-text');
+  fbText.className = correct;
+
+  let msg;
+  if (trial.controlMode) {
+    const isRight = trial.side === 'right';
+    if (correct === 'timeout')
+      msg = isRight ? 'Zu spät – das Haus ist auf der rechten Seite.' : 'Zu spät – das Haus ist nicht auf der rechten Seite.';
+    else if (correct === 'correct')
+      msg = isRight ? 'Richtig – das Haus ist auf der rechten Seite.' : 'Richtig – das Haus ist nicht auf der rechten Seite.';
+    else
+      msg = isRight ? 'Falsch – das Haus ist auf der rechten Seite.' : 'Falsch – das Haus ist nicht auf der rechten Seite.';
+  } else {
+    if (correct === 'timeout')   msg = 'Zu spät – die korrekte Position ist:';
+    else if (correct === 'correct')   msg = 'Richtig – die korrekte Position ist:';
+    else                              msg = 'Falsch – die korrekte Position ist:';
+  }
+  fbText.textContent = msg;
+
+  // Show correct position on feedback map
+  const fbTrial = { ...trial, isCorrect: true };
+  positionHouse(fbTrial, 'fb-map-container', 'fb-house-svg');
+
+  showScreen('feedback-screen');
+
+  setTimeout(() => {
+    state.trialIndex++;
+    presentTrial();
+  }, FEEDBACK_DUR);
+}
+
+// ================================================================
+// END BLOCK
+// ================================================================
+function endBlock() {
+  if (state.phase === 'practice') {
+    state.practiceRepIdx++;
+    if (state.practiceRepIdx <= PRAC_REPS) {
+      showFixation(FIX_DUR, () => {
+        let trials = [];
+        PRAC_POSITIONS.forEach(pos => {
+          trials.push({ ...pos, isCorrect: true });
+          trials.push({ ...pos, isCorrect: false });
+        });
+        state.currentTrialList = shuffle(trials);
+        state.trialIndex = 0;
+        presentTrial();
+      });
+    } else {
+      showFixation(FIX_DUR, () => startLearning(1));
+    }
+  } else if (state.phase === 'learning-1') {
+    state.learnRepIdx++;
+    if (state.learnRepIdx <= LEARN_REPS) {
+      showFixation(FIX_DUR, () => {
+        let trials = [];
+        LEARN_POSITIONS.forEach(pos => {
+          trials.push({ ...pos, isCorrect: true });
+          trials.push({ ...pos, isCorrect: false });
+        });
+        state.currentTrialList = shuffle(trials);
+        state.trialIndex = 0;
+        presentTrial();
+      });
+    } else {
+      // Go to control block
+      showFixation(FIX_DUR, () => {
+        showScreen('ctrl-instr-screen');
+        setPhaseLabel('Kontrollbedingung');
+      });
+    }
+  } else if (state.phase === 'control') {
+    showFixation(FIX_DUR, () => startLearning(2));
+  } else if (state.phase === 'learning-2') {
+    state.learnRepIdx++;
+    if (state.learnRepIdx <= LEARN_REPS) {
+      showFixation(FIX_DUR, () => {
+        let trials = [];
+        LEARN_POSITIONS.forEach(pos => {
+          trials.push({ ...pos, isCorrect: true });
+          trials.push({ ...pos, isCorrect: false });
+        });
+        state.currentTrialList = shuffle(trials);
+        state.trialIndex = 0;
+        presentTrial();
+      });
+    } else {
+      showFixation(FIX_DUR, () => {
+        showScreen('afc-instr-screen');
+        setPhaseLabel('AFC-Test');
+        updateProgress(0.75);
+      });
+    }
+  }
+}
+
+// ================================================================
+// AFC BLOCK
+// ================================================================
+function startAFCBlock() {
+  setPhaseLabel('AFC-Test');
+  state.phase = 'AFC';
+  state.afcTrials = shuffle(LEARN_POSITIONS.map(pos => {
+    // Generate 3 options: correct + 2 foils
+    const foil1 = { x: pos.foilX, y: pos.foilY };
+    // Generate a second random foil position
+    const foil2 = {
+      x: Math.round(15 + Math.random() * 65),
+      y: Math.round(15 + Math.random() * 65)
+    };
+    const options = shuffle([
+      { x: pos.correctX, y: pos.correctY, isCorrect: true },
+      { x: foil1.x,      y: foil1.y,      isCorrect: false },
+      { x: foil2.x,      y: foil2.y,      isCorrect: false },
+    ]);
+    return { pos, options, correctIdx: options.findIndex(o => o.isCorrect) };
+  }));
+  state.afcIndex = 0;
+  presentAFCTrial();
+}
+
+function presentAFCTrial() {
+  if (state.afcIndex >= state.afcTrials.length) {
+    showResults();
+    return;
+  }
+  const t = state.afcTrials[state.afcIndex];
+  document.getElementById('afc-counter').textContent =
+    `AFC ${state.afcIndex + 1}/${state.afcTrials.length}`;
+  updateProgress(0.75 + (state.afcIndex / state.afcTrials.length) * 0.25);
+
+  const grid = document.getElementById('afc-grid');
+  grid.innerHTML = '';
+
+  t.options.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    div.className = 'afc-option';
+    div.innerHTML = `
+      <div class="afc-map">
+        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="165" fill="#f5f5f0"/>
+          <rect x="0" y="35" width="220" height="7" fill="#d0d0c8"/>
+          <rect x="0" y="80" width="220" height="8" fill="#c8c8c0"/>
+          <rect x="0" y="120" width="220" height="6" fill="#d0d0c8"/>
+          <rect x="25" y="0" width="6" height="165" fill="#d0d0c8"/>
+          <rect x="70" y="0" width="8" height="165" fill="#c8c8c0"/>
+          <rect x="130" y="0" width="6" height="165" fill="#d0d0c8"/>
+          <rect x="170" y="0" width="8" height="165" fill="#c8c8c0"/>
+          <polygon points="50,0 60,0 90,80 78,80" fill="#c8c8c0"/>
+          <polygon points="78,80 90,80 120,165 105,165" fill="#c8c8c0"/>
+        </svg>
+        <svg style="position:absolute;left:calc(${opt.x}% - 18px);top:calc(${opt.y}% - 14px);"
+             width="36" height="28" viewBox="0 0 90 70">
+          <rect x="5" y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
+          <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
+          <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
+          <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+          <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="afc-option-label">${idx + 1}</div>`;
+    div.onclick = () => submitAFC(idx, t);
+    grid.appendChild(div);
+  });
+
+  showScreen('afc-screen');
+  state.afcStartTime = performance.now();
+}
+
+function submitAFC(chosenIdx, trial) {
+  const rt = Math.round(performance.now() - state.afcStartTime);
+  const correct = chosenIdx === trial.correctIdx ? 'correct' : 'incorrect';
+  state.trialLog.push({
+    phase: 'AFC',
+    trial: state.afcIndex + 1,
+    stimulus: trial.pos.id,
+    response: (chosenIdx + 1).toString(),
+    correct,
+    rt,
+  });
+
+  // Highlight selection
+  const opts = document.querySelectorAll('.afc-option');
+  opts[chosenIdx].classList.add('selected');
+
+  setTimeout(() => {
+    state.afcIndex++;
+    presentAFCTrial();
+  }, 600);
+}
+
+// ================================================================
+// RESULTS
+// ================================================================
+function showResults() {
+  setPhaseLabel('Ergebnisse');
+  updateProgress(1);
+  showScreen('results-screen');
+
+  const learnLogs = state.trialLog.filter(t => t.phase.startsWith('learning'));
+  const ctrlLogs  = state.trialLog.filter(t => t.phase === 'control');
+  const afcLogs   = state.trialLog.filter(t => t.phase === 'AFC');
+
+  const pct = (logs) => {
+    if (!logs.length) return '–';
+    const n = logs.filter(t => t.correct === 'correct').length;
+    return Math.round((n / logs.length) * 100) + '%';
+  };
+  const avgRT = (logs) => {
+    const valid = logs.filter(t => typeof t.rt === 'number');
+    if (!valid.length) return '–';
+    return Math.round(valid.reduce((s, t) => s + t.rt, 0) / valid.length) + ' ms';
+  };
+
+  document.getElementById('res-learn-pct').textContent = pct(learnLogs);
+  document.getElementById('res-ctrl-pct').textContent  = pct(ctrlLogs);
+  document.getElementById('res-afc-pct').textContent   = pct(afcLogs);
+  document.getElementById('res-rt').textContent        = avgRT(learnLogs);
+
+  const tbody = document.getElementById('trial-log-body');
+  tbody.innerHTML = '';
+  state.trialLog.forEach((t, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${t.phase}</td>
+      <td style="font-size:11px">${t.stimulus}</td>
+      <td>${t.response}</td>
+      <td><span class="tag ${t.correct}">${t.correct}</span></td>
+      <td>${typeof t.rt === 'number' ? t.rt : t.rt}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function resetExperiment() {
+  state = {
+    phase: 'welcome', trialLog: [],
+    currentTrialList: [], trialIndex: 0, repIndex: 0,
+    responseGiven: false, timerHandle: null, trialStartTime: null,
+  };
+  showScreen('welcome-screen');
+  setPhaseLabel('Demo');
+  updateProgress(0);
+}
+
+// ================================================================
+// KEYBOARD LISTENER
+// ================================================================
+function addKeyListener() {
+  document.addEventListener('keydown', handleKey);
+}
+function handleKey(e) {
+  const active = document.querySelector('.screen.active');
+  if (!active) return;
+  const id = active.id;
+
+  if (id === 'instr-screen') {
+    if (e.key === 'ArrowLeft')  prevInstr();
+    if (e.key === 'ArrowRight' || e.key === ' ') nextInstr();
+  } else if (id === 'trial-screen') {
+    if (e.key === 'ArrowLeft')  submitResponse('left');
+    if (e.key === 'ArrowRight') submitResponse('right');
+  } else if (id === 'afc-screen') {
+    if (e.key === '1') submitAFC(0, state.afcTrials[state.afcIndex]);
+    if (e.key === '2') submitAFC(1, state.afcTrials[state.afcIndex]);
+    if (e.key === '3') submitAFC(2, state.afcTrials[state.afcIndex]);
+  } else if (id === 'ctrl-instr-screen') {
+    if (e.key === 'ArrowRight' || e.key === ' ') startControlBlock();
+  } else if (id === 'afc-instr-screen') {
+    if (e.key === 'ArrowRight' || e.key === ' ') startAFCBlock();
+  }
+}
+
+// Init
+addKeyListener();
+</script>
+</body>
+</html>

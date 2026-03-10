@@ -1,0 +1,16 @@
+Scenario - fMRI-SET-2
+Logfile written - 06/22/2023 13:04:59
+1-JA; 2-NEIN
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+12231123312321231213	0	Pulse	0	0	0	NA
+12231123312321231213	1	Picture	Hello - Intro	20167	0	1	1167	1	0	next	other	0
+12231123312321231213	2	Picture	fix	21333	0	1	19314	1	0	next	other	0
+12231123312321231213	2	Quit		33719	12386	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				20167	1	1167	1	0	next
+Picture	fix	other				21333	1	19314	1	0	next

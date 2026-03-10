@@ -1,0 +1,33 @@
+{
+  "TaskName": "FACEMEM",
+  "TaskDescription": "Accuracy (ACC) per trial: correct / incorrect / n/a. (FACEMEM project)",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "RT converted to seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "accuracy": {
+    "Description": "Response accuracy.",
+    "Levels": {
+      "correct": "Correct response",
+      "incorrect": "Incorrect response",
+      "n/a": "No feedback"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage within the session (e.g. LS1-LS4)."
+  },
+  "stimulus": {
+    "Description": "Filename or path of the presented stimulus."
+  }
+}

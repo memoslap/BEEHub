@@ -1,0 +1,39 @@
+{
+  "TaskName": "VERBGEN",
+  "TaskDescription": "Reaction time (RT) per trial \u2014 time from stimulus onset to first button press. (VERBGEN project)",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "RT converted to seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "response_time_ms": {
+    "Description": "Reaction time from stimulus onset to first button press.",
+    "Units": "milliseconds"
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage within the session (e.g. LS1-LS4)."
+  },
+  "stimulus": {
+    "Description": "Filename or path of the presented stimulus."
+  },
+  "response_port": {
+    "Description": "Hardware port of the participant response button.",
+    "Levels": {
+      "98": "Button 1 (OLMM)",
+      "97": "Button 2 (OLMM)",
+      "99": "Button 1 (APPL)",
+      "100": "Button 2 (APPL)",
+      "n/a": "No response"
+    }
+  }
+}

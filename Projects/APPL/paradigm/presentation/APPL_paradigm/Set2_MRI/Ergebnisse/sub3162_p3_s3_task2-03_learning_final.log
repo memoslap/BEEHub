@@ -1,0 +1,2508 @@
+Scenario - fMRI-SET-2
+Logfile written - 05/08/2025 16:04:58
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub3162_p3_s3_task2	1	Picture	Hello - Intro	10500	0	1	296629	1	0	next	other	0
+sub3162_p3_s3_task2	1	Port Input	115	277060	266560	1
+sub3162_p3_s3_task2	1	Pulse	30	277060	266560	1
+sub3162_p3_s3_task2	1	Port Input	115	286974	276474	1
+sub3162_p3_s3_task2	1	Pulse	30	286974	276474	1
+sub3162_p3_s3_task2	1	Port Input	115	297046	286546	1
+sub3162_p3_s3_task2	1	Pulse	30	297046	286546	1
+sub3162_p3_s3_task2	1	Port Input	115	306959	296460	1
+sub3162_p3_s3_task2	1	Pulse	30	306959	296460	1
+sub3162_p3_s3_task2	2	Picture	fix	307128	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	2	Port Input	115	317032	9904	1
+sub3162_p3_s3_task2	2	Pulse	30	317032	9904	1
+sub3162_p3_s3_task2	2	Port Input	115	327106	19978	1
+sub3162_p3_s3_task2	2	Pulse	30	327106	19978	1
+sub3162_p3_s3_task2	2	Port Input	115	337019	29891	1
+sub3162_p3_s3_task2	2	Pulse	30	337019	29891	1
+sub3162_p3_s3_task2	2	Port Input	115	347092	39964	1
+sub3162_p3_s3_task2	2	Pulse	30	347092	39964	1
+sub3162_p3_s3_task2	3	Picture	fix	352289	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	3	Port Input	115	357006	4717	1
+sub3162_p3_s3_task2	3	Pulse	30	357006	4717	1
+sub3162_p3_s3_task2	3	Port Input	115	367079	14789	1
+sub3162_p3_s3_task2	3	Pulse	30	367079	14789	1
+sub3162_p3_s3_task2	3	Port Input	115	376992	24703	1
+sub3162_p3_s3_task2	3	Pulse	30	376992	24703	1
+sub3162_p3_s3_task2	3	Port Input	115	387065	34776	1
+sub3162_p3_s3_task2	3	Pulse	30	387065	34776	1
+sub3162_p3_s3_task2	3	Port Input	115	396978	44689	1
+sub3162_p3_s3_task2	3	Pulse	30	396978	44689	1
+sub3162_p3_s3_task2	4	Picture	fix	397450	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	4	Port Input	115	407051	9601	1
+sub3162_p3_s3_task2	4	Pulse	30	407051	9601	1
+sub3162_p3_s3_task2	4	Port Input	115	416964	19514	1
+sub3162_p3_s3_task2	4	Pulse	30	416964	19514	1
+sub3162_p3_s3_task2	4	Port Input	115	427037	29587	1
+sub3162_p3_s3_task2	4	Pulse	30	427037	29587	1
+sub3162_p3_s3_task2	4	Port Input	115	436950	39500	1
+sub3162_p3_s3_task2	4	Pulse	30	436950	39500	1
+sub3162_p3_s3_task2	5	Picture	bubbles/learning.jpg	442944	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	5	Port Input	115	447022	4077	1
+sub3162_p3_s3_task2	5	Pulse	30	447022	4077	1
+sub3162_p3_s3_task2	5	Port Input	115	457095	14150	1
+sub3162_p3_s3_task2	5	Pulse	30	457095	14150	1
+sub3162_p3_s3_task2	5	Port Input	115	467007	24063	1
+sub3162_p3_s3_task2	5	Pulse	30	467007	24063	1
+sub3162_p3_s3_task2	5	Port Input	115	477080	34136	1
+sub3162_p3_s3_task2	5	Pulse	30	477080	34136	1
+sub3162_p3_s3_task2	5	Port Input	115	486994	44049	1
+sub3162_p3_s3_task2	5	Pulse	30	486994	44049	1
+sub3162_p3_s3_task2	6	Picture	learning/PICTURE_95.jpg;Knufi;Knusap;i;block1;LS1	488272	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	6	Port Input	115	497068	8796	1
+sub3162_p3_s3_task2	6	Pulse	30	497068	8796	1
+sub3162_p3_s3_task2	6	Port Input	99	501225	12953	1
+sub3162_p3_s3_task2	6	Response	1	501225	12953	1
+sub3162_p3_s3_task2	6	Port Input	115	506980	18708	1
+sub3162_p3_s3_task2	6	Pulse	30	506980	18708	1
+sub3162_p3_s3_task2	7	Picture	Falsch, das ist Knusap	513602	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	7	Port Input	115	517053	3451	1
+sub3162_p3_s3_task2	7	Pulse	30	517053	3451	1
+sub3162_p3_s3_task2	7	Port Input	115	526966	13365	1
+sub3162_p3_s3_task2	7	Pulse	30	526966	13365	1
+sub3162_p3_s3_task2	8	Picture	learning/PICTURE_508.jpg;Joper;Joten;i;block1;LS1	534099	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	8	Port Input	115	537040	2940	1
+sub3162_p3_s3_task2	8	Pulse	30	537040	2940	1
+sub3162_p3_s3_task2	8	Port Input	100	544554	10455	1
+sub3162_p3_s3_task2	8	Response	2	544554	10455	1
+sub3162_p3_s3_task2	8	Port Input	115	546952	12853	1
+sub3162_p3_s3_task2	8	Pulse	30	546952	12853	1
+sub3162_p3_s3_task2	8	Port Input	115	557025	22926	1
+sub3162_p3_s3_task2	8	Pulse	30	557025	22926	1
+sub3162_p3_s3_task2	9	Picture	Korrekt, das ist Joten	559429	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	9	Port Input	115	567098	7668	1
+sub3162_p3_s3_task2	9	Pulse	30	567098	7668	1
+sub3162_p3_s3_task2	9	Port Input	115	577011	17582	1
+sub3162_p3_s3_task2	9	Pulse	30	577011	17582	1
+sub3162_p3_s3_task2	10	Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS1	579927	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	10	Port Input	115	587084	7157	1
+sub3162_p3_s3_task2	10	Pulse	30	587084	7157	1
+sub3162_p3_s3_task2	10	Port Input	100	592680	12754	1
+sub3162_p3_s3_task2	10	Response	2	592680	12754	1
+sub3162_p3_s3_task2	10	Port Input	115	596997	17071	1
+sub3162_p3_s3_task2	10	Pulse	30	596997	17071	1
+sub3162_p3_s3_task2	11	Picture	Falsch, das ist Klenter	605257	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	11	Port Input	115	607071	1814	1
+sub3162_p3_s3_task2	11	Pulse	30	607071	1814	1
+sub3162_p3_s3_task2	11	Port Input	115	616983	11727	1
+sub3162_p3_s3_task2	11	Pulse	30	616983	11727	1
+sub3162_p3_s3_task2	12	Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS1	625588	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	12	Port Input	115	627057	1469	1
+sub3162_p3_s3_task2	12	Pulse	30	627057	1469	1
+sub3162_p3_s3_task2	12	Port Input	115	636970	11382	1
+sub3162_p3_s3_task2	12	Pulse	30	636970	11382	1
+sub3162_p3_s3_task2	12	Port Input	100	641926	16339	1
+sub3162_p3_s3_task2	12	Response	2	641926	16339	1
+sub3162_p3_s3_task2	12	Port Input	115	647042	21455	1
+sub3162_p3_s3_task2	12	Pulse	30	647042	21455	1
+sub3162_p3_s3_task2	13	Picture	Falsch, das ist Zamet	650918	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	13	Port Input	115	656954	6037	1
+sub3162_p3_s3_task2	13	Pulse	30	656954	6037	1
+sub3162_p3_s3_task2	13	Port Input	115	667027	16109	1
+sub3162_p3_s3_task2	13	Pulse	30	667027	16109	1
+sub3162_p3_s3_task2	14	Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS1	671415	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	14	Port Input	115	677100	5685	1
+sub3162_p3_s3_task2	14	Pulse	30	677100	5685	1
+sub3162_p3_s3_task2	14	Port Input	99	683655	12240	1
+sub3162_p3_s3_task2	14	Response	1	683655	12240	1
+sub3162_p3_s3_task2	14	Port Input	115	687013	15598	1
+sub3162_p3_s3_task2	14	Pulse	30	687013	15598	1
+sub3162_p3_s3_task2	15	Picture	Korrekt, das ist Jehler	696745	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	15	Port Input	115	697086	341	1
+sub3162_p3_s3_task2	15	Pulse	30	697086	341	1
+sub3162_p3_s3_task2	15	Port Input	115	706999	10254	1
+sub3162_p3_s3_task2	15	Pulse	30	706999	10254	1
+sub3162_p3_s3_task2	15	Port Input	115	717073	20328	3
+sub3162_p3_s3_task2	15	Pulse	30	717073	20328	3
+sub3162_p3_s3_task2	16	Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS1	717243	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	16	Port Input	115	726986	9743	1
+sub3162_p3_s3_task2	16	Pulse	30	726986	9743	1
+sub3162_p3_s3_task2	16	Port Input	100	732582	15339	1
+sub3162_p3_s3_task2	16	Response	2	732582	15339	1
+sub3162_p3_s3_task2	16	Port Input	115	737059	19816	1
+sub3162_p3_s3_task2	16	Pulse	30	737059	19816	1
+sub3162_p3_s3_task2	17	Picture	Falsch, das ist Zerbe	742573	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	17	Port Input	115	746972	4399	1
+sub3162_p3_s3_task2	17	Pulse	30	746972	4399	1
+sub3162_p3_s3_task2	17	Port Input	115	757045	14472	1
+sub3162_p3_s3_task2	17	Pulse	30	757045	14472	1
+sub3162_p3_s3_task2	18	Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS1	762903	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	18	Port Input	115	766958	4054	1
+sub3162_p3_s3_task2	18	Pulse	30	766958	4054	1
+sub3162_p3_s3_task2	18	Port Input	99	776071	13168	1
+sub3162_p3_s3_task2	18	Response	1	776071	13168	1
+sub3162_p3_s3_task2	18	Port Input	115	777030	14127	1
+sub3162_p3_s3_task2	18	Pulse	30	777030	14127	1
+sub3162_p3_s3_task2	18	Port Input	115	787104	24201	1
+sub3162_p3_s3_task2	18	Pulse	30	787104	24201	1
+sub3162_p3_s3_task2	19	Picture	Korrekt, das ist Joten	788233	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	19	Port Input	115	797017	8783	1
+sub3162_p3_s3_task2	19	Pulse	30	797017	8783	1
+sub3162_p3_s3_task2	19	Port Input	115	807090	18856	1
+sub3162_p3_s3_task2	19	Pulse	30	807090	18856	1
+sub3162_p3_s3_task2	20	Picture	learning/PICTURE_15.jpg;Zermel;Zerbe;i;block1;LS1	808564	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	20	Port Input	115	817003	8439	1
+sub3162_p3_s3_task2	20	Pulse	30	817003	8439	1
+sub3162_p3_s3_task2	20	Port Input	100	820360	11796	1
+sub3162_p3_s3_task2	20	Response	2	820360	11796	1
+sub3162_p3_s3_task2	20	Port Input	115	827075	18511	1
+sub3162_p3_s3_task2	20	Pulse	30	827075	18511	1
+sub3162_p3_s3_task2	21	Picture	Korrekt, das ist Zerbe	833894	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	21	Port Input	115	836989	3095	1
+sub3162_p3_s3_task2	21	Pulse	30	836989	3095	1
+sub3162_p3_s3_task2	21	Port Input	115	847062	13168	4
+sub3162_p3_s3_task2	21	Pulse	30	847062	13168	4
+sub3162_p3_s3_task2	22	Picture	learning/PICTURE_703.jpg;Jehrig;Jehler;i;block1;LS1	854225	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	22	Port Input	115	856975	2750	1
+sub3162_p3_s3_task2	22	Pulse	30	856975	2750	1
+sub3162_p3_s3_task2	22	Port Input	99	866088	11863	1
+sub3162_p3_s3_task2	22	Response	1	866088	11863	1
+sub3162_p3_s3_task2	22	Port Input	115	867048	12823	1
+sub3162_p3_s3_task2	22	Pulse	30	867048	12823	1
+sub3162_p3_s3_task2	22	Port Input	115	876961	22736	1
+sub3162_p3_s3_task2	22	Pulse	30	876961	22736	1
+sub3162_p3_s3_task2	23	Picture	Falsch, das ist Jehler	879555	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	23	Port Input	115	887034	7479	1
+sub3162_p3_s3_task2	23	Pulse	30	887034	7479	1
+sub3162_p3_s3_task2	23	Port Input	115	897106	17551	1
+sub3162_p3_s3_task2	23	Pulse	30	897106	17551	1
+sub3162_p3_s3_task2	24	Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS1	900052	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	24	Port Input	115	907019	6966	1
+sub3162_p3_s3_task2	24	Pulse	30	907019	6966	1
+sub3162_p3_s3_task2	24	Port Input	99	916453	16401	1
+sub3162_p3_s3_task2	24	Response	1	916453	16401	1
+sub3162_p3_s3_task2	24	Port Input	115	917092	17040	1
+sub3162_p3_s3_task2	24	Pulse	30	917092	17040	1
+sub3162_p3_s3_task2	25	Picture	Korrekt, das ist Munem	925383	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	25	Port Input	115	927006	1623	1
+sub3162_p3_s3_task2	25	Pulse	30	927006	1623	1
+sub3162_p3_s3_task2	25	Port Input	115	937079	11696	1
+sub3162_p3_s3_task2	25	Pulse	30	937079	11696	1
+sub3162_p3_s3_task2	26	Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS1	945713	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	26	Port Input	115	946992	1279	1
+sub3162_p3_s3_task2	26	Pulse	30	946992	1279	1
+sub3162_p3_s3_task2	26	Port Input	115	957066	11352	1
+sub3162_p3_s3_task2	26	Pulse	30	957066	11352	1
+sub3162_p3_s3_task2	26	Port Input	99	959304	13591	1
+sub3162_p3_s3_task2	26	Response	1	959304	13591	1
+sub3162_p3_s3_task2	26	Port Input	115	966979	21266	1
+sub3162_p3_s3_task2	26	Pulse	30	966979	21266	1
+sub3162_p3_s3_task2	27	Picture	Korrekt, das ist Knusap	971043	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	27	Port Input	115	977052	6009	1
+sub3162_p3_s3_task2	27	Pulse	30	977052	6009	1
+sub3162_p3_s3_task2	27	Port Input	115	986966	15922	1
+sub3162_p3_s3_task2	27	Pulse	30	986966	15922	1
+sub3162_p3_s3_task2	28	Picture	learning/PICTURE_695.jpg;Muschot;Munem;i;block1;LS1	991374	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	28	Port Input	115	997039	5664	1
+sub3162_p3_s3_task2	28	Pulse	30	997039	5664	1
+sub3162_p3_s3_task2	28	Port Input	100	1001995	10621	1
+sub3162_p3_s3_task2	28	Response	2	1001995	10621	1
+sub3162_p3_s3_task2	28	Port Input	115	1006952	15578	1
+sub3162_p3_s3_task2	28	Pulse	30	1006952	15578	1
+sub3162_p3_s3_task2	29	Picture	Korrekt, das ist Munem	1016704	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	29	Port Input	115	1017025	320	1
+sub3162_p3_s3_task2	29	Pulse	30	1017025	320	1
+sub3162_p3_s3_task2	29	Port Input	115	1027097	10393	1
+sub3162_p3_s3_task2	29	Pulse	30	1027097	10393	1
+sub3162_p3_s3_task2	29	Port Input	115	1037010	20306	1
+sub3162_p3_s3_task2	29	Pulse	30	1037010	20306	1
+sub3162_p3_s3_task2	30	Picture	learning/PICTURE_480.jpg;Zate;Zamet;i;block1;LS1	1037202	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	30	Port Input	115	1047083	9881	1
+sub3162_p3_s3_task2	30	Pulse	30	1047083	9881	1
+sub3162_p3_s3_task2	30	Port Input	99	1051879	14677	1
+sub3162_p3_s3_task2	30	Response	1	1051879	14677	1
+sub3162_p3_s3_task2	30	Port Input	115	1056996	19794	1
+sub3162_p3_s3_task2	30	Pulse	30	1056996	19794	1
+sub3162_p3_s3_task2	31	Picture	Falsch, das ist Zamet	1062865	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	31	Port Input	115	1067069	4204	1
+sub3162_p3_s3_task2	31	Pulse	30	1067069	4204	1
+sub3162_p3_s3_task2	31	Port Input	115	1076983	14118	1
+sub3162_p3_s3_task2	31	Pulse	30	1076983	14118	1
+sub3162_p3_s3_task2	32	Picture	learning/PICTURE_488.jpg;Klentant;Klenter;i;block1;LS1	1083362	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	32	Port Input	115	1087055	3693	1
+sub3162_p3_s3_task2	32	Pulse	30	1087055	3693	1
+sub3162_p3_s3_task2	32	Port Input	115	1096969	13607	1
+sub3162_p3_s3_task2	32	Pulse	30	1096969	13607	1
+sub3162_p3_s3_task2	32	Port Input	100	1101765	18403	1
+sub3162_p3_s3_task2	32	Response	2	1101765	18403	1
+sub3162_p3_s3_task2	32	Port Input	115	1107042	23679	1
+sub3162_p3_s3_task2	32	Pulse	30	1107042	23679	1
+sub3162_p3_s3_task2	33	Picture	Korrekt, das ist Klenter	1109026	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	33	Port Input	115	1116955	7930	1
+sub3162_p3_s3_task2	33	Pulse	30	1116955	7930	1
+sub3162_p3_s3_task2	33	Port Input	115	1127029	18003	1
+sub3162_p3_s3_task2	33	Pulse	30	1127029	18003	1
+sub3162_p3_s3_task2	34	Picture	fix	1129356	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	34	Port Input	115	1137102	7746	1
+sub3162_p3_s3_task2	34	Pulse	30	1137102	7746	1
+sub3162_p3_s3_task2	34	Port Input	115	1147016	17659	1
+sub3162_p3_s3_task2	34	Pulse	30	1147016	17659	1
+sub3162_p3_s3_task2	34	Port Input	115	1157089	27732	1
+sub3162_p3_s3_task2	34	Pulse	30	1157089	27732	1
+sub3162_p3_s3_task2	34	Port Input	115	1167001	37645	1
+sub3162_p3_s3_task2	34	Pulse	30	1167001	37645	1
+sub3162_p3_s3_task2	35	Picture	learning/PICTURE_508.jpg;Josant;Joten;i;block1;LS2	1174851	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	35	Port Input	115	1177074	2224	1
+sub3162_p3_s3_task2	35	Pulse	30	1177074	2224	1
+sub3162_p3_s3_task2	35	Port Input	115	1186988	12137	1
+sub3162_p3_s3_task2	35	Pulse	30	1186988	12137	1
+sub3162_p3_s3_task2	35	Port Input	100	1189066	14215	1
+sub3162_p3_s3_task2	35	Response	2	1189066	14215	1
+sub3162_p3_s3_task2	35	Port Input	115	1197060	22209	1
+sub3162_p3_s3_task2	35	Pulse	30	1197060	22209	1
+sub3162_p3_s3_task2	36	Picture	Korrekt, das ist Joten	1200514	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	36	Port Input	115	1206973	6459	1
+sub3162_p3_s3_task2	36	Pulse	30	1206973	6459	1
+sub3162_p3_s3_task2	36	Port Input	115	1217046	16532	1
+sub3162_p3_s3_task2	36	Pulse	30	1217046	16532	1
+sub3162_p3_s3_task2	37	Picture	learning/PICTURE_695.jpg;Mufi;Munem;i;block1;LS2	1221011	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	37	Port Input	115	1226959	5948	1
+sub3162_p3_s3_task2	37	Pulse	30	1226959	5948	1
+sub3162_p3_s3_task2	37	Port Input	99	1234954	13942	1
+sub3162_p3_s3_task2	37	Response	1	1234954	13942	1
+sub3162_p3_s3_task2	37	Port Input	115	1237032	16021	1
+sub3162_p3_s3_task2	37	Pulse	30	1237032	16021	1
+sub3162_p3_s3_task2	38	Picture	Falsch, das ist Munem	1246508	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	38	Port Input	115	1247105	597	1
+sub3162_p3_s3_task2	38	Pulse	30	1247105	597	1
+sub3162_p3_s3_task2	38	Port Input	115	1257018	10510	1
+sub3162_p3_s3_task2	38	Pulse	30	1257018	10510	1
+sub3162_p3_s3_task2	39	Picture	learning/PICTURE_480.jpg;Zabig;Zamet;i;block1;LS2	1267005	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	39	Port Input	115	1267092	87	1
+sub3162_p3_s3_task2	39	Pulse	30	1267092	87	1
+sub3162_p3_s3_task2	39	Port Input	115	1277006	10000	1
+sub3162_p3_s3_task2	39	Pulse	30	1277006	10000	1
+sub3162_p3_s3_task2	39	Port Input	100	1277485	10480	1
+sub3162_p3_s3_task2	39	Response	2	1277485	10480	1
+sub3162_p3_s3_task2	39	Port Input	115	1287079	20074	1
+sub3162_p3_s3_task2	39	Pulse	30	1287079	20074	1
+sub3162_p3_s3_task2	40	Picture	Korrekt, das ist Zamet	1292502	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	40	Port Input	115	1296992	4490	1
+sub3162_p3_s3_task2	40	Pulse	30	1296992	4490	1
+sub3162_p3_s3_task2	40	Port Input	115	1307066	14564	1
+sub3162_p3_s3_task2	40	Pulse	30	1307066	14564	1
+sub3162_p3_s3_task2	41	Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS2	1313000	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	41	Port Input	115	1316980	3980	1
+sub3162_p3_s3_task2	41	Pulse	30	1316980	3980	1
+sub3162_p3_s3_task2	41	Port Input	99	1324335	11335	1
+sub3162_p3_s3_task2	41	Response	1	1324335	11335	1
+sub3162_p3_s3_task2	41	Port Input	115	1327053	14053	1
+sub3162_p3_s3_task2	41	Pulse	30	1327053	14053	1
+sub3162_p3_s3_task2	41	Port Input	115	1336966	23967	1
+sub3162_p3_s3_task2	41	Pulse	30	1336966	23967	1
+sub3162_p3_s3_task2	42	Picture	Korrekt, das ist Knusap	1338330	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	42	Port Input	115	1347039	8709	1
+sub3162_p3_s3_task2	42	Pulse	30	1347039	8709	1
+sub3162_p3_s3_task2	42	Port Input	115	1356953	18624	1
+sub3162_p3_s3_task2	42	Pulse	30	1356953	18624	1
+sub3162_p3_s3_task2	43	Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS2	1358827	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	43	Port Input	115	1367025	8198	1
+sub3162_p3_s3_task2	43	Pulse	30	1367025	8198	1
+sub3162_p3_s3_task2	43	Port Input	99	1369104	10277	1
+sub3162_p3_s3_task2	43	Response	1	1369104	10277	1
+sub3162_p3_s3_task2	43	Port Input	115	1377098	18271	1
+sub3162_p3_s3_task2	43	Pulse	30	1377098	18271	1
+sub3162_p3_s3_task2	44	Picture	Korrekt, das ist Joten	1384157	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	44	Port Input	115	1387011	2854	1
+sub3162_p3_s3_task2	44	Pulse	30	1387011	2854	1
+sub3162_p3_s3_task2	44	Port Input	115	1397084	12927	1
+sub3162_p3_s3_task2	44	Pulse	30	1397084	12927	1
+sub3162_p3_s3_task2	45	Picture	learning/PICTURE_488.jpg;Klenban;Klenter;i;block1;LS2	1404654	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	45	Port Input	115	1406998	2343	1
+sub3162_p3_s3_task2	45	Pulse	30	1406998	2343	1
+sub3162_p3_s3_task2	45	Port Input	100	1416431	11777	1
+sub3162_p3_s3_task2	45	Response	2	1416431	11777	1
+sub3162_p3_s3_task2	45	Port Input	115	1417071	12416	1
+sub3162_p3_s3_task2	45	Pulse	30	1417071	12416	1
+sub3162_p3_s3_task2	45	Port Input	115	1426984	22330	1
+sub3162_p3_s3_task2	45	Pulse	30	1426984	22330	1
+sub3162_p3_s3_task2	46	Picture	Korrekt, das ist Klenter	1429985	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	46	Port Input	115	1437057	7072	1
+sub3162_p3_s3_task2	46	Pulse	30	1437057	7072	1
+sub3162_p3_s3_task2	46	Port Input	115	1446970	16985	1
+sub3162_p3_s3_task2	46	Pulse	30	1446970	16985	1
+sub3162_p3_s3_task2	47	Picture	learning/PICTURE_15.jpg;Zerse;Zerbe;i;block1;LS2	1450315	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	47	Port Input	115	1457044	6729	1
+sub3162_p3_s3_task2	47	Pulse	30	1457044	6729	1
+sub3162_p3_s3_task2	47	Port Input	100	1464240	13925	1
+sub3162_p3_s3_task2	47	Response	2	1464240	13925	1
+sub3162_p3_s3_task2	47	Port Input	115	1466957	16642	1
+sub3162_p3_s3_task2	47	Pulse	30	1466957	16642	1
+sub3162_p3_s3_task2	48	Picture	Korrekt, das ist Zerbe	1475645	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	48	Port Input	115	1477031	1385	1
+sub3162_p3_s3_task2	48	Pulse	30	1477031	1385	1
+sub3162_p3_s3_task2	48	Port Input	115	1487104	11458	1
+sub3162_p3_s3_task2	48	Pulse	30	1487104	11458	1
+sub3162_p3_s3_task2	49	Picture	learning/PICTURE_703.jpg;Jehmel;Jehler;i;block1;LS2	1495976	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	49	Port Input	115	1497017	1041	1
+sub3162_p3_s3_task2	49	Pulse	30	1497017	1041	1
+sub3162_p3_s3_task2	49	Port Input	115	1507090	11114	1
+sub3162_p3_s3_task2	49	Pulse	30	1507090	11114	1
+sub3162_p3_s3_task2	49	Port Input	100	1513166	17190	1
+sub3162_p3_s3_task2	49	Response	2	1513166	17190	1
+sub3162_p3_s3_task2	49	Port Input	115	1517003	21027	1
+sub3162_p3_s3_task2	49	Pulse	30	1517003	21027	1
+sub3162_p3_s3_task2	50	Picture	Korrekt, das ist Jehler	1521306	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	50	Port Input	115	1527077	5771	1
+sub3162_p3_s3_task2	50	Pulse	30	1527077	5771	1
+sub3162_p3_s3_task2	50	Port Input	115	1536990	15684	1
+sub3162_p3_s3_task2	50	Pulse	30	1536990	15684	1
+sub3162_p3_s3_task2	51	Picture	learning/PICTURE_95.jpg;Knufeg;Knusap;i;block1;LS2	1541637	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	51	Port Input	115	1547063	5426	1
+sub3162_p3_s3_task2	51	Pulse	30	1547063	5426	1
+sub3162_p3_s3_task2	51	Port Input	100	1551381	9744	1
+sub3162_p3_s3_task2	51	Response	2	1551381	9744	1
+sub3162_p3_s3_task2	51	Port Input	115	1556976	15339	1
+sub3162_p3_s3_task2	51	Pulse	30	1556976	15339	1
+sub3162_p3_s3_task2	52	Picture	Korrekt, das ist Knusap	1566967	0	1	20320	11	0	next	other	0
+sub3162_p3_s3_task2	52	Port Input	115	1567050	83	1
+sub3162_p3_s3_task2	52	Pulse	30	1567050	83	1
+sub3162_p3_s3_task2	52	Port Input	115	1576963	9996	1
+sub3162_p3_s3_task2	52	Pulse	30	1576963	9996	1
+sub3162_p3_s3_task2	52	Port Input	115	1586969	20002	190
+sub3162_p3_s3_task2	52	Pulse	30	1586969	20002	190
+sub3162_p3_s3_task2	53	Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS2	1587287	0	11	25174	11	0	25000	other	0
+sub3162_p3_s3_task2	53	Port Input	115	1596949	9662	1
+sub3162_p3_s3_task2	53	Pulse	30	1596949	9662	1
+sub3162_p3_s3_task2	53	Port Input	99	1597109	9821	1
+sub3162_p3_s3_task2	53	Response	1	1597109	9821	1
+sub3162_p3_s3_task2	53	Port Input	115	1607022	19735	1
+sub3162_p3_s3_task2	53	Pulse	30	1607022	19735	1
+sub3162_p3_s3_task2	54	Picture	Korrekt, das ist Jehler	1612628	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	54	Port Input	115	1617095	4468	1
+sub3162_p3_s3_task2	54	Pulse	30	1617095	4468	1
+sub3162_p3_s3_task2	54	Port Input	115	1627008	14380	1
+sub3162_p3_s3_task2	54	Pulse	30	1627008	14380	1
+sub3162_p3_s3_task2	55	Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS2	1632959	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	55	Port Input	115	1637082	4123	1
+sub3162_p3_s3_task2	55	Pulse	30	1637082	4123	1
+sub3162_p3_s3_task2	55	Port Input	99	1641878	8920	1
+sub3162_p3_s3_task2	55	Response	1	1641878	8920	1
+sub3162_p3_s3_task2	55	Port Input	115	1646995	14036	1
+sub3162_p3_s3_task2	55	Pulse	30	1646995	14036	1
+sub3162_p3_s3_task2	55	Port Input	115	1657067	24109	1
+sub3162_p3_s3_task2	55	Pulse	30	1657067	24109	1
+sub3162_p3_s3_task2	56	Picture	Korrekt, das ist Zerbe	1658289	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	56	Port Input	115	1666980	8692	1
+sub3162_p3_s3_task2	56	Pulse	30	1666980	8692	1
+sub3162_p3_s3_task2	56	Port Input	115	1677053	18764	1
+sub3162_p3_s3_task2	56	Pulse	30	1677053	18764	1
+sub3162_p3_s3_task2	57	Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS2	1678786	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	57	Port Input	115	1686966	8180	1
+sub3162_p3_s3_task2	57	Pulse	30	1686966	8180	1
+sub3162_p3_s3_task2	57	Port Input	99	1689684	10898	1
+sub3162_p3_s3_task2	57	Response	1	1689684	10898	1
+sub3162_p3_s3_task2	57	Port Input	115	1697039	18253	1
+sub3162_p3_s3_task2	57	Pulse	30	1697039	18253	1
+sub3162_p3_s3_task2	58	Picture	Korrekt, das ist Zamet	1704116	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	58	Port Input	115	1706952	2836	1
+sub3162_p3_s3_task2	58	Pulse	30	1706952	2836	1
+sub3162_p3_s3_task2	58	Port Input	115	1717025	12909	1
+sub3162_p3_s3_task2	58	Pulse	30	1717025	12909	1
+sub3162_p3_s3_task2	59	Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS2	1724447	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	59	Port Input	115	1727098	2651	1
+sub3162_p3_s3_task2	59	Pulse	30	1727098	2651	1
+sub3162_p3_s3_task2	59	Port Input	99	1734293	9847	1
+sub3162_p3_s3_task2	59	Response	1	1734293	9847	1
+sub3162_p3_s3_task2	59	Port Input	115	1737012	12565	1
+sub3162_p3_s3_task2	59	Pulse	30	1737012	12565	1
+sub3162_p3_s3_task2	59	Port Input	115	1747085	22639	1
+sub3162_p3_s3_task2	59	Pulse	30	1747085	22639	1
+sub3162_p3_s3_task2	60	Picture	Korrekt, das ist Klenter	1749777	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	60	Port Input	115	1756999	7222	1
+sub3162_p3_s3_task2	60	Pulse	30	1756999	7222	1
+sub3162_p3_s3_task2	60	Port Input	115	1767072	17295	1
+sub3162_p3_s3_task2	60	Pulse	30	1767072	17295	1
+sub3162_p3_s3_task2	61	Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS2	1770108	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	61	Port Input	115	1776984	6877	1
+sub3162_p3_s3_task2	61	Pulse	30	1776984	6877	1
+sub3162_p3_s3_task2	61	Port Input	99	1785459	15351	1
+sub3162_p3_s3_task2	61	Response	1	1785459	15351	1
+sub3162_p3_s3_task2	61	Port Input	115	1787057	16950	1
+sub3162_p3_s3_task2	61	Pulse	30	1787057	16950	1
+sub3162_p3_s3_task2	62	Picture	Korrekt, das ist Munem	1795438	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	62	Port Input	115	1796971	1533	1
+sub3162_p3_s3_task2	62	Pulse	30	1796971	1533	1
+sub3162_p3_s3_task2	62	Port Input	115	1807044	11606	1
+sub3162_p3_s3_task2	62	Pulse	30	1807044	11606	1
+sub3162_p3_s3_task2	63	Picture	fix	1815602	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	63	Port Input	115	1816957	1355	1
+sub3162_p3_s3_task2	63	Pulse	30	1816957	1355	1
+sub3162_p3_s3_task2	63	Port Input	115	1827031	11429	1
+sub3162_p3_s3_task2	63	Pulse	30	1827031	11429	1
+sub3162_p3_s3_task2	63	Port Input	115	1837104	21502	1
+sub3162_p3_s3_task2	63	Pulse	30	1837104	21502	1
+sub3162_p3_s3_task2	63	Port Input	115	1847017	31415	1
+sub3162_p3_s3_task2	63	Pulse	30	1847017	31415	1
+sub3162_p3_s3_task2	63	Port Input	115	1857090	41488	1
+sub3162_p3_s3_task2	63	Pulse	30	1857090	41488	1
+sub3162_p3_s3_task2	64	Picture	learning/PICTURE_15.jpg;Zerpet;Zerbe;i;block1;LS3	1860929	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	64	Port Input	115	1867003	6074	1
+sub3162_p3_s3_task2	64	Pulse	30	1867003	6074	1
+sub3162_p3_s3_task2	64	Port Input	100	1871640	10711	1
+sub3162_p3_s3_task2	64	Response	2	1871640	10711	1
+sub3162_p3_s3_task2	64	Port Input	115	1877077	16147	1
+sub3162_p3_s3_task2	64	Pulse	30	1877077	16147	1
+sub3162_p3_s3_task2	65	Picture	Korrekt, das ist Zerbe	1886260	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	65	Port Input	115	1886990	730	1
+sub3162_p3_s3_task2	65	Pulse	30	1886990	730	1
+sub3162_p3_s3_task2	65	Port Input	115	1897063	10803	1
+sub3162_p3_s3_task2	65	Pulse	30	1897063	10803	1
+sub3162_p3_s3_task2	66	Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS3	1906590	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	66	Port Input	115	1906976	386	1
+sub3162_p3_s3_task2	66	Pulse	30	1906976	386	1
+sub3162_p3_s3_task2	66	Port Input	99	1914491	7900	1
+sub3162_p3_s3_task2	66	Response	1	1914491	7900	1
+sub3162_p3_s3_task2	66	Port Input	115	1917050	10460	1
+sub3162_p3_s3_task2	66	Pulse	30	1917050	10460	1
+sub3162_p3_s3_task2	66	Port Input	115	1926963	20372	1
+sub3162_p3_s3_task2	66	Pulse	30	1926963	20372	1
+sub3162_p3_s3_task2	67	Picture	Korrekt, das ist Joten	1931918	0	3	20333	3	0	next	other	0
+sub3162_p3_s3_task2	67	Port Input	115	1937036	5118	1
+sub3162_p3_s3_task2	67	Pulse	30	1937036	5118	1
+sub3162_p3_s3_task2	67	Port Input	115	1946949	15031	1
+sub3162_p3_s3_task2	67	Pulse	30	1946949	15031	1
+sub3162_p3_s3_task2	68	Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS3	1952251	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	68	Port Input	115	1957022	4771	1
+sub3162_p3_s3_task2	68	Pulse	30	1957022	4771	1
+sub3162_p3_s3_task2	68	Port Input	99	1961020	8769	1
+sub3162_p3_s3_task2	68	Response	1	1961020	8769	1
+sub3162_p3_s3_task2	68	Port Input	115	1967097	14846	1
+sub3162_p3_s3_task2	68	Pulse	30	1967097	14846	1
+sub3162_p3_s3_task2	68	Port Input	115	1977010	24759	1
+sub3162_p3_s3_task2	68	Pulse	30	1977010	24759	1
+sub3162_p3_s3_task2	69	Picture	Korrekt, das ist Jehler	1977581	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	69	Port Input	115	1987084	9503	1
+sub3162_p3_s3_task2	69	Pulse	30	1987084	9503	1
+sub3162_p3_s3_task2	69	Port Input	115	1996998	19417	1
+sub3162_p3_s3_task2	69	Pulse	30	1996998	19417	1
+sub3162_p3_s3_task2	70	Picture	learning/PICTURE_488.jpg;Klenta;Klenter;i;block1;LS3	1997912	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	70	Port Input	100	2006752	8840	1
+sub3162_p3_s3_task2	70	Response	2	2006752	8840	1
+sub3162_p3_s3_task2	70	Port Input	115	2007071	9160	1
+sub3162_p3_s3_task2	70	Pulse	30	2007071	9160	1
+sub3162_p3_s3_task2	70	Port Input	115	2016984	19072	1
+sub3162_p3_s3_task2	70	Pulse	30	2016984	19072	1
+sub3162_p3_s3_task2	71	Picture	Korrekt, das ist Klenter	2023242	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	71	Port Input	115	2027058	3816	1
+sub3162_p3_s3_task2	71	Pulse	30	2027058	3816	1
+sub3162_p3_s3_task2	71	Port Input	115	2036971	13729	1
+sub3162_p3_s3_task2	71	Pulse	30	2036971	13729	1
+sub3162_p3_s3_task2	72	Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS3	2043573	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	72	Port Input	115	2047045	3472	1
+sub3162_p3_s3_task2	72	Pulse	30	2047045	3472	1
+sub3162_p3_s3_task2	72	Port Input	99	2053440	9868	1
+sub3162_p3_s3_task2	72	Response	1	2053440	9868	1
+sub3162_p3_s3_task2	72	Port Input	115	2056958	13386	1
+sub3162_p3_s3_task2	72	Pulse	30	2056958	13386	1
+sub3162_p3_s3_task2	72	Port Input	115	2067031	23459	1
+sub3162_p3_s3_task2	72	Pulse	30	2067031	23459	1
+sub3162_p3_s3_task2	73	Picture	Korrekt, das ist Zerbe	2068903	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	73	Port Input	115	2076946	8043	1
+sub3162_p3_s3_task2	73	Pulse	30	2076946	8043	1
+sub3162_p3_s3_task2	73	Port Input	115	2087020	18117	1
+sub3162_p3_s3_task2	73	Pulse	30	2087020	18117	1
+sub3162_p3_s3_task2	74	Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS3	2089234	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	74	Port Input	115	2097093	7859	1
+sub3162_p3_s3_task2	74	Pulse	30	2097093	7859	1
+sub3162_p3_s3_task2	74	Port Input	99	2097413	8179	1
+sub3162_p3_s3_task2	74	Response	1	2097413	8179	1
+sub3162_p3_s3_task2	74	Port Input	115	2107007	17773	1
+sub3162_p3_s3_task2	74	Pulse	30	2107007	17773	1
+sub3162_p3_s3_task2	75	Picture	Korrekt, das ist Zamet	2114564	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	75	Port Input	115	2117080	2516	1
+sub3162_p3_s3_task2	75	Pulse	30	2117080	2516	1
+sub3162_p3_s3_task2	75	Port Input	115	2126993	12430	1
+sub3162_p3_s3_task2	75	Pulse	30	2126993	12430	1
+sub3162_p3_s3_task2	76	Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS3	2134894	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	76	Port Input	115	2137066	2172	1
+sub3162_p3_s3_task2	76	Pulse	30	2137066	2172	1
+sub3162_p3_s3_task2	76	Port Input	99	2144421	9526	1
+sub3162_p3_s3_task2	76	Response	1	2144421	9526	1
+sub3162_p3_s3_task2	76	Port Input	115	2146979	12085	1
+sub3162_p3_s3_task2	76	Pulse	30	2146979	12085	1
+sub3162_p3_s3_task2	76	Port Input	115	2157052	22158	1
+sub3162_p3_s3_task2	76	Pulse	30	2157052	22158	1
+sub3162_p3_s3_task2	77	Picture	Korrekt, das ist Knusap	2160558	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	77	Port Input	115	2166966	6408	1
+sub3162_p3_s3_task2	77	Pulse	30	2166966	6408	1
+sub3162_p3_s3_task2	77	Port Input	115	2177039	16481	1
+sub3162_p3_s3_task2	77	Pulse	30	2177039	16481	1
+sub3162_p3_s3_task2	78	Picture	learning/PICTURE_508.jpg;Jotolt;Joten;i;block1;LS3	2181055	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	78	Port Input	115	2186953	5898	1
+sub3162_p3_s3_task2	78	Pulse	30	2186953	5898	1
+sub3162_p3_s3_task2	78	Port Input	100	2190150	9095	1
+sub3162_p3_s3_task2	78	Response	2	2190150	9095	1
+sub3162_p3_s3_task2	78	Port Input	115	2197024	15969	14
+sub3162_p3_s3_task2	78	Pulse	30	2197024	15969	14
+sub3162_p3_s3_task2	79	Picture	Korrekt, das ist Joten	2206718	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	79	Port Input	115	2207098	379	1
+sub3162_p3_s3_task2	79	Pulse	30	2207098	379	1
+sub3162_p3_s3_task2	79	Port Input	115	2217011	10292	1
+sub3162_p3_s3_task2	79	Pulse	30	2217011	10292	1
+sub3162_p3_s3_task2	79	Port Input	115	2227084	20366	1
+sub3162_p3_s3_task2	79	Pulse	30	2227084	20366	1
+sub3162_p3_s3_task2	80	Picture	learning/PICTURE_480.jpg;Zabelt;Zamet;i;block1;LS3	2227216	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	80	Port Input	100	2235718	8502	1
+sub3162_p3_s3_task2	80	Response	2	2235718	8502	1
+sub3162_p3_s3_task2	80	Port Input	115	2236997	9781	1
+sub3162_p3_s3_task2	80	Pulse	30	2236997	9781	1
+sub3162_p3_s3_task2	80	Port Input	115	2247071	19855	1
+sub3162_p3_s3_task2	80	Pulse	30	2247071	19855	1
+sub3162_p3_s3_task2	81	Picture	Korrekt, das ist Zamet	2252879	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	81	Port Input	115	2256984	4105	1
+sub3162_p3_s3_task2	81	Pulse	30	2256984	4105	1
+sub3162_p3_s3_task2	81	Port Input	115	2267057	14178	1
+sub3162_p3_s3_task2	81	Pulse	30	2267057	14178	1
+sub3162_p3_s3_task2	82	Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS3	2273377	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	82	Port Input	115	2276971	3594	1
+sub3162_p3_s3_task2	82	Pulse	30	2276971	3594	1
+sub3162_p3_s3_task2	82	Port Input	99	2282408	9031	1
+sub3162_p3_s3_task2	82	Response	1	2282408	9031	1
+sub3162_p3_s3_task2	82	Port Input	115	2287044	13668	1
+sub3162_p3_s3_task2	82	Pulse	30	2287044	13668	1
+sub3162_p3_s3_task2	82	Port Input	115	2296957	23581	1
+sub3162_p3_s3_task2	82	Pulse	30	2296957	23581	1
+sub3162_p3_s3_task2	83	Picture	Korrekt, das ist Klenter	2299040	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	83	Port Input	115	2307031	7991	1
+sub3162_p3_s3_task2	83	Pulse	30	2307031	7991	1
+sub3162_p3_s3_task2	83	Port Input	115	2316944	17905	1
+sub3162_p3_s3_task2	83	Pulse	30	2316944	17905	1
+sub3162_p3_s3_task2	84	Picture	learning/PICTURE_703.jpg;Jehtir;Jehler;i;block1;LS3	2319537	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	84	Port Input	115	2327018	7481	1
+sub3162_p3_s3_task2	84	Pulse	30	2327018	7481	1
+sub3162_p3_s3_task2	84	Port Input	100	2328297	8760	1
+sub3162_p3_s3_task2	84	Response	2	2328297	8760	1
+sub3162_p3_s3_task2	84	Port Input	115	2337091	17554	1
+sub3162_p3_s3_task2	84	Pulse	30	2337091	17554	1
+sub3162_p3_s3_task2	85	Picture	Korrekt, das ist Jehler	2345201	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	85	Port Input	115	2347004	1804	1
+sub3162_p3_s3_task2	85	Pulse	30	2347004	1804	1
+sub3162_p3_s3_task2	85	Port Input	115	2357077	11877	1
+sub3162_p3_s3_task2	85	Pulse	30	2357077	11877	1
+sub3162_p3_s3_task2	86	Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS3	2365698	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	86	Port Input	115	2366992	1294	1
+sub3162_p3_s3_task2	86	Pulse	30	2366992	1294	1
+sub3162_p3_s3_task2	86	Port Input	99	2375307	9609	1
+sub3162_p3_s3_task2	86	Response	1	2375307	9609	1
+sub3162_p3_s3_task2	86	Port Input	115	2377066	11368	1
+sub3162_p3_s3_task2	86	Pulse	30	2377066	11368	1
+sub3162_p3_s3_task2	86	Port Input	115	2386981	21282	1
+sub3162_p3_s3_task2	86	Pulse	30	2386981	21282	1
+sub3162_p3_s3_task2	87	Picture	Korrekt, das ist Munem	2391195	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	87	Port Input	115	2397055	5860	1
+sub3162_p3_s3_task2	87	Pulse	30	2397055	5860	1
+sub3162_p3_s3_task2	87	Port Input	115	2406969	15774	1
+sub3162_p3_s3_task2	87	Pulse	30	2406969	15774	1
+sub3162_p3_s3_task2	88	Picture	learning/PICTURE_95.jpg;Knupat;Knusap;i;block1;LS3	2411692	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	88	Port Input	115	2417042	5350	1
+sub3162_p3_s3_task2	88	Pulse	30	2417042	5350	1
+sub3162_p3_s3_task2	88	Port Input	99	2425997	14305	1
+sub3162_p3_s3_task2	88	Response	1	2425997	14305	1
+sub3162_p3_s3_task2	88	Port Input	115	2426956	15264	1
+sub3162_p3_s3_task2	88	Pulse	30	2426956	15264	1
+sub3162_p3_s3_task2	89	Picture	Falsch, das ist Knusap	2437022	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	89	Port Input	115	2437030	8	1
+sub3162_p3_s3_task2	89	Pulse	30	2437030	8	1
+sub3162_p3_s3_task2	89	Port Input	115	2446944	9921	1
+sub3162_p3_s3_task2	89	Pulse	30	2446944	9921	1
+sub3162_p3_s3_task2	89	Port Input	115	2457018	19995	1
+sub3162_p3_s3_task2	89	Pulse	30	2457018	19995	1
+sub3162_p3_s3_task2	90	Picture	learning/PICTURE_695.jpg;Mugir;Munem;i;block1;LS3	2457520	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	90	Port Input	100	2466132	8612	1
+sub3162_p3_s3_task2	90	Response	2	2466132	8612	1
+sub3162_p3_s3_task2	90	Port Input	115	2467092	9572	1
+sub3162_p3_s3_task2	90	Pulse	30	2467092	9572	1
+sub3162_p3_s3_task2	90	Port Input	115	2477006	19486	1
+sub3162_p3_s3_task2	90	Pulse	30	2477006	19486	1
+sub3162_p3_s3_task2	91	Picture	Korrekt, das ist Munem	2482850	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	91	Port Input	115	2487080	4230	1
+sub3162_p3_s3_task2	91	Pulse	30	2487080	4230	1
+sub3162_p3_s3_task2	91	Port Input	115	2496994	14144	1
+sub3162_p3_s3_task2	91	Pulse	30	2496994	14144	1
+sub3162_p3_s3_task2	92	Picture	fix	2503014	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	92	Port Input	115	2507068	4054	1
+sub3162_p3_s3_task2	92	Pulse	30	2507068	4054	1
+sub3162_p3_s3_task2	92	Port Input	115	2516982	13968	1
+sub3162_p3_s3_task2	92	Pulse	30	2516982	13968	1
+sub3162_p3_s3_task2	92	Port Input	115	2527055	24042	1
+sub3162_p3_s3_task2	92	Pulse	30	2527055	24042	1
+sub3162_p3_s3_task2	92	Port Input	115	2536969	33955	1
+sub3162_p3_s3_task2	92	Pulse	30	2536969	33955	1
+sub3162_p3_s3_task2	92	Port Input	115	2547044	44030	1
+sub3162_p3_s3_task2	92	Pulse	30	2547044	44030	1
+sub3162_p3_s3_task2	93	Picture	learning/PICTURE_508.jpg;Jota;Joten;i;block1;LS4	2548508	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	93	Port Input	100	2556478	7970	1
+sub3162_p3_s3_task2	93	Response	2	2556478	7970	1
+sub3162_p3_s3_task2	93	Port Input	115	2556958	8450	1
+sub3162_p3_s3_task2	93	Pulse	30	2556958	8450	1
+sub3162_p3_s3_task2	93	Port Input	115	2567032	18524	1
+sub3162_p3_s3_task2	93	Pulse	30	2567032	18524	1
+sub3162_p3_s3_task2	94	Picture	Korrekt, das ist Joten	2573838	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	94	Port Input	115	2576946	3108	1
+sub3162_p3_s3_task2	94	Pulse	30	2576946	3108	1
+sub3162_p3_s3_task2	94	Port Input	115	2587020	13182	1
+sub3162_p3_s3_task2	94	Pulse	30	2587020	13182	1
+sub3162_p3_s3_task2	95	Picture	learning/PICTURE_95.jpg;Knuler;Knusap;i;block1;LS4	2594336	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	95	Port Input	115	2597094	2759	1
+sub3162_p3_s3_task2	95	Pulse	30	2597094	2759	1
+sub3162_p3_s3_task2	95	Port Input	100	2602692	8356	1
+sub3162_p3_s3_task2	95	Response	2	2602692	8356	1
+sub3162_p3_s3_task2	95	Port Input	115	2607010	12675	1
+sub3162_p3_s3_task2	95	Pulse	30	2607010	12675	1
+sub3162_p3_s3_task2	95	Port Input	115	2617084	22749	1
+sub3162_p3_s3_task2	95	Pulse	30	2617084	22749	1
+sub3162_p3_s3_task2	96	Picture	Korrekt, das ist Knusap	2619666	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	96	Port Input	115	2626998	7332	1
+sub3162_p3_s3_task2	96	Pulse	30	2626998	7332	1
+sub3162_p3_s3_task2	96	Port Input	115	2637071	17406	1
+sub3162_p3_s3_task2	96	Pulse	30	2637071	17406	1
+sub3162_p3_s3_task2	97	Picture	learning/PICTURE_703.jpg;Jehse;Jehler;i;block1;LS4	2639996	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	97	Port Input	115	2646985	6989	1
+sub3162_p3_s3_task2	97	Pulse	30	2646985	6989	1
+sub3162_p3_s3_task2	97	Port Input	100	2647465	7468	1
+sub3162_p3_s3_task2	97	Response	2	2647465	7468	1
+sub3162_p3_s3_task2	97	Port Input	115	2657059	17063	1
+sub3162_p3_s3_task2	97	Pulse	30	2657059	17063	1
+sub3162_p3_s3_task2	98	Picture	Korrekt, das ist Jehler	2665326	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	98	Port Input	115	2666973	1647	1
+sub3162_p3_s3_task2	98	Pulse	30	2666973	1647	1
+sub3162_p3_s3_task2	98	Port Input	115	2677046	11720	1
+sub3162_p3_s3_task2	98	Pulse	30	2677046	11720	1
+sub3162_p3_s3_task2	99	Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS4	2685657	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	99	Port Input	115	2686960	1303	1
+sub3162_p3_s3_task2	99	Pulse	30	2686960	1303	1
+sub3162_p3_s3_task2	99	Port Input	99	2695754	10097	1
+sub3162_p3_s3_task2	99	Response	1	2695754	10097	1
+sub3162_p3_s3_task2	99	Port Input	115	2697034	11376	1
+sub3162_p3_s3_task2	99	Pulse	30	2697034	11376	1
+sub3162_p3_s3_task2	99	Port Input	115	2706947	21290	1
+sub3162_p3_s3_task2	99	Pulse	30	2706947	21290	1
+sub3162_p3_s3_task2	100	Picture	Korrekt, das ist Zerbe	2710987	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	100	Port Input	115	2717022	6035	1
+sub3162_p3_s3_task2	100	Pulse	30	2717022	6035	1
+sub3162_p3_s3_task2	100	Port Input	115	2727096	16108	1
+sub3162_p3_s3_task2	100	Pulse	30	2727096	16108	1
+sub3162_p3_s3_task2	101	Picture	learning/PICTURE_480.jpg;Zatir;Zamet;i;block1;LS4	2731485	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	101	Port Input	115	2737010	5525	1
+sub3162_p3_s3_task2	101	Pulse	30	2737010	5525	1
+sub3162_p3_s3_task2	101	Port Input	100	2743246	11761	1
+sub3162_p3_s3_task2	101	Response	2	2743246	11761	1
+sub3162_p3_s3_task2	101	Port Input	115	2747083	15598	1
+sub3162_p3_s3_task2	101	Pulse	30	2747083	15598	1
+sub3162_p3_s3_task2	102	Picture	Korrekt, das ist Zamet	2756815	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	102	Port Input	115	2756996	181	1
+sub3162_p3_s3_task2	102	Pulse	30	2756996	181	1
+sub3162_p3_s3_task2	102	Port Input	115	2767070	10255	1
+sub3162_p3_s3_task2	102	Pulse	30	2767070	10255	1
+sub3162_p3_s3_task2	102	Port Input	115	2776815	20001	189
+sub3162_p3_s3_task2	102	Pulse	30	2776815	20001	189
+sub3162_p3_s3_task2	103	Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS4	2777145	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	103	Port Input	99	2785776	8631	1
+sub3162_p3_s3_task2	103	Response	1	2785776	8631	1
+sub3162_p3_s3_task2	103	Port Input	115	2787055	9910	1
+sub3162_p3_s3_task2	103	Pulse	30	2787055	9910	1
+sub3162_p3_s3_task2	103	Port Input	115	2796968	19823	1
+sub3162_p3_s3_task2	103	Pulse	30	2796968	19823	1
+sub3162_p3_s3_task2	104	Picture	Korrekt, das ist Joten	2802476	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	104	Port Input	115	2807042	4566	1
+sub3162_p3_s3_task2	104	Pulse	30	2807042	4566	1
+sub3162_p3_s3_task2	104	Port Input	115	2816956	14481	1
+sub3162_p3_s3_task2	104	Pulse	30	2816956	14481	1
+sub3162_p3_s3_task2	105	Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS4	2822806	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	105	Port Input	115	2827029	4223	1
+sub3162_p3_s3_task2	105	Pulse	30	2827029	4223	1
+sub3162_p3_s3_task2	105	Port Input	99	2830387	7580	1
+sub3162_p3_s3_task2	105	Response	1	2830387	7580	1
+sub3162_p3_s3_task2	105	Port Input	115	2836942	14136	1
+sub3162_p3_s3_task2	105	Pulse	30	2836942	14136	1
+sub3162_p3_s3_task2	105	Port Input	115	2847015	24209	1
+sub3162_p3_s3_task2	105	Pulse	30	2847015	24209	1
+sub3162_p3_s3_task2	106	Picture	Korrekt, das ist Munem	2848136	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	106	Port Input	115	2857090	8954	1
+sub3162_p3_s3_task2	106	Pulse	30	2857090	8954	1
+sub3162_p3_s3_task2	106	Port Input	115	2867004	18868	1
+sub3162_p3_s3_task2	106	Pulse	30	2867004	18868	1
+sub3162_p3_s3_task2	107	Picture	learning/PICTURE_488.jpg;Klenfalt;Klenter;i;block1;LS4	2868467	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	107	Port Input	100	2876918	8451	1
+sub3162_p3_s3_task2	107	Response	2	2876918	8451	1
+sub3162_p3_s3_task2	107	Port Input	115	2877078	8611	1
+sub3162_p3_s3_task2	107	Pulse	30	2877078	8611	1
+sub3162_p3_s3_task2	107	Port Input	115	2886991	18524	1
+sub3162_p3_s3_task2	107	Pulse	30	2886991	18524	1
+sub3162_p3_s3_task2	108	Picture	Korrekt, das ist Klenter	2893797	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	108	Port Input	115	2897065	3267	1
+sub3162_p3_s3_task2	108	Pulse	30	2897065	3267	1
+sub3162_p3_s3_task2	108	Port Input	115	2906978	13181	1
+sub3162_p3_s3_task2	108	Pulse	30	2906978	13181	1
+sub3162_p3_s3_task2	109	Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS4	2914128	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	109	Port Input	115	2917052	2924	1
+sub3162_p3_s3_task2	109	Pulse	30	2917052	2924	1
+sub3162_p3_s3_task2	109	Port Input	99	2922168	8040	1
+sub3162_p3_s3_task2	109	Response	1	2922168	8040	1
+sub3162_p3_s3_task2	109	Port Input	115	2926965	12837	1
+sub3162_p3_s3_task2	109	Pulse	30	2926965	12837	1
+sub3162_p3_s3_task2	109	Port Input	115	2937038	22910	1
+sub3162_p3_s3_task2	109	Pulse	30	2937038	22910	1
+sub3162_p3_s3_task2	110	Picture	Korrekt, das ist Jehler	2939458	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	110	Port Input	115	2946951	7493	1
+sub3162_p3_s3_task2	110	Pulse	30	2946951	7493	1
+sub3162_p3_s3_task2	110	Port Input	115	2957023	17565	1
+sub3162_p3_s3_task2	110	Pulse	30	2957023	17565	1
+sub3162_p3_s3_task2	111	Picture	learning/PICTURE_695.jpg;Mupat;Munem;i;block1;LS4	2959789	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	111	Port Input	115	2967094	7306	1
+sub3162_p3_s3_task2	111	Pulse	30	2967094	7306	1
+sub3162_p3_s3_task2	111	Port Input	100	2967574	7785	1
+sub3162_p3_s3_task2	111	Response	2	2967574	7785	1
+sub3162_p3_s3_task2	111	Port Input	115	2977009	17220	1
+sub3162_p3_s3_task2	111	Pulse	30	2977009	17220	1
+sub3162_p3_s3_task2	112	Picture	Korrekt, das ist Munem	2985119	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	112	Port Input	115	2987083	1964	1
+sub3162_p3_s3_task2	112	Pulse	30	2987083	1964	1
+sub3162_p3_s3_task2	112	Port Input	115	2996997	11878	1
+sub3162_p3_s3_task2	112	Pulse	30	2996997	11878	1
+sub3162_p3_s3_task2	113	Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS4	3005450	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	113	Port Input	115	3007072	1622	1
+sub3162_p3_s3_task2	113	Pulse	30	3007072	1622	1
+sub3162_p3_s3_task2	113	Port Input	99	3013948	8498	1
+sub3162_p3_s3_task2	113	Response	1	3013948	8498	1
+sub3162_p3_s3_task2	113	Port Input	115	3016986	11536	1
+sub3162_p3_s3_task2	113	Pulse	30	3016986	11536	1
+sub3162_p3_s3_task2	113	Port Input	115	3027059	21610	1
+sub3162_p3_s3_task2	113	Pulse	30	3027059	21610	1
+sub3162_p3_s3_task2	114	Picture	Korrekt, das ist Klenter	3030780	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	114	Port Input	115	3036980	6200	1
+sub3162_p3_s3_task2	114	Pulse	30	3036980	6200	1
+sub3162_p3_s3_task2	114	Port Input	115	3047047	16268	1
+sub3162_p3_s3_task2	114	Pulse	30	3047047	16268	1
+sub3162_p3_s3_task2	115	Picture	learning/PICTURE_15.jpg;Zertock;Zerbe;i;block1;LS4	3051110	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	115	Port Input	115	3056961	5851	1
+sub3162_p3_s3_task2	115	Pulse	30	3056961	5851	1
+sub3162_p3_s3_task2	115	Port Input	100	3059360	8250	1
+sub3162_p3_s3_task2	115	Response	2	3059360	8250	1
+sub3162_p3_s3_task2	115	Port Input	115	3067035	15925	1
+sub3162_p3_s3_task2	115	Pulse	30	3067035	15925	1
+sub3162_p3_s3_task2	116	Picture	Korrekt, das ist Zerbe	3076440	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	116	Port Input	115	3076948	507	1
+sub3162_p3_s3_task2	116	Pulse	30	3076948	507	1
+sub3162_p3_s3_task2	116	Port Input	115	3087021	10581	1
+sub3162_p3_s3_task2	116	Pulse	30	3087021	10581	1
+sub3162_p3_s3_task2	117	Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS4	3096771	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	117	Port Input	115	3097095	324	1
+sub3162_p3_s3_task2	117	Pulse	30	3097095	324	1
+sub3162_p3_s3_task2	117	Port Input	99	3104609	7838	1
+sub3162_p3_s3_task2	117	Response	1	3104609	7838	1
+sub3162_p3_s3_task2	117	Port Input	115	3107008	10236	1
+sub3162_p3_s3_task2	117	Pulse	30	3107008	10236	1
+sub3162_p3_s3_task2	117	Port Input	115	3117081	20309	1
+sub3162_p3_s3_task2	117	Pulse	30	3117081	20309	1
+sub3162_p3_s3_task2	118	Picture	Korrekt, das ist Zamet	3122101	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	118	Port Input	115	3126994	4892	1
+sub3162_p3_s3_task2	118	Pulse	30	3126994	4892	1
+sub3162_p3_s3_task2	118	Port Input	115	3137066	14965	1
+sub3162_p3_s3_task2	118	Pulse	30	3137066	14965	1
+sub3162_p3_s3_task2	119	Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS4	3142432	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	119	Port Input	115	3146978	4546	1
+sub3162_p3_s3_task2	119	Pulse	30	3146978	4546	1
+sub3162_p3_s3_task2	119	Port Input	99	3150175	7743	1
+sub3162_p3_s3_task2	119	Response	1	3150175	7743	1
+sub3162_p3_s3_task2	119	Port Input	115	3157048	14616	1
+sub3162_p3_s3_task2	119	Pulse	30	3157048	14616	1
+sub3162_p3_s3_task2	119	Port Input	115	3166961	24529	1
+sub3162_p3_s3_task2	119	Pulse	30	3166961	24529	1
+sub3162_p3_s3_task2	120	Picture	Korrekt, das ist Knusap	3167762	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	120	Port Input	115	3177034	9272	1
+sub3162_p3_s3_task2	120	Pulse	30	3177034	9272	1
+sub3162_p3_s3_task2	120	Port Input	115	3186948	19186	1
+sub3162_p3_s3_task2	120	Pulse	30	3186948	19186	1
+sub3162_p3_s3_task2	121	Picture	fix	3187926	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	121	Port Input	115	3197022	9096	1
+sub3162_p3_s3_task2	121	Pulse	30	3197022	9096	1
+sub3162_p3_s3_task2	121	Port Input	115	3207095	19169	1
+sub3162_p3_s3_task2	121	Pulse	30	3207095	19169	1
+sub3162_p3_s3_task2	121	Port Input	115	3217009	29083	1
+sub3162_p3_s3_task2	121	Pulse	30	3217009	29083	1
+sub3162_p3_s3_task2	121	Port Input	115	3227079	39153	1
+sub3162_p3_s3_task2	121	Pulse	30	3227079	39153	1
+sub3162_p3_s3_task2	122	Picture	fix	3233087	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	122	Port Input	115	3236989	3902	1
+sub3162_p3_s3_task2	122	Pulse	30	3236989	3902	1
+sub3162_p3_s3_task2	122	Port Input	115	3247058	13971	1
+sub3162_p3_s3_task2	122	Pulse	30	3247058	13971	1
+sub3162_p3_s3_task2	122	Port Input	115	3256967	23880	1
+sub3162_p3_s3_task2	122	Pulse	30	3256967	23880	1
+sub3162_p3_s3_task2	122	Port Input	115	3267036	33949	1
+sub3162_p3_s3_task2	122	Pulse	30	3267036	33949	1
+sub3162_p3_s3_task2	122	Port Input	115	3276943	43856	1
+sub3162_p3_s3_task2	122	Pulse	30	3276943	43856	1
+sub3162_p3_s3_task2	123	Picture	fix	3278248	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	123	Port Input	115	3287012	8764	1
+sub3162_p3_s3_task2	123	Pulse	30	3287012	8764	1
+sub3162_p3_s3_task2	123	Port Input	115	3297081	18833	1
+sub3162_p3_s3_task2	123	Pulse	30	3297081	18833	1
+sub3162_p3_s3_task2	123	Port Input	115	3306989	28741	1
+sub3162_p3_s3_task2	123	Pulse	30	3306989	28741	1
+sub3162_p3_s3_task2	123	Port Input	115	3317056	38808	1
+sub3162_p3_s3_task2	123	Pulse	30	3317056	38808	1
+sub3162_p3_s3_task2	124	Picture	fix	3323575	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	124	Port Input	115	3326963	3388	1
+sub3162_p3_s3_task2	124	Pulse	30	3326963	3388	1
+sub3162_p3_s3_task2	124	Port Input	115	3337030	13455	1
+sub3162_p3_s3_task2	124	Pulse	30	3337030	13455	1
+sub3162_p3_s3_task2	124	Port Input	115	3347096	23520	1
+sub3162_p3_s3_task2	124	Pulse	30	3347096	23520	1
+sub3162_p3_s3_task2	124	Port Input	115	3357001	33426	1
+sub3162_p3_s3_task2	124	Pulse	30	3357001	33426	1
+sub3162_p3_s3_task2	124	Port Input	115	3367070	43495	1
+sub3162_p3_s3_task2	124	Pulse	30	3367070	43495	1
+sub3162_p3_s3_task2	125	Picture	bubbles/learning.jpg	3369070	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	125	Port Input	115	3376982	7913	1
+sub3162_p3_s3_task2	125	Pulse	30	3376982	7913	1
+sub3162_p3_s3_task2	125	Port Input	115	3387053	17984	1
+sub3162_p3_s3_task2	125	Pulse	30	3387053	17984	1
+sub3162_p3_s3_task2	125	Port Input	115	3396964	27894	1
+sub3162_p3_s3_task2	125	Pulse	30	3396964	27894	1
+sub3162_p3_s3_task2	125	Port Input	115	3407031	37962	1
+sub3162_p3_s3_task2	125	Pulse	30	3407031	37962	1
+sub3162_p3_s3_task2	126	Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS1	3414564	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	126	Port Input	115	3416939	2375	1
+sub3162_p3_s3_task2	126	Pulse	30	3416939	2375	1
+sub3162_p3_s3_task2	126	Port Input	115	3427004	12440	1
+sub3162_p3_s3_task2	126	Pulse	30	3427004	12440	1
+sub3162_p3_s3_task2	126	Port Input	99	3427963	13399	1
+sub3162_p3_s3_task2	126	Response	1	3427963	13399	1
+sub3162_p3_s3_task2	126	Port Input	115	3437070	22506	1
+sub3162_p3_s3_task2	126	Pulse	30	3437070	22506	1
+sub3162_p3_s3_task2	127	Picture	Korrekt, das ist Nomtap	3440227	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	127	Port Input	115	3446973	6746	1
+sub3162_p3_s3_task2	127	Pulse	30	3446973	6746	1
+sub3162_p3_s3_task2	127	Port Input	115	3457038	16811	1
+sub3162_p3_s3_task2	127	Pulse	30	3457038	16811	1
+sub3162_p3_s3_task2	128	Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS1	3460725	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	128	Port Input	115	3466942	6217	1
+sub3162_p3_s3_task2	128	Pulse	30	3466942	6217	1
+sub3162_p3_s3_task2	128	Port Input	100	3471254	10530	1
+sub3162_p3_s3_task2	128	Response	2	3471254	10530	1
+sub3162_p3_s3_task2	128	Port Input	115	3477004	16280	1
+sub3162_p3_s3_task2	128	Pulse	30	3477004	16280	1
+sub3162_p3_s3_task2	129	Picture	Falsch, das ist Tignam	3486221	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	129	Port Input	115	3487069	847	1
+sub3162_p3_s3_task2	129	Pulse	30	3487069	847	1
+sub3162_p3_s3_task2	129	Port Input	115	3496974	10753	1
+sub3162_p3_s3_task2	129	Pulse	30	3496974	10753	1
+sub3162_p3_s3_task2	130	Picture	learning/PICTURE_53.jpg;Loptem;Lopfer;i;block2;LS1	3506718	0	1	25164	1	0	25000	other	0
+sub3162_p3_s3_task2	130	Port Input	115	3507040	322	1
+sub3162_p3_s3_task2	130	Pulse	30	3507040	322	1
+sub3162_p3_s3_task2	130	Port Input	99	3516783	10065	1
+sub3162_p3_s3_task2	130	Response	1	3516783	10065	1
+sub3162_p3_s3_task2	130	Port Input	115	3516943	10225	1
+sub3162_p3_s3_task2	130	Pulse	30	3516943	10225	1
+sub3162_p3_s3_task2	130	Port Input	115	3527005	20286	1
+sub3162_p3_s3_task2	130	Pulse	30	3527005	20286	1
+sub3162_p3_s3_task2	131	Picture	Falsch, das ist Lopfer	3532215	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	131	Port Input	115	3537067	4852	1
+sub3162_p3_s3_task2	131	Pulse	30	3537067	4852	1
+sub3162_p3_s3_task2	131	Port Input	115	3546969	14753	1
+sub3162_p3_s3_task2	131	Pulse	30	3546969	14753	1
+sub3162_p3_s3_task2	132	Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS1	3552713	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	132	Port Input	115	3557030	4318	1
+sub3162_p3_s3_task2	132	Pulse	30	3557030	4318	1
+sub3162_p3_s3_task2	132	Port Input	99	3561343	8630	1
+sub3162_p3_s3_task2	132	Response	1	3561343	8630	1
+sub3162_p3_s3_task2	132	Port Input	115	3567096	14383	1
+sub3162_p3_s3_task2	132	Pulse	30	3567096	14383	1
+sub3162_p3_s3_task2	132	Port Input	115	3577002	24289	1
+sub3162_p3_s3_task2	132	Pulse	30	3577002	24289	1
+sub3162_p3_s3_task2	133	Picture	Korrekt, das ist Resar	3578043	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	133	Port Input	115	3587066	9023	1
+sub3162_p3_s3_task2	133	Pulse	30	3587066	9023	1
+sub3162_p3_s3_task2	133	Port Input	115	3596970	18927	1
+sub3162_p3_s3_task2	133	Pulse	30	3596970	18927	1
+sub3162_p3_s3_task2	134	Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS1	3598540	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	134	Port Input	115	3607031	8491	1
+sub3162_p3_s3_task2	134	Pulse	30	3607031	8491	1
+sub3162_p3_s3_task2	134	Port Input	99	3608309	9769	1
+sub3162_p3_s3_task2	134	Response	1	3608309	9769	1
+sub3162_p3_s3_task2	134	Port Input	115	3617093	18552	1
+sub3162_p3_s3_task2	134	Pulse	30	3617093	18552	1
+sub3162_p3_s3_task2	135	Picture	Korrekt, das ist Krükta	3623870	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	135	Port Input	115	3626998	3127	1
+sub3162_p3_s3_task2	135	Pulse	30	3626998	3127	1
+sub3162_p3_s3_task2	135	Port Input	115	3637070	13200	1
+sub3162_p3_s3_task2	135	Pulse	30	3637070	13200	1
+sub3162_p3_s3_task2	136	Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS1	3644368	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	136	Port Input	115	3646983	2615	1
+sub3162_p3_s3_task2	136	Pulse	30	3646983	2615	1
+sub3162_p3_s3_task2	136	Port Input	115	3657056	12689	1
+sub3162_p3_s3_task2	136	Pulse	30	3657056	12689	1
+sub3162_p3_s3_task2	136	Port Input	99	3660094	15727	1
+sub3162_p3_s3_task2	136	Response	1	3660094	15727	1
+sub3162_p3_s3_task2	136	Port Input	115	3666969	22601	1
+sub3162_p3_s3_task2	136	Pulse	30	3666969	22601	1
+sub3162_p3_s3_task2	137	Picture	Korrekt, das ist Lopfer	3669698	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	137	Port Input	115	3677042	7344	1
+sub3162_p3_s3_task2	137	Pulse	30	3677042	7344	1
+sub3162_p3_s3_task2	137	Port Input	115	3686955	17257	1
+sub3162_p3_s3_task2	137	Pulse	30	3686955	17257	1
+sub3162_p3_s3_task2	138	Picture	learning/PICTURE_400.jpg;Knera;Knele;i;block2;LS1	3690195	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	138	Port Input	115	3697025	6830	1
+sub3162_p3_s3_task2	138	Pulse	30	3697025	6830	1
+sub3162_p3_s3_task2	138	Port Input	100	3701662	11467	1
+sub3162_p3_s3_task2	138	Response	2	3701662	11467	1
+sub3162_p3_s3_task2	138	Port Input	115	3706937	16742	1
+sub3162_p3_s3_task2	138	Pulse	30	3706937	16742	1
+sub3162_p3_s3_task2	139	Picture	Korrekt, das ist Knele	3715525	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	139	Port Input	115	3717010	1485	1
+sub3162_p3_s3_task2	139	Pulse	30	3717010	1485	1
+sub3162_p3_s3_task2	139	Port Input	115	3727082	11557	1
+sub3162_p3_s3_task2	139	Pulse	30	3727082	11557	1
+sub3162_p3_s3_task2	140	Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS1	3736023	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	140	Port Input	115	3736995	972	1
+sub3162_p3_s3_task2	140	Pulse	30	3736995	972	1
+sub3162_p3_s3_task2	140	Port Input	99	3746589	10567	1
+sub3162_p3_s3_task2	140	Response	1	3746589	10567	1
+sub3162_p3_s3_task2	140	Port Input	115	3747069	11046	1
+sub3162_p3_s3_task2	140	Pulse	30	3747069	11046	1
+sub3162_p3_s3_task2	140	Port Input	115	3756983	20960	1
+sub3162_p3_s3_task2	140	Pulse	30	3756983	20960	1
+sub3162_p3_s3_task2	141	Picture	Korrekt, das ist Jamip	3761353	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	141	Port Input	115	3767056	5703	1
+sub3162_p3_s3_task2	141	Pulse	30	3767056	5703	1
+sub3162_p3_s3_task2	141	Port Input	115	3776970	15617	1
+sub3162_p3_s3_task2	141	Pulse	30	3776970	15617	1
+sub3162_p3_s3_task2	142	Picture	learning/PICTURE_21.jpg;Rerod;Resar;i;block2;LS1	3781683	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	142	Port Input	115	3787044	5360	1
+sub3162_p3_s3_task2	142	Pulse	30	3787044	5360	1
+sub3162_p3_s3_task2	142	Port Input	100	3791521	9837	1
+sub3162_p3_s3_task2	142	Response	2	3791521	9837	1
+sub3162_p3_s3_task2	142	Port Input	115	3796957	15274	1
+sub3162_p3_s3_task2	142	Pulse	30	3796957	15274	1
+sub3162_p3_s3_task2	143	Picture	Korrekt, das ist Resar	3807014	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	143	Port Input	115	3807031	17	1
+sub3162_p3_s3_task2	143	Pulse	30	3807031	17	1
+sub3162_p3_s3_task2	143	Port Input	115	3816944	9930	1
+sub3162_p3_s3_task2	143	Pulse	30	3816944	9930	1
+sub3162_p3_s3_task2	143	Port Input	115	3827014	20001	191
+sub3162_p3_s3_task2	143	Pulse	30	3827014	20001	191
+sub3162_p3_s3_task2	144	Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS1	3827344	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	144	Port Input	99	3836612	9267	1
+sub3162_p3_s3_task2	144	Response	1	3836612	9267	1
+sub3162_p3_s3_task2	144	Port Input	115	3837091	9747	1
+sub3162_p3_s3_task2	144	Pulse	30	3837091	9747	1
+sub3162_p3_s3_task2	144	Port Input	115	3847005	19661	1
+sub3162_p3_s3_task2	144	Pulse	30	3847005	19661	1
+sub3162_p3_s3_task2	145	Picture	Korrekt, das ist Knele	3852674	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	145	Port Input	115	3857079	4404	1
+sub3162_p3_s3_task2	145	Pulse	30	3857079	4404	1
+sub3162_p3_s3_task2	145	Port Input	115	3866993	14318	1
+sub3162_p3_s3_task2	145	Pulse	30	3866993	14318	1
+sub3162_p3_s3_task2	146	Picture	learning/PICTURE_402.jpg;Tigfe;Tignam;i;block2;LS1	3873005	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	146	Port Input	115	3877066	4061	1
+sub3162_p3_s3_task2	146	Pulse	30	3877066	4061	1
+sub3162_p3_s3_task2	146	Port Input	100	3882823	9818	1
+sub3162_p3_s3_task2	146	Response	2	3882823	9818	1
+sub3162_p3_s3_task2	146	Port Input	115	3886981	13976	1
+sub3162_p3_s3_task2	146	Pulse	30	3886981	13976	1
+sub3162_p3_s3_task2	146	Port Input	115	3897053	24048	1
+sub3162_p3_s3_task2	146	Pulse	30	3897053	24048	1
+sub3162_p3_s3_task2	147	Picture	Korrekt, das ist Tignam	3898335	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	147	Port Input	115	3906967	8632	1
+sub3162_p3_s3_task2	147	Pulse	30	3906967	8632	1
+sub3162_p3_s3_task2	147	Port Input	115	3917040	18705	1
+sub3162_p3_s3_task2	147	Pulse	30	3917040	18705	1
+sub3162_p3_s3_task2	148	Picture	learning/PICTURE_405.jpg;Jamun;Jamip;i;block2;LS1	3918666	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	148	Port Input	115	3926954	8288	1
+sub3162_p3_s3_task2	148	Pulse	30	3926954	8288	1
+sub3162_p3_s3_task2	148	Port Input	100	3929513	10847	1
+sub3162_p3_s3_task2	148	Response	2	3929513	10847	1
+sub3162_p3_s3_task2	148	Port Input	115	3937028	18362	1
+sub3162_p3_s3_task2	148	Pulse	30	3937028	18362	1
+sub3162_p3_s3_task2	149	Picture	Korrekt, das ist Jamip	3943996	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	149	Port Input	115	3946943	2947	1
+sub3162_p3_s3_task2	149	Pulse	30	3946943	2947	1
+sub3162_p3_s3_task2	149	Port Input	115	3957016	13020	1
+sub3162_p3_s3_task2	149	Pulse	30	3957016	13020	1
+sub3162_p3_s3_task2	150	Picture	learning/PICTURE_462.jpg;Nomgan;Nomtap;i;block2;LS1	3964327	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	150	Port Input	115	3967090	2763	1
+sub3162_p3_s3_task2	150	Pulse	30	3967090	2763	1
+sub3162_p3_s3_task2	150	Port Input	115	3977003	12676	1
+sub3162_p3_s3_task2	150	Pulse	30	3977003	12676	1
+sub3162_p3_s3_task2	150	Port Input	100	3978442	14116	1
+sub3162_p3_s3_task2	150	Response	2	3978442	14116	1
+sub3162_p3_s3_task2	150	Port Input	115	3987077	22750	1
+sub3162_p3_s3_task2	150	Pulse	30	3987077	22750	1
+sub3162_p3_s3_task2	151	Picture	Korrekt, das ist Nomtap	3989657	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	151	Port Input	115	3996990	7334	1
+sub3162_p3_s3_task2	151	Pulse	30	3996990	7334	1
+sub3162_p3_s3_task2	151	Port Input	115	4007063	17406	1
+sub3162_p3_s3_task2	151	Pulse	30	4007063	17406	1
+sub3162_p3_s3_task2	152	Picture	learning/PICTURE_216.jpg;Krükel;Krükta;i;block2;LS1	4009988	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	152	Port Input	115	4016976	6988	1
+sub3162_p3_s3_task2	152	Pulse	30	4016976	6988	1
+sub3162_p3_s3_task2	152	Port Input	100	4020013	10025	1
+sub3162_p3_s3_task2	152	Response	2	4020013	10025	1
+sub3162_p3_s3_task2	152	Port Input	115	4027047	17059	1
+sub3162_p3_s3_task2	152	Pulse	30	4027047	17059	1
+sub3162_p3_s3_task2	153	Picture	Korrekt, das ist Krükta	4035318	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	153	Port Input	115	4036959	1642	1
+sub3162_p3_s3_task2	153	Pulse	30	4036959	1642	1
+sub3162_p3_s3_task2	153	Port Input	115	4047031	11714	1
+sub3162_p3_s3_task2	153	Pulse	30	4047031	11714	1
+sub3162_p3_s3_task2	154	Picture	fix	4055482	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	154	Port Input	115	4056943	1462	1
+sub3162_p3_s3_task2	154	Pulse	30	4056943	1462	1
+sub3162_p3_s3_task2	154	Port Input	115	4067014	11532	1
+sub3162_p3_s3_task2	154	Pulse	30	4067014	11532	1
+sub3162_p3_s3_task2	154	Port Input	115	4077085	21603	1
+sub3162_p3_s3_task2	154	Pulse	30	4077085	21603	1
+sub3162_p3_s3_task2	154	Port Input	115	4086995	31513	1
+sub3162_p3_s3_task2	154	Pulse	30	4086995	31513	1
+sub3162_p3_s3_task2	154	Port Input	115	4097066	41584	1
+sub3162_p3_s3_task2	154	Pulse	30	4097066	41584	1
+sub3162_p3_s3_task2	155	Picture	learning/PICTURE_405.jpg;Jakel;Jamip;i;block2;LS2	4100809	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	155	Port Input	115	4106977	6167	1
+sub3162_p3_s3_task2	155	Pulse	30	4106977	6167	1
+sub3162_p3_s3_task2	155	Port Input	100	4112252	11443	1
+sub3162_p3_s3_task2	155	Response	2	4112252	11443	1
+sub3162_p3_s3_task2	155	Port Input	115	4117049	16240	1
+sub3162_p3_s3_task2	155	Pulse	30	4117049	16240	1
+sub3162_p3_s3_task2	156	Picture	Korrekt, das ist Jamip	4126139	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	156	Port Input	115	4126964	824	1
+sub3162_p3_s3_task2	156	Pulse	30	4126964	824	1
+sub3162_p3_s3_task2	156	Port Input	115	4137036	10897	1
+sub3162_p3_s3_task2	156	Pulse	30	4137036	10897	1
+sub3162_p3_s3_task2	157	Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS2	4146470	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	157	Port Input	115	4146946	476	1
+sub3162_p3_s3_task2	157	Pulse	30	4146946	476	1
+sub3162_p3_s3_task2	157	Port Input	99	4154938	8468	1
+sub3162_p3_s3_task2	157	Response	1	4154938	8468	1
+sub3162_p3_s3_task2	157	Port Input	115	4157016	10546	1
+sub3162_p3_s3_task2	157	Pulse	30	4157016	10546	1
+sub3162_p3_s3_task2	157	Port Input	115	4167087	20617	1
+sub3162_p3_s3_task2	157	Pulse	30	4167087	20617	1
+sub3162_p3_s3_task2	158	Picture	Korrekt, das ist Knele	4171800	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	158	Port Input	115	4176999	5199	1
+sub3162_p3_s3_task2	158	Pulse	30	4176999	5199	1
+sub3162_p3_s3_task2	158	Port Input	115	4187071	15271	1
+sub3162_p3_s3_task2	158	Pulse	30	4187071	15271	1
+sub3162_p3_s3_task2	159	Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS2	4192131	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	159	Port Input	115	4196983	4852	1
+sub3162_p3_s3_task2	159	Pulse	30	4196983	4852	1
+sub3162_p3_s3_task2	159	Port Input	99	4200660	8529	1
+sub3162_p3_s3_task2	159	Response	1	4200660	8529	1
+sub3162_p3_s3_task2	159	Port Input	115	4207054	14923	1
+sub3162_p3_s3_task2	159	Pulse	30	4207054	14923	1
+sub3162_p3_s3_task2	159	Port Input	115	4216964	24833	1
+sub3162_p3_s3_task2	159	Pulse	30	4216964	24833	1
+sub3162_p3_s3_task2	160	Picture	Korrekt, das ist Lopfer	4217461	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	160	Port Input	115	4227035	9574	1
+sub3162_p3_s3_task2	160	Pulse	30	4227035	9574	1
+sub3162_p3_s3_task2	160	Port Input	115	4236946	19485	1
+sub3162_p3_s3_task2	160	Pulse	30	4236946	19485	1
+sub3162_p3_s3_task2	161	Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS2	4237792	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	161	Port Input	99	4245738	7946	1
+sub3162_p3_s3_task2	161	Response	1	4245738	7946	1
+sub3162_p3_s3_task2	161	Port Input	115	4247017	9225	1
+sub3162_p3_s3_task2	161	Pulse	30	4247017	9225	1
+sub3162_p3_s3_task2	161	Port Input	115	4257088	19297	1
+sub3162_p3_s3_task2	161	Pulse	30	4257088	19297	1
+sub3162_p3_s3_task2	162	Picture	Korrekt, das ist Resar	4263122	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	162	Port Input	115	4266999	3877	1
+sub3162_p3_s3_task2	162	Pulse	30	4266999	3877	1
+sub3162_p3_s3_task2	162	Port Input	115	4277069	13948	1
+sub3162_p3_s3_task2	162	Pulse	30	4277069	13948	1
+sub3162_p3_s3_task2	163	Picture	learning/PICTURE_402.jpg;Tigdon;Tignam;i;block2;LS2	4283453	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	163	Port Input	115	4286978	3525	1
+sub3162_p3_s3_task2	163	Pulse	30	4286978	3525	1
+sub3162_p3_s3_task2	163	Port Input	100	4294490	11037	1
+sub3162_p3_s3_task2	163	Response	2	4294490	11037	1
+sub3162_p3_s3_task2	163	Port Input	115	4297048	13595	1
+sub3162_p3_s3_task2	163	Pulse	30	4297048	13595	1
+sub3162_p3_s3_task2	163	Port Input	115	4306960	23507	1
+sub3162_p3_s3_task2	163	Pulse	30	4306960	23507	1
+sub3162_p3_s3_task2	164	Picture	Korrekt, das ist Tignam	4308783	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	164	Port Input	115	4317033	8250	1
+sub3162_p3_s3_task2	164	Pulse	30	4317033	8250	1
+sub3162_p3_s3_task2	164	Port Input	115	4326947	18164	1
+sub3162_p3_s3_task2	164	Pulse	30	4326947	18164	1
+sub3162_p3_s3_task2	165	Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS2	4329113	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	165	Port Input	115	4337020	7907	1
+sub3162_p3_s3_task2	165	Pulse	30	4337020	7907	1
+sub3162_p3_s3_task2	165	Port Input	99	4344215	15101	1
+sub3162_p3_s3_task2	165	Response	1	4344215	15101	1
+sub3162_p3_s3_task2	165	Port Input	115	4347093	17979	1
+sub3162_p3_s3_task2	165	Pulse	30	4347093	17979	1
+sub3162_p3_s3_task2	166	Picture	Korrekt, das ist Nomtap	4354443	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	166	Port Input	115	4357005	2562	1
+sub3162_p3_s3_task2	166	Pulse	30	4357005	2562	1
+sub3162_p3_s3_task2	166	Port Input	115	4367078	12635	1
+sub3162_p3_s3_task2	166	Pulse	30	4367078	12635	1
+sub3162_p3_s3_task2	167	Picture	learning/PICTURE_21.jpg;Regan;Resar;i;block2;LS2	4374774	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	167	Port Input	115	4376991	2217	1
+sub3162_p3_s3_task2	167	Pulse	30	4376991	2217	1
+sub3162_p3_s3_task2	167	Port Input	100	4383226	8452	1
+sub3162_p3_s3_task2	167	Response	2	4383226	8452	1
+sub3162_p3_s3_task2	167	Port Input	115	4387063	12289	1
+sub3162_p3_s3_task2	167	Pulse	30	4387063	12289	1
+sub3162_p3_s3_task2	167	Port Input	115	4396975	22201	1
+sub3162_p3_s3_task2	167	Pulse	30	4396975	22201	1
+sub3162_p3_s3_task2	168	Picture	Korrekt, das ist Resar	4400104	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	168	Port Input	115	4407046	6942	1
+sub3162_p3_s3_task2	168	Pulse	30	4407046	6942	1
+sub3162_p3_s3_task2	168	Port Input	115	4416958	16854	1
+sub3162_p3_s3_task2	168	Pulse	30	4416958	16854	1
+sub3162_p3_s3_task2	169	Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS2	4420602	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	169	Port Input	115	4427029	6427	1
+sub3162_p3_s3_task2	169	Pulse	30	4427029	6427	1
+sub3162_p3_s3_task2	169	Port Input	99	4431505	10903	1
+sub3162_p3_s3_task2	169	Response	1	4431505	10903	1
+sub3162_p3_s3_task2	169	Port Input	115	4436941	16340	1
+sub3162_p3_s3_task2	169	Pulse	30	4436941	16340	1
+sub3162_p3_s3_task2	170	Picture	Korrekt, das ist Tignam	4446265	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	170	Port Input	115	4447013	748	1
+sub3162_p3_s3_task2	170	Pulse	30	4447013	748	1
+sub3162_p3_s3_task2	170	Port Input	115	4457083	10818	1
+sub3162_p3_s3_task2	170	Pulse	30	4457083	10818	1
+sub3162_p3_s3_task2	171	Picture	learning/PICTURE_400.jpg;Knefe;Knele;i;block2;LS2	4466762	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	171	Port Input	115	4466995	233	1
+sub3162_p3_s3_task2	171	Pulse	30	4466995	233	1
+sub3162_p3_s3_task2	171	Port Input	100	4474988	8226	1
+sub3162_p3_s3_task2	171	Response	2	4474988	8226	1
+sub3162_p3_s3_task2	171	Port Input	115	4477067	10304	1
+sub3162_p3_s3_task2	171	Pulse	30	4477067	10304	1
+sub3162_p3_s3_task2	171	Port Input	115	4486978	20215	1
+sub3162_p3_s3_task2	171	Pulse	30	4486978	20215	1
+sub3162_p3_s3_task2	172	Picture	Korrekt, das ist Knele	4492426	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	172	Port Input	115	4497049	4623	1
+sub3162_p3_s3_task2	172	Pulse	30	4497049	4623	1
+sub3162_p3_s3_task2	172	Port Input	115	4506960	14534	1
+sub3162_p3_s3_task2	172	Pulse	30	4506960	14534	1
+sub3162_p3_s3_task2	173	Picture	learning/PICTURE_462.jpg;Nomtun;Nomtap;i;block2;LS2	4512923	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	173	Port Input	115	4517031	4107	1
+sub3162_p3_s3_task2	173	Pulse	30	4517031	4107	1
+sub3162_p3_s3_task2	173	Port Input	100	4522305	9382	1
+sub3162_p3_s3_task2	173	Response	2	4522305	9382	1
+sub3162_p3_s3_task2	173	Port Input	115	4526942	14018	1
+sub3162_p3_s3_task2	173	Pulse	30	4526942	14018	1
+sub3162_p3_s3_task2	173	Port Input	115	4537013	24090	1
+sub3162_p3_s3_task2	173	Pulse	30	4537013	24090	1
+sub3162_p3_s3_task2	174	Picture	Korrekt, das ist Nomtap	4538587	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	174	Port Input	115	4547082	8496	1
+sub3162_p3_s3_task2	174	Pulse	30	4547082	8496	1
+sub3162_p3_s3_task2	174	Port Input	115	4556994	18408	1
+sub3162_p3_s3_task2	174	Pulse	30	4556994	18408	1
+sub3162_p3_s3_task2	175	Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS2	4559084	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	175	Port Input	115	4567066	7982	1
+sub3162_p3_s3_task2	175	Pulse	30	4567066	7982	1
+sub3162_p3_s3_task2	175	Port Input	99	4567386	8302	1
+sub3162_p3_s3_task2	175	Response	1	4567386	8302	1
+sub3162_p3_s3_task2	175	Port Input	115	4576978	17894	1
+sub3162_p3_s3_task2	175	Pulse	30	4576978	17894	1
+sub3162_p3_s3_task2	176	Picture	Korrekt, das ist Krükta	4584747	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	176	Port Input	115	4587047	2300	1
+sub3162_p3_s3_task2	176	Pulse	30	4587047	2300	1
+sub3162_p3_s3_task2	176	Port Input	115	4596958	12211	1
+sub3162_p3_s3_task2	176	Pulse	30	4596958	12211	1
+sub3162_p3_s3_task2	177	Picture	learning/PICTURE_53.jpg;Lopdor;Lopfer;i;block2;LS2	4605245	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	177	Port Input	115	4607031	1786	1
+sub3162_p3_s3_task2	177	Pulse	30	4607031	1786	1
+sub3162_p3_s3_task2	177	Port Input	100	4613586	8342	1
+sub3162_p3_s3_task2	177	Response	2	4613586	8342	1
+sub3162_p3_s3_task2	177	Port Input	115	4616944	11699	1
+sub3162_p3_s3_task2	177	Pulse	30	4616944	11699	1
+sub3162_p3_s3_task2	177	Port Input	115	4627016	21772	1
+sub3162_p3_s3_task2	177	Pulse	30	4627016	21772	1
+sub3162_p3_s3_task2	178	Picture	Korrekt, das ist Lopfer	4630741	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	178	Port Input	115	4637089	6347	1
+sub3162_p3_s3_task2	178	Pulse	30	4637089	6347	1
+sub3162_p3_s3_task2	178	Port Input	115	4647001	16259	1
+sub3162_p3_s3_task2	178	Pulse	30	4647001	16259	1
+sub3162_p3_s3_task2	179	Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS2	4651239	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	179	Port Input	115	4657072	5833	1
+sub3162_p3_s3_task2	179	Pulse	30	4657072	5833	1
+sub3162_p3_s3_task2	179	Port Input	99	4666184	14945	1
+sub3162_p3_s3_task2	179	Response	1	4666184	14945	1
+sub3162_p3_s3_task2	179	Port Input	115	4666983	15744	1
+sub3162_p3_s3_task2	179	Pulse	30	4666983	15744	1
+sub3162_p3_s3_task2	180	Picture	Korrekt, das ist Jamip	4676736	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	180	Port Input	115	4677052	316	1
+sub3162_p3_s3_task2	180	Pulse	30	4677052	316	1
+sub3162_p3_s3_task2	180	Port Input	115	4686960	10224	1
+sub3162_p3_s3_task2	180	Pulse	30	4686960	10224	1
+sub3162_p3_s3_task2	180	Port Input	115	4697025	20290	1
+sub3162_p3_s3_task2	180	Pulse	30	4697025	20290	1
+sub3162_p3_s3_task2	181	Picture	learning/PICTURE_216.jpg;Krüktem;Krükta;i;block2;LS2	4697233	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	181	Port Input	100	4704375	7142	1
+sub3162_p3_s3_task2	181	Response	2	4704375	7142	1
+sub3162_p3_s3_task2	181	Port Input	115	4707091	9858	1
+sub3162_p3_s3_task2	181	Pulse	30	4707091	9858	1
+sub3162_p3_s3_task2	181	Port Input	115	4716998	19765	1
+sub3162_p3_s3_task2	181	Pulse	30	4716998	19765	1
+sub3162_p3_s3_task2	182	Picture	Korrekt, das ist Krükta	4722563	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	182	Port Input	115	4727063	4500	1
+sub3162_p3_s3_task2	182	Pulse	30	4727063	4500	1
+sub3162_p3_s3_task2	182	Port Input	115	4736969	14406	1
+sub3162_p3_s3_task2	182	Pulse	30	4736969	14406	1
+sub3162_p3_s3_task2	183	Picture	fix	4742727	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	183	Port Input	115	4747033	4306	1
+sub3162_p3_s3_task2	183	Pulse	30	4747033	4306	1
+sub3162_p3_s3_task2	183	Port Input	115	4756937	14210	1
+sub3162_p3_s3_task2	183	Pulse	30	4756937	14210	1
+sub3162_p3_s3_task2	183	Port Input	115	4767001	24274	1
+sub3162_p3_s3_task2	183	Pulse	30	4767001	24274	1
+sub3162_p3_s3_task2	183	Port Input	115	4777063	34336	1
+sub3162_p3_s3_task2	183	Pulse	30	4777063	34336	1
+sub3162_p3_s3_task2	183	Port Input	115	4786965	44238	1
+sub3162_p3_s3_task2	183	Pulse	30	4786965	44238	1
+sub3162_p3_s3_task2	184	Picture	learning/PICTURE_405.jpg;Jaser;Jamip;i;block2;LS3	4788221	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	184	Port Input	100	4795593	7372	1
+sub3162_p3_s3_task2	184	Response	2	4795593	7372	1
+sub3162_p3_s3_task2	184	Port Input	115	4797032	8810	1
+sub3162_p3_s3_task2	184	Pulse	30	4797032	8810	1
+sub3162_p3_s3_task2	184	Port Input	115	4806941	18720	1
+sub3162_p3_s3_task2	184	Pulse	30	4806941	18720	1
+sub3162_p3_s3_task2	185	Picture	Korrekt, das ist Jamip	4813551	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	185	Port Input	115	4817011	3460	1
+sub3162_p3_s3_task2	185	Pulse	30	4817011	3460	1
+sub3162_p3_s3_task2	185	Port Input	115	4827082	13530	1
+sub3162_p3_s3_task2	185	Pulse	30	4827082	13530	1
+sub3162_p3_s3_task2	186	Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS3	4833882	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	186	Port Input	115	4836990	3108	1
+sub3162_p3_s3_task2	186	Pulse	30	4836990	3108	1
+sub3162_p3_s3_task2	186	Port Input	99	4842106	8224	1
+sub3162_p3_s3_task2	186	Response	1	4842106	8224	1
+sub3162_p3_s3_task2	186	Port Input	115	4847062	13180	1
+sub3162_p3_s3_task2	186	Pulse	30	4847062	13180	1
+sub3162_p3_s3_task2	186	Port Input	115	4856973	23091	1
+sub3162_p3_s3_task2	186	Pulse	30	4856973	23091	1
+sub3162_p3_s3_task2	187	Picture	Korrekt, das ist Knele	4859212	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	187	Port Input	115	4867043	7831	1
+sub3162_p3_s3_task2	187	Pulse	30	4867043	7831	1
+sub3162_p3_s3_task2	187	Port Input	115	4876953	17741	1
+sub3162_p3_s3_task2	187	Pulse	30	4876953	17741	1
+sub3162_p3_s3_task2	188	Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS3	4879543	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	188	Port Input	99	4887019	7476	1
+sub3162_p3_s3_task2	188	Port Input	115	4887019	7476	1
+sub3162_p3_s3_task2	188	Response	1	4887019	7476	1
+sub3162_p3_s3_task2	188	Pulse	30	4887019	7476	1
+sub3162_p3_s3_task2	188	Port Input	115	4896932	17390	1
+sub3162_p3_s3_task2	188	Pulse	30	4896932	17390	1
+sub3162_p3_s3_task2	189	Picture	Korrekt, das ist Krükta	4904873	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	189	Port Input	115	4907005	2132	1
+sub3162_p3_s3_task2	189	Pulse	30	4907005	2132	1
+sub3162_p3_s3_task2	189	Port Input	115	4917079	12206	1
+sub3162_p3_s3_task2	189	Pulse	30	4917079	12206	1
+sub3162_p3_s3_task2	190	Picture	learning/PICTURE_400.jpg;Knetam;Knele;i;block2;LS3	4925204	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	190	Port Input	115	4926992	1788	1
+sub3162_p3_s3_task2	190	Pulse	30	4926992	1788	1
+sub3162_p3_s3_task2	190	Port Input	100	4933227	8023	1
+sub3162_p3_s3_task2	190	Response	2	4933227	8023	1
+sub3162_p3_s3_task2	190	Port Input	115	4937064	11860	1
+sub3162_p3_s3_task2	190	Pulse	30	4937064	11860	1
+sub3162_p3_s3_task2	190	Port Input	115	4946976	21773	1
+sub3162_p3_s3_task2	190	Pulse	30	4946976	21773	1
+sub3162_p3_s3_task2	191	Picture	Korrekt, das ist Knele	4950534	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	191	Port Input	115	4957048	6515	1
+sub3162_p3_s3_task2	191	Pulse	30	4957048	6515	1
+sub3162_p3_s3_task2	191	Port Input	115	4966960	16427	1
+sub3162_p3_s3_task2	191	Pulse	30	4966960	16427	1
+sub3162_p3_s3_task2	192	Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS3	4970865	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	192	Port Input	115	4977032	6168	1
+sub3162_p3_s3_task2	192	Pulse	30	4977032	6168	1
+sub3162_p3_s3_task2	192	Port Input	99	4980070	9206	1
+sub3162_p3_s3_task2	192	Response	1	4980070	9206	1
+sub3162_p3_s3_task2	192	Port Input	115	4986944	16080	1
+sub3162_p3_s3_task2	192	Pulse	30	4986944	16080	1
+sub3162_p3_s3_task2	193	Picture	Korrekt, das ist Tignam	4996195	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	193	Port Input	115	4997015	821	1
+sub3162_p3_s3_task2	193	Pulse	30	4997015	821	1
+sub3162_p3_s3_task2	193	Port Input	115	5007085	10891	1
+sub3162_p3_s3_task2	193	Pulse	30	5007085	10891	1
+sub3162_p3_s3_task2	194	Picture	learning/PICTURE_53.jpg;Lopmig;Lopfer;i;block2;LS3	5016525	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	194	Port Input	115	5016998	472	1
+sub3162_p3_s3_task2	194	Pulse	30	5016998	472	1
+sub3162_p3_s3_task2	194	Port Input	100	5024831	8306	1
+sub3162_p3_s3_task2	194	Response	2	5024831	8306	1
+sub3162_p3_s3_task2	194	Port Input	115	5027069	10544	1
+sub3162_p3_s3_task2	194	Pulse	30	5027069	10544	1
+sub3162_p3_s3_task2	194	Port Input	115	5036979	20454	1
+sub3162_p3_s3_task2	194	Pulse	30	5036979	20454	1
+sub3162_p3_s3_task2	195	Picture	Korrekt, das ist Lopfer	5041855	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	195	Port Input	115	5047049	5194	1
+sub3162_p3_s3_task2	195	Pulse	30	5047049	5194	1
+sub3162_p3_s3_task2	195	Port Input	115	5056960	15105	1
+sub3162_p3_s3_task2	195	Pulse	30	5056960	15105	1
+sub3162_p3_s3_task2	196	Picture	learning/PICTURE_402.jpg;Tigdam;Tignam;i;block2;LS3	5062186	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	196	Port Input	115	5067031	4845	1
+sub3162_p3_s3_task2	196	Pulse	30	5067031	4845	1
+sub3162_p3_s3_task2	196	Port Input	99	5073265	11078	1
+sub3162_p3_s3_task2	196	Response	1	5073265	11078	1
+sub3162_p3_s3_task2	196	Port Input	115	5076941	14755	1
+sub3162_p3_s3_task2	196	Pulse	30	5076941	14755	1
+sub3162_p3_s3_task2	196	Port Input	115	5087008	24822	1
+sub3162_p3_s3_task2	196	Pulse	30	5087008	24822	1
+sub3162_p3_s3_task2	197	Picture	Falsch, das ist Tignam	5087516	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	197	Port Input	115	5097074	9558	1
+sub3162_p3_s3_task2	197	Pulse	30	5097074	9558	1
+sub3162_p3_s3_task2	197	Port Input	115	5106984	19468	1
+sub3162_p3_s3_task2	197	Pulse	30	5106984	19468	1
+sub3162_p3_s3_task2	198	Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS3	5107847	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	198	Port Input	115	5117055	9208	1
+sub3162_p3_s3_task2	198	Pulse	30	5117055	9208	1
+sub3162_p3_s3_task2	198	Port Input	99	5118494	10647	1
+sub3162_p3_s3_task2	198	Response	1	5118494	10647	1
+sub3162_p3_s3_task2	198	Port Input	115	5126965	19118	1
+sub3162_p3_s3_task2	198	Pulse	30	5126965	19118	1
+sub3162_p3_s3_task2	199	Picture	Korrekt, das ist Nomtap	5133177	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	199	Port Input	115	5137036	3859	1
+sub3162_p3_s3_task2	199	Pulse	30	5137036	3859	1
+sub3162_p3_s3_task2	199	Port Input	115	5146946	13769	1
+sub3162_p3_s3_task2	199	Pulse	30	5146946	13769	1
+sub3162_p3_s3_task2	200	Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS3	5153508	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	200	Port Input	115	5157019	3511	1
+sub3162_p3_s3_task2	200	Pulse	30	5157019	3511	1
+sub3162_p3_s3_task2	200	Port Input	99	5161015	7507	1
+sub3162_p3_s3_task2	200	Response	1	5161015	7507	1
+sub3162_p3_s3_task2	200	Port Input	115	5167091	13583	1
+sub3162_p3_s3_task2	200	Pulse	30	5167091	13583	1
+sub3162_p3_s3_task2	200	Port Input	115	5177001	23493	1
+sub3162_p3_s3_task2	200	Pulse	30	5177001	23493	1
+sub3162_p3_s3_task2	201	Picture	Korrekt, das ist Resar	5178838	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	201	Port Input	115	5187070	8233	1
+sub3162_p3_s3_task2	201	Pulse	30	5187070	8233	1
+sub3162_p3_s3_task2	201	Port Input	115	5196980	18143	1
+sub3162_p3_s3_task2	201	Pulse	30	5196980	18143	1
+sub3162_p3_s3_task2	202	Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS3	5199169	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	202	Port Input	115	5207052	7883	1
+sub3162_p3_s3_task2	202	Pulse	30	5207052	7883	1
+sub3162_p3_s3_task2	202	Port Input	99	5210090	10921	1
+sub3162_p3_s3_task2	202	Response	1	5210090	10921	1
+sub3162_p3_s3_task2	202	Port Input	115	5216964	17795	1
+sub3162_p3_s3_task2	202	Pulse	30	5216964	17795	1
+sub3162_p3_s3_task2	203	Picture	Korrekt, das ist Jamip	5224499	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	203	Port Input	115	5227035	2536	1
+sub3162_p3_s3_task2	203	Pulse	30	5227035	2536	1
+sub3162_p3_s3_task2	203	Port Input	115	5236946	12447	1
+sub3162_p3_s3_task2	203	Pulse	30	5236946	12447	1
+sub3162_p3_s3_task2	204	Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS3	5244829	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	204	Port Input	115	5247016	2187	1
+sub3162_p3_s3_task2	204	Pulse	30	5247016	2187	1
+sub3162_p3_s3_task2	204	Port Input	99	5252291	7462	1
+sub3162_p3_s3_task2	204	Response	1	5252291	7462	1
+sub3162_p3_s3_task2	204	Port Input	115	5257087	12258	1
+sub3162_p3_s3_task2	204	Pulse	30	5257087	12258	1
+sub3162_p3_s3_task2	204	Port Input	115	5266997	22167	1
+sub3162_p3_s3_task2	204	Pulse	30	5266997	22167	1
+sub3162_p3_s3_task2	205	Picture	Korrekt, das ist Lopfer	5270160	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	205	Port Input	115	5277066	6907	1
+sub3162_p3_s3_task2	205	Pulse	30	5277066	6907	1
+sub3162_p3_s3_task2	205	Port Input	115	5286973	16813	1
+sub3162_p3_s3_task2	205	Pulse	30	5286973	16813	1
+sub3162_p3_s3_task2	206	Picture	learning/PICTURE_462.jpg;Nomzerl;Nomtap;i;block2;LS3	5290490	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	206	Port Input	115	5297040	6550	1
+sub3162_p3_s3_task2	206	Pulse	30	5297040	6550	1
+sub3162_p3_s3_task2	206	Port Input	100	5298479	7989	1
+sub3162_p3_s3_task2	206	Response	2	5298479	7989	1
+sub3162_p3_s3_task2	206	Port Input	115	5306950	16460	1
+sub3162_p3_s3_task2	206	Pulse	30	5306950	16460	1
+sub3162_p3_s3_task2	207	Picture	Korrekt, das ist Nomtap	5315820	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	207	Port Input	115	5317022	1202	1
+sub3162_p3_s3_task2	207	Pulse	30	5317022	1202	1
+sub3162_p3_s3_task2	207	Port Input	115	5326932	11112	1
+sub3162_p3_s3_task2	207	Pulse	30	5326932	11112	1
+sub3162_p3_s3_task2	208	Picture	learning/PICTURE_21.jpg;Reper;Resar;i;block2;LS3	5336318	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	208	Port Input	115	5337003	685	1
+sub3162_p3_s3_task2	208	Pulse	30	5337003	685	1
+sub3162_p3_s3_task2	208	Port Input	100	5344037	7719	1
+sub3162_p3_s3_task2	208	Response	2	5344037	7719	1
+sub3162_p3_s3_task2	208	Port Input	115	5347074	10756	1
+sub3162_p3_s3_task2	208	Pulse	30	5347074	10756	1
+sub3162_p3_s3_task2	208	Port Input	115	5356985	20668	1
+sub3162_p3_s3_task2	208	Pulse	30	5356985	20668	1
+sub3162_p3_s3_task2	209	Picture	Korrekt, das ist Resar	5361648	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	209	Port Input	115	5367055	5407	1
+sub3162_p3_s3_task2	209	Pulse	30	5367055	5407	1
+sub3162_p3_s3_task2	209	Port Input	115	5376967	15319	1
+sub3162_p3_s3_task2	209	Pulse	30	5376967	15319	1
+sub3162_p3_s3_task2	210	Picture	learning/PICTURE_216.jpg;Krüklass;Krükta;i;block2;LS3	5381979	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	210	Port Input	115	5387036	5057	1
+sub3162_p3_s3_task2	210	Pulse	30	5387036	5057	1
+sub3162_p3_s3_task2	210	Port Input	100	5390871	8893	1
+sub3162_p3_s3_task2	210	Response	2	5390871	8893	1
+sub3162_p3_s3_task2	210	Port Input	115	5396946	14967	1
+sub3162_p3_s3_task2	210	Pulse	30	5396946	14967	1
+sub3162_p3_s3_task2	210	Port Input	115	5407014	25036	1
+sub3162_p3_s3_task2	210	Pulse	30	5407014	25036	1
+sub3162_p3_s3_task2	211	Picture	Korrekt, das ist Krükta	5407309	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	211	Port Input	115	5417083	9775	1
+sub3162_p3_s3_task2	211	Pulse	30	5417083	9775	1
+sub3162_p3_s3_task2	211	Port Input	115	5426996	19687	8
+sub3162_p3_s3_task2	211	Pulse	30	5426996	19687	8
+sub3162_p3_s3_task2	212	Picture	fix	5427473	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	212	Port Input	115	5437061	9589	1
+sub3162_p3_s3_task2	212	Pulse	30	5437061	9589	1
+sub3162_p3_s3_task2	212	Port Input	115	5446970	19498	1
+sub3162_p3_s3_task2	212	Pulse	30	5446970	19498	1
+sub3162_p3_s3_task2	212	Port Input	115	5457038	29565	1
+sub3162_p3_s3_task2	212	Pulse	30	5457038	29565	1
+sub3162_p3_s3_task2	212	Port Input	115	5466948	39475	1
+sub3162_p3_s3_task2	212	Pulse	30	5466948	39475	1
+sub3162_p3_s3_task2	213	Picture	learning/PICTURE_400.jpg;Knesam;Knele;i;block2;LS4	5472800	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	213	Port Input	115	5477017	4217	1
+sub3162_p3_s3_task2	213	Pulse	30	5477017	4217	1
+sub3162_p3_s3_task2	213	Port Input	100	5480054	7254	1
+sub3162_p3_s3_task2	213	Response	2	5480054	7254	1
+sub3162_p3_s3_task2	213	Port Input	115	5487088	14287	1
+sub3162_p3_s3_task2	213	Pulse	30	5487088	14287	1
+sub3162_p3_s3_task2	213	Port Input	115	5496997	24197	1
+sub3162_p3_s3_task2	213	Pulse	30	5496997	24197	1
+sub3162_p3_s3_task2	214	Picture	Korrekt, das ist Knele	5498130	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	214	Port Input	115	5507065	8935	1
+sub3162_p3_s3_task2	214	Pulse	30	5507065	8935	1
+sub3162_p3_s3_task2	214	Port Input	115	5516976	18846	1
+sub3162_p3_s3_task2	214	Pulse	30	5516976	18846	1
+sub3162_p3_s3_task2	215	Picture	learning/PICTURE_53.jpg;Lopter;Lopfer;i;block2;LS4	5518461	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	215	Port Input	115	5527045	8584	1
+sub3162_p3_s3_task2	215	Pulse	30	5527045	8584	1
+sub3162_p3_s3_task2	215	Port Input	100	5527685	9224	1
+sub3162_p3_s3_task2	215	Response	2	5527685	9224	1
+sub3162_p3_s3_task2	215	Port Input	115	5536958	18497	1
+sub3162_p3_s3_task2	215	Pulse	30	5536958	18497	1
+sub3162_p3_s3_task2	216	Picture	Korrekt, das ist Lopfer	5544124	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	216	Port Input	115	5547030	2905	1
+sub3162_p3_s3_task2	216	Pulse	30	5547030	2905	1
+sub3162_p3_s3_task2	216	Port Input	115	5556937	12812	1
+sub3162_p3_s3_task2	216	Pulse	30	5556937	12812	1
+sub3162_p3_s3_task2	217	Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS4	5564622	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	217	Port Input	115	5567003	2381	1
+sub3162_p3_s3_task2	217	Pulse	30	5567003	2381	1
+sub3162_p3_s3_task2	217	Port Input	99	5574195	9574	1
+sub3162_p3_s3_task2	217	Response	1	5574195	9574	1
+sub3162_p3_s3_task2	217	Port Input	115	5577073	12451	1
+sub3162_p3_s3_task2	217	Pulse	30	5577073	12451	1
+sub3162_p3_s3_task2	217	Port Input	115	5586984	22362	1
+sub3162_p3_s3_task2	217	Pulse	30	5586984	22362	1
+sub3162_p3_s3_task2	218	Picture	Korrekt, das ist Tignam	5590285	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	218	Port Input	115	5597055	6770	1
+sub3162_p3_s3_task2	218	Pulse	30	5597055	6770	1
+sub3162_p3_s3_task2	218	Port Input	115	5606966	16681	1
+sub3162_p3_s3_task2	218	Pulse	30	5606966	16681	1
+sub3162_p3_s3_task2	219	Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS4	5610783	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	219	Port Input	115	5617037	6254	1
+sub3162_p3_s3_task2	219	Pulse	30	5617037	6254	1
+sub3162_p3_s3_task2	219	Port Input	99	5619275	8492	1
+sub3162_p3_s3_task2	219	Response	1	5619275	8492	1
+sub3162_p3_s3_task2	219	Port Input	115	5626948	16165	1
+sub3162_p3_s3_task2	219	Pulse	30	5626948	16165	1
+sub3162_p3_s3_task2	220	Picture	Korrekt, das ist Knele	5636446	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	220	Port Input	115	5637018	572	1
+sub3162_p3_s3_task2	220	Pulse	30	5637018	572	1
+sub3162_p3_s3_task2	220	Port Input	115	5647088	10642	1
+sub3162_p3_s3_task2	220	Pulse	30	5647088	10642	1
+sub3162_p3_s3_task2	221	Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS4	5656943	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	221	Port Input	115	5656995	52	1
+sub3162_p3_s3_task2	221	Pulse	30	5656995	52	1
+sub3162_p3_s3_task2	221	Port Input	115	5667065	10122	1
+sub3162_p3_s3_task2	221	Pulse	30	5667065	10122	1
+sub3162_p3_s3_task2	221	Port Input	99	5667704	10761	1
+sub3162_p3_s3_task2	221	Response	1	5667704	10761	1
+sub3162_p3_s3_task2	221	Port Input	115	5676975	20032	1
+sub3162_p3_s3_task2	221	Pulse	30	5676975	20032	1
+sub3162_p3_s3_task2	222	Picture	Korrekt, das ist Jamip	5682607	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	222	Port Input	115	5687043	4436	1
+sub3162_p3_s3_task2	222	Pulse	30	5687043	4436	1
+sub3162_p3_s3_task2	222	Port Input	115	5696952	14345	1
+sub3162_p3_s3_task2	222	Pulse	30	5696952	14345	1
+sub3162_p3_s3_task2	223	Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS4	5703104	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	223	Port Input	115	5707021	3917	1
+sub3162_p3_s3_task2	223	Pulse	30	5707021	3917	1
+sub3162_p3_s3_task2	223	Port Input	99	5712776	9671	1
+sub3162_p3_s3_task2	223	Response	1	5712776	9671	1
+sub3162_p3_s3_task2	223	Port Input	115	5716931	13827	1
+sub3162_p3_s3_task2	223	Pulse	30	5716931	13827	1
+sub3162_p3_s3_task2	223	Port Input	115	5727002	23898	1
+sub3162_p3_s3_task2	223	Pulse	30	5727002	23898	1
+sub3162_p3_s3_task2	224	Picture	Korrekt, das ist Resar	5728601	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	224	Port Input	115	5737072	8471	1
+sub3162_p3_s3_task2	224	Pulse	30	5737072	8471	1
+sub3162_p3_s3_task2	224	Port Input	115	5746981	18380	1
+sub3162_p3_s3_task2	224	Pulse	30	5746981	18380	1
+sub3162_p3_s3_task2	225	Picture	learning/PICTURE_216.jpg;Krükmig;Krükta;i;block2;LS4	5749098	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	225	Port Input	115	5757049	7951	1
+sub3162_p3_s3_task2	225	Port Input	100	5757049	7951	1
+sub3162_p3_s3_task2	225	Response	2	5757049	7951	1
+sub3162_p3_s3_task2	225	Pulse	30	5757049	7951	1
+sub3162_p3_s3_task2	225	Port Input	115	5766956	17858	1
+sub3162_p3_s3_task2	225	Pulse	30	5766956	17858	1
+sub3162_p3_s3_task2	226	Picture	Korrekt, das ist Krükta	5774595	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	226	Port Input	115	5777021	2426	1
+sub3162_p3_s3_task2	226	Pulse	30	5777021	2426	1
+sub3162_p3_s3_task2	226	Port Input	115	5786931	12336	1
+sub3162_p3_s3_task2	226	Pulse	30	5786931	12336	1
+sub3162_p3_s3_task2	227	Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS4	5795092	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	227	Port Input	115	5796997	1904	1
+sub3162_p3_s3_task2	227	Pulse	30	5796997	1904	1
+sub3162_p3_s3_task2	227	Port Input	99	5804667	9575	1
+sub3162_p3_s3_task2	227	Response	1	5804667	9575	1
+sub3162_p3_s3_task2	227	Port Input	115	5807063	11971	1
+sub3162_p3_s3_task2	227	Pulse	30	5807063	11971	1
+sub3162_p3_s3_task2	227	Port Input	115	5816973	21881	1
+sub3162_p3_s3_task2	227	Pulse	30	5816973	21881	1
+sub3162_p3_s3_task2	228	Picture	Korrekt, das ist Nomtap	5820422	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	228	Port Input	115	5827044	6622	1
+sub3162_p3_s3_task2	228	Pulse	30	5827044	6622	1
+sub3162_p3_s3_task2	228	Port Input	115	5836953	16530	1
+sub3162_p3_s3_task2	228	Pulse	30	5836953	16530	1
+sub3162_p3_s3_task2	229	Picture	learning/PICTURE_21.jpg;Remert;Resar;i;block2;LS4	5840920	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	229	Port Input	115	5847023	6104	1
+sub3162_p3_s3_task2	229	Pulse	30	5847023	6104	1
+sub3162_p3_s3_task2	229	Port Input	100	5848622	7702	1
+sub3162_p3_s3_task2	229	Response	2	5848622	7702	1
+sub3162_p3_s3_task2	229	Port Input	115	5856932	16012	1
+sub3162_p3_s3_task2	229	Pulse	30	5856932	16012	1
+sub3162_p3_s3_task2	230	Picture	Korrekt, das ist Resar	5866250	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	230	Port Input	115	5867001	751	1
+sub3162_p3_s3_task2	230	Pulse	30	5867001	751	1
+sub3162_p3_s3_task2	230	Port Input	115	5877068	10818	1
+sub3162_p3_s3_task2	230	Pulse	30	5877068	10818	1
+sub3162_p3_s3_task2	231	Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS4	5886747	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	231	Port Input	115	5886978	230	1
+sub3162_p3_s3_task2	231	Pulse	30	5886978	230	1
+sub3162_p3_s3_task2	231	Port Input	99	5894966	8218	1
+sub3162_p3_s3_task2	231	Response	1	5894966	8218	1
+sub3162_p3_s3_task2	231	Port Input	115	5897043	10296	1
+sub3162_p3_s3_task2	231	Pulse	30	5897043	10296	1
+sub3162_p3_s3_task2	231	Port Input	115	5906954	20207	1
+sub3162_p3_s3_task2	231	Pulse	30	5906954	20207	1
+sub3162_p3_s3_task2	232	Picture	Korrekt, das ist Krükta	5912077	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	232	Port Input	115	5917025	4947	1
+sub3162_p3_s3_task2	232	Pulse	30	5917025	4947	1
+sub3162_p3_s3_task2	232	Port Input	115	5926931	14853	1
+sub3162_p3_s3_task2	232	Pulse	30	5926931	14853	1
+sub3162_p3_s3_task2	233	Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS4	5932575	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	233	Port Input	115	5936997	4422	1
+sub3162_p3_s3_task2	233	Pulse	30	5936997	4422	1
+sub3162_p3_s3_task2	233	Port Input	99	5941152	8577	1
+sub3162_p3_s3_task2	233	Response	1	5941152	8577	1
+sub3162_p3_s3_task2	233	Port Input	115	5947066	14491	1
+sub3162_p3_s3_task2	233	Pulse	30	5947066	14491	1
+sub3162_p3_s3_task2	233	Port Input	115	5956976	24402	1
+sub3162_p3_s3_task2	233	Pulse	30	5956976	24402	1
+sub3162_p3_s3_task2	234	Picture	Korrekt, das ist Lopfer	5957905	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	234	Port Input	115	5967047	9142	1
+sub3162_p3_s3_task2	234	Pulse	30	5967047	9142	1
+sub3162_p3_s3_task2	234	Port Input	115	5976957	19053	1
+sub3162_p3_s3_task2	234	Pulse	30	5976957	19053	1
+sub3162_p3_s3_task2	235	Picture	learning/PICTURE_462.jpg;Nomser;Nomtap;i;block2;LS4	5978236	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	235	Port Input	100	5986547	8311	1
+sub3162_p3_s3_task2	235	Response	2	5986547	8311	1
+sub3162_p3_s3_task2	235	Port Input	115	5987027	8791	1
+sub3162_p3_s3_task2	235	Pulse	30	5987027	8791	1
+sub3162_p3_s3_task2	235	Port Input	115	5996937	18701	1
+sub3162_p3_s3_task2	235	Pulse	30	5996937	18701	1
+sub3162_p3_s3_task2	236	Picture	Korrekt, das ist Nomtap	6003566	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	236	Port Input	115	6007004	3438	1
+sub3162_p3_s3_task2	236	Pulse	30	6007004	3438	1
+sub3162_p3_s3_task2	236	Port Input	115	6017071	13505	1
+sub3162_p3_s3_task2	236	Pulse	30	6017071	13505	1
+sub3162_p3_s3_task2	237	Picture	learning/PICTURE_405.jpg;Jasull;Jamip;i;block2;LS4	6024063	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	237	Port Input	115	6026972	2909	1
+sub3162_p3_s3_task2	237	Pulse	30	6026972	2909	1
+sub3162_p3_s3_task2	237	Port Input	100	6032085	8022	1
+sub3162_p3_s3_task2	237	Response	2	6032085	8022	1
+sub3162_p3_s3_task2	237	Port Input	115	6037040	12978	1
+sub3162_p3_s3_task2	237	Pulse	30	6037040	12978	1
+sub3162_p3_s3_task2	237	Port Input	115	6046950	22887	1
+sub3162_p3_s3_task2	237	Pulse	30	6046950	22887	1
+sub3162_p3_s3_task2	238	Picture	Korrekt, das ist Jamip	6049393	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	238	Port Input	115	6057019	7626	1
+sub3162_p3_s3_task2	238	Pulse	30	6057019	7626	1
+sub3162_p3_s3_task2	238	Port Input	115	6066929	17536	1
+sub3162_p3_s3_task2	238	Pulse	30	6066929	17536	1
+sub3162_p3_s3_task2	239	Picture	learning/PICTURE_402.jpg;Tigmer;Tignam;i;block2;LS4	6069724	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	239	Port Input	115	6076994	7270	1
+sub3162_p3_s3_task2	239	Pulse	30	6076994	7270	1
+sub3162_p3_s3_task2	239	Port Input	100	6077473	7749	1
+sub3162_p3_s3_task2	239	Response	2	6077473	7749	1
+sub3162_p3_s3_task2	239	Port Input	115	6087059	17335	1
+sub3162_p3_s3_task2	239	Pulse	30	6087059	17335	1
+sub3162_p3_s3_task2	240	Picture	Korrekt, das ist Tignam	6095040	0	14	20178	14	0	next	other	0
+sub3162_p3_s3_task2	240	Port Input	115	6096963	1923	1
+sub3162_p3_s3_task2	240	Pulse	30	6096963	1923	1
+sub3162_p3_s3_task2	240	Port Input	115	6107029	11988	1
+sub3162_p3_s3_task2	240	Pulse	30	6107029	11988	1
+sub3162_p3_s3_task2	241	Picture	fix	6115218	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	241	Port Input	115	6116937	1719	1
+sub3162_p3_s3_task2	241	Pulse	30	6116937	1719	1
+sub3162_p3_s3_task2	241	Port Input	115	6127007	11789	1
+sub3162_p3_s3_task2	241	Pulse	30	6127007	11789	1
+sub3162_p3_s3_task2	241	Port Input	115	6137079	21861	1
+sub3162_p3_s3_task2	241	Pulse	30	6137079	21861	1
+sub3162_p3_s3_task2	241	Port Input	115	6146989	31771	1
+sub3162_p3_s3_task2	241	Pulse	30	6146989	31771	1
+sub3162_p3_s3_task2	241	Port Input	115	6157061	41843	1
+sub3162_p3_s3_task2	241	Pulse	30	6157061	41843	1
+sub3162_p3_s3_task2	242	Picture	fix	6160379	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	242	Port Input	115	6166973	6594	1
+sub3162_p3_s3_task2	242	Pulse	30	6166973	6594	1
+sub3162_p3_s3_task2	242	Port Input	115	6177044	16665	1
+sub3162_p3_s3_task2	242	Pulse	30	6177044	16665	1
+sub3162_p3_s3_task2	242	Port Input	115	6186955	26576	1
+sub3162_p3_s3_task2	242	Pulse	30	6186955	26576	1
+sub3162_p3_s3_task2	242	Port Input	115	6197025	36646	1
+sub3162_p3_s3_task2	242	Pulse	30	6197025	36646	1
+sub3162_p3_s3_task2	243	Picture	fix	6205540	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	243	Port Input	115	6206936	1396	1
+sub3162_p3_s3_task2	243	Pulse	30	6206936	1396	1
+sub3162_p3_s3_task2	243	Port Input	115	6217005	11465	1
+sub3162_p3_s3_task2	243	Pulse	30	6217005	11465	1
+sub3162_p3_s3_task2	243	Port Input	115	6227075	21535	1
+sub3162_p3_s3_task2	243	Pulse	30	6227075	21535	1
+sub3162_p3_s3_task2	243	Port Input	115	6236985	31445	1
+sub3162_p3_s3_task2	243	Pulse	30	6236985	31445	1
+sub3162_p3_s3_task2	243	Port Input	115	6247051	41512	1
+sub3162_p3_s3_task2	243	Pulse	30	6247051	41512	1
+sub3162_p3_s3_task2	244	Picture	fix	6250701	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	244	Port Input	115	6256959	6259	1
+sub3162_p3_s3_task2	244	Pulse	30	6256959	6259	1
+sub3162_p3_s3_task2	244	Port Input	115	6267025	16324	1
+sub3162_p3_s3_task2	244	Pulse	30	6267025	16324	1
+sub3162_p3_s3_task2	244	Port Input	115	6276928	26227	1
+sub3162_p3_s3_task2	244	Pulse	30	6276928	26227	1
+sub3162_p3_s3_task2	244	Port Input	115	6286995	36294	1
+sub3162_p3_s3_task2	244	Pulse	30	6286995	36294	1
+sub3162_p3_s3_task2	245	Picture	bubbles/control.jpg	6296028	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	245	Port Input	115	6297065	1037	1
+sub3162_p3_s3_task2	245	Pulse	30	6297065	1037	1
+sub3162_p3_s3_task2	245	Port Input	115	6306975	10947	1
+sub3162_p3_s3_task2	245	Pulse	30	6306975	10947	1
+sub3162_p3_s3_task2	245	Port Input	115	6317046	21017	1
+sub3162_p3_s3_task2	245	Pulse	30	6317046	21017	1
+sub3162_p3_s3_task2	245	Port Input	115	6326954	30926	1
+sub3162_p3_s3_task2	245	Pulse	30	6326954	30926	1
+sub3162_p3_s3_task2	245	Port Input	115	6337025	40997	1
+sub3162_p3_s3_task2	245	Pulse	30	6337025	40997	1
+sub3162_p3_s3_task2	246	Picture	control/PICTURE_498.jpg;Säule;Tasse;i;block3;LS1	6341356	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	246	Port Input	115	6346935	5579	1
+sub3162_p3_s3_task2	246	Pulse	30	6346935	5579	1
+sub3162_p3_s3_task2	246	Port Input	100	6353329	11973	1
+sub3162_p3_s3_task2	246	Response	2	6353329	11973	1
+sub3162_p3_s3_task2	246	Port Input	115	6357006	15651	1
+sub3162_p3_s3_task2	246	Pulse	30	6357006	15651	1
+sub3162_p3_s3_task2	247	Picture	Korrekt, das ist Tasse	6366686	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	247	Port Input	115	6367077	391	1
+sub3162_p3_s3_task2	247	Pulse	30	6367077	391	1
+sub3162_p3_s3_task2	247	Port Input	115	6376987	10302	1
+sub3162_p3_s3_task2	247	Pulse	30	6376987	10302	1
+sub3162_p3_s3_task2	247	Port Input	115	6387054	20368	7
+sub3162_p3_s3_task2	247	Pulse	30	6387054	20368	7
+sub3162_p3_s3_task2	248	Picture	control/PICTURE_84.jpg;Spiegel;Maske;i;block3;LS1	6387183	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	248	Port Input	100	6395848	8665	1
+sub3162_p3_s3_task2	248	Response	2	6395848	8665	1
+sub3162_p3_s3_task2	248	Port Input	115	6396967	9784	1
+sub3162_p3_s3_task2	248	Pulse	30	6396967	9784	1
+sub3162_p3_s3_task2	248	Port Input	115	6407034	19851	1
+sub3162_p3_s3_task2	248	Pulse	30	6407034	19851	1
+sub3162_p3_s3_task2	249	Picture	Korrekt, das ist Maske	6412513	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	249	Port Input	115	6416939	4426	1
+sub3162_p3_s3_task2	249	Pulse	30	6416939	4426	1
+sub3162_p3_s3_task2	249	Port Input	115	6427008	14494	1
+sub3162_p3_s3_task2	249	Pulse	30	6427008	14494	1
+sub3162_p3_s3_task2	250	Picture	control/PICTURE_350.jpg;Tasche;Bibel;i;block3;LS1	6433011	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	250	Port Input	115	6437073	4063	1
+sub3162_p3_s3_task2	250	Pulse	30	6437073	4063	1
+sub3162_p3_s3_task2	250	Port Input	100	6441706	8696	1
+sub3162_p3_s3_task2	250	Response	2	6441706	8696	1
+sub3162_p3_s3_task2	250	Port Input	115	6446978	13968	1
+sub3162_p3_s3_task2	250	Pulse	30	6446978	13968	1
+sub3162_p3_s3_task2	250	Port Input	115	6457046	24035	1
+sub3162_p3_s3_task2	250	Pulse	30	6457046	24035	1
+sub3162_p3_s3_task2	251	Picture	Korrekt, das ist Bibel	6458341	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	251	Port Input	115	6466953	8612	1
+sub3162_p3_s3_task2	251	Pulse	30	6466953	8612	1
+sub3162_p3_s3_task2	251	Port Input	115	6477018	18677	1
+sub3162_p3_s3_task2	251	Pulse	30	6477018	18677	1
+sub3162_p3_s3_task2	252	Picture	control/PICTURE_625.jpg;Bombe;Schlitten;i;block3;LS1	6478838	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	252	Port Input	100	6486604	7766	1
+sub3162_p3_s3_task2	252	Response	2	6486604	7766	1
+sub3162_p3_s3_task2	252	Port Input	115	6487083	8245	1
+sub3162_p3_s3_task2	252	Pulse	30	6487083	8245	1
+sub3162_p3_s3_task2	252	Port Input	115	6496987	18149	1
+sub3162_p3_s3_task2	252	Pulse	30	6496987	18149	1
+sub3162_p3_s3_task2	253	Picture	Korrekt, das ist Schlitten	6504168	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	253	Port Input	115	6507051	2883	1
+sub3162_p3_s3_task2	253	Pulse	30	6507051	2883	1
+sub3162_p3_s3_task2	253	Port Input	115	6516959	12791	1
+sub3162_p3_s3_task2	253	Pulse	30	6516959	12791	1
+sub3162_p3_s3_task2	254	Picture	control/PICTURE_485.jpg;Apfel;Nagel;i;block3;LS1	6524666	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	254	Port Input	115	6527028	2362	1
+sub3162_p3_s3_task2	254	Pulse	30	6527028	2362	1
+sub3162_p3_s3_task2	254	Port Input	100	6531982	7316	1
+sub3162_p3_s3_task2	254	Response	2	6531982	7316	1
+sub3162_p3_s3_task2	254	Port Input	115	6536938	12272	1
+sub3162_p3_s3_task2	254	Pulse	30	6536938	12272	1
+sub3162_p3_s3_task2	254	Port Input	115	6547008	22342	1
+sub3162_p3_s3_task2	254	Pulse	30	6547008	22342	1
+sub3162_p3_s3_task2	255	Picture	Korrekt, das ist Nagel	6549996	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	255	Port Input	115	6557076	7080	1
+sub3162_p3_s3_task2	255	Pulse	30	6557076	7080	1
+sub3162_p3_s3_task2	255	Port Input	115	6566980	16984	1
+sub3162_p3_s3_task2	255	Pulse	30	6566980	16984	1
+sub3162_p3_s3_task2	256	Picture	control/PICTURE_549.jpg;Schlange;Schlange;c;block3;LS1	6570326	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	256	Port Input	115	6577045	6719	1
+sub3162_p3_s3_task2	256	Pulse	30	6577045	6719	1
+sub3162_p3_s3_task2	256	Port Input	99	6579281	8955	1
+sub3162_p3_s3_task2	256	Response	1	6579281	8955	1
+sub3162_p3_s3_task2	256	Port Input	115	6586949	16623	1
+sub3162_p3_s3_task2	256	Pulse	30	6586949	16623	1
+sub3162_p3_s3_task2	257	Picture	Korrekt, das ist Schlange	6595656	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	257	Port Input	115	6597015	1359	1
+sub3162_p3_s3_task2	257	Pulse	30	6597015	1359	1
+sub3162_p3_s3_task2	257	Port Input	115	6607077	11420	1
+sub3162_p3_s3_task2	257	Pulse	30	6607077	11420	1
+sub3162_p3_s3_task2	258	Picture	control/PICTURE_485.jpg;Nagel;Nagel;c;block3;LS1	6615987	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	258	Port Input	115	6616979	992	1
+sub3162_p3_s3_task2	258	Pulse	30	6616979	992	1
+sub3162_p3_s3_task2	258	Port Input	99	6625124	9137	1
+sub3162_p3_s3_task2	258	Response	1	6625124	9137	1
+sub3162_p3_s3_task2	258	Port Input	115	6627040	11052	1
+sub3162_p3_s3_task2	258	Pulse	30	6627040	11052	1
+sub3162_p3_s3_task2	259	Picture	Korrekt, das ist Nagel	6641317	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	260	Picture	control/PICTURE_549.jpg;Parfüm;Schlange;i;block3;LS1	6661815	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	261	Picture	Zu spät, das ist Schlange	6687478	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	262	Picture	control/PICTURE_498.jpg;Tasse;Tasse;c;block3;LS1	6707975	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	263	Picture	Zu spät, das ist Tasse	6733639	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	264	Picture	control/PICTURE_84.jpg;Maske;Maske;c;block3;LS1	6754136	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	265	Picture	Zu spät, das ist Maske	6779800	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	266	Picture	control/PICTURE_418.jpg;Schlange;Vorhang;i;block3;LS1	6800297	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	267	Picture	Zu spät, das ist Vorhang	6825960	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	268	Picture	control/PICTURE_350.jpg;Bibel;Bibel;c;block3;LS1	6846458	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	269	Picture	Zu spät, das ist Bibel	6871954	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	270	Picture	control/PICTURE_418.jpg;Vorhang;Vorhang;c;block3;LS1	6892452	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	271	Picture	Zu spät, das ist Vorhang	6917949	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	272	Picture	control/PICTURE_625.jpg;Schlitten;Schlitten;c;block3;LS1	6938446	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	273	Picture	Zu spät, das ist Schlitten	6963776	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	274	Picture	fix	6983940	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	275	Picture	control/PICTURE_485.jpg;Nagel;Nagel;c;block3;LS2	7029434	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	276	Picture	Zu spät, das ist Nagel	7054764	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	277	Picture	control/PICTURE_418.jpg;Vorhang;Vorhang;c;block3;LS2	7075095	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	278	Picture	Zu spät, das ist Vorhang	7100425	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	279	Picture	control/PICTURE_84.jpg;Maske;Maske;c;block3;LS2	7120756	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	280	Picture	Zu spät, das ist Maske	7146253	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	281	Picture	control/PICTURE_625.jpg;Schlitten;Schlitten;c;block3;LS2	7166583	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	282	Picture	Zu spät, das ist Schlitten	7191913	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	283	Picture	control/PICTURE_485.jpg;Tasse;Nagel;i;block3;LS2	7212244	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	284	Picture	Zu spät, das ist Nagel	7237574	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	285	Picture	control/PICTURE_84.jpg;Schlitten;Maske;i;block3;LS2	7257905	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	286	Picture	Zu spät, das ist Maske	7283235	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	287	Picture	control/PICTURE_549.jpg;Bibel;Schlange;i;block3;LS2	7303566	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	288	Picture	Zu spät, das ist Schlange	7328896	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	289	Picture	control/PICTURE_498.jpg;Schürze;Tasse;i;block3;LS2	7349227	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	290	Picture	Zu spät, das ist Tasse	7374557	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	291	Picture	control/PICTURE_350.jpg;Vorhang;Bibel;i;block3;LS2	7394887	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	292	Picture	Zu spät, das ist Bibel	7420384	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	293	Picture	control/PICTURE_498.jpg;Tasse;Tasse;c;block3;LS2	7440715	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	294	Picture	Zu spät, das ist Tasse	7466045	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	295	Picture	control/PICTURE_549.jpg;Schlange;Schlange;c;block3;LS2	7486376	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	296	Picture	Zu spät, das ist Schlange	7511706	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	297	Picture	control/PICTURE_625.jpg;Maske;Schlitten;i;block3;LS2	7532037	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	298	Picture	Zu spät, das ist Schlitten	7557367	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	299	Picture	control/PICTURE_350.jpg;Bibel;Bibel;c;block3;LS2	7577697	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	300	Picture	Zu spät, das ist Bibel	7603027	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	301	Picture	control/PICTURE_418.jpg;Parfüm;Vorhang;i;block3;LS2	7623358	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	302	Picture	Zu spät, das ist Vorhang	7648688	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	303	Picture	fix	7668852	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	304	Picture	control/PICTURE_663.jpg;Schürze;Säule;i;block3;LS3	7714180	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	305	Picture	Zu spät, das ist Säule	7739510	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	306	Picture	control/PICTURE_476.jpg;Nagel;Schürze;i;block3;LS3	7759841	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	307	Picture	Zu spät, das ist Schürze	7785504	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	308	Picture	control/PICTURE_314.jpg;Bibel;Parfüm;i;block3;LS3	7806001	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	309	Picture	Zu spät, das ist Parfüm	7831665	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	310	Picture	control/PICTURE_386.jpg;Maske;Bombe;i;block3;LS3	7852162	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	311	Picture	Zu spät, das ist Bombe	7877826	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	312	Picture	control/PICTURE_314.jpg;Parfüm;Parfüm;c;block3;LS3	7898323	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	313	Picture	Zu spät, das ist Parfüm	7923986	0	1	20664	1	0	next	other	0
+sub3162_p3_s3_task2	314	Picture	control/PICTURE_552.jpg;Apfel;Apfel;c;block3;LS3	7944650	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	315	Picture	Zu spät, das ist Apfel	7970314	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	316	Picture	control/PICTURE_340.jpg;Schlitten;Spiegel;i;block3;LS3	7990811	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	317	Picture	Zu spät, das ist Spiegel	8016308	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	318	Picture	control/PICTURE_388.jpg;Vorhang;Tasche;i;block3;LS3	8036805	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	319	Picture	Zu spät, das ist Tasche	8062135	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	320	Picture	control/PICTURE_476.jpg;Schürze;Schürze;c;block3;LS3	8082633	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	321	Picture	Zu spät, das ist Schürze	8107963	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	322	Picture	control/PICTURE_388.jpg;Tasche;Tasche;c;block3;LS3	8128460	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	323	Picture	Zu spät, das ist Tasche	8153790	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	324	Picture	control/PICTURE_386.jpg;Bombe;Bombe;c;block3;LS3	8174288	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	325	Picture	Zu spät, das ist Bombe	8199618	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	326	Picture	control/PICTURE_552.jpg;Tasse;Apfel;i;block3;LS3	8220115	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	327	Picture	Zu spät, das ist Apfel	8245445	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	328	Picture	control/PICTURE_663.jpg;Säule;Säule;c;block3;LS3	8265776	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	329	Picture	Zu spät, das ist Säule	8291106	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	330	Picture	control/PICTURE_340.jpg;Spiegel;Spiegel;c;block3;LS3	8311437	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	331	Picture	Zu spät, das ist Spiegel	8336767	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	332	Picture	fix	8356931	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	333	Picture	control/PICTURE_663.jpg;Säule;Säule;c;block3;LS4	8402258	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	334	Picture	Zu spät, das ist Säule	8427589	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	335	Picture	control/PICTURE_388.jpg;Schlange;Tasche;i;block3;LS4	8447919	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	336	Picture	Zu spät, das ist Tasche	8473249	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	337	Picture	control/PICTURE_340.jpg;Spiegel;Spiegel;c;block3;LS4	8493580	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	338	Picture	Zu spät, das ist Spiegel	8518910	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	339	Picture	control/PICTURE_314.jpg;Tasche;Parfüm;i;block3;LS4	8539241	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	340	Picture	Zu spät, das ist Parfüm	8564571	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	341	Picture	control/PICTURE_476.jpg;Apfel;Schürze;i;block3;LS4	8584902	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	342	Picture	Zu spät, das ist Schürze	8610232	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	343	Picture	control/PICTURE_314.jpg;Parfüm;Parfüm;c;block3;LS4	8630563	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	344	Picture	Zu spät, das ist Parfüm	8655893	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	345	Picture	control/PICTURE_386.jpg;Bombe;Bombe;c;block3;LS4	8676223	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	346	Picture	Zu spät, das ist Bombe	8701553	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	347	Picture	control/PICTURE_663.jpg;Nagel;Säule;i;block3;LS4	8721884	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	348	Picture	Zu spät, das ist Säule	8747214	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	349	Picture	control/PICTURE_340.jpg;Bombe;Spiegel;i;block3;LS4	8767545	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	350	Picture	Zu spät, das ist Spiegel	8792875	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	351	Picture	control/PICTURE_552.jpg;Apfel;Apfel;c;block3;LS4	8813206	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	352	Picture	Zu spät, das ist Apfel	8838536	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	353	Picture	control/PICTURE_476.jpg;Schürze;Schürze;c;block3;LS4	8858867	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	354	Picture	Zu spät, das ist Schürze	8884197	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	355	Picture	control/PICTURE_386.jpg;Spiegel;Bombe;i;block3;LS4	8904527	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	356	Picture	Zu spät, das ist Bombe	8930191	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	357	Picture	control/PICTURE_388.jpg;Tasche;Tasche;c;block3;LS4	8950688	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	358	Picture	Zu spät, das ist Tasche	8976352	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	359	Picture	control/PICTURE_552.jpg;Säule;Apfel;i;block3;LS4	8996849	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	360	Picture	Zu spät, das ist Apfel	9022512	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	361	Picture	fix	9042843	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	362	Picture	fix	9088171	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	363	Picture	fix	9133331	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	364	Picture	fix	9178492	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	365	Picture	bubbles/learning.jpg	9223820	0	1	45494	1	0	next	other	0
+sub3162_p3_s3_task2	366	Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS1	9269314	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	367	Picture	Zu spät, das ist Tulser	9294644	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	368	Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS1	9315142	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	369	Picture	Zu spät, das ist Seise	9340472	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	370	Picture	learning/PICTURE_610.jpg;Tulte;Tulser;i;block4;LS1	9360802	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	371	Picture	Zu spät, das ist Tulser	9386132	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	372	Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS1	9406630	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	373	Picture	Zu spät, das ist Stise	9431960	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	374	Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS1	9452291	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	375	Picture	Zu spät, das ist Finser	9477621	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	376	Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS1	9497951	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	377	Picture	Zu spät, das ist Efdi	9523282	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	378	Picture	learning/PICTURE_235.jpg;Seimer;Seise;i;block4;LS1	9543612	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	379	Picture	Zu spät, das ist Seise	9568942	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	380	Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS1	9589440	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	381	Picture	Zu spät, das ist Klotel	9614770	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	382	Picture	learning/PICTURE_720.jpg;Finsin;Finser;i;block4;LS1	9635101	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	383	Picture	Zu spät, das ist Finser	9660431	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	384	Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS1	9680928	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	385	Picture	Zu spät, das ist Soktau	9706258	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	386	Picture	learning/PICTURE_599.jpg;Stitons;Stise;i;block4;LS1	9726755	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	387	Picture	Zu spät, das ist Stise	9752086	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	388	Picture	learning/PICTURE_43.jpg;Klosal;Klotel;i;block4;LS1	9772416	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	389	Picture	Zu spät, das ist Klotel	9797746	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	390	Picture	learning/PICTURE_741.jpg;Soklet;Soktau;i;block4;LS1	9818077	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	391	Picture	Zu spät, das ist Soktau	9843407	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	392	Picture	learning/PICTURE_247.jpg;Efter;Efdi;i;block4;LS1	9863738	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	393	Picture	Zu spät, das ist Efdi	9889068	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	394	Picture	fix	9909232	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	395	Picture	learning/PICTURE_235.jpg;Seitos;Seise;i;block4;LS2	9954560	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	396	Picture	Zu spät, das ist Seise	9979890	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	397	Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS2	10000220	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	398	Picture	Zu spät, das ist Efdi	10025551	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	399	Picture	learning/PICTURE_720.jpg;Finlas;Finser;i;block4;LS2	10046048	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	400	Picture	Zu spät, das ist Finser	10071711	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	401	Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS2	10092209	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	402	Picture	Zu spät, das ist Seise	10117872	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	403	Picture	learning/PICTURE_741.jpg;Soktal;Soktau;i;block4;LS2	10138369	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	404	Picture	Zu spät, das ist Soktau	10164033	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	405	Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS2	10184530	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	406	Picture	Zu spät, das ist Tulser	10210194	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	407	Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS2	10230691	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	408	Picture	Zu spät, das ist Klotel	10256188	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	409	Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS2	10276685	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	410	Picture	Zu spät, das ist Soktau	10302015	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	411	Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS2	10322513	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	412	Picture	Zu spät, das ist Finser	10347843	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	413	Picture	learning/PICTURE_247.jpg;Efto;Efdi;i;block4;LS2	10368340	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	414	Picture	Zu spät, das ist Efdi	10393670	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	415	Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS2	10414167	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	416	Picture	Zu spät, das ist Stise	10439498	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	417	Picture	learning/PICTURE_43.jpg;Klotons;Klotel;i;block4;LS2	10459828	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	418	Picture	Zu spät, das ist Klotel	10485158	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	419	Picture	learning/PICTURE_610.jpg;Tulpos;Tulser;i;block4;LS2	10505656	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	420	Picture	Zu spät, das ist Tulser	10530986	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	421	Picture	learning/PICTURE_599.jpg;Stisin;Stise;i;block4;LS2	10551317	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	422	Picture	Zu spät, das ist Stise	10576647	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	423	Picture	fix	10596811	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	424	Picture	learning/PICTURE_610.jpg;Tulber;Tulser;i;block4;LS3	10642138	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	425	Picture	Zu spät, das ist Tulser	10667635	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	426	Picture	learning/PICTURE_741.jpg;Sokma;Soktau;i;block4;LS3	10687966	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	427	Picture	Zu spät, das ist Soktau	10713296	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	428	Picture	learning/PICTURE_247.jpg;Efser;Efdi;i;block4;LS3	10733627	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	429	Picture	Zu spät, das ist Efdi	10758957	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	430	Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS3	10779454	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	431	Picture	Zu spät, das ist Finser	10804784	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	432	Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS3	10825115	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	433	Picture	Zu spät, das ist Soktau	10850445	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	434	Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS3	10870776	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	435	Picture	Zu spät, das ist Seise	10896106	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	436	Picture	learning/PICTURE_43.jpg;Klobat;Klotel;i;block4;LS3	10916603	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	437	Picture	Zu spät, das ist Klotel	10941933	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	438	Picture	learning/PICTURE_235.jpg;Seiges;Seise;i;block4;LS3	10962264	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	439	Picture	Zu spät, das ist Seise	10987594	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	440	Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS3	11007925	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	441	Picture	Zu spät, das ist Stise	11033255	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	442	Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS3	11053586	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	443	Picture	Zu spät, das ist Klotel	11078916	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	444	Picture	learning/PICTURE_599.jpg;Stigit;Stise;i;block4;LS3	11099246	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	445	Picture	Zu spät, das ist Stise	11124576	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	446	Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS3	11144907	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	447	Picture	Zu spät, das ist Tulser	11170571	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	448	Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS3	11191068	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	449	Picture	Zu spät, das ist Efdi	11216731	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	450	Picture	learning/PICTURE_720.jpg;Finsum;Finser;i;block4;LS3	11237229	0	1	25330	1	0	25000	other	0
+sub3162_p3_s3_task2	451	Picture	Zu spät, das ist Finser	11262892	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	452	Picture	fix	11283223	0	1	45487	8	0	next	other	0
+sub3162_p3_s3_task2	453	Picture	learning/PICTURE_43.jpg;Kloger;Klotel;i;block4;LS4	11328710	0	8	25171	8	0	25000	other	0
+sub3162_p3_s3_task2	454	Picture	Zu spät, das ist Klotel	11354214	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	455	Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS4	11374711	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	456	Picture	Zu spät, das ist Finser	11400208	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	457	Picture	learning/PICTURE_599.jpg;Stisum;Stise;i;block4;LS4	11420705	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	458	Picture	Zu spät, das ist Stise	11446035	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	459	Picture	learning/PICTURE_720.jpg;Finges;Finser;i;block4;LS4	11466533	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	460	Picture	Zu spät, das ist Finser	11491863	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	461	Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS4	11512360	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	462	Picture	Zu spät, das ist Tulser	11537690	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	463	Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS4	11558188	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	464	Picture	Zu spät, das ist Efdi	11583518	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	465	Picture	learning/PICTURE_235.jpg;Seitu;Seise;i;block4;LS4	11604015	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	466	Picture	Zu spät, das ist Seise	11629345	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	467	Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS4	11649676	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	468	Picture	Zu spät, das ist Soktau	11675006	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	469	Picture	learning/PICTURE_610.jpg;Tuldet;Tulser;i;block4;LS4	11695337	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	470	Picture	Zu spät, das ist Tulser	11720833	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	471	Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS4	11741164	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	472	Picture	Zu spät, das ist Seise	11766494	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	473	Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS4	11786825	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	474	Picture	Zu spät, das ist Stise	11812155	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	475	Picture	learning/PICTURE_247.jpg;Efnel;Efdi;i;block4;LS4	11832486	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	476	Picture	Zu spät, das ist Efdi	11857816	0	1	20331	1	0	next	other	0
+sub3162_p3_s3_task2	477	Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS4	11878147	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	478	Picture	Zu spät, das ist Klotel	11903477	0	1	20497	1	0	next	other	0
+sub3162_p3_s3_task2	479	Picture	learning/PICTURE_741.jpg;Sokbat;Soktau;i;block4;LS4	11923974	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	480	Picture	Zu spät, das ist Soktau	11949304	0	1	20164	1	0	next	other	0
+sub3162_p3_s3_task2	481	Picture	fix	11969468	0	1	45161	1	0	next	other	0
+sub3162_p3_s3_task2	482	Picture	fix	12014629	0	1	45154	7	0	next	other	0
+sub3162_p3_s3_task2	483	Picture	fix	12059783	0	7	45154	21	0	next	other	0
+sub3162_p3_s3_task2	484	Picture	fix	12104937	0	15	45342	15	0	next	other	0
+sub3162_p3_s3_task2	485	Picture	bubbles/control.jpg	12150278	0	1	45328	1	0	next	other	0
+sub3162_p3_s3_task2	486	Picture	control/PICTURE_220.jpg;Möwe;Möwe;c;block5;LS1	12195606	0	1	25163	1	0	25000	other	0
+sub3162_p3_s3_task2	487	Picture	Zu spät, das ist Möwe	12220936	0	1	45089	1	0	next	other	0
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	296629	1	0	next
+Picture	fix	other				307128	1	45161	1	0	next
+Picture	fix	other				352289	1	45161	1	0	next
+Picture	fix	other				397450	1	45494	1	0	next
+Picture	bubbles/learning.jpg	other				442944	1	45328	1	0	next
+Picture	learning/PICTURE_95.jpg;Knufi;Knusap;i;block1;LS1	other				488272	1	25163	1	0	25000
+Picture	Falsch, das ist Knusap	other				513602	1	20497	1	0	next
+Picture	learning/PICTURE_508.jpg;Joper;Joten;i;block1;LS1	other				534099	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				559429	1	20497	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS1	other				579927	1	25163	1	0	25000
+Picture	Falsch, das ist Klenter	other				605257	1	20331	1	0	next
+Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS1	other				625588	1	25163	1	0	25000
+Picture	Falsch, das ist Zamet	other				650918	1	20497	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS1	other				671415	1	25163	1	0	25000
+Picture	Korrekt, das ist Jehler	other				696745	1	20497	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS1	other				717243	1	25163	1	0	25000
+Picture	Falsch, das ist Zerbe	other				742573	1	20331	1	0	next
+Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS1	other				762903	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				788233	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zermel;Zerbe;i;block1;LS1	other				808564	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				833894	1	20331	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehrig;Jehler;i;block1;LS1	other				854225	1	25163	1	0	25000
+Picture	Falsch, das ist Jehler	other				879555	1	20497	1	0	next
+Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS1	other				900052	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				925383	1	20331	1	0	next
+Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS1	other				945713	1	25163	1	0	25000
+Picture	Korrekt, das ist Knusap	other				971043	1	20331	1	0	next
+Picture	learning/PICTURE_695.jpg;Muschot;Munem;i;block1;LS1	other				991374	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				1016704	1	20497	1	0	next
+Picture	learning/PICTURE_480.jpg;Zate;Zamet;i;block1;LS1	other				1037202	1	25330	1	0	25000
+Picture	Falsch, das ist Zamet	other				1062865	1	20497	1	0	next
+Picture	learning/PICTURE_488.jpg;Klentant;Klenter;i;block1;LS1	other				1083362	1	25330	1	0	25000
+Picture	Korrekt, das ist Klenter	other				1109026	1	20331	1	0	next
+Picture	fix	other				1129356	1	45494	1	0	next
+Picture	learning/PICTURE_508.jpg;Josant;Joten;i;block1;LS2	other				1174851	1	25330	1	0	25000
+Picture	Korrekt, das ist Joten	other				1200514	1	20497	1	0	next
+Picture	learning/PICTURE_695.jpg;Mufi;Munem;i;block1;LS2	other				1221011	1	25163	1	0	25000
+Picture	Falsch, das ist Munem	other				1246508	1	20497	1	0	next
+Picture	learning/PICTURE_480.jpg;Zabig;Zamet;i;block1;LS2	other				1267005	1	25163	1	0	25000
+Picture	Korrekt, das ist Zamet	other				1292502	1	20497	1	0	next
+Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS2	other				1313000	1	25163	1	0	25000
+Picture	Korrekt, das ist Knusap	other				1338330	1	20497	1	0	next
+Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS2	other				1358827	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				1384157	1	20497	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenban;Klenter;i;block1;LS2	other				1404654	1	25163	1	0	25000
+Picture	Korrekt, das ist Klenter	other				1429985	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerse;Zerbe;i;block1;LS2	other				1450315	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				1475645	1	20331	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehmel;Jehler;i;block1;LS2	other				1495976	1	25163	1	0	25000
+Picture	Korrekt, das ist Jehler	other				1521306	1	20331	1	0	next
+Picture	learning/PICTURE_95.jpg;Knufeg;Knusap;i;block1;LS2	other				1541637	1	25163	1	0	25000
+Picture	Korrekt, das ist Knusap	other				1566967	1	20320	11	0	next
+Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS2	other				1587287	11	25174	11	0	25000
+Picture	Korrekt, das ist Jehler	other				1612628	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS2	other				1632959	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				1658289	1	20497	1	0	next
+Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS2	other				1678786	1	25163	1	0	25000
+Picture	Korrekt, das ist Zamet	other				1704116	1	20331	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS2	other				1724447	1	25163	1	0	25000
+Picture	Korrekt, das ist Klenter	other				1749777	1	20331	1	0	next
+Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS2	other				1770108	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				1795438	1	20164	1	0	next
+Picture	fix	other				1815602	1	45328	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerpet;Zerbe;i;block1;LS3	other				1860929	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				1886260	1	20331	1	0	next
+Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS3	other				1906590	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				1931918	3	20333	3	0	next
+Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS3	other				1952251	1	25163	1	0	25000
+Picture	Korrekt, das ist Jehler	other				1977581	1	20331	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenta;Klenter;i;block1;LS3	other				1997912	1	25163	1	0	25000
+Picture	Korrekt, das ist Klenter	other				2023242	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS3	other				2043573	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				2068903	1	20331	1	0	next
+Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS3	other				2089234	1	25163	1	0	25000
+Picture	Korrekt, das ist Zamet	other				2114564	1	20331	1	0	next
+Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS3	other				2134894	1	25330	1	0	25000
+Picture	Korrekt, das ist Knusap	other				2160558	1	20497	1	0	next
+Picture	learning/PICTURE_508.jpg;Jotolt;Joten;i;block1;LS3	other				2181055	1	25330	1	0	25000
+Picture	Korrekt, das ist Joten	other				2206718	1	20497	1	0	next
+Picture	learning/PICTURE_480.jpg;Zabelt;Zamet;i;block1;LS3	other				2227216	1	25330	1	0	25000
+Picture	Korrekt, das ist Zamet	other				2252879	1	20497	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS3	other				2273377	1	25330	1	0	25000
+Picture	Korrekt, das ist Klenter	other				2299040	1	20497	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehtir;Jehler;i;block1;LS3	other				2319537	1	25330	1	0	25000
+Picture	Korrekt, das ist Jehler	other				2345201	1	20497	1	0	next
+Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS3	other				2365698	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				2391195	1	20497	1	0	next
+Picture	learning/PICTURE_95.jpg;Knupat;Knusap;i;block1;LS3	other				2411692	1	25163	1	0	25000
+Picture	Falsch, das ist Knusap	other				2437022	1	20497	1	0	next
+Picture	learning/PICTURE_695.jpg;Mugir;Munem;i;block1;LS3	other				2457520	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				2482850	1	20164	1	0	next
+Picture	fix	other				2503014	1	45494	1	0	next
+Picture	learning/PICTURE_508.jpg;Jota;Joten;i;block1;LS4	other				2548508	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				2573838	1	20497	1	0	next
+Picture	learning/PICTURE_95.jpg;Knuler;Knusap;i;block1;LS4	other				2594336	1	25163	1	0	25000
+Picture	Korrekt, das ist Knusap	other				2619666	1	20331	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehse;Jehler;i;block1;LS4	other				2639996	1	25163	1	0	25000
+Picture	Korrekt, das ist Jehler	other				2665326	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zerbe;Zerbe;c;block1;LS4	other				2685657	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				2710987	1	20497	1	0	next
+Picture	learning/PICTURE_480.jpg;Zatir;Zamet;i;block1;LS4	other				2731485	1	25163	1	0	25000
+Picture	Korrekt, das ist Zamet	other				2756815	1	20331	1	0	next
+Picture	learning/PICTURE_508.jpg;Joten;Joten;c;block1;LS4	other				2777145	1	25163	1	0	25000
+Picture	Korrekt, das ist Joten	other				2802476	1	20331	1	0	next
+Picture	learning/PICTURE_695.jpg;Munem;Munem;c;block1;LS4	other				2822806	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				2848136	1	20331	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenfalt;Klenter;i;block1;LS4	other				2868467	1	25163	1	0	25000
+Picture	Korrekt, das ist Klenter	other				2893797	1	20331	1	0	next
+Picture	learning/PICTURE_703.jpg;Jehler;Jehler;c;block1;LS4	other				2914128	1	25163	1	0	25000
+Picture	Korrekt, das ist Jehler	other				2939458	1	20331	1	0	next
+Picture	learning/PICTURE_695.jpg;Mupat;Munem;i;block1;LS4	other				2959789	1	25163	1	0	25000
+Picture	Korrekt, das ist Munem	other				2985119	1	20331	1	0	next
+Picture	learning/PICTURE_488.jpg;Klenter;Klenter;c;block1;LS4	other				3005450	1	25163	1	0	25000
+Picture	Korrekt, das ist Klenter	other				3030780	1	20331	1	0	next
+Picture	learning/PICTURE_15.jpg;Zertock;Zerbe;i;block1;LS4	other				3051110	1	25163	1	0	25000
+Picture	Korrekt, das ist Zerbe	other				3076440	1	20331	1	0	next
+Picture	learning/PICTURE_480.jpg;Zamet;Zamet;c;block1;LS4	other				3096771	1	25163	1	0	25000
+Picture	Korrekt, das ist Zamet	other				3122101	1	20331	1	0	next
+Picture	learning/PICTURE_95.jpg;Knusap;Knusap;c;block1;LS4	other				3142432	1	25163	1	0	25000
+Picture	Korrekt, das ist Knusap	other				3167762	1	20164	1	0	next
+Picture	fix	other				3187926	1	45161	1	0	next
+Picture	fix	other				3233087	1	45161	1	0	next
+Picture	fix	other				3278248	1	45328	1	0	next
+Picture	fix	other				3323575	1	45494	1	0	next
+Picture	bubbles/learning.jpg	other				3369070	1	45494	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS1	other				3414564	1	25330	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				3440227	1	20497	1	0	next
+Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS1	other				3460725	1	25163	1	0	25000
+Picture	Falsch, das ist Tignam	other				3486221	1	20497	1	0	next
+Picture	learning/PICTURE_53.jpg;Loptem;Lopfer;i;block2;LS1	other				3506718	1	25164	1	0	25000
+Picture	Falsch, das ist Lopfer	other				3532215	1	20497	1	0	next
+Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS1	other				3552713	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				3578043	1	20497	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS1	other				3598540	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				3623870	1	20497	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS1	other				3644368	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				3669698	1	20497	1	0	next
+Picture	learning/PICTURE_400.jpg;Knera;Knele;i;block2;LS1	other				3690195	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				3715525	1	20497	1	0	next
+Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS1	other				3736023	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				3761353	1	20331	1	0	next
+Picture	learning/PICTURE_21.jpg;Rerod;Resar;i;block2;LS1	other				3781683	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				3807014	1	20331	1	0	next
+Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS1	other				3827344	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				3852674	1	20331	1	0	next
+Picture	learning/PICTURE_402.jpg;Tigfe;Tignam;i;block2;LS1	other				3873005	1	25163	1	0	25000
+Picture	Korrekt, das ist Tignam	other				3898335	1	20331	1	0	next
+Picture	learning/PICTURE_405.jpg;Jamun;Jamip;i;block2;LS1	other				3918666	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				3943996	1	20331	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomgan;Nomtap;i;block2;LS1	other				3964327	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				3989657	1	20331	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükel;Krükta;i;block2;LS1	other				4009988	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				4035318	1	20164	1	0	next
+Picture	fix	other				4055482	1	45328	1	0	next
+Picture	learning/PICTURE_405.jpg;Jakel;Jamip;i;block2;LS2	other				4100809	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				4126139	1	20331	1	0	next
+Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS2	other				4146470	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				4171800	1	20331	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS2	other				4192131	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				4217461	1	20331	1	0	next
+Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS2	other				4237792	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				4263122	1	20331	1	0	next
+Picture	learning/PICTURE_402.jpg;Tigdon;Tignam;i;block2;LS2	other				4283453	1	25163	1	0	25000
+Picture	Korrekt, das ist Tignam	other				4308783	1	20331	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS2	other				4329113	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				4354443	1	20331	1	0	next
+Picture	learning/PICTURE_21.jpg;Regan;Resar;i;block2;LS2	other				4374774	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				4400104	1	20497	1	0	next
+Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS2	other				4420602	1	25330	1	0	25000
+Picture	Korrekt, das ist Tignam	other				4446265	1	20497	1	0	next
+Picture	learning/PICTURE_400.jpg;Knefe;Knele;i;block2;LS2	other				4466762	1	25330	1	0	25000
+Picture	Korrekt, das ist Knele	other				4492426	1	20497	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomtun;Nomtap;i;block2;LS2	other				4512923	1	25330	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				4538587	1	20497	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS2	other				4559084	1	25330	1	0	25000
+Picture	Korrekt, das ist Krükta	other				4584747	1	20497	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopdor;Lopfer;i;block2;LS2	other				4605245	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				4630741	1	20497	1	0	next
+Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS2	other				4651239	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				4676736	1	20497	1	0	next
+Picture	learning/PICTURE_216.jpg;Krüktem;Krükta;i;block2;LS2	other				4697233	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				4722563	1	20164	1	0	next
+Picture	fix	other				4742727	1	45494	1	0	next
+Picture	learning/PICTURE_405.jpg;Jaser;Jamip;i;block2;LS3	other				4788221	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				4813551	1	20331	1	0	next
+Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS3	other				4833882	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				4859212	1	20331	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS3	other				4879543	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				4904873	1	20331	1	0	next
+Picture	learning/PICTURE_400.jpg;Knetam;Knele;i;block2;LS3	other				4925204	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				4950534	1	20331	1	0	next
+Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS3	other				4970865	1	25163	1	0	25000
+Picture	Korrekt, das ist Tignam	other				4996195	1	20331	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopmig;Lopfer;i;block2;LS3	other				5016525	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				5041855	1	20331	1	0	next
+Picture	learning/PICTURE_402.jpg;Tigdam;Tignam;i;block2;LS3	other				5062186	1	25163	1	0	25000
+Picture	Falsch, das ist Tignam	other				5087516	1	20331	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS3	other				5107847	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				5133177	1	20331	1	0	next
+Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS3	other				5153508	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				5178838	1	20331	1	0	next
+Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS3	other				5199169	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				5224499	1	20331	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS3	other				5244829	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				5270160	1	20331	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomzerl;Nomtap;i;block2;LS3	other				5290490	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				5315820	1	20497	1	0	next
+Picture	learning/PICTURE_21.jpg;Reper;Resar;i;block2;LS3	other				5336318	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				5361648	1	20331	1	0	next
+Picture	learning/PICTURE_216.jpg;Krüklass;Krükta;i;block2;LS3	other				5381979	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				5407309	1	20164	1	0	next
+Picture	fix	other				5427473	1	45328	1	0	next
+Picture	learning/PICTURE_400.jpg;Knesam;Knele;i;block2;LS4	other				5472800	1	25163	1	0	25000
+Picture	Korrekt, das ist Knele	other				5498130	1	20331	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopter;Lopfer;i;block2;LS4	other				5518461	1	25330	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				5544124	1	20497	1	0	next
+Picture	learning/PICTURE_402.jpg;Tignam;Tignam;c;block2;LS4	other				5564622	1	25330	1	0	25000
+Picture	Korrekt, das ist Tignam	other				5590285	1	20497	1	0	next
+Picture	learning/PICTURE_400.jpg;Knele;Knele;c;block2;LS4	other				5610783	1	25330	1	0	25000
+Picture	Korrekt, das ist Knele	other				5636446	1	20497	1	0	next
+Picture	learning/PICTURE_405.jpg;Jamip;Jamip;c;block2;LS4	other				5656943	1	25330	1	0	25000
+Picture	Korrekt, das ist Jamip	other				5682607	1	20497	1	0	next
+Picture	learning/PICTURE_21.jpg;Resar;Resar;c;block2;LS4	other				5703104	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				5728601	1	20497	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükmig;Krükta;i;block2;LS4	other				5749098	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				5774595	1	20497	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomtap;Nomtap;c;block2;LS4	other				5795092	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				5820422	1	20497	1	0	next
+Picture	learning/PICTURE_21.jpg;Remert;Resar;i;block2;LS4	other				5840920	1	25163	1	0	25000
+Picture	Korrekt, das ist Resar	other				5866250	1	20497	1	0	next
+Picture	learning/PICTURE_216.jpg;Krükta;Krükta;c;block2;LS4	other				5886747	1	25163	1	0	25000
+Picture	Korrekt, das ist Krükta	other				5912077	1	20497	1	0	next
+Picture	learning/PICTURE_53.jpg;Lopfer;Lopfer;c;block2;LS4	other				5932575	1	25163	1	0	25000
+Picture	Korrekt, das ist Lopfer	other				5957905	1	20331	1	0	next
+Picture	learning/PICTURE_462.jpg;Nomser;Nomtap;i;block2;LS4	other				5978236	1	25163	1	0	25000
+Picture	Korrekt, das ist Nomtap	other				6003566	1	20497	1	0	next
+Picture	learning/PICTURE_405.jpg;Jasull;Jamip;i;block2;LS4	other				6024063	1	25163	1	0	25000
+Picture	Korrekt, das ist Jamip	other				6049393	1	20331	1	0	next
+Picture	learning/PICTURE_402.jpg;Tigmer;Tignam;i;block2;LS4	other				6069724	1	25163	1	0	25000
+Picture	Korrekt, das ist Tignam	other				6095040	14	20178	14	0	next
+Picture	fix	other				6115218	1	45161	1	0	next
+Picture	fix	other				6160379	1	45161	1	0	next
+Picture	fix	other				6205540	1	45161	1	0	next
+Picture	fix	other				6250701	1	45328	1	0	next
+Picture	bubbles/control.jpg	other				6296028	1	45328	1	0	next
+Picture	control/PICTURE_498.jpg;Säule;Tasse;i;block3;LS1	other				6341356	1	25163	1	0	25000
+Picture	Korrekt, das ist Tasse	other				6366686	1	20497	1	0	next
+Picture	control/PICTURE_84.jpg;Spiegel;Maske;i;block3;LS1	other				6387183	1	25163	1	0	25000
+Picture	Korrekt, das ist Maske	other				6412513	1	20497	1	0	next
+Picture	control/PICTURE_350.jpg;Tasche;Bibel;i;block3;LS1	other				6433011	1	25163	1	0	25000
+Picture	Korrekt, das ist Bibel	other				6458341	1	20497	1	0	next
+Picture	control/PICTURE_625.jpg;Bombe;Schlitten;i;block3;LS1	other				6478838	1	25163	1	0	25000
+Picture	Korrekt, das ist Schlitten	other				6504168	1	20497	1	0	next
+Picture	control/PICTURE_485.jpg;Apfel;Nagel;i;block3;LS1	other				6524666	1	25163	1	0	25000
+Picture	Korrekt, das ist Nagel	other				6549996	1	20331	1	0	next
+Picture	control/PICTURE_549.jpg;Schlange;Schlange;c;block3;LS1	other				6570326	1	25163	1	0	25000
+Picture	Korrekt, das ist Schlange	other				6595656	1	20331	1	0	next
+Picture	control/PICTURE_485.jpg;Nagel;Nagel;c;block3;LS1	other				6615987	1	25163	1	0	25000
+Picture	Korrekt, das ist Nagel	other				6641317	1	20497	1	0	next
+Picture	control/PICTURE_549.jpg;Parfüm;Schlange;i;block3;LS1	other				6661815	1	25330	1	0	25000
+Picture	Zu spät, das ist Schlange	other				6687478	1	20497	1	0	next
+Picture	control/PICTURE_498.jpg;Tasse;Tasse;c;block3;LS1	other				6707975	1	25330	1	0	25000
+Picture	Zu spät, das ist Tasse	other				6733639	1	20497	1	0	next
+Picture	control/PICTURE_84.jpg;Maske;Maske;c;block3;LS1	other				6754136	1	25330	1	0	25000
+Picture	Zu spät, das ist Maske	other				6779800	1	20497	1	0	next
+Picture	control/PICTURE_418.jpg;Schlange;Vorhang;i;block3;LS1	other				6800297	1	25330	1	0	25000
+Picture	Zu spät, das ist Vorhang	other				6825960	1	20497	1	0	next
+Picture	control/PICTURE_350.jpg;Bibel;Bibel;c;block3;LS1	other				6846458	1	25163	1	0	25000
+Picture	Zu spät, das ist Bibel	other				6871954	1	20497	1	0	next
+Picture	control/PICTURE_418.jpg;Vorhang;Vorhang;c;block3;LS1	other				6892452	1	25163	1	0	25000
+Picture	Zu spät, das ist Vorhang	other				6917949	1	20497	1	0	next
+Picture	control/PICTURE_625.jpg;Schlitten;Schlitten;c;block3;LS1	other				6938446	1	25163	1	0	25000
+Picture	Zu spät, das ist Schlitten	other				6963776	1	20164	1	0	next
+Picture	fix	other				6983940	1	45494	1	0	next
+Picture	control/PICTURE_485.jpg;Nagel;Nagel;c;block3;LS2	other				7029434	1	25163	1	0	25000
+Picture	Zu spät, das ist Nagel	other				7054764	1	20331	1	0	next
+Picture	control/PICTURE_418.jpg;Vorhang;Vorhang;c;block3;LS2	other				7075095	1	25163	1	0	25000
+Picture	Zu spät, das ist Vorhang	other				7100425	1	20331	1	0	next
+Picture	control/PICTURE_84.jpg;Maske;Maske;c;block3;LS2	other				7120756	1	25163	1	0	25000
+Picture	Zu spät, das ist Maske	other				7146253	1	20331	1	0	next
+Picture	control/PICTURE_625.jpg;Schlitten;Schlitten;c;block3;LS2	other				7166583	1	25163	1	0	25000
+Picture	Zu spät, das ist Schlitten	other				7191913	1	20331	1	0	next
+Picture	control/PICTURE_485.jpg;Tasse;Nagel;i;block3;LS2	other				7212244	1	25163	1	0	25000
+Picture	Zu spät, das ist Nagel	other				7237574	1	20331	1	0	next
+Picture	control/PICTURE_84.jpg;Schlitten;Maske;i;block3;LS2	other				7257905	1	25163	1	0	25000
+Picture	Zu spät, das ist Maske	other				7283235	1	20331	1	0	next
+Picture	control/PICTURE_549.jpg;Bibel;Schlange;i;block3;LS2	other				7303566	1	25163	1	0	25000
+Picture	Zu spät, das ist Schlange	other				7328896	1	20331	1	0	next
+Picture	control/PICTURE_498.jpg;Schürze;Tasse;i;block3;LS2	other				7349227	1	25163	1	0	25000
+Picture	Zu spät, das ist Tasse	other				7374557	1	20331	1	0	next
+Picture	control/PICTURE_350.jpg;Vorhang;Bibel;i;block3;LS2	other				7394887	1	25163	1	0	25000
+Picture	Zu spät, das ist Bibel	other				7420384	1	20331	1	0	next
+Picture	control/PICTURE_498.jpg;Tasse;Tasse;c;block3;LS2	other				7440715	1	25163	1	0	25000
+Picture	Zu spät, das ist Tasse	other				7466045	1	20331	1	0	next
+Picture	control/PICTURE_549.jpg;Schlange;Schlange;c;block3;LS2	other				7486376	1	25163	1	0	25000
+Picture	Zu spät, das ist Schlange	other				7511706	1	20331	1	0	next
+Picture	control/PICTURE_625.jpg;Maske;Schlitten;i;block3;LS2	other				7532037	1	25163	1	0	25000
+Picture	Zu spät, das ist Schlitten	other				7557367	1	20331	1	0	next
+Picture	control/PICTURE_350.jpg;Bibel;Bibel;c;block3;LS2	other				7577697	1	25163	1	0	25000
+Picture	Zu spät, das ist Bibel	other				7603027	1	20331	1	0	next
+Picture	control/PICTURE_418.jpg;Parfüm;Vorhang;i;block3;LS2	other				7623358	1	25163	1	0	25000
+Picture	Zu spät, das ist Vorhang	other				7648688	1	20164	1	0	next
+Picture	fix	other				7668852	1	45328	1	0	next
+Picture	control/PICTURE_663.jpg;Schürze;Säule;i;block3;LS3	other				7714180	1	25163	1	0	25000
+Picture	Zu spät, das ist Säule	other				7739510	1	20331	1	0	next
+Picture	control/PICTURE_476.jpg;Nagel;Schürze;i;block3;LS3	other				7759841	1	25330	1	0	25000
+Picture	Zu spät, das ist Schürze	other				7785504	1	20497	1	0	next
+Picture	control/PICTURE_314.jpg;Bibel;Parfüm;i;block3;LS3	other				7806001	1	25330	1	0	25000
+Picture	Zu spät, das ist Parfüm	other				7831665	1	20497	1	0	next
+Picture	control/PICTURE_386.jpg;Maske;Bombe;i;block3;LS3	other				7852162	1	25330	1	0	25000
+Picture	Zu spät, das ist Bombe	other				7877826	1	20497	1	0	next
+Picture	control/PICTURE_314.jpg;Parfüm;Parfüm;c;block3;LS3	other				7898323	1	25330	1	0	25000
+Picture	Zu spät, das ist Parfüm	other				7923986	1	20664	1	0	next
+Picture	control/PICTURE_552.jpg;Apfel;Apfel;c;block3;LS3	other				7944650	1	25330	1	0	25000
+Picture	Zu spät, das ist Apfel	other				7970314	1	20497	1	0	next
+Picture	control/PICTURE_340.jpg;Schlitten;Spiegel;i;block3;LS3	other				7990811	1	25163	1	0	25000
+Picture	Zu spät, das ist Spiegel	other				8016308	1	20497	1	0	next
+Picture	control/PICTURE_388.jpg;Vorhang;Tasche;i;block3;LS3	other				8036805	1	25163	1	0	25000
+Picture	Zu spät, das ist Tasche	other				8062135	1	20497	1	0	next
+Picture	control/PICTURE_476.jpg;Schürze;Schürze;c;block3;LS3	other				8082633	1	25163	1	0	25000
+Picture	Zu spät, das ist Schürze	other				8107963	1	20497	1	0	next
+Picture	control/PICTURE_388.jpg;Tasche;Tasche;c;block3;LS3	other				8128460	1	25163	1	0	25000
+Picture	Zu spät, das ist Tasche	other				8153790	1	20497	1	0	next
+Picture	control/PICTURE_386.jpg;Bombe;Bombe;c;block3;LS3	other				8174288	1	25163	1	0	25000
+Picture	Zu spät, das ist Bombe	other				8199618	1	20497	1	0	next
+Picture	control/PICTURE_552.jpg;Tasse;Apfel;i;block3;LS3	other				8220115	1	25163	1	0	25000
+Picture	Zu spät, das ist Apfel	other				8245445	1	20331	1	0	next
+Picture	control/PICTURE_663.jpg;Säule;Säule;c;block3;LS3	other				8265776	1	25163	1	0	25000
+Picture	Zu spät, das ist Säule	other				8291106	1	20331	1	0	next
+Picture	control/PICTURE_340.jpg;Spiegel;Spiegel;c;block3;LS3	other				8311437	1	25163	1	0	25000
+Picture	Zu spät, das ist Spiegel	other				8336767	1	20164	1	0	next
+Picture	fix	other				8356931	1	45328	1	0	next
+Picture	control/PICTURE_663.jpg;Säule;Säule;c;block3;LS4	other				8402258	1	25163	1	0	25000
+Picture	Zu spät, das ist Säule	other				8427589	1	20331	1	0	next
+Picture	control/PICTURE_388.jpg;Schlange;Tasche;i;block3;LS4	other				8447919	1	25163	1	0	25000
+Picture	Zu spät, das ist Tasche	other				8473249	1	20331	1	0	next
+Picture	control/PICTURE_340.jpg;Spiegel;Spiegel;c;block3;LS4	other				8493580	1	25163	1	0	25000
+Picture	Zu spät, das ist Spiegel	other				8518910	1	20331	1	0	next
+Picture	control/PICTURE_314.jpg;Tasche;Parfüm;i;block3;LS4	other				8539241	1	25163	1	0	25000
+Picture	Zu spät, das ist Parfüm	other				8564571	1	20331	1	0	next
+Picture	control/PICTURE_476.jpg;Apfel;Schürze;i;block3;LS4	other				8584902	1	25163	1	0	25000
+Picture	Zu spät, das ist Schürze	other				8610232	1	20331	1	0	next
+Picture	control/PICTURE_314.jpg;Parfüm;Parfüm;c;block3;LS4	other				8630563	1	25163	1	0	25000
+Picture	Zu spät, das ist Parfüm	other				8655893	1	20331	1	0	next
+Picture	control/PICTURE_386.jpg;Bombe;Bombe;c;block3;LS4	other				8676223	1	25163	1	0	25000
+Picture	Zu spät, das ist Bombe	other				8701553	1	20331	1	0	next
+Picture	control/PICTURE_663.jpg;Nagel;Säule;i;block3;LS4	other				8721884	1	25163	1	0	25000
+Picture	Zu spät, das ist Säule	other				8747214	1	20331	1	0	next
+Picture	control/PICTURE_340.jpg;Bombe;Spiegel;i;block3;LS4	other				8767545	1	25163	1	0	25000
+Picture	Zu spät, das ist Spiegel	other				8792875	1	20331	1	0	next
+Picture	control/PICTURE_552.jpg;Apfel;Apfel;c;block3;LS4	other				8813206	1	25163	1	0	25000
+Picture	Zu spät, das ist Apfel	other				8838536	1	20331	1	0	next
+Picture	control/PICTURE_476.jpg;Schürze;Schürze;c;block3;LS4	other				8858867	1	25163	1	0	25000
+Picture	Zu spät, das ist Schürze	other				8884197	1	20331	1	0	next
+Picture	control/PICTURE_386.jpg;Spiegel;Bombe;i;block3;LS4	other				8904527	1	25330	1	0	25000
+Picture	Zu spät, das ist Bombe	other				8930191	1	20497	1	0	next
+Picture	control/PICTURE_388.jpg;Tasche;Tasche;c;block3;LS4	other				8950688	1	25330	1	0	25000
+Picture	Zu spät, das ist Tasche	other				8976352	1	20497	1	0	next
+Picture	control/PICTURE_552.jpg;Säule;Apfel;i;block3;LS4	other				8996849	1	25330	1	0	25000
+Picture	Zu spät, das ist Apfel	other				9022512	1	20331	1	0	next
+Picture	fix	other				9042843	1	45328	1	0	next
+Picture	fix	other				9088171	1	45161	1	0	next
+Picture	fix	other				9133331	1	45161	1	0	next
+Picture	fix	other				9178492	1	45328	1	0	next
+Picture	bubbles/learning.jpg	other				9223820	1	45494	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS1	other				9269314	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				9294644	1	20497	1	0	next
+Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS1	other				9315142	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				9340472	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulte;Tulser;i;block4;LS1	other				9360802	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				9386132	1	20497	1	0	next
+Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS1	other				9406630	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				9431960	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS1	other				9452291	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				9477621	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS1	other				9497951	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				9523282	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Seimer;Seise;i;block4;LS1	other				9543612	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				9568942	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS1	other				9589440	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				9614770	1	20331	1	0	next
+Picture	learning/PICTURE_720.jpg;Finsin;Finser;i;block4;LS1	other				9635101	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				9660431	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS1	other				9680928	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				9706258	1	20497	1	0	next
+Picture	learning/PICTURE_599.jpg;Stitons;Stise;i;block4;LS1	other				9726755	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				9752086	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klosal;Klotel;i;block4;LS1	other				9772416	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				9797746	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Soklet;Soktau;i;block4;LS1	other				9818077	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				9843407	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Efter;Efdi;i;block4;LS1	other				9863738	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				9889068	1	20164	1	0	next
+Picture	fix	other				9909232	1	45328	1	0	next
+Picture	learning/PICTURE_235.jpg;Seitos;Seise;i;block4;LS2	other				9954560	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				9979890	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS2	other				10000220	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				10025551	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finlas;Finser;i;block4;LS2	other				10046048	1	25330	1	0	25000
+Picture	Zu spät, das ist Finser	other				10071711	1	20497	1	0	next
+Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS2	other				10092209	1	25330	1	0	25000
+Picture	Zu spät, das ist Seise	other				10117872	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Soktal;Soktau;i;block4;LS2	other				10138369	1	25330	1	0	25000
+Picture	Zu spät, das ist Soktau	other				10164033	1	20497	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS2	other				10184530	1	25330	1	0	25000
+Picture	Zu spät, das ist Tulser	other				10210194	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS2	other				10230691	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				10256188	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS2	other				10276685	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				10302015	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS2	other				10322513	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				10347843	1	20497	1	0	next
+Picture	learning/PICTURE_247.jpg;Efto;Efdi;i;block4;LS2	other				10368340	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				10393670	1	20497	1	0	next
+Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS2	other				10414167	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				10439498	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotons;Klotel;i;block4;LS2	other				10459828	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				10485158	1	20497	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulpos;Tulser;i;block4;LS2	other				10505656	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				10530986	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Stisin;Stise;i;block4;LS2	other				10551317	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				10576647	1	20164	1	0	next
+Picture	fix	other				10596811	1	45328	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulber;Tulser;i;block4;LS3	other				10642138	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				10667635	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Sokma;Soktau;i;block4;LS3	other				10687966	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				10713296	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Efser;Efdi;i;block4;LS3	other				10733627	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				10758957	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS3	other				10779454	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				10804784	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS3	other				10825115	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				10850445	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS3	other				10870776	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				10896106	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Klobat;Klotel;i;block4;LS3	other				10916603	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				10941933	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Seiges;Seise;i;block4;LS3	other				10962264	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				10987594	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS3	other				11007925	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				11033255	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS3	other				11053586	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				11078916	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Stigit;Stise;i;block4;LS3	other				11099246	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				11124576	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS3	other				11144907	1	25330	1	0	25000
+Picture	Zu spät, das ist Tulser	other				11170571	1	20497	1	0	next
+Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS3	other				11191068	1	25330	1	0	25000
+Picture	Zu spät, das ist Efdi	other				11216731	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finsum;Finser;i;block4;LS3	other				11237229	1	25330	1	0	25000
+Picture	Zu spät, das ist Finser	other				11262892	1	20331	1	0	next
+Picture	fix	other				11283223	1	45487	8	0	next
+Picture	learning/PICTURE_43.jpg;Kloger;Klotel;i;block4;LS4	other				11328710	8	25171	8	0	25000
+Picture	Zu spät, das ist Klotel	other				11354214	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finser;Finser;c;block4;LS4	other				11374711	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				11400208	1	20497	1	0	next
+Picture	learning/PICTURE_599.jpg;Stisum;Stise;i;block4;LS4	other				11420705	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				11446035	1	20497	1	0	next
+Picture	learning/PICTURE_720.jpg;Finges;Finser;i;block4;LS4	other				11466533	1	25163	1	0	25000
+Picture	Zu spät, das ist Finser	other				11491863	1	20497	1	0	next
+Picture	learning/PICTURE_610.jpg;Tulser;Tulser;c;block4;LS4	other				11512360	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				11537690	1	20497	1	0	next
+Picture	learning/PICTURE_247.jpg;Efdi;Efdi;c;block4;LS4	other				11558188	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				11583518	1	20497	1	0	next
+Picture	learning/PICTURE_235.jpg;Seitu;Seise;i;block4;LS4	other				11604015	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				11629345	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Soktau;Soktau;c;block4;LS4	other				11649676	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				11675006	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Tuldet;Tulser;i;block4;LS4	other				11695337	1	25163	1	0	25000
+Picture	Zu spät, das ist Tulser	other				11720833	1	20331	1	0	next
+Picture	learning/PICTURE_235.jpg;Seise;Seise;c;block4;LS4	other				11741164	1	25163	1	0	25000
+Picture	Zu spät, das ist Seise	other				11766494	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Stise;Stise;c;block4;LS4	other				11786825	1	25163	1	0	25000
+Picture	Zu spät, das ist Stise	other				11812155	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Efnel;Efdi;i;block4;LS4	other				11832486	1	25163	1	0	25000
+Picture	Zu spät, das ist Efdi	other				11857816	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Klotel;Klotel;c;block4;LS4	other				11878147	1	25163	1	0	25000
+Picture	Zu spät, das ist Klotel	other				11903477	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Sokbat;Soktau;i;block4;LS4	other				11923974	1	25163	1	0	25000
+Picture	Zu spät, das ist Soktau	other				11949304	1	20164	1	0	next
+Picture	fix	other				11969468	1	45161	1	0	next
+Picture	fix	other				12014629	1	45154	7	0	next
+Picture	fix	other				12059783	7	45154	21	0	next
+Picture	fix	other				12104937	15	45342	15	0	next
+Picture	bubbles/control.jpg	other				12150278	1	45328	1	0	next
+Picture	control/PICTURE_220.jpg;Möwe;Möwe;c;block5;LS1	other				12195606	1	25163	1	0	25000
+Picture	Zu spät, das ist Möwe	other				12220936	1	45089	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "sub3162_p3_s3_task2",
+   "timestamp": "2025/05/08 14:44:27 GMT"
+}

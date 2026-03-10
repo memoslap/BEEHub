@@ -1,0 +1,2129 @@
+Scenario - fMRI-SET-1
+Logfile written - 06/20/2023 16:25:30
+1-JA; 2-NEIN
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+pilot_long_3	0	Pulse	0	0	0	NA
+pilot_long_3	0	Pulse	0	45000	45000	NA
+pilot_long_3	1	Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS1	45303	0	1	25137	1	0	25000	other	0
+pilot_long_3	1	Response	1	57653	12349	0
+pilot_long_3	2	Picture	Korrekt, das ist Wonge	70607	0	1	20476	1	0	next	other	0
+pilot_long_3	2	Pulse	0	90000	19393	NA
+pilot_long_3	3	Picture	learning/PICTURE_358.jpg;Aschdel;Geiten;i;block1;LS1	91083	0	1	25137	1	0	25000	other	0
+pilot_long_3	3	Response	2	103428	12345	0
+pilot_long_3	4	Picture	Korrekt, das ist Geiten	116387	0	1	20476	1	0	next	other	0
+pilot_long_3	4	Pulse	0	135000	18613	NA
+pilot_long_3	5	Picture	learning/PICTURE_245.jpg;Dobul;Enkor;i;block1;LS1	136863	0	1	25137	1	0	25000	other	0
+pilot_long_3	5	Response	2	150506	13644	0
+pilot_long_3	6	Picture	Korrekt, das ist Enkor	162166	0	1	20476	1	0	next	other	0
+pilot_long_3	6	Pulse	0	180000	17834	NA
+pilot_long_3	7	Picture	learning/PICTURE_72.jpg;Ferlas;Tummhaft;i;block1;LS1	182642	0	1	25137	1	0	25000	other	0
+pilot_long_3	7	Response	1	194413	11771	0
+pilot_long_3	8	Picture	Falsch, das ist Tummhaft	207946	0	1	20476	1	0	next	other	0
+pilot_long_3	8	Pulse	0	225000	17054	NA
+pilot_long_3	9	Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS1	228422	0	1	25137	1	0	25000	other	0
+pilot_long_3	9	Response	1	245831	17409	1
+pilot_long_3	10	Picture	Korrekt, das ist Geiten	253725	0	1	20476	1	0	next	other	0
+pilot_long_3	10	Pulse	0	270000	16275	NA
+pilot_long_3	11	Picture	learning/PICTURE_566.jpg;Flehsen;Sporkel;i;block1;LS1	274201	0	1	25137	1	0	25000	other	0
+pilot_long_3	11	Response	2	290090	15888	0
+pilot_long_3	12	Picture	Korrekt, das ist Sporkel	299505	0	1	20476	1	0	next	other	0
+pilot_long_3	12	Pulse	0	315000	15495	NA
+pilot_long_3	13	Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS1	319981	0	1	25137	1	0	25000	other	0
+pilot_long_3	13	Response	2	339049	19068	0
+pilot_long_3	14	Picture	Falsch, das ist Enkor	345285	0	1	20476	1	0	next	other	0
+pilot_long_3	14	Pulse	0	360000	14715	NA
+pilot_long_3	15	Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS1	365761	0	1	25137	1	0	25000	other	0
+pilot_long_3	15	Response	1	378353	12593	0
+pilot_long_3	16	Picture	Korrekt, das ist Tummhaft	391064	0	1	20476	1	0	next	other	0
+pilot_long_3	16	Pulse	0	405000	13936	NA
+pilot_long_3	17	Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS1	411540	0	1	25137	1	0	25000	other	0
+pilot_long_3	17	Response	1	425146	13606	0
+pilot_long_3	18	Picture	Korrekt, das ist Sporkel	436844	0	1	20476	1	0	next	other	0
+pilot_long_3	18	Pulse	0	450000	13156	NA
+pilot_long_3	19	Picture	learning/PICTURE_97.jpg;Duckel;Wonge;i;block1;LS1	457320	0	1	25137	1	0	25000	other	0
+pilot_long_3	19	Response	2	468759	11439	0
+pilot_long_3	20	Picture	Korrekt, das ist Wonge	482623	0	1	20143	1	0	next	other	0
+pilot_long_3	20	Pulse	0	495000	12377	NA
+pilot_long_3	21	Picture	fix	502766	0	1	45447	1	0	next	other	0
+pilot_long_3	21	Pulse	0	540000	37234	NA
+pilot_long_3	22	Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS2	548213	0	1	25137	1	0	25000	other	0
+pilot_long_3	22	Response	1	560903	12690	0
+pilot_long_3	23	Picture	Korrekt, das ist Wonge	573517	0	1	20476	1	0	next	other	0
+pilot_long_3	23	Pulse	0	585000	11483	NA
+pilot_long_3	24	Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS2	593992	0	1	25137	1	0	25000	other	0
+pilot_long_3	24	Response	1	604257	10265	0
+pilot_long_3	25	Picture	Korrekt, das ist Geiten	619296	0	1	20476	1	0	next	other	0
+pilot_long_3	25	Pulse	0	630000	10704	NA
+pilot_long_3	26	Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS2	639772	0	1	25137	1	0	25000	other	0
+pilot_long_3	26	Response	1	654318	14546	0
+pilot_long_3	27	Picture	Korrekt, das ist Sporkel	665076	0	1	20476	1	0	next	other	0
+pilot_long_3	27	Pulse	0	675000	9924	NA
+pilot_long_3	28	Picture	learning/PICTURE_358.jpg;Asir;Geiten;i;block1;LS2	685552	0	1	25137	1	0	25000	other	0
+pilot_long_3	28	Response	2	695249	9698	0
+pilot_long_3	29	Picture	Korrekt, das ist Geiten	710855	0	1	20476	1	0	next	other	0
+pilot_long_3	29	Pulse	0	720000	9145	NA
+pilot_long_3	30	Picture	learning/PICTURE_72.jpg;Fastei;Tummhaft;i;block1;LS2	731331	0	1	25137	1	0	25000	other	0
+pilot_long_3	30	Response	2	741829	10498	0
+pilot_long_3	31	Picture	Korrekt, das ist Tummhaft	756635	0	1	20476	1	0	next	other	0
+pilot_long_3	31	Pulse	0	765000	8365	NA
+pilot_long_3	32	Picture	learning/PICTURE_245.jpg;Fastrum;Enkor;i;block1;LS2	777111	0	1	25137	1	0	25000	other	0
+pilot_long_3	32	Response	2	787815	10704	0
+pilot_long_3	33	Picture	Korrekt, das ist Enkor	802414	0	1	20476	1	0	next	other	0
+pilot_long_3	33	Pulse	0	810000	7586	NA
+pilot_long_3	34	Picture	learning/PICTURE_566.jpg;Negasch;Sporkel;i;block1;LS2	822890	0	1	25137	1	0	25000	other	0
+pilot_long_3	34	Response	2	834360	11469	0
+pilot_long_3	35	Picture	Korrekt, das ist Sporkel	848194	0	1	20476	1	0	next	other	0
+pilot_long_3	35	Pulse	0	855000	6806	NA
+pilot_long_3	36	Picture	learning/PICTURE_97.jpg;Misal;Wonge;i;block1;LS2	868670	0	1	25137	1	0	25000	other	0
+pilot_long_3	36	Response	2	879354	10684	0
+pilot_long_3	37	Picture	Korrekt, das ist Wonge	893974	0	1	20476	1	0	next	other	0
+pilot_long_3	37	Pulse	0	900000	6026	NA
+pilot_long_3	38	Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS2	914450	0	1	25137	1	0	25000	other	0
+pilot_long_3	38	Response	1	922596	8147	0
+pilot_long_3	39	Picture	Korrekt, das ist Enkor	939753	0	1	20476	1	0	next	other	0
+pilot_long_3	39	Pulse	0	945000	5247	NA
+pilot_long_3	40	Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS2	960229	0	1	25137	1	0	25000	other	0
+pilot_long_3	40	Response	1	968778	8549	0
+pilot_long_3	41	Picture	Korrekt, das ist Tummhaft	985533	0	1	20143	1	0	next	other	0
+pilot_long_3	41	Pulse	0	990000	4467	NA
+pilot_long_3	42	Picture	fix	1005676	0	1	45447	1	0	next	other	0
+pilot_long_3	42	Pulse	0	1035000	29324	NA
+pilot_long_3	43	Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS3	1051122	0	1	25137	1	0	25000	other	0
+pilot_long_3	43	Response	1	1059839	8717	0
+pilot_long_3	44	Picture	Korrekt, das ist Geiten	1076426	0	1	20476	1	0	next	other	0
+pilot_long_3	44	Pulse	0	1080000	3574	NA
+pilot_long_3	45	Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS3	1096902	0	1	25137	1	0	25000	other	0
+pilot_long_3	45	Response	1	1103586	6684	0
+pilot_long_3	46	Picture	Korrekt, das ist Tummhaft	1122206	0	1	20476	1	0	next	other	0
+pilot_long_3	46	Pulse	0	1125000	2794	NA
+pilot_long_3	47	Picture	learning/PICTURE_566.jpg;Neffit;Sporkel;i;block1;LS3	1142682	0	1	25137	1	0	25000	other	0
+pilot_long_3	47	Response	2	1151670	8988	0
+pilot_long_3	48	Picture	Korrekt, das ist Sporkel	1167985	0	1	20476	1	0	next	other	0
+pilot_long_3	48	Pulse	0	1170000	2015	NA
+pilot_long_3	49	Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS3	1188461	0	1	25137	1	0	25000	other	0
+pilot_long_3	49	Response	1	1195256	6795	0
+pilot_long_3	50	Picture	Korrekt, das ist Enkor	1213765	0	1	20476	1	0	next	other	0
+pilot_long_3	50	Pulse	0	1215000	1235	NA
+pilot_long_3	51	Picture	learning/PICTURE_97.jpg;Fedit;Wonge;i;block1;LS3	1234241	0	1	25137	1	0	25000	other	0
+pilot_long_3	51	Response	2	1242599	8358	0
+pilot_long_3	52	Picture	Korrekt, das ist Wonge	1259544	0	1	20476	1	0	next	other	0
+pilot_long_3	52	Pulse	0	1260000	456	NA
+pilot_long_3	53	Picture	learning/PICTURE_358.jpg;Letim;Geiten;i;block1;LS3	1280020	0	1	25137	1	0	25000	other	0
+pilot_long_3	53	Response	2	1287987	7967	0
+pilot_long_3	53	Pulse	0	1305000	24980	NA
+pilot_long_3	54	Picture	Korrekt, das ist Geiten	1305324	0	1	20476	1	0	next	other	0
+pilot_long_3	55	Picture	learning/PICTURE_72.jpg;Ferdat;Tummhaft;i;block1;LS3	1325800	0	1	25137	1	0	25000	other	0
+pilot_long_3	55	Response	2	1334199	8399	0
+pilot_long_3	55	Pulse	0	1350000	24200	NA
+pilot_long_3	56	Picture	Korrekt, das ist Tummhaft	1351104	0	1	20476	1	0	next	other	0
+pilot_long_3	57	Picture	learning/PICTURE_245.jpg;Luttes;Enkor;i;block1;LS3	1371580	0	1	25137	1	0	25000	other	0
+pilot_long_3	57	Response	2	1380026	8446	0
+pilot_long_3	57	Pulse	0	1395000	23420	NA
+pilot_long_3	58	Picture	Korrekt, das ist Enkor	1396883	0	1	20476	1	0	next	other	0
+pilot_long_3	59	Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS3	1417359	0	1	25137	1	0	25000	other	0
+pilot_long_3	59	Response	1	1424289	6930	0
+pilot_long_3	59	Pulse	0	1440000	22641	NA
+pilot_long_3	60	Picture	Korrekt, das ist Sporkel	1442663	0	1	20476	1	0	next	other	0
+pilot_long_3	61	Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS3	1463139	0	1	25137	1	0	25000	other	0
+pilot_long_3	61	Response	1	1470733	7594	0
+pilot_long_3	61	Pulse	0	1485000	21861	NA
+pilot_long_3	62	Picture	Korrekt, das ist Wonge	1488442	0	1	20143	1	0	next	other	0
+pilot_long_3	63	Picture	fix	1508585	0	1	45447	1	0	next	other	0
+pilot_long_3	63	Pulse	0	1530000	21415	NA
+pilot_long_3	64	Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS4	1554032	0	1	25137	1	0	25000	other	0
+pilot_long_3	64	Response	1	1562475	8443	0
+pilot_long_3	64	Pulse	0	1575000	20968	NA
+pilot_long_3	65	Picture	Korrekt, das ist Geiten	1579336	0	1	20476	1	0	next	other	0
+pilot_long_3	66	Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS4	1599812	0	1	25137	1	0	25000	other	0
+pilot_long_3	66	Response	1	1607939	8128	0
+pilot_long_3	66	Pulse	0	1620000	20188	NA
+pilot_long_3	67	Picture	Korrekt, das ist Tummhaft	1625115	0	1	20476	1	0	next	other	0
+pilot_long_3	68	Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS4	1645591	0	1	25137	1	0	25000	other	0
+pilot_long_3	68	Response	1	1654312	8721	0
+pilot_long_3	68	Pulse	0	1665000	19409	NA
+pilot_long_3	69	Picture	Korrekt, das ist Sporkel	1670895	0	1	20476	1	0	next	other	0
+pilot_long_3	70	Picture	learning/PICTURE_245.jpg;Meidost;Enkor;i;block1;LS4	1691371	0	1	25137	1	0	25000	other	0
+pilot_long_3	70	Response	2	1699288	7917	0
+pilot_long_3	70	Pulse	0	1710000	18629	NA
+pilot_long_3	71	Picture	Korrekt, das ist Enkor	1716674	0	1	20476	1	0	next	other	0
+pilot_long_3	72	Picture	learning/PICTURE_358.jpg;Debal;Geiten;i;block1;LS4	1737150	0	1	25137	1	0	25000	other	0
+pilot_long_3	72	Response	2	1745372	8222	0
+pilot_long_3	72	Pulse	0	1755000	17850	NA
+pilot_long_3	73	Picture	Korrekt, das ist Geiten	1762454	0	1	20476	1	0	next	other	0
+pilot_long_3	74	Picture	learning/PICTURE_97.jpg;Molan;Wonge;i;block1;LS4	1782930	0	1	25137	1	0	25000	other	0
+pilot_long_3	74	Response	2	1791104	8174	0
+pilot_long_3	74	Pulse	0	1800000	17070	NA
+pilot_long_3	75	Picture	Korrekt, das ist Wonge	1808234	0	1	20476	1	0	next	other	0
+pilot_long_3	76	Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS4	1828709	0	1	25137	1	0	25000	other	0
+pilot_long_3	76	Response	1	1837108	8399	0
+pilot_long_3	76	Pulse	0	1845000	16291	NA
+pilot_long_3	77	Picture	Korrekt, das ist Enkor	1854013	0	1	20476	1	0	next	other	0
+pilot_long_3	78	Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS4	1874489	0	1	25137	1	0	25000	other	0
+pilot_long_3	78	Response	1	1880755	6265	0
+pilot_long_3	78	Pulse	0	1890000	15511	NA
+pilot_long_3	79	Picture	Korrekt, das ist Wonge	1899793	0	1	20476	1	0	next	other	0
+pilot_long_3	80	Picture	learning/PICTURE_566.jpg;Flutoll;Sporkel;i;block1;LS4	1920269	0	1	25137	1	0	25000	other	0
+pilot_long_3	80	Response	2	1927450	7181	0
+pilot_long_3	80	Pulse	0	1935000	14731	NA
+pilot_long_3	81	Picture	Korrekt, das ist Sporkel	1945572	0	1	20476	1	0	next	other	0
+pilot_long_3	82	Picture	learning/PICTURE_72.jpg;Dieges;Tummhaft;i;block1;LS4	1966048	0	1	25137	1	0	25000	other	0
+pilot_long_3	82	Response	2	1973655	7607	0
+pilot_long_3	82	Pulse	0	1980000	13952	NA
+pilot_long_3	83	Picture	Korrekt, das ist Tummhaft	1991352	0	1	20143	1	0	next	other	0
+pilot_long_3	84	Picture	fix	2011495	0	1	45114	1	0	next	other	0
+pilot_long_3	84	Pulse	0	2025000	13505	NA
+pilot_long_3	85	Picture	fix	2056609	0	1	45114	1	0	next	other	0
+pilot_long_3	85	Pulse	0	2070000	13391	NA
+pilot_long_3	86	Picture	fix	2101722	0	1	45114	1	0	next	other	0
+pilot_long_3	86	Pulse	0	2115000	13278	NA
+pilot_long_3	87	Picture	fix	2146836	0	1	45114	1	0	next	other	0
+pilot_long_3	87	Pulse	0	2160000	13164	NA
+pilot_long_3	88	Picture	fix	2191950	0	1	45447	1	0	next	other	0
+pilot_long_3	88	Pulse	0	2205000	13050	NA
+pilot_long_3	89	Picture	learning/PICTURE_465.jpg;Fastrum;Bleine;i;block2;LS1	2237396	0	1	25137	1	0	25000	other	0
+pilot_long_3	89	Pulse	0	2250000	12604	NA
+pilot_long_3	89	Response	1	2250457	13060	0
+pilot_long_3	90	Picture	Falsch, das ist Bleine	2262700	0	1	20476	1	0	next	other	0
+pilot_long_3	91	Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS1	2283176	0	1	25137	1	0	25000	other	0
+pilot_long_3	91	Pulse	0	2295000	11824	NA
+pilot_long_3	91	Response	1	2298435	15260	0
+pilot_long_3	92	Picture	Korrekt, das ist Hiser	2308480	0	1	20476	1	0	next	other	0
+pilot_long_3	93	Picture	learning/PICTURE_559.jpg;Eidet;Goser;i;block2;LS1	2328955	0	1	25137	1	0	25000	other	0
+pilot_long_3	93	Pulse	0	2340000	11045	NA
+pilot_long_3	93	Response	1	2344052	15096	0
+pilot_long_3	94	Picture	Falsch, das ist Goser	2354259	0	1	20476	1	0	next	other	0
+pilot_long_3	95	Picture	learning/PICTURE_654.jpg;Nakif;Tipnen;i;block2;LS1	2374735	0	1	25137	1	0	25000	other	0
+pilot_long_3	95	Pulse	0	2385000	10265	NA
+pilot_long_3	95	Response	1	2387376	12641	0
+pilot_long_3	96	Picture	Falsch, das ist Tipnen	2400039	0	1	20476	1	0	next	other	0
+pilot_long_3	97	Picture	learning/PICTURE_202.jpg;Leniel;Hiser;i;block2;LS1	2420515	0	1	25137	1	0	25000	other	0
+pilot_long_3	97	Pulse	0	2430000	9485	NA
+pilot_long_3	97	Response	2	2432789	12274	0
+pilot_long_3	98	Picture	Korrekt, das ist Hiser	2445818	0	1	20476	1	0	next	other	0
+pilot_long_3	99	Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS1	2466294	0	1	25137	1	0	25000	other	0
+pilot_long_3	99	Pulse	0	2475000	8706	NA
+pilot_long_3	99	Response	1	2475525	9231	0
+pilot_long_3	100	Picture	Korrekt, das ist Goser	2491598	0	1	20476	1	0	next	other	0
+pilot_long_3	101	Picture	learning/PICTURE_659.jpg;Fastei;Pase;i;block2;LS1	2512074	0	1	25137	1	0	25000	other	0
+pilot_long_3	101	Pulse	0	2520000	7926	NA
+pilot_long_3	101	Response	2	2526945	14871	0
+pilot_long_3	102	Picture	Korrekt, das ist Pase	2537377	0	1	20476	1	0	next	other	0
+pilot_long_3	103	Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS1	2557853	0	1	25137	1	0	25000	other	0
+pilot_long_3	103	Pulse	0	2565000	7147	NA
+pilot_long_3	103	Response	1	2571588	13735	0
+pilot_long_3	104	Picture	Korrekt, das ist Bleine	2583157	0	1	20476	1	0	next	other	0
+pilot_long_3	105	Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS1	2603633	0	1	25137	1	0	25000	other	0
+pilot_long_3	105	Pulse	0	2610000	6367	NA
+pilot_long_3	105	Response	1	2612542	8909	0
+pilot_long_3	106	Picture	Korrekt, das ist Tipnen	2628937	0	1	20476	1	0	next	other	0
+pilot_long_3	107	Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS1	2649413	0	1	25137	1	0	25000	other	0
+pilot_long_3	107	Pulse	0	2655000	5587	NA
+pilot_long_3	107	Response	1	2658753	9341	0
+pilot_long_3	108	Picture	Korrekt, das ist Pase	2674716	0	1	20143	1	0	next	other	0
+pilot_long_3	109	Picture	fix	2694859	0	1	45447	1	0	next	other	0
+pilot_long_3	109	Pulse	0	2700000	5141	NA
+pilot_long_3	110	Picture	learning/PICTURE_559.jpg;Merschink;Goser;i;block2;LS2	2740306	0	1	25137	1	0	25000	other	0
+pilot_long_3	110	Pulse	0	2745000	4694	NA
+pilot_long_3	110	Response	2	2748477	8171	1
+pilot_long_3	111	Picture	Korrekt, das ist Goser	2765609	0	1	20476	1	0	next	other	0
+pilot_long_3	112	Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS2	2786085	0	1	25137	1	0	25000	other	0
+pilot_long_3	112	Pulse	0	2790000	3915	NA
+pilot_long_3	112	Response	1	2792829	6744	0
+pilot_long_3	113	Picture	Korrekt, das ist Hiser	2811389	0	1	20476	1	0	next	other	0
+pilot_long_3	114	Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS2	2831865	0	1	25137	1	0	25000	other	0
+pilot_long_3	114	Pulse	0	2835000	3135	NA
+pilot_long_3	114	Response	1	2838235	6370	0
+pilot_long_3	115	Picture	Korrekt, das ist Goser	2857169	0	1	20476	1	0	next	other	0
+pilot_long_3	116	Picture	learning/PICTURE_202.jpg;Aschdel;Hiser;i;block2;LS2	2877645	0	1	25137	1	0	25000	other	0
+pilot_long_3	116	Pulse	0	2880000	2355	NA
+pilot_long_3	116	Response	2	2885300	7655	0
+pilot_long_3	117	Picture	Korrekt, das ist Hiser	2902948	0	1	20476	1	0	next	other	0
+pilot_long_3	118	Picture	learning/PICTURE_465.jpg;Eidet;Bleine;i;block2;LS2	2923424	0	1	25137	1	0	25000	other	0
+pilot_long_3	118	Pulse	0	2925000	1576	NA
+pilot_long_3	118	Response	1	2932622	9198	0
+pilot_long_3	119	Picture	Falsch, das ist Bleine	2948728	0	1	20476	1	0	next	other	0
+pilot_long_3	120	Picture	learning/PICTURE_659.jpg;Duckel;Pase;i;block2;LS2	2969204	0	1	25137	1	0	25000	other	0
+pilot_long_3	120	Pulse	0	2970000	796	NA
+pilot_long_3	120	Response	2	2977151	7948	0
+pilot_long_3	121	Picture	Korrekt, das ist Pase	2994507	0	1	20476	1	0	next	other	0
+pilot_long_3	122	Picture	learning/PICTURE_654.jpg;Ferlas;Tipnen;i;block2;LS2	3014983	0	1	25137	1	0	25000	other	0
+pilot_long_3	122	Pulse	0	3015000	17	NA
+pilot_long_3	122	Response	2	3023236	8253	0
+pilot_long_3	123	Picture	Korrekt, das ist Tipnen	3040287	0	1	20476	1	0	next	other	0
+pilot_long_3	123	Pulse	0	3060000	19713	NA
+pilot_long_3	124	Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS2	3060763	0	1	25137	1	0	25000	other	0
+pilot_long_3	124	Response	1	3067825	7062	0
+pilot_long_3	125	Picture	Korrekt, das ist Bleine	3086067	0	1	20476	1	0	next	other	0
+pilot_long_3	125	Pulse	0	3105000	18933	NA
+pilot_long_3	126	Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS2	3106543	0	1	25137	1	0	25000	other	0
+pilot_long_3	126	Response	1	3113970	7428	0
+pilot_long_3	127	Picture	Korrekt, das ist Pase	3131846	0	1	20476	1	0	next	other	0
+pilot_long_3	127	Pulse	0	3150000	18154	NA
+pilot_long_3	128	Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS2	3152322	0	1	25137	1	0	25000	other	0
+pilot_long_3	128	Response	1	3160856	8534	0
+pilot_long_3	129	Picture	Korrekt, das ist Tipnen	3177626	0	1	20143	1	0	next	other	0
+pilot_long_3	129	Pulse	0	3195000	17374	NA
+pilot_long_3	130	Picture	fix	3197769	0	1	45447	1	0	next	other	0
+pilot_long_3	130	Pulse	0	3240000	42231	NA
+pilot_long_3	131	Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS3	3243215	0	1	25137	1	0	25000	other	0
+pilot_long_3	131	Response	1	3251067	7852	0
+pilot_long_3	132	Picture	Korrekt, das ist Hiser	3268519	0	1	20476	1	0	next	other	0
+pilot_long_3	132	Pulse	0	3285000	16481	NA
+pilot_long_3	133	Picture	learning/PICTURE_465.jpg;Meidost;Bleine;i;block2;LS3	3288995	0	1	25137	1	0	25000	other	0
+pilot_long_3	133	Response	2	3298861	9866	0
+pilot_long_3	134	Picture	Korrekt, das ist Bleine	3314299	0	1	20476	1	0	next	other	0
+pilot_long_3	134	Pulse	0	3330000	15701	NA
+pilot_long_3	135	Picture	learning/PICTURE_559.jpg;Melant;Goser;i;block2;LS3	3334775	0	1	25137	1	0	25000	other	0
+pilot_long_3	135	Response	2	3343469	8694	0
+pilot_long_3	136	Picture	Korrekt, das ist Goser	3360078	0	1	20476	1	0	next	other	0
+pilot_long_3	136	Pulse	0	3375000	14922	NA
+pilot_long_3	137	Picture	learning/PICTURE_202.jpg;Aglud;Hiser;i;block2;LS3	3380554	0	1	25137	1	0	25000	other	0
+pilot_long_3	137	Response	2	3388175	7621	0
+pilot_long_3	138	Picture	Korrekt, das ist Hiser	3405858	0	1	20476	1	0	next	other	0
+pilot_long_3	138	Pulse	0	3420000	14142	NA
+pilot_long_3	139	Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS3	3426334	0	1	25137	1	0	25000	other	0
+pilot_long_3	139	Response	1	3432973	6639	0
+pilot_long_3	140	Picture	Korrekt, das ist Pase	3451637	0	1	20476	1	0	next	other	0
+pilot_long_3	140	Pulse	0	3465000	13363	NA
+pilot_long_3	141	Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS3	3472113	0	1	25137	1	0	25000	other	0
+pilot_long_3	141	Response	1	3478312	6199	0
+pilot_long_3	142	Picture	Korrekt, das ist Tipnen	3497417	0	1	20476	1	0	next	other	0
+pilot_long_3	142	Pulse	0	3510000	12583	NA
+pilot_long_3	143	Picture	learning/PICTURE_659.jpg;Dieges;Pase;i;block2;LS3	3517893	0	1	25137	1	0	25000	other	0
+pilot_long_3	143	Response	2	3526011	8119	0
+pilot_long_3	144	Picture	Korrekt, das ist Pase	3543196	0	1	20476	1	0	next	other	0
+pilot_long_3	144	Pulse	0	3555000	11804	NA
+pilot_long_3	145	Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS3	3563672	0	1	25137	1	0	25000	other	0
+pilot_long_3	145	Response	1	3585056	21384	0
+pilot_long_3	146	Picture	Korrekt, das ist Bleine	3588976	0	1	20476	1	0	next	other	0
+pilot_long_3	146	Pulse	0	3600000	11024	NA
+pilot_long_3	147	Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS3	3609452	0	1	25137	1	0	25000	other	0
+pilot_long_3	147	Response	1	3617818	8366	0
+pilot_long_3	148	Picture	Korrekt, das ist Goser	3634756	0	1	20476	1	0	next	other	0
+pilot_long_3	148	Pulse	0	3645000	10244	NA
+pilot_long_3	149	Picture	learning/PICTURE_654.jpg;Najom;Tipnen;i;block2;LS3	3655232	0	1	25137	1	0	25000	other	0
+pilot_long_3	149	Response	2	3662510	7278	0
+pilot_long_3	150	Picture	Korrekt, das ist Tipnen	3680535	0	1	20143	1	0	next	other	0
+pilot_long_3	150	Pulse	0	3690000	9465	NA
+pilot_long_3	151	Picture	fix	3700678	0	1	45447	1	0	next	other	0
+pilot_long_3	151	Pulse	0	3735000	34322	NA
+pilot_long_3	152	Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS4	3746125	0	1	25137	1	0	25000	other	0
+pilot_long_3	152	Response	1	3753147	7022	0
+pilot_long_3	153	Picture	Korrekt, das ist Pase	3771429	0	1	20476	1	0	next	other	0
+pilot_long_3	153	Pulse	0	3780000	8571	NA
+pilot_long_3	154	Picture	learning/PICTURE_559.jpg;Lokrast;Goser;i;block2;LS4	3791904	0	1	25137	1	0	25000	other	0
+pilot_long_3	154	Response	2	3799584	7680	0
+pilot_long_3	155	Picture	Korrekt, das ist Goser	3817208	0	1	20476	1	0	next	other	0
+pilot_long_3	155	Pulse	0	3825000	7792	NA
+pilot_long_3	156	Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS4	3837684	0	1	25137	1	0	25000	other	0
+pilot_long_3	156	Response	1	3845809	8125	0
+pilot_long_3	157	Picture	Korrekt, das ist Tipnen	3862988	0	1	20476	1	0	next	other	0
+pilot_long_3	157	Pulse	0	3870000	7012	NA
+pilot_long_3	158	Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS4	3883464	0	1	25137	1	0	25000	other	0
+pilot_long_3	158	Response	1	3890109	6645	0
+pilot_long_3	159	Picture	Korrekt, das ist Bleine	3908767	0	1	20476	1	0	next	other	0
+pilot_long_3	159	Pulse	0	3915000	6233	NA
+pilot_long_3	160	Picture	learning/PICTURE_202.jpg;Letim;Hiser;i;block2;LS4	3929243	0	1	25137	1	0	25000	other	0
+pilot_long_3	160	Response	2	3936141	6897	0
+pilot_long_3	161	Picture	Korrekt, das ist Hiser	3954547	0	1	20476	1	0	next	other	0
+pilot_long_3	161	Pulse	0	3960000	5453	NA
+pilot_long_3	162	Picture	learning/PICTURE_465.jpg;Melant;Bleine;i;block2;LS4	3975023	0	1	25137	1	0	25000	other	0
+pilot_long_3	162	Response	2	3983087	8064	0
+pilot_long_3	163	Picture	Korrekt, das ist Bleine	4000326	0	1	20476	1	0	next	other	0
+pilot_long_3	163	Pulse	0	4005000	4674	NA
+pilot_long_3	164	Picture	learning/PICTURE_659.jpg;Fedit;Pase;i;block2;LS4	4020802	0	1	25137	1	0	25000	other	0
+pilot_long_3	164	Response	2	4027807	7005	0
+pilot_long_3	165	Picture	Korrekt, das ist Pase	4046106	0	1	20476	1	0	next	other	0
+pilot_long_3	165	Pulse	0	4050000	3894	NA
+pilot_long_3	166	Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS4	4066582	0	1	25137	1	0	25000	other	0
+pilot_long_3	166	Response	1	4073065	6483	0
+pilot_long_3	167	Picture	Korrekt, das ist Hiser	4091886	0	1	20476	1	0	next	other	0
+pilot_long_3	167	Pulse	0	4095000	3114	NA
+pilot_long_3	168	Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS4	4112362	0	1	25137	1	0	25000	other	0
+pilot_long_3	168	Response	1	4119679	7318	0
+pilot_long_3	169	Picture	Korrekt, das ist Goser	4137665	0	1	20476	1	0	next	other	0
+pilot_long_3	169	Pulse	0	4140000	2335	NA
+pilot_long_3	170	Picture	learning/PICTURE_654.jpg;Ferdat;Tipnen;i;block2;LS4	4158141	0	1	25137	1	0	25000	other	0
+pilot_long_3	170	Response	2	4165588	7446	0
+pilot_long_3	171	Picture	Korrekt, das ist Tipnen	4183445	0	1	20143	1	0	next	other	0
+pilot_long_3	171	Pulse	0	4185000	1555	NA
+pilot_long_3	172	Picture	fix	4203588	0	1	45114	1	0	next	other	0
+pilot_long_3	172	Pulse	0	4230000	26412	NA
+pilot_long_3	173	Picture	fix	4248701	0	1	45114	1	0	next	other	0
+pilot_long_3	173	Pulse	0	4275000	26299	NA
+pilot_long_3	174	Picture	fix	4293815	0	1	45114	1	0	next	other	0
+pilot_long_3	174	Pulse	0	4320000	26185	NA
+pilot_long_3	175	Picture	fix	4338929	0	1	45114	1	0	next	other	0
+pilot_long_3	175	Pulse	0	4365000	26071	NA
+pilot_long_3	176	Picture	fix	4384043	0	1	45447	1	0	next	other	0
+pilot_long_3	176	Pulse	0	4410000	25957	NA
+pilot_long_3	177	Picture	control/PICTURE_116.jpg;Feuer;Feuer;c;block3;LS1	4429489	0	1	25137	1	0	25000	other	0
+pilot_long_3	177	Response	1	4440325	10836	0
+pilot_long_3	178	Picture	Korrekt, das ist Feuer	4454793	0	1	20476	1	0	next	other	0
+pilot_long_3	178	Pulse	0	4455000	207	NA
+pilot_long_3	179	Picture	control/PICTURE_119.jpg;Walnuss;Walnuss;c;block3;LS1	4475269	0	1	25137	1	0	25000	other	0
+pilot_long_3	179	Response	1	4484739	9470	0
+pilot_long_3	179	Pulse	0	4500000	24731	NA
+pilot_long_3	180	Picture	Korrekt, das ist Walnuss	4500572	0	1	20476	1	0	next	other	0
+pilot_long_3	181	Picture	control/PICTURE_151.jpg;Leuchtturm;Tablett;i;block3;LS1	4521048	0	1	25137	1	0	25000	other	0
+pilot_long_3	181	Response	2	4531459	10411	0
+pilot_long_3	181	Pulse	0	4545000	23952	NA
+pilot_long_3	182	Picture	Korrekt, das ist Tablett	4546352	0	1	20476	1	0	next	other	0
+pilot_long_3	183	Picture	control/PICTURE_540.jpg;Teller;Leuchtturm;i;block3;LS1	4566828	0	1	25137	1	0	25000	other	0
+pilot_long_3	183	Response	2	4579340	12512	0
+pilot_long_3	183	Pulse	0	4590000	23172	NA
+pilot_long_3	184	Picture	Korrekt, das ist Leuchtturm	4592132	0	1	20476	1	0	next	other	0
+pilot_long_3	185	Picture	control/PICTURE_708.jpg;Kürbis;Affe;i;block3;LS1	4612608	0	1	25137	1	0	25000	other	0
+pilot_long_3	185	Response	2	4621867	9260	0
+pilot_long_3	185	Pulse	0	4635000	22392	NA
+pilot_long_3	186	Picture	Korrekt, das ist Affe	4637911	0	1	20476	1	0	next	other	0
+pilot_long_3	187	Picture	control/PICTURE_540.jpg;Leuchtturm;Leuchtturm;c;block3;LS1	4658387	0	1	25137	1	0	25000	other	0
+pilot_long_3	187	Response	1	4665264	6877	0
+pilot_long_3	187	Pulse	0	4680000	21613	NA
+pilot_long_3	188	Picture	Korrekt, das ist Leuchtturm	4683691	0	1	20476	1	0	next	other	0
+pilot_long_3	189	Picture	control/PICTURE_151.jpg;Tablett;Tablett;c;block3;LS1	4704167	0	1	25137	1	0	25000	other	0
+pilot_long_3	189	Response	1	4712923	8756	0
+pilot_long_3	189	Pulse	0	4725000	20833	NA
+pilot_long_3	190	Picture	Korrekt, das ist Tablett	4729470	0	1	20476	1	0	next	other	0
+pilot_long_3	191	Picture	control/PICTURE_116.jpg;Walnuss;Feuer;i;block3;LS1	4749946	0	1	25137	1	0	25000	other	0
+pilot_long_3	191	Response	2	4757965	8018	0
+pilot_long_3	191	Pulse	0	4770000	20054	NA
+pilot_long_3	192	Picture	Korrekt, das ist Feuer	4775250	0	1	20476	1	0	next	other	0
+pilot_long_3	193	Picture	control/PICTURE_119.jpg;Anzug;Walnuss;i;block3;LS1	4795726	0	1	25137	1	0	25000	other	0
+pilot_long_3	193	Response	2	4803355	7629	0
+pilot_long_3	193	Pulse	0	4815000	19274	NA
+pilot_long_3	194	Picture	Korrekt, das ist Walnuss	4821030	0	1	20476	1	0	next	other	0
+pilot_long_3	195	Picture	control/PICTURE_708.jpg;Affe;Affe;c;block3;LS1	4841505	0	1	25137	1	0	25000	other	0
+pilot_long_3	195	Response	1	4848719	7213	0
+pilot_long_3	195	Pulse	0	4860000	18495	NA
+pilot_long_3	196	Picture	Korrekt, das ist Affe	4866809	0	1	20143	1	0	next	other	0
+pilot_long_3	197	Picture	fix	4886952	0	1	45447	1	0	next	other	0
+pilot_long_3	197	Pulse	0	4905000	18048	NA
+pilot_long_3	198	Picture	control/PICTURE_708.jpg;Fächer;Affe;i;block3;LS2	4932399	0	1	25137	1	0	25000	other	0
+pilot_long_3	198	Response	2	4938936	6537	0
+pilot_long_3	198	Pulse	0	4950000	17601	NA
+pilot_long_3	199	Picture	Korrekt, das ist Affe	4957702	0	1	20476	1	0	next	other	0
+pilot_long_3	200	Picture	control/PICTURE_116.jpg;Feuer;Feuer;c;block3;LS2	4978178	0	1	25137	1	0	25000	other	0
+pilot_long_3	200	Response	1	4983618	5440	0
+pilot_long_3	200	Pulse	0	4995000	16822	NA
+pilot_long_3	201	Picture	Korrekt, das ist Feuer	5003482	0	1	20476	1	0	next	other	0
+pilot_long_3	202	Picture	control/PICTURE_151.jpg;Teller;Tablett;i;block3;LS2	5023958	0	1	25137	1	0	25000	other	0
+pilot_long_3	202	Response	2	5032173	8215	0
+pilot_long_3	202	Pulse	0	5040000	16042	NA
+pilot_long_3	203	Picture	Korrekt, das ist Tablett	5049262	0	1	20476	1	0	next	other	0
+pilot_long_3	204	Picture	control/PICTURE_116.jpg;Anzug;Feuer;i;block3;LS2	5069737	0	1	25137	1	0	25000	other	0
+pilot_long_3	204	Response	2	5077868	8130	0
+pilot_long_3	204	Pulse	0	5085000	15263	NA
+pilot_long_3	205	Picture	Korrekt, das ist Feuer	5095041	0	1	20476	1	0	next	other	0
+pilot_long_3	206	Picture	control/PICTURE_119.jpg;Walnuss;Walnuss;c;block3;LS2	5115517	0	1	25137	1	0	25000	other	0
+pilot_long_3	206	Response	1	5121069	5552	0
+pilot_long_3	206	Pulse	0	5130000	14483	NA
+pilot_long_3	207	Picture	Korrekt, das ist Walnuss	5140821	0	1	20476	1	0	next	other	0
+pilot_long_3	208	Picture	control/PICTURE_540.jpg;Leuchtturm;Leuchtturm;c;block3;LS2	5161297	0	1	25137	1	0	25000	other	0
+pilot_long_3	208	Response	1	5166940	5643	0
+pilot_long_3	208	Pulse	0	5175000	13703	NA
+pilot_long_3	209	Picture	Korrekt, das ist Leuchtturm	5186600	0	1	20476	1	0	next	other	0
+pilot_long_3	210	Picture	control/PICTURE_119.jpg;Teppich;Walnuss;i;block3;LS2	5207076	0	1	25137	1	0	25000	other	0
+pilot_long_3	210	Response	2	5214449	7373	0
+pilot_long_3	210	Pulse	0	5220000	12924	NA
+pilot_long_3	211	Picture	Korrekt, das ist Walnuss	5232380	0	1	20476	1	0	next	other	0
+pilot_long_3	212	Picture	control/PICTURE_151.jpg;Tablett;Tablett;c;block3;LS2	5252856	0	1	25137	1	0	25000	other	0
+pilot_long_3	212	Pulse	0	5265000	12144	NA
+pilot_long_3	212	Response	1	5265009	12153	0
+pilot_long_3	213	Picture	Korrekt, das ist Tablett	5278159	0	1	20476	1	0	next	other	0
+pilot_long_3	214	Picture	control/PICTURE_540.jpg;Hase;Leuchtturm;i;block3;LS2	5298635	0	1	25137	1	0	25000	other	0
+pilot_long_3	214	Pulse	0	5310000	11365	NA
+pilot_long_3	214	Response	2	5314696	16060	0
+pilot_long_3	215	Picture	Korrekt, das ist Leuchtturm	5323939	0	1	20476	1	0	next	other	0
+pilot_long_3	216	Picture	control/PICTURE_708.jpg;Affe;Affe;c;block3;LS2	5344415	0	1	25137	1	0	25000	other	0
+pilot_long_3	216	Response	1	5352128	7713	0
+pilot_long_3	216	Pulse	0	5355000	10585	NA
+pilot_long_3	217	Picture	Korrekt, das ist Affe	5369719	0	1	20143	1	0	next	other	0
+pilot_long_3	218	Picture	fix	5389862	0	1	45447	1	0	next	other	0
+pilot_long_3	218	Pulse	0	5400000	10138	NA
+pilot_long_3	219	Picture	control/PICTURE_391.jpg;Affe;Kette;i;block3;LS3	5435308	0	1	25137	1	0	25000	other	0
+pilot_long_3	219	Response	2	5443093	7785	0
+pilot_long_3	219	Pulse	0	5445000	9692	NA
+pilot_long_3	220	Picture	Korrekt, das ist Kette	5460612	0	1	20476	1	0	next	other	0
+pilot_long_3	221	Picture	control/PICTURE_398.jpg;Lenkrad;Lenkrad;c;block3;LS3	5481088	0	1	25137	1	0	25000	other	0
+pilot_long_3	221	Pulse	0	5490000	8912	NA
+pilot_long_3	221	Response	1	5492733	11645	0
+pilot_long_3	222	Picture	Korrekt, das ist Lenkrad	5506392	0	1	20476	1	0	next	other	0
+pilot_long_3	223	Picture	control/PICTURE_491.jpg;Drache;Teppich;i;block3;LS3	5526867	0	1	25137	1	0	25000	other	0
+pilot_long_3	223	Pulse	0	5535000	8133	NA
+pilot_long_3	223	Response	2	5535720	8853	0
+pilot_long_3	224	Picture	Korrekt, das ist Teppich	5552171	0	1	20476	1	0	next	other	0
+pilot_long_3	225	Picture	control/PICTURE_185.jpg;Lenkrad;Fussball;i;block3;LS3	5572647	0	1	25137	1	0	25000	other	0
+pilot_long_3	225	Pulse	0	5580000	7353	NA
+pilot_long_3	225	Response	2	5581276	8629	0
+pilot_long_3	226	Picture	Korrekt, das ist Fussball	5597951	0	1	20476	1	0	next	other	0
+pilot_long_3	227	Picture	control/PICTURE_398.jpg;Truthahn;Lenkrad;i;block3;LS3	5618427	0	1	25137	1	0	25000	other	0
+pilot_long_3	227	Pulse	0	5625000	6573	NA
+pilot_long_3	227	Response	2	5628018	9591	0
+pilot_long_3	228	Picture	Korrekt, das ist Lenkrad	5643730	0	1	20476	1	0	next	other	0
+pilot_long_3	229	Picture	control/PICTURE_263.jpg;Panzer;Hase;i;block3;LS3	5664206	0	1	25137	1	0	25000	other	0
+pilot_long_3	229	Pulse	0	5670000	5794	NA
+pilot_long_3	229	Response	2	5672781	8574	0
+pilot_long_3	230	Picture	Korrekt, das ist Hase	5689510	0	1	20476	1	0	next	other	0
+pilot_long_3	231	Picture	control/PICTURE_391.jpg;Kette;Kette;c;block3;LS3	5709986	0	1	25137	1	0	25000	other	0
+pilot_long_3	231	Pulse	0	5715000	5014	NA
+pilot_long_3	231	Response	1	5718025	8039	0
+pilot_long_3	232	Picture	Korrekt, das ist Kette	5735289	0	1	20476	1	0	next	other	0
+pilot_long_3	233	Picture	control/PICTURE_185.jpg;Fussball;Fussball;c;block3;LS3	5755765	0	1	25137	1	0	25000	other	0
+pilot_long_3	233	Pulse	0	5760000	4235	NA
+pilot_long_3	233	Response	1	5764406	8640	0
+pilot_long_3	234	Picture	Korrekt, das ist Fussball	5781069	0	1	20476	1	0	next	other	0
+pilot_long_3	235	Picture	control/PICTURE_263.jpg;Hase;Hase;c;block3;LS3	5801545	0	1	25137	1	0	25000	other	0
+pilot_long_3	235	Pulse	0	5805000	3455	NA
+pilot_long_3	235	Response	1	5808225	6680	0
+pilot_long_3	236	Picture	Korrekt, das ist Hase	5826849	0	1	20476	1	0	next	other	0
+pilot_long_3	237	Picture	control/PICTURE_491.jpg;Teppich;Teppich;c;block3;LS3	5847325	0	1	25137	1	0	25000	other	0
+pilot_long_3	237	Pulse	0	5850000	2675	NA
+pilot_long_3	237	Response	1	5853632	6307	0
+pilot_long_3	238	Picture	Korrekt, das ist Teppich	5872628	0	1	20143	1	0	next	other	0
+pilot_long_3	239	Picture	fix	5892771	0	1	45447	1	0	next	other	0
+pilot_long_3	239	Pulse	0	5895000	2229	NA
+pilot_long_3	240	Picture	control/PICTURE_263.jpg;Tablett;Hase;i;block3;LS4	5938218	0	1	25137	1	0	25000	other	0
+pilot_long_3	240	Pulse	0	5940000	1782	NA
+pilot_long_3	240	Response	2	5945375	7157	0
+pilot_long_3	241	Picture	Korrekt, das ist Hase	5963521	0	1	20476	1	0	next	other	0
+pilot_long_3	242	Picture	control/PICTURE_185.jpg;Truthahn;Fussball;i;block3;LS4	5983997	0	1	25137	1	0	25000	other	0
+pilot_long_3	242	Pulse	0	5985000	1003	NA
+pilot_long_3	242	Response	2	5991058	7061	0
+pilot_long_3	243	Picture	Korrekt, das ist Fussball	6009301	0	1	20476	1	0	next	other	0
+pilot_long_3	244	Picture	control/PICTURE_398.jpg;Lenkrad;Lenkrad;c;block3;LS4	6029777	0	1	25137	1	0	25000	other	0
+pilot_long_3	244	Pulse	0	6030000	223	NA
+pilot_long_3	244	Response	1	6037795	8018	0
+pilot_long_3	245	Picture	Korrekt, das ist Lenkrad	6055081	0	1	20476	1	0	next	other	0
+pilot_long_3	245	Pulse	0	6075000	19919	NA
+pilot_long_3	246	Picture	control/PICTURE_263.jpg;Hase;Hase;c;block3;LS4	6075557	0	1	25137	1	0	25000	other	0
+pilot_long_3	246	Response	1	6083432	7875	0
+pilot_long_3	247	Picture	Korrekt, das ist Hase	6100860	0	1	20476	1	0	next	other	0
+pilot_long_3	247	Pulse	0	6120000	19140	NA
+pilot_long_3	248	Picture	control/PICTURE_398.jpg;Geschenk;Lenkrad;i;block3;LS4	6121336	0	1	25137	1	0	25000	other	0
+pilot_long_3	248	Response	2	6128797	7461	0
+pilot_long_3	249	Picture	Korrekt, das ist Lenkrad	6146640	0	1	20476	1	0	next	other	0
+pilot_long_3	249	Pulse	0	6165000	18360	NA
+pilot_long_3	250	Picture	control/PICTURE_391.jpg;Kette;Kette;c;block3;LS4	6167116	0	1	25137	1	0	25000	other	0
+pilot_long_3	250	Response	1	6174662	7546	0
+pilot_long_3	251	Picture	Korrekt, das ist Kette	6192419	0	1	20476	1	0	next	other	0
+pilot_long_3	251	Pulse	0	6210000	17581	NA
+pilot_long_3	252	Picture	control/PICTURE_491.jpg;Feuer;Teppich;i;block3;LS4	6212895	0	1	25137	1	0	25000	other	0
+pilot_long_3	252	Response	2	6220565	7669	0
+pilot_long_3	253	Picture	Korrekt, das ist Teppich	6238199	0	1	20476	1	0	next	other	0
+pilot_long_3	253	Pulse	0	6255000	16801	NA
+pilot_long_3	254	Picture	control/PICTURE_185.jpg;Fussball;Fussball;c;block3;LS4	6258675	0	1	25137	1	0	25000	other	0
+pilot_long_3	254	Response	1	6265277	6602	0
+pilot_long_3	255	Picture	Korrekt, das ist Fussball	6283979	0	1	20476	1	0	next	other	0
+pilot_long_3	255	Pulse	0	6300000	16021	NA
+pilot_long_3	256	Picture	control/PICTURE_491.jpg;Teppich;Teppich;c;block3;LS4	6304455	0	1	25137	1	0	25000	other	0
+pilot_long_3	256	Response	1	6311074	6620	0
+pilot_long_3	257	Picture	Korrekt, das ist Teppich	6329758	0	1	20476	1	0	next	other	0
+pilot_long_3	257	Pulse	0	6345000	15242	NA
+pilot_long_3	258	Picture	control/PICTURE_391.jpg;Schaufel;Kette;i;block3;LS4	6350234	0	1	25137	1	0	25000	other	0
+pilot_long_3	258	Response	2	6357382	7148	0
+pilot_long_3	259	Picture	Korrekt, das ist Kette	6375538	0	1	20143	1	0	next	other	0
+pilot_long_3	259	Pulse	0	6390000	14462	NA
+pilot_long_3	260	Picture	fix	6395681	0	1	45114	1	0	next	other	0
+pilot_long_3	260	Pulse	0	6435000	39319	NA
+pilot_long_3	261	Picture	fix	6440794	0	1	45114	1	0	next	other	0
+pilot_long_3	261	Pulse	0	6480000	39206	NA
+pilot_long_3	262	Picture	fix	6485908	0	1	45114	1	0	next	other	0
+pilot_long_3	262	Pulse	0	6525000	39092	NA
+pilot_long_3	263	Picture	fix	6531022	0	1	45114	1	0	next	other	0
+pilot_long_3	263	Pulse	0	6570000	38978	NA
+pilot_long_3	264	Picture	fix	6576135	0	1	45447	1	0	next	other	0
+pilot_long_3	264	Pulse	0	6615000	38865	NA
+pilot_long_3	265	Picture	learning/PICTURE_68.jpg;Gnatosch;Furmi;i;block4;LS1	6621582	0	1	25137	1	0	25000	other	0
+pilot_long_3	265	Response	1	6635755	14173	0
+pilot_long_3	266	Picture	Falsch, das ist Furmi	6646886	0	1	20476	1	0	next	other	0
+pilot_long_3	266	Pulse	0	6660000	13114	NA
+pilot_long_3	267	Picture	learning/PICTURE_156.jpg;Bogast;Flister;i;block4;LS1	6667362	0	1	25137	1	0	25000	other	0
+pilot_long_3	267	Response	1	6680352	12990	0
+pilot_long_3	268	Picture	Falsch, das ist Flister	6692665	0	1	20476	1	0	next	other	0
+pilot_long_3	268	Pulse	0	6705000	12335	NA
+pilot_long_3	269	Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS1	6713141	0	1	25137	1	0	25000	other	0
+pilot_long_3	269	Response	2	6727204	14063	0
+pilot_long_3	270	Picture	Falsch, das ist Flofe	6738445	0	1	20476	1	0	next	other	0
+pilot_long_3	270	Pulse	0	6750000	11555	NA
+pilot_long_3	271	Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS1	6758921	0	1	25137	1	0	25000	other	0
+pilot_long_3	271	Response	1	6768982	10061	0
+pilot_long_3	272	Picture	Korrekt, das ist Lomig	6784225	0	1	20476	1	0	next	other	0
+pilot_long_3	272	Pulse	0	6795000	10776	NA
+pilot_long_3	273	Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS1	6804700	0	1	25137	1	0	25000	other	0
+pilot_long_3	273	Response	1	6813387	8687	0
+pilot_long_3	274	Picture	Korrekt, das ist Furmi	6830004	0	1	20476	1	0	next	other	0
+pilot_long_3	274	Pulse	0	6840000	9996	NA
+pilot_long_3	275	Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS1	6850480	0	1	25137	1	0	25000	other	0
+pilot_long_3	275	Response	1	6867811	17331	0
+pilot_long_3	276	Picture	Korrekt, das ist Flister	6875784	0	1	20476	1	0	next	other	0
+pilot_long_3	276	Pulse	0	6885000	9216	NA
+pilot_long_3	277	Picture	learning/PICTURE_640.jpg;Fugas;Wumze;i;block4;LS1	6896260	0	1	25137	1	0	25000	other	0
+pilot_long_3	277	Response	1	6906446	10186	0
+pilot_long_3	278	Picture	Falsch, das ist Wumze	6921563	0	1	20476	1	0	next	other	0
+pilot_long_3	278	Pulse	0	6930000	8437	NA
+pilot_long_3	279	Picture	learning/PICTURE_71.jpg;Asir;Flofe;i;block4;LS1	6942039	0	1	25137	1	0	25000	other	0
+pilot_long_3	279	Response	2	6951379	9340	0
+pilot_long_3	280	Picture	Korrekt, das ist Flofe	6967343	0	1	20476	1	0	next	other	0
+pilot_long_3	280	Pulse	0	6975000	7657	NA
+pilot_long_3	281	Picture	learning/PICTURE_26.jpg;Harkun;Lomig;i;block4;LS1	6987819	0	1	25137	1	0	25000	other	0
+pilot_long_3	281	Response	2	6998851	11033	0
+pilot_long_3	282	Picture	Korrekt, das ist Lomig	7013122	0	1	20476	1	0	next	other	0
+pilot_long_3	282	Pulse	0	7020000	6878	NA
+pilot_long_3	283	Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS1	7033598	0	1	25137	1	0	25000	other	0
+pilot_long_3	283	Response	1	7041839	8241	0
+pilot_long_3	284	Picture	Korrekt, das ist Wumze	7058902	0	1	20143	1	0	next	other	0
+pilot_long_3	284	Pulse	0	7065000	6098	NA
+pilot_long_3	285	Picture	fix	7079045	0	1	45447	1	0	next	other	0
+pilot_long_3	285	Pulse	0	7110000	30955	NA
+pilot_long_3	286	Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS2	7124492	0	1	25137	1	0	25000	other	0
+pilot_long_3	286	Response	1	7132767	8276	0
+pilot_long_3	287	Picture	Korrekt, das ist Lomig	7149795	0	1	20476	1	0	next	other	0
+pilot_long_3	287	Pulse	0	7155000	5205	NA
+pilot_long_3	288	Picture	learning/PICTURE_68.jpg;Harkun;Furmi;i;block4;LS2	7170271	0	1	25137	1	0	25000	other	0
+pilot_long_3	288	Response	2	7179003	8732	0
+pilot_long_3	289	Picture	Korrekt, das ist Furmi	7195575	0	1	20476	1	0	next	other	0
+pilot_long_3	289	Pulse	0	7200000	4425	NA
+pilot_long_3	290	Picture	learning/PICTURE_71.jpg;Delgons;Flofe;i;block4;LS2	7216051	0	1	25137	1	0	25000	other	0
+pilot_long_3	290	Response	2	7223152	7101	0
+pilot_long_3	291	Picture	Korrekt, das ist Flofe	7241354	0	1	20476	1	0	next	other	0
+pilot_long_3	291	Pulse	0	7245000	3646	NA
+pilot_long_3	292	Picture	learning/PICTURE_26.jpg;Heutil;Lomig;i;block4;LS2	7261830	0	1	25137	1	0	25000	other	0
+pilot_long_3	292	Response	2	7268890	7059	0
+pilot_long_3	293	Picture	Korrekt, das ist Lomig	7287134	0	1	20476	1	0	next	other	0
+pilot_long_3	293	Pulse	0	7290000	2866	NA
+pilot_long_3	294	Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS2	7307610	0	1	25137	1	0	25000	other	0
+pilot_long_3	294	Response	1	7314150	6540	0
+pilot_long_3	295	Picture	Korrekt, das ist Furmi	7332914	0	1	20476	1	0	next	other	0
+pilot_long_3	295	Pulse	0	7335000	2086	NA
+pilot_long_3	296	Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS2	7353390	0	1	25137	1	0	25000	other	0
+pilot_long_3	296	Response	1	7359867	6477	0
+pilot_long_3	297	Picture	Korrekt, das ist Wumze	7378693	0	1	20476	1	0	next	other	0
+pilot_long_3	297	Pulse	0	7380000	1307	NA
+pilot_long_3	298	Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS2	7399169	0	1	25137	1	0	25000	other	0
+pilot_long_3	298	Response	1	7410407	11238	0
+pilot_long_3	299	Picture	Korrekt, das ist Flister	7424473	0	1	20476	1	0	next	other	0
+pilot_long_3	299	Pulse	0	7425000	527	NA
+pilot_long_3	300	Picture	learning/PICTURE_640.jpg;Gnatosch;Wumze;i;block4;LS2	7444949	0	1	25137	1	0	25000	other	0
+pilot_long_3	300	Response	2	7453365	8417	0
+pilot_long_3	300	Pulse	0	7470000	25051	NA
+pilot_long_3	301	Picture	Korrekt, das ist Wumze	7470252	0	1	20476	1	0	next	other	0
+pilot_long_3	302	Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS2	7490728	0	1	25137	1	0	25000	other	0
+pilot_long_3	302	Response	1	7497456	6728	0
+pilot_long_3	302	Pulse	0	7515000	24272	NA
+pilot_long_3	303	Picture	Korrekt, das ist Flofe	7516032	0	1	20476	1	0	next	other	0
+pilot_long_3	304	Picture	learning/PICTURE_156.jpg;Letmap;Flister;i;block4;LS2	7536508	0	1	25137	1	0	25000	other	0
+pilot_long_3	304	Response	2	7543782	7274	0
+pilot_long_3	304	Pulse	0	7560000	23492	NA
+pilot_long_3	305	Picture	Korrekt, das ist Flister	7561812	0	1	20142	2	0	next	other	0
+pilot_long_3	306	Picture	fix	7581953	0	2	45448	2	0	next	other	0
+pilot_long_3	306	Pulse	0	7605000	23047	NA
+pilot_long_3	307	Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS3	7627401	0	1	25137	1	0	25000	other	0
+pilot_long_3	307	Response	1	7634002	6601	0
+pilot_long_3	307	Pulse	0	7650000	22599	NA
+pilot_long_3	308	Picture	Korrekt, das ist Lomig	7652705	0	1	20476	1	0	next	other	0
+pilot_long_3	309	Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS3	7673181	0	1	25137	1	0	25000	other	0
+pilot_long_3	309	Response	1	7679514	6333	0
+pilot_long_3	309	Pulse	0	7695000	21819	NA
+pilot_long_3	310	Picture	Korrekt, das ist Flofe	7698484	0	1	20476	1	0	next	other	0
+pilot_long_3	311	Picture	learning/PICTURE_640.jpg;Figat;Wumze;i;block4;LS3	7718960	0	1	25137	1	0	25000	other	0
+pilot_long_3	311	Response	2	7725497	6537	0
+pilot_long_3	311	Pulse	0	7740000	21040	NA
+pilot_long_3	312	Picture	Korrekt, das ist Wumze	7744264	0	1	20476	1	0	next	other	0
+pilot_long_3	313	Picture	learning/PICTURE_26.jpg;Jaloss;Lomig;i;block4;LS3	7764740	0	1	25137	1	0	25000	other	0
+pilot_long_3	313	Response	2	7771603	6863	0
+pilot_long_3	313	Pulse	0	7785000	20260	NA
+pilot_long_3	314	Picture	Korrekt, das ist Lomig	7790044	0	1	20476	1	0	next	other	0
+pilot_long_3	315	Picture	learning/PICTURE_68.jpg;Nerkanf;Furmi;i;block4;LS3	7810520	0	1	25137	1	0	25000	other	0
+pilot_long_3	315	Response	2	7817956	7436	0
+pilot_long_3	315	Pulse	0	7830000	19480	NA
+pilot_long_3	316	Picture	Korrekt, das ist Furmi	7835823	0	1	20476	1	0	next	other	0
+pilot_long_3	317	Picture	learning/PICTURE_156.jpg;Limjepp;Flister;i;block4;LS3	7856299	0	1	25137	1	0	25000	other	0
+pilot_long_3	317	Response	2	7863772	7473	0
+pilot_long_3	317	Pulse	0	7875000	18701	NA
+pilot_long_3	318	Picture	Korrekt, das ist Flister	7881603	0	1	20476	1	0	next	other	0
+pilot_long_3	319	Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS3	7902079	0	1	25137	1	0	25000	other	0
+pilot_long_3	319	Response	1	7909301	7223	0
+pilot_long_3	319	Pulse	0	7920000	17921	NA
+pilot_long_3	320	Picture	Korrekt, das ist Furmi	7927382	0	1	20476	1	0	next	other	0
+pilot_long_3	321	Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS3	7947858	0	1	25137	1	0	25000	other	0
+pilot_long_3	321	Response	1	7954811	6953	0
+pilot_long_3	321	Pulse	0	7965000	17142	NA
+pilot_long_3	322	Picture	Korrekt, das ist Wumze	7973162	0	1	20476	1	0	next	other	0
+pilot_long_3	323	Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS3	7993638	0	1	25137	1	0	25000	other	0
+pilot_long_3	323	Response	1	8001064	7426	0
+pilot_long_3	323	Pulse	0	8010000	16362	NA
+pilot_long_3	324	Picture	Korrekt, das ist Flister	8018942	0	1	20476	1	0	next	other	0
+pilot_long_3	325	Picture	learning/PICTURE_71.jpg;Debal;Flofe;i;block4;LS3	8039417	0	1	25137	1	0	25000	other	0
+pilot_long_3	325	Response	2	8046369	6952	0
+pilot_long_3	325	Pulse	0	8055000	15583	NA
+pilot_long_3	326	Picture	Korrekt, das ist Flofe	8064721	0	1	20143	1	0	next	other	0
+pilot_long_3	327	Picture	fix	8084864	0	1	45447	1	0	next	other	0
+pilot_long_3	327	Pulse	0	8100000	15136	NA
+pilot_long_3	328	Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS4	8130311	0	1	25137	1	0	25000	other	0
+pilot_long_3	328	Response	1	8136704	6394	0
+pilot_long_3	328	Pulse	0	8145000	14689	NA
+pilot_long_3	329	Picture	Korrekt, das ist Flister	8155614	0	1	20476	1	0	next	other	0
+pilot_long_3	330	Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS4	8176090	0	1	25137	1	0	25000	other	0
+pilot_long_3	330	Response	1	8181878	5788	0
+pilot_long_3	330	Pulse	0	8190000	13910	NA
+pilot_long_3	331	Picture	Korrekt, das ist Furmi	8201394	0	1	20476	1	0	next	other	0
+pilot_long_3	332	Picture	learning/PICTURE_71.jpg;Libtrum;Flofe;i;block4;LS4	8221870	0	1	25137	1	0	25000	other	0
+pilot_long_3	332	Response	2	8228853	6983	0
+pilot_long_3	332	Pulse	0	8235000	13130	NA
+pilot_long_3	333	Picture	Korrekt, das ist Flofe	8247174	0	1	20476	1	0	next	other	0
+pilot_long_3	334	Picture	learning/PICTURE_156.jpg;Limmant;Flister;i;block4;LS4	8267650	0	1	25137	1	0	25000	other	0
+pilot_long_3	334	Response	2	8275052	7402	0
+pilot_long_3	334	Pulse	0	8280000	12351	NA
+pilot_long_3	335	Picture	Korrekt, das ist Flister	8292953	0	1	20476	1	0	next	other	0
+pilot_long_3	336	Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS4	8313429	0	1	25137	1	0	25000	other	0
+pilot_long_3	336	Response	1	8319481	6052	0
+pilot_long_3	336	Pulse	0	8325000	11571	NA
+pilot_long_3	337	Picture	Korrekt, das ist Lomig	8338733	0	1	20476	1	0	next	other	0
+pilot_long_3	338	Picture	learning/PICTURE_640.jpg;Nerkanf;Wumze;i;block4;LS4	8359209	0	1	25137	1	0	25000	other	0
+pilot_long_3	338	Response	2	8366395	7187	0
+pilot_long_3	338	Pulse	0	8370000	10791	NA
+pilot_long_3	339	Picture	Korrekt, das ist Wumze	8384512	0	1	20476	1	0	next	other	0
+pilot_long_3	340	Picture	learning/PICTURE_26.jpg;Ningkal;Lomig;i;block4;LS4	8404988	0	1	25137	1	0	25000	other	0
+pilot_long_3	340	Response	2	8412323	7335	0
+pilot_long_3	340	Pulse	0	8415000	10012	NA
+pilot_long_3	341	Picture	Korrekt, das ist Lomig	8430292	0	1	20476	1	0	next	other	0
+pilot_long_3	342	Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS4	8450768	0	1	25137	1	0	25000	other	0
+pilot_long_3	342	Response	1	8457987	7219	0
+pilot_long_3	342	Pulse	0	8460000	9232	NA
+pilot_long_3	343	Picture	Korrekt, das ist Wumze	8476071	0	1	20476	1	0	next	other	0
+pilot_long_3	344	Picture	learning/PICTURE_68.jpg;Jaloss;Furmi;i;block4;LS4	8496547	0	1	25137	1	0	25000	other	0
+pilot_long_3	344	Response	2	8503885	7337	0
+pilot_long_3	344	Pulse	0	8505000	8453	NA
+pilot_long_3	345	Picture	Korrekt, das ist Furmi	8521851	0	1	20476	1	0	next	other	0
+pilot_long_3	346	Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS4	8542327	0	1	25137	1	0	25000	other	0
+pilot_long_3	346	Pulse	0	8550000	7673	NA
+pilot_long_3	346	Response	1	8550693	8366	0
+pilot_long_3	347	Picture	Korrekt, das ist Flofe	8567631	0	1	20143	1	0	next	other	0
+pilot_long_3	348	Picture	fix	8587774	0	1	45114	1	0	next	other	0
+pilot_long_3	348	Pulse	0	8595000	7226	NA
+pilot_long_3	349	Picture	fix	8632887	0	1	45114	1	0	next	other	0
+pilot_long_3	349	Pulse	0	8640000	7113	NA
+pilot_long_3	350	Picture	fix	8678001	0	1	45114	1	0	next	other	0
+pilot_long_3	350	Pulse	0	8685000	6999	NA
+pilot_long_3	351	Picture	fix	8723115	0	1	45114	1	0	next	other	0
+pilot_long_3	351	Pulse	0	8730000	6885	NA
+pilot_long_3	352	Picture	fix	8768228	0	1	45447	1	0	next	other	0
+pilot_long_3	352	Pulse	0	8775000	6772	NA
+pilot_long_3	353	Picture	learning/PICTURE_379.jpg;Fohreng;Sprünte;i;block5;LS1	8813675	0	1	25137	1	0	25000	other	0
+pilot_long_3	353	Pulse	0	8820000	6325	NA
+pilot_long_3	353	Response	1	8822964	9289	0
+pilot_long_3	354	Picture	Falsch, das ist Sprünte	8838979	0	1	20476	1	0	next	other	0
+pilot_long_3	355	Picture	learning/PICTURE_77.jpg;Basut;Hürtem;i;block5;LS1	8859455	0	1	25137	1	0	25000	other	0
+pilot_long_3	355	Pulse	0	8865000	5545	NA
+pilot_long_3	355	Response	1	8869478	10024	0
+pilot_long_3	356	Picture	Falsch, das ist Hürtem	8884758	0	1	20476	1	0	next	other	0
+pilot_long_3	357	Picture	learning/PICTURE_414.jpg;Dobast;Habel;i;block5;LS1	8905234	0	1	25137	1	0	25000	other	0
+pilot_long_3	357	Pulse	0	8910000	4766	NA
+pilot_long_3	357	Response	1	8914320	9085	0
+pilot_long_3	358	Picture	Falsch, das ist Habel	8930538	0	1	20476	1	0	next	other	0
+pilot_long_3	359	Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS1	8951014	0	1	25137	1	0	25000	other	0
+pilot_long_3	359	Pulse	0	8955000	3986	NA
+pilot_long_3	359	Response	1	8965794	14781	0
+pilot_long_3	360	Picture	Korrekt, das ist Sprünte	8976317	0	1	20476	1	0	next	other	0
+pilot_long_3	361	Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS1	8996793	0	1	25137	1	0	25000	other	0
+pilot_long_3	361	Pulse	0	9000000	3207	NA
+pilot_long_3	361	Response	1	9006759	9965	0
+pilot_long_3	362	Picture	Korrekt, das ist Mobe	9022097	0	1	20476	1	0	next	other	0
+pilot_long_3	363	Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS1	9042573	0	1	25137	1	0	25000	other	0
+pilot_long_3	363	Pulse	0	9045000	2427	NA
+pilot_long_3	363	Response	1	9055540	12967	0
+pilot_long_3	364	Picture	Korrekt, das ist Gluktant	9067877	0	1	20476	1	0	next	other	0
+pilot_long_3	365	Picture	learning/PICTURE_224.jpg;Igat;Mobe;i;block5;LS1	9088353	0	1	25137	1	0	25000	other	0
+pilot_long_3	365	Pulse	0	9090000	1647	NA
+pilot_long_3	365	Response	2	9097240	8887	0
+pilot_long_3	366	Picture	Korrekt, das ist Mobe	9113656	0	1	20476	1	0	next	other	0
+pilot_long_3	367	Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS1	9134132	0	1	25137	1	0	25000	other	0
+pilot_long_3	367	Pulse	0	9135000	868	NA
+pilot_long_3	367	Response	1	9143179	9047	0
+pilot_long_3	368	Picture	Korrekt, das ist Hürtem	9159436	0	1	20476	1	0	next	other	0
+pilot_long_3	369	Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS1	9179912	0	1	25137	1	0	25000	other	0
+pilot_long_3	369	Pulse	0	9180000	88	NA
+pilot_long_3	369	Response	1	9194078	14167	0
+pilot_long_3	370	Picture	Korrekt, das ist Habel	9205215	0	1	20476	1	0	next	other	0
+pilot_long_3	370	Pulse	0	9225000	19785	NA
+pilot_long_3	371	Picture	learning/PICTURE_32.jpg;Letmap;Gluktant;i;block5;LS1	9225691	0	1	25137	1	0	25000	other	0
+pilot_long_3	371	Response	2	9238770	13078	0
+pilot_long_3	372	Picture	Korrekt, das ist Gluktant	9250995	0	1	20143	1	0	next	other	0
+pilot_long_3	372	Pulse	0	9270000	19005	NA
+pilot_long_3	373	Picture	fix	9271138	0	1	45447	1	0	next	other	0
+pilot_long_3	373	Pulse	0	9315000	43862	NA
+pilot_long_3	374	Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS2	9316585	0	1	25137	1	0	25000	other	0
+pilot_long_3	374	Response	1	9323101	6516	0
+pilot_long_3	375	Picture	Korrekt, das ist Sprünte	9341888	0	1	20476	1	0	next	other	0
+pilot_long_3	375	Pulse	0	9360000	18112	NA
+pilot_long_3	376	Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS2	9362364	0	1	25137	1	0	25000	other	0
+pilot_long_3	376	Response	1	9370317	7953	0
+pilot_long_3	377	Picture	Korrekt, das ist Hürtem	9387668	0	1	20476	1	0	next	other	0
+pilot_long_3	377	Pulse	0	9405000	17332	NA
+pilot_long_3	378	Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS2	9408144	0	1	25137	1	0	25000	other	0
+pilot_long_3	378	Response	1	9416585	8441	0
+pilot_long_3	379	Picture	Korrekt, das ist Mobe	9433447	0	1	20476	1	0	next	other	0
+pilot_long_3	379	Pulse	0	9450000	16553	NA
+pilot_long_3	380	Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS2	9453923	0	1	25137	1	0	25000	other	0
+pilot_long_3	380	Response	1	9461163	7240	0
+pilot_long_3	381	Picture	Korrekt, das ist Gluktant	9479227	0	1	20476	1	0	next	other	0
+pilot_long_3	381	Pulse	0	9495000	15773	NA
+pilot_long_3	382	Picture	learning/PICTURE_414.jpg;Dobul;Habel;i;block5;LS2	9499703	0	1	25137	1	0	25000	other	0
+pilot_long_3	382	Response	2	9511081	11378	0
+pilot_long_3	383	Picture	Korrekt, das ist Habel	9525007	0	1	20476	1	0	next	other	0
+pilot_long_3	383	Pulse	0	9540000	14993	NA
+pilot_long_3	384	Picture	learning/PICTURE_224.jpg;Fugas;Mobe;i;block5;LS2	9545483	0	1	25137	1	0	25000	other	0
+pilot_long_3	384	Response	2	9552528	7045	0
+pilot_long_3	385	Picture	Korrekt, das ist Mobe	9570786	0	1	20476	1	0	next	other	0
+pilot_long_3	385	Pulse	0	9585000	14214	NA
+pilot_long_3	386	Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS2	9591262	0	1	25137	1	0	25000	other	0
+pilot_long_3	386	Response	1	9597280	6018	0
+pilot_long_3	387	Picture	Korrekt, das ist Habel	9616566	0	1	20476	1	0	next	other	0
+pilot_long_3	387	Pulse	0	9630000	13434	NA
+pilot_long_3	388	Picture	learning/PICTURE_379.jpg;Froltan;Sprünte;i;block5;LS2	9637042	0	1	25137	1	0	25000	other	0
+pilot_long_3	388	Response	2	9646200	9159	0
+pilot_long_3	389	Picture	Korrekt, das ist Sprünte	9662345	0	1	20476	1	0	next	other	0
+pilot_long_3	389	Pulse	0	9675000	12655	NA
+pilot_long_3	390	Picture	learning/PICTURE_77.jpg;Derbstal;Hürtem;i;block5;LS2	9682821	0	1	25137	1	0	25000	other	0
+pilot_long_3	390	Response	2	9690391	7569	0
+pilot_long_3	391	Picture	Korrekt, das ist Hürtem	9708125	0	1	20476	1	0	next	other	0
+pilot_long_3	391	Pulse	0	9720000	11875	NA
+pilot_long_3	392	Picture	learning/PICTURE_32.jpg;Deflas;Gluktant;i;block5;LS2	9728601	0	1	25137	1	0	25000	other	0
+pilot_long_3	392	Response	2	9735751	7150	0
+pilot_long_3	393	Picture	Korrekt, das ist Gluktant	9753904	0	1	20143	1	0	next	other	0
+pilot_long_3	393	Pulse	0	9765000	11096	NA
+pilot_long_3	394	Picture	fix	9774047	0	1	45447	1	0	next	other	0
+pilot_long_3	394	Pulse	0	9810000	35953	NA
+pilot_long_3	395	Picture	learning/PICTURE_77.jpg;Logatt;Hürtem;i;block5;LS3	9819494	0	1	25137	1	0	25000	other	0
+pilot_long_3	395	Response	2	9828490	8996	0
+pilot_long_3	396	Picture	Korrekt, das ist Hürtem	9844798	0	1	20476	1	0	next	other	0
+pilot_long_3	396	Pulse	0	9855000	10202	NA
+pilot_long_3	397	Picture	learning/PICTURE_224.jpg;Pafau;Mobe;i;block5;LS3	9865274	0	1	25137	1	0	25000	other	0
+pilot_long_3	397	Response	2	9872560	7286	0
+pilot_long_3	398	Picture	Korrekt, das ist Mobe	9890577	0	1	20476	1	0	next	other	0
+pilot_long_3	398	Pulse	0	9900000	9423	NA
+pilot_long_3	399	Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS3	9911053	0	1	25137	1	0	25000	other	0
+pilot_long_3	399	Response	1	9918430	7377	0
+pilot_long_3	400	Picture	Korrekt, das ist Sprünte	9936357	0	1	20476	1	0	next	other	0
+pilot_long_3	400	Pulse	0	9945000	8643	NA
+pilot_long_3	401	Picture	learning/PICTURE_414.jpg;Nazehl;Habel;i;block5;LS3	9956833	0	1	25137	1	0	25000	other	0
+pilot_long_3	401	Response	2	9965131	8298	0
+pilot_long_3	402	Picture	Korrekt, das ist Habel	9982136	0	1	20476	1	0	next	other	0
+pilot_long_3	402	Pulse	0	9990000	7864	NA
+pilot_long_3	403	Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS3	10002612	0	1	25137	1	0	25000	other	0
+pilot_long_3	403	Response	1	10009610	6997	0
+pilot_long_3	404	Picture	Korrekt, das ist Hürtem	10027916	0	1	20476	1	0	next	other	0
+pilot_long_3	404	Pulse	0	10035000	7084	NA
+pilot_long_3	405	Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS3	10048392	0	1	25137	1	0	25000	other	0
+pilot_long_3	405	Response	1	10055993	7601	0
+pilot_long_3	406	Picture	Korrekt, das ist Gluktant	10073696	0	1	20476	1	0	next	other	0
+pilot_long_3	406	Pulse	0	10080000	6304	NA
+pilot_long_3	407	Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS3	10094172	0	1	25137	1	0	25000	other	0
+pilot_long_3	407	Response	1	10101013	6841	0
+pilot_long_3	408	Picture	Korrekt, das ist Habel	10119475	0	1	20476	1	0	next	other	0
+pilot_long_3	408	Pulse	0	10125000	5525	NA
+pilot_long_3	409	Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS3	10139951	0	1	25137	1	0	25000	other	0
+pilot_long_3	409	Response	1	10147104	7153	0
+pilot_long_3	410	Picture	Korrekt, das ist Mobe	10165255	0	1	20476	1	0	next	other	0
+pilot_long_3	410	Pulse	0	10170000	4745	NA
+pilot_long_3	411	Picture	learning/PICTURE_32.jpg;Limmant;Gluktant;i;block5;LS3	10185731	0	1	25137	1	0	25000	other	0
+pilot_long_3	411	Response	2	10193762	8031	0
+pilot_long_3	412	Picture	Korrekt, das ist Gluktant	10211034	0	1	20476	1	0	next	other	0
+pilot_long_3	412	Pulse	0	10215000	3966	NA
+pilot_long_3	413	Picture	learning/PICTURE_379.jpg;Nehal;Sprünte;i;block5;LS3	10231510	0	1	25137	1	0	25000	other	0
+pilot_long_3	413	Response	2	10239598	8088	0
+pilot_long_3	414	Picture	Korrekt, das ist Sprünte	10256814	0	1	20143	1	0	next	other	0
+pilot_long_3	414	Pulse	0	10260000	3186	NA
+pilot_long_3	415	Picture	fix	10276957	0	1	45447	1	0	next	other	0
+pilot_long_3	415	Pulse	0	10305000	28043	NA
+pilot_long_3	416	Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS4	10322404	0	1	25137	1	0	25000	other	0
+pilot_long_3	416	Response	1	10330246	7842	0
+pilot_long_3	417	Picture	Korrekt, das ist Hürtem	10347707	0	1	20476	1	0	next	other	0
+pilot_long_3	417	Pulse	0	10350000	2293	NA
+pilot_long_3	418	Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS4	10368183	0	1	25137	1	0	25000	other	0
+pilot_long_3	418	Response	1	10374738	6555	0
+pilot_long_3	419	Picture	Korrekt, das ist Mobe	10393487	0	1	20476	1	0	next	other	0
+pilot_long_3	419	Pulse	0	10395000	1513	NA
+pilot_long_3	420	Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS4	10413963	0	1	25137	1	0	25000	other	0
+pilot_long_3	420	Response	1	10420793	6830	0
+pilot_long_3	421	Picture	Korrekt, das ist Sprünte	10439266	0	1	20476	1	0	next	other	0
+pilot_long_3	421	Pulse	0	10440000	734	NA
+pilot_long_3	422	Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS4	10459742	0	1	25137	1	0	25000	other	0
+pilot_long_3	422	Response	1	10465872	6130	0
+pilot_long_3	422	Pulse	0	10485000	25258	NA
+pilot_long_3	423	Picture	Korrekt, das ist Habel	10485046	0	1	20476	1	0	next	other	0
+pilot_long_3	424	Picture	learning/PICTURE_77.jpg;Logas;Hürtem;i;block5;LS4	10505522	0	1	25137	1	0	25000	other	0
+pilot_long_3	424	Response	2	10512890	7368	0
+pilot_long_3	424	Pulse	0	10530000	24478	NA
+pilot_long_3	425	Picture	Korrekt, das ist Hürtem	10530826	0	1	20476	1	0	next	other	0
+pilot_long_3	426	Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS4	10551302	0	1	25137	1	0	25000	other	0
+pilot_long_3	426	Response	1	10557913	6611	0
+pilot_long_3	426	Pulse	0	10575000	23698	NA
+pilot_long_3	427	Picture	Korrekt, das ist Gluktant	10576605	0	1	20476	1	0	next	other	0
+pilot_long_3	428	Picture	learning/PICTURE_379.jpg;Saptot;Sprünte;i;block5;LS4	10597081	0	1	25137	1	0	25000	other	0
+pilot_long_3	428	Response	2	10604738	7657	0
+pilot_long_3	428	Pulse	0	10620000	22919	NA
+pilot_long_3	429	Picture	Korrekt, das ist Sprünte	10622385	0	1	20476	1	0	next	other	0
+pilot_long_3	430	Picture	learning/PICTURE_224.jpg;Figat;Mobe;i;block5;LS4	10642861	0	1	25137	1	0	25000	other	0
+pilot_long_3	430	Response	2	10649485	6624	0
+pilot_long_3	430	Pulse	0	10665000	22139	NA
+pilot_long_3	431	Picture	Korrekt, das ist Mobe	10668164	0	1	20476	1	0	next	other	0
+pilot_long_3	432	Picture	learning/PICTURE_32.jpg;Lispad;Gluktant;i;block5;LS4	10688640	0	1	25137	1	0	25000	other	0
+pilot_long_3	432	Response	2	10695209	6569	0
+pilot_long_3	432	Pulse	0	10710000	21360	NA
+pilot_long_3	433	Picture	Korrekt, das ist Gluktant	10713944	0	1	20476	1	0	next	other	0
+pilot_long_3	434	Picture	learning/PICTURE_414.jpg;Luttes;Habel;i;block5;LS4	10734420	0	1	25137	1	0	25000	other	0
+pilot_long_3	434	Response	2	10741283	6863	0
+pilot_long_3	434	Pulse	0	10755000	20580	NA
+pilot_long_3	435	Picture	Korrekt, das ist Habel	10759724	0	1	20143	1	0	next	other	0
+pilot_long_3	436	Picture	fix	10779867	0	1	45114	1	0	next	other	0
+pilot_long_3	436	Pulse	0	10800000	20133	NA
+pilot_long_3	437	Picture	fix	10824980	0	1	45114	1	0	next	other	0
+pilot_long_3	437	Pulse	0	10845000	20020	NA
+pilot_long_3	438	Picture	fix	10870094	0	1	45114	1	0	next	other	0
+pilot_long_3	438	Pulse	0	10890000	19906	NA
+pilot_long_3	439	Picture	fix	10915208	0	1	45114	1	0	next	other	0
+pilot_long_3	439	Pulse	0	10935000	19792	NA
+pilot_long_3	440	Picture	fix	10960321	0	1	45447	1	0	next	other	0
+pilot_long_3	440	Pulse	0	10980000	19679	NA
+pilot_long_3	441	Picture	learning/PICTURE_267.jpg;Heutil;Zabem;i;block6;LS1	11005768	0	1	25137	1	0	25000	other	0
+pilot_long_3	441	Response	1	11014368	8600	0
+pilot_long_3	441	Pulse	0	11025000	19232	NA
+pilot_long_3	442	Picture	Falsch, das ist Zabem	11031072	0	1	20476	1	0	next	other	0
+pilot_long_3	443	Picture	learning/PICTURE_212.jpg;Deflas;Helte;i;block6;LS1	11051548	0	1	25137	1	0	25000	other	0
+pilot_long_3	443	Response	1	11060161	8613	0
+pilot_long_3	443	Pulse	0	11070000	18452	NA
+pilot_long_3	444	Picture	Falsch, das ist Helte	11076851	0	1	20476	1	0	next	other	0
+pilot_long_3	445	Picture	learning/PICTURE_67.jpg;Froltan;Larbe;i;block6;LS1	11097327	0	1	25137	1	0	25000	other	0
+pilot_long_3	445	Response	1	11106149	8822	0
+pilot_long_3	445	Pulse	0	11115000	17673	NA
+pilot_long_3	446	Picture	Falsch, das ist Larbe	11122631	0	1	20476	1	0	next	other	0
+pilot_long_3	447	Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS1	11143107	0	1	25137	1	0	25000	other	0
+pilot_long_3	447	Response	1	11156136	13029	0
+pilot_long_3	447	Pulse	0	11160000	16893	NA
+pilot_long_3	448	Picture	Korrekt, das ist Geward	11168410	0	1	20476	1	0	next	other	0
+pilot_long_3	449	Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS1	11188886	0	1	25137	1	0	25000	other	0
+pilot_long_3	449	Response	2	11201942	13056	0
+pilot_long_3	449	Pulse	0	11205000	16114	NA
+pilot_long_3	450	Picture	Falsch, das ist Pase	11214190	0	1	20476	1	0	next	other	0
+pilot_long_3	451	Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS1	11234666	0	1	25137	1	0	25000	other	0
+pilot_long_3	451	Response	2	11248114	13448	0
+pilot_long_3	451	Pulse	0	11250000	15334	NA
+pilot_long_3	452	Picture	Falsch, das ist Zabem	11259970	0	1	20476	1	0	next	other	0
+pilot_long_3	453	Picture	learning/PICTURE_165.jpg;Delgons;Geward;i;block6;LS1	11280445	0	1	25137	1	0	25000	other	0
+pilot_long_3	453	Response	2	11288856	8411	0
+pilot_long_3	453	Pulse	0	11295000	14555	NA
+pilot_long_3	454	Picture	Korrekt, das ist Geward	11305749	0	1	20476	1	0	next	other	0
+pilot_long_3	455	Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS1	11326225	0	1	25137	1	0	25000	other	0
+pilot_long_3	455	Response	1	11333965	7740	0
+pilot_long_3	455	Pulse	0	11340000	13775	NA
+pilot_long_3	456	Picture	Korrekt, das ist Helte	11351529	0	1	20476	1	0	next	other	0
+pilot_long_3	457	Picture	learning/PICTURE_203.jpg;Nergunt;Pase;i;block6;LS1	11372005	0	1	25137	1	0	25000	other	0
+pilot_long_3	457	Response	2	11381032	9028	0
+pilot_long_3	457	Pulse	0	11385000	12995	NA
+pilot_long_3	458	Picture	Korrekt, das ist Pase	11397308	0	1	20476	1	0	next	other	0
+pilot_long_3	459	Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS1	11417784	0	1	25137	1	0	25000	other	0
+pilot_long_3	459	Response	1	11428114	10330	0
+pilot_long_3	459	Pulse	0	11430000	12216	NA
+pilot_long_3	460	Picture	Korrekt, das ist Larbe	11443088	0	1	20143	1	0	next	other	0
+pilot_long_3	461	Picture	fix	11463231	0	1	45447	1	0	next	other	0
+pilot_long_3	461	Pulse	0	11475000	11769	NA
+pilot_long_3	462	Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS2	11508678	0	1	25137	1	0	25000	other	0
+pilot_long_3	462	Response	1	11518250	9572	0
+pilot_long_3	462	Pulse	0	11520000	11322	NA
+pilot_long_3	463	Picture	Korrekt, das ist Zabem	11533981	0	1	20476	1	0	next	other	0
+pilot_long_3	464	Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS2	11554457	0	1	25137	1	0	25000	other	0
+pilot_long_3	464	Response	1	11561611	7154	0
+pilot_long_3	464	Pulse	0	11565000	10543	NA
+pilot_long_3	465	Picture	Korrekt, das ist Pase	11579761	0	1	20476	1	0	next	other	0
+pilot_long_3	466	Picture	learning/PICTURE_165.jpg;Blastaun;Geward;i;block6;LS2	11600237	0	1	25137	1	0	25000	other	0
+pilot_long_3	466	Response	2	11609399	9162	0
+pilot_long_3	466	Pulse	0	11610000	9763	NA
+pilot_long_3	467	Picture	Korrekt, das ist Geward	11625540	0	1	20476	1	0	next	other	0
+pilot_long_3	468	Picture	learning/PICTURE_203.jpg;Flehsen;Pase;i;block6;LS2	11646016	0	1	25137	1	0	25000	other	0
+pilot_long_3	468	Response	2	11654114	8097	0
+pilot_long_3	468	Pulse	0	11655000	8984	NA
+pilot_long_3	469	Picture	Korrekt, das ist Pase	11671320	0	1	20476	1	0	next	other	0
+pilot_long_3	470	Picture	learning/PICTURE_67.jpg;Nergunt;Larbe;i;block6;LS2	11691796	0	1	25137	1	0	25000	other	0
+pilot_long_3	470	Response	2	11699665	7869	0
+pilot_long_3	470	Pulse	0	11700000	8204	NA
+pilot_long_3	471	Picture	Korrekt, das ist Larbe	11717099	0	1	20476	1	0	next	other	0
+pilot_long_3	472	Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS2	11737575	0	1	25137	1	0	25000	other	0
+pilot_long_3	472	Response	1	11744323	6748	0
+pilot_long_3	472	Pulse	0	11745000	7425	NA
+pilot_long_3	473	Picture	Korrekt, das ist Helte	11762879	0	1	20476	1	0	next	other	0
+pilot_long_3	474	Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS2	11783355	0	1	25137	1	0	25000	other	0
+pilot_long_3	474	Pulse	0	11790000	6645	NA
+pilot_long_3	474	Response	1	11792777	9422	0
+pilot_long_3	475	Picture	Korrekt, das ist Larbe	11808659	0	1	20476	1	0	next	other	0
+pilot_long_3	476	Picture	learning/PICTURE_212.jpg;Basut;Helte;i;block6;LS2	11829135	0	1	25137	1	0	25000	other	0
+pilot_long_3	476	Pulse	0	11835000	5865	NA
+pilot_long_3	476	Response	2	11836907	7772	0
+pilot_long_3	477	Picture	Korrekt, das ist Helte	11854438	0	1	20476	1	0	next	other	0
+pilot_long_3	478	Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS2	11874914	0	1	25137	1	0	25000	other	0
+pilot_long_3	478	Pulse	0	11880000	5086	NA
+pilot_long_3	478	Response	1	11883715	8800	0
+pilot_long_3	479	Picture	Korrekt, das ist Geward	11900218	0	1	20476	1	0	next	other	0
+pilot_long_3	480	Picture	learning/PICTURE_267.jpg;Igat;Zabem;i;block6;LS2	11920694	0	1	25137	1	0	25000	other	0
+pilot_long_3	480	Pulse	0	11925000	4306	NA
+pilot_long_3	480	Response	2	11928170	7476	0
+pilot_long_3	481	Picture	Korrekt, das ist Zabem	11945997	0	1	20143	1	0	next	other	0
+pilot_long_3	482	Picture	fix	11966140	0	1	45447	1	0	next	other	0
+pilot_long_3	482	Pulse	0	11970000	3860	NA
+pilot_long_3	483	Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS3	12011587	0	1	25137	1	0	25000	other	0
+pilot_long_3	483	Pulse	0	12015000	3413	NA
+pilot_long_3	483	Response	1	12023042	11455	0
+pilot_long_3	484	Picture	Korrekt, das ist Zabem	12036891	0	1	20476	1	0	next	other	0
+pilot_long_3	485	Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS3	12057367	0	1	25137	1	0	25000	other	0
+pilot_long_3	485	Pulse	0	12060000	2633	NA
+pilot_long_3	485	Response	1	12067282	9915	0
+pilot_long_3	486	Picture	Korrekt, das ist Larbe	12082670	0	1	20476	1	0	next	other	0
+pilot_long_3	487	Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS3	12103146	0	1	25137	1	0	25000	other	0
+pilot_long_3	487	Pulse	0	12105000	1854	NA
+pilot_long_3	487	Response	1	12111169	8023	0
+pilot_long_3	488	Picture	Korrekt, das ist Geward	12128450	0	1	20476	1	0	next	other	0
+pilot_long_3	489	Picture	learning/PICTURE_203.jpg;Lumack;Pase;i;block6;LS3	12148926	0	1	25137	1	0	25000	other	0
+pilot_long_3	489	Pulse	0	12150000	1074	NA
+pilot_long_3	489	Response	2	12156264	7338	0
+pilot_long_3	490	Picture	Korrekt, das ist Pase	12174229	0	1	20476	1	0	next	other	0
+pilot_long_3	491	Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS3	12194705	0	1	25137	1	0	25000	other	0
+pilot_long_3	491	Pulse	0	12195000	295	NA
+pilot_long_3	491	Response	1	12201366	6661	0
+pilot_long_3	492	Picture	Korrekt, das ist Helte	12220009	0	1	20476	1	0	next	other	0
+pilot_long_3	492	Pulse	0	12240000	19991	NA
+pilot_long_3	493	Picture	learning/PICTURE_67.jpg;Saptot;Larbe;i;block6;LS3	12240485	0	1	25137	1	0	25000	other	0
+pilot_long_3	493	Response	2	12249276	8791	0
+pilot_long_3	494	Picture	Korrekt, das ist Larbe	12265789	0	1	20476	1	0	next	other	0
+pilot_long_3	494	Pulse	0	12285000	19211	NA
+pilot_long_3	495	Picture	learning/PICTURE_165.jpg;Libtrum;Geward;i;block6;LS3	12286265	0	1	25137	1	0	25000	other	0
+pilot_long_3	495	Response	2	12293626	7362	0
+pilot_long_3	496	Picture	Korrekt, das ist Geward	12311568	0	1	20476	1	0	next	other	0
+pilot_long_3	496	Pulse	0	12330000	18432	NA
+pilot_long_3	497	Picture	learning/PICTURE_267.jpg;Ningkal;Zabem;i;block6;LS3	12332044	0	1	25137	1	0	25000	other	0
+pilot_long_3	497	Response	2	12340745	8701	0
+pilot_long_3	498	Picture	Korrekt, das ist Zabem	12357348	0	1	20476	1	0	next	other	0
+pilot_long_3	498	Pulse	0	12375000	17652	NA
+pilot_long_3	499	Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS3	12377824	0	1	25137	1	0	25000	other	0
+pilot_long_3	499	Response	1	12384321	6497	0
+pilot_long_3	500	Picture	Korrekt, das ist Pase	12403127	0	1	20476	1	0	next	other	0
+pilot_long_3	500	Pulse	0	12420000	16873	NA
+pilot_long_3	501	Picture	learning/PICTURE_212.jpg;Lispad;Helte;i;block6;LS3	12423603	0	1	25137	1	0	25000	other	0
+pilot_long_3	501	Response	2	12431208	7605	1
+pilot_long_3	502	Picture	Korrekt, das ist Helte	12448907	0	1	20143	1	0	next	other	0
+pilot_long_3	502	Pulse	0	12465000	16093	NA
+pilot_long_3	503	Picture	fix	12469050	0	1	45447	1	0	next	other	0
+pilot_long_3	503	Pulse	0	12510000	40950	NA
+pilot_long_3	504	Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS4	12514497	0	1	25137	1	0	25000	other	0
+pilot_long_3	504	Response	1	12521780	7283	0
+pilot_long_3	505	Picture	Korrekt, das ist Pase	12539800	0	1	20476	1	0	next	other	0
+pilot_long_3	505	Pulse	0	12555000	15200	NA
+pilot_long_3	506	Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS4	12560276	0	1	25137	1	0	25000	other	0
+pilot_long_3	506	Response	1	12567515	7239	0
+pilot_long_3	507	Picture	Korrekt, das ist Helte	12585580	0	1	20476	1	0	next	other	0
+pilot_long_3	507	Pulse	0	12600000	14420	NA
+pilot_long_3	508	Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS4	12606056	0	1	25137	1	0	25000	other	0
+pilot_long_3	508	Response	1	12612328	6273	0
+pilot_long_3	509	Picture	Korrekt, das ist Zabem	12631359	0	1	20476	1	0	next	other	0
+pilot_long_3	509	Pulse	0	12645000	13641	NA
+pilot_long_3	510	Picture	learning/PICTURE_203.jpg;Neffit;Pase;i;block6;LS4	12651835	0	1	25137	1	0	25000	other	0
+pilot_long_3	510	Response	2	12658113	6278	0
+pilot_long_3	511	Picture	Korrekt, das ist Pase	12677139	0	1	20476	1	0	next	other	0
+pilot_long_3	511	Pulse	0	12690000	12861	NA
+pilot_long_3	512	Picture	learning/PICTURE_67.jpg;Lumack;Larbe;i;block6;LS4	12697615	0	1	25137	1	0	25000	other	0
+pilot_long_3	512	Response	2	12704640	7025	0
+pilot_long_3	513	Picture	Korrekt, das ist Larbe	12722919	0	1	20476	1	0	next	other	0
+pilot_long_3	513	Pulse	0	12735000	12081	NA
+pilot_long_3	514	Picture	learning/PICTURE_212.jpg;Logatt;Helte;i;block6;LS4	12743394	0	1	25137	1	0	25000	other	0
+pilot_long_3	514	Response	2	12750460	7065	0
+pilot_long_3	515	Picture	Korrekt, das ist Helte	12768698	0	1	20476	1	0	next	other	0
+pilot_long_3	515	Pulse	0	12780000	11302	NA
+pilot_long_3	516	Picture	learning/PICTURE_165.jpg;Liegast;Geward;i;block6;LS4	12789174	0	1	25137	1	0	25000	other	0
+pilot_long_3	516	Response	2	12796745	7571	0
+pilot_long_3	517	Picture	Korrekt, das ist Geward	12814478	0	1	20476	1	0	next	other	0
+pilot_long_3	517	Pulse	0	12825000	10522	NA
+pilot_long_3	518	Picture	learning/PICTURE_267.jpg;Pafau;Zabem;i;block6;LS4	12834954	0	1	25137	1	0	25000	other	0
+pilot_long_3	518	Response	2	12841810	6856	0
+pilot_long_3	519	Picture	Korrekt, das ist Zabem	12860257	0	1	20476	1	0	next	other	0
+pilot_long_3	519	Pulse	0	12870000	9743	NA
+pilot_long_3	520	Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS4	12880733	0	1	25137	1	0	25000	other	0
+pilot_long_3	520	Response	1	12887830	7097	0
+pilot_long_3	521	Picture	Korrekt, das ist Geward	12906037	0	1	20476	1	0	next	other	0
+pilot_long_3	521	Pulse	0	12915000	8963	NA
+pilot_long_3	522	Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS4	12926513	0	1	25137	1	0	25000	other	0
+pilot_long_3	522	Response	1	12937481	10968	0
+pilot_long_3	523	Picture	Korrekt, das ist Larbe	12951816	0	1	20143	1	0	next	other	0
+pilot_long_3	523	Pulse	0	12960000	8184	NA
+pilot_long_3	524	Picture	fix	12971959	0	1	45114	1	0	next	other	0
+pilot_long_3	524	Pulse	0	13005000	33041	NA
+pilot_long_3	525	Picture	fix	13017073	0	1	45114	1	0	next	other	0
+pilot_long_3	525	Pulse	0	13050000	32927	NA
+pilot_long_3	526	Picture	fix	13062187	0	1	45114	1	0	next	other	0
+pilot_long_3	526	Pulse	0	13095000	32813	NA
+pilot_long_3	527	Picture	fix	13107301	0	1	45114	1	0	next	other	0
+pilot_long_3	527	Pulse	0	13140000	32699	NA
+pilot_long_3	528	Picture	fix	13152414	0	1	45447	1	0	next	other	0
+pilot_long_3	528	Pulse	0	13185000	32586	NA
+pilot_long_3	529	Picture	control/PICTURE_621.jpg;Panzer;Panzer;c;block7;LS1	13197861	0	1	25137	1	0	25000	other	0
+pilot_long_3	529	Response	1	13207635	9774	0
+pilot_long_3	530	Picture	Korrekt, das ist Panzer	13223165	0	1	20476	1	0	next	other	0
+pilot_long_3	530	Pulse	0	13230000	6836	NA
+pilot_long_3	531	Picture	control/PICTURE_234.jpg;Teller;Teller;c;block7;LS1	13243640	0	1	25137	1	0	25000	other	0
+pilot_long_3	531	Response	1	13254767	11127	0
+pilot_long_3	532	Picture	Korrekt, das ist Teller	13268944	0	1	20476	1	0	next	other	0
+pilot_long_3	532	Pulse	0	13275000	6056	NA
+pilot_long_3	533	Picture	control/PICTURE_368.jpg;Kette;Fächer;i;block7;LS1	13289420	0	1	25137	1	0	25000	other	0
+pilot_long_3	533	Response	2	13300076	10656	0
+pilot_long_3	534	Picture	Korrekt, das ist Fächer	13314724	0	1	20476	1	0	next	other	0
+pilot_long_3	534	Pulse	0	13320000	5276	NA
+pilot_long_3	535	Picture	control/PICTURE_19.jpg;Truthahn;Truthahn;c;block7;LS1	13335200	0	1	25137	1	0	25000	other	0
+pilot_long_3	535	Response	1	13343318	8118	0
+pilot_long_3	536	Picture	Korrekt, das ist Truthahn	13360503	0	1	20476	1	0	next	other	0
+pilot_long_3	536	Pulse	0	13365000	4497	NA
+pilot_long_3	537	Picture	control/PICTURE_135.jpg;Anzug;Anzug;c;block7;LS1	13380979	0	1	25137	1	0	25000	other	0
+pilot_long_3	537	Response	1	13388716	7737	0
+pilot_long_3	538	Picture	Korrekt, das ist Anzug	13406283	0	1	20476	1	0	next	other	0
+pilot_long_3	538	Pulse	0	13410000	3717	NA
+pilot_long_3	539	Picture	control/PICTURE_368.jpg;Fächer;Fächer;c;block7;LS1	13426759	0	1	25137	1	0	25000	other	0
+pilot_long_3	539	Response	1	13433851	7092	0
+pilot_long_3	540	Picture	Korrekt, das ist Fächer	13452062	0	1	20476	1	0	next	other	0
+pilot_long_3	540	Pulse	0	13455000	2938	NA
+pilot_long_3	541	Picture	control/PICTURE_234.jpg;Hase;Teller;i;block7;LS1	13472538	0	1	25137	1	0	25000	other	0
+pilot_long_3	541	Response	2	13480966	8427	0
+pilot_long_3	542	Picture	Korrekt, das ist Teller	13497842	0	1	20476	1	0	next	other	0
+pilot_long_3	542	Pulse	0	13500000	2158	NA
+pilot_long_3	543	Picture	control/PICTURE_135.jpg;Teppich;Anzug;i;block7;LS1	13518318	0	1	25137	1	0	25000	other	0
+pilot_long_3	543	Response	2	13527237	8919	0
+pilot_long_3	544	Picture	Korrekt, das ist Anzug	13543622	0	1	20476	1	0	next	other	0
+pilot_long_3	544	Pulse	0	13545000	1378	NA
+pilot_long_3	545	Picture	control/PICTURE_19.jpg;Geschenk;Truthahn;i;block7;LS1	13564098	0	1	25137	1	0	25000	other	0
+pilot_long_3	545	Response	2	13571964	7866	0
+pilot_long_3	546	Picture	Korrekt, das ist Truthahn	13589401	0	1	20476	1	0	next	other	0
+pilot_long_3	546	Pulse	0	13590000	599	NA
+pilot_long_3	547	Picture	control/PICTURE_621.jpg;Tablett;Panzer;i;block7;LS1	13609877	0	1	25137	1	0	25000	other	0
+pilot_long_3	547	Response	2	13618633	8756	0
+pilot_long_3	547	Pulse	0	13635000	25123	NA
+pilot_long_3	548	Picture	Korrekt, das ist Panzer	13635181	0	1	20143	1	0	next	other	0
+pilot_long_3	549	Picture	fix	13655324	0	1	45447	1	0	next	other	0
+pilot_long_3	549	Pulse	0	13680000	24676	NA
+pilot_long_3	550	Picture	control/PICTURE_621.jpg;Panzer;Panzer;c;block7;LS2	13700770	0	1	25137	1	0	25000	other	0
+pilot_long_3	550	Response	1	13706898	6128	0
+pilot_long_3	550	Pulse	0	13725000	24230	NA
+pilot_long_3	551	Picture	Korrekt, das ist Panzer	13726074	0	1	20476	1	0	next	other	0
+pilot_long_3	552	Picture	control/PICTURE_234.jpg;Teller;Teller;c;block7;LS2	13746550	0	1	25137	1	0	25000	other	0
+pilot_long_3	552	Response	1	13754382	7832	0
+pilot_long_3	552	Pulse	0	13770000	23450	NA
+pilot_long_3	553	Picture	Korrekt, das ist Teller	13771854	0	1	20476	1	0	next	other	0
+pilot_long_3	554	Picture	control/PICTURE_368.jpg;Fächer;Fächer;c;block7;LS2	13792330	0	1	25137	1	0	25000	other	0
+pilot_long_3	554	Response	1	13798871	6541	0
+pilot_long_3	554	Pulse	0	13815000	22670	NA
+pilot_long_3	555	Picture	Korrekt, das ist Fächer	13817633	0	1	20476	1	0	next	other	0
+pilot_long_3	556	Picture	control/PICTURE_19.jpg;Flasche;Truthahn;i;block7;LS2	13838109	0	1	25137	1	0	25000	other	0
+pilot_long_3	556	Response	2	13847292	9182	0
+pilot_long_3	556	Pulse	0	13860000	21891	NA
+pilot_long_3	557	Picture	Korrekt, das ist Truthahn	13863413	0	1	20476	1	0	next	other	0
+pilot_long_3	558	Picture	control/PICTURE_368.jpg;Kürbis;Fächer;i;block7;LS2	13883889	0	1	25137	1	0	25000	other	0
+pilot_long_3	558	Response	2	13891775	7886	0
+pilot_long_3	558	Pulse	0	13905000	21111	NA
+pilot_long_3	559	Picture	Korrekt, das ist Fächer	13909192	0	1	20476	1	0	next	other	0
+pilot_long_3	560	Picture	control/PICTURE_19.jpg;Truthahn;Truthahn;c;block7;LS2	13929668	0	1	25137	1	0	25000	other	0
+pilot_long_3	560	Response	1	13936169	6500	0
+pilot_long_3	560	Pulse	0	13950000	20332	NA
+pilot_long_3	561	Picture	Korrekt, das ist Truthahn	13954972	0	1	20476	1	0	next	other	0
+pilot_long_3	562	Picture	control/PICTURE_135.jpg;Drache;Anzug;i;block7;LS2	13975448	0	1	25137	1	0	25000	other	0
+pilot_long_3	562	Response	2	13984011	8563	0
+pilot_long_3	562	Pulse	0	13995000	19552	NA
+pilot_long_3	563	Picture	Korrekt, das ist Anzug	14000752	0	1	20476	1	0	next	other	0
+pilot_long_3	564	Picture	control/PICTURE_234.jpg;Panzer;Teller;i;block7;LS2	14021227	0	1	25137	1	0	25000	other	0
+pilot_long_3	564	Response	2	14029394	8166	0
+pilot_long_3	564	Pulse	0	14040000	18773	NA
+pilot_long_3	565	Picture	Korrekt, das ist Teller	14046531	0	1	20476	1	0	next	other	0
+pilot_long_3	566	Picture	control/PICTURE_135.jpg;Anzug;Anzug;c;block7;LS2	14067007	0	1	25137	1	0	25000	other	0
+pilot_long_3	566	Response	1	14072637	5630	0
+pilot_long_3	566	Pulse	0	14085000	17993	NA
+pilot_long_3	567	Picture	Korrekt, das ist Anzug	14092311	0	1	20476	1	0	next	other	0
+pilot_long_3	568	Picture	control/PICTURE_621.jpg;Leuchtturm;Panzer;i;block7;LS2	14112787	0	1	25137	1	0	25000	other	0
+pilot_long_3	568	Response	2	14120046	7260	0
+pilot_long_3	568	Pulse	0	14130000	17213	NA
+pilot_long_3	569	Picture	Korrekt, das ist Panzer	14138090	0	1	20143	1	0	next	other	0
+pilot_long_3	570	Picture	fix	14158233	0	1	45447	1	0	next	other	0
+pilot_long_3	570	Pulse	0	14175000	16767	NA
+pilot_long_3	571	Picture	control/PICTURE_338.jpg;Geschenk;Geschenk;c;block7;LS3	14203680	0	1	25137	1	0	25000	other	0
+pilot_long_3	571	Response	1	14209784	6104	0
+pilot_long_3	571	Pulse	0	14220000	16320	NA
+pilot_long_3	572	Picture	Korrekt, das ist Geschenk	14228984	0	1	20476	1	0	next	other	0
+pilot_long_3	573	Picture	control/PICTURE_255.jpg;Fächer;Schaufel;i;block7;LS3	14249460	0	1	25137	1	0	25000	other	0
+pilot_long_3	573	Response	2	14256496	7037	0
+pilot_long_3	573	Pulse	0	14265000	15540	NA
+pilot_long_3	574	Picture	Korrekt, das ist Schaufel	14274763	0	1	20476	1	0	next	other	0
+pilot_long_3	575	Picture	control/PICTURE_111.jpg;Feuer;Drache;i;block7;LS3	14295239	0	1	25137	1	0	25000	other	0
+pilot_long_3	575	Response	2	14306507	11268	0
+pilot_long_3	575	Pulse	0	14310000	14761	NA
+pilot_long_3	576	Picture	Korrekt, das ist Drache	14320543	0	1	20476	1	0	next	other	0
+pilot_long_3	577	Picture	control/PICTURE_343.jpg;Fussball;Flasche;i;block7;LS3	14341019	0	1	25137	1	0	25000	other	0
+pilot_long_3	577	Response	2	14349557	8539	0
+pilot_long_3	577	Pulse	0	14355000	13981	NA
+pilot_long_3	578	Picture	Korrekt, das ist Flasche	14366322	0	1	20476	1	0	next	other	0
+pilot_long_3	579	Picture	control/PICTURE_111.jpg;Drache;Drache;c;block7;LS3	14386798	0	1	25137	1	0	25000	other	0
+pilot_long_3	579	Response	1	14393595	6797	0
+pilot_long_3	579	Pulse	0	14400000	13202	NA
+pilot_long_3	580	Picture	Korrekt, das ist Drache	14412102	0	1	20476	1	0	next	other	0
+pilot_long_3	581	Picture	control/PICTURE_255.jpg;Schaufel;Schaufel;c;block7;LS3	14432578	0	1	25137	1	0	25000	other	0
+pilot_long_3	581	Response	1	14439066	6488	0
+pilot_long_3	581	Pulse	0	14445000	12422	NA
+pilot_long_3	582	Picture	Korrekt, das ist Schaufel	14457882	0	1	20476	1	0	next	other	0
+pilot_long_3	583	Picture	control/PICTURE_551.jpg;Kürbis;Kürbis;c;block7;LS3	14478357	0	1	25137	1	0	25000	other	0
+pilot_long_3	583	Response	1	14484803	6445	0
+pilot_long_3	583	Pulse	0	14490000	11643	NA
+pilot_long_3	584	Picture	Korrekt, das ist Kürbis	14503661	0	1	20476	1	0	next	other	0
+pilot_long_3	585	Picture	control/PICTURE_338.jpg;Flasche;Geschenk;i;block7;LS3	14524137	0	1	25137	1	0	25000	other	0
+pilot_long_3	585	Response	2	14531602	7465	0
+pilot_long_3	585	Pulse	0	14535000	10863	NA
+pilot_long_3	586	Picture	Korrekt, das ist Geschenk	14549441	0	1	20476	1	0	next	other	0
+pilot_long_3	587	Picture	control/PICTURE_551.jpg;Schaufel;Kürbis;i;block7;LS3	14569917	0	1	25137	1	0	25000	other	0
+pilot_long_3	587	Response	2	14577496	7579	0
+pilot_long_3	587	Pulse	0	14580000	10083	NA
+pilot_long_3	588	Picture	Korrekt, das ist Kürbis	14595220	0	1	20476	1	0	next	other	0
+pilot_long_3	589	Picture	control/PICTURE_343.jpg;Flasche;Flasche;c;block7;LS3	14615696	0	1	25137	1	0	25000	other	0
+pilot_long_3	589	Response	1	14621863	6167	0
+pilot_long_3	589	Pulse	0	14625000	9304	NA
+pilot_long_3	590	Picture	Korrekt, das ist Flasche	14641000	0	1	20143	1	0	next	other	0
+pilot_long_3	591	Picture	fix	14661143	0	1	45447	1	0	next	other	0
+pilot_long_3	591	Pulse	0	14670000	8857	NA
+pilot_long_3	592	Picture	control/PICTURE_338.jpg;Lenkrad;Geschenk;i;block7;LS4	14706589	0	1	25137	1	0	25000	other	0
+pilot_long_3	592	Pulse	0	14715000	8411	NA
+pilot_long_3	592	Response	2	14717431	10841	0
+pilot_long_3	593	Picture	Korrekt, das ist Geschenk	14731893	0	1	20476	1	0	next	other	0
+pilot_long_3	594	Picture	control/PICTURE_255.jpg;Kette;Schaufel;i;block7;LS4	14752369	0	1	25137	1	0	25000	other	0
+pilot_long_3	594	Pulse	0	14760000	7631	NA
+pilot_long_3	594	Response	2	14760011	7642	0
+pilot_long_3	595	Picture	Korrekt, das ist Schaufel	14777673	0	1	20476	1	0	next	other	0
+pilot_long_3	596	Picture	control/PICTURE_111.jpg;Drache;Drache;c;block7;LS4	14798149	0	1	25137	1	0	25000	other	0
+pilot_long_3	596	Response	1	14804163	6014	0
+pilot_long_3	596	Pulse	0	14805000	6851	NA
+pilot_long_3	597	Picture	Korrekt, das ist Drache	14823452	0	1	20476	1	0	next	other	0
+pilot_long_3	598	Picture	control/PICTURE_551.jpg;Affe;Kürbis;i;block7;LS4	14843928	0	1	25137	1	0	25000	other	0
+pilot_long_3	598	Pulse	0	14850000	6072	NA
+pilot_long_3	598	Response	2	14850476	6548	0
+pilot_long_3	599	Picture	Korrekt, das ist Kürbis	14869232	0	1	20476	1	0	next	other	0
+pilot_long_3	600	Picture	control/PICTURE_111.jpg;Walnuss;Drache;i;block7;LS4	14889708	0	1	25137	1	0	25000	other	0
+pilot_long_3	600	Pulse	0	14895000	5292	NA
+pilot_long_3	600	Response	2	14898979	9272	0
+pilot_long_3	601	Picture	Korrekt, das ist Drache	14915011	0	1	20476	1	0	next	other	0
+pilot_long_3	602	Picture	control/PICTURE_338.jpg;Geschenk;Geschenk;c;block7;LS4	14935487	0	1	25137	1	0	25000	other	0
+pilot_long_3	602	Pulse	0	14940000	4513	NA
+pilot_long_3	602	Response	1	14941868	6380	0
+pilot_long_3	603	Picture	Korrekt, das ist Geschenk	14960791	0	1	20476	1	0	next	other	0
+pilot_long_3	604	Picture	control/PICTURE_255.jpg;Schaufel;Schaufel;c;block7;LS4	14981267	0	1	25137	1	0	25000	other	0
+pilot_long_3	604	Pulse	0	14985000	3733	NA
+pilot_long_3	604	Response	1	14987796	6529	0
+pilot_long_3	605	Picture	Korrekt, das ist Schaufel	15006571	0	1	20476	1	0	next	other	0
+pilot_long_3	606	Picture	control/PICTURE_343.jpg;Truthahn;Flasche;i;block7;LS4	15027047	0	1	25137	1	0	25000	other	0
+pilot_long_3	606	Pulse	0	15030000	2953	NA
+pilot_long_3	606	Response	2	15034085	7039	0
+pilot_long_3	607	Picture	Korrekt, das ist Flasche	15052350	0	1	20476	1	0	next	other	0
+pilot_long_3	608	Picture	control/PICTURE_551.jpg;Kürbis;Kürbis;c;block7;LS4	15072826	0	1	25137	1	0	25000	other	0
+pilot_long_3	608	Pulse	0	15075000	2174	NA
+pilot_long_3	608	Response	1	15078672	5846	0
+pilot_long_3	609	Picture	Korrekt, das ist Kürbis	15098130	0	1	20642	1	0	next	other	0
+pilot_long_3	610	Picture	control/PICTURE_343.jpg;Flasche;Flasche;c;block7;LS4	15118772	0	1	25137	1	0	25000	other	0
+pilot_long_3	610	Pulse	0	15120000	1228	NA
+pilot_long_3	610	Response	1	15124560	5788	0
+pilot_long_3	611	Picture	Korrekt, das ist Flasche	15144076	0	1	20143	1	0	next	other	0
+pilot_long_3	612	Picture	fix	15164219	0	1	45114	1	0	next	other	0
+pilot_long_3	612	Pulse	0	15165000	781	NA
+pilot_long_3	613	Picture	fix	15209333	0	1	45114	1	0	next	other	0
+pilot_long_3	613	Pulse	0	15210000	667	NA
+pilot_long_3	614	Picture	fix	15254446	0	1	45114	1	0	next	other	0
+pilot_long_3	614	Pulse	0	15255000	554	NA
+pilot_long_3	615	Picture	fix	15299560	0	1	45114	1	0	next	other	0
+pilot_long_3	615	Pulse	0	15300000	440	NA
+pilot_long_3	616	Picture	fix	15344674	0	1	45447	1	0	next	other	0
+pilot_long_3	616	Pulse	0	15345000	326	NA
+pilot_long_3	616	Pulse	0	15390000	45326	NA
+pilot_long_3	617	Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS1	15390120	0	1	25137	1	0	25000	other	0
+pilot_long_3	617	Response	2	15399874	9754	0
+pilot_long_3	618	Picture	Falsch, das ist Schiehel	15415424	0	1	20476	1	0	next	other	0
+pilot_long_3	618	Pulse	0	15435000	19576	NA
+pilot_long_3	619	Picture	learning/PICTURE_148.jpg;Merschink;Eume;i;block8;LS1	15435900	0	1	25137	1	0	25000	other	0
+pilot_long_3	619	Response	2	15449764	13865	0
+pilot_long_3	620	Picture	Korrekt, das ist Eume	15461203	0	1	20476	1	0	next	other	0
+pilot_long_3	620	Pulse	0	15480000	18797	NA
+pilot_long_3	621	Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS1	15481679	0	1	25137	1	0	25000	other	0
+pilot_long_3	621	Response	2	15492525	10846	0
+pilot_long_3	622	Picture	Falsch, das ist Mummbant	15506983	0	1	20476	1	0	next	other	0
+pilot_long_3	622	Pulse	0	15525000	18017	NA
+pilot_long_3	623	Picture	learning/PICTURE_38.jpg;Derbstal;Schiehel;i;block8;LS1	15527459	0	1	25137	1	0	25000	other	0
+pilot_long_3	623	Response	2	15540433	12974	0
+pilot_long_3	624	Picture	Korrekt, das ist Schiehel	15552763	0	1	20476	1	0	next	other	0
+pilot_long_3	624	Pulse	0	15570000	17237	NA
+pilot_long_3	625	Picture	learning/PICTURE_592.jpg;Blastaun;Mummbant;i;block8;LS1	15573239	0	1	25137	1	0	25000	other	0
+pilot_long_3	625	Response	2	15581547	8308	0
+pilot_long_3	626	Picture	Korrekt, das ist Mummbant	15598542	0	1	20476	1	0	next	other	0
+pilot_long_3	626	Pulse	0	15615000	16458	NA
+pilot_long_3	627	Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS1	15619018	0	1	25137	1	0	25000	other	0
+pilot_long_3	627	Response	2	15630567	11549	0
+pilot_long_3	628	Picture	Falsch, das ist Stinnreik	15644322	0	1	20476	1	0	next	other	0
+pilot_long_3	628	Pulse	0	15660000	15678	NA
+pilot_long_3	629	Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS1	15664798	0	1	25137	1	0	25000	other	0
+pilot_long_3	629	Response	2	15674908	10110	0
+pilot_long_3	630	Picture	Falsch, das ist Dartin	15690101	0	1	20476	1	0	next	other	0
+pilot_long_3	630	Pulse	0	15705000	14899	NA
+pilot_long_3	631	Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS1	15710577	0	1	25137	1	0	25000	other	0
+pilot_long_3	631	Response	1	15719173	8595	0
+pilot_long_3	632	Picture	Korrekt, das ist Eume	15735881	0	1	20476	1	0	next	other	0
+pilot_long_3	632	Pulse	0	15750000	14119	NA
+pilot_long_3	633	Picture	learning/PICTURE_74.jpg;Misal;Dartin;i;block8;LS1	15756357	0	1	25137	1	0	25000	other	0
+pilot_long_3	633	Response	2	15768922	12565	0
+pilot_long_3	634	Picture	Korrekt, das ist Dartin	15781661	0	1	20476	1	0	next	other	0
+pilot_long_3	634	Pulse	0	15795000	13339	NA
+pilot_long_3	635	Picture	learning/PICTURE_100.jpg;Negasch;Stinnreik;i;block8;LS1	15802137	0	1	25137	1	0	25000	other	0
+pilot_long_3	635	Response	2	15810263	8127	0
+pilot_long_3	636	Picture	Korrekt, das ist Stinnreik	15827440	0	1	20143	1	0	next	other	0
+pilot_long_3	636	Pulse	0	15840000	12560	NA
+pilot_long_3	637	Picture	fix	15847583	0	1	45447	1	0	next	other	0
+pilot_long_3	637	Pulse	0	15885000	37417	NA
+pilot_long_3	638	Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS2	15893030	0	1	25137	1	0	25000	other	0
+pilot_long_3	638	Response	1	15899862	6832	0
+pilot_long_3	639	Picture	Korrekt, das ist Stinnreik	15918333	0	1	20476	1	0	next	other	0
+pilot_long_3	639	Pulse	0	15930000	11667	NA
+pilot_long_3	640	Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS2	15938809	0	1	25137	1	0	25000	other	0
+pilot_long_3	640	Response	1	15945647	6837	0
+pilot_long_3	641	Picture	Korrekt, das ist Mummbant	15964113	0	1	20476	1	0	next	other	0
+pilot_long_3	641	Pulse	0	15975000	10887	NA
+pilot_long_3	642	Picture	learning/PICTURE_38.jpg;Bogast;Schiehel;i;block8;LS2	15984589	0	1	25137	1	0	25000	other	0
+pilot_long_3	642	Response	2	15993873	9284	0
+pilot_long_3	643	Picture	Korrekt, das ist Schiehel	16009893	0	1	20476	1	0	next	other	0
+pilot_long_3	643	Pulse	0	16020000	10107	NA
+pilot_long_3	644	Picture	learning/PICTURE_592.jpg;Leniel;Mummbant;i;block8;LS2	16030369	0	1	25137	1	0	25000	other	0
+pilot_long_3	644	Response	2	16037352	6983	0
+pilot_long_3	645	Picture	Korrekt, das ist Mummbant	16055672	0	1	20476	1	0	next	other	0
+pilot_long_3	645	Pulse	0	16065000	9328	NA
+pilot_long_3	646	Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS2	16076148	0	1	25137	1	0	25000	other	0
+pilot_long_3	646	Response	1	16083304	7156	0
+pilot_long_3	647	Picture	Korrekt, das ist Eume	16101452	0	1	20476	1	0	next	other	0
+pilot_long_3	647	Pulse	0	16110000	8548	NA
+pilot_long_3	648	Picture	learning/PICTURE_74.jpg;Nakif;Dartin;i;block8;LS2	16121928	0	1	25137	1	0	25000	other	0
+pilot_long_3	648	Response	2	16129858	7931	0
+pilot_long_3	649	Picture	Korrekt, das ist Dartin	16147231	0	1	20476	1	0	next	other	0
+pilot_long_3	649	Pulse	0	16155000	7769	NA
+pilot_long_3	650	Picture	learning/PICTURE_148.jpg;Dobast;Eume;i;block8;LS2	16167707	0	1	25137	1	0	25000	other	0
+pilot_long_3	650	Response	2	16174639	6931	0
+pilot_long_3	651	Picture	Korrekt, das ist Eume	16193011	0	1	20476	1	0	next	other	0
+pilot_long_3	651	Pulse	0	16200000	6989	NA
+pilot_long_3	652	Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS2	16213487	0	1	25137	1	0	25000	other	0
+pilot_long_3	652	Response	1	16220499	7013	0
+pilot_long_3	653	Picture	Korrekt, das ist Dartin	16238790	0	1	20476	1	0	next	other	0
+pilot_long_3	653	Pulse	0	16245000	6210	NA
+pilot_long_3	654	Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS2	16259266	0	1	25137	1	0	25000	other	0
+pilot_long_3	654	Response	1	16266368	7102	0
+pilot_long_3	655	Picture	Korrekt, das ist Schiehel	16284570	0	1	20476	1	0	next	other	0
+pilot_long_3	655	Pulse	0	16290000	5430	NA
+pilot_long_3	656	Picture	learning/PICTURE_100.jpg;Fohreng;Stinnreik;i;block8;LS2	16305046	0	1	25137	1	0	25000	other	0
+pilot_long_3	656	Response	2	16311505	6459	0
+pilot_long_3	657	Picture	Korrekt, das ist Stinnreik	16330350	0	1	20143	1	0	next	other	0
+pilot_long_3	657	Pulse	0	16335000	4650	NA
+pilot_long_3	658	Picture	fix	16350493	0	1	45447	1	0	next	other	0
+pilot_long_3	658	Pulse	0	16380000	29507	NA
+pilot_long_3	659	Picture	learning/PICTURE_38.jpg;Logas;Schiehel;i;block8;LS3	16395939	0	1	25137	1	0	25000	other	0
+pilot_long_3	659	Response	2	16403026	7087	0
+pilot_long_3	660	Picture	Korrekt, das ist Schiehel	16421243	0	1	20476	1	0	next	other	0
+pilot_long_3	660	Pulse	0	16425000	3757	NA
+pilot_long_3	661	Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS3	16441719	0	1	25137	1	0	25000	other	0
+pilot_long_3	661	Response	1	16448288	6569	0
+pilot_long_3	662	Picture	Korrekt, das ist Dartin	16467023	0	1	20476	1	0	next	other	0
+pilot_long_3	662	Pulse	0	16470000	2977	NA
+pilot_long_3	663	Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS3	16487498	0	1	25137	1	0	25000	other	0
+pilot_long_3	663	Response	1	16493337	5838	0
+pilot_long_3	664	Picture	Korrekt, das ist Stinnreik	16512802	0	1	20476	1	0	next	other	0
+pilot_long_3	664	Pulse	0	16515000	2198	NA
+pilot_long_3	665	Picture	learning/PICTURE_148.jpg;Lokrast;Eume;i;block8;LS3	16533278	0	1	25137	1	0	25000	other	0
+pilot_long_3	665	Response	2	16540632	7354	0
+pilot_long_3	666	Picture	Korrekt, das ist Eume	16558582	0	1	20476	1	0	next	other	0
+pilot_long_3	666	Pulse	0	16560000	1418	NA
+pilot_long_3	667	Picture	learning/PICTURE_74.jpg;Molan;Dartin;i;block8;LS3	16579058	0	1	25137	1	0	25000	other	0
+pilot_long_3	667	Response	2	16585880	6823	1
+pilot_long_3	668	Picture	Korrekt, das ist Dartin	16604361	0	1	20476	1	0	next	other	0
+pilot_long_3	668	Pulse	0	16605000	639	NA
+pilot_long_3	669	Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS3	16624837	0	1	25137	1	0	25000	other	0
+pilot_long_3	669	Response	1	16630631	5794	0
+pilot_long_3	669	Pulse	0	16650000	25163	NA
+pilot_long_3	670	Picture	Korrekt, das ist Schiehel	16650141	0	1	20476	1	0	next	other	0
+pilot_long_3	671	Picture	learning/PICTURE_100.jpg;Flutoll;Stinnreik;i;block8;LS3	16670617	0	1	25137	1	0	25000	other	0
+pilot_long_3	671	Response	2	16677683	7066	0
+pilot_long_3	671	Pulse	0	16695000	24383	NA
+pilot_long_3	672	Picture	Korrekt, das ist Stinnreik	16695920	0	1	20476	1	0	next	other	0
+pilot_long_3	673	Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS3	16716396	0	1	25137	1	0	25000	other	0
+pilot_long_3	673	Response	1	16722661	6264	0
+pilot_long_3	673	Pulse	0	16740000	23604	NA
+pilot_long_3	674	Picture	Korrekt, das ist Mummbant	16741700	0	1	20476	1	0	next	other	0
+pilot_long_3	675	Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS3	16762176	0	1	25137	1	0	25000	other	0
+pilot_long_3	675	Response	1	16767881	5705	0
+pilot_long_3	675	Pulse	0	16785000	22824	NA
+pilot_long_3	676	Picture	Korrekt, das ist Eume	16787480	0	1	20476	1	0	next	other	0
+pilot_long_3	677	Picture	learning/PICTURE_592.jpg;Liegast;Mummbant;i;block8;LS3	16807956	0	1	25137	1	0	25000	other	0
+pilot_long_3	677	Response	2	16814342	6386	0
+pilot_long_3	677	Pulse	0	16830000	22044	NA
+pilot_long_3	678	Picture	Korrekt, das ist Mummbant	16833259	0	1	20143	1	0	next	other	0
+pilot_long_3	679	Picture	fix	16853402	0	1	45447	1	0	next	other	0
+pilot_long_3	679	Pulse	0	16875000	21598	NA
+pilot_long_3	680	Picture	learning/PICTURE_74.jpg;Najom;Dartin;i;block8;LS4	16898849	0	1	25137	1	0	25000	other	0
+pilot_long_3	680	Response	2	16905047	6198	0
+pilot_long_3	680	Pulse	0	16920000	21151	NA
+pilot_long_3	681	Picture	Korrekt, das ist Dartin	16924152	0	1	20476	1	0	next	other	0
+pilot_long_3	682	Picture	learning/PICTURE_100.jpg;Nehal;Stinnreik;i;block8;LS4	16944628	0	1	25137	1	0	25000	other	0
+pilot_long_3	682	Response	2	16951097	6469	0
+pilot_long_3	682	Pulse	0	16965000	20372	NA
+pilot_long_3	683	Picture	Korrekt, das ist Stinnreik	16969932	0	1	20476	1	0	next	other	0
+pilot_long_3	684	Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS4	16990408	0	1	25137	1	0	25000	other	0
+pilot_long_3	684	Response	1	16997956	7548	1
+pilot_long_3	684	Pulse	0	17010000	19592	NA
+pilot_long_3	685	Picture	Korrekt, das ist Dartin	17015712	0	1	20476	1	0	next	other	0
+pilot_long_3	686	Picture	learning/PICTURE_38.jpg;Limjepp;Schiehel;i;block8;LS4	17036188	0	1	25137	1	0	25000	other	0
+pilot_long_3	686	Response	1	17042216	6028	0
+pilot_long_3	686	Pulse	0	17055000	18812	NA
+pilot_long_3	687	Picture	Falsch, das ist Schiehel	17061491	0	1	20642	1	0	next	other	0
+pilot_long_3	688	Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS4	17082134	0	1	25137	1	0	25000	other	0
+pilot_long_3	688	Response	1	17088806	6672	0
+pilot_long_3	688	Pulse	0	17100000	17866	NA
+pilot_long_3	689	Picture	Korrekt, das ist Mummbant	17107437	0	1	20476	1	0	next	other	0
+pilot_long_3	690	Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS4	17127913	0	1	25137	1	0	25000	other	0
+pilot_long_3	690	Response	1	17135634	7721	0
+pilot_long_3	690	Pulse	0	17145000	17087	NA
+pilot_long_3	691	Picture	Korrekt, das ist Eume	17153217	0	1	20476	1	0	next	other	0
+pilot_long_3	692	Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS4	17173693	0	1	25137	1	0	25000	other	0
+pilot_long_3	692	Response	1	17180195	6502	0
+pilot_long_3	692	Pulse	0	17190000	16307	NA
+pilot_long_3	693	Picture	Korrekt, das ist Schiehel	17198996	0	1	20476	1	0	next	other	0
+pilot_long_3	694	Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS4	17219472	0	1	25137	1	0	25000	other	0
+pilot_long_3	694	Response	1	17228783	9311	0
+pilot_long_3	694	Pulse	0	17235000	15528	NA
+pilot_long_3	695	Picture	Korrekt, das ist Stinnreik	17244776	0	1	20476	1	0	next	other	0
+pilot_long_3	696	Picture	learning/PICTURE_148.jpg;Nazehl;Eume;i;block8;LS4	17265252	0	1	25137	1	0	25000	other	0
+pilot_long_3	696	Response	2	17272521	7269	0
+pilot_long_3	696	Pulse	0	17280000	14748	NA
+pilot_long_3	697	Picture	Korrekt, das ist Eume	17290556	0	1	20476	1	0	next	other	0
+pilot_long_3	698	Picture	learning/PICTURE_592.jpg;Aglud;Mummbant;i;block8;LS4	17311032	0	1	25137	1	0	25000	other	0
+pilot_long_3	698	Response	2	17318240	7209	0
+pilot_long_3	698	Pulse	0	17325000	13968	NA
+pilot_long_3	699	Picture	Korrekt, das ist Mummbant	17336335	0	1	20143	1	0	next	other	0
+pilot_long_3	700	Picture	fix	17356478	0	1	45114	1	0	next	other	0
+pilot_long_3	700	Pulse	0	17370000	13522	NA
+pilot_long_3	701	Picture	fix	17401592	0	1	45114	1	0	next	other	0
+pilot_long_3	701	Pulse	0	17415000	13408	NA
+pilot_long_3	702	Picture	fix	17446706	0	1	45114	1	0	next	other	0
+pilot_long_3	702	Pulse	0	17460000	13294	NA
+pilot_long_3	703	Picture	fix	17491819	0	1	45114	1	0	next	other	0
+pilot_long_3	703	Pulse	0	17505000	13181	NA
+pilot_long_3	704	Picture	fix	17536933	0	1	52074	1	0	next	other	0
+pilot_long_3	704	Pulse	0	17550000	13067	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS1	other				45303	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				70607	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Aschdel;Geiten;i;block1;LS1	other				91083	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				116387	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Dobul;Enkor;i;block1;LS1	other				136863	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				162166	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Ferlas;Tummhaft;i;block1;LS1	other				182642	1	25137	1	0	25000
+Picture	Falsch, das ist Tummhaft	other				207946	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS1	other				228422	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				253725	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Flehsen;Sporkel;i;block1;LS1	other				274201	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				299505	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS1	other				319981	1	25137	1	0	25000
+Picture	Falsch, das ist Enkor	other				345285	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS1	other				365761	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				391064	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS1	other				411540	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				436844	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Duckel;Wonge;i;block1;LS1	other				457320	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				482623	1	20143	1	0	next
+Picture	fix	other				502766	1	45447	1	0	next
+Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS2	other				548213	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				573517	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS2	other				593992	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				619296	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS2	other				639772	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				665076	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Asir;Geiten;i;block1;LS2	other				685552	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				710855	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Fastei;Tummhaft;i;block1;LS2	other				731331	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				756635	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Fastrum;Enkor;i;block1;LS2	other				777111	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				802414	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Negasch;Sporkel;i;block1;LS2	other				822890	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				848194	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Misal;Wonge;i;block1;LS2	other				868670	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				893974	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS2	other				914450	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				939753	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS2	other				960229	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				985533	1	20143	1	0	next
+Picture	fix	other				1005676	1	45447	1	0	next
+Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS3	other				1051122	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				1076426	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS3	other				1096902	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				1122206	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Neffit;Sporkel;i;block1;LS3	other				1142682	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				1167985	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS3	other				1188461	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				1213765	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Fedit;Wonge;i;block1;LS3	other				1234241	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				1259544	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Letim;Geiten;i;block1;LS3	other				1280020	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				1305324	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Ferdat;Tummhaft;i;block1;LS3	other				1325800	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				1351104	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Luttes;Enkor;i;block1;LS3	other				1371580	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				1396883	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS3	other				1417359	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				1442663	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS3	other				1463139	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				1488442	1	20143	1	0	next
+Picture	fix	other				1508585	1	45447	1	0	next
+Picture	learning/PICTURE_358.jpg;Geiten;Geiten;c;block1;LS4	other				1554032	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				1579336	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Tummhaft;Tummhaft;c;block1;LS4	other				1599812	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				1625115	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Sporkel;Sporkel;c;block1;LS4	other				1645591	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				1670895	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Meidost;Enkor;i;block1;LS4	other				1691371	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				1716674	1	20476	1	0	next
+Picture	learning/PICTURE_358.jpg;Debal;Geiten;i;block1;LS4	other				1737150	1	25137	1	0	25000
+Picture	Korrekt, das ist Geiten	other				1762454	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Molan;Wonge;i;block1;LS4	other				1782930	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				1808234	1	20476	1	0	next
+Picture	learning/PICTURE_245.jpg;Enkor;Enkor;c;block1;LS4	other				1828709	1	25137	1	0	25000
+Picture	Korrekt, das ist Enkor	other				1854013	1	20476	1	0	next
+Picture	learning/PICTURE_97.jpg;Wonge;Wonge;c;block1;LS4	other				1874489	1	25137	1	0	25000
+Picture	Korrekt, das ist Wonge	other				1899793	1	20476	1	0	next
+Picture	learning/PICTURE_566.jpg;Flutoll;Sporkel;i;block1;LS4	other				1920269	1	25137	1	0	25000
+Picture	Korrekt, das ist Sporkel	other				1945572	1	20476	1	0	next
+Picture	learning/PICTURE_72.jpg;Dieges;Tummhaft;i;block1;LS4	other				1966048	1	25137	1	0	25000
+Picture	Korrekt, das ist Tummhaft	other				1991352	1	20143	1	0	next
+Picture	fix	other				2011495	1	45114	1	0	next
+Picture	fix	other				2056609	1	45114	1	0	next
+Picture	fix	other				2101722	1	45114	1	0	next
+Picture	fix	other				2146836	1	45114	1	0	next
+Picture	fix	other				2191950	1	45447	1	0	next
+Picture	learning/PICTURE_465.jpg;Fastrum;Bleine;i;block2;LS1	other				2237396	1	25137	1	0	25000
+Picture	Falsch, das ist Bleine	other				2262700	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS1	other				2283176	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				2308480	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Eidet;Goser;i;block2;LS1	other				2328955	1	25137	1	0	25000
+Picture	Falsch, das ist Goser	other				2354259	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Nakif;Tipnen;i;block2;LS1	other				2374735	1	25137	1	0	25000
+Picture	Falsch, das ist Tipnen	other				2400039	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Leniel;Hiser;i;block2;LS1	other				2420515	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				2445818	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS1	other				2466294	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				2491598	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Fastei;Pase;i;block2;LS1	other				2512074	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				2537377	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS1	other				2557853	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				2583157	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS1	other				2603633	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				2628937	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS1	other				2649413	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				2674716	1	20143	1	0	next
+Picture	fix	other				2694859	1	45447	1	0	next
+Picture	learning/PICTURE_559.jpg;Merschink;Goser;i;block2;LS2	other				2740306	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				2765609	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS2	other				2786085	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				2811389	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS2	other				2831865	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				2857169	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Aschdel;Hiser;i;block2;LS2	other				2877645	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				2902948	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Eidet;Bleine;i;block2;LS2	other				2923424	1	25137	1	0	25000
+Picture	Falsch, das ist Bleine	other				2948728	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Duckel;Pase;i;block2;LS2	other				2969204	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				2994507	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Ferlas;Tipnen;i;block2;LS2	other				3014983	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				3040287	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS2	other				3060763	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				3086067	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS2	other				3106543	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				3131846	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS2	other				3152322	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				3177626	1	20143	1	0	next
+Picture	fix	other				3197769	1	45447	1	0	next
+Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS3	other				3243215	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				3268519	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Meidost;Bleine;i;block2;LS3	other				3288995	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				3314299	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Melant;Goser;i;block2;LS3	other				3334775	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				3360078	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Aglud;Hiser;i;block2;LS3	other				3380554	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				3405858	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS3	other				3426334	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				3451637	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS3	other				3472113	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				3497417	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Dieges;Pase;i;block2;LS3	other				3517893	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				3543196	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS3	other				3563672	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				3588976	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS3	other				3609452	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				3634756	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Najom;Tipnen;i;block2;LS3	other				3655232	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				3680535	1	20143	1	0	next
+Picture	fix	other				3700678	1	45447	1	0	next
+Picture	learning/PICTURE_659.jpg;Pase;Pase;c;block2;LS4	other				3746125	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				3771429	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Lokrast;Goser;i;block2;LS4	other				3791904	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				3817208	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Tipnen;Tipnen;c;block2;LS4	other				3837684	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				3862988	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Bleine;Bleine;c;block2;LS4	other				3883464	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				3908767	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Letim;Hiser;i;block2;LS4	other				3929243	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				3954547	1	20476	1	0	next
+Picture	learning/PICTURE_465.jpg;Melant;Bleine;i;block2;LS4	other				3975023	1	25137	1	0	25000
+Picture	Korrekt, das ist Bleine	other				4000326	1	20476	1	0	next
+Picture	learning/PICTURE_659.jpg;Fedit;Pase;i;block2;LS4	other				4020802	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				4046106	1	20476	1	0	next
+Picture	learning/PICTURE_202.jpg;Hiser;Hiser;c;block2;LS4	other				4066582	1	25137	1	0	25000
+Picture	Korrekt, das ist Hiser	other				4091886	1	20476	1	0	next
+Picture	learning/PICTURE_559.jpg;Goser;Goser;c;block2;LS4	other				4112362	1	25137	1	0	25000
+Picture	Korrekt, das ist Goser	other				4137665	1	20476	1	0	next
+Picture	learning/PICTURE_654.jpg;Ferdat;Tipnen;i;block2;LS4	other				4158141	1	25137	1	0	25000
+Picture	Korrekt, das ist Tipnen	other				4183445	1	20143	1	0	next
+Picture	fix	other				4203588	1	45114	1	0	next
+Picture	fix	other				4248701	1	45114	1	0	next
+Picture	fix	other				4293815	1	45114	1	0	next
+Picture	fix	other				4338929	1	45114	1	0	next
+Picture	fix	other				4384043	1	45447	1	0	next
+Picture	control/PICTURE_116.jpg;Feuer;Feuer;c;block3;LS1	other				4429489	1	25137	1	0	25000
+Picture	Korrekt, das ist Feuer	other				4454793	1	20476	1	0	next
+Picture	control/PICTURE_119.jpg;Walnuss;Walnuss;c;block3;LS1	other				4475269	1	25137	1	0	25000
+Picture	Korrekt, das ist Walnuss	other				4500572	1	20476	1	0	next
+Picture	control/PICTURE_151.jpg;Leuchtturm;Tablett;i;block3;LS1	other				4521048	1	25137	1	0	25000
+Picture	Korrekt, das ist Tablett	other				4546352	1	20476	1	0	next
+Picture	control/PICTURE_540.jpg;Teller;Leuchtturm;i;block3;LS1	other				4566828	1	25137	1	0	25000
+Picture	Korrekt, das ist Leuchtturm	other				4592132	1	20476	1	0	next
+Picture	control/PICTURE_708.jpg;Kürbis;Affe;i;block3;LS1	other				4612608	1	25137	1	0	25000
+Picture	Korrekt, das ist Affe	other				4637911	1	20476	1	0	next
+Picture	control/PICTURE_540.jpg;Leuchtturm;Leuchtturm;c;block3;LS1	other				4658387	1	25137	1	0	25000
+Picture	Korrekt, das ist Leuchtturm	other				4683691	1	20476	1	0	next
+Picture	control/PICTURE_151.jpg;Tablett;Tablett;c;block3;LS1	other				4704167	1	25137	1	0	25000
+Picture	Korrekt, das ist Tablett	other				4729470	1	20476	1	0	next
+Picture	control/PICTURE_116.jpg;Walnuss;Feuer;i;block3;LS1	other				4749946	1	25137	1	0	25000
+Picture	Korrekt, das ist Feuer	other				4775250	1	20476	1	0	next
+Picture	control/PICTURE_119.jpg;Anzug;Walnuss;i;block3;LS1	other				4795726	1	25137	1	0	25000
+Picture	Korrekt, das ist Walnuss	other				4821030	1	20476	1	0	next
+Picture	control/PICTURE_708.jpg;Affe;Affe;c;block3;LS1	other				4841505	1	25137	1	0	25000
+Picture	Korrekt, das ist Affe	other				4866809	1	20143	1	0	next
+Picture	fix	other				4886952	1	45447	1	0	next
+Picture	control/PICTURE_708.jpg;Fächer;Affe;i;block3;LS2	other				4932399	1	25137	1	0	25000
+Picture	Korrekt, das ist Affe	other				4957702	1	20476	1	0	next
+Picture	control/PICTURE_116.jpg;Feuer;Feuer;c;block3;LS2	other				4978178	1	25137	1	0	25000
+Picture	Korrekt, das ist Feuer	other				5003482	1	20476	1	0	next
+Picture	control/PICTURE_151.jpg;Teller;Tablett;i;block3;LS2	other				5023958	1	25137	1	0	25000
+Picture	Korrekt, das ist Tablett	other				5049262	1	20476	1	0	next
+Picture	control/PICTURE_116.jpg;Anzug;Feuer;i;block3;LS2	other				5069737	1	25137	1	0	25000
+Picture	Korrekt, das ist Feuer	other				5095041	1	20476	1	0	next
+Picture	control/PICTURE_119.jpg;Walnuss;Walnuss;c;block3;LS2	other				5115517	1	25137	1	0	25000
+Picture	Korrekt, das ist Walnuss	other				5140821	1	20476	1	0	next
+Picture	control/PICTURE_540.jpg;Leuchtturm;Leuchtturm;c;block3;LS2	other				5161297	1	25137	1	0	25000
+Picture	Korrekt, das ist Leuchtturm	other				5186600	1	20476	1	0	next
+Picture	control/PICTURE_119.jpg;Teppich;Walnuss;i;block3;LS2	other				5207076	1	25137	1	0	25000
+Picture	Korrekt, das ist Walnuss	other				5232380	1	20476	1	0	next
+Picture	control/PICTURE_151.jpg;Tablett;Tablett;c;block3;LS2	other				5252856	1	25137	1	0	25000
+Picture	Korrekt, das ist Tablett	other				5278159	1	20476	1	0	next
+Picture	control/PICTURE_540.jpg;Hase;Leuchtturm;i;block3;LS2	other				5298635	1	25137	1	0	25000
+Picture	Korrekt, das ist Leuchtturm	other				5323939	1	20476	1	0	next
+Picture	control/PICTURE_708.jpg;Affe;Affe;c;block3;LS2	other				5344415	1	25137	1	0	25000
+Picture	Korrekt, das ist Affe	other				5369719	1	20143	1	0	next
+Picture	fix	other				5389862	1	45447	1	0	next
+Picture	control/PICTURE_391.jpg;Affe;Kette;i;block3;LS3	other				5435308	1	25137	1	0	25000
+Picture	Korrekt, das ist Kette	other				5460612	1	20476	1	0	next
+Picture	control/PICTURE_398.jpg;Lenkrad;Lenkrad;c;block3;LS3	other				5481088	1	25137	1	0	25000
+Picture	Korrekt, das ist Lenkrad	other				5506392	1	20476	1	0	next
+Picture	control/PICTURE_491.jpg;Drache;Teppich;i;block3;LS3	other				5526867	1	25137	1	0	25000
+Picture	Korrekt, das ist Teppich	other				5552171	1	20476	1	0	next
+Picture	control/PICTURE_185.jpg;Lenkrad;Fussball;i;block3;LS3	other				5572647	1	25137	1	0	25000
+Picture	Korrekt, das ist Fussball	other				5597951	1	20476	1	0	next
+Picture	control/PICTURE_398.jpg;Truthahn;Lenkrad;i;block3;LS3	other				5618427	1	25137	1	0	25000
+Picture	Korrekt, das ist Lenkrad	other				5643730	1	20476	1	0	next
+Picture	control/PICTURE_263.jpg;Panzer;Hase;i;block3;LS3	other				5664206	1	25137	1	0	25000
+Picture	Korrekt, das ist Hase	other				5689510	1	20476	1	0	next
+Picture	control/PICTURE_391.jpg;Kette;Kette;c;block3;LS3	other				5709986	1	25137	1	0	25000
+Picture	Korrekt, das ist Kette	other				5735289	1	20476	1	0	next
+Picture	control/PICTURE_185.jpg;Fussball;Fussball;c;block3;LS3	other				5755765	1	25137	1	0	25000
+Picture	Korrekt, das ist Fussball	other				5781069	1	20476	1	0	next
+Picture	control/PICTURE_263.jpg;Hase;Hase;c;block3;LS3	other				5801545	1	25137	1	0	25000
+Picture	Korrekt, das ist Hase	other				5826849	1	20476	1	0	next
+Picture	control/PICTURE_491.jpg;Teppich;Teppich;c;block3;LS3	other				5847325	1	25137	1	0	25000
+Picture	Korrekt, das ist Teppich	other				5872628	1	20143	1	0	next
+Picture	fix	other				5892771	1	45447	1	0	next
+Picture	control/PICTURE_263.jpg;Tablett;Hase;i;block3;LS4	other				5938218	1	25137	1	0	25000
+Picture	Korrekt, das ist Hase	other				5963521	1	20476	1	0	next
+Picture	control/PICTURE_185.jpg;Truthahn;Fussball;i;block3;LS4	other				5983997	1	25137	1	0	25000
+Picture	Korrekt, das ist Fussball	other				6009301	1	20476	1	0	next
+Picture	control/PICTURE_398.jpg;Lenkrad;Lenkrad;c;block3;LS4	other				6029777	1	25137	1	0	25000
+Picture	Korrekt, das ist Lenkrad	other				6055081	1	20476	1	0	next
+Picture	control/PICTURE_263.jpg;Hase;Hase;c;block3;LS4	other				6075557	1	25137	1	0	25000
+Picture	Korrekt, das ist Hase	other				6100860	1	20476	1	0	next
+Picture	control/PICTURE_398.jpg;Geschenk;Lenkrad;i;block3;LS4	other				6121336	1	25137	1	0	25000
+Picture	Korrekt, das ist Lenkrad	other				6146640	1	20476	1	0	next
+Picture	control/PICTURE_391.jpg;Kette;Kette;c;block3;LS4	other				6167116	1	25137	1	0	25000
+Picture	Korrekt, das ist Kette	other				6192419	1	20476	1	0	next
+Picture	control/PICTURE_491.jpg;Feuer;Teppich;i;block3;LS4	other				6212895	1	25137	1	0	25000
+Picture	Korrekt, das ist Teppich	other				6238199	1	20476	1	0	next
+Picture	control/PICTURE_185.jpg;Fussball;Fussball;c;block3;LS4	other				6258675	1	25137	1	0	25000
+Picture	Korrekt, das ist Fussball	other				6283979	1	20476	1	0	next
+Picture	control/PICTURE_491.jpg;Teppich;Teppich;c;block3;LS4	other				6304455	1	25137	1	0	25000
+Picture	Korrekt, das ist Teppich	other				6329758	1	20476	1	0	next
+Picture	control/PICTURE_391.jpg;Schaufel;Kette;i;block3;LS4	other				6350234	1	25137	1	0	25000
+Picture	Korrekt, das ist Kette	other				6375538	1	20143	1	0	next
+Picture	fix	other				6395681	1	45114	1	0	next
+Picture	fix	other				6440794	1	45114	1	0	next
+Picture	fix	other				6485908	1	45114	1	0	next
+Picture	fix	other				6531022	1	45114	1	0	next
+Picture	fix	other				6576135	1	45447	1	0	next
+Picture	learning/PICTURE_68.jpg;Gnatosch;Furmi;i;block4;LS1	other				6621582	1	25137	1	0	25000
+Picture	Falsch, das ist Furmi	other				6646886	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Bogast;Flister;i;block4;LS1	other				6667362	1	25137	1	0	25000
+Picture	Falsch, das ist Flister	other				6692665	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS1	other				6713141	1	25137	1	0	25000
+Picture	Falsch, das ist Flofe	other				6738445	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS1	other				6758921	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				6784225	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS1	other				6804700	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				6830004	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS1	other				6850480	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				6875784	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Fugas;Wumze;i;block4;LS1	other				6896260	1	25137	1	0	25000
+Picture	Falsch, das ist Wumze	other				6921563	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Asir;Flofe;i;block4;LS1	other				6942039	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				6967343	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Harkun;Lomig;i;block4;LS1	other				6987819	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				7013122	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS1	other				7033598	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				7058902	1	20143	1	0	next
+Picture	fix	other				7079045	1	45447	1	0	next
+Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS2	other				7124492	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				7149795	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Harkun;Furmi;i;block4;LS2	other				7170271	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				7195575	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Delgons;Flofe;i;block4;LS2	other				7216051	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				7241354	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Heutil;Lomig;i;block4;LS2	other				7261830	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				7287134	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS2	other				7307610	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				7332914	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS2	other				7353390	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				7378693	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS2	other				7399169	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				7424473	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Gnatosch;Wumze;i;block4;LS2	other				7444949	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				7470252	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS2	other				7490728	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				7516032	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Letmap;Flister;i;block4;LS2	other				7536508	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				7561812	1	20142	2	0	next
+Picture	fix	other				7581953	2	45448	2	0	next
+Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS3	other				7627401	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				7652705	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS3	other				7673181	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				7698484	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Figat;Wumze;i;block4;LS3	other				7718960	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				7744264	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Jaloss;Lomig;i;block4;LS3	other				7764740	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				7790044	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Nerkanf;Furmi;i;block4;LS3	other				7810520	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				7835823	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Limjepp;Flister;i;block4;LS3	other				7856299	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				7881603	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS3	other				7902079	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				7927382	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS3	other				7947858	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				7973162	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS3	other				7993638	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				8018942	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Debal;Flofe;i;block4;LS3	other				8039417	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				8064721	1	20143	1	0	next
+Picture	fix	other				8084864	1	45447	1	0	next
+Picture	learning/PICTURE_156.jpg;Flister;Flister;c;block4;LS4	other				8130311	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				8155614	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Furmi;Furmi;c;block4;LS4	other				8176090	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				8201394	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Libtrum;Flofe;i;block4;LS4	other				8221870	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				8247174	1	20476	1	0	next
+Picture	learning/PICTURE_156.jpg;Limmant;Flister;i;block4;LS4	other				8267650	1	25137	1	0	25000
+Picture	Korrekt, das ist Flister	other				8292953	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Lomig;Lomig;c;block4;LS4	other				8313429	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				8338733	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Nerkanf;Wumze;i;block4;LS4	other				8359209	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				8384512	1	20476	1	0	next
+Picture	learning/PICTURE_26.jpg;Ningkal;Lomig;i;block4;LS4	other				8404988	1	25137	1	0	25000
+Picture	Korrekt, das ist Lomig	other				8430292	1	20476	1	0	next
+Picture	learning/PICTURE_640.jpg;Wumze;Wumze;c;block4;LS4	other				8450768	1	25137	1	0	25000
+Picture	Korrekt, das ist Wumze	other				8476071	1	20476	1	0	next
+Picture	learning/PICTURE_68.jpg;Jaloss;Furmi;i;block4;LS4	other				8496547	1	25137	1	0	25000
+Picture	Korrekt, das ist Furmi	other				8521851	1	20476	1	0	next
+Picture	learning/PICTURE_71.jpg;Flofe;Flofe;c;block4;LS4	other				8542327	1	25137	1	0	25000
+Picture	Korrekt, das ist Flofe	other				8567631	1	20143	1	0	next
+Picture	fix	other				8587774	1	45114	1	0	next
+Picture	fix	other				8632887	1	45114	1	0	next
+Picture	fix	other				8678001	1	45114	1	0	next
+Picture	fix	other				8723115	1	45114	1	0	next
+Picture	fix	other				8768228	1	45447	1	0	next
+Picture	learning/PICTURE_379.jpg;Fohreng;Sprünte;i;block5;LS1	other				8813675	1	25137	1	0	25000
+Picture	Falsch, das ist Sprünte	other				8838979	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Basut;Hürtem;i;block5;LS1	other				8859455	1	25137	1	0	25000
+Picture	Falsch, das ist Hürtem	other				8884758	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Dobast;Habel;i;block5;LS1	other				8905234	1	25137	1	0	25000
+Picture	Falsch, das ist Habel	other				8930538	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS1	other				8951014	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				8976317	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS1	other				8996793	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				9022097	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS1	other				9042573	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				9067877	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Igat;Mobe;i;block5;LS1	other				9088353	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				9113656	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS1	other				9134132	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				9159436	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS1	other				9179912	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				9205215	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Letmap;Gluktant;i;block5;LS1	other				9225691	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				9250995	1	20143	1	0	next
+Picture	fix	other				9271138	1	45447	1	0	next
+Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS2	other				9316585	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				9341888	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS2	other				9362364	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				9387668	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS2	other				9408144	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				9433447	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS2	other				9453923	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				9479227	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Dobul;Habel;i;block5;LS2	other				9499703	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				9525007	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Fugas;Mobe;i;block5;LS2	other				9545483	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				9570786	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS2	other				9591262	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				9616566	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Froltan;Sprünte;i;block5;LS2	other				9637042	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				9662345	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Derbstal;Hürtem;i;block5;LS2	other				9682821	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				9708125	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Deflas;Gluktant;i;block5;LS2	other				9728601	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				9753904	1	20143	1	0	next
+Picture	fix	other				9774047	1	45447	1	0	next
+Picture	learning/PICTURE_77.jpg;Logatt;Hürtem;i;block5;LS3	other				9819494	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				9844798	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Pafau;Mobe;i;block5;LS3	other				9865274	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				9890577	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS3	other				9911053	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				9936357	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Nazehl;Habel;i;block5;LS3	other				9956833	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				9982136	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS3	other				10002612	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				10027916	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS3	other				10048392	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				10073696	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS3	other				10094172	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				10119475	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS3	other				10139951	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				10165255	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Limmant;Gluktant;i;block5;LS3	other				10185731	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				10211034	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Nehal;Sprünte;i;block5;LS3	other				10231510	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				10256814	1	20143	1	0	next
+Picture	fix	other				10276957	1	45447	1	0	next
+Picture	learning/PICTURE_77.jpg;Hürtem;Hürtem;c;block5;LS4	other				10322404	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				10347707	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Mobe;Mobe;c;block5;LS4	other				10368183	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				10393487	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Sprünte;Sprünte;c;block5;LS4	other				10413963	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				10439266	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Habel;Habel;c;block5;LS4	other				10459742	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				10485046	1	20476	1	0	next
+Picture	learning/PICTURE_77.jpg;Logas;Hürtem;i;block5;LS4	other				10505522	1	25137	1	0	25000
+Picture	Korrekt, das ist Hürtem	other				10530826	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Gluktant;Gluktant;c;block5;LS4	other				10551302	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				10576605	1	20476	1	0	next
+Picture	learning/PICTURE_379.jpg;Saptot;Sprünte;i;block5;LS4	other				10597081	1	25137	1	0	25000
+Picture	Korrekt, das ist Sprünte	other				10622385	1	20476	1	0	next
+Picture	learning/PICTURE_224.jpg;Figat;Mobe;i;block5;LS4	other				10642861	1	25137	1	0	25000
+Picture	Korrekt, das ist Mobe	other				10668164	1	20476	1	0	next
+Picture	learning/PICTURE_32.jpg;Lispad;Gluktant;i;block5;LS4	other				10688640	1	25137	1	0	25000
+Picture	Korrekt, das ist Gluktant	other				10713944	1	20476	1	0	next
+Picture	learning/PICTURE_414.jpg;Luttes;Habel;i;block5;LS4	other				10734420	1	25137	1	0	25000
+Picture	Korrekt, das ist Habel	other				10759724	1	20143	1	0	next
+Picture	fix	other				10779867	1	45114	1	0	next
+Picture	fix	other				10824980	1	45114	1	0	next
+Picture	fix	other				10870094	1	45114	1	0	next
+Picture	fix	other				10915208	1	45114	1	0	next
+Picture	fix	other				10960321	1	45447	1	0	next
+Picture	learning/PICTURE_267.jpg;Heutil;Zabem;i;block6;LS1	other				11005768	1	25137	1	0	25000
+Picture	Falsch, das ist Zabem	other				11031072	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Deflas;Helte;i;block6;LS1	other				11051548	1	25137	1	0	25000
+Picture	Falsch, das ist Helte	other				11076851	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Froltan;Larbe;i;block6;LS1	other				11097327	1	25137	1	0	25000
+Picture	Falsch, das ist Larbe	other				11122631	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS1	other				11143107	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				11168410	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS1	other				11188886	1	25137	1	0	25000
+Picture	Falsch, das ist Pase	other				11214190	1	20476	1	0	next
+Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS1	other				11234666	1	25137	1	0	25000
+Picture	Falsch, das ist Zabem	other				11259970	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Delgons;Geward;i;block6;LS1	other				11280445	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				11305749	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS1	other				11326225	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				11351529	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Nergunt;Pase;i;block6;LS1	other				11372005	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				11397308	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS1	other				11417784	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				11443088	1	20143	1	0	next
+Picture	fix	other				11463231	1	45447	1	0	next
+Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS2	other				11508678	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				11533981	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS2	other				11554457	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				11579761	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Blastaun;Geward;i;block6;LS2	other				11600237	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				11625540	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Flehsen;Pase;i;block6;LS2	other				11646016	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				11671320	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Nergunt;Larbe;i;block6;LS2	other				11691796	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				11717099	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS2	other				11737575	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				11762879	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS2	other				11783355	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				11808659	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Basut;Helte;i;block6;LS2	other				11829135	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				11854438	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS2	other				11874914	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				11900218	1	20476	1	0	next
+Picture	learning/PICTURE_267.jpg;Igat;Zabem;i;block6;LS2	other				11920694	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				11945997	1	20143	1	0	next
+Picture	fix	other				11966140	1	45447	1	0	next
+Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS3	other				12011587	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				12036891	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS3	other				12057367	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				12082670	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS3	other				12103146	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				12128450	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Lumack;Pase;i;block6;LS3	other				12148926	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				12174229	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS3	other				12194705	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				12220009	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Saptot;Larbe;i;block6;LS3	other				12240485	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				12265789	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Libtrum;Geward;i;block6;LS3	other				12286265	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				12311568	1	20476	1	0	next
+Picture	learning/PICTURE_267.jpg;Ningkal;Zabem;i;block6;LS3	other				12332044	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				12357348	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS3	other				12377824	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				12403127	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Lispad;Helte;i;block6;LS3	other				12423603	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				12448907	1	20143	1	0	next
+Picture	fix	other				12469050	1	45447	1	0	next
+Picture	learning/PICTURE_203.jpg;Pase;Pase;c;block6;LS4	other				12514497	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				12539800	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Helte;Helte;c;block6;LS4	other				12560276	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				12585580	1	20476	1	0	next
+Picture	learning/PICTURE_267.jpg;Zabem;Zabem;c;block6;LS4	other				12606056	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				12631359	1	20476	1	0	next
+Picture	learning/PICTURE_203.jpg;Neffit;Pase;i;block6;LS4	other				12651835	1	25137	1	0	25000
+Picture	Korrekt, das ist Pase	other				12677139	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Lumack;Larbe;i;block6;LS4	other				12697615	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				12722919	1	20476	1	0	next
+Picture	learning/PICTURE_212.jpg;Logatt;Helte;i;block6;LS4	other				12743394	1	25137	1	0	25000
+Picture	Korrekt, das ist Helte	other				12768698	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Liegast;Geward;i;block6;LS4	other				12789174	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				12814478	1	20476	1	0	next
+Picture	learning/PICTURE_267.jpg;Pafau;Zabem;i;block6;LS4	other				12834954	1	25137	1	0	25000
+Picture	Korrekt, das ist Zabem	other				12860257	1	20476	1	0	next
+Picture	learning/PICTURE_165.jpg;Geward;Geward;c;block6;LS4	other				12880733	1	25137	1	0	25000
+Picture	Korrekt, das ist Geward	other				12906037	1	20476	1	0	next
+Picture	learning/PICTURE_67.jpg;Larbe;Larbe;c;block6;LS4	other				12926513	1	25137	1	0	25000
+Picture	Korrekt, das ist Larbe	other				12951816	1	20143	1	0	next
+Picture	fix	other				12971959	1	45114	1	0	next
+Picture	fix	other				13017073	1	45114	1	0	next
+Picture	fix	other				13062187	1	45114	1	0	next
+Picture	fix	other				13107301	1	45114	1	0	next
+Picture	fix	other				13152414	1	45447	1	0	next
+Picture	control/PICTURE_621.jpg;Panzer;Panzer;c;block7;LS1	other				13197861	1	25137	1	0	25000
+Picture	Korrekt, das ist Panzer	other				13223165	1	20476	1	0	next
+Picture	control/PICTURE_234.jpg;Teller;Teller;c;block7;LS1	other				13243640	1	25137	1	0	25000
+Picture	Korrekt, das ist Teller	other				13268944	1	20476	1	0	next
+Picture	control/PICTURE_368.jpg;Kette;Fächer;i;block7;LS1	other				13289420	1	25137	1	0	25000
+Picture	Korrekt, das ist Fächer	other				13314724	1	20476	1	0	next
+Picture	control/PICTURE_19.jpg;Truthahn;Truthahn;c;block7;LS1	other				13335200	1	25137	1	0	25000
+Picture	Korrekt, das ist Truthahn	other				13360503	1	20476	1	0	next
+Picture	control/PICTURE_135.jpg;Anzug;Anzug;c;block7;LS1	other				13380979	1	25137	1	0	25000
+Picture	Korrekt, das ist Anzug	other				13406283	1	20476	1	0	next
+Picture	control/PICTURE_368.jpg;Fächer;Fächer;c;block7;LS1	other				13426759	1	25137	1	0	25000
+Picture	Korrekt, das ist Fächer	other				13452062	1	20476	1	0	next
+Picture	control/PICTURE_234.jpg;Hase;Teller;i;block7;LS1	other				13472538	1	25137	1	0	25000
+Picture	Korrekt, das ist Teller	other				13497842	1	20476	1	0	next
+Picture	control/PICTURE_135.jpg;Teppich;Anzug;i;block7;LS1	other				13518318	1	25137	1	0	25000
+Picture	Korrekt, das ist Anzug	other				13543622	1	20476	1	0	next
+Picture	control/PICTURE_19.jpg;Geschenk;Truthahn;i;block7;LS1	other				13564098	1	25137	1	0	25000
+Picture	Korrekt, das ist Truthahn	other				13589401	1	20476	1	0	next
+Picture	control/PICTURE_621.jpg;Tablett;Panzer;i;block7;LS1	other				13609877	1	25137	1	0	25000
+Picture	Korrekt, das ist Panzer	other				13635181	1	20143	1	0	next
+Picture	fix	other				13655324	1	45447	1	0	next
+Picture	control/PICTURE_621.jpg;Panzer;Panzer;c;block7;LS2	other				13700770	1	25137	1	0	25000
+Picture	Korrekt, das ist Panzer	other				13726074	1	20476	1	0	next
+Picture	control/PICTURE_234.jpg;Teller;Teller;c;block7;LS2	other				13746550	1	25137	1	0	25000
+Picture	Korrekt, das ist Teller	other				13771854	1	20476	1	0	next
+Picture	control/PICTURE_368.jpg;Fächer;Fächer;c;block7;LS2	other				13792330	1	25137	1	0	25000
+Picture	Korrekt, das ist Fächer	other				13817633	1	20476	1	0	next
+Picture	control/PICTURE_19.jpg;Flasche;Truthahn;i;block7;LS2	other				13838109	1	25137	1	0	25000
+Picture	Korrekt, das ist Truthahn	other				13863413	1	20476	1	0	next
+Picture	control/PICTURE_368.jpg;Kürbis;Fächer;i;block7;LS2	other				13883889	1	25137	1	0	25000
+Picture	Korrekt, das ist Fächer	other				13909192	1	20476	1	0	next
+Picture	control/PICTURE_19.jpg;Truthahn;Truthahn;c;block7;LS2	other				13929668	1	25137	1	0	25000
+Picture	Korrekt, das ist Truthahn	other				13954972	1	20476	1	0	next
+Picture	control/PICTURE_135.jpg;Drache;Anzug;i;block7;LS2	other				13975448	1	25137	1	0	25000
+Picture	Korrekt, das ist Anzug	other				14000752	1	20476	1	0	next
+Picture	control/PICTURE_234.jpg;Panzer;Teller;i;block7;LS2	other				14021227	1	25137	1	0	25000
+Picture	Korrekt, das ist Teller	other				14046531	1	20476	1	0	next
+Picture	control/PICTURE_135.jpg;Anzug;Anzug;c;block7;LS2	other				14067007	1	25137	1	0	25000
+Picture	Korrekt, das ist Anzug	other				14092311	1	20476	1	0	next
+Picture	control/PICTURE_621.jpg;Leuchtturm;Panzer;i;block7;LS2	other				14112787	1	25137	1	0	25000
+Picture	Korrekt, das ist Panzer	other				14138090	1	20143	1	0	next
+Picture	fix	other				14158233	1	45447	1	0	next
+Picture	control/PICTURE_338.jpg;Geschenk;Geschenk;c;block7;LS3	other				14203680	1	25137	1	0	25000
+Picture	Korrekt, das ist Geschenk	other				14228984	1	20476	1	0	next
+Picture	control/PICTURE_255.jpg;Fächer;Schaufel;i;block7;LS3	other				14249460	1	25137	1	0	25000
+Picture	Korrekt, das ist Schaufel	other				14274763	1	20476	1	0	next
+Picture	control/PICTURE_111.jpg;Feuer;Drache;i;block7;LS3	other				14295239	1	25137	1	0	25000
+Picture	Korrekt, das ist Drache	other				14320543	1	20476	1	0	next
+Picture	control/PICTURE_343.jpg;Fussball;Flasche;i;block7;LS3	other				14341019	1	25137	1	0	25000
+Picture	Korrekt, das ist Flasche	other				14366322	1	20476	1	0	next
+Picture	control/PICTURE_111.jpg;Drache;Drache;c;block7;LS3	other				14386798	1	25137	1	0	25000
+Picture	Korrekt, das ist Drache	other				14412102	1	20476	1	0	next
+Picture	control/PICTURE_255.jpg;Schaufel;Schaufel;c;block7;LS3	other				14432578	1	25137	1	0	25000
+Picture	Korrekt, das ist Schaufel	other				14457882	1	20476	1	0	next
+Picture	control/PICTURE_551.jpg;Kürbis;Kürbis;c;block7;LS3	other				14478357	1	25137	1	0	25000
+Picture	Korrekt, das ist Kürbis	other				14503661	1	20476	1	0	next
+Picture	control/PICTURE_338.jpg;Flasche;Geschenk;i;block7;LS3	other				14524137	1	25137	1	0	25000
+Picture	Korrekt, das ist Geschenk	other				14549441	1	20476	1	0	next
+Picture	control/PICTURE_551.jpg;Schaufel;Kürbis;i;block7;LS3	other				14569917	1	25137	1	0	25000
+Picture	Korrekt, das ist Kürbis	other				14595220	1	20476	1	0	next
+Picture	control/PICTURE_343.jpg;Flasche;Flasche;c;block7;LS3	other				14615696	1	25137	1	0	25000
+Picture	Korrekt, das ist Flasche	other				14641000	1	20143	1	0	next
+Picture	fix	other				14661143	1	45447	1	0	next
+Picture	control/PICTURE_338.jpg;Lenkrad;Geschenk;i;block7;LS4	other				14706589	1	25137	1	0	25000
+Picture	Korrekt, das ist Geschenk	other				14731893	1	20476	1	0	next
+Picture	control/PICTURE_255.jpg;Kette;Schaufel;i;block7;LS4	other				14752369	1	25137	1	0	25000
+Picture	Korrekt, das ist Schaufel	other				14777673	1	20476	1	0	next
+Picture	control/PICTURE_111.jpg;Drache;Drache;c;block7;LS4	other				14798149	1	25137	1	0	25000
+Picture	Korrekt, das ist Drache	other				14823452	1	20476	1	0	next
+Picture	control/PICTURE_551.jpg;Affe;Kürbis;i;block7;LS4	other				14843928	1	25137	1	0	25000
+Picture	Korrekt, das ist Kürbis	other				14869232	1	20476	1	0	next
+Picture	control/PICTURE_111.jpg;Walnuss;Drache;i;block7;LS4	other				14889708	1	25137	1	0	25000
+Picture	Korrekt, das ist Drache	other				14915011	1	20476	1	0	next
+Picture	control/PICTURE_338.jpg;Geschenk;Geschenk;c;block7;LS4	other				14935487	1	25137	1	0	25000
+Picture	Korrekt, das ist Geschenk	other				14960791	1	20476	1	0	next
+Picture	control/PICTURE_255.jpg;Schaufel;Schaufel;c;block7;LS4	other				14981267	1	25137	1	0	25000
+Picture	Korrekt, das ist Schaufel	other				15006571	1	20476	1	0	next
+Picture	control/PICTURE_343.jpg;Truthahn;Flasche;i;block7;LS4	other				15027047	1	25137	1	0	25000
+Picture	Korrekt, das ist Flasche	other				15052350	1	20476	1	0	next
+Picture	control/PICTURE_551.jpg;Kürbis;Kürbis;c;block7;LS4	other				15072826	1	25137	1	0	25000
+Picture	Korrekt, das ist Kürbis	other				15098130	1	20642	1	0	next
+Picture	control/PICTURE_343.jpg;Flasche;Flasche;c;block7;LS4	other				15118772	1	25137	1	0	25000
+Picture	Korrekt, das ist Flasche	other				15144076	1	20143	1	0	next
+Picture	fix	other				15164219	1	45114	1	0	next
+Picture	fix	other				15209333	1	45114	1	0	next
+Picture	fix	other				15254446	1	45114	1	0	next
+Picture	fix	other				15299560	1	45114	1	0	next
+Picture	fix	other				15344674	1	45447	1	0	next
+Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS1	other				15390120	1	25137	1	0	25000
+Picture	Falsch, das ist Schiehel	other				15415424	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Merschink;Eume;i;block8;LS1	other				15435900	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				15461203	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS1	other				15481679	1	25137	1	0	25000
+Picture	Falsch, das ist Mummbant	other				15506983	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Derbstal;Schiehel;i;block8;LS1	other				15527459	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				15552763	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Blastaun;Mummbant;i;block8;LS1	other				15573239	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				15598542	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS1	other				15619018	1	25137	1	0	25000
+Picture	Falsch, das ist Stinnreik	other				15644322	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS1	other				15664798	1	25137	1	0	25000
+Picture	Falsch, das ist Dartin	other				15690101	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS1	other				15710577	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				15735881	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Misal;Dartin;i;block8;LS1	other				15756357	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				15781661	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Negasch;Stinnreik;i;block8;LS1	other				15802137	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				15827440	1	20143	1	0	next
+Picture	fix	other				15847583	1	45447	1	0	next
+Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS2	other				15893030	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				15918333	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS2	other				15938809	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				15964113	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Bogast;Schiehel;i;block8;LS2	other				15984589	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				16009893	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Leniel;Mummbant;i;block8;LS2	other				16030369	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				16055672	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS2	other				16076148	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				16101452	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Nakif;Dartin;i;block8;LS2	other				16121928	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				16147231	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Dobast;Eume;i;block8;LS2	other				16167707	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				16193011	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS2	other				16213487	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				16238790	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS2	other				16259266	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				16284570	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Fohreng;Stinnreik;i;block8;LS2	other				16305046	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				16330350	1	20143	1	0	next
+Picture	fix	other				16350493	1	45447	1	0	next
+Picture	learning/PICTURE_38.jpg;Logas;Schiehel;i;block8;LS3	other				16395939	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				16421243	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS3	other				16441719	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				16467023	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS3	other				16487498	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				16512802	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Lokrast;Eume;i;block8;LS3	other				16533278	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				16558582	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Molan;Dartin;i;block8;LS3	other				16579058	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				16604361	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS3	other				16624837	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				16650141	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Flutoll;Stinnreik;i;block8;LS3	other				16670617	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				16695920	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS3	other				16716396	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				16741700	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS3	other				16762176	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				16787480	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Liegast;Mummbant;i;block8;LS3	other				16807956	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				16833259	1	20143	1	0	next
+Picture	fix	other				16853402	1	45447	1	0	next
+Picture	learning/PICTURE_74.jpg;Najom;Dartin;i;block8;LS4	other				16898849	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				16924152	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Nehal;Stinnreik;i;block8;LS4	other				16944628	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				16969932	1	20476	1	0	next
+Picture	learning/PICTURE_74.jpg;Dartin;Dartin;c;block8;LS4	other				16990408	1	25137	1	0	25000
+Picture	Korrekt, das ist Dartin	other				17015712	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Limjepp;Schiehel;i;block8;LS4	other				17036188	1	25137	1	0	25000
+Picture	Falsch, das ist Schiehel	other				17061491	1	20642	1	0	next
+Picture	learning/PICTURE_592.jpg;Mummbant;Mummbant;c;block8;LS4	other				17082134	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				17107437	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Eume;Eume;c;block8;LS4	other				17127913	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				17153217	1	20476	1	0	next
+Picture	learning/PICTURE_38.jpg;Schiehel;Schiehel;c;block8;LS4	other				17173693	1	25137	1	0	25000
+Picture	Korrekt, das ist Schiehel	other				17198996	1	20476	1	0	next
+Picture	learning/PICTURE_100.jpg;Stinnreik;Stinnreik;c;block8;LS4	other				17219472	1	25137	1	0	25000
+Picture	Korrekt, das ist Stinnreik	other				17244776	1	20476	1	0	next
+Picture	learning/PICTURE_148.jpg;Nazehl;Eume;i;block8;LS4	other				17265252	1	25137	1	0	25000
+Picture	Korrekt, das ist Eume	other				17290556	1	20476	1	0	next
+Picture	learning/PICTURE_592.jpg;Aglud;Mummbant;i;block8;LS4	other				17311032	1	25137	1	0	25000
+Picture	Korrekt, das ist Mummbant	other				17336335	1	20143	1	0	next
+Picture	fix	other				17356478	1	45114	1	0	next
+Picture	fix	other				17401592	1	45114	1	0	next
+Picture	fix	other				17446706	1	45114	1	0	next
+Picture	fix	other				17491819	1	45114	1	0	next
+Picture	fix	other				17536933	1	52074	1	0	next

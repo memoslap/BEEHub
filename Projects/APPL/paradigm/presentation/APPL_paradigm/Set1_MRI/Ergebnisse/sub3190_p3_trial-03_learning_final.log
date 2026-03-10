@@ -1,0 +1,125 @@
+Scenario - fMRI-SET-1
+Logfile written - 02/05/2026 13:09:28
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub3190_p3_trial	1	Picture	Hello - Intro	10333	0	1	254633	1	0	next	other	0
+sub3190_p3_trial	1	Port Input	115	234710	224377	1
+sub3190_p3_trial	1	Pulse	30	234710	224377	1
+sub3190_p3_trial	1	Port Input	99	240627	230294	1
+sub3190_p3_trial	1	Response	1	240627	230294	1
+sub3190_p3_trial	1	Port Input	115	244785	234452	1
+sub3190_p3_trial	1	Pulse	30	244785	234452	1
+sub3190_p3_trial	1	Port Input	100	248464	238131	1
+sub3190_p3_trial	1	Response	2	248464	238131	1
+sub3190_p3_trial	1	Port Input	115	254701	244368	1
+sub3190_p3_trial	1	Pulse	30	254701	244368	1
+sub3190_p3_trial	1	Port Input	115	264776	254443	1
+sub3190_p3_trial	1	Pulse	30	264776	254443	1
+sub3190_p3_trial	2	Picture	fix	264966	0	1	45161	1	0	next	other	0
+sub3190_p3_trial	2	Port Input	115	274692	9725	1
+sub3190_p3_trial	2	Pulse	30	274692	9725	1
+sub3190_p3_trial	2	Port Input	115	284767	19800	1
+sub3190_p3_trial	2	Pulse	30	284767	19800	1
+sub3190_p3_trial	2	Port Input	115	294682	29716	1
+sub3190_p3_trial	2	Pulse	30	294682	29716	1
+sub3190_p3_trial	2	Port Input	115	304758	39791	1
+sub3190_p3_trial	2	Pulse	30	304758	39791	1
+sub3190_p3_trial	3	Picture	fix	310127	0	1	45161	1	0	next	other	0
+sub3190_p3_trial	3	Port Input	115	314673	4546	1
+sub3190_p3_trial	3	Pulse	30	314673	4546	1
+sub3190_p3_trial	3	Port Input	115	324748	14621	1
+sub3190_p3_trial	3	Pulse	30	324748	14621	1
+sub3190_p3_trial	3	Port Input	115	334663	24536	1
+sub3190_p3_trial	3	Pulse	30	334663	24536	1
+sub3190_p3_trial	3	Port Input	115	344739	34612	1
+sub3190_p3_trial	3	Pulse	30	344739	34612	1
+sub3190_p3_trial	3	Port Input	115	354654	44527	1
+sub3190_p3_trial	3	Pulse	30	354654	44527	1
+sub3190_p3_trial	4	Picture	fix	355288	0	1	45327	1	0	next	other	0
+sub3190_p3_trial	4	Port Input	115	364730	9442	1
+sub3190_p3_trial	4	Pulse	30	364730	9442	1
+sub3190_p3_trial	4	Port Input	115	374805	19517	1
+sub3190_p3_trial	4	Pulse	30	374805	19517	1
+sub3190_p3_trial	4	Port Input	115	384720	29432	1
+sub3190_p3_trial	4	Pulse	30	384720	29432	1
+sub3190_p3_trial	4	Port Input	115	394795	39507	1
+sub3190_p3_trial	4	Pulse	30	394795	39507	1
+sub3190_p3_trial	5	Picture	bubbles/learning.jpg	400615	0	1	45494	1	0	next	other	0
+sub3190_p3_trial	5	Port Input	115	404711	4095	1
+sub3190_p3_trial	5	Pulse	30	404711	4095	1
+sub3190_p3_trial	5	Port Input	115	414786	14171	1
+sub3190_p3_trial	5	Pulse	30	414786	14171	1
+sub3190_p3_trial	5	Port Input	115	424702	24086	1
+sub3190_p3_trial	5	Pulse	30	424702	24086	1
+sub3190_p3_trial	5	Port Input	115	434776	34161	1
+sub3190_p3_trial	5	Pulse	30	434776	34161	1
+sub3190_p3_trial	5	Port Input	115	444692	44076	1
+sub3190_p3_trial	5	Pulse	30	444692	44076	1
+sub3190_p3_trial	6	Picture	learning/PICTURE_692.jpg;Halne;Halne;c;block1;LS1	446109	0	1	25330	1	0	25000	other	0
+sub3190_p3_trial	6	Port Input	99	452048	5938	1
+sub3190_p3_trial	6	Response	1	452048	5938	1
+sub3190_p3_trial	6	Port Input	115	454766	8657	1
+sub3190_p3_trial	6	Pulse	30	454766	8657	1
+sub3190_p3_trial	6	Port Input	115	464682	18573	1
+sub3190_p3_trial	6	Pulse	30	464682	18573	1
+sub3190_p3_trial	7	Picture	Korrekt, das ist Halne	471773	0	1	20497	1	0	next	other	0
+sub3190_p3_trial	7	Port Input	115	474757	2985	1
+sub3190_p3_trial	7	Pulse	30	474757	2985	1
+sub3190_p3_trial	7	Port Input	115	484673	12900	1
+sub3190_p3_trial	7	Pulse	30	484673	12900	1
+sub3190_p3_trial	8	Picture	learning/PICTURE_453.jpg;Neffit;Neffit;c;block1;LS1	492270	0	1	25330	1	0	25000	other	0
+sub3190_p3_trial	8	Port Input	115	494748	2478	1
+sub3190_p3_trial	8	Pulse	30	494748	2478	1
+sub3190_p3_trial	8	Port Input	100	496507	4237	1
+sub3190_p3_trial	8	Response	2	496507	4237	1
+sub3190_p3_trial	8	Port Input	115	504663	12393	1
+sub3190_p3_trial	8	Pulse	30	504663	12393	1
+sub3190_p3_trial	8	Port Input	115	514738	22468	1
+sub3190_p3_trial	8	Pulse	30	514738	22468	1
+sub3190_p3_trial	9	Picture	Falsch, das ist Neffit	517933	0	1	20497	1	0	next	other	0
+sub3190_p3_trial	9	Port Input	115	524654	6721	1
+sub3190_p3_trial	9	Pulse	30	524654	6721	1
+sub3190_p3_trial	9	Port Input	115	534729	16796	1
+sub3190_p3_trial	9	Pulse	30	534729	16796	1
+sub3190_p3_trial	10	Picture	learning/PICTURE_640.jpg;Largas;Larbe;i;block1;LS1	538431	0	1	25330	1	0	25000	other	0
+sub3190_p3_trial	10	Port Input	115	544804	6373	1
+sub3190_p3_trial	10	Pulse	30	544804	6373	1
+sub3190_p3_trial	10	Port Input	100	545604	7173	1
+sub3190_p3_trial	10	Response	2	545604	7173	1
+sub3190_p3_trial	10	Port Input	115	554719	16289	1
+sub3190_p3_trial	10	Pulse	30	554719	16289	1
+sub3190_p3_trial	11	Picture	Korrekt, das ist Larbe	564094	0	1	20497	1	0	next	other	0
+sub3190_p3_trial	12	Picture	learning/PICTURE_592.jpg;Schiehel;Schiehel;c;block1;LS1	584591	0	1	46493	1	0	25000	other	0
+sub3190_p3_trial	12	Quit		597617	13026	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	254633	1	0	next
+Picture	fix	other				264966	1	45161	1	0	next
+Picture	fix	other				310127	1	45161	1	0	next
+Picture	fix	other				355288	1	45327	1	0	next
+Picture	bubbles/learning.jpg	other				400615	1	45494	1	0	next
+Picture	learning/PICTURE_692.jpg;Halne;Halne;c;block1;LS1	other				446109	1	25330	1	0	25000
+Picture	Korrekt, das ist Halne	other				471773	1	20497	1	0	next
+Picture	learning/PICTURE_453.jpg;Neffit;Neffit;c;block1;LS1	other				492270	1	25330	1	0	25000
+Picture	Falsch, das ist Neffit	other				517933	1	20497	1	0	next
+Picture	learning/PICTURE_640.jpg;Largas;Larbe;i;block1;LS1	other				538431	1	25330	1	0	25000
+Picture	Korrekt, das ist Larbe	other				564094	1	20497	1	0	next
+Picture	learning/PICTURE_592.jpg;Schiehel;Schiehel;c;block1;LS1	other				584591	1	46493	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "sub3190_p3_trial",
+   "timestamp": "2026/02/05 12:08:23 GMT"
+}

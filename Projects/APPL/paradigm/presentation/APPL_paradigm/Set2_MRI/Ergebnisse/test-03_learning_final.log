@@ -1,0 +1,49 @@
+Scenario - fMRI-SET-2
+Logfile written - 11/20/2025 13:38:45
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+test	0	Picture	Hello - Intro	10333	10333	1	4985786	1	0	next	other	0
+test	0	Port Input	100	914256	914256	1
+test	0	Response	2	914256	914256	1
+test	0	Port Input	99	3231851	3231851	1
+test	0	Response	1	3231851	3231851	1
+test	0	Port Input	99	3235687	3235687	1
+test	0	Response	1	3235687	3235687	1
+test	0	Port Input	99	3240002	3240002	1
+test	0	Response	1	3240002	3240002	1
+test	0	Port Input	99	3243517	3243517	1
+test	0	Response	1	3243517	3243517	1
+test	0	Port Input	100	3254383	3254383	1
+test	0	Response	2	3254383	3254383	1
+test	0	Port Input	99	3460845	3460845	1
+test	0	Response	1	3460845	3460845	1
+test	0	Port Input	100	3515816	3515816	1
+test	0	Response	2	3515816	3515816	1
+test	0	Port Input	99	3525885	3525885	1
+test	0	Response	1	3525885	3525885	1
+test	0	Port Input	100	3530839	3530839	1
+test	0	Response	2	3530839	3530839	1
+test	0	Port Input	99	3535154	3535154	1
+test	0	Response	1	3535154	3535154	1
+test	0	Quit		4962750	4962750	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	4985786	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "test",
+   "timestamp": "2025/11/20 12:30:23 GMT"
+}

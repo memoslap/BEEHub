@@ -1,0 +1,11 @@
+Scenario - block_1
+Logfile written - 05/10/2023 11:53:06
+1-JA; 2-NEIN
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+123	1	Pulse	0	0	0	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+

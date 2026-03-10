@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPL - fMRI Learning Experiment Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #experiment-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #experiment-container.white-bg {
+            background-color: #fff;
+            color: #000;
+        }
+        
+        .fixation {
+            font-size: 100px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .stimulus-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stimulus-image {
+            width: 400px;
+            height: 400px;
+            background-color: #333;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #888;
+            border: 3px solid #555;
+        }
+        
+        .stimulus-word {
+            font-size: 80px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 20px;
+        }
+        
+        .feedback {
+            font-size: 60px;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.4;
+        }
+        
+        .instructions {
+            max-width: 800px;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .instructions h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: #000;
+        }
+        
+        .instructions p {
+            font-size: 24px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .instructions ul {
+            text-align: left;
+            font-size: 20px;
+            line-height: 1.8;
+            margin: 20px 0;
+            color: #333;
+        }
+        
+        .button-container {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8659, #40e0d0);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4);
+        }
+        
+        .response-guide {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            border: 2px solid #40e0d0;
+        }
+        
+        .response-guide span {
+            margin: 0 15px;
+            display: inline-block;
+        }
+        
+        .key-highlight {
+            background: #2d8659;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .trial-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            border: 1px solid #40e0d0;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #2d8659, #40e0d0);
+            transition: width 0.3s;
+        }
+        
+        .info-bubble {
+            font-size: 48px;
+            padding: 40px;
+            background: rgba(45, 134, 89, 0.2);
+            border-radius: 20px;
+            border: 3px solid #40e0d0;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="experiment-container">
+        <div id="content"></div>
+    </div>
+    
+    <div id="response-guide" class="response-guide hidden">
+        <span><span class="key-highlight">1</span> Correct</span>
+        <span><span class="key-highlight">2</span> Incorrect</span>
+        <span><span class="key-highlight">ESC</span> Exit</span>
+    </div>
+    
+    <div id="trial-info" class="trial-info hidden">
+        <div>Block: <span id="block-num">-</span></div>
+        <div>Trial: <span id="trial-num">-</span></div>
+        <div>Accuracy: <span id="accuracy">-</span></div>
+    </div>
+    
+    <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+
+    <script>
+        // =====================================================================
+        // EXPERIMENT PARAMETERS
+        // =====================================================================
+        
+        const TIMING = {
+            FIXATION: 1500,      // Reduced from 4500ms for demo
+            STIMULUS: 2500,
+            FEEDBACK: 2000,
+            ITI: 1500,           // Reduced from 4500ms for demo
+            INFO_SCREEN: 2000
+        };
+        
+        const KEYS = {
+            CORRECT: '1',
+            INCORRECT: '2',
+            SPACE: ' ',
+            ESCAPE: 'Escape'
+        };
+        
+        // =====================================================================
+        // STIMULUS DATA
+        // =====================================================================
+        
+        // Learning stimuli - novel objects with pseudo-words
+        const LEARNING_STIMULI = [
+            { id: 'L1', correctWord: 'Seltus', incorrectWords: ['Geward', 'Gluktant', 'Mekter', 'Belschir'] },
+            { id: 'L2', correctWord: 'Basut', incorrectWords: ['Gluktant', 'Goser', 'Belschir', 'Mekte'] },
+            { id: 'L3', correctWord: 'Priebem', incorrectWords: ['Goser', 'Pafau', 'Mekte', 'Spiene'] },
+            { id: 'L4', correctWord: 'Enelt', incorrectWords: ['Pafau', 'Aume', 'Spiene', 'Petonsk'] },
+            { id: 'L5', correctWord: 'Pofein', incorrectWords: ['Aume', 'Geward', 'Petonsk', 'Mekter'] },
+        ];
+        
+        // Control stimuli - real objects
+        const CONTROL_STIMULI = [
+            { id: 'C1', correctWord: 'Flöte', incorrectWords: ['Besen', 'Mantel'] },
+            { id: 'C2', correctWord: 'Besen', incorrectWords: ['Mantel', 'Baby'] },
+            { id: 'C3', correctWord: 'Baby', incorrectWords: ['Bogen', 'Flöte'] },
+        ];
+        
+        // =====================================================================
+        // EXPERIMENT STATE
+        // =====================================================================
+        
+        let currentState = 'WELCOME';
+        let currentBlock = 0;
+        let currentTrial = 0;
+        let totalTrials = 0;
+        let correctResponses = 0;
+        let trialData = [];
+        let blockType = 'learning';
+        let learningStage = 1;
+        
+        const container = document.getElementById('experiment-container');
+        const content = document.getElementById('content');
+        const responseGuide = document.getElementById('response-guide');
+        const trialInfo = document.getElementById('trial-info');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // =====================================================================
+        // UTILITY FUNCTIONS
+        // =====================================================================
+        
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        
+        function showContent(html, whiteBackground = false) {
+            content.innerHTML = html;
+            if (whiteBackground) {
+                container.classList.add('white-bg');
+            } else {
+                container.classList.remove('white-bg');
+            }
+        }
+        
+        function updateTrialInfo() {
+            document.getElementById('block-num').textContent = currentBlock + 1;
+            document.getElementById('trial-num').textContent = `${currentTrial + 1}/${totalTrials}`;
+            const accuracy = totalTrials > 0 ? Math.round((correctResponses / totalTrials) * 100) : 0;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+        }
+        
+        function updateProgress() {
+            const progress = totalTrials > 0 ? (currentTrial / totalTrials) * 100 : 0;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // =====================================================================
+        // DISPLAY FUNCTIONS
+        // =====================================================================
+        
+        function showFixation(duration = TIMING.FIXATION) {
+            showContent('<div class="fixation">+</div>');
+            return new Promise(resolve => setTimeout(resolve, duration));
+        }
+        
+        function showInfoBubble(text, duration = TIMING.INFO_SCREEN) {
+            showContent(`<div class="info-bubble">${text}</div>`);
+            return new Promise(resolve => setTimeout(resolve, duration));
+        }
+        
+        function showFeedback(text, duration = TIMING.FEEDBACK) {
+            showContent(`<div class="feedback">${text}</div>`);
+            return new Promise(resolve => setTimeout(resolve, duration));
+        }
+        
+        function createStimulus(stimulusId, word) {
+            return `
+                <div class="stimulus-container">
+                    <div class="stimulus-image">
+                        [${stimulusId}]<br>
+                        <span style="font-size: 14px; color: #666;">
+                            (Placeholder - Images would be loaded here)
+                        </span>
+                    </div>
+                    <div class="stimulus-word">${word}</div>
+                </div>
+            `;
+        }
+        
+        // =====================================================================
+        // TRIAL FUNCTIONS
+        // =====================================================================
+        
+        function createLearningTrials() {
+            const trials = [];
+            
+            // For each learning stimulus
+            LEARNING_STIMULI.forEach(stim => {
+                // Correct trial (picture with correct word)
+                trials.push({
+                    stimulus: stim.id,
+                    word: stim.correctWord,
+                    correctWord: stim.correctWord,
+                    isCorrect: true,
+                    type: 'learning'
+                });
+                
+                // Incorrect trial (picture with one incorrect word)
+                const incorrectWord = stim.incorrectWords[Math.floor(Math.random() * stim.incorrectWords.length)];
+                trials.push({
+                    stimulus: stim.id,
+                    word: incorrectWord,
+                    correctWord: stim.correctWord,
+                    isCorrect: false,
+                    type: 'learning'
+                });
+            });
+            
+            return shuffle(trials);
+        }
+        
+        function createControlTrials() {
+            const trials = [];
+            
+            CONTROL_STIMULI.forEach(stim => {
+                // Correct trial
+                trials.push({
+                    stimulus: stim.id,
+                    word: stim.correctWord,
+                    correctWord: stim.correctWord,
+                    isCorrect: true,
+                    type: 'control'
+                });
+                
+                // Incorrect trial
+                const incorrectWord = stim.incorrectWords[Math.floor(Math.random() * stim.incorrectWords.length)];
+                trials.push({
+                    stimulus: stim.id,
+                    word: incorrectWord,
+                    correctWord: stim.correctWord,
+                    isCorrect: false,
+                    type: 'control'
+                });
+            });
+            
+            return shuffle(trials);
+        }
+        
+        async function runTrial(trial) {
+            // Show stimulus
+            showContent(createStimulus(trial.stimulus, trial.word));
+            
+            // Wait for response
+            const result = await waitForResponse(TIMING.STIMULUS);
+            
+            // Determine if response was correct
+            let feedback = '';
+            let responseCorrect = false;
+            
+            if (!result.key) {
+                // No response
+                feedback = `Zu spät, das ist ${trial.correctWord}`;
+                responseCorrect = false;
+            } else {
+                // Check correctness
+                const expectedKey = trial.isCorrect ? KEYS.CORRECT : KEYS.INCORRECT;
+                responseCorrect = result.key === expectedKey;
+                
+                if (responseCorrect) {
+                    feedback = `Korrekt, das ist ${trial.correctWord}`;
+                    correctResponses++;
+                } else {
+                    feedback = `Falsch, das ist ${trial.correctWord}`;
+                }
+            }
+            
+            // Record data
+            trialData.push({
+                block: currentBlock,
+                trial: currentTrial,
+                stimulus: trial.stimulus,
+                word: trial.word,
+                correctWord: trial.correctWord,
+                condition: trial.isCorrect ? 'correct' : 'incorrect',
+                response: result.key,
+                rt: result.rt,
+                correct: responseCorrect
+            });
+            
+            // Show feedback
+            await showFeedback(feedback);
+            
+            // Update counters
+            totalTrials++;
+            currentTrial++;
+            updateTrialInfo();
+            updateProgress();
+            
+            // ITI
+            await showFixation(TIMING.ITI);
+        }
+        
+        function waitForResponse(timeout) {
+            return new Promise((resolve) => {
+                const startTime = Date.now();
+                let responded = false;
+                
+                function handleKeyPress(e) {
+                    if (responded) return;
+                    
+                    if (e.key === KEYS.CORRECT || e.key === KEYS.INCORRECT) {
+                        responded = true;
+                        document.removeEventListener('keydown', handleKeyPress);
+                        clearTimeout(timer);
+                        
+                        const rt = Date.now() - startTime;
+                        resolve({ key: e.key, rt });
+                    } else if (e.key === KEYS.ESCAPE) {
+                        endExperiment();
+                    }
+                }
+                
+                document.addEventListener('keydown', handleKeyPress);
+                
+                const timer = setTimeout(() => {
+                    if (!responded) {
+                        responded = true;
+                        document.removeEventListener('keydown', handleKeyPress);
+                        resolve({ key: null, rt: null });
+                    }
+                }, timeout);
+            });
+        }
+        
+        // =====================================================================
+        // BLOCK FUNCTIONS
+        // =====================================================================
+        
+        async function runLearningBlock() {
+            blockType = 'learning';
+            await showInfoBubble('📚 Lernphase');
+            await showFixation();
+            
+            const trials = createLearningTrials();
+            currentTrial = 0;
+            
+            for (const trial of trials) {
+                await runTrial(trial);
+            }
+            
+            await showFixation(TIMING.FIXATION * 2);
+        }
+        
+        async function runControlBlock() {
+            blockType = 'control';
+            await showInfoBubble('🎯 Kontrollphase');
+            await showFixation();
+            
+            const trials = createControlTrials();
+            currentTrial = 0;
+            
+            for (const trial of trials) {
+                await runTrial(trial);
+            }
+            
+            await showFixation(TIMING.FIXATION * 2);
+        }
+        
+        // =====================================================================
+        // MAIN EXPERIMENT FLOW
+        // =====================================================================
+        
+        async function showWelcome() {
+            showContent(`
+                <div class="instructions">
+                    <h1>🧠 fMRI Learning Experiment</h1>
+                    <p><strong>Demo Version</strong></p>
+                    <p>In this experiment, you will learn associations between novel objects and pseudo-words.</p>
+                    <p>Your task is to decide whether the word shown matches the object.</p>
+                    <ul>
+                        <li>Press <strong>1</strong> if the word is CORRECT for the object</li>
+                        <li>Press <strong>2</strong> if the word is INCORRECT for the object</li>
+                        <li>You will receive immediate feedback</li>
+                        <li>Try to respond as quickly and accurately as possible</li>
+                    </ul>
+                    <p style="margin-top: 30px; font-size: 18px; color: #666;">
+                        This is a shortened demo version with reduced timing and trials.
+                    </p>
+                    <div class="button-container">
+                        <button class="btn btn-primary" onclick="startExperiment()">
+                            Start Experiment
+                        </button>
+                    </div>
+                </div>
+            `, true);
+        }
+        
+        async function runExperiment() {
+            responseGuide.classList.remove('hidden');
+            trialInfo.classList.remove('hidden');
+            
+            // Introduction
+            await showFeedback('Das Experiment<br>beginnt gleich.<br>Sind Sie bereit?', 2000);
+            await showFixation();
+            
+            // Determine block order (control block not first or last)
+            const blockOrder = shuffle([0, 1, 2]); // 0,1 = learning, 2 = control
+            const validOrder = blockOrder[0] !== 2 && blockOrder[2] !== 2;
+            
+            // Run blocks
+            for (let i = 0; i < blockOrder.length; i++) {
+                currentBlock = i;
+                
+                if (blockOrder[i] === 2) {
+                    await runControlBlock();
+                } else {
+                    await runLearningBlock();
+                }
+            }
+            
+            // Show goodbye
+            await showInfoBubble('👋 Auf Wiedersehen!');
+            
+            // End experiment
+            await showResults();
+        }
+        
+        async function showResults() {
+            responseGuide.classList.add('hidden');
+            trialInfo.classList.add('hidden');
+            
+            const accuracy = totalTrials > 0 ? Math.round((correctResponses / totalTrials) * 100) : 0;
+            const avgRt = trialData.filter(t => t.rt !== null).reduce((sum, t) => sum + t.rt, 0) / 
+                         trialData.filter(t => t.rt !== null).length;
+            
+            showContent(`
+                <div class="instructions">
+                    <h1>✅ Experiment Complete!</h1>
+                    <h2 style="color: #2d8659; margin: 30px 0;">Results Summary</h2>
+                    <div style="font-size: 24px; text-align: left; margin: 0 auto; max-width: 500px;">
+                        <p><strong>Total Trials:</strong> ${totalTrials}</p>
+                        <p><strong>Correct Responses:</strong> ${correctResponses}</p>
+                        <p><strong>Accuracy:</strong> ${accuracy}%</p>
+                        <p><strong>Average RT:</strong> ${avgRt ? Math.round(avgRt) + 'ms' : 'N/A'}</p>
+                    </div>
+                    <p style="margin-top: 40px;">Thank you for participating!</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary" onclick="downloadData()">
+                            📊 Download Data
+                        </button>
+                        <button class="btn btn-primary" onclick="location.reload()">
+                            🔄 Restart
+                        </button>
+                    </div>
+                </div>
+            `, true);
+        }
+        
+        function downloadData() {
+            const csv = [
+                'block,trial,stimulus,word,correctWord,condition,response,rt,correct',
+                ...trialData.map(t => 
+                    `${t.block},${t.trial},${t.stimulus},${t.word},${t.correctWord},${t.condition},${t.response || 'null'},${t.rt || 'null'},${t.correct}`
+                )
+            ].join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `APPL_demo_${Date.now()}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function endExperiment() {
+            if (confirm('Are you sure you want to exit the experiment?')) {
+                showResults();
+            }
+        }
+        
+        function startExperiment() {
+            runExperiment();
+        }
+        
+        // =====================================================================
+        // INITIALIZE
+        // =====================================================================
+        
+        showWelcome();
+        
+        // Global escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === KEYS.ESCAPE && currentState !== 'WELCOME') {
+                endExperiment();
+            }
+        });
+    </script>
+</body>
+</html>

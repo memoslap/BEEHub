@@ -1,0 +1,255 @@
+Scenario - block_1
+Logfile written - 04/16/2025 19:34:13
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+PlastMem-032_ses2_A	1	Picture	Hello - Intro	10333	0	1	459941	1	0	next	other	0
+PlastMem-032_ses2_A	1	Port Input	115	440178	429845	1
+PlastMem-032_ses2_A	1	Pulse	30	440178	429845	1
+PlastMem-032_ses2_A	1	Port Input	115	450250	439917	1
+PlastMem-032_ses2_A	1	Pulse	30	450250	439917	1
+PlastMem-032_ses2_A	1	Port Input	115	460322	449989	1
+PlastMem-032_ses2_A	1	Pulse	30	460322	449989	1
+PlastMem-032_ses2_A	1	Port Input	115	470234	459901	1
+PlastMem-032_ses2_A	1	Pulse	30	470234	459901	1
+PlastMem-032_ses2_A	2	Picture	fix	470274	0	1	45161	1	0	next	other	0
+PlastMem-032_ses2_A	2	Port Input	115	480305	10031	1
+PlastMem-032_ses2_A	2	Pulse	30	480305	10031	1
+PlastMem-032_ses2_A	2	Port Input	115	490218	19943	1
+PlastMem-032_ses2_A	2	Pulse	30	490218	19943	1
+PlastMem-032_ses2_A	2	Port Input	115	500290	30016	1
+PlastMem-032_ses2_A	2	Pulse	30	500290	30016	1
+PlastMem-032_ses2_A	2	Port Input	115	510202	39928	1
+PlastMem-032_ses2_A	2	Pulse	30	510202	39928	1
+PlastMem-032_ses2_A	3	Picture	fix	515435	0	1	45161	1	0	next	other	0
+PlastMem-032_ses2_A	3	Port Input	115	520274	4839	1
+PlastMem-032_ses2_A	3	Pulse	30	520274	4839	1
+PlastMem-032_ses2_A	3	Port Input	115	530187	14751	1
+PlastMem-032_ses2_A	3	Pulse	30	530187	14751	1
+PlastMem-032_ses2_A	3	Port Input	115	540258	24823	1
+PlastMem-032_ses2_A	3	Pulse	30	540258	24823	1
+PlastMem-032_ses2_A	3	Port Input	115	550330	34895	1
+PlastMem-032_ses2_A	3	Pulse	30	550330	34895	1
+PlastMem-032_ses2_A	3	Port Input	115	560242	44807	1
+PlastMem-032_ses2_A	3	Pulse	30	560242	44807	1
+PlastMem-032_ses2_A	4	Picture	fix	560596	0	1	45494	1	0	next	other	0
+PlastMem-032_ses2_A	4	Port Input	115	570314	9718	1
+PlastMem-032_ses2_A	4	Pulse	30	570314	9718	1
+PlastMem-032_ses2_A	4	Port Input	115	580226	19630	1
+PlastMem-032_ses2_A	4	Pulse	30	580226	19630	1
+PlastMem-032_ses2_A	4	Port Input	115	590298	29702	1
+PlastMem-032_ses2_A	4	Pulse	30	590298	29702	1
+PlastMem-032_ses2_A	4	Port Input	115	600210	39614	1
+PlastMem-032_ses2_A	4	Pulse	30	600210	39614	1
+PlastMem-032_ses2_A	5	Picture	bubbles/learning.png	606090	0	1	45661	1	0	next	other	0
+PlastMem-032_ses2_A	5	Port Input	115	610282	4192	1
+PlastMem-032_ses2_A	5	Pulse	30	610282	4192	1
+PlastMem-032_ses2_A	5	Port Input	115	620193	14103	1
+PlastMem-032_ses2_A	5	Pulse	30	620193	14103	1
+PlastMem-032_ses2_A	5	Port Input	115	630266	24175	1
+PlastMem-032_ses2_A	5	Pulse	30	630266	24175	1
+PlastMem-032_ses2_A	5	Port Input	115	640177	34087	1
+PlastMem-032_ses2_A	5	Pulse	30	640177	34087	1
+PlastMem-032_ses2_A	5	Port Input	115	650248	44158	1
+PlastMem-032_ses2_A	5	Pulse	30	650248	44158	1
+PlastMem-032_ses2_A	6	Picture	h24_p33_i_up_left.jpg;block1;LS1	651751	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	6	Port Input	115	660321	8570	1
+PlastMem-032_ses2_A	6	Pulse	30	660321	8570	1
+PlastMem-032_ses2_A	6	Port Input	115	670233	18482	1
+PlastMem-032_ses2_A	6	Pulse	30	670233	18482	1
+PlastMem-032_ses2_A	7	Picture	to late	677581	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	7	Port Input	115	680304	2723	1
+PlastMem-032_ses2_A	7	Pulse	30	680304	2723	1
+PlastMem-032_ses2_A	7	Port Input	115	690217	12636	1
+PlastMem-032_ses2_A	7	Pulse	30	690217	12636	1
+PlastMem-032_ses2_A	8	Picture	h44_p18_k_up_q1_right.jpg;block1;LS1	698412	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	8	Port Input	115	700289	1878	1
+PlastMem-032_ses2_A	8	Pulse	30	700289	1878	1
+PlastMem-032_ses2_A	8	Port Input	115	710202	11791	1
+PlastMem-032_ses2_A	8	Pulse	30	710202	11791	1
+PlastMem-032_ses2_A	8	Port Input	115	720274	21863	1
+PlastMem-032_ses2_A	8	Pulse	30	720274	21863	1
+PlastMem-032_ses2_A	9	Picture	to late	724242	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	9	Port Input	115	730186	5944	1
+PlastMem-032_ses2_A	9	Pulse	30	730186	5944	1
+PlastMem-032_ses2_A	9	Port Input	115	740259	16018	1
+PlastMem-032_ses2_A	9	Pulse	30	740259	16018	1
+PlastMem-032_ses2_A	10	Picture	h34_p41_k_up_q4_left.jpg;block1;LS1	745072	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	10	Port Input	115	750331	5259	1
+PlastMem-032_ses2_A	10	Pulse	30	750331	5259	1
+PlastMem-032_ses2_A	10	Port Input	115	760243	15171	1
+PlastMem-032_ses2_A	10	Pulse	30	760243	15171	1
+PlastMem-032_ses2_A	10	Port Input	115	770073	25001	723
+PlastMem-032_ses2_A	10	Pulse	30	770073	25001	723
+PlastMem-032_ses2_A	11	Picture	to late	770902	0	1	20997	1	0	next	other	0
+PlastMem-032_ses2_A	11	Port Input	115	780228	9325	1
+PlastMem-032_ses2_A	11	Pulse	30	780228	9325	1
+PlastMem-032_ses2_A	11	Port Input	115	790300	19397	1
+PlastMem-032_ses2_A	11	Pulse	30	790300	19397	1
+PlastMem-032_ses2_A	12	Picture	h30_p14_k_up_q2_right.jpg;block1;LS1	791900	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	12	Port Input	115	800212	8312	1
+PlastMem-032_ses2_A	12	Pulse	30	800212	8312	1
+PlastMem-032_ses2_A	12	Port Input	115	810284	18384	1
+PlastMem-032_ses2_A	12	Pulse	30	810284	18384	1
+PlastMem-032_ses2_A	13	Picture	to late	817730	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	13	Port Input	115	820196	2466	1
+PlastMem-032_ses2_A	13	Pulse	30	820196	2466	1
+PlastMem-032_ses2_A	13	Port Input	115	830268	12539	1
+PlastMem-032_ses2_A	13	Pulse	30	830268	12539	1
+PlastMem-032_ses2_A	14	Picture	h27_p6_i_up_left.jpg;block1;LS1	838560	0	1	25997	1	0	next	other	0
+PlastMem-032_ses2_A	14	Port Input	115	840181	1620	1
+PlastMem-032_ses2_A	14	Pulse	30	840181	1620	1
+PlastMem-032_ses2_A	14	Port Input	115	850253	11693	1
+PlastMem-032_ses2_A	14	Pulse	30	850253	11693	1
+PlastMem-032_ses2_A	14	Port Input	115	860325	21765	1
+PlastMem-032_ses2_A	14	Pulse	30	860325	21765	1
+PlastMem-032_ses2_A	15	Picture	to late	864557	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	15	Port Input	115	870238	5681	1
+PlastMem-032_ses2_A	15	Pulse	30	870238	5681	1
+PlastMem-032_ses2_A	15	Port Input	115	880310	15753	1
+PlastMem-032_ses2_A	15	Pulse	30	880310	15753	1
+PlastMem-032_ses2_A	16	Picture	h38_p37_k_up_q3_right.jpg;block1;LS1	885388	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	16	Port Input	115	890222	4834	1
+PlastMem-032_ses2_A	16	Pulse	30	890222	4834	1
+PlastMem-032_ses2_A	16	Port Input	115	900291	14903	1
+PlastMem-032_ses2_A	16	Pulse	30	900291	14903	1
+PlastMem-032_ses2_A	16	Port Input	115	910202	24815	1
+PlastMem-032_ses2_A	16	Pulse	30	910202	24815	1
+PlastMem-032_ses2_A	17	Picture	to late	911218	0	1	20664	1	0	next	other	0
+PlastMem-032_ses2_A	17	Port Input	115	920274	9057	1
+PlastMem-032_ses2_A	17	Pulse	30	920274	9057	1
+PlastMem-032_ses2_A	17	Port Input	115	930186	18968	1
+PlastMem-032_ses2_A	17	Pulse	30	930186	18968	1
+PlastMem-032_ses2_A	18	Picture	h44_p12_i_up_left.jpg;block1;LS1	931882	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	18	Port Input	115	940259	8377	1
+PlastMem-032_ses2_A	18	Pulse	30	940259	8377	1
+PlastMem-032_ses2_A	18	Port Input	115	950330	18449	1
+PlastMem-032_ses2_A	18	Pulse	30	950330	18449	1
+PlastMem-032_ses2_A	19	Picture	to late	957712	0	1	20997	1	0	next	other	0
+PlastMem-032_ses2_A	19	Port Input	115	960242	2530	4
+PlastMem-032_ses2_A	19	Pulse	30	960242	2530	4
+PlastMem-032_ses2_A	19	Port Input	115	970316	12605	1
+PlastMem-032_ses2_A	19	Pulse	30	970316	12605	1
+PlastMem-032_ses2_A	20	Picture	h26_p20_k_up_q2_right.jpg;block1;LS1	978709	0	1	25997	1	0	next	other	0
+PlastMem-032_ses2_A	20	Port Input	115	980229	1520	1
+PlastMem-032_ses2_A	20	Pulse	30	980229	1520	1
+PlastMem-032_ses2_A	20	Port Input	115	990301	11592	1
+PlastMem-032_ses2_A	20	Pulse	30	990301	11592	1
+PlastMem-032_ses2_A	20	Port Input	115	1000214	21505	1
+PlastMem-032_ses2_A	20	Pulse	30	1000214	21505	1
+PlastMem-032_ses2_A	21	Picture	to late	1004706	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	21	Port Input	115	1010286	5580	1
+PlastMem-032_ses2_A	21	Pulse	30	1010286	5580	1
+PlastMem-032_ses2_A	21	Port Input	115	1020199	15493	1
+PlastMem-032_ses2_A	21	Pulse	30	1020199	15493	1
+PlastMem-032_ses2_A	22	Picture	h27_p8_k_up_q1_left.jpg;block1;LS1	1025537	0	1	17331	1	0	next	other	0
+PlastMem-032_ses2_A	22	Port Input	115	1030271	4735	1
+PlastMem-032_ses2_A	22	Pulse	30	1030271	4735	1
+PlastMem-032_ses2_A	22	Port Input	115	1040184	14647	1
+PlastMem-032_ses2_A	22	Pulse	30	1040184	14647	1
+PlastMem-032_ses2_A	22	Port Input	97	1042102	16565	1
+PlastMem-032_ses2_A	22	Response	2	1042102	16565	1
+PlastMem-032_ses2_A	23	Picture	extra Pic Time	1042868	0	1	8499	1	0	next	other	0
+PlastMem-032_ses2_A	23	Port Input	115	1050255	7387	1
+PlastMem-032_ses2_A	23	Pulse	30	1050255	7387	1
+PlastMem-032_ses2_A	24	Picture	incorrect;h27_p8_k_up_q1_left.jpg	1051367	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	24	Port Input	115	1060327	8961	1
+PlastMem-032_ses2_A	24	Pulse	30	1060327	8961	1
+PlastMem-032_ses2_A	24	Port Input	115	1070239	18873	1
+PlastMem-032_ses2_A	24	Pulse	30	1070239	18873	1
+PlastMem-032_ses2_A	25	Picture	h38_p29_i_up_right.jpg;block1;LS1	1072197	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	25	Port Input	115	1080311	8114	1
+PlastMem-032_ses2_A	25	Pulse	30	1080311	8114	1
+PlastMem-032_ses2_A	25	Port Input	115	1090224	18027	1
+PlastMem-032_ses2_A	25	Pulse	30	1090224	18027	1
+PlastMem-032_ses2_A	26	Picture	to late	1098027	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	26	Port Input	115	1100297	2270	1
+PlastMem-032_ses2_A	26	Pulse	30	1100297	2270	1
+PlastMem-032_ses2_A	26	Port Input	115	1110209	12182	1
+PlastMem-032_ses2_A	26	Pulse	30	1110209	12182	1
+PlastMem-032_ses2_A	27	Picture	h34_p40_i_up_left.jpg;block1;LS1	1118858	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	27	Port Input	115	1120280	1423	1
+PlastMem-032_ses2_A	27	Pulse	30	1120280	1423	1
+PlastMem-032_ses2_A	27	Port Input	115	1130193	11335	1
+PlastMem-032_ses2_A	27	Pulse	30	1130193	11335	1
+PlastMem-032_ses2_A	27	Port Input	115	1140265	21407	1
+PlastMem-032_ses2_A	27	Pulse	30	1140265	21407	1
+PlastMem-032_ses2_A	28	Picture	to late	1144688	0	1	20664	1	0	next	other	0
+PlastMem-032_ses2_A	28	Port Input	115	1150177	5489	1
+PlastMem-032_ses2_A	28	Pulse	30	1150177	5489	1
+PlastMem-032_ses2_A	28	Port Input	115	1160249	15561	1
+PlastMem-032_ses2_A	28	Pulse	30	1160249	15561	1
+PlastMem-032_ses2_A	29	Picture	h26_p14_i_up_right.jpg;block1;LS1	1165352	0	1	25997	1	0	next	other	0
+PlastMem-032_ses2_A	29	Port Input	115	1170321	4969	1
+PlastMem-032_ses2_A	29	Pulse	30	1170321	4969	1
+PlastMem-032_ses2_A	29	Port Input	115	1180233	14881	1
+PlastMem-032_ses2_A	29	Pulse	30	1180233	14881	1
+PlastMem-032_ses2_A	29	Port Input	115	1190306	24954	1
+PlastMem-032_ses2_A	29	Pulse	30	1190306	24954	1
+PlastMem-032_ses2_A	30	Picture	to late	1191349	0	1	20831	1	0	next	other	0
+PlastMem-032_ses2_A	30	Port Input	115	1200219	8870	1
+PlastMem-032_ses2_A	30	Pulse	30	1200219	8870	1
+PlastMem-032_ses2_A	30	Port Input	115	1210291	18942	1
+PlastMem-032_ses2_A	30	Pulse	30	1210291	18942	1
+PlastMem-032_ses2_A	31	Picture	h30_p13_i_up_right.jpg;block1;LS1	1212179	0	1	25830	1	0	next	other	0
+PlastMem-032_ses2_A	31	Port Input	115	1220203	8023	1
+PlastMem-032_ses2_A	31	Pulse	30	1220203	8023	1
+PlastMem-032_ses2_A	31	Port Input	115	1230275	18096	1
+PlastMem-032_ses2_A	31	Pulse	30	1230275	18096	1
+PlastMem-032_ses2_A	32	Picture	to late	1238009	0	1	22942	1	0	next	other	0
+PlastMem-032_ses2_A	32	Port Input	115	1240187	2178	1
+PlastMem-032_ses2_A	32	Pulse	30	1240187	2178	1
+PlastMem-032_ses2_A	32	Port Input	115	1250260	12251	1
+PlastMem-032_ses2_A	32	Pulse	30	1250260	12251	1
+PlastMem-032_ses2_A	32	Quit		1255594	17585	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	459941	1	0	next
+Picture	fix	other				470274	1	45161	1	0	next
+Picture	fix	other				515435	1	45161	1	0	next
+Picture	fix	other				560596	1	45494	1	0	next
+Picture	bubbles/learning.png	other				606090	1	45661	1	0	next
+Picture	h24_p33_i_up_left.jpg;block1;LS1	other				651751	1	25830	1	0	next
+Picture	to late	other				677581	1	20831	1	0	next
+Picture	h44_p18_k_up_q1_right.jpg;block1;LS1	other				698412	1	25830	1	0	next
+Picture	to late	other				724242	1	20831	1	0	next
+Picture	h34_p41_k_up_q4_left.jpg;block1;LS1	other				745072	1	25830	1	0	next
+Picture	to late	other				770902	1	20997	1	0	next
+Picture	h30_p14_k_up_q2_right.jpg;block1;LS1	other				791900	1	25830	1	0	next
+Picture	to late	other				817730	1	20831	1	0	next
+Picture	h27_p6_i_up_left.jpg;block1;LS1	other				838560	1	25997	1	0	next
+Picture	to late	other				864557	1	20831	1	0	next
+Picture	h38_p37_k_up_q3_right.jpg;block1;LS1	other				885388	1	25830	1	0	next
+Picture	to late	other				911218	1	20664	1	0	next
+Picture	h44_p12_i_up_left.jpg;block1;LS1	other				931882	1	25830	1	0	next
+Picture	to late	other				957712	1	20997	1	0	next
+Picture	h26_p20_k_up_q2_right.jpg;block1;LS1	other				978709	1	25997	1	0	next
+Picture	to late	other				1004706	1	20831	1	0	next
+Picture	h27_p8_k_up_q1_left.jpg;block1;LS1	other				1025537	1	17331	1	0	next
+Picture	extra Pic Time	other				1042868	1	8499	1	0	next
+Picture	incorrect;h27_p8_k_up_q1_left.jpg	other				1051367	1	20831	1	0	next
+Picture	h38_p29_i_up_right.jpg;block1;LS1	other				1072197	1	25830	1	0	next
+Picture	to late	other				1098027	1	20831	1	0	next
+Picture	h34_p40_i_up_left.jpg;block1;LS1	other				1118858	1	25830	1	0	next
+Picture	to late	other				1144688	1	20664	1	0	next
+Picture	h26_p14_i_up_right.jpg;block1;LS1	other				1165352	1	25997	1	0	next
+Picture	to late	other				1191349	1	20831	1	0	next
+Picture	h30_p13_i_up_right.jpg;block1;LS1	other				1212179	1	25830	1	0	next
+Picture	to late	other				1238009	1	22942	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "PlastMem-032_ses2_A",
+   "timestamp": "2025/04/16 18:32:08 GMT"
+}

@@ -1,0 +1,27 @@
+Scenario - block_1
+Logfile written - 10/17/2024 17:18:21
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub1109_p1_s3_task2	0	Picture	Hello - Intro	10333	10333	1	1592144	1	0	next	other	0
+sub1109_p1_s3_task2	0	Quit		1570523	1570523	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	1592144	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "sub1109_p1_s3_task2",
+   "timestamp": "2024/10/17 16:15:39 GMT"
+}

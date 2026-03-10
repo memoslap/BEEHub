@@ -1,0 +1,121 @@
+Scenario - fMRI-SET-2
+Logfile written - 01/31/2024 16:30:42
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+erase	1	Picture	Hello - Intro	10333	0	1	54826	1	0	next	other	0
+erase	1	Port Input	115	53039	42706	1
+erase	1	Pulse	30	53039	42706	1
+erase	1	Port Input	115	57036	46703	1
+erase	1	Pulse	30	57036	46703	1
+erase	1	Port Input	115	61032	50699	1
+erase	1	Pulse	30	61032	50699	1
+erase	1	Port Input	115	65028	54695	1
+erase	1	Pulse	30	65028	54695	1
+erase	2	Picture	fix	65159	0	1	45161	1	0	next	other	0
+erase	3	Picture	fix	110320	0	1	45161	1	0	next	other	0
+erase	4	Picture	fix	155481	0	1	45327	1	0	next	other	0
+erase	5	Picture	bubbles/learning.jpg	200808	0	1	45327	1	0	next	other	0
+erase	6	Picture	learning/PICTURE_610.jpg;Jesin;Finsem;i;block1;LS1	246136	0	1	25163	1	0	25000	other	0
+erase	7	Picture	Zu späz das ist Finsem	271466	0	1	20497	1	0	next	other	0
+erase	8	Picture	learning/PICTURE_43.jpg;Gilser;Seise;i;block1;LS1	291963	0	1	25163	1	0	25000	other	0
+erase	9	Picture	Zu späz das ist Seise	317293	0	1	20331	1	0	next	other	0
+erase	10	Picture	learning/PICTURE_599.jpg;Jilal;Klotel;i;block1;LS1	337624	0	1	25163	1	0	25000	other	0
+erase	11	Picture	Zu späz das ist Klotel	362954	0	1	20331	1	0	next	other	0
+erase	12	Picture	learning/PICTURE_610.jpg;Finsem;Finsem;c;block1;LS1	383285	0	1	25163	1	0	25000	other	0
+erase	13	Picture	Zu späz das ist Finsem	408615	0	1	20331	1	0	next	other	0
+erase	14	Picture	learning/PICTURE_247.jpg;Strinfit;Soktau;i;block1;LS1	428945	0	1	25163	1	0	25000	other	0
+erase	15	Picture	Zu späz das ist Soktau	454275	0	1	20497	1	0	next	other	0
+erase	16	Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS1	474773	0	1	25163	1	0	25000	other	0
+erase	17	Picture	Zu späz das ist Stise	500103	0	1	20331	1	0	next	other	0
+erase	18	Picture	learning/PICTURE_599.jpg;Klotel;Klotel;c;block1;LS1	520434	0	1	25163	1	0	25000	other	0
+erase	19	Picture	Zu späz das ist Klotel	545764	0	1	20331	1	0	next	other	0
+erase	20	Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS1	566094	0	1	25163	1	0	25000	other	0
+erase	21	Picture	Zu späz das ist Soktau	591424	0	1	20331	1	0	next	other	0
+erase	22	Picture	learning/PICTURE_741.jpg;Klatons;Stise;i;block1;LS1	611755	0	1	25163	1	0	25000	other	0
+erase	23	Picture	Zu späz das ist Stise	637085	0	1	20497	1	0	next	other	0
+erase	24	Picture	learning/PICTURE_43.jpg;Seise;Seise;c;block1;LS1	657582	0	1	25163	1	0	25000	other	0
+erase	25	Picture	Zu späz das ist Seise	682912	0	1	20164	1	0	next	other	0
+erase	26	Picture	fix	703076	0	1	45494	1	0	next	other	0
+erase	27	Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS2	748571	0	1	25163	1	0	25000	other	0
+erase	28	Picture	Zu späz das ist Soktau	773901	0	1	20331	1	0	next	other	0
+erase	29	Picture	learning/PICTURE_610.jpg;Finsem;Finsem;c;block1;LS2	794231	0	1	25163	1	0	25000	other	0
+erase	30	Picture	Zu späz das ist Finsem	819561	0	1	20331	1	0	next	other	0
+erase	31	Picture	learning/PICTURE_599.jpg;Klotel;Klotel;c;block1;LS2	839892	0	1	25163	1	0	25000	other	0
+erase	32	Picture	Zu späz das ist Klotel	865222	0	1	20497	1	0	next	other	0
+erase	33	Picture	learning/PICTURE_247.jpg;Jilal;Soktau;i;block1;LS2	885719	0	1	25163	1	0	25000	other	0
+erase	34	Picture	Zu späz das ist Soktau	911049	0	1	20331	1	0	next	other	0
+erase	35	Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS2	931380	0	1	25163	1	0	25000	other	0
+erase	36	Picture	Zu späz das ist Stise	956710	0	1	20331	1	0	next	other	0
+erase	37	Picture	learning/PICTURE_43.jpg;Strinfit;Seise;i;block1;LS2	977041	0	1	25163	1	0	25000	other	0
+erase	38	Picture	Zu späz das ist Seise	1002371	0	1	20331	1	0	next	other	0
+erase	39	Picture	learning/PICTURE_599.jpg;Klatons;Klotel;i;block1;LS2	1022702	0	1	25163	1	0	25000	other	0
+erase	40	Picture	Zu späz das ist Klotel	1048032	0	1	20497	1	0	next	other	0
+erase	41	Picture	learning/PICTURE_43.jpg;Seise;Seise;c;block1;LS2	1068529	0	1	25163	1	0	25000	other	0
+erase	42	Picture	Zu späz das ist Seise	1093859	0	1	20331	1	0	next	other	0
+erase	43	Picture	learning/PICTURE_741.jpg;Jesin;Stise;i;block1;LS2	1114190	0	1	25163	1	0	25000	other	0
+erase	44	Picture	Zu späz das ist Stise	1139520	0	1	9594	1	0	next	other	0
+erase	44	Quit		1143547	4028	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	54826	1	0	next
+Picture	fix	other				65159	1	45161	1	0	next
+Picture	fix	other				110320	1	45161	1	0	next
+Picture	fix	other				155481	1	45327	1	0	next
+Picture	bubbles/learning.jpg	other				200808	1	45327	1	0	next
+Picture	learning/PICTURE_610.jpg;Jesin;Finsem;i;block1;LS1	other				246136	1	25163	1	0	25000
+Picture	Zu späz das ist Finsem	other				271466	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Gilser;Seise;i;block1;LS1	other				291963	1	25163	1	0	25000
+Picture	Zu späz das ist Seise	other				317293	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Jilal;Klotel;i;block1;LS1	other				337624	1	25163	1	0	25000
+Picture	Zu späz das ist Klotel	other				362954	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Finsem;Finsem;c;block1;LS1	other				383285	1	25163	1	0	25000
+Picture	Zu späz das ist Finsem	other				408615	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Strinfit;Soktau;i;block1;LS1	other				428945	1	25163	1	0	25000
+Picture	Zu späz das ist Soktau	other				454275	1	20497	1	0	next
+Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS1	other				474773	1	25163	1	0	25000
+Picture	Zu späz das ist Stise	other				500103	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Klotel;Klotel;c;block1;LS1	other				520434	1	25163	1	0	25000
+Picture	Zu späz das ist Klotel	other				545764	1	20331	1	0	next
+Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS1	other				566094	1	25163	1	0	25000
+Picture	Zu späz das ist Soktau	other				591424	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Klatons;Stise;i;block1;LS1	other				611755	1	25163	1	0	25000
+Picture	Zu späz das ist Stise	other				637085	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Seise;Seise;c;block1;LS1	other				657582	1	25163	1	0	25000
+Picture	Zu späz das ist Seise	other				682912	1	20164	1	0	next
+Picture	fix	other				703076	1	45494	1	0	next
+Picture	learning/PICTURE_247.jpg;Soktau;Soktau;c;block1;LS2	other				748571	1	25163	1	0	25000
+Picture	Zu späz das ist Soktau	other				773901	1	20331	1	0	next
+Picture	learning/PICTURE_610.jpg;Finsem;Finsem;c;block1;LS2	other				794231	1	25163	1	0	25000
+Picture	Zu späz das ist Finsem	other				819561	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Klotel;Klotel;c;block1;LS2	other				839892	1	25163	1	0	25000
+Picture	Zu späz das ist Klotel	other				865222	1	20497	1	0	next
+Picture	learning/PICTURE_247.jpg;Jilal;Soktau;i;block1;LS2	other				885719	1	25163	1	0	25000
+Picture	Zu späz das ist Soktau	other				911049	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Stise;Stise;c;block1;LS2	other				931380	1	25163	1	0	25000
+Picture	Zu späz das ist Stise	other				956710	1	20331	1	0	next
+Picture	learning/PICTURE_43.jpg;Strinfit;Seise;i;block1;LS2	other				977041	1	25163	1	0	25000
+Picture	Zu späz das ist Seise	other				1002371	1	20331	1	0	next
+Picture	learning/PICTURE_599.jpg;Klatons;Klotel;i;block1;LS2	other				1022702	1	25163	1	0	25000
+Picture	Zu späz das ist Klotel	other				1048032	1	20497	1	0	next
+Picture	learning/PICTURE_43.jpg;Seise;Seise;c;block1;LS2	other				1068529	1	25163	1	0	25000
+Picture	Zu späz das ist Seise	other				1093859	1	20331	1	0	next
+Picture	learning/PICTURE_741.jpg;Jesin;Stise;i;block1;LS2	other				1114190	1	25163	1	0	25000
+Picture	Zu späz das ist Stise	other				1139520	1	9594	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "erase",
+   "timestamp": "2024/01/31 15:28:47 GMT"
+}

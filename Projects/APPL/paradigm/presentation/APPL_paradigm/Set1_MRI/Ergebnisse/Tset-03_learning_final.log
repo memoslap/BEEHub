@@ -1,0 +1,27 @@
+Scenario - fMRI-SET-1
+Logfile written - 09/26/2024 13:26:42
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+tset	0	Picture	Hello - Intro	10333	10333	1	9470883	1	0	next	other	0
+tset	0	Quit		9447471	9447471	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	9470883	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "tset",
+   "timestamp": "2024/09/26 12:10:52 GMT"
+}

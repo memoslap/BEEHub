@@ -1,0 +1,186 @@
+Scenario - block_1
+Logfile written - 11/27/2025 14:11:58
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub3184_p3_s4_task1	1	Picture	Hello - Intro	10500	0	1	274965	1	0	next	other	0
+sub3184_p3_s4_task1	1	Port Input	115	255376	244877	1
+sub3184_p3_s4_task1	1	Pulse	30	255376	244877	1
+sub3184_p3_s4_task1	1	Port Input	115	265289	254790	1
+sub3184_p3_s4_task1	1	Pulse	30	265289	254790	1
+sub3184_p3_s4_task1	1	Port Input	115	275361	264862	1
+sub3184_p3_s4_task1	1	Pulse	30	275361	264862	1
+sub3184_p3_s4_task1	1	Port Input	115	285274	274774	1
+sub3184_p3_s4_task1	1	Pulse	30	285274	274774	1
+sub3184_p3_s4_task1	2	Picture	fix	285465	0	1	45161	1	0	next	other	0
+sub3184_p3_s4_task1	2	Port Input	115	295347	9882	1
+sub3184_p3_s4_task1	2	Pulse	30	295347	9882	1
+sub3184_p3_s4_task1	2	Port Input	115	305260	19795	1
+sub3184_p3_s4_task1	2	Pulse	30	305260	19795	1
+sub3184_p3_s4_task1	2	Port Input	115	315332	29867	1
+sub3184_p3_s4_task1	2	Pulse	30	315332	29867	1
+sub3184_p3_s4_task1	2	Port Input	115	325244	39780	1
+sub3184_p3_s4_task1	2	Pulse	30	325244	39780	1
+sub3184_p3_s4_task1	3	Picture	fix	330625	0	1	45161	1	0	next	other	0
+sub3184_p3_s4_task1	3	Port Input	115	335317	4691	1
+sub3184_p3_s4_task1	3	Pulse	30	335317	4691	1
+sub3184_p3_s4_task1	3	Port Input	115	345230	14604	1
+sub3184_p3_s4_task1	3	Pulse	30	345230	14604	1
+sub3184_p3_s4_task1	3	Port Input	115	355302	24677	1
+sub3184_p3_s4_task1	3	Pulse	30	355302	24677	1
+sub3184_p3_s4_task1	3	Port Input	115	365375	34749	1
+sub3184_p3_s4_task1	3	Pulse	30	365375	34749	1
+sub3184_p3_s4_task1	3	Port Input	115	375288	44662	1
+sub3184_p3_s4_task1	3	Pulse	30	375288	44662	1
+sub3184_p3_s4_task1	4	Picture	fix	375786	0	1	45494	1	0	next	other	0
+sub3184_p3_s4_task1	4	Port Input	115	385360	9574	1
+sub3184_p3_s4_task1	4	Pulse	30	385360	9574	1
+sub3184_p3_s4_task1	4	Port Input	115	395272	19486	1
+sub3184_p3_s4_task1	4	Pulse	30	395272	19486	1
+sub3184_p3_s4_task1	4	Port Input	115	405345	29558	1
+sub3184_p3_s4_task1	4	Pulse	30	405345	29558	1
+sub3184_p3_s4_task1	4	Port Input	115	415257	39471	1
+sub3184_p3_s4_task1	4	Pulse	30	415257	39471	1
+sub3184_p3_s4_task1	5	Picture	bubbles/learning.png	421280	0	1	45994	1	0	next	other	0
+sub3184_p3_s4_task1	5	Port Input	115	425330	4050	1
+sub3184_p3_s4_task1	5	Pulse	30	425330	4050	1
+sub3184_p3_s4_task1	5	Port Input	115	435242	13962	1
+sub3184_p3_s4_task1	5	Pulse	30	435242	13962	1
+sub3184_p3_s4_task1	5	Port Input	115	445316	24035	1
+sub3184_p3_s4_task1	5	Pulse	30	445316	24035	1
+sub3184_p3_s4_task1	5	Port Input	115	455228	33947	1
+sub3184_p3_s4_task1	5	Pulse	30	455228	33947	1
+sub3184_p3_s4_task1	5	Port Input	115	465300	44020	1
+sub3184_p3_s4_task1	5	Pulse	30	465300	44020	1
+sub3184_p3_s4_task1	6	Picture	h30_p14_k_up_q2_right.jpg;block1;LS1	467275	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	6	Port Input	99	475212	7938	1
+sub3184_p3_s4_task1	6	Port Input	115	475372	8097	1
+sub3184_p3_s4_task1	6	Pulse	30	475372	8097	1
+sub3184_p3_s4_task1	6	Port Input	115	485285	18010	1
+sub3184_p3_s4_task1	6	Pulse	30	485285	18010	1
+sub3184_p3_s4_task1	7	Picture	to late	493271	0	1	20997	1	0	next	other	0
+sub3184_p3_s4_task1	7	Port Input	115	495358	2087	1
+sub3184_p3_s4_task1	7	Pulse	30	495358	2087	1
+sub3184_p3_s4_task1	7	Port Input	115	505270	11999	1
+sub3184_p3_s4_task1	7	Pulse	30	505270	11999	1
+sub3184_p3_s4_task1	8	Picture	h38_p29_i_up_right.jpg;block1;LS1	514269	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	8	Port Input	115	515343	1074	1
+sub3184_p3_s4_task1	8	Pulse	30	515343	1074	1
+sub3184_p3_s4_task1	8	Port Input	100	518860	4592	1
+sub3184_p3_s4_task1	8	Port Input	115	525256	10987	1
+sub3184_p3_s4_task1	8	Pulse	30	525256	10987	1
+sub3184_p3_s4_task1	8	Port Input	99	528293	14025	1
+sub3184_p3_s4_task1	8	Port Input	99	532290	18022	1
+sub3184_p3_s4_task1	8	Port Input	115	535328	21060	1
+sub3184_p3_s4_task1	8	Pulse	30	535328	21060	1
+sub3184_p3_s4_task1	8	Port Input	99	535488	21220	1
+sub3184_p3_s4_task1	8	Port Input	99	538526	24258	1
+sub3184_p3_s4_task1	9	Picture	to late	540265	0	1	20997	1	0	next	other	0
+sub3184_p3_s4_task1	9	Port Input	99	543482	3217	1
+sub3184_p3_s4_task1	9	Port Input	115	545241	4976	1
+sub3184_p3_s4_task1	9	Pulse	30	545241	4976	1
+sub3184_p3_s4_task1	9	Port Input	115	555315	15049	1
+sub3184_p3_s4_task1	9	Pulse	30	555315	15049	1
+sub3184_p3_s4_task1	10	Picture	h44_p18_k_up_q1_right.jpg;block1;LS1	561263	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	10	Port Input	115	565227	3965	1
+sub3184_p3_s4_task1	10	Pulse	30	565227	3965	1
+sub3184_p3_s4_task1	10	Port Input	100	567465	6203	1
+sub3184_p3_s4_task1	10	Port Input	115	575300	14038	1
+sub3184_p3_s4_task1	10	Pulse	30	575300	14038	1
+sub3184_p3_s4_task1	10	Port Input	100	576420	15157	1
+sub3184_p3_s4_task1	10	Port Input	100	581536	20274	1
+sub3184_p3_s4_task1	10	Port Input	115	585373	24111	1
+sub3184_p3_s4_task1	10	Pulse	30	585373	24111	1
+sub3184_p3_s4_task1	11	Picture	to late	587259	0	1	20831	1	0	next	other	0
+sub3184_p3_s4_task1	11	Port Input	100	593367	6108	1
+sub3184_p3_s4_task1	11	Port Input	115	595286	8027	1
+sub3184_p3_s4_task1	11	Pulse	30	595286	8027	1
+sub3184_p3_s4_task1	11	Port Input	100	602481	15222	1
+sub3184_p3_s4_task1	11	Port Input	115	605359	18100	1
+sub3184_p3_s4_task1	11	Pulse	30	605359	18100	1
+sub3184_p3_s4_task1	12	Picture	h34_p40_i_up_left.jpg;block1;LS1	608090	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	12	Port Input	100	610956	2866	1
+sub3184_p3_s4_task1	12	Port Input	115	615272	7182	1
+sub3184_p3_s4_task1	12	Pulse	30	615272	7182	1
+sub3184_p3_s4_task1	12	Port Input	99	618950	10860	1
+sub3184_p3_s4_task1	12	Port Input	115	625345	17255	1
+sub3184_p3_s4_task1	12	Pulse	30	625345	17255	1
+sub3184_p3_s4_task1	12	Port Input	99	628382	20293	1
+sub3184_p3_s4_task1	13	Picture	to late	634087	0	1	20997	1	0	next	other	0
+sub3184_p3_s4_task1	13	Port Input	115	635257	1171	1
+sub3184_p3_s4_task1	13	Pulse	30	635257	1171	1
+sub3184_p3_s4_task1	13	Port Input	115	645330	11243	1
+sub3184_p3_s4_task1	13	Pulse	30	645330	11243	1
+sub3184_p3_s4_task1	14	Picture	h27_p6_i_up_left.jpg;block1;LS1	655084	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	14	Port Input	115	655244	160	1
+sub3184_p3_s4_task1	14	Pulse	30	655244	160	1
+sub3184_p3_s4_task1	14	Port Input	115	665316	10232	1
+sub3184_p3_s4_task1	14	Pulse	30	665316	10232	1
+sub3184_p3_s4_task1	14	Port Input	115	675227	20144	1
+sub3184_p3_s4_task1	14	Pulse	30	675227	20144	1
+sub3184_p3_s4_task1	15	Picture	to late	681081	0	1	20997	1	0	next	other	0
+sub3184_p3_s4_task1	15	Port Input	115	685300	4220	1
+sub3184_p3_s4_task1	15	Pulse	30	685300	4220	1
+sub3184_p3_s4_task1	15	Port Input	115	695372	14292	1
+sub3184_p3_s4_task1	15	Pulse	30	695372	14292	1
+sub3184_p3_s4_task1	16	Picture	h24_p33_i_up_left.jpg;block1;LS1	702078	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	16	Port Input	115	705286	3208	1
+sub3184_p3_s4_task1	16	Pulse	30	705286	3208	1
+sub3184_p3_s4_task1	16	Port Input	115	715358	13281	1
+sub3184_p3_s4_task1	16	Pulse	30	715358	13281	1
+sub3184_p3_s4_task1	16	Port Input	115	725272	23194	1
+sub3184_p3_s4_task1	16	Pulse	30	725272	23194	1
+sub3184_p3_s4_task1	17	Picture	to late	728075	0	1	20997	1	0	next	other	0
+sub3184_p3_s4_task1	17	Port Input	115	735344	7269	1
+sub3184_p3_s4_task1	17	Pulse	30	735344	7269	1
+sub3184_p3_s4_task1	17	Port Input	115	745257	17182	1
+sub3184_p3_s4_task1	17	Pulse	30	745257	17182	1
+sub3184_p3_s4_task1	18	Picture	h38_p37_k_up_q3_right.jpg;block1;LS1	749072	0	1	25997	1	0	next	other	0
+sub3184_p3_s4_task1	18	Port Input	115	755329	6258	1
+sub3184_p3_s4_task1	18	Pulse	30	755329	6258	1
+sub3184_p3_s4_task1	18	Port Input	115	765242	16170	1
+sub3184_p3_s4_task1	18	Pulse	30	765242	16170	1
+sub3184_p3_s4_task1	19	Picture	to late	775069	0	1	20831	1	0	next	other	0
+sub3184_p3_s4_task1	19	Port Input	115	775315	247	1
+sub3184_p3_s4_task1	19	Pulse	30	775315	247	1
+sub3184_p3_s4_task1	20	Picture	h30_p13_i_up_right.jpg;block1;LS1	795899	0	1	34472	1	0	next	other	0
+sub3184_p3_s4_task1	20	Quit		796778	879	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	274965	1	0	next
+Picture	fix	other				285465	1	45161	1	0	next
+Picture	fix	other				330625	1	45161	1	0	next
+Picture	fix	other				375786	1	45494	1	0	next
+Picture	bubbles/learning.png	other				421280	1	45994	1	0	next
+Picture	h30_p14_k_up_q2_right.jpg;block1;LS1	other				467275	1	25997	1	0	next
+Picture	to late	other				493271	1	20997	1	0	next
+Picture	h38_p29_i_up_right.jpg;block1;LS1	other				514269	1	25997	1	0	next
+Picture	to late	other				540265	1	20997	1	0	next
+Picture	h44_p18_k_up_q1_right.jpg;block1;LS1	other				561263	1	25997	1	0	next
+Picture	to late	other				587259	1	20831	1	0	next
+Picture	h34_p40_i_up_left.jpg;block1;LS1	other				608090	1	25997	1	0	next
+Picture	to late	other				634087	1	20997	1	0	next
+Picture	h27_p6_i_up_left.jpg;block1;LS1	other				655084	1	25997	1	0	next
+Picture	to late	other				681081	1	20997	1	0	next
+Picture	h24_p33_i_up_left.jpg;block1;LS1	other				702078	1	25997	1	0	next
+Picture	to late	other				728075	1	20997	1	0	next
+Picture	h38_p37_k_up_q3_right.jpg;block1;LS1	other				749072	1	25997	1	0	next
+Picture	to late	other				775069	1	20831	1	0	next
+Picture	h30_p13_i_up_right.jpg;block1;LS1	other				795899	1	34472	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "sub3184_p3_s4_task1",
+   "timestamp": "2025/11/27 13:10:33 GMT"
+}

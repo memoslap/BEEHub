@@ -1,0 +1,41 @@
+Scenario - fMRI-SET-1
+Logfile written - 05/15/2025 14:14:42
+
+Subject	Pulse	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+pilot1_Dirkt_nach_dem_Bild	0	Picture	Hello - Intro	10500	10500	1	664677	1	0	next	other	0
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	99	205401	205401	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	1	205401	205401	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	100	207799	207799	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	2	207799	207799	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	99	211474	211474	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	1	211474	211474	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	100	213712	213712	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	2	213712	213712	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	99	216109	216109	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	1	216109	216109	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	100	219785	219785	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	2	219785	219785	1
+pilot1_Dirkt_nach_dem_Bild	0	Port Input	99	224419	224419	1
+pilot1_Dirkt_nach_dem_Bild	0	Response	1	224419	224419	1
+pilot1_Dirkt_nach_dem_Bild	0	Quit		642596	642596	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	664677	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "pilot1_Dirkt_nach_dem_Bild",
+   "timestamp": "2025/05/15 13:13:30 GMT"
+}

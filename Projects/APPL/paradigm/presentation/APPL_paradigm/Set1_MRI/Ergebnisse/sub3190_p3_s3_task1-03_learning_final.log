@@ -1,0 +1,171 @@
+Scenario - fMRI-SET-1
+Logfile written - 02/05/2026 13:00:40
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+sub3190_p3_s3_task1	1	Picture	Hello - Intro	10333	0	1	321458	1	0	next	other	0
+sub3190_p3_s3_task1	1	Port Input	115	301760	291427	1
+sub3190_p3_s3_task1	1	Pulse	30	301760	291427	1
+sub3190_p3_s3_task1	1	Port Input	115	311675	301342	1
+sub3190_p3_s3_task1	1	Pulse	30	311675	301342	1
+sub3190_p3_s3_task1	1	Port Input	115	321750	311417	1
+sub3190_p3_s3_task1	1	Pulse	30	321750	311417	1
+sub3190_p3_s3_task1	1	Port Input	115	331665	321332	1
+sub3190_p3_s3_task1	1	Pulse	30	331665	321332	1
+sub3190_p3_s3_task1	2	Picture	fix	331791	0	1	45161	1	0	next	other	0
+sub3190_p3_s3_task1	2	Port Input	115	341741	9950	1
+sub3190_p3_s3_task1	2	Pulse	30	341741	9950	1
+sub3190_p3_s3_task1	2	Port Input	115	351816	20025	1
+sub3190_p3_s3_task1	2	Pulse	30	351816	20025	1
+sub3190_p3_s3_task1	2	Port Input	115	361731	29940	1
+sub3190_p3_s3_task1	2	Pulse	30	361731	29940	1
+sub3190_p3_s3_task1	2	Port Input	115	371806	40015	1
+sub3190_p3_s3_task1	2	Pulse	30	371806	40015	1
+sub3190_p3_s3_task1	3	Picture	fix	376952	0	1	45161	1	0	next	other	0
+sub3190_p3_s3_task1	3	Port Input	115	381722	4770	1
+sub3190_p3_s3_task1	3	Pulse	30	381722	4770	1
+sub3190_p3_s3_task1	3	Port Input	115	391797	14845	1
+sub3190_p3_s3_task1	3	Pulse	30	391797	14845	1
+sub3190_p3_s3_task1	3	Port Input	115	401712	24760	1
+sub3190_p3_s3_task1	3	Pulse	30	401712	24760	1
+sub3190_p3_s3_task1	3	Port Input	115	411787	34835	1
+sub3190_p3_s3_task1	3	Pulse	30	411787	34835	1
+sub3190_p3_s3_task1	3	Port Input	115	421702	44750	1
+sub3190_p3_s3_task1	3	Pulse	30	421702	44750	1
+sub3190_p3_s3_task1	4	Picture	fix	422113	0	1	45494	1	0	next	other	0
+sub3190_p3_s3_task1	4	Port Input	115	431776	9664	1
+sub3190_p3_s3_task1	4	Pulse	30	431776	9664	1
+sub3190_p3_s3_task1	4	Port Input	115	441692	19579	1
+sub3190_p3_s3_task1	4	Pulse	30	441692	19579	1
+sub3190_p3_s3_task1	4	Port Input	115	451767	29654	1
+sub3190_p3_s3_task1	4	Pulse	30	451767	29654	1
+sub3190_p3_s3_task1	4	Port Input	115	461682	39569	1
+sub3190_p3_s3_task1	4	Pulse	30	461682	39569	1
+sub3190_p3_s3_task1	5	Picture	bubbles/learning.jpg	467607	0	1	45494	1	0	next	other	0
+sub3190_p3_s3_task1	5	Port Input	115	471757	4150	1
+sub3190_p3_s3_task1	5	Pulse	30	471757	4150	1
+sub3190_p3_s3_task1	5	Port Input	115	481672	14065	1
+sub3190_p3_s3_task1	5	Pulse	30	481672	14065	1
+sub3190_p3_s3_task1	5	Port Input	115	491747	24140	1
+sub3190_p3_s3_task1	5	Pulse	30	491747	24140	1
+sub3190_p3_s3_task1	5	Port Input	115	501822	34215	1
+sub3190_p3_s3_task1	5	Pulse	30	501822	34215	1
+sub3190_p3_s3_task1	5	Port Input	115	511737	44130	1
+sub3190_p3_s3_task1	5	Pulse	30	511737	44130	1
+sub3190_p3_s3_task1	6	Picture	learning/PICTURE_165.jpg;Lose;Logatt;i;block1;LS1	513101	0	1	25330	1	0	25000	other	0
+sub3190_p3_s3_task1	6	Port Input	98	520533	7432	1
+sub3190_p3_s3_task1	6	Port Input	115	521812	8712	1
+sub3190_p3_s3_task1	6	Pulse	30	521812	8712	1
+sub3190_p3_s3_task1	6	Port Input	115	531727	18626	1
+sub3190_p3_s3_task1	6	Pulse	30	531727	18626	1
+sub3190_p3_s3_task1	6	Port Input	98	533966	20865	1
+sub3190_p3_s3_task1	7	Picture	Zu spät, das ist Logatt	538764	0	1	20497	1	0	next	other	0
+sub3190_p3_s3_task1	7	Port Input	115	541802	3038	1
+sub3190_p3_s3_task1	7	Pulse	30	541802	3038	1
+sub3190_p3_s3_task1	7	Port Input	115	551717	12953	1
+sub3190_p3_s3_task1	7	Pulse	30	551717	12953	1
+sub3190_p3_s3_task1	8	Picture	learning/PICTURE_659.jpg;Derlas;Derlas;c;block1;LS1	559261	0	1	25330	1	0	25000	other	0
+sub3190_p3_s3_task1	8	Port Input	115	561792	2530	1
+sub3190_p3_s3_task1	8	Pulse	30	561792	2530	1
+sub3190_p3_s3_task1	8	Port Input	97	566589	7328	1
+sub3190_p3_s3_task1	8	Port Input	115	571707	12445	1
+sub3190_p3_s3_task1	8	Pulse	30	571707	12445	1
+sub3190_p3_s3_task1	8	Port Input	97	576824	17563	1
+sub3190_p3_s3_task1	8	Port Input	97	579223	19961	1
+sub3190_p3_s3_task1	8	Port Input	97	581142	21881	1
+sub3190_p3_s3_task1	8	Port Input	115	581782	22520	1
+sub3190_p3_s3_task1	8	Pulse	30	581782	22520	1
+sub3190_p3_s3_task1	8	Port Input	97	583061	23800	1
+sub3190_p3_s3_task1	9	Picture	Zu spät, das ist Derlas	584925	0	1	20497	1	0	next	other	0
+sub3190_p3_s3_task1	9	Port Input	97	585300	375	1
+sub3190_p3_s3_task1	9	Port Input	115	591697	6772	1
+sub3190_p3_s3_task1	9	Pulse	30	591697	6772	1
+sub3190_p3_s3_task1	9	Port Input	115	601773	16848	1
+sub3190_p3_s3_task1	9	Pulse	30	601773	16848	1
+sub3190_p3_s3_task1	10	Picture	learning/PICTURE_212.jpg;Limtepp;Limtepp;c;block1;LS1	605422	0	1	25330	1	0	25000	other	0
+sub3190_p3_s3_task1	10	Port Input	98	609609	4187	1
+sub3190_p3_s3_task1	10	Port Input	98	611688	6266	1
+sub3190_p3_s3_task1	10	Port Input	115	611688	6266	1
+sub3190_p3_s3_task1	10	Pulse	30	611688	6266	1
+sub3190_p3_s3_task1	10	Port Input	98	613606	8184	1
+sub3190_p3_s3_task1	10	Port Input	98	615686	10264	1
+sub3190_p3_s3_task1	10	Port Input	98	617924	12502	1
+sub3190_p3_s3_task1	10	Port Input	98	620003	14581	1
+sub3190_p3_s3_task1	10	Port Input	115	621762	16340	1
+sub3190_p3_s3_task1	10	Pulse	30	621762	16340	1
+sub3190_p3_s3_task1	10	Port Input	98	622082	16660	1
+sub3190_p3_s3_task1	11	Picture	Zu spät, das ist Limtepp	631085	0	1	20497	1	0	next	other	0
+sub3190_p3_s3_task1	11	Port Input	115	631678	593	1
+sub3190_p3_s3_task1	11	Pulse	30	631678	593	1
+sub3190_p3_s3_task1	11	Port Input	115	641753	10668	1
+sub3190_p3_s3_task1	11	Pulse	30	641753	10668	1
+sub3190_p3_s3_task1	12	Picture	learning/PICTURE_659.jpg;Derpest;Derlas;i;block1;LS1	651583	0	1	25330	1	0	25000	other	0
+sub3190_p3_s3_task1	12	Port Input	115	651668	86	1
+sub3190_p3_s3_task1	12	Pulse	30	651668	86	1
+sub3190_p3_s3_task1	12	Port Input	97	656945	5363	1
+sub3190_p3_s3_task1	12	Port Input	115	661743	10160	1
+sub3190_p3_s3_task1	12	Pulse	30	661743	10160	1
+sub3190_p3_s3_task1	12	Port Input	97	666061	14478	1
+sub3190_p3_s3_task1	12	Port Input	97	669739	18156	1
+sub3190_p3_s3_task1	12	Port Input	115	671818	20235	1
+sub3190_p3_s3_task1	12	Pulse	30	671818	20235	1
+sub3190_p3_s3_task1	12	Port Input	97	673737	22154	1
+sub3190_p3_s3_task1	13	Picture	Zu spät, das ist Derlas	677246	0	1	20497	1	0	next	other	0
+sub3190_p3_s3_task1	13	Port Input	97	677415	169	1
+sub3190_p3_s3_task1	13	Port Input	97	681573	4327	1
+sub3190_p3_s3_task1	13	Port Input	115	681733	4487	1
+sub3190_p3_s3_task1	13	Pulse	30	681733	4487	1
+sub3190_p3_s3_task1	13	Port Input	115	691808	14562	1
+sub3190_p3_s3_task1	13	Pulse	30	691808	14562	1
+sub3190_p3_s3_task1	14	Picture	learning/PICTURE_654.jpg;Nehal;Nehal;c;block1;LS1	697743	0	1	25163	1	0	25000	other	0
+sub3190_p3_s3_task1	14	Port Input	115	701723	3980	1
+sub3190_p3_s3_task1	14	Pulse	30	701723	3980	1
+sub3190_p3_s3_task1	14	Port Input	98	702683	4939	1
+sub3190_p3_s3_task1	14	Port Input	115	711798	14055	1
+sub3190_p3_s3_task1	14	Port Input	98	711798	14055	1
+sub3190_p3_s3_task1	14	Pulse	30	711798	14055	1
+sub3190_p3_s3_task1	14	Port Input	98	715316	17573	1
+sub3190_p3_s3_task1	14	Port Input	98	718035	20292	1
+sub3190_p3_s3_task1	14	Port Input	98	720594	22850	1
+sub3190_p3_s3_task1	14	Port Input	115	721713	23970	1
+sub3190_p3_s3_task1	14	Pulse	30	721713	23970	1
+sub3190_p3_s3_task1	14	Port Input	98	723153	25409	1
+sub3190_p3_s3_task1	15	Picture	Zu spät, das ist Nehal	723240	0	1	20497	1	0	next	other	0
+sub3190_p3_s3_task1	15	Port Input	98	726831	3591	1
+sub3190_p3_s3_task1	16	Picture	learning/PICTURE_165.jpg;Logatt;Logatt;c;block1;LS1	743737	0	1	43935	1	0	25000	other	0
+sub3190_p3_s3_task1	16	Quit		755040	11303	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	321458	1	0	next
+Picture	fix	other				331791	1	45161	1	0	next
+Picture	fix	other				376952	1	45161	1	0	next
+Picture	fix	other				422113	1	45494	1	0	next
+Picture	bubbles/learning.jpg	other				467607	1	45494	1	0	next
+Picture	learning/PICTURE_165.jpg;Lose;Logatt;i;block1;LS1	other				513101	1	25330	1	0	25000
+Picture	Zu spät, das ist Logatt	other				538764	1	20497	1	0	next
+Picture	learning/PICTURE_659.jpg;Derlas;Derlas;c;block1;LS1	other				559261	1	25330	1	0	25000
+Picture	Zu spät, das ist Derlas	other				584925	1	20497	1	0	next
+Picture	learning/PICTURE_212.jpg;Limtepp;Limtepp;c;block1;LS1	other				605422	1	25330	1	0	25000
+Picture	Zu spät, das ist Limtepp	other				631085	1	20497	1	0	next
+Picture	learning/PICTURE_659.jpg;Derpest;Derlas;i;block1;LS1	other				651583	1	25330	1	0	25000
+Picture	Zu spät, das ist Derlas	other				677246	1	20497	1	0	next
+Picture	learning/PICTURE_654.jpg;Nehal;Nehal;c;block1;LS1	other				697743	1	25163	1	0	25000
+Picture	Zu spät, das ist Nehal	other				723240	1	20497	1	0	next
+Picture	learning/PICTURE_165.jpg;Logatt;Logatt;c;block1;LS1	other				743737	1	43935	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "sub3190_p3_s3_task1",
+   "timestamp": "2026/02/05 11:59:19 GMT"
+}

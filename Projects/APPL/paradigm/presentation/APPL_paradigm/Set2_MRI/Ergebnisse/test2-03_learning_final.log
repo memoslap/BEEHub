@@ -1,0 +1,110 @@
+Scenario - fMRI-SET-2
+Logfile written - 07/22/2024 15:23:06
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+test2	1	Picture	Hello - Intro	10333	0	1	33329	1	0	next	other	0
+test2	1	Port Input	115	13608	3275	1
+test2	1	Pulse	30	13608	3275	1
+test2	1	Port Input	115	23522	13189	1
+test2	1	Pulse	30	23522	13189	1
+test2	1	Port Input	115	33596	23263	1
+test2	1	Pulse	30	33596	23263	1
+test2	1	Port Input	115	43509	33176	1
+test2	1	Pulse	30	43509	33176	1
+test2	2	Picture	fix	43662	0	1	45328	1	0	next	other	0
+test2	2	Port Input	115	53582	9920	1
+test2	2	Pulse	30	53582	9920	1
+test2	2	Port Input	115	63495	19833	1
+test2	2	Pulse	30	63495	19833	1
+test2	2	Port Input	115	73569	29907	1
+test2	2	Pulse	30	73569	29907	1
+test2	2	Port Input	115	83482	39820	1
+test2	2	Pulse	30	83482	39820	1
+test2	3	Picture	fix	88990	0	1	45328	1	0	next	other	0
+test2	3	Port Input	115	93556	4566	1
+test2	3	Pulse	30	93556	4566	1
+test2	3	Port Input	115	103629	14639	1
+test2	3	Pulse	30	103629	14639	1
+test2	3	Port Input	115	113542	24552	1
+test2	3	Pulse	30	113542	24552	1
+test2	3	Port Input	115	123615	34626	1
+test2	3	Pulse	30	123615	34626	1
+test2	3	Port Input	115	133528	44538	1
+test2	3	Pulse	30	133528	44538	1
+test2	4	Picture	fix	134317	0	1	45494	1	0	next	other	0
+test2	4	Port Input	115	143601	9284	1
+test2	4	Pulse	30	143601	9284	1
+test2	4	Port Input	115	153515	19198	1
+test2	4	Pulse	30	153515	19198	1
+test2	4	Port Input	115	163588	29271	1
+test2	4	Pulse	30	163588	29271	1
+test2	4	Port Input	115	173501	39184	1
+test2	4	Pulse	30	173501	39184	1
+test2	5	Picture	bubbles/learning.jpg	179812	0	1	45494	1	0	next	other	0
+test2	5	Port Input	115	183575	3763	1
+test2	5	Pulse	30	183575	3763	1
+test2	5	Port Input	115	193488	13677	1
+test2	5	Pulse	30	193488	13677	1
+test2	5	Port Input	115	203561	23750	1
+test2	5	Pulse	30	203561	23750	1
+test2	5	Port Input	115	213474	33662	1
+test2	5	Pulse	30	213474	33662	1
+test2	5	Port Input	115	223547	43735	1
+test2	5	Pulse	30	223547	43735	1
+test2	6	Picture	learning/PICTURE_95.jpg;Zate;Zamet;i;block1;LS1	225306	0	1	25330	1	0	25000	other	0
+test2	6	Port Input	99	230102	4796	1
+test2	6	Response	1	230102	4796	1
+test2	6	Port Input	115	233619	8314	1
+test2	6	Pulse	30	233619	8314	1
+test2	6	Port Input	115	243532	18226	1
+test2	6	Pulse	30	243532	18226	1
+test2	7	Picture	Falsch, das ist Zamet	250969	0	1	20497	1	0	next	other	0
+test2	7	Port Input	115	253604	2635	1
+test2	7	Pulse	30	253604	2635	1
+test2	7	Port Input	115	263518	12549	1
+test2	7	Pulse	30	263518	12549	1
+test2	8	Picture	learning/PICTURE_15.jpg;Joten;Joten;c;block1;LS1	271466	0	1	25163	1	0	25000	other	0
+test2	8	Port Input	115	273591	2125	1
+test2	8	Pulse	30	273591	2125	1
+test2	8	Port Input	98	277588	6122	1
+test2	8	Port Input	115	283505	12038	1
+test2	8	Pulse	30	283505	12038	1
+test2	8	Port Input	115	293578	22112	1
+test2	8	Pulse	30	293578	22112	1
+test2	9	Picture	Zu spät, das ist Joten	296963	0	1	20497	1	0	next	other	0
+test2	9	Port Input	115	303492	6528	1
+test2	9	Pulse	30	303492	6528	1
+test2	9	Port Input	115	313564	16601	1
+test2	9	Pulse	30	313564	16601	1
+test2	10	Picture	learning/PICTURE_508.jpg;Munem;Munem;c;block1;LS1	317461	0	1	38468	1	0	25000	other	0
+test2	10	Quit		322867	5406	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	33329	1	0	next
+Picture	fix	other				43662	1	45328	1	0	next
+Picture	fix	other				88990	1	45328	1	0	next
+Picture	fix	other				134317	1	45494	1	0	next
+Picture	bubbles/learning.jpg	other				179812	1	45494	1	0	next
+Picture	learning/PICTURE_95.jpg;Zate;Zamet;i;block1;LS1	other				225306	1	25330	1	0	25000
+Picture	Falsch, das ist Zamet	other				250969	1	20497	1	0	next
+Picture	learning/PICTURE_15.jpg;Joten;Joten;c;block1;LS1	other				271466	1	25163	1	0	25000
+Picture	Zu spät, das ist Joten	other				296963	1	20497	1	0	next
+Picture	learning/PICTURE_508.jpg;Munem;Munem;c;block1;LS1	other				317461	1	38468	1	0	25000
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "test2",
+   "timestamp": "2024/07/22 13:22:28 GMT"
+}

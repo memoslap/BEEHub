@@ -1,0 +1,239 @@
+Scenario - block_1
+Logfile written - 06/16/2024 15:36:20
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+phantom_test_B	1	Picture	Hello - Intro	10500	0	1	224138	1	0	next	other	0
+phantom_test_B	1	Port Input	115	204398	193899	1
+phantom_test_B	1	Pulse	30	204398	193899	1
+phantom_test_B	1	Port Input	115	214471	203972	1
+phantom_test_B	1	Pulse	30	214471	203972	1
+phantom_test_B	1	Port Input	115	224384	213885	1
+phantom_test_B	1	Pulse	30	224384	213885	1
+phantom_test_B	1	Port Input	115	234457	223957	1
+phantom_test_B	1	Pulse	30	234457	223957	1
+phantom_test_B	2	Picture	fix	234638	0	1	45328	1	0	next	other	0
+phantom_test_B	2	Port Input	115	244369	9731	1
+phantom_test_B	2	Pulse	30	244369	9731	1
+phantom_test_B	2	Port Input	115	254441	19804	1
+phantom_test_B	2	Pulse	30	254441	19804	1
+phantom_test_B	2	Port Input	115	264354	29717	1
+phantom_test_B	2	Pulse	30	264354	29717	1
+phantom_test_B	2	Port Input	115	274428	39790	1
+phantom_test_B	2	Pulse	30	274428	39790	1
+phantom_test_B	3	Picture	fix	279965	0	1	45161	1	0	next	other	0
+phantom_test_B	3	Port Input	115	284341	4376	1
+phantom_test_B	3	Pulse	30	284341	4376	1
+phantom_test_B	3	Port Input	115	294414	14449	1
+phantom_test_B	3	Pulse	30	294414	14449	1
+phantom_test_B	3	Port Input	115	304487	24522	1
+phantom_test_B	3	Pulse	30	304487	24522	1
+phantom_test_B	3	Port Input	115	314400	34434	1
+phantom_test_B	3	Pulse	30	314400	34434	1
+phantom_test_B	3	Port Input	115	324472	44507	1
+phantom_test_B	3	Pulse	30	324472	44507	1
+phantom_test_B	4	Picture	fix	325126	0	1	45494	1	0	next	other	0
+phantom_test_B	4	Port Input	115	334386	9259	1
+phantom_test_B	4	Pulse	30	334386	9259	1
+phantom_test_B	4	Port Input	115	344458	19332	1
+phantom_test_B	4	Pulse	30	344458	19332	1
+phantom_test_B	4	Port Input	115	354371	29245	1
+phantom_test_B	4	Pulse	30	354371	29245	1
+phantom_test_B	4	Port Input	115	364443	39317	1
+phantom_test_B	4	Pulse	30	364443	39317	1
+phantom_test_B	5	Picture	bubbles/learning.png	370620	0	1	45994	1	0	next	other	0
+phantom_test_B	5	Port Input	115	374355	3735	1
+phantom_test_B	5	Pulse	30	374355	3735	1
+phantom_test_B	5	Port Input	115	384427	13807	1
+phantom_test_B	5	Pulse	30	384427	13807	1
+phantom_test_B	5	Port Input	115	394340	23719	1
+phantom_test_B	5	Pulse	30	394340	23719	1
+phantom_test_B	5	Port Input	115	404413	33792	1
+phantom_test_B	5	Pulse	30	404413	33792	1
+phantom_test_B	5	Port Input	115	414486	43865	1
+phantom_test_B	5	Pulse	30	414486	43865	1
+phantom_test_B	6	Picture	h116_p28_k_up_right.jpg;block1;LS1	416615	0	1	8332	1	0	next	other	0
+phantom_test_B	6	Port Input	97	424078	7464	1
+phantom_test_B	6	Response	2	424078	7464	1
+phantom_test_B	6	Port Input	115	424079	7465	643
+phantom_test_B	6	Pulse	30	424079	7465	643
+phantom_test_B	7	Picture	extra Pic Time	424947	0	1	17831	1	0	next	other	0
+phantom_test_B	7	Port Input	115	434470	9523	1
+phantom_test_B	7	Pulse	30	434470	9523	1
+phantom_test_B	8	Picture	incorrect;h116_p28_k_up_right.jpg	442778	0	1	21164	1	0	next	other	0
+phantom_test_B	8	Port Input	115	444383	1605	1
+phantom_test_B	8	Pulse	30	444383	1605	1
+phantom_test_B	8	Port Input	115	454455	11677	1
+phantom_test_B	8	Pulse	30	454455	11677	1
+phantom_test_B	9	Picture	h32_p31_k_down_right.jpg;block1;LS1	463942	0	1	6333	1	0	next	other	0
+phantom_test_B	9	Port Input	115	464367	425	1
+phantom_test_B	9	Pulse	30	464367	425	1
+phantom_test_B	9	Port Input	98	469323	5381	1
+phantom_test_B	9	Response	1	469323	5381	1
+phantom_test_B	10	Picture	extra Pic Time	470274	0	1	19831	1	0	next	other	0
+phantom_test_B	10	Port Input	115	474439	4165	1
+phantom_test_B	10	Pulse	30	474439	4165	1
+phantom_test_B	10	Port Input	115	484352	14077	1
+phantom_test_B	10	Pulse	30	484352	14077	1
+phantom_test_B	11	Picture	correct;h32_p31_k_down_right.jpg	490105	0	1	20997	1	0	next	other	0
+phantom_test_B	11	Port Input	115	494424	4319	1
+phantom_test_B	11	Pulse	30	494424	4319	1
+phantom_test_B	11	Port Input	115	504337	14232	1
+phantom_test_B	11	Pulse	30	504337	14232	1
+phantom_test_B	12	Picture	h117_p10_i_up_left.jpg;block1;LS1	511103	0	1	11165	1	0	next	other	0
+phantom_test_B	12	Port Input	115	514409	3307	1
+phantom_test_B	12	Pulse	30	514409	3307	1
+phantom_test_B	12	Port Input	97	521284	10182	1
+phantom_test_B	12	Response	2	521284	10182	1
+phantom_test_B	13	Picture	extra Pic Time	522268	0	1	14998	1	0	next	other	0
+phantom_test_B	13	Port Input	115	524481	2214	1
+phantom_test_B	13	Pulse	30	524481	2214	1
+phantom_test_B	13	Port Input	115	534394	12126	1
+phantom_test_B	13	Pulse	30	534394	12126	1
+phantom_test_B	14	Picture	correct;h117_p9_k_up_left.jpg	537266	0	1	20831	1	0	next	other	0
+phantom_test_B	14	Port Input	115	544467	7201	1
+phantom_test_B	14	Pulse	30	544467	7201	1
+phantom_test_B	14	Port Input	115	554380	17114	1
+phantom_test_B	14	Pulse	30	554380	17114	1
+phantom_test_B	15	Picture	h29_p2_i_down_right.jpg;block1;LS1	558097	0	1	7666	1	0	next	other	0
+phantom_test_B	15	Port Input	115	564451	6354	1
+phantom_test_B	15	Pulse	30	564451	6354	1
+phantom_test_B	15	Port Input	98	564770	6674	1
+phantom_test_B	15	Response	1	564770	6674	1
+phantom_test_B	16	Picture	extra Pic Time	565762	0	1	18498	1	0	next	other	0
+phantom_test_B	16	Port Input	115	574363	8601	1
+phantom_test_B	16	Pulse	30	574363	8601	1
+phantom_test_B	17	Picture	incorrect;h29_p3_k_down_left.jpg	584260	0	1	20831	1	0	next	other	0
+phantom_test_B	17	Port Input	115	584436	176	1
+phantom_test_B	17	Pulse	30	584436	176	1
+phantom_test_B	17	Port Input	115	594348	10088	1
+phantom_test_B	17	Pulse	30	594348	10088	1
+phantom_test_B	17	Port Input	115	604261	20001	646
+phantom_test_B	17	Pulse	30	604261	20001	646
+phantom_test_B	18	Picture	h117_p9_k_up_left.jpg;block1;LS1	605091	0	1	13832	1	0	next	other	0
+phantom_test_B	18	Port Input	115	614493	9402	1
+phantom_test_B	18	Pulse	30	614493	9402	1
+phantom_test_B	18	Port Input	97	618170	13079	1
+phantom_test_B	18	Response	2	618170	13079	1
+phantom_test_B	19	Picture	extra Pic Time	618922	0	1	12165	1	0	next	other	0
+phantom_test_B	19	Port Input	115	624406	5483	1
+phantom_test_B	19	Pulse	30	624406	5483	1
+phantom_test_B	20	Picture	incorrect;h117_p9_k_up_left.jpg	631087	0	1	20831	1	0	next	other	0
+phantom_test_B	20	Port Input	115	634478	3391	1
+phantom_test_B	20	Pulse	30	634478	3391	1
+phantom_test_B	20	Port Input	115	644390	13303	1
+phantom_test_B	20	Pulse	30	644390	13303	1
+phantom_test_B	21	Picture	h111_p10_i_up_left.jpg;block1;LS1	651918	0	1	6333	1	0	next	other	0
+phantom_test_B	21	Port Input	115	654462	2544	1
+phantom_test_B	21	Pulse	30	654462	2544	1
+phantom_test_B	21	Port Input	98	657180	5262	1
+phantom_test_B	21	Response	1	657180	5262	1
+phantom_test_B	22	Picture	extra Pic Time	658250	0	1	19997	1	0	next	other	0
+phantom_test_B	22	Port Input	115	664375	6124	1
+phantom_test_B	22	Pulse	30	664375	6124	1
+phantom_test_B	22	Port Input	115	674447	16196	1
+phantom_test_B	22	Pulse	30	674447	16196	1
+phantom_test_B	23	Picture	incorrect;h111_p47_k_up_left.jpg	678248	0	1	20997	1	0	next	other	0
+phantom_test_B	23	Port Input	115	684359	6111	1
+phantom_test_B	23	Pulse	30	684359	6111	1
+phantom_test_B	23	Port Input	115	694431	16183	1
+phantom_test_B	23	Pulse	30	694431	16183	1
+phantom_test_B	24	Picture	h28_p46_k_down_right.jpg;block1;LS1	699245	0	1	5333	1	0	next	other	0
+phantom_test_B	24	Port Input	97	703545	4300	1
+phantom_test_B	24	Response	2	703545	4300	1
+phantom_test_B	24	Port Input	115	704344	5099	1
+phantom_test_B	24	Pulse	30	704344	5099	1
+phantom_test_B	25	Picture	extra Pic Time	704578	0	1	20831	1	0	next	other	0
+phantom_test_B	25	Port Input	115	714417	9839	1
+phantom_test_B	25	Pulse	30	714417	9839	1
+phantom_test_B	25	Port Input	115	724489	19911	1
+phantom_test_B	25	Pulse	30	724489	19911	1
+phantom_test_B	26	Picture	incorrect;h28_p46_k_down_right.jpg	725409	0	1	20831	1	0	next	other	0
+phantom_test_B	26	Port Input	115	734402	8994	1
+phantom_test_B	26	Pulse	30	734402	8994	1
+phantom_test_B	26	Port Input	115	744474	19065	1
+phantom_test_B	26	Pulse	30	744474	19065	1
+phantom_test_B	27	Picture	h114_p28_i_up_right.jpg;block1;LS1	746239	0	1	6666	1	0	next	other	0
+phantom_test_B	27	Port Input	98	751828	5589	1
+phantom_test_B	27	Response	1	751828	5589	1
+phantom_test_B	28	Picture	extra Pic Time	752905	0	1	19664	1	0	next	other	0
+phantom_test_B	28	Port Input	115	754386	1481	1
+phantom_test_B	28	Pulse	30	754386	1481	1
+phantom_test_B	28	Port Input	115	764458	11553	1
+phantom_test_B	28	Pulse	30	764458	11553	1
+phantom_test_B	29	Picture	incorrect;h114_p35_k_up_right.jpg	772569	0	1	20831	1	0	next	other	0
+phantom_test_B	29	Port Input	115	774370	1801	1
+phantom_test_B	29	Pulse	30	774370	1801	1
+phantom_test_B	29	Port Input	115	784443	11874	1
+phantom_test_B	29	Pulse	30	784443	11874	1
+phantom_test_B	30	Picture	h28_p11_i_down_right.jpg;block1;LS1	793400	0	1	25830	1	0	next	other	0
+phantom_test_B	30	Port Input	115	794356	957	1
+phantom_test_B	30	Pulse	30	794356	957	1
+phantom_test_B	30	Port Input	115	804429	11030	1
+phantom_test_B	30	Pulse	30	804429	11030	1
+phantom_test_B	30	Port Input	115	814342	20942	1
+phantom_test_B	30	Pulse	30	814342	20942	1
+phantom_test_B	31	Picture	to late	819230	0	1	20831	1	0	next	other	0
+phantom_test_B	31	Port Input	115	824414	5184	1
+phantom_test_B	31	Pulse	30	824414	5184	1
+phantom_test_B	32	Picture	h116_p53_i_up_right.jpg;block1;LS1	840061	0	1	25830	1	0	next	other	0
+phantom_test_B	33	Picture	to late	865891	0	1	20831	1	0	next	other	0
+phantom_test_B	34	Picture	h29_p3_k_down_left.jpg;block1;LS1	886721	0	1	25830	1	0	next	other	0
+phantom_test_B	35	Picture	to late	912551	0	1	20831	1	0	next	other	0
+phantom_test_B	36	Picture	h32_p32_i_down_right.jpg;block1;LS1	933382	0	1	49795	1	0	next	other	0
+phantom_test_B	36	Quit		950392	17010	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10500	1	224138	1	0	next
+Picture	fix	other				234638	1	45328	1	0	next
+Picture	fix	other				279965	1	45161	1	0	next
+Picture	fix	other				325126	1	45494	1	0	next
+Picture	bubbles/learning.png	other				370620	1	45994	1	0	next
+Picture	h116_p28_k_up_right.jpg;block1;LS1	other				416615	1	8332	1	0	next
+Picture	extra Pic Time	other				424947	1	17831	1	0	next
+Picture	incorrect;h116_p28_k_up_right.jpg	other				442778	1	21164	1	0	next
+Picture	h32_p31_k_down_right.jpg;block1;LS1	other				463942	1	6333	1	0	next
+Picture	extra Pic Time	other				470274	1	19831	1	0	next
+Picture	correct;h32_p31_k_down_right.jpg	other				490105	1	20997	1	0	next
+Picture	h117_p10_i_up_left.jpg;block1;LS1	other				511103	1	11165	1	0	next
+Picture	extra Pic Time	other				522268	1	14998	1	0	next
+Picture	correct;h117_p9_k_up_left.jpg	other				537266	1	20831	1	0	next
+Picture	h29_p2_i_down_right.jpg;block1;LS1	other				558097	1	7666	1	0	next
+Picture	extra Pic Time	other				565762	1	18498	1	0	next
+Picture	incorrect;h29_p3_k_down_left.jpg	other				584260	1	20831	1	0	next
+Picture	h117_p9_k_up_left.jpg;block1;LS1	other				605091	1	13832	1	0	next
+Picture	extra Pic Time	other				618922	1	12165	1	0	next
+Picture	incorrect;h117_p9_k_up_left.jpg	other				631087	1	20831	1	0	next
+Picture	h111_p10_i_up_left.jpg;block1;LS1	other				651918	1	6333	1	0	next
+Picture	extra Pic Time	other				658250	1	19997	1	0	next
+Picture	incorrect;h111_p47_k_up_left.jpg	other				678248	1	20997	1	0	next
+Picture	h28_p46_k_down_right.jpg;block1;LS1	other				699245	1	5333	1	0	next
+Picture	extra Pic Time	other				704578	1	20831	1	0	next
+Picture	incorrect;h28_p46_k_down_right.jpg	other				725409	1	20831	1	0	next
+Picture	h114_p28_i_up_right.jpg;block1;LS1	other				746239	1	6666	1	0	next
+Picture	extra Pic Time	other				752905	1	19664	1	0	next
+Picture	incorrect;h114_p35_k_up_right.jpg	other				772569	1	20831	1	0	next
+Picture	h28_p11_i_down_right.jpg;block1;LS1	other				793400	1	25830	1	0	next
+Picture	to late	other				819230	1	20831	1	0	next
+Picture	h116_p53_i_up_right.jpg;block1;LS1	other				840061	1	25830	1	0	next
+Picture	to late	other				865891	1	20831	1	0	next
+Picture	h29_p3_k_down_left.jpg;block1;LS1	other				886721	1	25830	1	0	next
+Picture	to late	other				912551	1	20831	1	0	next
+Picture	h32_p32_i_down_right.jpg;block1;LS1	other				933382	1	49795	1	0	next
+
+
+{
+   "app": "Presentation Version 24.0 Build 07.19.23",
+   "device": "Dell Inc. Latitude 3410",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning.sce",
+   "subject": "phantom_test_B",
+   "timestamp": "2024/06/16 13:34:39 GMT"
+}

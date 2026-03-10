@@ -1,0 +1,275 @@
+Scenario - fMRI-SET-2
+Logfile written - 10/04/2023 17:04:03
+
+Subject	Trial	Event Type	Code	Time	TTime	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur	Stim Type	Pair Index
+
+tset	1	Picture	Hello - Intro	10333	0	1	637436	1	0	next	other	0
+tset	1	Port Input	115	587741	577408	1
+tset	1	Pulse	30	587741	577408	1
+tset	1	Port Input	115	607712	597379	1
+tset	1	Pulse	30	607712	597379	1
+tset	1	Port Input	115	627680	617347	1
+tset	1	Pulse	30	627680	617347	1
+tset	1	Port Input	115	647649	637315	1
+tset	1	Pulse	30	647649	637315	1
+tset	2	Picture	fix	647769	0	1	45031	1	0	next	other	0
+tset	2	Port Input	115	667619	19850	1
+tset	2	Pulse	30	667619	19850	1
+tset	2	Port Input	115	687749	39980	1
+tset	2	Pulse	30	687749	39980	1
+tset	3	Picture	fix	692800	0	1	45031	1	0	next	other	0
+tset	3	Port Input	115	707718	14918	1
+tset	3	Pulse	30	707718	14918	1
+tset	3	Port Input	115	727688	34888	1
+tset	3	Pulse	30	727688	34888	1
+tset	4	Picture	fix	737830	0	1	45364	1	0	next	other	0
+tset	4	Port Input	115	747657	9826	1
+tset	4	Pulse	30	747657	9826	1
+tset	4	Port Input	100	747976	10145	1
+tset	4	Response	no	747976	10145	1
+tset	4	Port Input	115	767626	29796	1
+tset	4	Pulse	30	767626	29796	1
+tset	5	Picture	bubbles/learning.jpg	783195	0	1	45364	1	0	next	other	0
+tset	5	Port Input	115	787756	4562	1
+tset	5	Pulse	30	787756	4562	1
+tset	5	Port Input	115	807728	24533	1
+tset	5	Pulse	30	807728	24533	1
+tset	5	Port Input	115	827697	44502	1
+tset	5	Pulse	30	827697	44502	1
+tset	6	Picture	learning/PICTURE_695.jpg;Mifeg;Knüjatt;i;block1;LS1	828559	0	1	25184	1	0	25000	other	0
+tset	6	Port Input	99	835525	6966	1
+tset	6	Response	yes	835525	6966	1
+tset	6	Port Input	100	838561	10002	1
+tset	6	Response	no	838561	10002	1
+tset	6	Port Input	115	847667	19108	1
+tset	6	Pulse	30	847667	19108	1
+tset	7	Picture	Falsch, das ist Knüjatt	853910	0	1	20347	1	0	next	other	0
+tset	7	Port Input	115	867636	13726	1
+tset	7	Pulse	30	867636	13726	1
+tset	8	Picture	learning/PICTURE_703.jpg;Knucknap;Knucknap;c;block1;LS1	874257	0	1	25184	1	0	25000	other	0
+tset	8	Port Input	99	883133	8876	1
+tset	8	Response	yes	883133	8876	1
+tset	8	Port Input	100	885848	11591	1
+tset	8	Response	no	885848	11591	1
+tset	8	Port Input	115	887766	13509	1
+tset	8	Pulse	30	887766	13509	1
+tset	9	Picture	Korrekt, das ist Knucknap	899608	0	1	20347	1	0	next	other	0
+tset	9	Port Input	115	907736	8128	1
+tset	9	Pulse	30	907736	8128	1
+tset	10	Picture	learning/PICTURE_220.jpg;Knoschot;Munem;i;block1;LS1	919955	0	1	25184	1	0	25000	other	0
+tset	10	Port Input	115	927708	7753	1
+tset	10	Pulse	30	927708	7753	1
+tset	10	Port Input	99	932821	12866	1
+tset	10	Response	yes	932821	12866	1
+tset	10	Port Input	100	935537	15582	1
+tset	10	Response	no	935537	15582	1
+tset	11	Picture	Falsch, das ist Munem	945306	0	1	20347	1	0	next	other	0
+tset	11	Port Input	115	947678	2373	1
+tset	11	Pulse	30	947678	2373	1
+tset	12	Picture	learning/PICTURE_216.jpg;Tignam;Tignam;c;block1;LS1	965653	0	1	25184	1	0	25000	other	0
+tset	12	Port Input	115	967649	1997	1
+tset	12	Pulse	30	967649	1997	1
+tset	12	Port Input	99	973241	7588	1
+tset	12	Response	yes	973241	7588	1
+tset	12	Port Input	100	975957	10305	1
+tset	12	Response	no	975957	10305	1
+tset	12	Port Input	115	987619	21966	1
+tset	12	Pulse	30	987619	21966	1
+tset	13	Picture	Korrekt, das ist Tignam	991004	0	1	20347	1	0	next	other	0
+tset	13	Port Input	115	1007750	16746	1
+tset	13	Pulse	30	1007750	16746	1
+tset	14	Picture	learning/PICTURE_703.jpg;Mofi;Knucknap;i;block1;LS1	1011351	0	1	25184	1	0	25000	other	0
+tset	14	Port Input	99	1017175	5824	1
+tset	14	Response	yes	1017175	5824	1
+tset	14	Port Input	100	1019891	8540	1
+tset	14	Response	no	1019891	8540	1
+tset	14	Port Input	115	1027720	16369	1
+tset	14	Pulse	30	1027720	16369	1
+tset	15	Picture	Falsch, das ist Knucknap	1036701	0	1	20347	1	0	next	other	0
+tset	15	Port Input	115	1047689	10988	1
+tset	15	Pulse	30	1047689	10988	1
+tset	16	Picture	learning/PICTURE_216.jpg;Kneupfe;Tignam;i;block1;LS1	1057049	0	1	25184	1	0	25000	other	0
+tset	16	Port Input	99	1062389	5340	1
+tset	16	Response	yes	1062389	5340	1
+tset	16	Port Input	100	1065423	8375	1
+tset	16	Response	no	1065423	8375	1
+tset	16	Port Input	115	1067660	10612	1
+tset	16	Pulse	30	1067660	10612	1
+tset	17	Picture	Falsch, das ist Tignam	1082399	0	1	20347	1	0	next	other	0
+tset	17	Port Input	115	1087628	5229	1
+tset	17	Pulse	30	1087628	5229	1
+tset	18	Picture	learning/PICTURE_53.jpg;Knelle;Knelle;c;block1;LS1	1102747	0	1	25184	1	0	25000	other	0
+tset	18	Port Input	115	1107759	5012	1
+tset	18	Pulse	30	1107759	5012	1
+tset	18	Port Input	99	1108239	5493	1
+tset	18	Response	yes	1108239	5493	1
+tset	18	Port Input	100	1110795	8048	1
+tset	18	Response	no	1110795	8048	1
+tset	18	Port Input	115	1127730	24984	1
+tset	18	Pulse	30	1127730	24984	1
+tset	19	Picture	Korrekt, das ist Knelle	1128097	0	1	20347	1	0	next	other	0
+tset	19	Port Input	115	1147700	19603	1
+tset	19	Pulse	30	1147700	19603	1
+tset	20	Picture	learning/PICTURE_695.jpg;Knüjatt;Knüjatt;c;block1;LS1	1148444	0	1	25184	1	0	25000	other	0
+tset	20	Port Input	99	1156328	7883	1
+tset	20	Response	yes	1156328	7883	1
+tset	20	Port Input	100	1159203	10758	1
+tset	20	Response	no	1159203	10758	1
+tset	20	Port Input	115	1167671	19227	1
+tset	20	Pulse	30	1167671	19227	1
+tset	21	Picture	Korrekt, das ist Knüjatt	1173795	0	1	20347	1	0	next	other	0
+tset	21	Port Input	115	1187640	13845	1
+tset	21	Pulse	30	1187640	13845	1
+tset	22	Picture	learning/PICTURE_220.jpg;Munem;Munem;c;block1;LS1	1194142	0	1	25184	1	0	25000	other	0
+tset	22	Port Input	99	1202175	8033	1
+tset	22	Response	yes	1202175	8033	1
+tset	22	Port Input	100	1204732	10590	1
+tset	22	Response	no	1204732	10590	1
+tset	22	Port Input	115	1207768	13625	1
+tset	22	Pulse	30	1207768	13625	1
+tset	23	Picture	Korrekt, das ist Munem	1219493	0	1	20347	1	0	next	other	0
+tset	23	Port Input	115	1227736	8243	1
+tset	23	Pulse	30	1227736	8243	1
+tset	24	Picture	learning/PICTURE_53.jpg;Lennrak;Knelle;i;block1;LS1	1239840	0	1	25184	1	0	25000	other	0
+tset	24	Port Input	99	1247226	7386	1
+tset	24	Response	yes	1247226	7386	1
+tset	24	Port Input	115	1247705	7865	1
+tset	24	Pulse	30	1247705	7865	1
+tset	24	Port Input	100	1250101	10261	1
+tset	24	Response	no	1250101	10261	1
+tset	25	Picture	Falsch, das ist Knelle	1265191	0	1	20180	1	0	next	other	0
+tset	25	Port Input	115	1267673	2482	1
+tset	25	Pulse	30	1267673	2482	1
+tset	26	Picture	fix	1285371	0	1	45364	1	0	next	other	0
+tset	26	Port Input	115	1287646	2275	1
+tset	26	Pulse	30	1287646	2275	1
+tset	26	Port Input	115	1307775	22404	1
+tset	26	Pulse	30	1307775	22404	1
+tset	26	Port Input	115	1327746	42375	1
+tset	26	Pulse	30	1327746	42375	1
+tset	27	Picture	learning/PICTURE_703.jpg;Mifeg;Knucknap;i;block1;LS2	1330736	0	1	25184	1	0	25000	other	0
+tset	27	Port Input	99	1338773	8037	1
+tset	27	Response	yes	1338773	8037	1
+tset	27	Port Input	100	1341649	10913	1
+tset	27	Response	no	1341649	10913	1
+tset	27	Port Input	115	1347718	16983	1
+tset	27	Pulse	30	1347718	16983	1
+tset	28	Picture	Falsch, das ist Knucknap	1356086	0	1	20514	1	0	next	other	0
+tset	28	Port Input	115	1367691	11604	1
+tset	28	Pulse	30	1367691	11604	1
+tset	29	Picture	learning/PICTURE_695.jpg;Lennrak;Knüjatt;i;block1;LS2	1376600	0	1	25184	1	0	25000	other	0
+tset	29	Port Input	99	1381747	5146	1
+tset	29	Response	yes	1381747	5146	1
+tset	29	Port Input	100	1384622	8022	1
+tset	29	Response	no	1384622	8022	1
+tset	29	Port Input	115	1387657	11057	1
+tset	29	Pulse	30	1387657	11057	1
+tset	30	Picture	Falsch, das ist Knüjatt	1401951	0	1	20347	1	0	next	other	0
+tset	30	Port Input	115	1407627	5676	1
+tset	30	Pulse	30	1407627	5676	1
+tset	31	Picture	learning/PICTURE_220.jpg;Munem;Munem;c;block1;LS2	1422298	0	1	25184	1	0	25000	other	0
+tset	31	Port Input	115	1427756	5458	1
+tset	31	Pulse	30	1427756	5458	1
+tset	31	Port Input	99	1428874	6576	1
+tset	31	Response	yes	1428874	6576	1
+tset	31	Port Input	100	1432389	10091	1
+tset	31	Response	no	1432389	10091	1
+tset	32	Picture	Korrekt, das ist Munem	1447649	0	1	20347	1	0	next	other	0
+tset	32	Port Input	115	1447726	77	1
+tset	32	Pulse	30	1447726	77	1
+tset	32	Port Input	115	1467650	20001	220
+tset	32	Pulse	30	1467650	20001	220
+tset	33	Picture	learning/PICTURE_53.jpg;Knelle;Knelle;c;block1;LS2	1467996	0	1	25184	1	0	25000	other	0
+tset	33	Port Input	99	1474567	6570	1
+tset	33	Response	yes	1474567	6570	1
+tset	33	Port Input	100	1477123	9126	1
+tset	33	Response	no	1477123	9126	1
+tset	33	Port Input	115	1487665	19669	1
+tset	33	Pulse	30	1487665	19669	1
+tset	34	Picture	Korrekt, das ist Knelle	1493347	0	1	20347	1	0	next	other	0
+tset	34	Port Input	115	1507636	14289	1
+tset	34	Pulse	30	1507636	14289	1
+tset	35	Picture	learning/PICTURE_695.jpg;Knüjatt;Knüjatt;c;block1;LS2	1513694	0	1	25184	1	0	25000	other	0
+tset	35	Port Input	99	1518339	4645	1
+tset	35	Response	yes	1518339	4645	1
+tset	35	Port Input	100	1521376	7682	1
+tset	35	Response	no	1521376	7682	1
+tset	35	Port Input	115	1527767	14073	1
+tset	35	Pulse	30	1527767	14073	1
+tset	36	Picture	Korrekt, das ist Knüjatt	1539045	0	1	20347	1	0	next	other	0
+tset	36	Port Input	115	1547736	8691	1
+tset	36	Pulse	30	1547736	8691	1
+tset	37	Picture	learning/PICTURE_216.jpg;Tignam;Tignam;c;block1;LS2	1559392	0	1	25184	1	0	25000	other	0
+tset	37	Port Input	115	1567708	8316	1
+tset	37	Pulse	30	1567708	8316	1
+tset	38	Picture	Zu späz das ist Tignam	1584743	0	1	20347	1	0	next	other	0
+tset	38	Port Input	115	1587678	2936	1
+tset	38	Pulse	30	1587678	2936	1
+tset	39	Picture	learning/PICTURE_220.jpg;Mofi;Munem;i;block1;LS2	1605090	0	1	25184	1	0	25000	other	0
+tset	39	Port Input	115	1607649	2559	1
+tset	39	Pulse	30	1607649	2559	1
+tset	40	Picture	Zu späz das ist Munem	1630441	0	1	20347	1	0	next	other	0
+tset	41	Picture	learning/PICTURE_216.jpg;Knoschot;Tignam;i;block1;LS2	1650788	0	1	25184	1	0	25000	other	0
+tset	42	Picture	Zu späz das ist Tignam	1676139	0	1	17039	1	0	next	other	0
+tset	42	Quit		1687114	10975	NA
+
+
+Event Type	Code	Type	Response	RT	RT Uncertainty	Time	Uncertainty	Duration	Uncertainty	ReqTime	ReqDur
+
+Picture	Hello - Intro	other				10333	1	637436	1	0	next
+Picture	fix	other				647769	1	45031	1	0	next
+Picture	fix	other				692800	1	45031	1	0	next
+Picture	fix	other				737830	1	45364	1	0	next
+Picture	bubbles/learning.jpg	other				783195	1	45364	1	0	next
+Picture	learning/PICTURE_695.jpg;Mifeg;Knüjatt;i;block1;LS1	other				828559	1	25184	1	0	25000
+Picture	Falsch, das ist Knüjatt	other				853910	1	20347	1	0	next
+Picture	learning/PICTURE_703.jpg;Knucknap;Knucknap;c;block1;LS1	other				874257	1	25184	1	0	25000
+Picture	Korrekt, das ist Knucknap	other				899608	1	20347	1	0	next
+Picture	learning/PICTURE_220.jpg;Knoschot;Munem;i;block1;LS1	other				919955	1	25184	1	0	25000
+Picture	Falsch, das ist Munem	other				945306	1	20347	1	0	next
+Picture	learning/PICTURE_216.jpg;Tignam;Tignam;c;block1;LS1	other				965653	1	25184	1	0	25000
+Picture	Korrekt, das ist Tignam	other				991004	1	20347	1	0	next
+Picture	learning/PICTURE_703.jpg;Mofi;Knucknap;i;block1;LS1	other				1011351	1	25184	1	0	25000
+Picture	Falsch, das ist Knucknap	other				1036701	1	20347	1	0	next
+Picture	learning/PICTURE_216.jpg;Kneupfe;Tignam;i;block1;LS1	other				1057049	1	25184	1	0	25000
+Picture	Falsch, das ist Tignam	other				1082399	1	20347	1	0	next
+Picture	learning/PICTURE_53.jpg;Knelle;Knelle;c;block1;LS1	other				1102747	1	25184	1	0	25000
+Picture	Korrekt, das ist Knelle	other				1128097	1	20347	1	0	next
+Picture	learning/PICTURE_695.jpg;Knüjatt;Knüjatt;c;block1;LS1	other				1148444	1	25184	1	0	25000
+Picture	Korrekt, das ist Knüjatt	other				1173795	1	20347	1	0	next
+Picture	learning/PICTURE_220.jpg;Munem;Munem;c;block1;LS1	other				1194142	1	25184	1	0	25000
+Picture	Korrekt, das ist Munem	other				1219493	1	20347	1	0	next
+Picture	learning/PICTURE_53.jpg;Lennrak;Knelle;i;block1;LS1	other				1239840	1	25184	1	0	25000
+Picture	Falsch, das ist Knelle	other				1265191	1	20180	1	0	next
+Picture	fix	other				1285371	1	45364	1	0	next
+Picture	learning/PICTURE_703.jpg;Mifeg;Knucknap;i;block1;LS2	other				1330736	1	25184	1	0	25000
+Picture	Falsch, das ist Knucknap	other				1356086	1	20514	1	0	next
+Picture	learning/PICTURE_695.jpg;Lennrak;Knüjatt;i;block1;LS2	other				1376600	1	25184	1	0	25000
+Picture	Falsch, das ist Knüjatt	other				1401951	1	20347	1	0	next
+Picture	learning/PICTURE_220.jpg;Munem;Munem;c;block1;LS2	other				1422298	1	25184	1	0	25000
+Picture	Korrekt, das ist Munem	other				1447649	1	20347	1	0	next
+Picture	learning/PICTURE_53.jpg;Knelle;Knelle;c;block1;LS2	other				1467996	1	25184	1	0	25000
+Picture	Korrekt, das ist Knelle	other				1493347	1	20347	1	0	next
+Picture	learning/PICTURE_695.jpg;Knüjatt;Knüjatt;c;block1;LS2	other				1513694	1	25184	1	0	25000
+Picture	Korrekt, das ist Knüjatt	other				1539045	1	20347	1	0	next
+Picture	learning/PICTURE_216.jpg;Tignam;Tignam;c;block1;LS2	other				1559392	1	25184	1	0	25000
+Picture	Zu späz das ist Tignam	other				1584743	1	20347	1	0	next
+Picture	learning/PICTURE_220.jpg;Mofi;Munem;i;block1;LS2	other				1605090	1	25184	1	0	25000
+Picture	Zu späz das ist Munem	other				1630441	1	20347	1	0	next
+Picture	learning/PICTURE_216.jpg;Knoschot;Tignam;i;block1;LS2	other				1650788	1	25184	1	0	25000
+Picture	Zu späz das ist Tignam	other				1676139	1	17039	1	0	next
+
+
+{
+   "app": "Presentation Version 20.1 Build 12.04.17",
+   "device": "Microsoft Corporation Surface Pro 7+",
+   "experiment": "",
+   "os": "Windows 10 64 bit",
+   "package": "",
+   "parameters": {
+      "configuration": "Default configuration"
+   },
+   "scenario": "03_learning_final.sce",
+   "subject": "tset",
+   "timestamp": "2023/10/04 15:01:11 GMT"
+}
