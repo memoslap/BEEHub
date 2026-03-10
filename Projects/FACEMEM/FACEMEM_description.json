@@ -1,0 +1,18 @@
+{
+  "full_name": "Face Memory Recognition",
+  "short_description": "Two-phase study–test paradigm measuring encoding and recognition of unfamiliar face identities.",
+  "long_description": "The Face Memory Recognition (FACEMEM) paradigm captures the full encoding–retrieval cycle for unfamiliar face identities. During the study phase, participants view a series of face photographs and make a shallow orienting judgment. In the subsequent test phase, studied faces are presented alongside age- and gender-matched foils and participants make old/new recognition judgements. Performance metrics include hit rate, false alarm rate, and d-prime, providing a signal-detection framework for memory sensitivity independent of response bias.",
+  "background": "Face recognition memory is one of the most extensively studied domains in cognitive neuroscience, given the existence of dedicated neural circuitry in the fusiform face area and its connection to anterior temporal and hippocampal regions supporting person-identity nodes. FACEMEM operationalises this using standardised face stimulus sets to enable cross-site and cross-cohort comparisons. Because faces are inherently holistic stimuli, the task places particular demands on binding of configural features, making it sensitive to aging and disruptions in integrative encoding.",
+  "procedure": "Session 1 (study): 90 target faces shown for 3 s each with a pleasantness rating task. Session 2 (test, same day or after delay): 90 target + 90 foil faces; participant presses 'old' or 'new'. Two additional blocks of novel face pairs assess within-session learning.",
+  "trial_structure": "Study trial: face image displayed centrally for 3 s, followed by 1 s ISI; participant rates pleasantness (1–4 scale). Test trial: face displayed until response; participant presses left (old) or right (new).",
+  "design": "Within-subjects, two-phase (study–test). Optional delayed-test session at 24 h or 1 week.",
+  "modality": "visual",
+  "cognitive_domain": "episodic memory",
+  "task_type": "recognition memory",
+  "difficulty": "easy-moderate",
+  "keywords": ["face recognition", "episodic memory", "hit rate", "d-prime", "fusiform face area", "holistic processing"],
+  "response_device": "keyboard (left/right arrow) or two-button box",
+  "timing": {"study_duration_s": 3, "test_until_response": true, "isi_s": 1},
+  "n_sessions": 2,
+  "software": "E-Prime 3.0"
+}

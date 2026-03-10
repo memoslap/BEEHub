@@ -18,11 +18,13 @@ The three scripts run in order. Each one depends on the output of the previous:
 
 ```
 01_multi_project_overview.py   →   reads  TSV files / participants.tsv
+                                          MYPROJECT_description.json
                                           bibliography.json  (optional)
                                    writes MYPROJECT_overview.html
                                           MYPROJECT_data.json
 
 02_generate_paradigm.py        →   reads  MYPROJECT_data.json
+                                          MYPROJECT_description.json
                                           paradigm/ folder
                                    writes MYPROJECT_paradigm.html
 
@@ -48,7 +50,7 @@ python code/01_multi_project_overview.py /path/to/BEEHub
 
 ## Step 1 — Create the Project Folder
 
-All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier and must match the name used everywhere else (filenames, BIDS labels, Python dict key):
+All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier and must match the name used everywhere else (filenames, BIDS labels, description JSON key):
 
 - All-caps alphanumeric only: `MYPROJECT`
 - No spaces, hyphens, or special characters
@@ -61,7 +63,8 @@ BEEHub/
 └── Projects/
     └── MYPROJECT/
         ├── participants.tsv
-        ├── bibliography.json        ← optional, see Step 6
+        ├── MYPROJECT_description.json   ← rich paradigm metadata, see Step 5
+        ├── bibliography.json            ← optional, see Step 7
         └── bids_data/
             └── sub-001/
                 ├── ses-1/
@@ -201,9 +204,60 @@ Each TSV must have a matching JSON sidecar with the same stem (e.g. `sub-001_ses
 
 ---
 
-## Step 5 — Register the Project in `01_multi_project_overview.py`
+## Step 5 — Add a Description JSON
 
-Open `code/01_multi_project_overview.py` and add an entry to `self.project_descriptions` inside `ProjectOverviewGenerator.__init__`. This controls the metadata shown in the dashboard cards, filters, and project reports:
+Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT/`. This is the **primary source** of all paradigm metadata shown in the overview HTML header (short description + background) and the full paradigm page (procedure, trial structure, design, timing, software, response device, keywords).
+
+The file is read at HTML generation time by both `01_multi_project_overview.py` and `02_generate_paradigm.py`. If it is absent, the scripts fall back to minimal defaults (`"unknown"` for metadata fields) and no rich description is rendered.
+
+### Content split between pages
+
+| Field | Shown in `_overview.html` | Shown in `_paradigm.html` |
+|---|---|---|
+| `short_description` | ✅ (header) | ✅ (Description section) |
+| `long_description` | — | ✅ (appended to Description) |
+| `background` | ✅ (header) | ✅ (Background section) |
+| `procedure` | — | ✅ (Paradigm Details grid) |
+| `trial_structure` | — | ✅ (Paradigm Details grid) |
+| `design` | — | ✅ (Paradigm Details grid) |
+| `software` | — | ✅ (Paradigm Details grid) |
+| `response_device` | — | ✅ (Paradigm Details grid) |
+| `timing` | — | ✅ (timing chips) |
+| `keywords` | — | ✅ (keyword chips) |
+| `modality`, `cognitive_domain`, `task_type` | ✅ (badge row) | ✅ (info cards) |
+
+### Full schema
+
+```json
+{
+  "full_name":         "My New Paradigm",
+  "short_description": "One sentence describing what participants do.",
+  "long_description":  "Two to three paragraph scientific description of the paradigm, its theoretical motivation, and what it measures.",
+  "background":        "Neuroscientific context, individual-differences relevance, and prior literature.",
+  "procedure":         "Session-by-session procedure — how many stages, what happens in each.",
+  "trial_structure":   "Exact trial timing, stimulus presentation, and response window per trial type.",
+  "design":            "Repeated-measures details — number of sessions, inter-session interval.",
+  "modality":          "visual | linguistic | visual-spatial | visual-emotional",
+  "cognitive_domain":  "working memory | episodic memory | spatial memory | declarative memory | semantic memory | cognitive control | emotion regulation",
+  "task_type":         "associative learning | object-location binding | n-back | recognition memory | generation | interference | navigation | regulation",
+  "difficulty":        "easy | moderate | hard",
+  "keywords":          ["keyword1", "keyword2", "keyword3"],
+  "timing":            { "stimulus_duration_s": 2.5, "isi_range_s": [2, 4] },
+  "software":          "PsychoPy | Presentation (Neurobehavioral Systems) | E-Prime 3.0",
+  "response_device":   "two-button response box | keyboard | eye-tracker",
+  "n_sessions":        2
+}
+```
+
+The file must be valid UTF-8 JSON. A parse error prints a warning and the paradigm panel falls back to defaults silently.
+
+---
+
+## Step 6 — Register Metadata in `01_multi_project_overview.py` (legacy fallback)
+
+If no `MYPROJECT_description.json` is present, `01_multi_project_overview.py` reads project metadata from the `self.project_descriptions` dict inside `ProjectOverviewGenerator.__init__`. This serves as a lightweight fallback — the description JSON (Step 5) is always preferred and supports a much richer set of fields.
+
+To use the fallback, add an entry:
 
 ```python
 'MYPROJECT': {
@@ -221,11 +275,11 @@ Open `code/01_multi_project_overview.py` and add an entry to `self.project_descr
 },
 ```
 
-If you skip this step the project still analyses correctly — it just shows `unknown` for all metadata fields and won't benefit from dashboard filtering.
+If you skip both this step and Step 5, the project still analyses correctly — it just shows `unknown` for all metadata fields and won't benefit from dashboard filtering.
 
 ---
 
-## Step 6 — Add a Bibliography (optional but recommended)
+## Step 7 — Add a Bibliography (optional but recommended)
 
 Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When present, the individual project report (`MYPROJECT_overview.html`) automatically renders a **Related Publications** box with all entries sorted newest-first. The file is silently ignored if absent or unparseable.
 
@@ -288,7 +342,7 @@ Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When 
 
 ---
 
-## Step 7 — Add a Paradigm Short Version (optional)
+## Step 8 — Add a Paradigm Short Version and Interactive Demo (optional)
 
 If you want the **Paradigm** button to appear on the project's dashboard card, place a short-version PsychoPy script at one of these locations (checked in order):
 
@@ -298,20 +352,49 @@ If you want the **Paradigm** button to appear on the project's dashboard card, p
 | 2nd | `Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_short_version.py` |
 | 3rd | `Projects/MYPROJECT/paradigm/MYPROJECT_short_version.py` |
 
-The folder name and all filenames must use the **exact same identifier** as the project folder. A mismatch in capitalisation or spelling (e.g. folder `OLMM` but file `OLLM_short_version.py`) will silently prevent the button from appearing.
+The folder name and all filenames must use the **exact same identifier** as the project folder. A mismatch in capitalisation or spelling will silently prevent the button from appearing.
 
-To also enable the **Launch Interactive Demo** button on the paradigm page, place an HTML demo at:
+### Interactive Demo HTML
+
+To enable the **Launch Interactive Demo** button on the paradigm page, place a self-contained HTML demo at:
 
 ```
 Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_demo.html
 ```
 
-The full expected layout for a project with all assets is:
+The demo file must be **fully self-contained** — all JavaScript inline, no external dependencies. Image paths should be relative to the HTML file location using the `Stimuli/` subfolder convention:
+
+```
+MYPROJECT_paradigm_short/
+├── MYPROJECT_demo.html
+├── MYPROJECT_short_version.py
+└── Stimuli/
+    ├── bubbles/
+    │   ├── hello.jpg / hello.png
+    │   ├── learning.jpg / learning.png
+    │   └── bye.jpg / bye.png
+    ├── learning/
+    │   └── *.jpg
+    └── control/          ← or AFC/, prac/, etc. as needed
+        └── *.jpg
+```
+
+Image paths inside the HTML should be written relative to the HTML file, e.g.:
+
+```javascript
+const STIM_BASE = 'Stimuli/';
+img.src = STIM_BASE + 'learning/PICTURE_001.jpg';
+```
+
+The demo should implement the core task logic faithfully — correct/foil trial structure, response mapping, feedback, and timing — but with a reduced number of trials (typically 2 learning stages or repetitions rather than 4) so it completes in under 5 minutes.
+
+### Full expected layout
 
 ```
 Projects/MYPROJECT/
 ├── participants.tsv
-├── bibliography.json                        ← publications, see Step 6
+├── MYPROJECT_description.json               ← paradigm metadata, see Step 5
+├── bibliography.json                        ← publications, see Step 7
 ├── bids_data/
 │   └── ...
 └── paradigm/
@@ -320,7 +403,9 @@ Projects/MYPROJECT/
     │   │   ├── MYPROJECT_short_version.py   ← triggers Paradigm button
     │   │   ├── MYPROJECT_demo.html          ← triggers Launch Demo button
     │   │   └── Stimuli/
-    │   │       └── ...
+    │   │       ├── bubbles/
+    │   │       ├── learning/
+    │   │       └── control/
     │   └── MYPROJECT_full_version.py        ← full experiment (optional)
     └── presentation/
         └── ...                              ← Presentation software files (optional)
@@ -328,15 +413,15 @@ Projects/MYPROJECT/
 
 ---
 
-## Step 8 — Generated Output Files
+## Step 9 — Generated Output Files
 
 After running the scripts, the following files are created automatically. **Do not edit them by hand** — they are regenerated each run:
 
 | File | Created by | Description |
 |---|---|---|
 | `Projects/MYPROJECT/MYPROJECT_data.json` | `01_multi_project_overview.py` | Analysis results used by all downstream scripts |
-| `Projects/MYPROJECT/MYPROJECT_overview.html` | `01_multi_project_overview.py` | Individual project report with violin plots, scatter plots, reliability radar, stage charts, and publications box |
-| `Projects/MYPROJECT/MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page with demo link and GitHub links (only created when a short version exists) |
+| `Projects/MYPROJECT/MYPROJECT_overview.html` | `01_multi_project_overview.py` | Individual project report with violin plots, scatter plots, reliability radar, stage charts, and publications box. Header shows short description + background from `MYPROJECT_description.json` |
+| `Projects/MYPROJECT/MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page with interactive demo link, GitHub links, and full paradigm details (procedure, trial structure, design, timing, software, keywords) from `MYPROJECT_description.json` |
 | `dashboard.html` | `03_generate_dashboard.py` | Interactive multi-project dashboard with filters, ICC radars, and project cards |
 
 The dashboard reads two logo files from the `BEEHub/` root (the same folder as `dashboard.html`). Both must be present for the header logos to display:
@@ -384,7 +469,8 @@ Subjects with only one session contribute to descriptive statistics (demographic
 | **learning_stage values** | Consistent across all three TSVs; stages are sorted alphanumerically for progression charts |
 | **Subject labels** | `sub-<digits>`, zero-padded to three digits recommended (`sub-001`) |
 | **Session labels** | `ses-<digit(s)>`, e.g. `ses-1`, `ses-2` |
-| **Project identifier** | Folder name, `task-` BIDS field, Python dict key, and all filenames must all use the **exact same string** |
+| **Project identifier** | Folder name, `task-` BIDS field, description JSON filename, and all generated filenames must all use the **exact same string** |
+| **MYPROJECT_description.json** | Valid UTF-8 JSON; all fields optional except `full_name`; parse errors are warned and the paradigm panel falls back to defaults |
 | **bibliography.json** | Valid UTF-8 JSON; v2 schema with a top-level `publications` array preferred; parse errors are warned and the publications box is silently skipped |
 
 ---
@@ -400,7 +486,25 @@ Subjects with only one session contribute to descriptive statistics (demographic
 - [ ] `learning_stage` column included and consistent (if stages are meaningful)
 - [ ] `accuracy_binary` values are integer `0` / `1`, not float or string
 - [ ] No empty cells — all missing values are `n/a`
-- [ ] Project description added to `self.project_descriptions` in `01_multi_project_overview.py`
+- [ ] `MYPROJECT_description.json` placed in `Projects/MYPROJECT/` with at least `full_name`, `short_description`, `modality`, `cognitive_domain`, and `task_type`
+- [ ] If using legacy fallback: entry added to `self.project_descriptions` in `01_multi_project_overview.py`
 - [ ] If providing a bibliography: `bibliography.json` placed in `Projects/MYPROJECT/`, valid UTF-8 JSON, v2 schema with a `publications` array
 - [ ] If providing a short version: folder name and filename both use the exact project identifier
+- [ ] If providing a demo: `MYPROJECT_demo.html` placed in the `MYPROJECT_paradigm_short/` folder, image paths relative via `Stimuli/`
 - [ ] `beehub_logo.svg` and `logo_memoslap.png` present in `BEEHub/` root for dashboard header logos
+
+---
+
+## AI Assistance Statement
+
+This repository — including the analysis pipeline (`01_multi_project_overview.py`), the paradigm page generator (`02_generate_paradigm.py`), the interactive dashboard (`03_generate_dashboard.py`), the interactive browser-based task demos (`APPL_demo.html`, `OLMM_demo.html`), the BIDS TSV generator (`gen_bids_beh.py`), the dummy project generator (`generate_dummy_projects.py`), the platform concept diagram, the BEE Hub logo, and this documentation — was developed with the assistance of **Claude Sonnet 4.5** (Anthropic, 2025), accessed via [claude.ai](https://claude.ai).
+
+All scientific content, paradigm designs, experimental parameters, data structures, and research decisions were conceived and validated by the authors. Claude was used as a coding and documentation assistant throughout iterative development.
+
+**Suggested citation for the AI assistance:**
+
+> Anthropic. (2025). *Claude Sonnet 4.5* [Large language model]. https://www.anthropic.com
+
+---
+
+*BEE Hub is developed and maintained by the [MemoSlap Lab](https://github.com/memoslap). Contributions, bug reports, and paradigm submissions are welcome via GitHub Issues and Pull Requests.*

@@ -1,1249 +1,995 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOCATO – Spatial Memory Task (Demo)</title>
+<title>OLMM — Interactive Demo</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --bg:      #0a0a0f;
-    --surface: #13131c;
-    --border:  #252535;
-    --accent:  #5ee7b0;
-    --warn:    #f5a623;
-    --error:   #e05c5c;
-    --text:    #d8d8e8;
-    --muted:   #6a6a8a;
-    --radius:  6px;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #ffffff 100%);
+    background-attachment: fixed;
+    color: #2a1a0a;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  /* ── Layout ─────────────────────────────────────── */
-  #app {
-    width: 100%;
-    max-width: 960px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
+}
 
-  /* ── Header bar ─────────────────────────────────── */
-  #header {
+.container {
+    max-width: 880px;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0 20px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 24px;
-  }
-  #header .logo {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    color: var(--accent);
-  }
-  #header .phase-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  #progress-bar-wrap {
-    width: 100%;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 28px;
-    overflow: hidden;
-  }
-  #progress-bar {
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  /* ── Screens ─────────────────────────────────────── */
-  .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
-  .screen.active { display: flex; }
-
-  /* ── Instruction screen ──────────────────────────── */
-  #instr-content {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 44px 52px;
-    max-width: 720px;
-    width: 100%;
-    text-align: left;
-  }
-  #instr-content h1 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-  #instr-content h2 {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.35;
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-  #instr-content p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 14px;
-  }
-  #instr-content .key-legend {
-    display: flex;
-    gap: 24px;
-    margin-top: 28px;
-    padding-top: 22px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .key-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-  }
-  .key {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 12px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-bottom-width: 3px;
-    border-radius: 4px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    min-width: 36px;
-    white-space: nowrap;
-  }
-  #instr-nav {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 32px;
-  }
-  .btn {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 1px;
-    padding: 10px 28px;
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
-  .btn:hover { background: var(--accent); color: var(--bg); }
-  .btn.secondary { border-color: var(--border); color: var(--muted); }
-  .btn.secondary:hover { background: var(--border); color: var(--text); }
-
-  /* ── Trial screen ─────────────────────────────────── */
-  #trial-screen { gap: 16px; }
-
-  #trial-meta {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
-
-  #map-container {
+    background: linear-gradient(135deg,
+        rgba(210,195,175,0.90) 0%, rgba(235,225,210,0.95) 25%,
+        rgba(252,248,242,0.98) 50%, rgba(235,225,210,0.95) 75%,
+        rgba(210,195,175,0.90) 100%);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow: 0 10px 40px rgba(160,120,60,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.85),
+                inset 0 -1px 0 rgba(160,110,50,0.15);
+    border: 1px solid rgba(190,150,80,0.30);
     position: relative;
-    width: 760px;
-    height: 560px;
-    max-width: 100%;
-    background: #ffffff;
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+}
+.container::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg,
+        #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+        #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%);
+    opacity: 0.85;
+}
 
-  /* SVG map (simplified Greifswald-style street grid) */
-  #street-map {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-  }
+/* ── Screens ───────────────────────────────────────────────── */
+.screen { display:none; }
+.screen.active { display:block; }
 
-  #house-img {
-    position: absolute;
-    width: 120px;
-    height: auto;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-  }
+/* ── Typography ────────────────────────────────────────────── */
+.gold-title {
+    background: linear-gradient(135deg,
+        #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+        #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.4em; font-weight:300; letter-spacing:-0.5px; margin-bottom:6px;
+}
+.section-h2 {
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #b8b0be 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size:1.6em; font-weight:400;
+    border-left:5px solid #d4a020; padding-left:14px; margin-bottom:22px;
+}
+.subtitle {
+    color:#7a5030; font-size:1.1em; font-weight:300;
+    margin-bottom:26px; padding-bottom:20px;
+    border-bottom:2px solid rgba(190,150,80,0.25);
+}
 
-  #timer-bar-wrap {
-    width: 760px;
-    max-width: 100%;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  #timer-bar {
-    height: 100%;
-    background: var(--accent);
-    width: 100%;
-    transform-origin: left;
-    transition: transform linear;
-  }
-  #timer-bar.warning { background: var(--warn); }
-  #timer-bar.danger  { background: var(--error); }
+/* ── Info boxes ─────────────────────────────────────────────── */
+.info-box {
+    background: linear-gradient(135deg,
+        rgba(245,236,220,0.90) 0%, rgba(255,250,240,0.95) 50%,
+        rgba(245,236,220,0.90) 100%);
+    border:1px solid rgba(190,150,80,0.25); border-radius:12px;
+    padding:20px 24px; margin-bottom:18px;
+    line-height:1.75; color:#3a2010; font-size:0.97em;
+    position:relative; overflow:hidden;
+}
+.info-box::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg,
+        #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%);
+    opacity:0.7;
+}
+.info-box-label {
+    font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; margin-bottom:8px;
+}
 
-  #question-box {
-    font-size: 19px;
-    font-weight: 300;
-    color: #ffffff;
-    letter-spacing: 0.3px;
-    text-align: center;
-    min-height: 30px;
-  }
+/* ── Key legend ─────────────────────────────────────────────── */
+.key-legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:14px; }
+.key-item { display:flex; align-items:center; gap:9px; font-size:0.95em; color:#5a3010; }
+.key-badge {
+    background: linear-gradient(135deg, #c07838 0%, #e8c048 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    padding:5px 11px; border-radius:7px;
+    box-shadow:0 2px 6px rgba(160,110,40,0.30);
+    min-width:36px; text-align:center; white-space:nowrap;
+}
 
-  #key-row {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-  }
-  .key-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: transform 0.1s;
-    user-select: none;
-  }
-  .key-btn:active { transform: scale(0.94); }
-  .key-big {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px; height: 60px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-bottom-width: 4px;
-    border-radius: 6px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 22px;
-    color: var(--accent);
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .key-btn:hover .key-big { background: var(--border); border-color: var(--accent); }
-  .key-label { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+/* ── Instruction steps ──────────────────────────────────────── */
+.instr-steps { margin-bottom:22px; }
+.instr-step {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:11px; padding:14px 18px;
+    background:rgba(220,205,180,0.55);
+    border-radius:10px; border-left:4px solid #c07838;
+}
+.instr-num {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; box-shadow:0 2px 6px rgba(160,110,40,0.25);
+}
+.instr-text { color:#3a2010; line-height:1.65; font-size:0.95em; }
+.instr-text strong { color:#7a3a10; }
 
-  /* ── Feedback screen ─────────────────────────────── */
-  #feedback-screen { gap: 16px; }
-  #fb-text {
-    font-size: 20px;
-    font-weight: 400;
-    text-align: center;
-    padding: 14px 24px;
-    border-radius: var(--radius);
-    border-left: 4px solid;
-    width: 760px;
-    max-width: 100%;
-  }
-  #fb-text.correct   { background: #0e2e1e; border-color: var(--accent); color: var(--accent); }
-  #fb-text.incorrect { background: #2e120e; border-color: var(--error);  color: var(--error); }
-  #fb-text.timeout   { background: #2e220e; border-color: var(--warn);   color: var(--warn); }
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:22px; }
+.btn {
+    padding:14px 30px; border:none; border-radius:12px;
+    font-size:1.05em; font-weight:600; cursor:pointer;
+    transition:all 0.25s ease; text-decoration:none;
+    display:inline-block; text-align:center;
+}
+.btn-primary {
+    background:linear-gradient(135deg, #e8c048 0%, #d4a020 40%, #c07838 100%);
+    color:#2a1a0a; flex:1; min-width:200px;
+    box-shadow:0 4px 18px rgba(212,160,32,0.40),
+               inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-primary:hover {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 50%, #e8c048 100%);
+    transform:translateY(-2px);
+    box-shadow:0 7px 24px rgba(212,160,32,0.55), inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-secondary {
+    background:linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color:#2a1a0a; flex:0 0 auto; min-width:160px;
+    box-shadow:0 4px 14px rgba(180,150,180,0.30), inset 0 1px 0 rgba(255,255,255,0.40);
+}
+.btn-secondary:hover {
+    background:linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+    transform:translateY(-2px);
+}
+.btn-back-link {
+    display:inline-block; margin-top:18px;
+    color:#8a4a10; text-decoration:none; font-size:0.92em;
+    padding:8px 16px; border:1px solid rgba(190,150,80,0.40);
+    border-radius:8px; background:rgba(255,248,235,0.60);
+    transition:all 0.25s;
+}
+.btn-back-link:hover {
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    color:#fff8ee; border-color:#d4a020;
+}
 
-  #fb-map-container {
-    position: relative;
-    width: 760px; height: 560px;
-    max-width: 100%;
-    background: #ffffff;
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  #fb-house-img {
-    position: absolute;
-    width: 120px;
-    border-radius: 2px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-  }
+/* ── Trial header ───────────────────────────────────────────── */
+.trial-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px; padding-bottom:12px;
+    border-bottom:1px solid rgba(190,150,80,0.25);
+}
+.stage-label {
+    font-size:0.80em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.trial-count { color:#9a6a40; font-size:0.86em; }
+.progress-wrap {
+    width:140px; height:5px;
+    background:rgba(190,150,80,0.20); border-radius:3px; overflow:hidden;
+}
+.progress-fill {
+    height:100%;
+    background:linear-gradient(90deg, #c07838 0%, #e8c048 100%);
+    border-radius:3px; transition:width 0.35s ease;
+}
 
-  /* ── AFC screen ──────────────────────────────────── */
-  #afc-screen { gap: 24px; }
-  #afc-question {
-    font-size: 18px;
-    color: #ffffff;
-    text-align: center;
-  }
-  #afc-grid {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .afc-option {
-    position: relative;
-    width: 220px;
-    background: #ffffff;
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.1s;
-  }
-  .afc-option:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .afc-option:active { transform: scale(0.97); }
-  .afc-option .afc-map {
-    width: 100%; height: 165px;
-    position: relative; overflow: hidden;
-  }
-  .afc-option .afc-map svg { width: 100%; height: 100%; }
-  .afc-option .afc-house {
-    position: absolute;
-    width: 44px;
-  }
-  .afc-option-label {
-    text-align: center;
-    padding: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text);
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-  }
-  .afc-option.selected { border-color: var(--accent); }
-  .afc-option.selected .afc-option-label { color: var(--accent); }
+/* ── Dark stimulus window ───────────────────────────────────── */
+.stimulus-area {
+    background:#100c04;
+    border-radius:16px;
+    padding:16px 16px 14px;
+    margin-bottom:18px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:360px;
+    box-shadow:inset 0 2px 14px rgba(0,0,0,0.50),
+               0 4px 20px rgba(60,30,0,0.22);
+    border:1px solid rgba(100,65,10,0.35);
+    position:relative; overflow:hidden;
+}
+.stimulus-area::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,
+        transparent 0%, rgba(212,160,32,0.35) 30%,
+        rgba(232,192,72,0.55) 50%, rgba(212,160,32,0.35) 70%, transparent 100%);
+}
 
-  /* ── Results screen ──────────────────────────────── */
-  #results-screen { gap: 28px; align-items: center; }
-  .results-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px 44px;
-    max-width: 600px;
-    width: 100%;
-  }
-  .results-card h2 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 15px;
-  }
-  .stat-row:last-child { border-bottom: none; }
-  .stat-val {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--accent);
-  }
-  .results-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .results-table th {
-    text-align: left;
-    color: var(--muted);
-    font-weight: 400;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .results-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
-  .results-table tr:last-child td { border-bottom: none; }
-  .tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 3px;
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .tag.correct   { background: #0e2e1e; color: var(--accent); }
-  .tag.incorrect { background: #2e120e; color: var(--error); }
-  .tag.timeout   { background: #2e220e; color: var(--warn); }
+/* Feedback text above image (mirroring PsychoPy pos=(0,350)) */
+#feedback-line {
+    color:#e8d8b0; font-size:1.1em; font-weight:400;
+    margin-bottom:12px; text-align:center;
+    min-height:1.4em; display:none;
+    text-shadow:0 1px 8px rgba(0,0,0,0.60);
+}
+#feedback-line.correct  { color:#6be08a; }
+#feedback-line.incorrect { color:#e07a6b; }
+#feedback-line.toolate  { color:#e0c06b; }
+#feedback-line.question { color:#c8d8e8; }
 
-  /* ── Fixation screen ─────────────────────────────── */
-  #fix-screen {
-    display: none;
-    position: fixed; inset: 0;
-    background: var(--bg);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    font-size: 100px;
-    color: white;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  #fix-screen.active { display: flex; }
+#fixation {
+    color:#e8c048; font-size:4em; font-weight:200;
+    display:none; user-select:none;
+    text-shadow:0 0 20px rgba(232,192,72,0.50);
+}
 
-  /* ── Scrollable results ──────────────────────────── */
-  .scroll-table { max-height: 300px; overflow-y: auto; }
-  .scroll-table::-webkit-scrollbar { width: 5px; }
-  .scroll-table::-webkit-scrollbar-track { background: var(--bg); }
-  .scroll-table::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* The map image — large, as in PsychoPy (1024×787 normalised to fit) */
+#stim-img {
+    max-width:100%; max-height:310px;
+    object-fit:contain; display:none;
+    border-radius:6px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.55);
+}
+
+/* Bubble info screens */
+#bubble-img {
+    max-width:380px; max-height:220px;
+    object-fit:contain; display:none; border-radius:8px;
+}
+
+/* AFC composite images */
+#afc-img {
+    max-width:100%; max-height:340px;
+    object-fit:contain; display:none;
+    border-radius:6px; box-shadow:0 4px 18px rgba(0,0,0,0.55);
+}
+
+/* ── Response buttons ───────────────────────────────────────── */
+.keyboard-hint {
+    text-align:center; font-size:0.80em; color:#9a7050; margin-bottom:8px;
+}
+.response-area { display:flex; gap:16px; justify-content:center; margin-bottom:16px; }
+.resp-btn {
+    flex:1; max-width:260px; padding:15px 10px;
+    border:2px solid rgba(190,150,80,0.35); border-radius:12px;
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 50%,
+        rgba(220,200,170,0.80) 100%);
+    color:#3a2010; font-size:1.0em; font-weight:600; cursor:pointer;
+    transition:all 0.18s ease;
+    box-shadow:0 3px 12px rgba(160,110,50,0.15),
+               inset 0 1px 0 rgba(255,255,255,0.65);
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.resp-btn .key-hint { font-size:0.70em; font-weight:400; color:#9a6a40; }
+.resp-btn:hover:not(:disabled) {
+    border-color:rgba(212,160,32,0.55);
+    background:linear-gradient(135deg,
+        rgba(232,192,72,0.25) 0%, rgba(248,232,200,0.90) 50%,
+        rgba(232,192,72,0.25) 100%);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(160,110,50,0.28), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+.resp-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.resp-btn.pressed {
+    background:linear-gradient(135deg, #d4a020 0%, #e8c048 100%);
+    color:#1a0c00; border-color:#d4a020;
+}
+
+/* AFC specific: 3 buttons */
+.afc-response-area { display:flex; gap:12px; justify-content:center; margin-bottom:16px; }
+.afc-btn {
+    flex:1; max-width:180px; padding:14px 8px;
+    border:2px solid rgba(190,150,80,0.35); border-radius:12px;
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 50%,
+        rgba(220,200,170,0.80) 100%);
+    color:#3a2010; font-size:1.1em; font-weight:700; cursor:pointer;
+    transition:all 0.18s ease;
+    box-shadow:0 3px 12px rgba(160,110,50,0.15),
+               inset 0 1px 0 rgba(255,255,255,0.65);
+}
+.afc-btn:hover {
+    border-color:rgba(212,160,32,0.55); transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(160,110,50,0.28);
+}
+.afc-btn.pressed {
+    background:linear-gradient(135deg, #d4a020 0%, #e8c048 100%);
+    color:#1a0c00; border-color:#d4a020;
+}
+
+/* ── Results ────────────────────────────────────────────────── */
+.result-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:16px; margin-bottom:22px;
+}
+.result-card {
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 100%);
+    border:1px solid rgba(190,150,80,0.28);
+    border-radius:12px; padding:18px 12px; text-align:center;
+    box-shadow:0 3px 12px rgba(160,110,50,0.12),
+               inset 0 1px 0 rgba(255,255,255,0.60);
+}
+.result-val {
+    font-size:2.2em; font-weight:600;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.result-lbl { font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a6a40; margin-top:4px; }
+
+/* stage divider badge */
+.stage-badge {
+    text-align:center; margin:16px 0 8px;
+    font-size:0.78em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a7050;
+}
 </style>
 </head>
 <body>
+<div class="container">
 
-<div id="app">
-  <!-- Header -->
-  <div id="header">
-    <span class="logo">LOCATO</span>
-    <span class="phase-tag" id="phase-label">Demo</span>
-  </div>
-  <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 0: WELCOME                                           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+    <div class="gold-title">OLMM</div>
+    <div class="subtitle">Object Memory Location Mapping — Interactive Demo</div>
 
-  <!-- ── WELCOME ────────────────────────────────── -->
-  <div class="screen active" id="welcome-screen">
-    <div id="instr-content">
-      <h1>Willkommen</h1>
-      <h2>Räumliche Gedächtnisaufgabe</h2>
-      <p>In diesem Experiment lernen Sie, wo verschiedene Gebäude in einer Stadt verortet sind. Sie sehen jeweils eine Karte mit einem eingezeichneten Gebäude und entscheiden, ob die gezeigte Position <strong>korrekt</strong> oder <strong>falsch</strong> ist.</p>
-      <p>Nach jeder Antwort erhalten Sie ein Feedback. Am Ende folgt ein Wiedererkennungstest.</p>
-      <p style="color:var(--muted); font-size:14px;">Dies ist eine interaktive Demo. Tastatursteuerung wird unterstützt.</p>
-      <div class="key-legend">
-        <div class="key-item"><span class="key">←</span> <span>Korrekte Position</span></div>
-        <div class="key-item"><span class="key">→</span> <span>Falsche Position</span></div>
-        <div class="key-item"><span class="key">1 2 3</span> <span>AFC-Auswahl</span></div>
-      </div>
-      <div id="instr-nav">
-        <button class="btn" onclick="startExperiment()">Experiment starten &rarr;</button>
-      </div>
+    <div class="info-box">
+        <div class="info-box-label">About this demo</div>
+        In this demo you will practise learning <strong>where objects are located</strong>
+        on a spatial map. Each trial shows a house placed at a specific position on a map.
+        You decide whether this position is the <em>correct</em> location for that house or
+        a <em>false</em> location. Feedback after every trial helps you build the memory trace.
     </div>
-  </div>
 
-  <!-- ── INSTRUCTIONS ───────────────────────────── -->
-  <div class="screen" id="instr-screen">
-    <div id="instr-content">
-      <h1 id="instr-tag">Anleitung 1 / 3</h1>
-      <h2 id="instr-title"></h2>
-      <div id="instr-body"></div>
-      <div id="instr-nav">
-        <button class="btn secondary" onclick="prevInstr()" id="prev-btn" style="margin-right:12px">← Zurück</button>
-        <button class="btn" onclick="nextInstr()" id="next-btn">Weiter →</button>
-      </div>
+    <div class="info-box">
+        <div class="info-box-label">Controls</div>
+        Use keyboard keys or click the on-screen buttons.
+        <div class="key-legend">
+            <div class="key-item">
+                <span class="key-badge">← Left</span>
+                <span>Correct position for this house</span>
+            </div>
+            <div class="key-item">
+                <span class="key-badge">Right →</span>
+                <span>Incorrect / false position</span>
+            </div>
+        </div>
+        <div class="key-legend" style="margin-top:10px;">
+            <div class="key-item">
+                <span class="key-badge">1 / 2 / 3</span>
+                <span>Select option in the final recognition test</span>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- ── TRIAL ──────────────────────────────────── -->
-  <div class="screen" id="trial-screen">
-    <div id="trial-meta">
-      <span id="trial-counter">Durchgang 1/10</span>
-      <span id="trial-phase-label">Lernphase</span>
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="showScreen('screen-instructions')">
+            Start Demo
+        </button>
     </div>
-    <div id="map-container">
-      <svg id="street-map" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
-        <!-- Street grid – simplified city map -->
-        <rect width="760" height="560" fill="#f5f5f0"/>
-        <!-- Horizontal streets -->
-        <rect x="0"   y="120" width="760" height="18" fill="#d0d0c8" rx="1"/>
-        <rect x="0"   y="270" width="760" height="22" fill="#c8c8c0" rx="1"/>
-        <rect x="0"   y="400" width="760" height="18" fill="#d0d0c8" rx="1"/>
-        <rect x="0"   y="490" width="760" height="14" fill="#d8d8d0" rx="1"/>
-        <!-- Vertical streets -->
-        <rect x="90"  y="0"   width="16" height="560" fill="#d0d0c8" rx="1"/>
-        <rect x="240" y="0"   width="20" height="560" fill="#c8c8c0" rx="1"/>
-        <rect x="430" y="0"   width="16" height="560" fill="#d0d0c8" rx="1"/>
-        <rect x="590" y="0"   width="20" height="560" fill="#c8c8c0" rx="1"/>
-        <rect x="690" y="0"   width="14" height="560" fill="#d8d8d0" rx="1"/>
-        <!-- Diagonal street -->
-        <polygon points="180,0 210,0 310,270 270,270" fill="#c8c8c0"/>
-        <polygon points="270,270 310,270 410,560 360,560" fill="#c8c8c0"/>
-        <!-- Small cross streets -->
-        <rect x="0"   y="55"  width="200" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="330" y="55"  width="430" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="0"   y="200" width="160" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="450" y="200" width="310" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="450" y="330" width="310" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="140" y="460" width="230" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="450" y="460" width="150" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="340" y="55"  width="10" height="80"  fill="#dcdcd4" rx="1"/>
-        <rect x="540" y="130" width="10" height="80"  fill="#dcdcd4" rx="1"/>
-        <rect x="150" y="130" width="10" height="80"  fill="#dcdcd4" rx="1"/>
-        <rect x="600" y="270" width="10" height="80"  fill="#dcdcd4" rx="1"/>
-        <rect x="150" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
-        <rect x="440" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
-        <rect x="600" y="400" width="10" height="90"  fill="#dcdcd4" rx="1"/>
-      </svg>
-      <div id="house-img-wrap">
-        <!-- House placeholder rendered as SVG building -->
-        <svg id="house-svg" width="90" height="70" viewBox="0 0 90 70"
-             style="position:absolute; display:none;">
-          <rect x="5"  y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
-          <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
-          <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
-          <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-          <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-        </svg>
-      </div>
-    </div>
-    <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
-    <div id="question-box">Ist dies die korrekte Position des Hauses auf der Karte?</div>
-    <div id="key-row">
-      <div class="key-btn" onclick="submitResponse('left')">
-        <div class="key-big">←</div>
-        <div class="key-label">KORREKT</div>
-      </div>
-      <div class="key-btn" onclick="submitResponse('right')">
-        <div class="key-big">→</div>
-        <div class="key-label">FALSCH</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── FEEDBACK ───────────────────────────────── -->
-  <div class="screen" id="feedback-screen">
-    <div id="fb-text" class="correct">Richtig, die korrekte Position ist:</div>
-    <div id="fb-map-container">
-      <svg id="fb-street-map" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
-        <rect width="760" height="560" fill="#f5f5f0"/>
-        <rect x="0" y="120" width="760" height="18" fill="#d0d0c8" rx="1"/>
-        <rect x="0" y="270" width="760" height="22" fill="#c8c8c0" rx="1"/>
-        <rect x="0" y="400" width="760" height="18" fill="#d0d0c8" rx="1"/>
-        <rect x="0" y="490" width="760" height="14" fill="#d8d8d0" rx="1"/>
-        <rect x="90"  y="0" width="16" height="560" fill="#d0d0c8" rx="1"/>
-        <rect x="240" y="0" width="20" height="560" fill="#c8c8c0" rx="1"/>
-        <rect x="430" y="0" width="16" height="560" fill="#d0d0c8" rx="1"/>
-        <rect x="590" y="0" width="20" height="560" fill="#c8c8c0" rx="1"/>
-        <rect x="690" y="0" width="14" height="560" fill="#d8d8d0" rx="1"/>
-        <polygon points="180,0 210,0 310,270 270,270" fill="#c8c8c0"/>
-        <polygon points="270,270 310,270 410,560 360,560" fill="#c8c8c0"/>
-        <rect x="0" y="55" width="200" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="330" y="55" width="430" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="0" y="200" width="160" height="10" fill="#dcdcd4" rx="1"/>
-        <rect x="450" y="200" width="310" height="10" fill="#dcdcd4" rx="1"/>
-      </svg>
-      <svg id="fb-house-svg" width="90" height="70" viewBox="0 0 90 70"
-           style="position:absolute; display:none;">
-        <rect x="5"  y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
-        <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
-        <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
-        <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-        <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ── CONTROL INSTRUCTIONS ───────────────────── -->
-  <div class="screen" id="ctrl-instr-screen">
-    <div id="instr-content">
-      <h1>Kontrollbedingung</h1>
-      <h2>Ist das Haus auf der rechten Seite der Karte?</h2>
-      <p>Im nächsten Abschnitt sehen Sie wieder Karten mit Gebäuden. Bitte entscheiden Sie nun, ob das eingezeichnete Haus auf der <strong>rechten Seite</strong> der Karte liegt.</p>
-      <div class="key-legend">
-        <div class="key-item"><span class="key">←</span> <span>Ja – rechte Seite</span></div>
-        <div class="key-item"><span class="key">→</span> <span>Nein – nicht rechts</span></div>
-      </div>
-      <div id="instr-nav">
-        <button class="btn" onclick="startControlBlock()">Weiter →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── AFC INSTRUCTIONS ───────────────────────── -->
-  <div class="screen" id="afc-instr-screen">
-    <div id="instr-content">
-      <h1>Anleitung AFC-Test</h1>
-      <h2>Wo befand sich das Haus auf der Karte?</h2>
-      <p>Nun folgt der Gedächtnistest. Ihnen werden drei Karten gezeigt, auf denen dasselbe Haus an drei verschiedenen Positionen eingezeichnet ist.</p>
-      <p>Wählen Sie die Position, die Sie als <strong>korrekt</strong> gelernt haben.</p>
-      <div class="key-legend">
-        <div class="key-item"><span class="key">1</span> <span>Linke Option</span></div>
-        <div class="key-item"><span class="key">2</span> <span>Mittlere Option</span></div>
-        <div class="key-item"><span class="key">3</span> <span>Rechte Option</span></div>
-      </div>
-      <div id="instr-nav">
-        <button class="btn" onclick="startAFCBlock()">Test beginnen →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── AFC TRIAL ──────────────────────────────── -->
-  <div class="screen" id="afc-screen">
-    <div id="trial-meta">
-      <span id="afc-counter">AFC 1/5</span>
-      <span>Gedächtnistest</span>
-    </div>
-    <div id="afc-question">Wo befand sich das Haus? Wählen Sie die korrekte Position (1, 2 oder 3).</div>
-    <div id="afc-grid"></div>
-  </div>
-
-  <!-- ── RESULTS ────────────────────────────────── -->
-  <div class="screen" id="results-screen">
-    <div class="results-card">
-      <h2>Ergebnisse</h2>
-      <div class="stat-row">
-        <span>Lernphase – Korrektheit</span>
-        <span class="stat-val" id="res-learn-pct">–</span>
-      </div>
-      <div class="stat-row">
-        <span>Kontrollbedingung – Korrektheit</span>
-        <span class="stat-val" id="res-ctrl-pct">–</span>
-      </div>
-      <div class="stat-row">
-        <span>AFC-Test – Korrektheit</span>
-        <span class="stat-val" id="res-afc-pct">–</span>
-      </div>
-      <div class="stat-row">
-        <span>Ø Reaktionszeit (Lernen)</span>
-        <span class="stat-val" id="res-rt">–</span>
-      </div>
-    </div>
-    <div class="results-card">
-      <h2>Alle Durchgänge</h2>
-      <div class="scroll-table">
-        <table class="results-table">
-          <thead>
-            <tr><th>#</th><th>Phase</th><th>Stimulus</th><th>Antwort</th><th>Ergebnis</th><th>RT (ms)</th></tr>
-          </thead>
-          <tbody id="trial-log-body"></tbody>
-        </table>
-      </div>
-    </div>
-    <button class="btn" onclick="resetExperiment()">Neu starten</button>
-  </div>
+    <a href="../../../OLMM_paradigm.html" class="btn-back-link">← Back to Paradigm Overview</a>
 </div>
 
-<!-- Fixation cross overlay -->
-<div id="fix-screen">+</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1: INSTRUCTIONS                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-instructions" class="screen">
+    <div class="section-h2">How it works</div>
+
+    <div class="instr-steps">
+        <div class="instr-step">
+            <div class="instr-num">1</div>
+            <div class="instr-text">
+                A <strong>map image</strong> appears on a dark background showing a house
+                placed at a particular location.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">2</div>
+            <div class="instr-text">
+                Decide: is this the <strong>correct location</strong> for that house?
+                Press <strong>← Left</strong> for <em>Yes (correct)</em> or
+                <strong>Right →</strong> for <em>No (false position)</em>.
+                You have <strong>2.5 seconds</strong>.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">3</div>
+            <div class="instr-text">
+                Feedback always shows the <em>correct map position</em> — use it to
+                memorise where each house belongs.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">4</div>
+            <div class="instr-text">
+                After <strong>2 learning repetitions</strong> you will complete a short
+                <strong>3-alternative forced-choice recognition test</strong>
+                (keys 1, 2, 3) for each house.
+            </div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-box-label">Tip</div>
+        The map images are encoded in the filename: <code style="font-size:0.88em;
+        background:rgba(160,110,50,0.12);padding:2px 6px;border-radius:4px;color:#7a3a10;">
+        hH_pP_<strong>k</strong>_direction_side</code> = correct location;
+        <code style="font-size:0.88em;background:rgba(160,110,50,0.12);
+        padding:2px 6px;border-radius:4px;color:#7a3a10;">_<strong>i</strong>_</code> = false position.
+        Try to form a vivid spatial memory for each house's true position!
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="startExperiment()">Begin Task</button>
+        <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">← Back</button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 2: TRIAL                                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-trial" class="screen">
+    <div class="trial-header">
+        <div class="stage-label" id="stage-label">Learning Rep 1</div>
+        <div class="trial-count" id="trial-count">Trial 1 / 20</div>
+        <div class="progress-wrap">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="stimulus-area">
+        <div id="feedback-line"></div>
+        <div id="fixation">+</div>
+        <img id="stim-img" src="" alt="map stimulus">
+        <img id="bubble-img" src="" alt="">
+    </div>
+
+    <div class="keyboard-hint" id="keyboard-hint">
+        Press <strong>← Left</strong> (correct position) or <strong>Right →</strong> (false position)
+    </div>
+
+    <div class="response-area">
+        <button class="resp-btn" id="btn-left" onclick="recordResponse('left')" disabled>
+            <span>← Correct position</span>
+            <span class="key-hint">Left arrow key</span>
+        </button>
+        <button class="resp-btn" id="btn-right" onclick="recordResponse('right')" disabled>
+            <span>False position →</span>
+            <span class="key-hint">Right arrow key</span>
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 3: AFC TEST                                           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-afc" class="screen">
+    <div class="trial-header">
+        <div class="stage-label">Recognition Test</div>
+        <div class="trial-count" id="afc-count">Test 1 / 10</div>
+        <div class="progress-wrap">
+            <div class="progress-fill" id="afc-progress" style="width:0%"></div>
+        </div>
+    </div>
+
+    <div class="stimulus-area">
+        <img id="afc-img" src="" alt="AFC composite">
+    </div>
+
+    <div class="keyboard-hint">Choose the correct location: press <strong>1</strong>, <strong>2</strong>, or <strong>3</strong></div>
+
+    <div class="afc-response-area">
+        <button class="afc-btn" onclick="recordAFC(1)">1</button>
+        <button class="afc-btn" onclick="recordAFC(2)">2</button>
+        <button class="afc-btn" onclick="recordAFC(3)">3</button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 4: BETWEEN-REPS BREAK                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-between" class="screen">
+    <div class="section-h2" id="between-title">Repetition 1 Complete</div>
+    <div class="info-box" id="between-msg"></div>
+    <div class="result-grid">
+        <div class="result-card">
+            <div class="result-val" id="b-correct">—</div>
+            <div class="result-lbl">Correct</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="b-acc">—</div>
+            <div class="result-lbl">Accuracy</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="b-rt">—</div>
+            <div class="result-lbl">Avg RT (ms)</div>
+        </div>
+    </div>
+    <div class="btn-row">
+        <button class="btn btn-primary" id="between-btn" onclick="continueAfterBreak()">
+            Continue →
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 5: RESULTS                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+    <div class="section-h2">Demo Complete</div>
+
+    <div class="info-box">
+        <div class="info-box-label">Your results</div>
+        Here is a summary across both learning repetitions and the recognition test.
+    </div>
+
+    <div class="result-grid">
+        <div class="result-card">
+            <div class="result-val" id="res-correct">—</div>
+            <div class="result-lbl">Learning Correct</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="res-acc">—</div>
+            <div class="result-lbl">Learning Accuracy</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="res-rt">—</div>
+            <div class="result-lbl">Avg RT (ms)</div>
+        </div>
+    </div>
+
+    <div class="info-box" id="perf-msg"></div>
+
+    <div class="info-box" style="margin-top:8px;">
+        <div class="info-box-label">What comes next in the full experiment</div>
+        The real OLMM paradigm runs <strong>4 learning repetitions × 2 blocks</strong>
+        (learning + control) per session, plus an AFC recognition test, followed by a
+        second session <strong>7–14 days later</strong> to measure consolidation and
+        test-retest reliability.
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="restartDemo()">Try Again</button>
+        <a href="../../../OLMM_paradigm.html" class="btn btn-secondary">← Back to Paradigm</a>
+    </div>
+</div>
+
+</div><!-- /container -->
 
 <script>
-// ================================================================
-// EXPERIMENT STATE
-// ================================================================
-const TRIAL_DUR    = 2500;   // ms
-const FEEDBACK_DUR = 2000;   // ms
-const FIX_DUR      = 2000;   // ms (shortened for demo)
-const PRAC_REPS    = 2;
-const LEARN_REPS   = 4;
+// ══════════════════════════════════════════════════════════════════
+// STIMULUS DATA — derived from OLMM_short_version.py + folder tree
+//
+// Filename pattern:  hH_pP_TYPE_DIRECTION_SIDE.jpg
+//   TYPE: k = correct position, i = foil
+//   DIRECTION: up | down
+//   SIDE: left | right   (used for control trial)
+//
+// Pairs are built by matching the house-ID (hH part).
+// The demo uses 10 pairs (all available learning stimuli).
+// ══════════════════════════════════════════════════════════════════
 
-// Predefined house positions on map (x%, y% relative to map container)
-// Each entry: { id, isCorrect, direction, side, x, y }
-const POSITIONS = [
-  { id:'h1_p37',  direction:'up',   side:'right', correctX: 78, correctY: 67, foilX: 30, foilY: 20 },
-  { id:'h1_p43',  direction:'up',   side:'right', correctX: 65, correctY: 55, foilX: 15, foilY: 65 },
-  { id:'h4_p31',  direction:'up',   side:'left',  correctX: 20, correctY: 45, foilX: 70, foilY: 30 },
-  { id:'h8_p6',   direction:'up',   side:'left',  correctX: 18, correctY: 22, foilX: 65, foilY: 70 },
-  { id:'h16_p11', direction:'up',   side:'left',  correctX: 22, correctY: 55, foilX: 72, foilY: 20 },
-  { id:'h17_p33', direction:'up',   side:'left',  correctX: 12, correctY: 35, foilX: 80, foilY: 65 },
-  { id:'h103_p16',direction:'down', side:'right', correctX: 75, correctY: 73, foilX: 22, foilY: 30 },
-  { id:'h104_p35',direction:'down', side:'left',  correctX: 17, correctY: 72, foilX: 68, foilY: 20 },
-  { id:'h105_p17',direction:'down', side:'right', correctX: 72, correctY: 38, foilX: 25, foilY: 70 },
-  { id:'h113_p20',direction:'down', side:'left',  correctX: 14, correctY: 50, foilX: 75, foilY: 25 },
+const STIM_BASE = 'Stimuli/';
+
+// 10 house pairs — correct image ('k') + one foil ('i')
+// Foils chosen to give one foil per house from the available files.
+const PAIRS = [
+    {
+        house:     'h1',
+        correct:   'learning/h1_p54_k_up_q3_right.jpg',
+        incorrect: 'learning/h1_p37_i_up_right.jpg',
+    },
+    {
+        house:     'h4',
+        correct:   'learning/h4_p31_k_up_q4_left.jpg',
+        incorrect: 'learning/h4_p32_i_up_left.jpg',
+    },
+    {
+        house:     'h8',
+        correct:   'learning/h8_p7_k_up_q1_left.jpg',
+        incorrect: 'learning/h8_p10_i_up_left.jpg',
+    },
+    {
+        house:     'h16',
+        correct:   'learning/h16_p11_k_up_q4_left.jpg',
+        incorrect: 'learning/h16_p12_i_up_right.jpg',
+    },
+    {
+        house:     'h17',
+        correct:   'learning/h17_p49_k_up_q3_left.jpg',
+        incorrect: 'learning/h17_p33_i_up_left.jpg',
+    },
+    {
+        house:     'h103',
+        correct:   'learning/h103_p16_k_down_q3_right.jpg',
+        incorrect: 'learning/h103_p17_i_down_right.jpg',
+    },
+    {
+        house:     'h104',
+        correct:   'learning/h104_p52_k_down_q1_left.jpg',
+        incorrect: 'learning/h104_p35_i_down_left.jpg',
+    },
+    {
+        house:     'h105',
+        correct:   'learning/h105_p47_k_down_q3_right.jpg',
+        incorrect: 'learning/h105_p17_i_down_right.jpg',
+    },
+    {
+        house:     'h113',
+        correct:   'learning/h113_p53_k_down_q4_left.jpg',
+        incorrect: 'learning/h113_p20_i_down_left.jpg',
+    },
+    {
+        house:     'h115',
+        correct:   'learning/h115_p38_k_down_q2_right.jpg',
+        incorrect: 'learning/h115_p39_i_down_right.jpg',
+    },
 ];
 
-// Practice positions (subset)
-const PRAC_POSITIONS = POSITIONS.slice(0, 4);
-// Learning positions (all)
-const LEARN_POSITIONS = [...POSITIONS];
+// AFC composite images — one per house (same house ID order)
+const AFC_IMAGES = [
+    'AFC/h1p54_2.jpg',
+    'AFC/h4p31_1.jpg',
+    'AFC/h8p7_2.jpg',
+    'AFC/h16p11_3.jpg',
+    'AFC/h17p49_2.jpg',
+    'AFC/h103p16_2.jpg',
+    'AFC/h104p52_2.jpg',
+    'AFC/h105p47_2.jpg',
+    'AFC/h113p53_3.jpg',
+    'AFC/h115p38_1.jpg',
+];
 
-// State
-let state = {
-  phase: 'welcome',
-  trialLog: [],
-  currentTrialList: [],
-  trialIndex: 0,
-  repIndex: 0,
-  responseGiven: false,
-  timerHandle: null,
-  trialStartTime: null,
+// Bubble info screens
+const BUBBLES = {
+    learning: 'bubbles/learning.png',
+    bye:      'bubbles/bye.png',
 };
 
-// ================================================================
-// UTILITIES
-// ================================================================
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+// Timing (ms) — matching PsychoPy values
+const TRIAL_DUR_MS    = 2500;
+const FEEDBACK_DUR_MS = 1800;
+const FIX_DUR_MS      = 900;
+const BUBBLE_DUR_MS   = 1600;
+
+// Demo runs 2 learning repetitions (full paradigm does 4)
+const N_REPS = 2;
+
+// ──────────────────────────────────────────────────────────────
+// TRIAL GENERATION
+// Each rep: 10 correct + 10 foil trials, shuffled (no same
+// house back-to-back), interleaving up/down as in .py file.
+// ──────────────────────────────────────────────────────────────
+
+function buildRep(repIdx) {
+    const trials = [];
+    PAIRS.forEach(pair => {
+        trials.push({ img: pair.correct,   isCorrect: true,  correctImg: pair.correct });
+        trials.push({ img: pair.incorrect, isCorrect: false, correctImg: pair.correct });
+    });
+    return shuffleNoConsecutive(trials);
 }
 
+function shuffleNoConsecutive(arr) {
+    let out = [...arr];
+    let attempts = 0;
+    do {
+        fisherYates(out);
+        attempts++;
+    } while (attempts < 300 && !validSeq(out));
+    return out;
+}
+
+function fisherYates(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+}
+
+function validSeq(arr) {
+    // No same correctImg (= same house) back-to-back
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i].correctImg === arr[i+1].correctImg) return false;
+    }
+    return true;
+}
+
+function getHouse(imgPath) {
+    // e.g. 'learning/h1_p54_k_up_q3_right.jpg' → 'h1'
+    const base = imgPath.split('/').pop();
+    return base.split('_')[0];
+}
+
+// ──────────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────────
+let allReps       = [];
+let currentRep    = 0;
+let currentTrial  = 0;
+let trialStart    = 0;
+let responseOn    = false;
+let trialTimer    = null;
+let repResults    = [];
+let allLearning   = [];
+
+let afcTrials     = [];
+let afcIdx        = 0;
+
+// ──────────────────────────────────────────────────────────────
+// SCREEN MANAGEMENT
+// ──────────────────────────────────────────────────────────────
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
 
-function setPhaseLabel(txt) {
-  document.getElementById('phase-label').textContent = txt;
-}
-
-function updateProgress(val) {
-  document.getElementById('progress-bar').style.width = Math.min(100, val * 100) + '%';
-}
-
-function showFixation(duration, callback) {
-  const fs = document.getElementById('fix-screen');
-  fs.classList.add('active');
-  setTimeout(() => { fs.classList.remove('active'); callback(); }, duration);
-}
-
-// ================================================================
-// INSTRUCTION SLIDES
-// ================================================================
-const INSTRUCTIONS = [
-  {
-    tag: 'Anleitung 1 / 4',
-    title: 'Lernaufgabe: Räumliche Positionen',
-    body: `
-      <p>Sie nehmen an einem räumlichen Gedächtnisexperiment teil. Ihnen werden Karten einer Stadt gezeigt, auf denen jeweils ein Gebäude an einer bestimmten Position eingezeichnet ist.</p>
-      <p>Ihre Aufgabe ist es zu entscheiden, ob die gezeigte Position die <strong>korrekte</strong> oder eine <strong>falsche</strong> Position des Gebäudes ist.</p>
-      <div class="key-legend">
-        <div class="key-item"><span class="key">← Links</span><span>Korrekte Position</span></div>
-        <div class="key-item"><span class="key">→ Rechts</span><span>Falsche Position</span></div>
-      </div>`
-  },
-  {
-    tag: 'Anleitung 2 / 4',
-    title: 'Feedback & Zeitlimit',
-    body: `
-      <p>Nach jeder Antwort erhalten Sie ein Feedback, das Ihnen die tatsächlich korrekte Position zeigt.</p>
-      <p>Sie haben <strong>2,5 Sekunden</strong> Zeit für jede Antwort. Wenn Sie nicht rechtzeitig antworten, wird das als „zu spät" gewertet und die korrekte Position gezeigt.</p>
-      <p>Versuchen Sie so schnell und so genau wie möglich zu antworten.</p>`
-  },
-  {
-    tag: 'Anleitung 3 / 4',
-    title: 'Übungsphase',
-    body: `
-      <p>Zunächst folgt eine <strong>Übungsphase</strong> mit wenigen Durchgängen, damit Sie sich mit der Aufgabe vertraut machen können.</p>
-      <p>Die Übungsdurchgänge werden <strong>nicht</strong> in die Wertung einbezogen.</p>
-      <p>Drücken Sie <strong>←</strong> zum Weitergehen.</p>`
-  },
-  {
-    tag: 'Anleitung 4 / 4',
-    title: 'Bereit?',
-    body: `
-      <p>Die Übungsphase beginnt jetzt. Viel Erfolg!</p>
-      <p style="color:var(--muted); font-size:14px;">Drücken Sie <strong>→</strong> um zu starten.</p>`
-  }
-];
-
-let instrIndex = 0;
-
-function renderInstr() {
-  const sl = INSTRUCTIONS[instrIndex];
-  document.getElementById('instr-tag').textContent   = sl.tag;
-  document.getElementById('instr-title').textContent = sl.title;
-  document.getElementById('instr-body').innerHTML    = sl.body;
-  document.getElementById('prev-btn').style.visibility = instrIndex === 0 ? 'hidden' : 'visible';
-  document.getElementById('next-btn').textContent =
-    instrIndex === INSTRUCTIONS.length - 1 ? 'Starten →' : 'Weiter →';
-}
-
+// ──────────────────────────────────────────────────────────────
+// EXPERIMENT FLOW
+// ──────────────────────────────────────────────────────────────
 function startExperiment() {
-  instrIndex = 0;
-  renderInstr();
-  showScreen('instr-screen');
-  setPhaseLabel('Anleitung');
-  updateProgress(0);
-  addKeyListener();
+    allReps    = [];
+    allLearning = [];
+    for (let r = 0; r < N_REPS; r++) allReps.push(buildRep(r));
+    currentRep   = 0;
+    currentTrial = 0;
+    repResults   = [];
+    showScreen('screen-trial');
+    showBubble(BUBBLES.learning, startFixation);
 }
 
-function nextInstr() {
-  if (instrIndex < INSTRUCTIONS.length - 1) {
-    instrIndex++;
-    renderInstr();
-  } else {
-    startPractice();
-  }
+// ── Fixation ──
+function startFixation() {
+    setVisible('fixation');
+    setBtns(false);
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+    setTimeout(showStimulus, FIX_DUR_MS);
 }
 
-function prevInstr() {
-  if (instrIndex > 0) { instrIndex--; renderInstr(); }
+// ── Stimulus ──
+function showStimulus() {
+    const rep   = allReps[currentRep];
+    const trial = rep[currentTrial];
+    const total = rep.length;
+
+    document.getElementById('stage-label').textContent =
+        `Learning Rep ${currentRep + 1} of ${N_REPS}`;
+    document.getElementById('trial-count').textContent =
+        `Trial ${currentTrial + 1} / ${total}`;
+    document.getElementById('progress-fill').style.width =
+        `${(currentTrial / total) * 100}%`;
+
+    const img = document.getElementById('stim-img');
+    img.src = STIM_BASE + trial.img;
+    setVisible('stim');
+    document.getElementById('keyboard-hint').style.visibility = 'visible';
+    setBtns(true);
+    responseOn = true;
+    trialStart = performance.now();
+
+    trialTimer = setTimeout(() => {
+        if (responseOn) processResponse(null, trial);
+    }, TRIAL_DUR_MS);
 }
 
-// ================================================================
-// PRACTICE BLOCK
-// ================================================================
-function startPractice() {
-  setPhaseLabel('Übung');
-  updateProgress(0.05);
-  // Build trial list: correct + foil for each practice pair
-  let trials = [];
-  PRAC_POSITIONS.forEach(pos => {
-    trials.push({ ...pos, isCorrect: true });
-    trials.push({ ...pos, isCorrect: false });
-  });
-  state.currentTrialList = shuffle(trials);
-  state.trialIndex = 0;
-  state.repIndex   = 1;
-  state.phase      = 'practice';
-  state.practiceRepsLeft = PRAC_REPS;
-  state.practiceRepIdx   = 1;
-  presentTrial();
+function setBtns(on) {
+    document.getElementById('btn-left').disabled  = !on;
+    document.getElementById('btn-right').disabled = !on;
+    document.getElementById('btn-left').classList.remove('pressed');
+    document.getElementById('btn-right').classList.remove('pressed');
 }
 
-// ================================================================
-// LEARNING BLOCK
-// ================================================================
-function startLearning(blockNum) {
-  setPhaseLabel(`Lernblock ${blockNum}`);
-  let trials = [];
-  LEARN_POSITIONS.forEach(pos => {
-    trials.push({ ...pos, isCorrect: true });
-    trials.push({ ...pos, isCorrect: false });
-  });
-  state.currentTrialList = shuffle(trials);
-  state.trialIndex = 0;
-  state.repIndex   = 1;
-  state.phase      = `learning-${blockNum}`;
-  state.learnBlockNum  = blockNum;
-  state.learnRepIdx    = 1;
-  presentTrial();
+function recordResponse(dir) {
+    if (!responseOn) return;
+    clearTimeout(trialTimer);
+    const rt    = performance.now() - trialStart;
+    const trial = allReps[currentRep][currentTrial];
+    document.getElementById(dir === 'left' ? 'btn-left' : 'btn-right').classList.add('pressed');
+    processResponse({ dir, rt }, trial);
 }
 
-// ================================================================
-// CONTROL BLOCK
-// ================================================================
-function startControlBlock() {
-  setPhaseLabel('Kontrollbedingung');
-  // Pick 5 random positions
-  let ctrlPositions = shuffle([...LEARN_POSITIONS]).slice(0, 5);
-  let trials = [];
-  ctrlPositions.forEach(pos => {
-    trials.push({ ...pos, isCorrect: true, controlMode: true });
-    trials.push({ ...pos, isCorrect: false, controlMode: true });
-  });
-  state.currentTrialList = shuffle(trials);
-  state.trialIndex = 0;
-  state.phase      = 'control';
-  presentTrial();
-}
+function processResponse(resp, trial) {
+    responseOn = false;
+    setBtns(false);
 
-// ================================================================
-// PRESENT TRIAL
-// ================================================================
-function positionHouse(trial, mapId, houseId) {
-  const map = document.getElementById(mapId);
-  const rect = map.getBoundingClientRect();
-  const mapW = map.offsetWidth;
-  const mapH = map.offsetHeight;
+    let correct, fbText, fbClass;
 
-  const px = trial.isCorrect ? trial.correctX : trial.foilX;
-  const py = trial.isCorrect ? trial.correctY : trial.foilY;
-
-  const el = document.getElementById(houseId);
-  el.style.display = 'block';
-  el.style.left = `calc(${px}% - 45px)`;
-  el.style.top  = `calc(${py}% - 35px)`;
-}
-
-function presentTrial() {
-  if (state.trialIndex >= state.currentTrialList.length) {
-    endBlock();
-    return;
-  }
-
-  const trial = state.currentTrialList[state.trialIndex];
-  state.responseGiven = false;
-
-  // Update UI labels
-  const total = state.currentTrialList.length;
-  document.getElementById('trial-counter').textContent =
-    `Durchgang ${state.trialIndex + 1}/${total}`;
-  document.getElementById('trial-phase-label').textContent =
-    trial.controlMode ? 'Kontrollbedingung' : (state.phase.startsWith('practice') ? 'Übung' : 'Lernphase');
-
-  if (trial.controlMode) {
-    document.getElementById('question-box').textContent =
-      'Ist das Haus auf der rechten Seite der Karte?';
-  } else {
-    document.getElementById('question-box').textContent =
-      'Ist dies die korrekte Position des Hauses auf der Karte?';
-  }
-
-  showScreen('trial-screen');
-  positionHouse(trial, 'map-container', 'house-svg');
-
-  // Start timer bar
-  const timerBar = document.getElementById('timer-bar');
-  timerBar.classList.remove('warning','danger');
-  timerBar.style.transition = 'none';
-  timerBar.style.transform  = 'scaleX(1)';
-  requestAnimationFrame(() => {
-    timerBar.style.transition = `transform ${TRIAL_DUR}ms linear`;
-    timerBar.style.transform  = 'scaleX(0)';
-  });
-
-  state.trialStartTime = performance.now();
-
-  // Timeout
-  clearTimeout(state.timerHandle);
-  state.timerHandle = setTimeout(() => {
-    if (!state.responseGiven) submitResponse(null);
-  }, TRIAL_DUR);
-}
-
-// ================================================================
-// RESPONSE HANDLER
-// ================================================================
-function submitResponse(key) {
-  if (state.responseGiven) return;
-  state.responseGiven = true;
-  clearTimeout(state.timerHandle);
-
-  const rt = key ? Math.round(performance.now() - state.trialStartTime) : null;
-  const trial = state.currentTrialList[state.trialIndex];
-
-  let correct;
-  if (!key) {
-    correct = 'timeout';
-  } else if (trial.controlMode) {
-    // control: left = yes (house on right), right = no
-    const isRight = trial.side === 'right';
-    correct = (isRight && key === 'left') || (!isRight && key === 'right')
-              ? 'correct' : 'incorrect';
-  } else {
-    // learning: left = correct position, right = foil
-    correct = (trial.isCorrect && key === 'left') || (!trial.isCorrect && key === 'right')
-              ? 'correct' : 'incorrect';
-  }
-
-  // Log
-  state.trialLog.push({
-    phase:    state.phase,
-    trial:    state.trialIndex + 1,
-    stimulus: trial.id + (trial.isCorrect ? '_k' : '_i') + `_${trial.direction}_${trial.side}`,
-    response: key || '—',
-    correct,
-    rt: rt || '—',
-  });
-
-  showFeedback(trial, correct);
-}
-
-// ================================================================
-// FEEDBACK
-// ================================================================
-function showFeedback(trial, correct) {
-  const fbText = document.getElementById('fb-text');
-  fbText.className = correct;
-
-  let msg;
-  if (trial.controlMode) {
-    const isRight = trial.side === 'right';
-    if (correct === 'timeout')
-      msg = isRight ? 'Zu spät – das Haus ist auf der rechten Seite.' : 'Zu spät – das Haus ist nicht auf der rechten Seite.';
-    else if (correct === 'correct')
-      msg = isRight ? 'Richtig – das Haus ist auf der rechten Seite.' : 'Richtig – das Haus ist nicht auf der rechten Seite.';
-    else
-      msg = isRight ? 'Falsch – das Haus ist auf der rechten Seite.' : 'Falsch – das Haus ist nicht auf der rechten Seite.';
-  } else {
-    if (correct === 'timeout')   msg = 'Zu spät – die korrekte Position ist:';
-    else if (correct === 'correct')   msg = 'Richtig – die korrekte Position ist:';
-    else                              msg = 'Falsch – die korrekte Position ist:';
-  }
-  fbText.textContent = msg;
-
-  // Show correct position on feedback map
-  const fbTrial = { ...trial, isCorrect: true };
-  positionHouse(fbTrial, 'fb-map-container', 'fb-house-svg');
-
-  showScreen('feedback-screen');
-
-  setTimeout(() => {
-    state.trialIndex++;
-    presentTrial();
-  }, FEEDBACK_DUR);
-}
-
-// ================================================================
-// END BLOCK
-// ================================================================
-function endBlock() {
-  if (state.phase === 'practice') {
-    state.practiceRepIdx++;
-    if (state.practiceRepIdx <= PRAC_REPS) {
-      showFixation(FIX_DUR, () => {
-        let trials = [];
-        PRAC_POSITIONS.forEach(pos => {
-          trials.push({ ...pos, isCorrect: true });
-          trials.push({ ...pos, isCorrect: false });
-        });
-        state.currentTrialList = shuffle(trials);
-        state.trialIndex = 0;
-        presentTrial();
-      });
+    if (!resp) {
+        correct = false;
+        fbText  = 'Zu spät — die korrekte Position ist:';
+        fbClass = 'toolate';
     } else {
-      showFixation(FIX_DUR, () => startLearning(1));
+        // LEFT = correct, RIGHT = foil
+        const answeredCorrect = (resp.dir === 'left');
+        correct = (answeredCorrect === trial.isCorrect);
+        if (correct) {
+            fbText  = 'Richtig — die korrekte Position ist:';
+            fbClass = 'correct';
+        } else {
+            fbText  = 'Falsch — die korrekte Position ist:';
+            fbClass = 'incorrect';
+        }
     }
-  } else if (state.phase === 'learning-1') {
-    state.learnRepIdx++;
-    if (state.learnRepIdx <= LEARN_REPS) {
-      showFixation(FIX_DUR, () => {
-        let trials = [];
-        LEARN_POSITIONS.forEach(pos => {
-          trials.push({ ...pos, isCorrect: true });
-          trials.push({ ...pos, isCorrect: false });
-        });
-        state.currentTrialList = shuffle(trials);
-        state.trialIndex = 0;
-        presentTrial();
-      });
+
+    repResults.push({ correct, rt: resp ? Math.round(resp.rt) : null });
+    allLearning.push({ correct, rt: resp ? Math.round(resp.rt) : null });
+
+    // Show feedback: text above, correct image below
+    const fl = document.getElementById('feedback-line');
+    fl.textContent = fbText;
+    fl.className   = fbClass;
+    fl.style.display = 'block';
+
+    // Swap to correct image for feedback
+    document.getElementById('stim-img').src = STIM_BASE + trial.correctImg;
+    setVisible('feedback');
+    document.getElementById('stim-img').style.display = 'block';
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+
+    setTimeout(advanceTrial, FEEDBACK_DUR_MS);
+}
+
+function setVisible(which) {
+    document.getElementById('fixation').style.display   = (which === 'fixation') ? 'block' : 'none';
+    document.getElementById('stim-img').style.display   = (which === 'stim' || which === 'feedback') ? 'block' : 'none';
+    document.getElementById('bubble-img').style.display = (which === 'bubble')   ? 'block' : 'none';
+    const fl = document.getElementById('feedback-line');
+    if (which === 'feedback') {
+        fl.style.display = 'block';
+    } else if (which !== 'stim') {
+        fl.style.display = 'none';
+        fl.textContent   = '';
+    }
+}
+
+function advanceTrial() {
+    currentTrial++;
+    if (currentTrial >= allReps[currentRep].length) {
+        endRep();
     } else {
-      // Go to control block
-      showFixation(FIX_DUR, () => {
-        showScreen('ctrl-instr-screen');
-        setPhaseLabel('Kontrollbedingung');
-      });
+        startFixation();
     }
-  } else if (state.phase === 'control') {
-    showFixation(FIX_DUR, () => startLearning(2));
-  } else if (state.phase === 'learning-2') {
-    state.learnRepIdx++;
-    if (state.learnRepIdx <= LEARN_REPS) {
-      showFixation(FIX_DUR, () => {
-        let trials = [];
-        LEARN_POSITIONS.forEach(pos => {
-          trials.push({ ...pos, isCorrect: true });
-          trials.push({ ...pos, isCorrect: false });
-        });
-        state.currentTrialList = shuffle(trials);
-        state.trialIndex = 0;
-        presentTrial();
-      });
+}
+
+function endRep() {
+    const correct = repResults.filter(r => r.correct).length;
+    const total   = repResults.length;
+    const rts     = repResults.filter(r => r.rt).map(r => r.rt);
+    const avgRt   = rts.length ? Math.round(rts.reduce((a,b)=>a+b,0)/rts.length) : '—';
+
+    if (currentRep < N_REPS - 1) {
+        document.getElementById('between-title').textContent =
+            `Repetition ${currentRep + 1} Complete`;
+        document.getElementById('between-msg').innerHTML =
+            `<div class="info-box-label">Stage summary</div>
+             You got <strong>${correct} / ${total}</strong> correct in this repetition.
+             The same houses appear again — try to remember their positions!`;
+        document.getElementById('b-correct').textContent = `${correct}/${total}`;
+        document.getElementById('b-acc').textContent     = `${Math.round(correct/total*100)}%`;
+        document.getElementById('b-rt').textContent      = avgRt;
+        document.getElementById('between-btn').textContent =
+            `Continue to Rep ${currentRep + 2} →`;
+        showScreen('screen-between');
     } else {
-      showFixation(FIX_DUR, () => {
-        showScreen('afc-instr-screen');
-        setPhaseLabel('AFC-Test');
-        updateProgress(0.75);
-      });
+        startAFC();
     }
-  }
 }
 
-// ================================================================
-// AFC BLOCK
-// ================================================================
-function startAFCBlock() {
-  setPhaseLabel('AFC-Test');
-  state.phase = 'AFC';
-  state.afcTrials = shuffle(LEARN_POSITIONS.map(pos => {
-    // Generate 3 options: correct + 2 foils
-    const foil1 = { x: pos.foilX, y: pos.foilY };
-    // Generate a second random foil position
-    const foil2 = {
-      x: Math.round(15 + Math.random() * 65),
-      y: Math.round(15 + Math.random() * 65)
-    };
-    const options = shuffle([
-      { x: pos.correctX, y: pos.correctY, isCorrect: true },
-      { x: foil1.x,      y: foil1.y,      isCorrect: false },
-      { x: foil2.x,      y: foil2.y,      isCorrect: false },
-    ]);
-    return { pos, options, correctIdx: options.findIndex(o => o.isCorrect) };
-  }));
-  state.afcIndex = 0;
-  presentAFCTrial();
+function continueAfterBreak() {
+    currentRep++;
+    currentTrial = 0;
+    repResults   = [];
+    showScreen('screen-trial');
+    showBubble(BUBBLES.learning, startFixation);
 }
 
-function presentAFCTrial() {
-  if (state.afcIndex >= state.afcTrials.length) {
-    showResults();
-    return;
-  }
-  const t = state.afcTrials[state.afcIndex];
-  document.getElementById('afc-counter').textContent =
-    `AFC ${state.afcIndex + 1}/${state.afcTrials.length}`;
-  updateProgress(0.75 + (state.afcIndex / state.afcTrials.length) * 0.25);
-
-  const grid = document.getElementById('afc-grid');
-  grid.innerHTML = '';
-
-  t.options.forEach((opt, idx) => {
-    const div = document.createElement('div');
-    div.className = 'afc-option';
-    div.innerHTML = `
-      <div class="afc-map">
-        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
-          <rect width="220" height="165" fill="#f5f5f0"/>
-          <rect x="0" y="35" width="220" height="7" fill="#d0d0c8"/>
-          <rect x="0" y="80" width="220" height="8" fill="#c8c8c0"/>
-          <rect x="0" y="120" width="220" height="6" fill="#d0d0c8"/>
-          <rect x="25" y="0" width="6" height="165" fill="#d0d0c8"/>
-          <rect x="70" y="0" width="8" height="165" fill="#c8c8c0"/>
-          <rect x="130" y="0" width="6" height="165" fill="#d0d0c8"/>
-          <rect x="170" y="0" width="8" height="165" fill="#c8c8c0"/>
-          <polygon points="50,0 60,0 90,80 78,80" fill="#c8c8c0"/>
-          <polygon points="78,80 90,80 120,165 105,165" fill="#c8c8c0"/>
-        </svg>
-        <svg style="position:absolute;left:calc(${opt.x}% - 18px);top:calc(${opt.y}% - 14px);"
-             width="36" height="28" viewBox="0 0 90 70">
-          <rect x="5" y="30" width="80" height="40" fill="#e8d89a" stroke="#888" stroke-width="1.5"/>
-          <polygon points="5,30 45,5 85,30" fill="#c87070" stroke="#888" stroke-width="1.5"/>
-          <rect x="35" y="45" width="20" height="25" fill="#a07050"/>
-          <rect x="10" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-          <rect x="65" y="35" width="15" height="15" fill="#b8d0e0" stroke="#888" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="afc-option-label">${idx + 1}</div>`;
-    div.onclick = () => submitAFC(idx, t);
-    grid.appendChild(div);
-  });
-
-  showScreen('afc-screen');
-  state.afcStartTime = performance.now();
+function showBubble(src, callback) {
+    const img = document.getElementById('bubble-img');
+    img.src   = STIM_BASE + src;
+    setVisible('bubble');
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+    setBtns(false);
+    setTimeout(callback, BUBBLE_DUR_MS);
 }
 
-function submitAFC(chosenIdx, trial) {
-  const rt = Math.round(performance.now() - state.afcStartTime);
-  const correct = chosenIdx === trial.correctIdx ? 'correct' : 'incorrect';
-  state.trialLog.push({
-    phase: 'AFC',
-    trial: state.afcIndex + 1,
-    stimulus: trial.pos.id,
-    response: (chosenIdx + 1).toString(),
-    correct,
-    rt,
-  });
-
-  // Highlight selection
-  const opts = document.querySelectorAll('.afc-option');
-  opts[chosenIdx].classList.add('selected');
-
-  setTimeout(() => {
-    state.afcIndex++;
-    presentAFCTrial();
-  }, 600);
+// ──────────────────────────────────────────────────────────────
+// AFC
+// ──────────────────────────────────────────────────────────────
+function startAFC() {
+    // Shuffle AFC order (mirrors .py random.shuffle)
+    afcTrials = [...AFC_IMAGES];
+    fisherYates(afcTrials);
+    afcIdx = 0;
+    // Show bye bubble → AFC
+    showScreen('screen-trial');
+    document.getElementById('stage-label').textContent = 'Recognition Test';
+    document.getElementById('trial-count').textContent = '';
+    document.getElementById('progress-fill').style.width = '100%';
+    showBubble(BUBBLES.bye, showAFCTrial);
 }
 
-// ================================================================
+function showAFCTrial() {
+    showScreen('screen-afc');
+    const total = afcTrials.length;
+    document.getElementById('afc-count').textContent =
+        `Test ${afcIdx + 1} / ${total}`;
+    document.getElementById('afc-progress').style.width =
+        `${(afcIdx / total) * 100}%`;
+    document.getElementById('afc-img').src = STIM_BASE + afcTrials[afcIdx];
+    document.getElementById('afc-img').style.display = 'block';
+    // Disable all afc buttons briefly to avoid accidental clicks
+    document.querySelectorAll('.afc-btn').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('pressed');
+    });
+}
+
+function recordAFC(key) {
+    document.querySelectorAll('.afc-btn').forEach(b => b.disabled = true);
+    document.querySelectorAll('.afc-btn')[key-1].classList.add('pressed');
+    setTimeout(() => {
+        afcIdx++;
+        if (afcIdx >= afcTrials.length) {
+            showResults();
+        } else {
+            showAFCTrial();
+        }
+    }, 400);
+}
+
+// ──────────────────────────────────────────────────────────────
 // RESULTS
-// ================================================================
+// ──────────────────────────────────────────────────────────────
 function showResults() {
-  setPhaseLabel('Ergebnisse');
-  updateProgress(1);
-  showScreen('results-screen');
+    const total   = allLearning.length;
+    const correct = allLearning.filter(r => r.correct).length;
+    const rts     = allLearning.filter(r => r.rt).map(r => r.rt);
+    const avgRt   = rts.length ? Math.round(rts.reduce((a,b)=>a+b,0)/rts.length) : '—';
+    const acc     = Math.round(correct / total * 100);
 
-  const learnLogs = state.trialLog.filter(t => t.phase.startsWith('learning'));
-  const ctrlLogs  = state.trialLog.filter(t => t.phase === 'control');
-  const afcLogs   = state.trialLog.filter(t => t.phase === 'AFC');
+    document.getElementById('res-correct').textContent = `${correct}/${total}`;
+    document.getElementById('res-acc').textContent     = `${acc}%`;
+    document.getElementById('res-rt').textContent      = avgRt;
 
-  const pct = (logs) => {
-    if (!logs.length) return '–';
-    const n = logs.filter(t => t.correct === 'correct').length;
-    return Math.round((n / logs.length) * 100) + '%';
-  };
-  const avgRT = (logs) => {
-    const valid = logs.filter(t => typeof t.rt === 'number');
-    if (!valid.length) return '–';
-    return Math.round(valid.reduce((s, t) => s + t.rt, 0) / valid.length) + ' ms';
-  };
+    let msg;
+    if (acc >= 80)
+        msg = '🎉 Excellent spatial memory! You are already binding houses to their correct map positions reliably.';
+    else if (acc >= 55)
+        msg = '👍 Good start. With 4 repetitions and a second session the full OLMM paradigm allows consolidation to be measured across days.';
+    else
+        msg = 'Allocentric object–location binding is a challenging hippocampal task. The full paradigm uses 4 repetitions per session and a second session 7–14 days later to capture the full consolidation trajectory.';
 
-  document.getElementById('res-learn-pct').textContent = pct(learnLogs);
-  document.getElementById('res-ctrl-pct').textContent  = pct(ctrlLogs);
-  document.getElementById('res-afc-pct').textContent   = pct(afcLogs);
-  document.getElementById('res-rt').textContent        = avgRT(learnLogs);
-
-  const tbody = document.getElementById('trial-log-body');
-  tbody.innerHTML = '';
-  state.trialLog.forEach((t, i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${t.phase}</td>
-      <td style="font-size:11px">${t.stimulus}</td>
-      <td>${t.response}</td>
-      <td><span class="tag ${t.correct}">${t.correct}</span></td>
-      <td>${typeof t.rt === 'number' ? t.rt : t.rt}</td>`;
-    tbody.appendChild(tr);
-  });
+    document.getElementById('perf-msg').innerHTML =
+        `<div class="info-box-label">Performance feedback</div>${msg}`;
+    showScreen('screen-results');
 }
 
-function resetExperiment() {
-  state = {
-    phase: 'welcome', trialLog: [],
-    currentTrialList: [], trialIndex: 0, repIndex: 0,
-    responseGiven: false, timerHandle: null, trialStartTime: null,
-  };
-  showScreen('welcome-screen');
-  setPhaseLabel('Demo');
-  updateProgress(0);
-}
+function restartDemo() { showScreen('screen-instructions'); }
 
-// ================================================================
-// KEYBOARD LISTENER
-// ================================================================
-function addKeyListener() {
-  document.addEventListener('keydown', handleKey);
-}
-function handleKey(e) {
-  const active = document.querySelector('.screen.active');
-  if (!active) return;
-  const id = active.id;
-
-  if (id === 'instr-screen') {
-    if (e.key === 'ArrowLeft')  prevInstr();
-    if (e.key === 'ArrowRight' || e.key === ' ') nextInstr();
-  } else if (id === 'trial-screen') {
-    if (e.key === 'ArrowLeft')  submitResponse('left');
-    if (e.key === 'ArrowRight') submitResponse('right');
-  } else if (id === 'afc-screen') {
-    if (e.key === '1') submitAFC(0, state.afcTrials[state.afcIndex]);
-    if (e.key === '2') submitAFC(1, state.afcTrials[state.afcIndex]);
-    if (e.key === '3') submitAFC(2, state.afcTrials[state.afcIndex]);
-  } else if (id === 'ctrl-instr-screen') {
-    if (e.key === 'ArrowRight' || e.key === ' ') startControlBlock();
-  } else if (id === 'afc-instr-screen') {
-    if (e.key === 'ArrowRight' || e.key === ' ') startAFCBlock();
-  }
-}
-
-// Init
-addKeyListener();
+// ──────────────────────────────────────────────────────────────
+// KEYBOARD
+// ──────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    const screen = document.querySelector('.screen.active')?.id;
+    if (screen === 'screen-trial') {
+        if (e.key === 'ArrowLeft')  recordResponse('left');
+        if (e.key === 'ArrowRight') recordResponse('right');
+    }
+    if (screen === 'screen-afc') {
+        if (e.key === '1') recordAFC(1);
+        if (e.key === '2') recordAFC(2);
+        if (e.key === '3') recordAFC(3);
+    }
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,18 @@
+{
+  "full_name": "Stroop Color-Word Interference",
+  "short_description": "Classic interference paradigm assessing selective attention and inhibitory control via conflict between word meaning and ink color.",
+  "long_description": "The Stroop Color-Word Interference task (STROOP) is one of the most replicated and theoretically important paradigms in cognitive psychology. Participants name the ink color of words that are either color-incongruent (e.g., the word RED printed in blue ink) or color-congruent (e.g., the word BLUE printed in blue ink). The interference effect — slower, more error-prone responding to incongruent items — indexes the failure of selective attention to suppress prepotent reading responses, providing a sensitive measure of inhibitory control and executive function.",
+  "background": "First described by J. Ridley Stroop in 1935, the Stroop interference effect is attributed to the automatic nature of reading in literate adults: word meaning is processed even when irrelevant to the task, creating response conflict that must be resolved by prefrontal inhibitory mechanisms. The Stroop task reliably activates anterior cingulate cortex (conflict monitoring) and dorsolateral prefrontal cortex (resolution). It is one of the most reliable neuropsychological indices available — showing high test-retest reliability — and is sensitive to ageing, ADHD, substance use, and frontal lobe lesions.",
+  "procedure": "Each session contains three blocks. Block 1: congruent trials only (practice); Blocks 2–3: mixed congruent and incongruent trials. Each block has 60 trials. Participants respond verbally or via keypress to indicate the ink color from a set of four options. Block order is fixed within session; sessions are separated by 1–2 weeks.",
+  "trial_structure": "Incongruent trial: color word printed in mismatching ink color; participant presses key for ink color. Congruent trial: word and ink color match. Each trial: fixation 500 ms → stimulus until response (max 2 s) → feedback 500 ms.",
+  "design": "Within-subjects, two-session repeated-measures. Three blocks of 60 trials per session.",
+  "modality": "visual",
+  "cognitive_domain": "cognitive control",
+  "task_type": "color-word interference",
+  "difficulty": "moderate",
+  "keywords": ["Stroop", "interference", "inhibitory control", "selective attention", "anterior cingulate", "executive function", "conflict monitoring"],
+  "response_device": "four-key response box or keyboard",
+  "timing": {"fixation_ms": 500, "max_stimulus_duration_s": 2, "feedback_ms": 500},
+  "n_sessions": 2,
+  "software": "E-Prime 3.0 / PsychoPy"
+}

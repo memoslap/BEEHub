@@ -1,0 +1,18 @@
+{
+  "full_name": "Verb Generation Task",
+  "short_description": "Semantic retrieval task requiring covert generation of an action verb in response to visually presented nouns.",
+  "long_description": "The Verb Generation Task (VERBGEN) is a classic paradigm in cognitive neuroscience and neuropsychology used to probe semantic memory access and executive control over lexical retrieval. Participants are presented with concrete nouns (e.g., 'APPLE') and must silently generate an associated action verb (e.g., 'eat') as quickly as possible, pressing a key when the response is ready. The task contrasts with a repeat condition in which participants simply repeat the presented word, isolating the semantic-to-lexical mapping process from articulatory preparation.",
+  "background": "Verb generation reliably activates left inferior frontal gyrus (Broca's area), left posterior temporal cortex, and anterior cingulate cortex, reflecting the demand for semantic selection among competing alternatives. The task shows robust individual differences in latency and is sensitive to frontal lobe lesions, ageing, and language disorders. Because the generate–repeat contrast isolates top-down semantic retrieval, it is widely used as a functional localiser and as an index of semantic network efficiency.",
+  "procedure": "Stimuli are presented in four runs of 25 generate and 15 repeat trials each. Participants covertly generate a verb and press a button when ready; a subset of trials includes overt production for validation. Reaction time is measured from word onset to button press. Run order is counterbalanced across participants.",
+  "trial_structure": "Generate trial: noun displayed until response (max 5 s); participant covertly generates a verb and presses key. Repeat trial: noun displayed; participant presses key when they have repeated it internally. ISI: 2–4 s fixation.",
+  "design": "Within-subjects, two-session (Sessions 1 and 2 separated by 1–2 weeks). Four runs per session.",
+  "modality": "linguistic",
+  "cognitive_domain": "semantic memory",
+  "task_type": "covert verb generation",
+  "difficulty": "hard",
+  "keywords": ["verb generation", "semantic retrieval", "Broca's area", "lexical access", "executive control", "frontal lobe"],
+  "response_device": "keyboard spacebar or response box",
+  "timing": {"max_stimulus_duration_s": 5, "isi_range_s": [2, 4]},
+  "n_sessions": 2,
+  "software": "E-Prime 3.0 / PsychoPy"
+}

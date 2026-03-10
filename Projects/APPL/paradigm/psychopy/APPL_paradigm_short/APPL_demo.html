@@ -1,647 +1,866 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APPL - fMRI Learning Experiment Demo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        
-        #experiment-container {
-            width: 1280px;
-            height: 720px;
-            position: relative;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #experiment-container.white-bg {
-            background-color: #fff;
-            color: #000;
-        }
-        
-        .fixation {
-            font-size: 100px;
-            font-weight: bold;
-            color: #fff;
-        }
-        
-        .stimulus-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .stimulus-image {
-            width: 400px;
-            height: 400px;
-            background-color: #333;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: #888;
-            border: 3px solid #555;
-        }
-        
-        .stimulus-word {
-            font-size: 80px;
-            font-weight: bold;
-            color: #fff;
-            margin-top: 20px;
-        }
-        
-        .feedback {
-            font-size: 60px;
-            text-align: center;
-            max-width: 800px;
-            line-height: 1.4;
-        }
-        
-        .instructions {
-            max-width: 800px;
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .instructions h1 {
-            font-size: 48px;
-            margin-bottom: 30px;
-            color: #000;
-        }
-        
-        .instructions p {
-            font-size: 24px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-        
-        .instructions ul {
-            text-align: left;
-            font-size: 20px;
-            line-height: 1.8;
-            margin: 20px 0;
-            color: #333;
-        }
-        
-        .button-container {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .btn {
-            padding: 15px 40px;
-            font-size: 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #2d8659, #40e0d0);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4);
-        }
-        
-        .response-guide {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 18px;
-            border: 2px solid #40e0d0;
-        }
-        
-        .response-guide span {
-            margin: 0 15px;
-            display: inline-block;
-        }
-        
-        .key-highlight {
-            background: #2d8659;
-            padding: 5px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .trial-info {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            border: 1px solid #40e0d0;
-        }
-        
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #2d8659, #40e0d0);
-            transition: width 0.3s;
-        }
-        
-        .info-bubble {
-            font-size: 48px;
-            padding: 40px;
-            background: rgba(45, 134, 89, 0.2);
-            border-radius: 20px;
-            border: 3px solid #40e0d0;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APPL — Interactive Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #ffffff 100%);
+    background-attachment: fixed;
+    color: #2a1a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 820px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        rgba(210,195,175,0.90) 0%, rgba(235,225,210,0.95) 25%,
+        rgba(252,248,242,0.98) 50%, rgba(235,225,210,0.95) 75%,
+        rgba(210,195,175,0.90) 100%);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow: 0 10px 40px rgba(160,120,60,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.85),
+                inset 0 -1px 0 rgba(160,110,50,0.15);
+    border: 1px solid rgba(190,150,80,0.30);
+    position: relative;
+    overflow: hidden;
+}
+.container::before {
+    content: '';
+    position: absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg,
+        #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+        #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%);
+    opacity: 0.85;
+}
+
+/* ── Screens ─────────────────────────────────────────────── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Typography helpers ──────────────────────────────────── */
+.gold-title {
+    background: linear-gradient(135deg,
+        #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+        #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.4em;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+}
+.section-h2 {
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #b8b0be 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.6em;
+    font-weight: 400;
+    border-left: 5px solid #d4a020;
+    padding-left: 14px;
+    margin-bottom: 22px;
+}
+.subtitle {
+    color: #7a5030;
+    font-size: 1.1em;
+    font-weight: 300;
+    margin-bottom: 26px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(190,150,80,0.25);
+}
+
+/* ── Info / text boxes ───────────────────────────────────── */
+.info-box {
+    background: linear-gradient(135deg,
+        rgba(245,236,220,0.90) 0%, rgba(255,250,240,0.95) 50%,
+        rgba(245,236,220,0.90) 100%);
+    border: 1px solid rgba(190,150,80,0.25);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    line-height: 1.75;
+    color: #3a2010;
+    font-size: 0.97em;
+    position: relative; overflow: hidden;
+}
+.info-box::before {
+    content: '';
+    position: absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg,
+        #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%);
+    opacity: 0.7;
+}
+.info-box-label {
+    font-size: 0.72em; font-weight:700; letter-spacing:1px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+/* ── Key legend ──────────────────────────────────────────── */
+.key-legend {
+    display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px;
+}
+.key-item {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 0.95em; color: #5a3010;
+}
+.key-badge {
+    background: linear-gradient(135deg, #c07838 0%, #e8c048 100%);
+    color: #2a1a0a; font-weight:700; font-size:0.9em;
+    padding: 5px 12px; border-radius: 7px;
+    box-shadow: 0 2px 6px rgba(160,110,40,0.30);
+    min-width: 36px; text-align: center;
+}
+
+/* ── Instruction steps ───────────────────────────────────── */
+.instr-steps { margin-bottom: 24px; }
+.instr-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 12px; padding: 15px 18px;
+    background: rgba(220,205,180,0.55);
+    border-radius: 10px; border-left: 4px solid #c07838;
+}
+.instr-num {
+    background: linear-gradient(135deg, #c07838 0%, #d4a020 100%);
+    color: #2a1a0a; font-weight:700; font-size:0.88em;
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; box-shadow: 0 2px 6px rgba(160,110,40,0.25);
+}
+.instr-text { color:#3a2010; line-height:1.65; font-size:0.95em; }
+.instr-text strong { color:#7a3a10; }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
+.btn {
+    padding: 14px 30px; border:none; border-radius:12px;
+    font-size:1.05em; font-weight:600; cursor:pointer;
+    transition: all 0.25s ease; text-decoration:none;
+    display:inline-block; text-align:center;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #e8c048 0%, #d4a020 40%, #c07838 100%);
+    color: #2a1a0a; flex:1; min-width:200px;
+    box-shadow: 0 4px 18px rgba(212,160,32,0.40),
+                inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #c07838 0%, #d4a020 50%, #e8c048 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 24px rgba(212,160,32,0.55), inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-secondary {
+    background: linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color: #2a1a0a; flex:0 0 auto; min-width:160px;
+    box-shadow: 0 4px 14px rgba(180,150,180,0.30), inset 0 1px 0 rgba(255,255,255,0.40);
+}
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+    transform: translateY(-2px);
+}
+.btn-back-link {
+    display: inline-block; margin-top: 20px;
+    color: #8a4a10; text-decoration: none; font-size:0.92em;
+    padding: 8px 16px; border: 1px solid rgba(190,150,80,0.40);
+    border-radius: 8px; background: rgba(255,248,235,0.60);
+    transition: all 0.25s;
+}
+.btn-back-link:hover {
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    color: #fff8ee; border-color: #d4a020;
+}
+
+/* ── Trial header bar ────────────────────────────────────── */
+.trial-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 18px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(190,150,80,0.25);
+}
+.stage-label {
+    font-size: 0.80em; font-weight:700; letter-spacing:1px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.trial-count { color:#9a6a40; font-size:0.86em; }
+.progress-wrap {
+    width:140px; height:5px;
+    background: rgba(190,150,80,0.20); border-radius:3px; overflow:hidden;
+}
+.progress-fill {
+    height:100%;
+    background: linear-gradient(90deg, #c07838 0%, #e8c048 100%);
+    border-radius:3px; transition: width 0.35s ease;
+}
+
+/* ── Black stimulus area (mimics PsychoPy dark screen) ───── */
+.stimulus-area {
+    background: #100c04;
+    border-radius: 16px;
+    padding: 32px 20px 28px;
+    margin-bottom: 20px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0;
+    min-height: 340px;
+    box-shadow: inset 0 2px 14px rgba(0,0,0,0.50),
+                0 4px 20px rgba(60,30,0,0.22);
+    border: 1px solid rgba(100,65,10,0.35);
+    position: relative; overflow: hidden;
+}
+.stimulus-area::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg,
+        transparent 0%, rgba(212,160,32,0.35) 30%,
+        rgba(232,192,72,0.55) 50%, rgba(212,160,32,0.35) 70%, transparent 100%);
+}
+
+/* fixation */
+#fixation {
+    color: #e8c048; font-size: 4em; font-weight:200;
+    display:none; user-select:none;
+    text-shadow: 0 0 20px rgba(232,192,72,0.50);
+}
+
+/* picture */
+#stim-img {
+    width: 220px; height: 220px;
+    object-fit: contain;
+    display: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.55);
+}
+
+/* word below picture */
+#stim-word {
+    color: #e8d8b0;
+    font-size: 1.8em;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-top: 18px;
+    display: none;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.60);
+}
+
+/* feedback */
+#feedback-text {
+    color: #e8c048;
+    font-size: 1.4em;
+    font-weight: 400;
+    display: none;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 20px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.60);
+}
+#feedback-text.correct  { color: #6be08a; }
+#feedback-text.incorrect { color: #e07a6b; }
+#feedback-text.toolate  { color: #e0c06b; }
+
+/* bubbles info screens */
+#bubble-img {
+    max-width: 320px; max-height: 200px;
+    object-fit: contain; display: none;
+    border-radius: 8px;
+}
+
+/* ── Response buttons (in-page keyboard) ─────────────────── */
+.response-area {
+    display: flex; gap: 16px; justify-content: center;
+    margin-bottom: 18px;
+}
+.resp-btn {
+    flex: 1; max-width: 240px;
+    padding: 16px 10px;
+    border: 2px solid rgba(190,150,80,0.35);
+    border-radius: 12px;
+    background: linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 50%,
+        rgba(220,200,170,0.80) 100%);
+    color: #3a2010; font-size:1.0em; font-weight:600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 3px 12px rgba(160,110,50,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.65);
+    display: flex; flex-direction:column; align-items:center; gap:5px;
+}
+.resp-btn .key-hint {
+    font-size:0.72em; font-weight:400; color:#9a6a40; letter-spacing:0.5px;
+}
+.resp-btn:hover:not(:disabled) {
+    border-color: rgba(212,160,32,0.55);
+    background: linear-gradient(135deg,
+        rgba(232,192,72,0.25) 0%, rgba(248,232,200,0.90) 50%,
+        rgba(232,192,72,0.25) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(160,110,50,0.28), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+.resp-btn:disabled { opacity:0.38; cursor:default; transform:none; }
+.resp-btn.pressed {
+    background: linear-gradient(135deg, #d4a020 0%, #e8c048 100%);
+    color: #1a0c00;
+    border-color: #d4a020;
+}
+
+/* keyboard hint strip */
+.keyboard-hint {
+    text-align:center; font-size:0.80em; color:#9a7050;
+    margin-bottom: 6px;
+}
+
+/* ── Score / results ─────────────────────────────────────── */
+.result-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 22px;
+}
+.result-card {
+    background: linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 100%);
+    border: 1px solid rgba(190,150,80,0.28);
+    border-radius: 12px; padding: 18px 12px; text-align:center;
+    box-shadow: 0 3px 12px rgba(160,110,50,0.12),
+                inset 0 1px 0 rgba(255,255,255,0.60);
+}
+.result-val {
+    font-size: 2.2em; font-weight:600;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.result-lbl {
+    font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a6a40; margin-top:4px;
+}
+</style>
 </head>
 <body>
-    <div id="experiment-container">
-        <div id="content"></div>
-    </div>
-    
-    <div id="response-guide" class="response-guide hidden">
-        <span><span class="key-highlight">1</span> Correct</span>
-        <span><span class="key-highlight">2</span> Incorrect</span>
-        <span><span class="key-highlight">ESC</span> Exit</span>
-    </div>
-    
-    <div id="trial-info" class="trial-info hidden">
-        <div>Block: <span id="block-num">-</span></div>
-        <div>Trial: <span id="trial-num">-</span></div>
-        <div>Accuracy: <span id="accuracy">-</span></div>
-    </div>
-    
-    <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+<div class="container">
 
-    <script>
-        // =====================================================================
-        // EXPERIMENT PARAMETERS
-        // =====================================================================
-        
-        const TIMING = {
-            FIXATION: 1500,      // Reduced from 4500ms for demo
-            STIMULUS: 2500,
-            FEEDBACK: 2000,
-            ITI: 1500,           // Reduced from 4500ms for demo
-            INFO_SCREEN: 2000
-        };
-        
-        const KEYS = {
-            CORRECT: '1',
-            INCORRECT: '2',
-            SPACE: ' ',
-            ESCAPE: 'Escape'
-        };
-        
-        // =====================================================================
-        // STIMULUS DATA
-        // =====================================================================
-        
-        // Learning stimuli - novel objects with pseudo-words
-        const LEARNING_STIMULI = [
-            { id: 'L1', correctWord: 'Seltus', incorrectWords: ['Geward', 'Gluktant', 'Mekter', 'Belschir'] },
-            { id: 'L2', correctWord: 'Basut', incorrectWords: ['Gluktant', 'Goser', 'Belschir', 'Mekte'] },
-            { id: 'L3', correctWord: 'Priebem', incorrectWords: ['Goser', 'Pafau', 'Mekte', 'Spiene'] },
-            { id: 'L4', correctWord: 'Enelt', incorrectWords: ['Pafau', 'Aume', 'Spiene', 'Petonsk'] },
-            { id: 'L5', correctWord: 'Pofein', incorrectWords: ['Aume', 'Geward', 'Petonsk', 'Mekter'] },
-        ];
-        
-        // Control stimuli - real objects
-        const CONTROL_STIMULI = [
-            { id: 'C1', correctWord: 'Flöte', incorrectWords: ['Besen', 'Mantel'] },
-            { id: 'C2', correctWord: 'Besen', incorrectWords: ['Mantel', 'Baby'] },
-            { id: 'C3', correctWord: 'Baby', incorrectWords: ['Bogen', 'Flöte'] },
-        ];
-        
-        // =====================================================================
-        // EXPERIMENT STATE
-        // =====================================================================
-        
-        let currentState = 'WELCOME';
-        let currentBlock = 0;
-        let currentTrial = 0;
-        let totalTrials = 0;
-        let correctResponses = 0;
-        let trialData = [];
-        let blockType = 'learning';
-        let learningStage = 1;
-        
-        const container = document.getElementById('experiment-container');
-        const content = document.getElementById('content');
-        const responseGuide = document.getElementById('response-guide');
-        const trialInfo = document.getElementById('trial-info');
-        const progressBar = document.getElementById('progress-bar');
-        
-        // =====================================================================
-        // UTILITY FUNCTIONS
-        // =====================================================================
-        
-        function shuffle(array) {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCREEN 0: WELCOME                                       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+    <div class="gold-title">APPL</div>
+    <div class="subtitle">Associative Pseudoword Learning — Interactive Demo</div>
+
+    <div class="info-box">
+        <div class="info-box-label">About this demo</div>
+        In this demo you will practice learning <strong>novel pseudowords</strong> paired
+        with object images — a short version of the full APPL paradigm.
+        You will see an image and a word below it and decide whether that word is the
+        <em>correct</em> name for the image or not. Feedback is given after every trial
+        so you can learn the associations.
+    </div>
+
+    <div class="info-box">
+        <div class="info-box-label">Controls</div>
+        Use keyboard keys or click the on-screen buttons during the task.
+        <div class="key-legend">
+            <div class="key-item">
+                <span class="key-badge">1</span>
+                <span>This IS the correct word (Ja / Yes)</span>
+            </div>
+            <div class="key-item">
+                <span class="key-badge">2</span>
+                <span>This is NOT the correct word (Nein / No)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="showScreen('screen-instructions')">
+            Start Demo
+        </button>
+    </div>
+    <a href="../../../APPL_paradigm.html" class="btn-back-link">← Back to Paradigm Overview</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCREEN 1: INSTRUCTIONS                                  -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="screen-instructions" class="screen">
+    <div class="section-h2">How it works</div>
+
+    <div class="instr-steps">
+        <div class="instr-step">
+            <div class="instr-num">1</div>
+            <div class="instr-text">
+                An <strong>image</strong> appears on a dark background with a <strong>word</strong> displayed below it.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">2</div>
+            <div class="instr-text">
+                Decide: is this word the <strong>correct name</strong> for the image?
+                Press <strong>1</strong> for <em>Yes</em>, <strong>2</strong> for <em>No</em>.
+                You have <strong>2.5 seconds</strong> to respond.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">3</div>
+            <div class="instr-text">
+                You will always see feedback: <em>"Korrekt, das ist X"</em> or
+                <em>"Falsch, das ist X"</em> — this is how you learn the correct associations.
+            </div>
+        </div>
+        <div class="instr-step">
+            <div class="instr-num">4</div>
+            <div class="instr-text">
+                The demo runs <strong>2 short learning stages</strong> (10 trials each)
+                with 5 pseudoword–image pairs. Try to memorise the correct names!
+            </div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-box-label">Tip</div>
+        Focus on the image and <em>say the word silently to yourself</em>.
+        The feedback always tells you the correct name — use it to build the memory trace.
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="startExperiment()">Begin Task</button>
+        <button class="btn btn-secondary" onclick="showScreen('screen-welcome')">← Back</button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCREEN 2: TRIAL                                         -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="screen-trial" class="screen">
+    <div class="trial-header">
+        <div class="stage-label" id="stage-label">Learning Stage 1</div>
+        <div class="trial-count" id="trial-count">Trial 1 / 10</div>
+        <div class="progress-wrap">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <!-- Dark stimulus window -->
+    <div class="stimulus-area">
+        <div id="fixation">+</div>
+        <img id="stim-img" src="" alt="stimulus">
+        <div id="stim-word"></div>
+        <img id="bubble-img" src="" alt="">
+        <div id="feedback-text"></div>
+    </div>
+
+    <div class="keyboard-hint" id="keyboard-hint">Press <strong>1</strong> (Yes) or <strong>2</strong> (No)</div>
+
+    <div class="response-area">
+        <button class="resp-btn" id="btn-yes" onclick="recordResponse(1)" disabled>
+            <span>YES — correct name</span>
+            <span class="key-hint">Key: 1</span>
+        </button>
+        <button class="resp-btn" id="btn-no" onclick="recordResponse(2)" disabled>
+            <span>NO — wrong name</span>
+            <span class="key-hint">Key: 2</span>
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCREEN 3: BETWEEN STAGES                                -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="screen-between" class="screen">
+    <div class="section-h2" id="between-title">Stage 1 Complete</div>
+    <div class="info-box" id="between-msg">
+        Take a short break. The next learning stage will begin shortly.
+    </div>
+    <div class="result-grid" id="between-scores" style="display:none">
+        <div class="result-card">
+            <div class="result-val" id="b-correct">—</div>
+            <div class="result-lbl">Correct</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="b-acc">—</div>
+            <div class="result-lbl">Accuracy</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="b-rt">—</div>
+            <div class="result-lbl">Avg RT (ms)</div>
+        </div>
+    </div>
+    <div class="btn-row">
+        <button class="btn btn-primary" id="between-btn" onclick="continueAfterBreak()">
+            Continue →
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCREEN 4: RESULTS                                       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+    <div class="section-h2">Demo Complete</div>
+
+    <div class="info-box">
+        <div class="info-box-label">Your results</div>
+        Well done! Here is a summary of your performance across both learning stages.
+    </div>
+
+    <div class="result-grid">
+        <div class="result-card">
+            <div class="result-val" id="res-correct">—</div>
+            <div class="result-lbl">Total Correct</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="res-acc">—</div>
+            <div class="result-lbl">Accuracy</div>
+        </div>
+        <div class="result-card">
+            <div class="result-val" id="res-rt">—</div>
+            <div class="result-lbl">Avg RT (ms)</div>
+        </div>
+    </div>
+
+    <div class="info-box" id="perf-msg"></div>
+
+    <div class="info-box" style="margin-top:8px;">
+        <div class="info-box-label">What comes next in the full experiment</div>
+        The real APPL paradigm runs <strong>4 learning stages</strong> per session
+        with <strong>10 stimuli × 2 trials</strong> (correct + foil) each,
+        followed by a second session 1–2 weeks later to assess consolidation and
+        test-retest reliability.
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="restartDemo()">Try Again</button>
+        <a href="../../../APPL_paradigm.html" class="btn btn-secondary">← Back to Paradigm</a>
+    </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// STIMULUS DATA  (from APPL_short_version.py)
+// Paths are relative to APPL_demo.html location:
+//   APPL_paradigm_short/APPL_demo.html
+//   APPL_paradigm_short/Stimuli/learning/...
+//   APPL_paradigm_short/Stimuli/control/...
+//   APPL_paradigm_short/Stimuli/bubbles/...
+// ══════════════════════════════════════════════════════════════
+
+const STIM_BASE = 'Stimuli/';
+
+// Five learning pairs used in the demo (block 1, first 5 items)
+// Each entry: { pic, correctWord, foilWords[] }
+const LEARNING_ITEMS = [
+    { pic: 'learning/PICTURE_513.jpg', correct: 'Seltus',  foils: ['Geward','Gluktant','Mekter','Belschir'] },
+    { pic: 'learning/PICTURE_24.jpg',  correct: 'Basut',   foils: ['Gluktant','Goser','Belschir','Mekte'] },
+    { pic: 'learning/PICTURE_40.jpg',  correct: 'Priebem', foils: ['Goser','Pafau','Mekte','Spiene'] },
+    { pic: 'learning/PICTURE_245.jpg', correct: 'Enelt',   foils: ['Pafau','Aume','Spiene','Petonsk'] },
+    { pic: 'learning/PICTURE_397.jpg', correct: 'Pofein',  foils: ['Aume','Geward','Petonsk','Mekter'] },
+];
+
+// Bubble screens
+const BUBBLES = {
+    hello:    'bubbles/hello.jpg',
+    learning: 'bubbles/learning.jpg',
+    bye:      'bubbles/bye.jpg',
+};
+
+// Demo runs 2 learning stages; the full paradigm runs 4
+const N_STAGES = 2;
+const STIM_DURATION_MS   = 2500;
+const FEEDBACK_DURATION_MS = 1800;
+const FIXATION_DURATION_MS = 1200;
+const BUBBLE_DURATION_MS   = 1800;
+
+// ──────────────────────────────────────────────────────────────
+// TRIAL GENERATION
+// Mirrors create_learning_trials() + shuffle logic in .py file.
+// Each stage: 5 correct trials (condition='c') + 5 foil trials
+// (condition='i'), using the foil word matching that stage index.
+// ──────────────────────────────────────────────────────────────
+
+function buildStage(stageIdx) {
+    const trials = [];
+    LEARNING_ITEMS.forEach(item => {
+        // Correct trial: show correct word under image
+        trials.push({ pic: item.pic, word: item.correct, correctWord: item.correct, condition: 'c' });
+        // Foil trial: show a foil word (rotate through foils by stage)
+        const foilWord = item.foils[stageIdx % item.foils.length];
+        trials.push({ pic: item.pic, word: foilWord, correctWord: item.correct, condition: 'i' });
+    });
+    return shuffleTrials(trials);
+}
+
+function shuffleTrials(arr) {
+    // Fisher-Yates with constraint: no same pic back-to-back
+    let out = [...arr];
+    let attempts = 0;
+    do {
+        fisherYates(out);
+        attempts++;
+    } while (attempts < 200 && !validOrder(out));
+    return out;
+}
+
+function fisherYates(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
+function validOrder(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i].pic === arr[i+1].pic) return false;
+        if (arr[i].word === arr[i+1].word) return false;
+    }
+    return true;
+}
+
+// ──────────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────────
+let allStages = [];
+let currentStage = 0;
+let currentTrialIdx = 0;
+let trialStartTime = 0;
+let responseEnabled = false;
+let trialTimer = null;
+let stageResults = [];   // per trial: { correct, rt }
+let allResults   = [];
+
+// ──────────────────────────────────────────────────────────────
+// SCREEN MANAGEMENT
+// ──────────────────────────────────────────────────────────────
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// ──────────────────────────────────────────────────────────────
+// EXPERIMENT FLOW
+// ──────────────────────────────────────────────────────────────
+function startExperiment() {
+    allStages = [];
+    for (let s = 0; s < N_STAGES; s++) {
+        allStages.push(buildStage(s));
+    }
+    currentStage    = 0;
+    currentTrialIdx = 0;
+    stageResults    = [];
+    allResults      = [];
+    showScreen('screen-trial');
+    showBubble(BUBBLES.hello, () => showBubble(BUBBLES.learning, startFixation));
+}
+
+function startFixation() {
+    setStimVisible('fixation');
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+    setResponseButtons(false);
+    setTimeout(showStimulus, FIXATION_DURATION_MS);
+}
+
+function showStimulus() {
+    const stage  = allStages[currentStage];
+    const trial  = stage[currentTrialIdx];
+    const total  = stage.length;
+
+    // Update header
+    document.getElementById('stage-label').textContent =
+        `Learning Stage ${currentStage + 1} of ${N_STAGES}`;
+    document.getElementById('trial-count').textContent =
+        `Trial ${currentTrialIdx + 1} / ${total}`;
+    document.getElementById('progress-fill').style.width =
+        `${(currentTrialIdx / total) * 100}%`;
+
+    // Show image + word
+    const img = document.getElementById('stim-img');
+    img.src = STIM_BASE + trial.pic;
+    document.getElementById('stim-word').textContent = trial.word;
+    setStimVisible('stimulus');
+
+    document.getElementById('keyboard-hint').style.visibility = 'visible';
+    setResponseButtons(true);
+    responseEnabled = true;
+    trialStartTime  = performance.now();
+
+    // Auto-timeout
+    trialTimer = setTimeout(() => {
+        if (responseEnabled) processResponse(null, null, trial);
+    }, STIM_DURATION_MS);
+}
+
+function setStimVisible(which) {
+    document.getElementById('fixation').style.display      = (which === 'fixation')  ? 'block' : 'none';
+    document.getElementById('stim-img').style.display      = (which === 'stimulus')  ? 'block' : 'none';
+    document.getElementById('stim-word').style.display     = (which === 'stimulus')  ? 'block' : 'none';
+    document.getElementById('bubble-img').style.display    = (which === 'bubble')    ? 'block' : 'none';
+    document.getElementById('feedback-text').style.display = (which === 'feedback')  ? 'block' : 'none';
+}
+
+function setResponseButtons(enabled) {
+    document.getElementById('btn-yes').disabled = !enabled;
+    document.getElementById('btn-no').disabled  = !enabled;
+    document.getElementById('btn-yes').classList.remove('pressed');
+    document.getElementById('btn-no').classList.remove('pressed');
+}
+
+function recordResponse(key) {
+    if (!responseEnabled) return;
+    clearTimeout(trialTimer);
+    const rt    = performance.now() - trialStartTime;
+    const trial = allStages[currentStage][currentTrialIdx];
+    // Visual press feedback
+    document.getElementById(key === 1 ? 'btn-yes' : 'btn-no').classList.add('pressed');
+    processResponse(key, rt, trial);
+}
+
+function processResponse(key, rt, trial) {
+    responseEnabled = false;
+    setResponseButtons(false);
+
+    let correct, feedbackMsg, fbClass;
+
+    if (key === null) {
+        correct = false;
+        feedbackMsg = `Zu spät — das ist ${trial.correctWord}`;
+        fbClass = 'toolate';
+    } else {
+        const respondedYes = (key === 1);
+        const isCorrectTrial = (trial.condition === 'c');
+        correct = (respondedYes === isCorrectTrial);
+
+        if (correct) {
+            feedbackMsg = `Korrekt — das ist ${trial.correctWord}`;
+            fbClass = 'correct';
+        } else {
+            feedbackMsg = `Falsch — das ist ${trial.correctWord}`;
+            fbClass = 'incorrect';
         }
-        
-        function showContent(html, whiteBackground = false) {
-            content.innerHTML = html;
-            if (whiteBackground) {
-                container.classList.add('white-bg');
-            } else {
-                container.classList.remove('white-bg');
-            }
-        }
-        
-        function updateTrialInfo() {
-            document.getElementById('block-num').textContent = currentBlock + 1;
-            document.getElementById('trial-num').textContent = `${currentTrial + 1}/${totalTrials}`;
-            const accuracy = totalTrials > 0 ? Math.round((correctResponses / totalTrials) * 100) : 0;
-            document.getElementById('accuracy').textContent = `${accuracy}%`;
-        }
-        
-        function updateProgress() {
-            const progress = totalTrials > 0 ? (currentTrial / totalTrials) * 100 : 0;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        // =====================================================================
-        // DISPLAY FUNCTIONS
-        // =====================================================================
-        
-        function showFixation(duration = TIMING.FIXATION) {
-            showContent('<div class="fixation">+</div>');
-            return new Promise(resolve => setTimeout(resolve, duration));
-        }
-        
-        function showInfoBubble(text, duration = TIMING.INFO_SCREEN) {
-            showContent(`<div class="info-bubble">${text}</div>`);
-            return new Promise(resolve => setTimeout(resolve, duration));
-        }
-        
-        function showFeedback(text, duration = TIMING.FEEDBACK) {
-            showContent(`<div class="feedback">${text}</div>`);
-            return new Promise(resolve => setTimeout(resolve, duration));
-        }
-        
-        function createStimulus(stimulusId, word) {
-            return `
-                <div class="stimulus-container">
-                    <div class="stimulus-image">
-                        [${stimulusId}]<br>
-                        <span style="font-size: 14px; color: #666;">
-                            (Placeholder - Images would be loaded here)
-                        </span>
-                    </div>
-                    <div class="stimulus-word">${word}</div>
-                </div>
-            `;
-        }
-        
-        // =====================================================================
-        // TRIAL FUNCTIONS
-        // =====================================================================
-        
-        function createLearningTrials() {
-            const trials = [];
-            
-            // For each learning stimulus
-            LEARNING_STIMULI.forEach(stim => {
-                // Correct trial (picture with correct word)
-                trials.push({
-                    stimulus: stim.id,
-                    word: stim.correctWord,
-                    correctWord: stim.correctWord,
-                    isCorrect: true,
-                    type: 'learning'
-                });
-                
-                // Incorrect trial (picture with one incorrect word)
-                const incorrectWord = stim.incorrectWords[Math.floor(Math.random() * stim.incorrectWords.length)];
-                trials.push({
-                    stimulus: stim.id,
-                    word: incorrectWord,
-                    correctWord: stim.correctWord,
-                    isCorrect: false,
-                    type: 'learning'
-                });
-            });
-            
-            return shuffle(trials);
-        }
-        
-        function createControlTrials() {
-            const trials = [];
-            
-            CONTROL_STIMULI.forEach(stim => {
-                // Correct trial
-                trials.push({
-                    stimulus: stim.id,
-                    word: stim.correctWord,
-                    correctWord: stim.correctWord,
-                    isCorrect: true,
-                    type: 'control'
-                });
-                
-                // Incorrect trial
-                const incorrectWord = stim.incorrectWords[Math.floor(Math.random() * stim.incorrectWords.length)];
-                trials.push({
-                    stimulus: stim.id,
-                    word: incorrectWord,
-                    correctWord: stim.correctWord,
-                    isCorrect: false,
-                    type: 'control'
-                });
-            });
-            
-            return shuffle(trials);
-        }
-        
-        async function runTrial(trial) {
-            // Show stimulus
-            showContent(createStimulus(trial.stimulus, trial.word));
-            
-            // Wait for response
-            const result = await waitForResponse(TIMING.STIMULUS);
-            
-            // Determine if response was correct
-            let feedback = '';
-            let responseCorrect = false;
-            
-            if (!result.key) {
-                // No response
-                feedback = `Zu spät, das ist ${trial.correctWord}`;
-                responseCorrect = false;
-            } else {
-                // Check correctness
-                const expectedKey = trial.isCorrect ? KEYS.CORRECT : KEYS.INCORRECT;
-                responseCorrect = result.key === expectedKey;
-                
-                if (responseCorrect) {
-                    feedback = `Korrekt, das ist ${trial.correctWord}`;
-                    correctResponses++;
-                } else {
-                    feedback = `Falsch, das ist ${trial.correctWord}`;
-                }
-            }
-            
-            // Record data
-            trialData.push({
-                block: currentBlock,
-                trial: currentTrial,
-                stimulus: trial.stimulus,
-                word: trial.word,
-                correctWord: trial.correctWord,
-                condition: trial.isCorrect ? 'correct' : 'incorrect',
-                response: result.key,
-                rt: result.rt,
-                correct: responseCorrect
-            });
-            
-            // Show feedback
-            await showFeedback(feedback);
-            
-            // Update counters
-            totalTrials++;
-            currentTrial++;
-            updateTrialInfo();
-            updateProgress();
-            
-            // ITI
-            await showFixation(TIMING.ITI);
-        }
-        
-        function waitForResponse(timeout) {
-            return new Promise((resolve) => {
-                const startTime = Date.now();
-                let responded = false;
-                
-                function handleKeyPress(e) {
-                    if (responded) return;
-                    
-                    if (e.key === KEYS.CORRECT || e.key === KEYS.INCORRECT) {
-                        responded = true;
-                        document.removeEventListener('keydown', handleKeyPress);
-                        clearTimeout(timer);
-                        
-                        const rt = Date.now() - startTime;
-                        resolve({ key: e.key, rt });
-                    } else if (e.key === KEYS.ESCAPE) {
-                        endExperiment();
-                    }
-                }
-                
-                document.addEventListener('keydown', handleKeyPress);
-                
-                const timer = setTimeout(() => {
-                    if (!responded) {
-                        responded = true;
-                        document.removeEventListener('keydown', handleKeyPress);
-                        resolve({ key: null, rt: null });
-                    }
-                }, timeout);
-            });
-        }
-        
-        // =====================================================================
-        // BLOCK FUNCTIONS
-        // =====================================================================
-        
-        async function runLearningBlock() {
-            blockType = 'learning';
-            await showInfoBubble('📚 Lernphase');
-            await showFixation();
-            
-            const trials = createLearningTrials();
-            currentTrial = 0;
-            
-            for (const trial of trials) {
-                await runTrial(trial);
-            }
-            
-            await showFixation(TIMING.FIXATION * 2);
-        }
-        
-        async function runControlBlock() {
-            blockType = 'control';
-            await showInfoBubble('🎯 Kontrollphase');
-            await showFixation();
-            
-            const trials = createControlTrials();
-            currentTrial = 0;
-            
-            for (const trial of trials) {
-                await runTrial(trial);
-            }
-            
-            await showFixation(TIMING.FIXATION * 2);
-        }
-        
-        // =====================================================================
-        // MAIN EXPERIMENT FLOW
-        // =====================================================================
-        
-        async function showWelcome() {
-            showContent(`
-                <div class="instructions">
-                    <h1>🧠 fMRI Learning Experiment</h1>
-                    <p><strong>Demo Version</strong></p>
-                    <p>In this experiment, you will learn associations between novel objects and pseudo-words.</p>
-                    <p>Your task is to decide whether the word shown matches the object.</p>
-                    <ul>
-                        <li>Press <strong>1</strong> if the word is CORRECT for the object</li>
-                        <li>Press <strong>2</strong> if the word is INCORRECT for the object</li>
-                        <li>You will receive immediate feedback</li>
-                        <li>Try to respond as quickly and accurately as possible</li>
-                    </ul>
-                    <p style="margin-top: 30px; font-size: 18px; color: #666;">
-                        This is a shortened demo version with reduced timing and trials.
-                    </p>
-                    <div class="button-container">
-                        <button class="btn btn-primary" onclick="startExperiment()">
-                            Start Experiment
-                        </button>
-                    </div>
-                </div>
-            `, true);
-        }
-        
-        async function runExperiment() {
-            responseGuide.classList.remove('hidden');
-            trialInfo.classList.remove('hidden');
-            
-            // Introduction
-            await showFeedback('Das Experiment<br>beginnt gleich.<br>Sind Sie bereit?', 2000);
-            await showFixation();
-            
-            // Determine block order (control block not first or last)
-            const blockOrder = shuffle([0, 1, 2]); // 0,1 = learning, 2 = control
-            const validOrder = blockOrder[0] !== 2 && blockOrder[2] !== 2;
-            
-            // Run blocks
-            for (let i = 0; i < blockOrder.length; i++) {
-                currentBlock = i;
-                
-                if (blockOrder[i] === 2) {
-                    await runControlBlock();
-                } else {
-                    await runLearningBlock();
-                }
-            }
-            
-            // Show goodbye
-            await showInfoBubble('👋 Auf Wiedersehen!');
-            
-            // End experiment
-            await showResults();
-        }
-        
-        async function showResults() {
-            responseGuide.classList.add('hidden');
-            trialInfo.classList.add('hidden');
-            
-            const accuracy = totalTrials > 0 ? Math.round((correctResponses / totalTrials) * 100) : 0;
-            const avgRt = trialData.filter(t => t.rt !== null).reduce((sum, t) => sum + t.rt, 0) / 
-                         trialData.filter(t => t.rt !== null).length;
-            
-            showContent(`
-                <div class="instructions">
-                    <h1>✅ Experiment Complete!</h1>
-                    <h2 style="color: #2d8659; margin: 30px 0;">Results Summary</h2>
-                    <div style="font-size: 24px; text-align: left; margin: 0 auto; max-width: 500px;">
-                        <p><strong>Total Trials:</strong> ${totalTrials}</p>
-                        <p><strong>Correct Responses:</strong> ${correctResponses}</p>
-                        <p><strong>Accuracy:</strong> ${accuracy}%</p>
-                        <p><strong>Average RT:</strong> ${avgRt ? Math.round(avgRt) + 'ms' : 'N/A'}</p>
-                    </div>
-                    <p style="margin-top: 40px;">Thank you for participating!</p>
-                    <div class="button-container">
-                        <button class="btn btn-primary" onclick="downloadData()">
-                            📊 Download Data
-                        </button>
-                        <button class="btn btn-primary" onclick="location.reload()">
-                            🔄 Restart
-                        </button>
-                    </div>
-                </div>
-            `, true);
-        }
-        
-        function downloadData() {
-            const csv = [
-                'block,trial,stimulus,word,correctWord,condition,response,rt,correct',
-                ...trialData.map(t => 
-                    `${t.block},${t.trial},${t.stimulus},${t.word},${t.correctWord},${t.condition},${t.response || 'null'},${t.rt || 'null'},${t.correct}`
-                )
-            ].join('\n');
-            
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `APPL_demo_${Date.now()}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-        
-        function endExperiment() {
-            if (confirm('Are you sure you want to exit the experiment?')) {
-                showResults();
-            }
-        }
-        
-        function startExperiment() {
-            runExperiment();
-        }
-        
-        // =====================================================================
-        // INITIALIZE
-        // =====================================================================
-        
-        showWelcome();
-        
-        // Global escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === KEYS.ESCAPE && currentState !== 'WELCOME') {
-                endExperiment();
-            }
-        });
-    </script>
+    }
+
+    // Record
+    const result = { correct, rt: rt ? Math.round(rt) : null, condition: trial.condition };
+    stageResults.push(result);
+    allResults.push(result);
+
+    // Show feedback
+    const fb = document.getElementById('feedback-text');
+    fb.textContent = feedbackMsg;
+    fb.className = fbClass;
+    setStimVisible('feedback');
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+
+    setTimeout(advanceTrial, FEEDBACK_DURATION_MS);
+}
+
+function advanceTrial() {
+    currentTrialIdx++;
+    const stage = allStages[currentStage];
+
+    if (currentTrialIdx >= stage.length) {
+        // Stage complete
+        endStage();
+    } else {
+        startFixation();
+    }
+}
+
+function endStage() {
+    const correct = stageResults.filter(r => r.correct).length;
+    const total   = stageResults.length;
+    const rts     = stageResults.filter(r => r.rt !== null).map(r => r.rt);
+    const avgRt   = rts.length ? Math.round(rts.reduce((a,b) => a+b, 0) / rts.length) : '—';
+
+    if (currentStage < N_STAGES - 1) {
+        // Show between-stage screen
+        document.getElementById('between-title').textContent =
+            `Stage ${currentStage + 1} Complete`;
+        document.getElementById('between-msg').innerHTML =
+            `You got <strong>${correct} / ${total}</strong> correct in this stage.
+             The next stage will show the same images — try to remember the names!`;
+        document.getElementById('between-scores').style.display = 'grid';
+        document.getElementById('b-correct').textContent = `${correct}/${total}`;
+        document.getElementById('b-acc').textContent = `${Math.round(correct/total*100)}%`;
+        document.getElementById('b-rt').textContent = avgRt;
+        document.getElementById('between-btn').textContent = 'Continue to Stage 2 →';
+        showScreen('screen-between');
+    } else {
+        // All stages done → results
+        showResults();
+    }
+}
+
+function continueAfterBreak() {
+    currentStage++;
+    currentTrialIdx = 0;
+    stageResults = [];
+    showScreen('screen-trial');
+    showBubble(BUBBLES.learning, startFixation);
+}
+
+function showBubble(src, callback) {
+    const img = document.getElementById('bubble-img');
+    img.src   = STIM_BASE + src;
+    setStimVisible('bubble');
+    document.getElementById('keyboard-hint').style.visibility = 'hidden';
+    setResponseButtons(false);
+    setTimeout(callback, BUBBLE_DURATION_MS);
+}
+
+// ──────────────────────────────────────────────────────────────
+// RESULTS
+// ──────────────────────────────────────────────────────────────
+function showResults() {
+    const total   = allResults.length;
+    const correct = allResults.filter(r => r.correct).length;
+    const rts     = allResults.filter(r => r.rt !== null).map(r => r.rt);
+    const avgRt   = rts.length ? Math.round(rts.reduce((a,b) => a+b, 0) / rts.length) : '—';
+    const acc     = Math.round(correct / total * 100);
+
+    document.getElementById('res-correct').textContent = `${correct}/${total}`;
+    document.getElementById('res-acc').textContent     = `${acc}%`;
+    document.getElementById('res-rt').textContent      = avgRt;
+
+    let msg = '';
+    if (acc >= 80)      msg = '🎉 Excellent! You already have strong associations for these pseudowords.';
+    else if (acc >= 60) msg = '👍 Good start. The full paradigm gives you 4 stages per session to consolidate these memories.';
+    else                msg = 'Keep going — repeated exposure across stages and sessions drives consolidation. This is exactly what the real APPL paradigm is designed to measure!';
+    document.getElementById('perf-msg').innerHTML =
+        `<div class="info-box-label">Performance feedback</div>${msg}`;
+
+    // Show bye bubble briefly before results
+    showScreen('screen-trial');
+    document.getElementById('stage-label').textContent = 'Demo Complete';
+    document.getElementById('trial-count').textContent = '';
+    document.getElementById('progress-fill').style.width = '100%';
+    showBubble(BUBBLES.bye, () => showScreen('screen-results'));
+}
+
+function restartDemo() {
+    showScreen('screen-instructions');
+}
+
+// ──────────────────────────────────────────────────────────────
+// KEYBOARD HANDLER
+// ──────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    if (e.key === '1') recordResponse(1);
+    if (e.key === '2') recordResponse(2);
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,18 @@
+{
+  "full_name": "Associative Pseudoword Learning",
+  "short_description": "Language learning task probing the acquisition of novel word–meaning associations across repeated exposures.",
+  "long_description": "The Associative Pseudoword Learning (APPL) paradigm investigates how the human brain encodes and consolidates associations between newly invented pseudowords and semantic referents. Participants learn to map a set of phonologically plausible but meaningless letter strings (e.g., 'MABREL', 'TUSKIN') onto object images or categories across multiple learning sessions. By requiring deliberate semantic binding, the task places heavy demands on the hippocampal–neocortical dialogue proposed to underlie new vocabulary acquisition.",
+  "background": "Word learning in adulthood involves not only phonological encoding but also the rapid formation of arbitrary form–meaning links. The APPL task operationalises this by presenting pseudowords that must be associated with visual referents over a series of study–test cycles. Repeated exposure across two sessions (with a multi-day interval) allows measurement of consolidation and test-retest reliability of the learning index. The task is sensitive to individual differences in language aptitude and is used as a translational model of second-language acquisition in healthy and clinical populations.",
+  "procedure": "Each session consists of four learning stages (LS1–LS4). Within each stage, pseudoword–image pairs are first presented for study (learning trials), followed by a forced-choice recognition test (control trials). Reaction time and accuracy are recorded for every trial. Session 2 is administered 1–2 weeks after Session 1 to assess long-term retention and reliability.",
+  "trial_structure": "Learning trial: pseudoword displayed centrally for up to 25 s; participant presses button 1 (known) or button 2 (unknown). Control trial: matched foil image presented under identical timing. Each stage comprises ~240 learning and ~80 control trials.",
+  "design": "Within-subjects, two-session repeated-measures. Sessions separated by 7–14 days.",
+  "modality": "linguistic",
+  "cognitive_domain": "declarative memory",
+  "task_type": "associative learning",
+  "difficulty": "moderate",
+  "keywords": ["pseudoword", "associative learning", "vocabulary acquisition", "hippocampus", "consolidation", "repeated measures"],
+  "response_device": "two-button response box",
+  "timing": {"stimulus_duration_s": 25, "isi_range_s": [2, 4]},
+  "n_sessions": 2,
+  "software": "Presentation (Neurobehavioral Systems)"
+}

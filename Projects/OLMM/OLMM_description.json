@@ -1,0 +1,18 @@
+{
+  "full_name": "Object Memory Location Mapping",
+  "short_description": "Visual-spatial memory task requiring binding of object identity to allocentric location across learning stages.",
+  "long_description": "The Object Memory Location Mapping (OLMM) paradigm measures the capacity to form and retain object–location associations in a two-dimensional spatial array. Participants view everyday objects placed at specific positions on a grid and must subsequently select the correct location from among foils. This design isolates the binding function of the hippocampus, specifically the ability to associate 'what' (object identity) with 'where' (spatial position), independent of egocentric navigation cues.",
+  "background": "Spatial memory and object-location binding are core functions attributed to the hippocampus and surrounding medial temporal lobe structures. The OLMM task is inspired by virtual Morris Water Maze analogues but operates in a purely allocentric, map-like format suitable for fMRI and EEG co-registration. Individual differences in OLMM accuracy correlate with hippocampal volume and have been proposed as a sensitive marker of early memory decline. The two-session design enables assessment of overnight and long-term consolidation effects.",
+  "procedure": "In each session, participants complete four learning stages (LS1–LS4) in which they study object–location pairs and are immediately tested with a four-alternative forced-choice spatial probe. Learning trials are interleaved with control trials consisting of a simple object-naming colour judgment that controls for non-mnemonic visuospatial processing. Session 2 occurs 7–14 days later.",
+  "trial_structure": "Learning trial: object image appears on grid for up to 25 s; participant indicates remembered location by pressing the response key corresponding to the target quadrant. Control trial: single object displayed centrally; participant presses key to confirm colour (coherence = 'c') or incoherence ('i'). ~240 learning and ~80 control trials per session.",
+  "design": "Within-subjects, two-session repeated-measures. Inter-session interval 7–14 days.",
+  "modality": "visual-spatial",
+  "cognitive_domain": "spatial memory",
+  "task_type": "object-location binding",
+  "difficulty": "moderate",
+  "keywords": ["object-location binding", "spatial memory", "hippocampus", "allocentric", "consolidation", "medial temporal lobe"],
+  "response_device": "two-button response box",
+  "timing": {"stimulus_duration_s": 25, "isi_range_s": [2, 4]},
+  "n_sessions": 2,
+  "software": "Presentation (Neurobehavioral Systems)"
+}

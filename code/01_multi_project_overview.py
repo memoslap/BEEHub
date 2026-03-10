@@ -22,74 +22,6 @@ class ProjectOverviewGenerator:
     def __init__(self, base_path: str):
         self.base_path = Path(base_path)
         
-        # Project descriptions and characteristics
-        self.project_descriptions = {
-            'APPL': {
-                'full_name': 'Associative Pseudoword Learning',
-                'description': 'Language learning task with novel pseudoword associations',
-                'modality': 'linguistic',
-                'cognitive_domain': 'memory',
-                'task_type': 'learning',
-                'difficulty': 'moderate'
-            },
-            'OLMM': {
-                'full_name': 'Object Memory Location Mapping',
-                'description': 'Visual-spatial memory task with object-location associations',
-                'modality': 'visual-spatial',
-                'cognitive_domain': 'memory',
-                'task_type': 'encoding-retrieval',
-                'difficulty': 'moderate'
-            },
-            'FACEMEM': {
-                'full_name': 'Face Memory Recognition',
-                'description': 'Face recognition and episodic memory task',
-                'modality': 'visual',
-                'cognitive_domain': 'memory',
-                'task_type': 'recognition',
-                'difficulty': 'easy-moderate'
-            },
-            'VERBGEN': {
-                'full_name': 'Verb Generation Task',
-                'description': 'Semantic retrieval and verb generation from nouns',
-                'modality': 'linguistic',
-                'cognitive_domain': 'semantic_memory',
-                'task_type': 'generation',
-                'difficulty': 'hard'
-            },
-            'SPATNAV': {
-                'full_name': 'Spatial Navigation Learning',
-                'description': 'Virtual navigation and spatial orientation task',
-                'modality': 'visual-spatial',
-                'cognitive_domain': 'spatial_cognition',
-                'task_type': 'navigation',
-                'difficulty': 'very_hard'
-            },
-            'NBACK': {
-                'full_name': 'N-Back Working Memory',
-                'description': 'Working memory task with n-back manipulation',
-                'modality': 'visual',
-                'cognitive_domain': 'working_memory',
-                'task_type': 'monitoring',
-                'difficulty': 'moderate-hard'
-            },
-            'EMOTREG': {
-                'full_name': 'Emotion Regulation Task',
-                'description': 'Cognitive reappraisal of emotional stimuli',
-                'modality': 'visual-emotional',
-                'cognitive_domain': 'emotion_regulation',
-                'task_type': 'regulation',
-                'difficulty': 'hard'
-            },
-            'STROOP': {
-                'full_name': 'Stroop Color-Word Interference',
-                'description': 'Classic cognitive control and interference task',
-                'modality': 'visual',
-                'cognitive_domain': 'cognitive_control',
-                'task_type': 'interference',
-                'difficulty': 'moderate'
-            }
-        }
-        
         # Fixed outcome-file suffixes and their primary columns.
         # Each outcome has its own dedicated TSV: *_RT_beh.tsv, *_ACC_beh.tsv, *_ACCBIN_beh.tsv
         self.outcome_files = {
@@ -97,7 +29,90 @@ class ProjectOverviewGenerator:
             'ACC':    {'suffix': '_ACC_beh.tsv',     'column': 'accuracy'},
             'ACCBIN': {'suffix': '_ACCBIN_beh.tsv',  'column': 'accuracy_binary'},
         }
+
+    def load_description(self, project_name: str) -> Dict:
+        """Load project description from <project>/<project>_description.json.
+
+        Returns a dict with at minimum the keys used by the HTML templates
+        (full_name, short_description, modality, cognitive_domain, task_type,
+        difficulty). Additional rich fields (long_description, background,
+        procedure, trial_structure, keywords, design, timing, software) are
+        included when present and rendered in the paradigm info panel.
+
+        Falls back gracefully to minimal defaults if the file is absent or
+        unparseable — the rest of the pipeline continues normally.
+        """
+        desc_path = (self.base_path / "Projects" / project_name
+                     / f"{project_name}_description.json")
+        defaults = {
+            'full_name':          project_name,
+            'short_description':  'Behavioral task',
+            'modality':           'unknown',
+            'cognitive_domain':   'unknown',
+            'task_type':          'unknown',
+            'difficulty':         'unknown',
+        }
+        if not desc_path.exists():
+            return defaults
+        try:
+            with open(desc_path, encoding='utf-8') as fh:
+                data = json.load(fh)
+            # Ensure all required keys are present
+            for k, v in defaults.items():
+                data.setdefault(k, v)
+            # Legacy compat: 'description' field used in older JSON → map to short_description
+            if 'description' in data and 'short_description' not in data:
+                data['short_description'] = data['description']
+            return data
+        except Exception as e:
+            print(f"  Warning: could not load {desc_path.name}: {e}")
+            return defaults
     
+    def _build_paradigm_panel(self, proj_info: Dict) -> str:
+        """Return an HTML <div class='paradigm-panel'> for the overview/dashboard.
+
+        Shows: badge row (no icons), short description, background.
+        Detailed sections (procedure, trial structure, design, timing, software,
+        keywords) are intentionally omitted here — they live in the paradigm HTML
+        generated by 02_generate_paradigm.py.
+        """
+        short  = proj_info.get('short_description') or proj_info.get('description', '')
+        bg     = proj_info.get('background', '')
+        modality   = proj_info.get('modality', '')
+        domain     = proj_info.get('cognitive_domain', '')
+        task_type  = proj_info.get('task_type', '')
+        difficulty = proj_info.get('difficulty', '')
+        n_sessions = proj_info.get('n_sessions', '')
+
+        # ── Badge row — no icons ─────────────────────────────────────────
+        badge_values = [modality, domain, task_type, difficulty]
+        if n_sessions:
+            badge_values.append(f'{n_sessions} sessions')
+        badges_html = ''.join(
+            f'<span class="char-badge">{v}</span>'
+            for v in badge_values if v and v != 'unknown'
+        )
+
+        # ── Description ──────────────────────────────────────────────────
+        desc_html = f'<p class="paradigm-text">{short}</p>' if short else ''
+
+        # ── Background (single section, full-width) ───────────────────────
+        bg_html = ''
+        if bg:
+            bg_html = f'''
+            <div class="paradigm-panel-grid" style="margin-top:14px;">
+                <div class="paradigm-full">
+                    <div class="paradigm-section-title">Background</div>
+                    <p class="paradigm-text">{bg}</p>
+                </div>
+            </div>'''
+
+        return f'''<div class="paradigm-panel">
+            <div class="char-badges">{badges_html}</div>
+            {desc_html}
+            {bg_html}
+        </div>'''
+
     def find_projects(self) -> List[str]:
         """Find all project folders"""
         projects_path = self.base_path / "Projects"
@@ -217,15 +232,8 @@ class ProjectOverviewGenerator:
         rt_col     = 'response_time_ms' if not rt_data.empty else None
         acc_col    = 'accuracy_binary'  if not accbin_data.empty else None  # use binary for stats
 
-        # Get project description
-        proj_desc = self.project_descriptions.get(project_name, {
-            'full_name': project_name,
-            'description': 'Behavioral task',
-            'modality': 'unknown',
-            'cognitive_domain': 'unknown',
-            'task_type': 'unknown',
-            'difficulty': 'unknown'
-        })
+        # Get project description from <project>_description.json
+        proj_desc = self.load_description(project_name)
         
         # Demographics
         demographics = {
@@ -607,6 +615,14 @@ class ProjectOverviewGenerator:
                 'n_subjects_rt':  len(rt_subjects),
                 'n_subjects_acc': len(acc_subjects),
                 'n_subjects': max(len(rt_subjects), len(acc_subjects)),
+                # Per-subject means for ses1 / ses2 — used by the test-retest scatter plot
+                'rt_s1_means':  rt_s1_means,
+                'rt_s2_means':  rt_s2_means,
+                'rt_subjects':  rt_subjects,
+                'acc_s1_means': [float(v * 100) for v in acc_s1_means],  # store as %
+                'acc_s2_means': [float(v * 100) for v in acc_s2_means],
+                'acc_subjects': acc_subjects,
+                'session_labels': [str(sessions[0]), str(sessions[1])],
             }
         
         return reliability
@@ -943,17 +959,64 @@ class ProjectOverviewGenerator:
         }
         
         .char-badge {
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(220,240,230,0.9) 100%);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.9em;
-            border: 1px solid #555;
-            color: #1e5f44;
+            font-size: 0.88em;
+            border: 1px solid rgba(64,158,128,0.45);
+            color: #2d7a52;
+            font-weight: 500;
         }
-        
+
         .char-badge.modality { border-color: #2d8659; color: #2d8659; }
         .char-badge.domain { border-color: #409e80; color: #409e80; }
         .char-badge.difficulty { border-color: #ffa726; color: #ffa726; }
+
+        /* ── Paradigm info panel (dashboard card) ── */
+        .paradigm-panel {
+            background: linear-gradient(135deg, rgba(240,250,245,0.85) 0%, rgba(248,255,252,0.9) 100%);
+            border: 1px solid rgba(64,158,128,0.2);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 10px;
+        }
+        .paradigm-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 28px;
+            margin-top: 12px;
+        }
+        .paradigm-section-title {
+            color: #1e5f44;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(64,158,128,0.2);
+        }
+        .paradigm-text { color: #3a5a4a; font-size: 0.92em; line-height: 1.6; }
+        .paradigm-full { grid-column: 1 / -1; }
+        .keyword-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+        .keyword-chip {
+            background: rgba(64,158,128,0.10);
+            border: 1px solid rgba(64,158,128,0.28);
+            border-radius: 10px;
+            padding: 2px 9px;
+            font-size: 0.80em;
+            color: #2d7a52;
+        }
+        .timing-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .timing-item {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(64,158,128,0.18);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.82em;
+            color: #3a5a4a;
+        }
+        .timing-item span { font-weight: 600; color: #1e5f44; }
     </style>
 </head>
 <body>
@@ -982,18 +1045,15 @@ class ProjectOverviewGenerator:
         data_by_cond = report['data_by_condition']
         reliability = report['reliability_metrics']
         
+        paradigm_panel_html = self._build_paradigm_panel(proj_info)
+
         html = f"""
     <div class="project-section">
         <div class="project-header">
             <div class="project-title-section">
                 <div class="project-name">{proj_name}</div>
                 <div class="project-full-name">{proj_info['full_name']}</div>
-                <div class="project-description">{proj_info['description']}</div>
-                <div class="characteristics">
-                    <span class="char-badge modality">📊 {proj_info['modality']}</span>
-                    <span class="char-badge domain">🧠 {proj_info['cognitive_domain']}</span>
-                    <span class="char-badge difficulty">⚡ {proj_info['difficulty']}</span>
-                </div>
+                {paradigm_panel_html}
             </div>
         </div>
         
@@ -1034,7 +1094,7 @@ class ProjectOverviewGenerator:
         # RT Violin Plot
         html += f"""
             <div class="chart-container">
-                <div class="chart-title">⏱️ Reaction Time Distribution</div>
+                <div class="chart-title"> Reaction Time Distribution</div>
                 <div id="{proj_name}_rt_violin"></div>
             </div>
 """
@@ -1042,7 +1102,7 @@ class ProjectOverviewGenerator:
         # Accuracy Violin Plot
         html += f"""
             <div class="chart-container">
-                <div class="chart-title">🎯 Accuracy Distribution</div>
+                <div class="chart-title"> Accuracy Distribution</div>
                 <div id="{proj_name}_acc_violin"></div>
             </div>
 """
@@ -1050,7 +1110,7 @@ class ProjectOverviewGenerator:
         # RT Scatter Plot
         html += f"""
             <div class="chart-container">
-                <div class="chart-title">📍 RT Scatter (Outlier Detection)</div>
+                <div class="chart-title">📍 🔁 RT Test-Retest (mean per subject)</div>
                 <div id="{proj_name}_rt_scatter"></div>
             </div>
 """
@@ -1058,7 +1118,7 @@ class ProjectOverviewGenerator:
         # Accuracy Scatter Plot
         html += f"""
             <div class="chart-container">
-                <div class="chart-title">📍 Accuracy Scatter (Outlier Detection)</div>
+                <div class="chart-title">📍 🔁 Accuracy Test-Retest (mean per subject)</div>
                 <div id="{proj_name}_acc_scatter"></div>
             </div>
 """
@@ -1156,8 +1216,10 @@ class ProjectOverviewGenerator:
                 })
         
         if rt_traces:
-            # Clamp y-axis: use IQR fence (Q1 - 2*IQR, Q3 + 2*IQR) so extreme
-            # outliers don't stretch the plot to unusable proportions
+            # Clamp y-axis: use IQR fence so extreme outliers don't compress
+            # the violin into unreadable proportions. Both bounds are derived
+            # from the data — no hardcoded ms ceiling — so slow paradigms
+            # (e.g. APPL at ~9 s) display correctly alongside fast ones.
             all_rt_vals = []
             for key, data in data_by_cond.items():
                 all_rt_vals.extend(data.get('rt_values', []))
@@ -1165,8 +1227,8 @@ class ProjectOverviewGenerator:
                 q1  = float(np.percentile(all_rt_vals, 25))
                 q3  = float(np.percentile(all_rt_vals, 75))
                 iqr = q3 - q1
-                rt_y_min = max(0,    q1 - 2.5 * iqr)
-                rt_y_max = min(5000, q3 + 2.5 * iqr)
+                rt_y_min = max(0,   q1 - 2.5 * iqr)
+                rt_y_max =          q3 + 2.5 * iqr
             else:
                 rt_y_min, rt_y_max = 0, 2000
 
@@ -1264,47 +1326,62 @@ class ProjectOverviewGenerator:
         Plotly.newPlot('{proj_name}_acc_violin', accTraces, accLayout, {{responsive: true}});
 """
         
-        # RT Scatter Plot (outlier detection)
-        if rt_traces:
-            rt_scatter_data = []
-            for key, data in data_by_cond.items():
-                if data['rt_values']:
-                    trial_type = data['trial_type']
-                    session = data['session']
-                    color = colors.get(trial_type, '#8e24aa')
-                    
-                    label = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
-                    
-                    # Add trial index
-                    x_vals = list(range(len(data['rt_values'])))
-                    
-                    rt_scatter_data.append({
-                        'x': x_vals,
-                        'y': data['rt_values'],
-                        'mode': 'markers',
-                        'name': label,
-                        'marker': {
-                            'size': 6,
-                            'color': color,
-                            'opacity': 0.6
-                        }
-                    })
-            
+        # ── RT Test-Retest Scatter (one dot per subject, ses1 mean vs ses2 mean) ──
+        # Built from per-subject means stored in reliability dict — shows the
+        # actual data structure that drives ICC, with identity line for reference.
+        rt_scatter_data = []
+        all_scatter_rt  = []
+        for trial_type, metrics in {**reliability, **control_reliability}.items():
+            s1 = metrics.get('rt_s1_means', [])
+            s2 = metrics.get('rt_s2_means', [])
+            subj_ids = metrics.get('rt_subjects', [])
+            ses_labels = metrics.get('session_labels', ['ses-1', 'ses-2'])
+            if not s1 or not s2:
+                continue
+            color = colors.get(trial_type, '#8e24aa')
+            all_scatter_rt.extend(s1 + s2)
+            icc_val = metrics.get('rt_icc_mean')
+            icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
+            hover = [f'sub-{sid}<br>ses{ses_labels[0]}: {x:.0f} ms<br>ses{ses_labels[1]}: {y:.0f} ms'
+                     for sid, x, y in zip(subj_ids, s1, s2)]
+            rt_scatter_data.append({
+                'x': s1, 'y': s2,
+                'mode': 'markers',
+                'name': f'{trial_type}{icc_str}',
+                'text': hover,
+                'hovertemplate': '%{text}<extra></extra>',
+                'marker': {'size': 9, 'color': color, 'opacity': 0.75,
+                           'line': {'width': 1, 'color': '#ffffff'}}
+            })
+
+        if rt_scatter_data and all_scatter_rt:
+            axis_min = max(0,   min(all_scatter_rt) * 0.92)
+            axis_max =          max(all_scatter_rt) * 1.08
+            ses_labels = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
+            # Identity line (perfect test-retest)
+            rt_scatter_data.append({
+                'x': [axis_min, axis_max], 'y': [axis_min, axis_max],
+                'mode': 'lines', 'name': 'Identity (perfect retest)',
+                'line': {'color': 'rgba(150,150,150,0.5)', 'width': 1.5, 'dash': 'dash'},
+                'hoverinfo': 'skip'
+            })
             js += f"""
         var rtScatter = {json.dumps(rt_scatter_data)};
         var rtScatterLayout = {{
             plot_bgcolor: "rgba(255, 255, 255, 0.95)",
             paper_bgcolor: "rgba(250, 250, 250, 0.5)",
             font: {{color: '#333', size: 12}},
-            yaxis: {{
-                title: 'Reaction Time (ms)',
-                gridcolor: "rgba(64, 158, 128, 0.2)",
-                titlefont: {{size: 14}}
-            }},
             xaxis: {{
-                title: 'Trial Index',
+                title: 'Mean RT {ses_labels[0]} (ms)',
                 gridcolor: "rgba(64, 158, 128, 0.2)",
-                titlefont: {{size: 14}}
+                titlefont: {{size: 13}},
+                range: [{axis_min:.0f}, {axis_max:.0f}]
+            }},
+            yaxis: {{
+                title: 'Mean RT {ses_labels[1]} (ms)',
+                gridcolor: "rgba(64, 158, 128, 0.2)",
+                titlefont: {{size: 13}},
+                range: [{axis_min:.0f}, {axis_max:.0f}]
             }},
             showlegend: true,
             legend: {{
@@ -1313,70 +1390,70 @@ class ProjectOverviewGenerator:
                 borderwidth: 1
             }},
             hovermode: 'closest',
-            margin: {{l: 60, r: 30, t: 30, b: 50}}
+            margin: {{l: 70, r: 30, t: 30, b: 60}}
         }};
         Plotly.newPlot('{proj_name}_rt_scatter', rtScatter, rtScatterLayout, {{responsive: true}});
 """
         
-        # Accuracy Scatter Plot - PERCENTAGE PER SESSION PER SUBJECT
-        if acc_traces:
-            acc_scatter_data = []
-            
-            for key, data in data_by_cond.items():
-                # Use subject-level accuracy percentages instead of trial-level
-                if data.get('subject_acc_percentages'):
-                    trial_type = data['trial_type']
-                    session = data['session']
-                    color = colors.get(trial_type, '#8e24aa')
-                    
-                    label = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
-                    
-                    acc_pct_list = data['subject_acc_percentages']
-                    x_vals = list(range(len(acc_pct_list)))
-                    subject_labels = [f"Subject {i+1}" for i in range(len(acc_pct_list))]
-                    
-                    acc_scatter_data.append({
-                        'x': x_vals,
-                        'y': acc_pct_list,
-                        'mode': 'markers',
-                        'name': label,
-                        'text': subject_labels,
-                        'hovertemplate': '%{text}<br>Accuracy: %{y:.1f}%<extra></extra>',
-                        'marker': {
-                            'size': 10,
-                            'color': color,
-                            'opacity': 0.7,
-                            'line': {'width': 1, 'color': '#ffffff'}
-                        }
-                    })
-            
-            if acc_scatter_data:
-                js += f"""
+        # ── Accuracy Test-Retest Scatter (per-subject mean acc%, ses1 vs ses2) ──
+        acc_scatter_data = []
+        all_scatter_acc  = []
+        for trial_type, metrics in {**reliability, **control_reliability}.items():
+            s1       = metrics.get('acc_s1_means', [])
+            s2       = metrics.get('acc_s2_means', [])
+            subj_ids = metrics.get('acc_subjects', [])
+            ses_lbls = metrics.get('session_labels', ['ses-1', 'ses-2'])
+            if not s1 or not s2:
+                continue
+            color = colors.get(trial_type, '#8e24aa')
+            all_scatter_acc.extend(s1 + s2)
+            icc_val = metrics.get('acc_icc_mean')
+            icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
+            hover = [f'sub-{sid}<br>{ses_lbls[0]}: {x:.1f}%<br>{ses_lbls[1]}: {y:.1f}%'
+                     for sid, x, y in zip(subj_ids, s1, s2)]
+            acc_scatter_data.append({
+                'x': s1, 'y': s2,
+                'mode': 'markers',
+                'name': f'{trial_type}{icc_str}',
+                'text': hover,
+                'hovertemplate': '%{text}<extra></extra>',
+                'marker': {'size': 10, 'color': color, 'opacity': 0.75,
+                           'line': {'width': 1, 'color': '#ffffff'}}
+            })
+
+        if acc_scatter_data and all_scatter_acc:
+            ax_min = max(0,   min(all_scatter_acc) - 5)
+            ax_max = min(105, max(all_scatter_acc) + 5)
+            _ses = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
+            acc_scatter_data.append({
+                'x': [ax_min, ax_max], 'y': [ax_min, ax_max],
+                'mode': 'lines', 'name': 'Identity (perfect retest)',
+                'line': {'color': 'rgba(150,150,150,0.5)', 'width': 1.5, 'dash': 'dash'},
+                'hoverinfo': 'skip'
+            })
+            js += f"""
         var accScatter = {json.dumps(acc_scatter_data)};
         var accScatterLayout = {{
             plot_bgcolor: "rgba(255, 255, 255, 0.95)",
             paper_bgcolor: "rgba(250, 250, 250, 0.5)",
             font: {{color: '#333', size: 12}},
-            yaxis: {{
-                title: 'Accuracy (%) per Subject',
+            xaxis: {{
+                title: 'Mean Accuracy {_ses[0]} (%)',
                 gridcolor: "rgba(64, 158, 128, 0.2)",
-                range: [{y_min}, {y_max}],
-                titlefont: {{size: 14}},
+                titlefont: {{size: 13}},
+                range: [{ax_min:.1f}, {ax_max:.1f}]
+            }},
+            yaxis: {{
+                title: 'Mean Accuracy {_ses[1]} (%)',
+                gridcolor: "rgba(64, 158, 128, 0.2)",
+                titlefont: {{size: 13}},
+                range: [{ax_min:.1f}, {ax_max:.1f}],
                 zeroline: false
             }},
-            xaxis: {{
-                title: 'Subject Index',
-                gridcolor: "rgba(64, 158, 128, 0.2)",
-                titlefont: {{size: 14}}
-            }},
             showlegend: true,
-            legend: {{
-                bgcolor: "rgba(240, 240, 240, 0.9)",
-                bordercolor: "rgba(64, 158, 128, 0.3)",
-                borderwidth: 1
-            }},
+            legend: {{bgcolor: "rgba(240,240,240,0.9)", bordercolor: "rgba(64,158,128,0.3)", borderwidth: 1}},
             hovermode: 'closest',
-            margin: {{l: 60, r: 30, t: 30, b: 50}}
+            margin: {{l: 70, r: 30, t: 30, b: 60}}
         }};
         Plotly.newPlot('{proj_name}_acc_scatter', accScatter, accScatterLayout, {{responsive: true}});
 """
@@ -1399,11 +1476,11 @@ class ProjectOverviewGenerator:
                     categories.append(f'{trial_type} Acc Pearson r')
                     values.append(max(0, min(1, metrics['acc_pearson_r_mean'])))
                 if metrics.get('rt_cohens_d_mean') is not None:
-                    d_abs = abs(metrics['rt_cohens_d_mean'])
+                    d_abs = min(abs(metrics['rt_cohens_d_mean']), 2.0)  # cap at 2 → score never goes below 0
                     categories.append(f'{trial_type} RT Stability')
                     values.append(max(0, min(1, 1 - (d_abs / 2))))
                 if metrics.get('acc_cohens_d_mean') is not None:
-                    d_abs = abs(metrics['acc_cohens_d_mean'])
+                    d_abs = min(abs(metrics['acc_cohens_d_mean']), 2.0)
                     categories.append(f'{trial_type} Acc Stability')
                     values.append(max(0, min(1, 1 - (d_abs / 2))))
                 if metrics.get('rt_cv_mean') is not None:
@@ -1525,9 +1602,14 @@ class ProjectOverviewGenerator:
             }
 
             if rt_stage_traces:
+                all_rt_stage = [v for t in rt_stage_traces for v in t['y'] if v is not None]
+                rt_y_pad = (max(all_rt_stage) - min(all_rt_stage)) * 0.12 if all_rt_stage else 100
+                rt_stage_y_min = max(0, min(all_rt_stage) - rt_y_pad) if all_rt_stage else 0
+                rt_stage_y_max = (max(all_rt_stage) + rt_y_pad)       if all_rt_stage else 2000
                 rt_layout = dict(shared_layout)
                 rt_layout['yaxis'] = {'title': 'Mean RT (ms)',
                                       'gridcolor': 'rgba(64,158,128,0.2)',
+                                      'range': [rt_stage_y_min, rt_stage_y_max],
                                       'titlefont': {'size': 14}}
                 js += f"""
         var stageRtTraces = {json.dumps(rt_stage_traces)};
@@ -1731,7 +1813,7 @@ class ProjectOverviewGenerator:
         .project-full-name {{
             color: #3a7a5a;
             font-size: 1.4em;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             font-style: italic;
         }}
 
@@ -1739,21 +1821,92 @@ class ProjectOverviewGenerator:
             color: #4a6e5a;
             font-size: 1.05em;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }}
 
-        .char-badges {{ display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }}
+        .char-badges {{ display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }}
         .char-badge {{
             background: linear-gradient(135deg,
                 rgba(255,255,255,0.85) 0%, rgba(220,240,230,0.9) 100%);
-            padding: 7px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.92em;
+            font-size: 0.88em;
             border: 1px solid rgba(64,158,128,0.45);
             color: #2d7a52;
             font-weight: 500;
             box-shadow: 0 1px 4px rgba(64,158,128,0.15),
                         inset 0 1px 0 rgba(255,255,255,0.8);
+        }}
+
+        /* ── Paradigm info panel ─────────────────────────────────────── */
+        .paradigm-panel {{
+            background: linear-gradient(135deg,
+                rgba(240,250,245,0.9) 0%, rgba(248,255,252,0.95) 50%, rgba(240,250,245,0.9) 100%);
+            border: 1px solid rgba(64,158,128,0.25);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(64,158,128,0.08),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }}
+
+        .paradigm-panel-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 36px;
+            margin-top: 16px;
+        }}
+
+        .paradigm-section-title {{
+            color: #1e5f44;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(64,158,128,0.25);
+        }}
+
+        .paradigm-text {{
+            color: #3a5a4a;
+            font-size: 0.96em;
+            line-height: 1.65;
+        }}
+
+        .paradigm-full {{
+            grid-column: 1 / -1;
+        }}
+
+        .keyword-list {{
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;
+        }}
+
+        .keyword-chip {{
+            background: rgba(64,158,128,0.10);
+            border: 1px solid rgba(64,158,128,0.30);
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 0.82em;
+            color: #2d7a52;
+        }}
+
+        .timing-grid {{
+            display: flex; gap: 16px; flex-wrap: wrap;
+        }}
+
+        .timing-item {{
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(64,158,128,0.2);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.85em;
+            color: #3a5a4a;
+        }}
+
+        .timing-item span {{
+            font-weight: 600;
+            color: #1e5f44;
         }}
 
         .metrics-row {{
@@ -2166,11 +2319,7 @@ class ProjectOverviewGenerator:
         <div class="header">
             <div class="project-name">{proj_name}</div>
             <div class="project-full-name">{proj_info['full_name']}</div>
-            <div class="project-description">{proj_info['description']}</div>
-            <div class="char-badges">
-                <span class="char-badge">{proj_info['modality']}</span>
-                <span class="char-badge">{proj_info['cognitive_domain']}</span>
-            </div>
+            {self._build_paradigm_panel(proj_info)}
             <div class="metrics-row">
                 <div class="metric-item">
                     <span class="metric-label">Participants:</span>
@@ -2272,11 +2421,11 @@ class ProjectOverviewGenerator:
                 <div id="{proj_name}_acc_violin"></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">RT Scatter — Outlier Detection</div>
+                <div class="chart-title"> RT Test-Retest (mean per subject)</div>
                 <div id="{proj_name}_rt_scatter"></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">Accuracy Scatter — Outlier Detection</div>
+                <div class="chart-title"> Accuracy Test-Retest (mean per subject)</div>
                 <div id="{proj_name}_acc_scatter"></div>
             </div>
 """

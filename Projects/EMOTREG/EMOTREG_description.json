@@ -1,0 +1,18 @@
+{
+  "full_name": "Emotion Regulation Task",
+  "short_description": "Cognitive reappraisal paradigm measuring the voluntary down-regulation of negative affect in response to aversive images.",
+  "long_description": "The Emotion Regulation Task (EMOTREG) operationalises cognitive reappraisal — the deliberate reinterpretation of the meaning of an emotional stimulus to alter its affective impact. Participants view negative or neutral images from validated affective picture sets and either actively reappraise the scene to reduce its emotional impact (regulate condition) or passively observe without any regulatory goal (observe condition). Post-trial affect ratings and RT to submit the rating serve as implicit indices of regulatory success and effort.",
+  "background": "Cognitive reappraisal is the most extensively studied form of emotion regulation and is widely regarded as an adaptive strategy associated with lower anxiety, depression, and physiological stress reactivity. The neural circuitry underlying reappraisal involves prefrontal and anterior cingulate down-regulation of amygdala activity via top-down feedback projections. Individual differences in reappraisal success predict mental health outcomes and respond to psychological interventions. EMOTREG provides standardised stimuli and procedure for reliable measurement of reappraisal capacity, enabling both cross-sectional and longitudinal designs.",
+  "procedure": "Each session contains three runs of 30 regulate and 20 observe trials. Images are drawn from the IAPS or NAPS databases, matched for low-level visual properties. A cue word ('REGULATE' or 'OBSERVE') precedes each image. At image offset, participants rate their current emotional state on a 1–9 scale. RT is the latency to submit the rating.",
+  "trial_structure": "Regulate trial: cue (1 s) → aversive image (6 s) → rating scale (max 3 s). Observe trial: identical timing with neutral cue; participant views image passively before rating. ISI: 2–4 s fixation.",
+  "design": "Within-subjects, two-session repeated-measures. Different image sets used per session to prevent habituation.",
+  "modality": "visual-emotional",
+  "cognitive_domain": "emotion regulation",
+  "task_type": "cognitive reappraisal",
+  "difficulty": "hard",
+  "keywords": ["emotion regulation", "cognitive reappraisal", "amygdala", "prefrontal cortex", "affect", "IAPS", "top-down control"],
+  "response_device": "keyboard (rating scale 1–9)",
+  "timing": {"cue_duration_s": 1, "image_duration_s": 6, "max_rating_s": 3, "isi_range_s": [2, 4]},
+  "n_sessions": 2,
+  "software": "E-Prime 3.0"
+}

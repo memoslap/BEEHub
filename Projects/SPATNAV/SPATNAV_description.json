@@ -1,0 +1,18 @@
+{
+  "full_name": "Spatial Navigation Learning",
+  "short_description": "Virtual environment navigation task assessing allocentric landmark learning and flexible route planning.",
+  "long_description": "The Spatial Navigation Learning (SPATNAV) paradigm immerses participants in a desktop virtual environment and requires them to learn the locations of goal objects using environmental landmarks. After a navigation phase, participants complete probe trials in which they must point toward a target location from a novel viewpoint, dissociating route-following from allocentric map-like representations. A control pointing condition tests egocentric spatial judgements in the absence of navigation demands, enabling isolation of the hippocampal-entorhinal contribution to flexible spatial cognition.",
+  "background": "Spatial navigation is a fundamental cognitive capacity supported by the hippocampus, entorhinal cortex, and retrosplenial cortex. Place cells and grid cells provide the neural substrate for cognitive map formation, and individual differences in navigation ability correlate with hippocampal grey matter volume and functional connectivity. SPATNAV uses a standardised virtual environment to enable cross-laboratory comparability and has been used to study age-related navigation decline, sex differences in navigation strategy, and the effects of stress on spatial memory.",
+  "procedure": "Each session comprises three trial types per landmark set: navigation trials (navigate from start to goal), pointing trials (indicate goal direction from novel viewpoint), and control pointing trials (judge direction of a visible landmark with no memory demand). Landmarks and goal positions are counterbalanced across sessions.",
+  "trial_structure": "Navigation trial: participant free-navigates in virtual environment until goal is found or 30 s elapses; RT = time to reach goal. Pointing trial: participant appears at novel position; responds with joystick pointing gesture; RT = time to submit response. Control trial: visible target; immediate pointing.",
+  "design": "Within-subjects, two-session design with different landmark sets per session to prevent explicit memory carryover.",
+  "modality": "visual-spatial",
+  "cognitive_domain": "spatial cognition",
+  "task_type": "virtual navigation and pointing",
+  "difficulty": "very hard",
+  "keywords": ["spatial navigation", "cognitive map", "hippocampus", "allocentric", "virtual reality", "place cells", "wayfinding"],
+  "response_device": "joystick or keyboard",
+  "timing": {"max_navigation_s": 30, "pointing_until_response": true},
+  "n_sessions": 2,
+  "software": "Unity 3D / custom Python interface"
+}

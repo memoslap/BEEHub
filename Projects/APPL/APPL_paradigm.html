@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APPL - Paradigm</title>
+    <title>APPL — Paradigm</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -44,64 +41,57 @@
         .container::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
+            top: 0; left: 0; right: 0; height: 4px;
             background: linear-gradient(90deg,
-                #6b3a10 0%,
-                #9e5c1e 12%,
-                #c07838 25%,
-                #d4a020 40%,
-                #e8c048 50%,
-                #d4a020 60%,
-                #b8b0be 75%,
-                #c4a0b4 88%,
-                #6b3a10 100%
+                #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+                #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%
             );
             opacity: 0.85;
         }
 
-        h1 {
+        /* ── Header ─────────────────────────────────────────────────── */
+        .project-code {
             background: linear-gradient(135deg,
-                #6b3a10 0%,
-                #9e5c1e 15%,
-                #c07838 30%,
-                #d4a020 50%,
-                #b8b0be 70%,
-                #c4a0b4 85%,
-                #9e5c1e 100%
+                #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+                #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
             font-size: 3em;
             font-weight: 300;
             letter-spacing: -1px;
+            margin-bottom: 8px;
             padding-bottom: 15px;
             border-bottom: 4px solid;
             border-image: linear-gradient(90deg,
-                transparent 0%,
-                rgba(160, 120, 60, 0.3) 10%,
+                transparent 0%, rgba(160, 120, 60, 0.3) 10%,
                 rgba(212, 160, 32, 0.6) 50%,
-                rgba(160, 120, 60, 0.3) 90%,
-                transparent 100%
+                rgba(160, 120, 60, 0.3) 90%, transparent 100%
             ) 1;
         }
 
-        .subtitle {
+        .project-full-name {
             color: #7a5030;
-            margin-bottom: 40px;
             font-size: 1.3em;
+            font-style: italic;
             font-weight: 300;
+            margin-bottom: 4px;
         }
 
+        .page-subtitle {
+            color: #9a6a40;
+            font-size: 1.1em;
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        /* ── Info cards ─────────────────────────────────────────────── */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 36px;
         }
 
         .info-card {
@@ -110,61 +100,33 @@
                 rgba(240, 228, 208, 0.90) 50%,
                 rgba(220, 200, 170, 0.85) 100%
             );
-            padding: 20px;
+            padding: 18px 20px;
             border-radius: 12px;
             border-left: 4px solid #c07838;
-            box-shadow:
-                0 4px 16px rgba(160, 110, 50, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 16px rgba(160, 110, 50, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.7);
             border-top: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        .info-card h3 {
+        .info-card-label {
             background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 0.9em;
+            font-size: 0.78em;
             text-transform: uppercase;
-            margin-bottom: 8px;
             letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
 
-        .info-card p {
+        .info-card-value {
             color: #3a2010;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 600;
         }
 
-        .description-box {
-            background: linear-gradient(135deg,
-                rgba(245, 236, 220, 0.90) 0%,
-                rgba(255, 250, 240, 0.95) 50%,
-                rgba(245, 236, 220, 0.90) 100%
-            );
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 40px;
-            line-height: 1.8;
-            font-size: 1.1em;
-            color: #3a2010;
-            border: 1px solid rgba(190, 150, 80, 0.25);
-            box-shadow: 0 4px 16px rgba(160, 110, 50, 0.12);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .description-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg,
-                #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
-            );
-            opacity: 0.7;
-        }
-
+        /* ── Sections ───────────────────────────────────────────────── */
         .section {
             margin-bottom: 40px;
         }
@@ -181,11 +143,128 @@
             padding-left: 15px;
         }
 
-        .links-container {
+        /* ── Text boxes (Description, Background) ───────────────────── */
+        .text-box {
+            background: linear-gradient(135deg,
+                rgba(245, 236, 220, 0.90) 0%,
+                rgba(255, 250, 240, 0.95) 50%,
+                rgba(245, 236, 220, 0.90) 100%
+            );
+            padding: 28px 30px;
+            border-radius: 12px;
+            line-height: 1.8;
+            font-size: 1.05em;
+            color: #3a2010;
+            border: 1px solid rgba(190, 150, 80, 0.25);
+            box-shadow: 0 4px 16px rgba(160, 110, 50, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .text-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
+            );
+            opacity: 0.7;
+        }
+
+        /* ── Paradigm detail grid ────────────────────────────────────── */
+        .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 24px;
+        }
+
+        @media (max-width: 720px) {
+            .detail-grid { grid-template-columns: 1fr; }
+            .container { padding: 28px 20px; }
+        }
+
+        .detail-cell {
+            background: linear-gradient(135deg,
+                rgba(225, 210, 185, 0.80) 0%,
+                rgba(242, 232, 214, 0.88) 50%,
+                rgba(225, 210, 185, 0.80) 100%
+            );
+            border: 1px solid rgba(190, 150, 80, 0.28);
+            border-radius: 12px;
+            padding: 20px 22px;
+            box-shadow: 0 3px 12px rgba(160, 110, 50, 0.10),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-cell::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 50%, #c4a0b4 100%
+            );
+            opacity: 0.55;
+        }
+
+        .detail-cell-full { grid-column: 1 / -1; }
+
+        .detail-label {
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.25);
+        }
+
+        .detail-text {
+            color: #3a2010;
+            font-size: 0.97em;
+            line-height: 1.7;
+        }
+
+        /* ── Timing chips ───────────────────────────────────────────── */
+        .timing-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+        .timing-chip {
+            background: rgba(212, 160, 32, 0.12);
+            border: 1px solid rgba(190, 150, 80, 0.40);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.88em;
+            color: #5a3010;
+        }
+
+        .chip-label {
+            font-weight: 700;
+            color: #9e5c1e;
+            margin-right: 4px;
+        }
+
+        /* ── Keyword chips ──────────────────────────────────────────── */
+        .kw-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+        .kw-chip {
+            background: rgba(196, 160, 180, 0.18);
+            border: 1px solid rgba(196, 160, 180, 0.40);
+            border-radius: 14px;
+            padding: 4px 13px;
+            font-size: 0.85em;
+            color: #7a3a50;
+        }
+
+        /* ── File / resource cards ──────────────────────────────────── */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
         }
 
         .link-card {
@@ -199,9 +278,8 @@
             padding: 25px;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow:
-                0 4px 16px rgba(160, 110, 50, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.65);
+            box-shadow: 0 4px 16px rgba(160, 110, 50, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.65);
             position: relative;
             overflow: hidden;
         }
@@ -209,26 +287,20 @@
         .link-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg,
-                #9e5c1e 0%, #d4a020 50%, #c4a0b4 100%
-            );
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #9e5c1e 0%, #d4a020 50%, #c4a0b4 100%);
             opacity: 0.6;
             transition: opacity 0.3s;
         }
 
         .link-card:hover {
             border-color: rgba(212, 160, 32, 0.55);
-            box-shadow:
-                0 8px 28px rgba(160, 110, 50, 0.28),
-                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+            box-shadow: 0 8px 28px rgba(160, 110, 50, 0.28),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.75);
             transform: translateY(-3px);
         }
 
-        .link-card:hover::before {
-            opacity: 1;
-        }
+        .link-card:hover::before { opacity: 1; }
 
         .link-card h3 {
             background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
@@ -256,75 +328,10 @@
             word-break: break-all;
             margin-top: 10px;
             border: 1px solid rgba(190, 150, 80, 0.25);
+            margin-bottom: 14px;
         }
 
-        .btn-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 18px 35px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-demo {
-            background: linear-gradient(135deg,
-                #e8c048 0%, #d4a020 35%, #c07838 100%
-            );
-            color: #2a1a0a;
-            flex: 1;
-            min-width: 250px;
-            font-size: 1.2em;
-            box-shadow:
-                0 4px 20px rgba(212, 160, 32, 0.40),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        }
-
-        .btn-demo:hover {
-            background: linear-gradient(135deg,
-                #c07838 0%, #d4a020 50%, #e8c048 100%
-            );
-            transform: translateY(-2px);
-            box-shadow:
-                0 8px 28px rgba(212, 160, 32, 0.55),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg,
-                #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%
-            );
-            color: #2a1a0a;
-            flex: 0 0 auto;
-            min-width: 200px;
-            box-shadow:
-                0 4px 16px rgba(180, 150, 180, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.40);
-        }
-
-        .btn-secondary:hover {
-            background: linear-gradient(135deg,
-                #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%
-            );
-            transform: translateY(-2px);
-            box-shadow:
-                0 8px 24px rgba(180, 150, 180, 0.50),
-                inset 0 1px 0 rgba(255, 255, 255, 0.40);
-        }
-
+        /* ── GitHub link ────────────────────────────────────────────── */
         .github-link {
             display: inline-flex;
             align-items: center;
@@ -332,7 +339,7 @@
             color: #8a4a10;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1em;
+            font-size: 1.0em;
             padding: 10px 20px;
             border: 2px solid rgba(190, 150, 80, 0.45);
             border-radius: 8px;
@@ -347,18 +354,73 @@
             box-shadow: 0 4px 14px rgba(180, 130, 40, 0.35);
         }
 
-        .warning-box {
+        /* ── Demo box ───────────────────────────────────────────────── */
+        .demo-box {
             background: linear-gradient(135deg, #fdf5e0 0%, #f5e8c0 100%);
             border-left: 4px solid #d4a020;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             color: #7a4a10;
             font-size: 1.05em;
             box-shadow: 0 2px 10px rgba(180, 130, 40, 0.12);
         }
 
-        .highlight-box {
+        /* ── Buttons ────────────────────────────────────────────────── */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, #e8c048 0%, #d4a020 35%, #c07838 100%);
+            color: #2a1a0a;
+            flex: 1;
+            min-width: 250px;
+            font-size: 1.15em;
+            box-shadow: 0 4px 20px rgba(212, 160, 32, 0.40),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-demo:hover {
+            background: linear-gradient(135deg, #c07838 0%, #d4a020 50%, #e8c048 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(212, 160, 32, 0.55),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+            color: #2a1a0a;
+            flex: 0 0 auto;
+            min-width: 200px;
+            box-shadow: 0 4px 16px rgba(180, 150, 180, 0.35),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(180, 150, 180, 0.50),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
+        /* ── Instructions box ───────────────────────────────────────── */
+        .instructions-box {
             background: linear-gradient(135deg,
                 rgba(215, 195, 210, 0.80) 0%,
                 rgba(235, 220, 230, 0.88) 50%,
@@ -366,166 +428,160 @@
             );
             border: 1px solid rgba(196, 160, 180, 0.45);
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow:
-                0 6px 24px rgba(180, 140, 170, 0.20),
-                inset 0 1px 0 rgba(255, 255, 255, 0.65);
+            padding: 28px 30px;
+            box-shadow: 0 6px 24px rgba(180, 140, 170, 0.20),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.65);
             position: relative;
             overflow: hidden;
         }
 
-        .highlight-box::before {
+        .instructions-box::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
+            top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg,
                 #c4a0b4 0%, #b8b0be 35%, #d4a020 65%, #c07838 100%
             );
             opacity: 0.75;
         }
 
-        .highlight-box h3 {
+        .instructions-box h3 {
             background: linear-gradient(135deg, #8a4060 0%, #b8b0be 50%, #9e5c1e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            font-size: 1.2em;
+            margin-bottom: 16px;
         }
 
-        .highlight-box ul {
-            list-style: none;
-            padding: 0;
-        }
+        .instructions-box ul { list-style: none; padding: 0; }
 
-        .highlight-box li {
+        .instructions-box li {
             color: #3a2010;
             margin-bottom: 10px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.6;
         }
+
+        .instructions-box li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: #c07838;
+            font-weight: 700;
+        }
+
+        .instructions-box code {
+            background: rgba(160, 110, 50, 0.12);
+            border: 1px solid rgba(190, 150, 80, 0.30);
+            border-radius: 4px;
+            padding: 1px 7px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.90em;
+            color: #9e5c1e;
+        }
+
+        /* ── Footer ─────────────────────────────────────────────────── */
+        .footer-row {
+            margin-top: 44px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(190, 150, 80, 0.25);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>APPL</h1>
-        <div class="subtitle">Paradigm Overview & Resources</div>
-        
+        <div class="project-code">APPL</div>
+        <div class="project-full-name">Associative Pseudoword Learning</div>
+        <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
         <div class="info-grid">
-            <div class="info-card">
-                <h3>Modality</h3>
-                <p>linguistic</p>
-            </div>
-            <div class="info-card">
-                <h3>Cognitive Domain</h3>
-                <p>memory</p>
-            </div>
-            <div class="info-card">
-                <h3>Task Type</h3>
-                <p>learning</p>
-            </div>
+        <div class="info-card">
+            <div class="info-card-label">Modality</div>
+            <div class="info-card-value">linguistic</div>
         </div>
-        
-        <div class="section">
-            <h2> Description</h2>
-            <div class="description-box">
-                Language learning task with novel pseudoword associations
-            </div>
+        <div class="info-card">
+            <div class="info-card-label">Cognitive Domain</div>
+            <div class="info-card-value">declarative memory</div>
         </div>
-        
+        <div class="info-card">
+            <div class="info-card-label">Task Type</div>
+            <div class="info-card-value">associative learning</div>
+        </div>
+        </div>
         <div class="section">
-            <h2> Interactive Demo</h2>
-            <div class="warning-box">
-                 <strong>Try it now:</strong> Experience a browser-based demo version of this paradigm with reduced trials and timing.
+            <h2>Interactive Demo</h2>
+            
+            <div class="demo-box">
+                <strong>Try it now:</strong> Experience a browser-based demo version
+                of this paradigm with reduced trials and timing.
             </div>
             <div class="btn-container">
-                <a href="paradigm/psychopy/APPL_paradigm_short/APPL_demo.html" class="btn btn-demo" target="_blank">
-                     Launch Interactive Demo
+                <a href="paradigm/psychopy/APPL_paradigm_short/APPL_demo.html"
+                   class="btn btn-demo" target="_blank">
+                    Launch Interactive Demo
                 </a>
             </div>
         </div>
-        
         <div class="section">
-            <h2> Paradigm Files</h2>
-            <div class="links-container">
+            <h2>Description</h2>
+                    <div class="text-box">Language learning task probing the acquisition of novel word–meaning associations across repeated exposures.<br><br>The Associative Pseudoword Learning (APPL) paradigm investigates how the human brain encodes and consolidates associations between newly invented pseudowords and semantic referents. Participants learn to map a set of phonologically plausible but meaningless letter strings (e.g., 'MABREL', 'TUSKIN') onto object images or categories across multiple learning sessions. By requiring deliberate semantic binding, the task places heavy demands on the hippocampal–neocortical dialogue proposed to underlie new vocabulary acquisition.</div>
+        </div>
+        <div class="section">
+            <h2>Background</h2>
+                    <div class="text-box">Word learning in adulthood involves not only phonological encoding but also the rapid formation of arbitrary form–meaning links. The APPL task operationalises this by presenting pseudowords that must be associated with visual referents over a series of study–test cycles. Repeated exposure across two sessions (with a multi-day interval) allows measurement of consolidation and test-retest reliability of the learning index. The task is sensitive to individual differences in language aptitude and is used as a translational model of second-language acquisition in healthy and clinical populations.</div>
+        </div>
+        <div class="section">
+            <h2>Paradigm Details</h2>
+            <div class="detail-grid"><div class="detail-cell"><div class="detail-label">Procedure</div><div class="detail-text">Each session consists of four learning stages (LS1–LS4). Within each stage, pseudoword–image pairs are first presented for study (learning trials), followed by a forced-choice recognition test (control trials). Reaction time and accuracy are recorded for every trial. Session 2 is administered 1–2 weeks after Session 1 to assess long-term retention and reliability.</div></div><div class="detail-cell"><div class="detail-label">Trial Structure</div><div class="detail-text">Learning trial: pseudoword displayed centrally for up to 25 s; participant presses button 1 (known) or button 2 (unknown). Control trial: matched foil image presented under identical timing. Each stage comprises ~240 learning and ~80 control trials.</div></div><div class="detail-cell"><div class="detail-label">Design</div><div class="detail-text">Within-subjects, two-session repeated-measures. Sessions separated by 7–14 days.</div></div><div class="detail-cell"><div class="detail-label">Software</div><div class="detail-text">Presentation (Neurobehavioral Systems)</div></div><div class="detail-cell"><div class="detail-label">Response Device</div><div class="detail-text">two-button response box</div></div><div class="detail-cell"><div class="detail-label">Timing</div><div class="timing-row"><span class="timing-chip"><span class="chip-label">Stimulus Duration S</span> 25</span><span class="timing-chip"><span class="chip-label">Isi Range S</span> [2, 4]</span></div></div><div class="detail-cell detail-cell-full"><div class="detail-label">Keywords</div><div class="kw-row"><span class="kw-chip">pseudoword</span><span class="kw-chip">associative learning</span><span class="kw-chip">vocabulary acquisition</span><span class="kw-chip">hippocampus</span><span class="kw-chip">consolidation</span><span class="kw-chip">repeated measures</span></div></div></div>
+        </div>
+        <div class="section">
+            <h2>Paradigm Files</h2>
+            
+            <div class="links-grid">
                 <div class="link-card">
-                    <h3> PsychoPy Version</h3>
-                    <p>Full implementation with all features for running the experiment in PsychoPy.</p>
-                    <code>BEHub/Projects/APPL/paradigm/psychopy/</code>
-                    <a href="https://github.com/memoslap/BEHub/tree/main/Projects/APPL/paradigm/psychopy" 
-                       class="github-link" 
-                       target="_blank" 
-                       style="display: inline-flex; margin-top: 15px;">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
-                        View on GitHub
-                    </a>
+                    <h3>PsychoPy Version</h3>
+                    <p>Full implementation with all features for running the experiment.</p>
+                    <code>BEEHub/Projects/APPL/paradigm/psychopy/</code>
+                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/APPL/paradigm/psychopy" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
                 </div>
-                
                 <div class="link-card">
-                    <h3> Short Test Version</h3>
-                    <p>Reduced version for quick testing and debugging with fewer trials.</p>
-                    <code>BEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/</code>
-                    <a href="https://github.com/memoslap/BEHub/tree/main/Projects/APPL/paradigm/psychopy/APPL_paradigm_short" 
-                       class="github-link" 
-                       target="_blank" 
-                       style="display: inline-flex; margin-top: 15px;">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
-                        View on GitHub
-                    </a>
+                    <h3>Short Test Version</h3>
+                    <p>Reduced version for quick testing and debugging.</p>
+                    <code>BEEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/</code>
+                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/APPL/paradigm/psychopy/APPL_paradigm_short" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
                 </div>
-                
                 <div class="link-card">
-                    <h3> Presentation Files</h3>
-                    <p>Original Presentation software files with stimuli and materials.</p>
-                    <code>BEHub/Projects/APPL/paradigm/presentation/</code>
-                    <a href="https://github.com/memoslap/BEHub/tree/main/Projects/APPL/paradigm/presentation" 
-                       class="github-link" 
-                       target="_blank" 
-                       style="display: inline-flex; margin-top: 15px;">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
-                        View on GitHub
-                    </a>
+                    <h3>Presentation Files</h3>
+                    <p>Original Neurobehavioral Systems files with stimuli.</p>
+                    <code>BEEHub/Projects/APPL/paradigm/presentation/</code>
+                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/APPL/paradigm/presentation" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
                 </div>
-                
                 <div class="link-card">
-                    <h3> Stimuli</h3>
-                    <p>All stimulus materials including images and experimental materials.</p>
-                    <code>BEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/Stimuli/</code>
-                    <a href="https://github.com/memoslap/BEHub/tree/main/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/Stimuli" 
-                       class="github-link" 
-                       target="_blank" 
-                       style="display: inline-flex; margin-top: 15px;">
-                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
-                        View on GitHub
-                    </a>
+                    <h3>Stimuli</h3>
+                    <p>All stimulus materials and experimental resources.</p>
+                    <code>BEEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/Stimuli/</code>
+                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/Stimuli" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
                 </div>
             </div>
         </div>
-        
         <div class="section">
-            <h2> Running the Paradigm</h2>
-            <div class="highlight-box">
+            <h2>Running the Paradigm</h2>
+            
+            <div class="instructions-box">
                 <h3>PsychoPy Instructions</h3>
                 <ul>
                     <li>Install PsychoPy (recommended version 2021.2 or later)</li>
                     <li>Clone or download the repository from GitHub</li>
-                    <li>Navigate to the PsychoPy directory</li>
-                    <li>Run: <code>python APPL_short_version.py</code> (for test version)</li>
-                    <li>Follow on-screen instructions</li>
+                    <li>Navigate to the PsychoPy directory for this project</li>
+                    <li>Run: <code>python APPL_short_version.py</code> (test version)</li>
+                    <li>Follow the on-screen instructions</li>
                 </ul>
             </div>
         </div>
-        
-        <div class="btn-container">
-            <a href="../../dashboard.html" class="btn btn-secondary">← Back to Dashboard</a>
+        <div class="footer-row">
+            <a href="../../dashboard.html" class="btn btn-back">&#8592; Back to Dashboard</a>
         </div>
     </div>
 </body>

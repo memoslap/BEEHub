@@ -1,0 +1,18 @@
+{
+  "full_name": "N-Back Working Memory",
+  "short_description": "Continuous performance task requiring online maintenance and updating of stimulus identity across N intervening items.",
+  "long_description": "The N-Back Working Memory (NBACK) paradigm is among the most widely used measures of working memory capacity and updating in cognitive neuroscience. Participants monitor a continuous stream of stimuli and indicate whether each item matches the one presented N positions back in the sequence. The critical manipulation — varying N — parametrically increases the demand on active maintenance and interference resolution. The 2-back condition (N=2) contrasts with a 0-back baseline (target defined by identity alone), isolating working memory updating from simple target detection.",
+  "background": "Working memory — the capacity to hold and manipulate information over short intervals — is one of the best predictors of fluid intelligence and academic achievement. The N-back task has been shown to activate a frontoparietal network including dorsolateral prefrontal cortex, posterior parietal cortex, and anterior cingulate, and has been used extensively to study individual differences, ageing, pharmacological modulation, and cognitive training effects. The 2-back versus 0-back contrast is one of the most reliably reproduced contrasts in the fMRI literature, making NBACK a useful functional localiser as well as a standalone measure.",
+  "procedure": "Each session consists of four blocks of 2-back and two blocks of 0-back stimuli. Stimuli are letters (or spatial positions) presented at a 2-s rate. Participants press a target key (match) or a non-target key (no match) for each item. Accuracy and RT are scored per block. Block order is counterbalanced.",
+  "trial_structure": "2-back trial: letter displayed for 500 ms, 1500 ms ISI; respond if letter matches 2 positions back. 0-back trial: identical timing; respond if letter matches a pre-specified target (e.g., 'X'). Each block: 40 items (2-back) or 20 items (0-back), ~25% targets.",
+  "design": "Within-subjects, two-session repeated-measures. Four blocks of 2-back and two of 0-back per session.",
+  "modality": "visual",
+  "cognitive_domain": "working memory",
+  "task_type": "continuous performance / n-back",
+  "difficulty": "moderate-hard",
+  "keywords": ["n-back", "working memory", "updating", "dorsolateral prefrontal cortex", "fluid intelligence", "frontoparietal network"],
+  "response_device": "two-button response box or keyboard",
+  "timing": {"stimulus_duration_ms": 500, "isi_ms": 1500, "block_duration_approx_s": 90},
+  "n_sessions": 2,
+  "software": "E-Prime 3.0 / PsychoPy"
+}
