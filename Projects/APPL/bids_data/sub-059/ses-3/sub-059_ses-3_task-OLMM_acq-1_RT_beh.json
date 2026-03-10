@@ -1,0 +1,42 @@
+{
+  "TaskName": "OLMM",
+  "TaskDescription": "Reaction time (RT) per trial — time from stimulus onset to first button press. (OLMM project)",
+  "onset": {
+    "Description": "Reconstructed trial onset in seconds from the start of the run, computed as the cumulative sum of preceding trial durations.",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Reaction time in seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "response_time_ms": {
+    "Description": "Reaction time from stimulus onset to first button press. Derived from 'reaction_time' column (original values in seconds) multiplied by 1000.",
+    "Units": "milliseconds"
+  },
+  "trial_type": {
+    "Description": "Trial condition from the 'condition' column.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier derived from 'stage' column (LS1–LS4)."
+  },
+  "stimulus": {
+    "Description": "Stimulus filename from 'picture_path' column."
+  },
+  "coherence": {
+    "Description": "Picture–word coherence.",
+    "Levels": {
+      "c": "Congruent",
+      "i": "Incongruent"
+    }
+  },
+  "response_port": {
+    "Description": "Not recorded in df5.csv — always n/a.",
+    "Levels": {
+      "n/a": "Not available"
+    }
+  }
+}

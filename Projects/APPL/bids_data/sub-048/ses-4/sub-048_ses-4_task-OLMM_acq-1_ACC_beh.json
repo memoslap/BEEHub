@@ -1,0 +1,43 @@
+{
+  "TaskName": "OLMM",
+  "TaskDescription": "Accuracy (ACC) per trial: correct / incorrect / n/a. (OLMM project)",
+  "onset": {
+    "Description": "Reconstructed trial onset in seconds from the start of the run, computed as the cumulative sum of preceding trial durations. No raw timestamp column is available in df5.csv.",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Reaction time in seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "accuracy": {
+    "Description": "Response accuracy derived from signal_detection_theory column. 'hit' and 'correct rejection' → correct; 'miss' and 'false alarm' → incorrect; 'late' → n/a.",
+    "Levels": {
+      "correct": "Correct response (hit or correct rejection)",
+      "incorrect": "Incorrect response (miss or false alarm)",
+      "n/a": "No response within time limit (late)"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition from the 'condition' column.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier derived from 'stage' column (LS1–LS4)."
+  },
+  "stimulus": {
+    "Description": "Stimulus filename from 'picture_path' column."
+  },
+  "coherence": {
+    "Description": "Picture–word coherence.",
+    "Levels": {
+      "c": "Congruent (picture matches word)",
+      "i": "Incongruent (picture does not match word)"
+    }
+  },
+  "signal_detection_theory": {
+    "Description": "Signal detection theory label: hit, miss, false alarm, correct rejection, or late."
+  }
+}

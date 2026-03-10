@@ -1,0 +1,40 @@
+{
+  "TaskName": "OLMM",
+  "TaskDescription": "Binary-coded accuracy (ACCBIN) per trial: 1 = correct, 0 = incorrect. (OLMM project)",
+  "onset": {
+    "Description": "Reconstructed trial onset in seconds from the start of the run, computed as the cumulative sum of preceding trial durations.",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Reaction time in seconds (stimulus onset to button press).",
+    "Units": "seconds"
+  },
+  "accuracy_binary": {
+    "Description": "Binary accuracy derived from the 'hit' column. 1 = correct (hit or correct rejection); 0 = incorrect (miss or false alarm); n/a = late trial (no response).",
+    "Levels": {
+      "1": "Correct",
+      "0": "Incorrect",
+      "n/a": "No response (late)"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition from the 'condition' column.",
+    "Levels": {
+      "learning": "Learning trial",
+      "control": "Control trial"
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier derived from 'stage' column (LS1–LS4)."
+  },
+  "stimulus": {
+    "Description": "Stimulus filename from 'picture_path' column."
+  },
+  "coherence": {
+    "Description": "Picture–word coherence.",
+    "Levels": {
+      "c": "Congruent",
+      "i": "Incongruent"
+    }
+  }
+}

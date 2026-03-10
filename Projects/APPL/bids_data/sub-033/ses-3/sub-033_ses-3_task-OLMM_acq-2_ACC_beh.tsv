@@ -1,0 +1,321 @@
+onset	duration	accuracy	trial_type	learning_stage	stimulus	coherence	signal_detection_theory
+0.000	24.419	correct	learning	LS1	PICTURE_576.jpg	i	correct rejection
+24.419	14.358	incorrect	learning	LS1	PICTURE_52.jpg	c	miss
+38.777	19.163	incorrect	learning	LS1	PICTURE_594.jpg	i	false alarm
+57.940	13.736	correct	learning	LS1	PICTURE_581.jpg	i	correct rejection
+71.676	17.735	correct	learning	LS1	PICTURE_605.jpg	c	hit
+89.411	19.021	correct	learning	LS1	PICTURE_594.jpg	c	hit
+108.432	19.189	incorrect	learning	LS1	PICTURE_581.jpg	c	miss
+127.621	12.804	correct	learning	LS1	PICTURE_576.jpg	c	hit
+140.425	14.087	incorrect	learning	LS1	PICTURE_52.jpg	i	false alarm
+154.512	16.011	incorrect	learning	LS1	PICTURE_605.jpg	i	false alarm
+170.523	20.201	correct	learning	LS2	PICTURE_581.jpg	c	hit
+190.724	20.371	correct	learning	LS2	PICTURE_52.jpg	i	correct rejection
+211.095	8.389	correct	learning	LS2	PICTURE_576.jpg	c	hit
+219.484	12.230	correct	learning	LS2	PICTURE_594.jpg	c	hit
+231.714	n/a	n/a	learning	LS2	PICTURE_605.jpg	c	late
+256.714	16.402	correct	learning	LS2	PICTURE_581.jpg	i	correct rejection
+273.116	11.938	correct	learning	LS2	PICTURE_594.jpg	i	correct rejection
+285.054	14.504	correct	learning	LS2	PICTURE_605.jpg	i	correct rejection
+299.558	10.357	correct	learning	LS2	PICTURE_52.jpg	c	hit
+309.915	10.843	correct	learning	LS2	PICTURE_576.jpg	i	correct rejection
+320.758	12.311	incorrect	learning	LS3	PICTURE_594.jpg	i	false alarm
+333.069	9.282	correct	learning	LS3	PICTURE_52.jpg	i	correct rejection
+342.351	9.609	correct	learning	LS3	PICTURE_594.jpg	c	hit
+351.960	15.208	incorrect	learning	LS3	PICTURE_52.jpg	c	miss
+367.168	13.459	incorrect	learning	LS3	PICTURE_605.jpg	i	false alarm
+380.627	13.626	correct	learning	LS3	PICTURE_576.jpg	c	hit
+394.253	17.312	correct	learning	LS3	PICTURE_581.jpg	i	correct rejection
+411.565	8.208	correct	learning	LS3	PICTURE_605.jpg	c	hit
+419.773	14.449	correct	learning	LS3	PICTURE_581.jpg	c	hit
+434.222	7.745	correct	learning	LS3	PICTURE_576.jpg	i	correct rejection
+441.967	14.651	correct	learning	LS4	PICTURE_594.jpg	c	hit
+456.618	11.465	correct	learning	LS4	PICTURE_52.jpg	i	correct rejection
+468.083	10.513	correct	learning	LS4	PICTURE_605.jpg	i	correct rejection
+478.596	10.677	correct	learning	LS4	PICTURE_581.jpg	i	correct rejection
+489.273	10.207	correct	learning	LS4	PICTURE_576.jpg	c	hit
+499.480	9.896	correct	learning	LS4	PICTURE_594.jpg	i	correct rejection
+509.376	9.903	correct	learning	LS4	PICTURE_52.jpg	c	hit
+519.279	9.915	correct	learning	LS4	PICTURE_605.jpg	c	hit
+529.194	11.362	correct	learning	LS4	PICTURE_576.jpg	i	correct rejection
+540.556	11.853	correct	learning	LS4	PICTURE_581.jpg	c	hit
+552.409	12.177	correct	learning	LS1	PICTURE_43.jpg	c	hit
+564.586	16.333	correct	learning	LS1	PICTURE_247.jpg	c	hit
+580.919	20.340	correct	learning	LS1	PICTURE_741.jpg	c	hit
+601.259	20.498	correct	learning	LS1	PICTURE_599.jpg	i	correct rejection
+621.757	20.667	incorrect	learning	LS1	PICTURE_247.jpg	i	false alarm
+642.424	15.878	correct	learning	LS1	PICTURE_741.jpg	i	correct rejection
+658.302	7.733	correct	learning	LS1	PICTURE_43.jpg	i	correct rejection
+666.035	13.329	correct	learning	LS1	PICTURE_610.jpg	c	hit
+679.364	17.968	incorrect	learning	LS1	PICTURE_599.jpg	c	miss
+697.332	13.821	correct	learning	LS1	PICTURE_610.jpg	i	correct rejection
+711.153	10.178	correct	learning	LS2	PICTURE_43.jpg	c	hit
+721.331	13.385	correct	learning	LS2	PICTURE_599.jpg	c	hit
+734.716	7.800	correct	learning	LS2	PICTURE_610.jpg	c	hit
+742.516	11.321	correct	learning	LS2	PICTURE_599.jpg	i	correct rejection
+753.837	8.131	incorrect	learning	LS2	PICTURE_247.jpg	i	false alarm
+761.968	19.966	incorrect	learning	LS2	PICTURE_741.jpg	c	miss
+781.934	12.620	correct	learning	LS2	PICTURE_610.jpg	i	correct rejection
+794.554	12.787	correct	learning	LS2	PICTURE_43.jpg	i	correct rejection
+807.341	11.993	correct	learning	LS2	PICTURE_247.jpg	c	hit
+819.334	14.875	correct	learning	LS2	PICTURE_741.jpg	i	correct rejection
+834.209	10.593	correct	learning	LS3	PICTURE_247.jpg	c	hit
+844.802	11.719	correct	learning	LS3	PICTURE_741.jpg	i	correct rejection
+856.521	13.484	correct	learning	LS3	PICTURE_610.jpg	c	hit
+870.005	10.293	correct	learning	LS3	PICTURE_741.jpg	c	hit
+880.298	10.620	correct	learning	LS3	PICTURE_599.jpg	i	correct rejection
+890.918	10.947	correct	learning	LS3	PICTURE_43.jpg	c	hit
+901.865	8.076	correct	learning	LS3	PICTURE_599.jpg	c	hit
+909.941	10.477	correct	learning	LS3	PICTURE_247.jpg	i	correct rejection
+920.418	11.287	correct	learning	LS3	PICTURE_43.jpg	i	correct rejection
+931.705	13.214	correct	learning	LS3	PICTURE_610.jpg	i	correct rejection
+944.919	10.058	correct	learning	LS4	PICTURE_610.jpg	i	correct rejection
+954.977	9.743	correct	learning	LS4	PICTURE_43.jpg	i	correct rejection
+964.720	10.551	correct	learning	LS4	PICTURE_741.jpg	i	correct rejection
+975.271	9.441	correct	learning	LS4	PICTURE_247.jpg	c	hit
+984.712	14.084	correct	learning	LS4	PICTURE_741.jpg	c	hit
+998.796	12.813	correct	learning	LS4	PICTURE_43.jpg	c	hit
+1011.609	8.986	correct	learning	LS4	PICTURE_599.jpg	c	hit
+1020.595	9.314	correct	learning	LS4	PICTURE_610.jpg	c	hit
+1029.909	10.439	correct	learning	LS4	PICTURE_247.jpg	i	correct rejection
+1040.348	11.084	correct	learning	LS4	PICTURE_599.jpg	i	correct rejection
+1051.432	12.363	correct	learning	LS1	PICTURE_462.jpg	c	hit
+1063.795	14.927	incorrect	learning	LS1	PICTURE_21.jpg	i	false alarm
+1078.722	13.166	incorrect	learning	LS1	PICTURE_405.jpg	i	false alarm
+1091.888	20.204	incorrect	learning	LS1	PICTURE_402.jpg	i	false alarm
+1112.092	13.184	incorrect	learning	LS1	PICTURE_400.jpg	i	false alarm
+1125.276	11.596	correct	learning	LS1	PICTURE_21.jpg	c	hit
+1136.872	11.445	correct	learning	LS1	PICTURE_400.jpg	c	hit
+1148.317	14.007	incorrect	learning	LS1	PICTURE_405.jpg	c	miss
+1162.324	10.656	correct	learning	LS1	PICTURE_402.jpg	c	hit
+1172.980	10.982	correct	learning	LS1	PICTURE_462.jpg	i	correct rejection
+1183.962	12.452	correct	learning	LS2	PICTURE_21.jpg	i	correct rejection
+1196.414	10.220	correct	learning	LS2	PICTURE_405.jpg	c	hit
+1206.634	14.222	correct	learning	LS2	PICTURE_462.jpg	i	correct rejection
+1220.856	11.511	correct	learning	LS2	PICTURE_405.jpg	i	correct rejection
+1232.367	13.276	correct	learning	LS2	PICTURE_400.jpg	c	hit
+1245.643	15.043	correct	learning	LS2	PICTURE_462.jpg	c	hit
+1260.686	17.927	correct	learning	LS2	PICTURE_402.jpg	i	correct rejection
+1278.613	8.506	correct	learning	LS2	PICTURE_21.jpg	c	hit
+1287.119	9.310	correct	learning	LS2	PICTURE_402.jpg	c	hit
+1296.429	16.030	correct	learning	LS2	PICTURE_400.jpg	i	correct rejection
+1312.459	10.629	correct	learning	LS3	PICTURE_402.jpg	c	hit
+1323.088	8.239	correct	learning	LS3	PICTURE_21.jpg	c	hit
+1331.327	9.522	correct	learning	LS3	PICTURE_402.jpg	i	correct rejection
+1340.849	8.574	correct	learning	LS3	PICTURE_462.jpg	c	hit
+1349.423	10.340	correct	learning	LS3	PICTURE_405.jpg	c	hit
+1359.763	8.746	correct	learning	LS3	PICTURE_400.jpg	c	hit
+1368.509	10.350	correct	learning	LS3	PICTURE_405.jpg	i	correct rejection
+1378.859	12.111	correct	learning	LS3	PICTURE_462.jpg	i	correct rejection
+1390.970	7.007	correct	learning	LS3	PICTURE_400.jpg	i	correct rejection
+1397.977	11.491	correct	learning	LS3	PICTURE_21.jpg	i	correct rejection
+1409.468	11.688	correct	learning	LS4	PICTURE_462.jpg	i	correct rejection
+1421.156	10.096	correct	learning	LS4	PICTURE_405.jpg	i	correct rejection
+1431.252	8.343	correct	learning	LS4	PICTURE_21.jpg	i	correct rejection
+1439.595	10.908	correct	learning	LS4	PICTURE_402.jpg	c	hit
+1450.503	9.633	correct	learning	LS4	PICTURE_400.jpg	i	correct rejection
+1460.136	9.321	correct	learning	LS4	PICTURE_402.jpg	i	correct rejection
+1469.457	7.252	incorrect	learning	LS4	PICTURE_21.jpg	c	miss
+1476.709	13.333	correct	learning	LS4	PICTURE_462.jpg	c	hit
+1490.042	13.179	correct	learning	LS4	PICTURE_400.jpg	c	hit
+1503.221	10.628	correct	learning	LS4	PICTURE_405.jpg	c	hit
+1513.849	21.494	correct	control	LS1	PICTURE_485.jpg	i	correct rejection
+1535.343	14.627	correct	control	LS1	PICTURE_418.jpg	i	correct rejection
+1549.970	13.832	correct	control	LS1	PICTURE_498.jpg	c	hit
+1563.802	8.410	correct	control	LS1	PICTURE_350.jpg	c	hit
+1572.212	10.495	correct	control	LS1	PICTURE_498.jpg	i	correct rejection
+1582.707	10.183	correct	control	LS1	PICTURE_418.jpg	c	hit
+1592.890	14.817	correct	control	LS1	PICTURE_549.jpg	c	hit
+1607.707	8.432	correct	control	LS1	PICTURE_485.jpg	c	hit
+1616.139	11.475	correct	control	LS1	PICTURE_549.jpg	i	correct rejection
+1627.614	10.845	correct	control	LS1	PICTURE_350.jpg	i	correct rejection
+1638.459	8.806	correct	control	LS2	PICTURE_350.jpg	c	hit
+1647.265	8.971	correct	control	LS2	PICTURE_485.jpg	c	hit
+1656.236	11.852	correct	control	LS2	PICTURE_549.jpg	i	correct rejection
+1668.088	8.502	correct	control	LS2	PICTURE_498.jpg	i	correct rejection
+1676.590	11.865	correct	control	LS2	PICTURE_549.jpg	c	hit
+1688.455	9.957	correct	control	LS2	PICTURE_485.jpg	i	correct rejection
+1698.412	9.006	correct	control	LS2	PICTURE_350.jpg	i	correct rejection
+1707.418	8.697	correct	control	LS2	PICTURE_418.jpg	i	correct rejection
+1716.115	10.943	correct	control	LS2	PICTURE_498.jpg	c	hit
+1727.058	8.393	correct	control	LS2	PICTURE_418.jpg	c	hit
+1735.451	14.022	correct	control	LS3	PICTURE_663.jpg	i	correct rejection
+1749.473	10.038	correct	control	LS3	PICTURE_314.jpg	i	correct rejection
+1759.511	11.486	correct	control	LS3	PICTURE_388.jpg	c	hit
+1770.997	9.259	correct	control	LS3	PICTURE_552.jpg	i	correct rejection
+1780.256	10.536	correct	control	LS3	PICTURE_476.jpg	i	correct rejection
+1790.792	11.025	correct	control	LS3	PICTURE_314.jpg	c	hit
+1801.817	n/a	n/a	control	LS3	PICTURE_663.jpg	c	late
+1826.817	9.281	correct	control	LS3	PICTURE_552.jpg	c	hit
+1836.098	8.650	incorrect	control	LS3	PICTURE_476.jpg	c	miss
+1844.748	10.257	correct	control	LS3	PICTURE_388.jpg	i	correct rejection
+1855.005	10.452	correct	control	LS4	PICTURE_552.jpg	i	correct rejection
+1865.457	10.781	correct	control	LS4	PICTURE_476.jpg	c	hit
+1876.238	9.670	correct	control	LS4	PICTURE_388.jpg	i	correct rejection
+1885.908	11.435	correct	control	LS4	PICTURE_552.jpg	c	hit
+1897.343	8.086	correct	control	LS4	PICTURE_314.jpg	c	hit
+1905.429	9.532	correct	control	LS4	PICTURE_476.jpg	i	correct rejection
+1914.961	8.739	correct	control	LS4	PICTURE_663.jpg	c	hit
+1923.700	9.865	correct	control	LS4	PICTURE_388.jpg	c	hit
+1933.565	7.638	correct	control	LS4	PICTURE_663.jpg	i	correct rejection
+1941.203	10.043	correct	control	LS4	PICTURE_314.jpg	i	correct rejection
+1951.246	16.269	incorrect	learning	LS1	PICTURE_216.jpg	c	miss
+1967.515	14.997	correct	learning	LS1	PICTURE_703.jpg	c	hit
+1982.512	13.405	correct	learning	LS1	PICTURE_695.jpg	c	hit
+1995.917	12.611	incorrect	learning	LS1	PICTURE_53.jpg	i	false alarm
+2008.528	18.052	correct	learning	LS1	PICTURE_220.jpg	i	correct rejection
+2026.580	15.346	correct	learning	LS1	PICTURE_695.jpg	i	correct rejection
+2041.926	12.799	correct	learning	LS1	PICTURE_53.jpg	c	hit
+2054.725	13.125	correct	learning	LS1	PICTURE_703.jpg	i	correct rejection
+2067.850	17.446	correct	learning	LS1	PICTURE_220.jpg	c	hit
+2085.296	16.337	correct	learning	LS1	PICTURE_216.jpg	i	correct rejection
+2101.633	10.937	correct	learning	LS2	PICTURE_53.jpg	c	hit
+2112.570	9.506	correct	learning	LS2	PICTURE_216.jpg	c	hit
+2122.076	7.116	correct	learning	LS2	PICTURE_703.jpg	c	hit
+2129.192	11.916	incorrect	learning	LS2	PICTURE_216.jpg	i	false alarm
+2141.108	10.805	correct	learning	LS2	PICTURE_220.jpg	i	correct rejection
+2151.913	15.930	correct	learning	LS2	PICTURE_53.jpg	i	correct rejection
+2167.843	8.744	correct	learning	LS2	PICTURE_695.jpg	i	correct rejection
+2176.587	17.381	incorrect	learning	LS2	PICTURE_703.jpg	i	false alarm
+2193.968	n/a	n/a	learning	LS2	PICTURE_695.jpg	c	late
+2218.968	22.506	correct	learning	LS2	PICTURE_220.jpg	c	hit
+2241.474	8.316	correct	learning	LS3	PICTURE_53.jpg	c	hit
+2249.790	6.087	correct	learning	LS3	PICTURE_695.jpg	c	hit
+2255.877	14.406	correct	learning	LS3	PICTURE_216.jpg	i	correct rejection
+2270.283	9.619	correct	learning	LS3	PICTURE_703.jpg	i	correct rejection
+2279.902	13.300	correct	learning	LS3	PICTURE_220.jpg	i	correct rejection
+2293.202	15.068	correct	learning	LS3	PICTURE_53.jpg	i	correct rejection
+2308.270	7.884	correct	learning	LS3	PICTURE_695.jpg	i	correct rejection
+2316.154	10.922	correct	learning	LS3	PICTURE_220.jpg	c	hit
+2327.076	11.090	correct	learning	LS3	PICTURE_216.jpg	c	hit
+2338.166	7.584	correct	learning	LS3	PICTURE_703.jpg	c	hit
+2345.750	7.141	correct	learning	LS4	PICTURE_216.jpg	c	hit
+2352.891	10.026	correct	learning	LS4	PICTURE_695.jpg	i	correct rejection
+2362.917	8.112	correct	learning	LS4	PICTURE_703.jpg	c	hit
+2371.029	10.516	correct	learning	LS4	PICTURE_220.jpg	c	hit
+2381.545	9.566	correct	learning	LS4	PICTURE_703.jpg	i	correct rejection
+2391.111	9.569	correct	learning	LS4	PICTURE_216.jpg	i	correct rejection
+2400.680	8.776	correct	learning	LS4	PICTURE_53.jpg	i	correct rejection
+2409.456	7.667	correct	learning	LS4	PICTURE_695.jpg	c	hit
+2417.123	7.997	correct	learning	LS4	PICTURE_220.jpg	i	correct rejection
+2425.120	9.444	correct	learning	LS4	PICTURE_53.jpg	c	hit
+2434.564	12.006	incorrect	learning	LS1	PICTURE_746.jpg	i	false alarm
+2446.570	11.854	incorrect	learning	LS1	PICTURE_297.jpg	i	false alarm
+2458.424	16.339	incorrect	learning	LS1	PICTURE_23.jpg	c	miss
+2474.763	7.238	correct	learning	LS1	PICTURE_720.jpg	c	hit
+2482.001	17.952	correct	learning	LS1	PICTURE_297.jpg	c	hit
+2499.953	13.954	correct	learning	LS1	PICTURE_235.jpg	c	hit
+2513.907	9.329	correct	learning	LS1	PICTURE_746.jpg	c	hit
+2523.236	10.456	correct	learning	LS1	PICTURE_720.jpg	i	correct rejection
+2533.692	11.419	correct	learning	LS1	PICTURE_235.jpg	i	correct rejection
+2545.111	9.833	correct	learning	LS1	PICTURE_23.jpg	i	correct rejection
+2554.944	8.589	correct	learning	LS2	PICTURE_746.jpg	c	hit
+2563.533	8.916	correct	learning	LS2	PICTURE_297.jpg	c	hit
+2572.449	8.122	correct	learning	LS2	PICTURE_235.jpg	i	correct rejection
+2580.571	10.369	correct	learning	LS2	PICTURE_23.jpg	i	correct rejection
+2590.940	7.180	correct	learning	LS2	PICTURE_235.jpg	c	hit
+2598.120	9.587	correct	learning	LS2	PICTURE_720.jpg	i	correct rejection
+2607.707	8.157	correct	learning	LS2	PICTURE_23.jpg	c	hit
+2615.864	8.322	correct	learning	LS2	PICTURE_720.jpg	c	hit
+2624.186	9.128	correct	learning	LS2	PICTURE_297.jpg	i	correct rejection
+2633.314	8.015	correct	learning	LS2	PICTURE_746.jpg	i	correct rejection
+2641.329	10.606	correct	learning	LS3	PICTURE_235.jpg	i	correct rejection
+2651.935	6.138	incorrect	learning	LS3	PICTURE_23.jpg	c	miss
+2658.073	9.023	correct	learning	LS3	PICTURE_720.jpg	i	correct rejection
+2667.096	9.669	correct	learning	LS3	PICTURE_297.jpg	i	correct rejection
+2676.765	8.879	correct	learning	LS3	PICTURE_746.jpg	i	correct rejection
+2685.644	8.407	correct	learning	LS3	PICTURE_235.jpg	c	hit
+2694.051	8.732	correct	learning	LS3	PICTURE_23.jpg	i	correct rejection
+2702.783	8.419	correct	learning	LS3	PICTURE_746.jpg	c	hit
+2711.202	10.503	correct	learning	LS3	PICTURE_297.jpg	c	hit
+2721.705	7.792	correct	learning	LS3	PICTURE_720.jpg	c	hit
+2729.497	7.189	correct	learning	LS4	PICTURE_746.jpg	c	hit
+2736.686	9.115	correct	learning	LS4	PICTURE_720.jpg	i	correct rejection
+2745.801	11.676	correct	learning	LS4	PICTURE_235.jpg	i	correct rejection
+2757.477	7.049	correct	learning	LS4	PICTURE_720.jpg	c	hit
+2764.526	12.327	correct	learning	LS4	PICTURE_297.jpg	c	hit
+2776.853	9.939	correct	learning	LS4	PICTURE_23.jpg	c	hit
+2786.792	6.111	correct	learning	LS4	PICTURE_235.jpg	c	hit
+2792.903	9.635	correct	learning	LS4	PICTURE_297.jpg	i	correct rejection
+2802.538	8.840	correct	learning	LS4	PICTURE_23.jpg	i	correct rejection
+2811.378	10.285	correct	learning	LS4	PICTURE_746.jpg	i	correct rejection
+2821.663	13.644	correct	control	LS1	PICTURE_430.jpg	c	hit
+2835.307	9.014	correct	control	LS1	PICTURE_286.jpg	c	hit
+2844.321	6.941	correct	control	LS1	PICTURE_2.jpg	c	hit
+2851.262	7.908	correct	control	LS1	PICTURE_430.jpg	i	correct rejection
+2859.170	9.357	correct	control	LS1	PICTURE_286.jpg	i	correct rejection
+2868.527	10.165	correct	control	LS1	PICTURE_292.jpg	c	hit
+2878.692	13.207	correct	control	LS1	PICTURE_718.jpg	i	correct rejection
+2891.899	10.496	correct	control	LS1	PICTURE_2.jpg	i	correct rejection
+2902.395	9.068	correct	control	LS1	PICTURE_292.jpg	i	correct rejection
+2911.463	8.114	correct	control	LS1	PICTURE_718.jpg	c	hit
+2919.577	10.706	correct	control	LS2	PICTURE_2.jpg	i	correct rejection
+2930.283	8.153	correct	control	LS2	PICTURE_286.jpg	i	correct rejection
+2938.436	9.762	correct	control	LS2	PICTURE_430.jpg	i	correct rejection
+2948.198	6.252	correct	control	LS2	PICTURE_292.jpg	i	correct rejection
+2954.450	7.056	correct	control	LS2	PICTURE_718.jpg	i	correct rejection
+2961.506	9.624	correct	control	LS2	PICTURE_286.jpg	c	hit
+2971.130	n/a	n/a	control	LS2	PICTURE_430.jpg	c	late
+2996.130	7.880	correct	control	LS2	PICTURE_718.jpg	c	hit
+3004.010	9.487	correct	control	LS2	PICTURE_2.jpg	c	hit
+3013.497	7.577	correct	control	LS2	PICTURE_292.jpg	c	hit
+3021.074	9.531	correct	control	LS3	PICTURE_98.jpg	c	hit
+3030.605	10.821	correct	control	LS3	PICTURE_645.jpg	i	correct rejection
+3041.426	8.270	correct	control	LS3	PICTURE_731.jpg	i	correct rejection
+3049.696	8.437	correct	control	LS3	PICTURE_645.jpg	c	hit
+3058.133	14.678	incorrect	control	LS3	PICTURE_731.jpg	c	miss
+3072.811	11.972	correct	control	LS3	PICTURE_98.jpg	i	correct rejection
+3084.783	10.223	correct	control	LS3	PICTURE_134.jpg	c	hit
+3095.006	8.468	correct	control	LS3	PICTURE_733.jpg	c	hit
+3103.474	7.678	correct	control	LS3	PICTURE_134.jpg	i	correct rejection
+3111.152	12.005	correct	control	LS3	PICTURE_733.jpg	i	correct rejection
+3123.157	8.204	correct	control	LS4	PICTURE_645.jpg	i	correct rejection
+3131.361	6.613	correct	control	LS4	PICTURE_134.jpg	i	correct rejection
+3137.974	6.937	correct	control	LS4	PICTURE_98.jpg	i	correct rejection
+3144.911	11.102	correct	control	LS4	PICTURE_733.jpg	c	hit
+3156.013	8.711	correct	control	LS4	PICTURE_731.jpg	c	hit
+3164.724	8.558	correct	control	LS4	PICTURE_98.jpg	c	hit
+3173.282	9.523	correct	control	LS4	PICTURE_731.jpg	i	correct rejection
+3182.805	8.092	correct	control	LS4	PICTURE_733.jpg	i	correct rejection
+3190.897	7.619	correct	control	LS4	PICTURE_645.jpg	c	hit
+3198.516	8.581	correct	control	LS4	PICTURE_134.jpg	c	hit
+3207.097	17.404	incorrect	learning	LS1	PICTURE_488.jpg	i	false alarm
+3224.501	10.382	correct	learning	LS1	PICTURE_508.jpg	c	hit
+3234.883	10.862	correct	learning	LS1	PICTURE_480.jpg	i	correct rejection
+3245.745	15.983	correct	learning	LS1	PICTURE_508.jpg	i	correct rejection
+3261.728	8.958	correct	learning	LS1	PICTURE_488.jpg	c	hit
+3270.686	10.882	correct	learning	LS1	PICTURE_15.jpg	c	hit
+3281.568	14.408	correct	learning	LS1	PICTURE_95.jpg	c	hit
+3295.976	9.621	correct	learning	LS1	PICTURE_15.jpg	i	correct rejection
+3305.597	11.228	correct	learning	LS1	PICTURE_480.jpg	c	hit
+3316.825	14.431	correct	learning	LS1	PICTURE_95.jpg	i	correct rejection
+3331.256	8.874	correct	learning	LS2	PICTURE_480.jpg	c	hit
+3340.130	9.357	correct	learning	LS2	PICTURE_15.jpg	i	correct rejection
+3349.487	8.727	correct	learning	LS2	PICTURE_480.jpg	i	correct rejection
+3358.214	8.576	correct	learning	LS2	PICTURE_15.jpg	c	hit
+3366.790	13.532	correct	learning	LS2	PICTURE_508.jpg	c	hit
+3380.322	9.387	correct	learning	LS2	PICTURE_488.jpg	i	correct rejection
+3389.709	9.394	correct	learning	LS2	PICTURE_95.jpg	i	correct rejection
+3399.103	8.764	correct	learning	LS2	PICTURE_508.jpg	i	correct rejection
+3407.867	11.806	correct	learning	LS2	PICTURE_488.jpg	c	hit
+3419.673	12.932	correct	learning	LS2	PICTURE_95.jpg	c	hit
+3432.605	9.771	correct	learning	LS3	PICTURE_508.jpg	c	hit
+3442.376	8.180	correct	learning	LS3	PICTURE_488.jpg	c	hit
+3450.556	10.263	correct	learning	LS3	PICTURE_95.jpg	c	hit
+3460.819	8.033	correct	learning	LS3	PICTURE_15.jpg	c	hit
+3468.852	9.798	correct	learning	LS3	PICTURE_508.jpg	i	correct rejection
+3478.650	8.687	correct	learning	LS3	PICTURE_95.jpg	i	correct rejection
+3487.337	9.493	correct	learning	LS3	PICTURE_480.jpg	i	correct rejection
+3496.830	7.584	correct	learning	LS3	PICTURE_15.jpg	i	correct rejection
+3504.414	7.911	incorrect	learning	LS3	PICTURE_480.jpg	c	miss
+3512.325	8.717	correct	learning	LS3	PICTURE_488.jpg	i	correct rejection
+3521.042	8.272	correct	learning	LS4	PICTURE_480.jpg	i	correct rejection
+3529.314	8.754	correct	learning	LS4	PICTURE_488.jpg	i	correct rejection
+3538.068	10.677	correct	learning	LS4	PICTURE_508.jpg	i	correct rejection
+3548.745	7.329	incorrect	learning	LS4	PICTURE_95.jpg	c	miss
+3556.074	12.451	correct	learning	LS4	PICTURE_15.jpg	i	correct rejection
+3568.525	9.739	correct	learning	LS4	PICTURE_95.jpg	i	correct rejection
+3578.264	8.789	correct	learning	LS4	PICTURE_488.jpg	c	hit
+3587.053	6.881	correct	learning	LS4	PICTURE_508.jpg	c	hit
+3593.934	7.367	correct	learning	LS4	PICTURE_15.jpg	c	hit
+3601.301	6.416	correct	learning	LS4	PICTURE_480.jpg	c	hit

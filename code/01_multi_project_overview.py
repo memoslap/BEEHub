@@ -245,12 +245,34 @@ class ProjectOverviewGenerator:
         # Collect data by trial type and session
         data_by_condition = {}
 
+        # Pre-build a correct-response RT index: for each (subject_id, session, trial_type)
+        # keep only rows where accuracy_binary == 1, matched by positional trial index.
+        # This mirrors the filter in _calculate_reliability so violin/scatter plots show
+        # the same RT population that feeds the ICC calculations.
+        rt_correct = pd.DataFrame()
+        if not rt_data.empty and not accbin_data.empty:
+            def _add_idx(df):
+                df = df.copy()
+                df['_trial_idx'] = df.groupby(['subject_id', 'session']).cumcount()
+                return df
+            rt_idx  = _add_idx(rt_data)
+            acc_idx = _add_idx(accbin_data)
+            acc_key = acc_idx[['subject_id', 'session', '_trial_idx', 'accuracy_binary']].copy()
+            acc_key['accuracy_binary'] = pd.to_numeric(acc_key['accuracy_binary'], errors='coerce')
+            merged = rt_idx.merge(acc_key, on=['subject_id', 'session', '_trial_idx'],
+                                  how='left', suffixes=('', '_acc'))
+            rt_correct = merged[merged['accuracy_binary'] == 1].drop(
+                columns=['_trial_idx', 'accuracy_binary'], errors='ignore'
+            )
+        if rt_correct.empty:
+            rt_correct = rt_data  # fallback: no ACCBIN available, use all RT
+
         for trial_type in trial_types if trial_types else ['all']:
             for session in sessions if sessions else ['all']:
-                # --- RT ---
+                # --- RT (correct responses only) ---
                 rt_vals = []
-                if not rt_data.empty:
-                    df_rt = rt_data.copy()
+                if not rt_correct.empty:
+                    df_rt = rt_correct.copy()
                     if trial_types:
                         df_rt = df_rt[df_rt['trial_type'] == trial_type]
                     if sessions:
@@ -430,7 +452,13 @@ class ProjectOverviewGenerator:
     
     def _calculate_reliability(self, rt_data: pd.DataFrame, accbin_data: pd.DataFrame,
                                trial_types: List[str]) -> Dict:
-        """Calculate comprehensive reliability metrics from separate RT and ACCBIN DataFrames."""
+        """Calculate comprehensive reliability metrics from separate RT and ACCBIN DataFrames.
+
+        RT reliability is computed on correct responses only (accuracy_binary == 1).
+        Trials where accuracy_binary is 0 (incorrect) or n/a (late/missing) are excluded
+        from all RT ICC, Pearson r, Cohen's d, and CV calculations.
+        Accuracy reliability uses all trials with a valid (non-NaN) accuracy_binary value.
+        """
 
         reliability = {}
 
@@ -443,6 +471,38 @@ class ProjectOverviewGenerator:
             else:
                 df_rt  = rt_data.copy()  if not rt_data.empty  else pd.DataFrame()
                 df_acc = accbin_data.copy() if not accbin_data.empty else pd.DataFrame()
+
+            # --- RT: keep correct responses only (accuracy_binary == 1) ---
+            # Join RT rows with ACCBIN rows on subject_id + session + trial position
+            # so that only trials with a correct response contribute to RT reliability.
+            if not df_rt.empty and not df_acc.empty:
+                # Build a positional trial index within each subject × session × trial_type
+                # group, which is the only shared key between the two TSV files.
+                def add_trial_index(df):
+                    df = df.copy()
+                    df['_trial_idx'] = df.groupby(
+                        ['subject_id', 'session']
+                    ).cumcount()
+                    return df
+
+                df_rt_idx  = add_trial_index(df_rt)
+                df_acc_idx = add_trial_index(df_acc)
+
+                # Keep only the accuracy_binary column from ACCBIN for the merge
+                acc_key = df_acc_idx[['subject_id', 'session', '_trial_idx', 'accuracy_binary']].copy()
+                acc_key['accuracy_binary'] = pd.to_numeric(acc_key['accuracy_binary'], errors='coerce')
+
+                df_rt_merged = df_rt_idx.merge(
+                    acc_key,
+                    on=['subject_id', 'session', '_trial_idx'],
+                    how='left',
+                    suffixes=('', '_acc')
+                )
+
+                # Restrict RT to correct trials only
+                df_rt = df_rt_merged[df_rt_merged['accuracy_binary'] == 1].drop(
+                    columns=['_trial_idx', 'accuracy_binary'], errors='ignore'
+                )
 
             # Determine sessions from whichever DataFrame is available
             ref = df_rt if not df_rt.empty else df_acc
@@ -462,24 +522,21 @@ class ProjectOverviewGenerator:
             rt_subjects  = multi_session_subjects(df_rt)
             acc_subjects = multi_session_subjects(df_acc)
 
-            rt_iccs, acc_iccs = [], []
-            rt_cohens_d, acc_cohens_d = [], []
-            rt_pearson_r, acc_pearson_r = [], []
             rt_cv_ses1, rt_cv_ses2 = [], []
             acc_cv_ses1, acc_cv_ses2 = [], []
 
+            # ── RT: one mean per subject per session → ICC across subjects
+            #    Standard test-retest reliability: rows=subjects, columns=sessions.
+            #    The old approach fed per-subject trial vectors into ICC, which
+            #    measured meaningless trial-order correlation (~0.13 instead of ~0.76).
+            rt_s1_means, rt_s2_means = [], []
             for subject in rt_subjects:
                 subj = df_rt[df_rt['subject_id'] == subject]
                 s1 = pd.to_numeric(subj[subj['session'] == sessions[0]]['response_time_ms'], errors='coerce').dropna().values
                 s2 = pd.to_numeric(subj[subj['session'] == sessions[1]]['response_time_ms'], errors='coerce').dropna().values
-                n  = min(len(s1), len(s2))
-                if n > 5:
-                    icc = self.calculate_icc(s1[:n], s2[:n])
-                    if not np.isnan(icc): rt_iccs.append(icc)
-                    d = self.calculate_cohens_d(s1[:n], s2[:n])
-                    if not np.isnan(d): rt_cohens_d.append(d)
-                    r = self.calculate_pearson_r(s1[:n], s2[:n])
-                    if not np.isnan(r): rt_pearson_r.append(r)
+                if len(s1) > 0 and len(s2) > 0:
+                    rt_s1_means.append(float(np.mean(s1)))
+                    rt_s2_means.append(float(np.mean(s2)))
                 if len(s1) > 1:
                     cv = self.calculate_cv(s1)
                     if not np.isnan(cv): rt_cv_ses1.append(cv)
@@ -487,24 +544,39 @@ class ProjectOverviewGenerator:
                     cv = self.calculate_cv(s2)
                     if not np.isnan(cv): rt_cv_ses2.append(cv)
 
+            rt_s1 = np.array(rt_s1_means)
+            rt_s2 = np.array(rt_s2_means)
+            rt_iccs      = [self.calculate_icc(rt_s1, rt_s2)]       if len(rt_s1) > 2 else []
+            rt_pearson_r = [self.calculate_pearson_r(rt_s1, rt_s2)] if len(rt_s1) > 2 else []
+            rt_cohens_d  = [self.calculate_cohens_d(rt_s1, rt_s2)]  if len(rt_s1) > 2 else []
+            rt_iccs      = [v for v in rt_iccs      if not np.isnan(v)]
+            rt_pearson_r = [v for v in rt_pearson_r if not np.isnan(v)]
+            rt_cohens_d  = [v for v in rt_cohens_d  if not np.isnan(v)]
+
+            # ── Accuracy: same approach
+            acc_s1_means, acc_s2_means = [], []
             for subject in acc_subjects:
                 subj = df_acc[df_acc['subject_id'] == subject]
                 s1 = pd.to_numeric(subj[subj['session'] == sessions[0]]['accuracy_binary'], errors='coerce').dropna().values
                 s2 = pd.to_numeric(subj[subj['session'] == sessions[1]]['accuracy_binary'], errors='coerce').dropna().values
-                n  = min(len(s1), len(s2))
-                if n > 5:
-                    icc = self.calculate_icc(s1[:n], s2[:n])
-                    if not np.isnan(icc): acc_iccs.append(icc)
-                    d = self.calculate_cohens_d(s1[:n], s2[:n])
-                    if not np.isnan(d): acc_cohens_d.append(d)
-                    r = self.calculate_pearson_r(s1[:n], s2[:n])
-                    if not np.isnan(r): acc_pearson_r.append(r)
+                if len(s1) > 0 and len(s2) > 0:
+                    acc_s1_means.append(float(np.mean(s1)))
+                    acc_s2_means.append(float(np.mean(s2)))
                 if len(s1) > 1:
                     cv = self.calculate_cv(s1)
                     if not np.isnan(cv): acc_cv_ses1.append(cv)
                 if len(s2) > 1:
                     cv = self.calculate_cv(s2)
                     if not np.isnan(cv): acc_cv_ses2.append(cv)
+
+            acc_s1 = np.array(acc_s1_means)
+            acc_s2 = np.array(acc_s2_means)
+            acc_iccs      = [self.calculate_icc(acc_s1, acc_s2)]       if len(acc_s1) > 2 else []
+            acc_pearson_r = [self.calculate_pearson_r(acc_s1, acc_s2)] if len(acc_s1) > 2 else []
+            acc_cohens_d  = [self.calculate_cohens_d(acc_s1, acc_s2)]  if len(acc_s1) > 2 else []
+            acc_iccs      = [v for v in acc_iccs      if not np.isnan(v)]
+            acc_pearson_r = [v for v in acc_pearson_r if not np.isnan(v)]
+            acc_cohens_d  = [v for v in acc_cohens_d  if not np.isnan(v)]
             
             reliability[trial_type] = {
                 # ICC metrics
