@@ -1,4 +1,4 @@
-# Adding a New Project to BEE Hub
+![BEE Hub](beehub_logo.png)
 
 ## What is BEE Hub?
 
