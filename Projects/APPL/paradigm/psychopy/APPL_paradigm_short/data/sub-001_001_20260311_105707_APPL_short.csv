@@ -1,0 +1,9 @@
+participant,session,phase,block_run,block_num,learning_stage,trial,image,word,correct_word,condition,response,correct,rt,onset_time
+sub-001,001,learning-1,1,1,1,1,learning/PICTURE_40.jpg,Goser,Priebem,i,1,incorrect,1.7194,36.1637
+sub-001,001,learning-1,1,1,1,2,learning/PICTURE_513.jpg,Seltus,Seltus,c,2,incorrect,0.7023,40.7007
+sub-001,001,learning-1,1,1,1,3,learning/PICTURE_24.jpg,Basut,Basut,c,1,correct,1.2451,45.238
+sub-001,001,learning-1,1,1,1,4,learning/PICTURE_397.jpg,Aume,Pofein,i,2,correct,1.5799,49.7751
+sub-001,001,learning-1,1,1,1,5,learning/PICTURE_245.jpg,Enelt,Enelt,c,1,correct,1.3868,54.3123
+sub-001,001,learning-1,1,1,1,6,learning/PICTURE_513.jpg,Geward,Seltus,i,2,correct,1.0178,58.8494
+sub-001,001,learning-1,1,1,1,7,learning/PICTURE_245.jpg,Pafau,Enelt,i,2,correct,1.7765,63.3867
+sub-001,001,learning-1,1,1,1,8,learning/PICTURE_397.jpg,Pofein,Pofein,c,1,correct,1.2475,67.9237

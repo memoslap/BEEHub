@@ -1,0 +1,4 @@
+participant,session,version,phase,block,rep,trial,stimulus,stim_type,direction,side,response_key,correct,rt,onset_time
+sub-001,1,A,learning-1,1,1,1,h8_p10_i_up_left.jpg,i,up,left,left,incorrect,1.2448,12.7606
+sub-001,1,A,learning-1,1,1,2,h103_p17_i_down_right.jpg,i,down,right,right,correct,1.0007,16.7806
+sub-001,1,A,learning-1,1,1,3,h113_p53_k_down_q4_left.jpg,k,down,q4,left,correct,0.7509,20.5504

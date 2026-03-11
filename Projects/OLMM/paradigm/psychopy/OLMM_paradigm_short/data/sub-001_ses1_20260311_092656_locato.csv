@@ -1,0 +1,8 @@
+participant,session,version,phase,block,rep,trial,stimulus,stim_type,direction,side,response_key,correct,rt,onset_time
+sub-001,1,A,learning-1,1,1,1,h4_p32_i_up_left.jpg,i,up,left,,timeout,,14.0116
+sub-001,1,A,learning-1,1,1,2,h113_p20_i_down_left.jpg,i,down,left,,timeout,,19.4902
+sub-001,1,A,learning-1,1,1,3,h8_p7_k_up_q1_left.jpg,k,up,q1,,timeout,,24.954
+sub-001,1,A,learning-1,1,1,4,h104_p35_i_down_left.jpg,i,down,left,left,incorrect,2.2562,30.4087
+sub-001,1,A,learning-1,1,1,5,h103_p16_k_down_q3_right.jpg,k,down,q3,,timeout,,35.6202
+sub-001,1,A,learning-1,1,1,6,h4_p31_k_up_q4_left.jpg,k,up,q4,,timeout,,41.0707
+sub-001,1,A,learning-1,1,1,7,h115_p38_k_down_q2_right.jpg,k,down,q2,,timeout,,46.539

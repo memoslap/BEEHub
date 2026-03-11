@@ -1,822 +1,566 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-PsychoPy implementation of APPL fMRI experiment
-Based on Presentation .sce files - UPDATED VERSION
+APPL – Set 2 (PsychoPy)
+=========================
+Associative Picture-Pseudoword Learning – full experiment, Set 2.
+
+Identical structure to Set 1. Only LEARNING/CONTROL stimulus lists differ,
+and folder layout differs: bubbles/, learning/, and control/ live directly
+under Set_2/ (not inside a Stimuli/ subfolder).
+
+Folder layout (relative to this script)
+-----------------------------------------
+bubbles/    hello.jpg  learning.jpg  control.jpg  bye.jpg
+learning/   PICTURE_*.jpg   (28 items)
+control/    PICTURE_*.jpg   (28 items)
+data/        output CSV + log
+instr_1*.jpg / instr_21.jpg / instr_3*.jpg  (instruction slides at script root)
+
+Trial timing  ← same as Set 1
+------------
+  Phase 1  2.5 s  Image (600×600) centre + pseudoword below (pos 0,−400).
+                  Keys 1 (Ja) and 2 (Nein) accepted any time; window completes.
+  Phase 2  2.0 s  Feedback text only:
+                      "Korrekt/Falsch/Zu spät, das ist {correct_word}"
 """
 
-from psychopy import visual, core, event, data, gui, logging
-import numpy as np
-import random
-import os
-import sys
-import glob
-from datetime import datetime
+import os, random, datetime, csv, glob
+from psychopy import visual, core, event, gui, logging
 
-# =============================================================================
-# EXPERIMENT SETUP
-# =============================================================================
+# ── Paths ──────────────────────────────────────────────────────────────────────
+# NOTE: Set 2 has no Stimuli/ subfolder – bubbles, learning, control are at root.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+def _p(*parts): return os.path.join(_HERE, *parts)
 
-# Experiment info dialog
-exp_info = {
-    'subject': '001',
-    'session': '1',
-    'version': 'A',
-    'fmri_mode': False,  # Set to True for fMRI with pulse triggering
-}
-dlg = gui.DlgFromDict(exp_info, title='APPL Experiment')
+STIM_DIR    = _HERE          # images referenced as 'learning/PICTURE_x.jpg' etc.
+BUBBLES_DIR = _p('bubbles')
+LEARN_DIR   = _p('learning')
+CTRL_DIR    = _p('control')
+AFC_DIR     = _p('AFC')
+DATA_DIR    = _p('data')
+
+# ── Timing ─────────────────────────────────────────────────────────────────────
+STIM_DUR     = 2.500
+FEEDBACK_DUR = 2.000
+FIX_DUR      = 4.500
+
+KEY_YES = '1'
+KEY_NO  = '2'
+
+# ── Dialog ─────────────────────────────────────────────────────────────────────
+exp_info = {'subject': '001', 'session': '1', 'fmri_mode': False}
+dlg = gui.DlgFromDict(exp_info, title='APPL Experiment – Set 2', sortKeys=False)
 if not dlg.OK:
     core.quit()
 
-# Create data filename
-date_str = datetime.now().strftime("%Y-%m-%d_%H-%M")
-filename = f"data/sub-{exp_info['subject']}_ses-{exp_info['session']}_ver-{exp_info['version']}_{date_str}"
-os.makedirs('data', exist_ok=True)
+participant = exp_info['subject']
+session     = exp_info['session']
+fmri_mode   = exp_info['fmri_mode']
 
-# Set up logging
-logging.console.setLevel(logging.INFO)
-log_file = logging.LogFile(filename + '.log', level=logging.EXP)
-logging.setDefaultClock(core.MonotonicClock())
+os.makedirs(DATA_DIR, exist_ok=True)
+date_str  = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+csv_fname = _p('data', f"sub-{participant}_ses-{session}_{date_str}_APPL_Set2.csv")
+log_fname = _p('data', f"sub-{participant}_ses-{session}_{date_str}_APPL_Set2.log")
 
-# Open window with correct size for instructions (1280x720)
-win = visual.Window(
-    size=[1280, 720],
-    fullscr=False,
-    screen=0,
-    winType='pyglet',
-    allowGUI=False,
-    color='black',
-    units='pix'
-)
+logging.console.setLevel(logging.WARNING)
+logging.LogFile(log_fname, level=logging.EXP)
 
-# =============================================================================
-# STIMULUS DEFINITIONS
-# =============================================================================
+# ── Window & clock ─────────────────────────────────────────────────────────────
+win = visual.Window(size=(1280, 720), fullscr=True,
+                    color='black', units='pix', allowGUI=False)
+global_clock = core.Clock()
 
-# Text stimuli
-fixation = visual.TextStim(win, text='+', color='white', height=100)
-response_text = visual.TextStim(win, text='-', color='white', height=100)
-feedback_text = visual.TextStim(win, text='', color='white', height=100)
+# ── Visual objects ─────────────────────────────────────────────────────────────
+fixation      = visual.TextStim(win, text='+', color='white', height=100)
+feedback_text = visual.TextStim(win, text='',  color='white', height=60,
+                                wrapWidth=1100)
+pres_word     = visual.TextStim(win, text='',  color='white', height=100,
+                                pos=(0, -400), wrapWidth=600)
+pres_pic      = visual.ImageStim(win, size=(600, 600), pos=(0, 0))
+info_pic      = visual.ImageStim(win, size=(600, 398), pos=(0, 0))
+afc_pic       = visual.ImageStim(win, size=(1224, 987), pos=(0, 0))
+key_label_1   = visual.TextStim(win, text='1 = Ja',   color='white', height=40,
+                                pos=(-340, -490))
+key_label_2   = visual.TextStim(win, text='2 = Nein', color='white', height=40,
+                                pos=( 340, -490))
 
-# Image stimuli
-pres_pic = visual.ImageStim(win)
-info_pic = visual.ImageStim(win)
-pres_word = visual.TextStim(win, text='...', color='white', height=100, pos=(0, -400))
+# ── CSV writer ─────────────────────────────────────────────────────────────────
+_csv_file   = open(csv_fname, 'w', newline='', encoding='utf-8')
+_csv_writer = csv.writer(_csv_file)
+_csv_writer.writerow(['participant', 'session', 'set',
+                      'phase', 'block_run', 'block_num', 'learning_stage', 'trial',
+                      'image', 'word', 'correct_word', 'condition',
+                      'response', 'correct', 'rt', 'onset_time'])
 
-# =============================================================================
-# HELPER FUNCTIONS
-# =============================================================================
+def write_row(**kw):
+    _csv_writer.writerow([participant, session, '2',
+        kw.get('phase',''),        kw.get('block_run',''),
+        kw.get('block_num',''),    kw.get('learning_stage',''),
+        kw.get('trial',''),        kw.get('image',''),
+        kw.get('word',''),         kw.get('correct_word',''),
+        kw.get('condition',''),    kw.get('response',''),
+        kw.get('correct',''),      kw.get('rt',''),
+        kw.get('onset_time','')])
+    _csv_file.flush()
 
-def wait_for_pulse():
-    """Wait for fMRI trigger (simulated or real)"""
-    if exp_info['fmri_mode']:
-        # In real fMRI mode, wait for trigger pulse
-        # This is a placeholder - actual implementation depends on hardware
-        pass
+# ── Helpers ────────────────────────────────────────────────────────────────────
+def check_quit():
+    if event.getKeys(keyList=['escape']):
+        _csv_file.close(); win.close(); core.quit()
+
+def show_fixation(duration=FIX_DUR):
+    fixation.draw(); win.flip()
+    core.wait(duration); check_quit()
+
+def show_bubble(img_path, duration=FIX_DUR):
+    if os.path.isfile(img_path):
+        info_pic.setImage(img_path); info_pic.draw()
     else:
-        # In emulation mode, wait for spacebar
-        event.waitKeys(keyList=['space'])
-        core.wait(0.5)  # Simulate scanner delay
+        visual.TextStim(win, text=os.path.basename(img_path),
+                        color='white', height=60).draw()
+    win.flip(); core.wait(duration); check_quit()
 
-def present_trial(stimulus, duration=None, response_buttons=None):
-    """
-    Present a trial with optional duration and response collection
-    
-    Parameters:
-    - stimulus: visual stimulus to present
-    - duration: trial duration in seconds (None = forever)
-    - response_buttons: list of allowed buttons
-    """
-    timer = core.Clock()
-    response = None
-    rt = None
-    
-    while True:
-        stimulus.draw()
-        win.flip()
-        
-        # Check for responses
-        if response_buttons:
-            keys = event.getKeys(keyList=response_buttons, timeStamped=timer)
-            if keys:
-                response = keys[0][0]
-                rt = keys[0][1]
-                break
-        
-        # Check duration
-        if duration and timer.getTime() >= duration:
+def show_text_slide(title, body, footer, advance_key='space'):
+    """Render a single instruction slide – black background, white text only."""
+    # Title
+    visual.TextStim(win, text=title, color='white', height=36,
+                    bold=True, pos=(0, 280), wrapWidth=1100).draw()
+    # Divider line
+    visual.Line(win, start=(-540, 240), end=(540, 240),
+                lineColor='white', lineWidth=1).draw()
+    # Body
+    visual.TextStim(win, text=body, color='white', height=28,
+                    pos=(0, 20), wrapWidth=1050, alignText='left').draw()
+    # Footer
+    key_label = 'LEERTASTE' if advance_key == 'space' else f'Taste {advance_key}'
+    visual.TextStim(win, text=f"{footer}    [{key_label} -> weiter]",
+                    color='white', height=22,
+                    pos=(0, -295), wrapWidth=1100).draw()
+    win.flip()
+    event.waitKeys(keyList=[advance_key, 'escape']); check_quit()
+
+
+def show_instructions_part1():
+    """7 slides explaining the learning task."""
+    show_text_slide(
+        title="Willkommen – APPL-Studie",
+        body=(
+            "Vielen Dank für Ihre Teilnahme!\n\n"
+            "In dieser Studie werden Sie Bilder kennenlernen,\n"
+            "die jeweils mit einem erfundenen Wort verbunden sind.\n\n"
+            "Ihre Aufgabe ist es, sich zu merken,\n"
+            "welches Wort zu welchem Bild gehört."
+        ),
+        footer="Folie 1 / 7"
+    )
+    show_text_slide(
+        title="Ablauf der Aufgabe",
+        body=(
+            "Sie sehen nacheinander Bilder auf dem Bildschirm.\n\n"
+            "Unter jedem Bild erscheint ein Wort.\n\n"
+            "Ihre Aufgabe:\n"
+            "  Entscheiden Sie, ob das angezeigte Wort\n"
+            "  das RICHTIGE Wort für dieses Bild ist."
+        ),
+        footer="Folie 2 / 7"
+    )
+    show_text_slide(
+        title="Tasten",
+        body=(
+            "Drücken Sie:\n\n"
+            "       1  ->  JA,  das ist das richtige Wort\n\n"
+            "       2  ->  NEIN,  das ist nicht das richtige Wort\n\n"
+            "Sie haben 2,5 Sekunden Zeit für Ihre Antwort.\n"
+            "Antworten Sie so schnell und genau wie möglich."
+        ),
+        footer="Folie 3 / 7"
+    )
+    show_text_slide(
+        title="Rückmeldung",
+        body=(
+            "Nach jeder Antwort erhalten Sie eine Rückmeldung:\n\n"
+            "  'Korrekt, das ist [Wort]'  – Ihre Antwort war richtig\n\n"
+            "  'Falsch, das ist [Wort]'   – Ihre Antwort war falsch\n\n"
+            "  'Zu spät, das ist [Wort]'  – keine Antwort in der Zeit\n\n"
+            "Nutzen Sie die Rückmeldung, um das Wort zu lernen."
+        ),
+        footer="Folie 4 / 7"
+    )
+    show_text_slide(
+        title="Lernphasen",
+        body=(
+            "Jedes Bild wird mehrmals gezeigt.\n\n"
+            "Beim ersten Mal kennen Sie das richtige Wort noch nicht –\n"
+            "das ist normal. Lernen Sie durch die Rückmeldungen.\n\n"
+            "Mit jeder Wiederholung sollte es Ihnen leichter fallen,\n"
+            "das richtige Wort zu erkennen."
+        ),
+        footer="Folie 5 / 7"
+    )
+    show_text_slide(
+        title="Kontrollaufgabe",
+        body=(
+            "Zwischendurch gibt es eine Kontrollaufgabe.\n\n"
+            "Dort sehen Sie bekannte Objekte mit echten deutschen Wörtern.\n\n"
+            "Auch hier entscheiden Sie mit  1  (Ja) und  2  (Nein),\n"
+            "ob das angezeigte Wort zum Bild passt.\n\n"
+            "Die Aufgabe funktioniert genauso wie die Lernaufgabe."
+        ),
+        footer="Folie 6 / 7"
+    )
+    show_text_slide(
+        title="Bereit?",
+        body=(
+            "Sie sind nun bereit, mit der Aufgabe zu beginnen.\n\n"
+            "Denken Sie daran:\n"
+            "  1 = JA   (richtiges Wort)\n"
+            "  2 = NEIN (falsches Wort)\n\n"
+            "Antworten Sie innerhalb von 2,5 Sekunden.\n\n"
+            "Viel Erfolg!"
+        ),
+        footer="Folie 7 / 7",
+        advance_key='space'
+    )
+
+
+def show_instructions_part2():
+    """Single slide shown before the main learning phase begins."""
+    show_text_slide(
+        title="Die Aufgabe beginnt jetzt",
+        body=(
+            "Die Lernaufgabe beginnt gleich.\n\n"
+            "Zur Erinnerung:\n\n"
+            "       1  ->  JA,  das ist das richtige Wort\n\n"
+            "       2  ->  NEIN,  das ist nicht das richtige Wort\n\n"
+            "Sie haben 2,5 Sekunden pro Bild."
+        ),
+        footer="Drücken Sie die LEERTASTE, wenn Sie bereit sind.",
+        advance_key='space'
+    )
+
+
+def show_instructions_part3():
+    """4 slides for the AFC (recognition) test."""
+    show_text_slide(
+        title="Gedächtnistest",
+        body=(
+            "Sie haben nun alle Lernblöcke abgeschlossen.\n\n"
+            "Jetzt folgt ein Gedächtnistest.\n\n"
+            "Ihnen werden Bilder gezeigt, die Sie zuvor gesehen haben.\n"
+            "Zu jedem Bild werden drei Wörter angezeigt."
+        ),
+        footer="Folie 1 / 4"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Ihre Aufgabe",
+        body=(
+            "Wählen Sie das Wort, das während der Lernphase\n"
+            "zu diesem Bild gehörte.\n\n"
+            "Drücken Sie:\n\n"
+            "       1  ->  linkes Wort\n"
+            "       2  ->  mittleres Wort\n"
+            "       3  ->  rechtes Wort"
+        ),
+        footer="Folie 2 / 4"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Hinweise",
+        body=(
+            "Es gibt keine Zeitbeschränkung.\n\n"
+            "Antworten Sie so genau wie möglich.\n\n"
+            "Wenn Sie unsicher sind, raten Sie –\n"
+            "lassen Sie kein Bild unbeantwortet."
+        ),
+        footer="Folie 3 / 4"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Bereit?",
+        body=(
+            "Der Gedächtnistest beginnt gleich.\n\n"
+            "Zur Erinnerung:\n\n"
+            "       1  ->  linkes Wort\n"
+            "       2  ->  mittleres Wort\n"
+            "       3  ->  rechtes Wort\n\n"
+            "Viel Erfolg!"
+        ),
+        footer="Drücken Sie die LEERTASTE, um zu beginnen.",
+        advance_key='space'
+    )
+
+def get_stimuli(directory):
+    files = sorted(glob.glob(os.path.join(directory, '*.jpg')) +
+                   glob.glob(os.path.join(directory, '*.JPG')))
+    return [f for f in files
+            if not os.path.basename(f).lower().startswith('thumbs')]
+
+# ── Stimulus lists – Set 2 ─────────────────────────────────────────────────────
+LEARNING = [
+    # Block 1 (7 items)
+    {'pic': 'learning/PICTURE_400.jpg', 'words': ['Lopfer',  'Loptem',    'Lopdor',   'Lopmig',   'Lopter']},
+    {'pic': 'learning/PICTURE_402.jpg', 'words': ['Resar',   'Rerod',     'Regan',    'Reper',    'Remert']},
+    {'pic': 'learning/PICTURE_405.jpg', 'words': ['Nomtap',  'Nomgan',    'Nomtun',   'Nomzerl',  'Nomser']},
+    {'pic': 'learning/PICTURE_462.jpg', 'words': ['Jamip',   'Jamun',     'Jakel',    'Jaser',    'Jasull']},
+    {'pic': 'learning/PICTURE_53.jpg',  'words': ['Knele',   'Knera',     'Knefe',    'Knetam',   'Knesam']},
+    {'pic': 'learning/PICTURE_216.jpg', 'words': ['Tignam',  'Tigfe',     'Tigdon',   'Tigdam',   'Tigmer']},
+    {'pic': 'learning/PICTURE_21.jpg',  'words': ['Kr\u00fckta', 'Kr\u00fckel', 'Kr\u00fcktem', 'Kr\u00fcklass', 'Kr\u00fckmig']},
+    # Block 2 (7 items)
+    {'pic': 'learning/PICTURE_480.jpg', 'words': ['Zamet',   'Zate',      'Zabig',    'Zabelt',   'Zatir']},
+    {'pic': 'learning/PICTURE_488.jpg', 'words': ['Jehler',  'Jehrig',    'Jehmel',   'Jehtir',   'Jehse']},
+    {'pic': 'learning/PICTURE_508.jpg', 'words': ['Zerbe',   'Zermel',    'Zerse',    'Zerpet',   'Zertock']},
+    {'pic': 'learning/PICTURE_15.jpg',  'words': ['Joten',   'Joper',     'Josant',   'Jotolt',   'Jota']},
+    {'pic': 'learning/PICTURE_695.jpg', 'words': ['Munem',   'Muschot',   'Mufi',     'Mugir',    'Mupat']},
+    {'pic': 'learning/PICTURE_703.jpg', 'words': ['Knusap',  'Knufi',     'Knufeg',   'Knupat',   'Knuler']},
+    {'pic': 'learning/PICTURE_95.jpg',  'words': ['Klenter', 'Klentant',  'Klenban',  'Klenta',   'Klenfalt']},
+    # Block 3 (7 items)
+    {'pic': 'learning/PICTURE_576.jpg', 'words': ['Sch\u00f6le',  'Sch\u00f6lte',  'Sch\u00f6lse',  'Sch\u00f6lme',  'Sch\u00f6lter']},
+    {'pic': 'learning/PICTURE_581.jpg', 'words': ['Zampe',   'Zamse',     'Zamram',   'Zambel',   'Zamler']},
+    {'pic': 'learning/PICTURE_52.jpg',  'words': ['Geiten',  'Geibel',    'Geiner',   'Geiper',   'Geitel']},
+    {'pic': 'learning/PICTURE_594.jpg', 'words': ['G\u00fcrbas', 'G\u00fcrzer', 'G\u00fcrter', 'G\u00fcrbel', 'G\u00fcrse']},
+    {'pic': 'learning/PICTURE_297.jpg', 'words': ['Eume',    'Eupis',     'Euko',     'Eudet',    'Eutaf']},
+    {'pic': 'learning/PICTURE_23.jpg',  'words': ['Koptan',  'Koptel',    'Koptur',   'Kopster',  'Kopsel']},
+    {'pic': 'learning/PICTURE_605.jpg', 'words': ['Kegan',   'Ketan',     'Ketosch',  'Keton',    'Keteik']},
+    # Block 4 (7 items)
+    {'pic': 'learning/PICTURE_247.jpg', 'words': ['Stise',   'Stitons',   'Stisin',   'Stigit',   'Stisum']},
+    {'pic': 'learning/PICTURE_43.jpg',  'words': ['Finser',  'Finsin',    'Finlas',   'Finsum',   'Finges']},
+    {'pic': 'learning/PICTURE_610.jpg', 'words': ['Seise',   'Seimer',    'Seitos',   'Seiges',   'Seitu']},
+    {'pic': 'learning/PICTURE_741.jpg', 'words': ['Soktau',  'Soklet',    'Soktal',   'Sokma',    'Sokbat']},
+    {'pic': 'learning/PICTURE_235.jpg', 'words': ['Efdi',    'Efter',     'Efto',     'Efser',    'Efnel']},
+    {'pic': 'learning/PICTURE_720.jpg', 'words': ['Tulser',  'Tulte',     'Tulpos',   'Tulber',   'Tuldet']},
+    {'pic': 'learning/PICTURE_599.jpg', 'words': ['Klotel',  'Klosal',    'Klotons',  'Klobat',   'Kloger']},
+]
+
+CONTROL = [
+    # ctrl1 (14 items)
+    {'pic': 'control/PICTURE_2.jpg',   'words': ['Reifen',    'Tiger',      'Kompass']},
+    {'pic': 'control/PICTURE_98.jpg',  'words': ['Tiger',     'Kompass',    'Gewehr']},
+    {'pic': 'control/PICTURE_292.jpg', 'words': ['Kompass',   'Gewehr',     'Tunnel']},
+    {'pic': 'control/PICTURE_645.jpg', 'words': ['Gewehr',    'Tunnel',     'Reifen']},
+    {'pic': 'control/PICTURE_286.jpg', 'words': ['Tunnel',    'Reifen',     'Tiger']},
+    {'pic': 'control/PICTURE_733.jpg', 'words': ['Brille',    'Vogel',      'Wolle']},
+    {'pic': 'control/PICTURE_430.jpg', 'words': ['Vogel',     'Wolle',      'Hose']},
+    {'pic': 'control/PICTURE_134.jpg', 'words': ['Wolle',     'Hose',       'Bagger']},
+    {'pic': 'control/PICTURE_718.jpg', 'words': ['Hose',      'Bagger',     'Brille']},
+    {'pic': 'control/PICTURE_746.jpg', 'words': ['Kegel',     'M\u00f6we',  'Flagge']},
+    {'pic': 'control/PICTURE_220.jpg', 'words': ['M\u00f6we', 'Flagge',     'Blume']},
+    {'pic': 'control/PICTURE_295.jpg', 'words': ['Flagge',    'Blume',      'Kegel']},
+    {'pic': 'control/PICTURE_312.jpg', 'words': ['Blume',     'Kegel',      'M\u00f6we']},
+    {'pic': 'control/PICTURE_731.jpg', 'words': ['Bagger',    'Brille',     'Vogel']},
+    # ctrl2 (14 items)
+    {'pic': 'control/PICTURE_549.jpg', 'words': ['Schlange',  'Parf\u00fcm','Bibel']},
+    {'pic': 'control/PICTURE_314.jpg', 'words': ['Parf\u00fcm','Bibel',     'Tasche']},
+    {'pic': 'control/PICTURE_350.jpg', 'words': ['Bibel',     'Tasche',     'Vorhang']},
+    {'pic': 'control/PICTURE_388.jpg', 'words': ['Tasche',    'Vorhang',    'Schlange']},
+    {'pic': 'control/PICTURE_418.jpg', 'words': ['Vorhang',   'Schlange',   'Parf\u00fcm']},
+    {'pic': 'control/PICTURE_476.jpg', 'words': ['Sch\u00fcrze','Nagel',    'Apfel']},
+    {'pic': 'control/PICTURE_485.jpg', 'words': ['Nagel',     'Apfel',      'Tasse']},
+    {'pic': 'control/PICTURE_552.jpg', 'words': ['Apfel',     'Tasse',      'S\u00e4ule']},
+    {'pic': 'control/PICTURE_498.jpg', 'words': ['Tasse',     'S\u00e4ule', 'Sch\u00fcrze']},
+    {'pic': 'control/PICTURE_386.jpg', 'words': ['Bombe',     'Maske',      'Spiegel']},
+    {'pic': 'control/PICTURE_84.jpg',  'words': ['Maske',     'Spiegel',    'Schlitten']},
+    {'pic': 'control/PICTURE_340.jpg', 'words': ['Spiegel',   'Schlitten',  'Bombe']},
+    {'pic': 'control/PICTURE_625.jpg', 'words': ['Schlitten', 'Bombe',      'Maske']},
+    {'pic': 'control/PICTURE_663.jpg', 'words': ['S\u00e4ule','Sch\u00fcrze','Nagel']},
+]
+
+# ── Trial builder ──────────────────────────────────────────────────────────────
+
+def build_block_trials(items, n_ls=4):
+    task_list = [[] for _ in range(n_ls)]
+    for item in items:
+        pic   = item['pic']
+        corr  = item['words'][0]
+        foils = item['words'][1:]
+        for ls in range(n_ls):
+            foil = foils[ls % len(foils)]
+            task_list[ls].append({'pic': pic, 'word': corr,
+                                  'correct_word': corr, 'condition': 'c'})
+            task_list[ls].append({'pic': pic, 'word': foil,
+                                  'correct_word': corr, 'condition': 'i'})
+    return task_list
+
+def shuffle_trials(trials):
+    t = trials[:]
+    for _ in range(500):
+        random.shuffle(t)
+        ok = all(
+            t[k]['pic']          != t[k+1]['pic']  and
+            t[k]['word']         != t[k+1]['word'] and
+            t[k]['correct_word'] != t[k+1]['word']
+            for k in range(len(t) - 1)
+        )
+        if ok:
             break
-            
-        # Check for quit
-        if 'escape' in event.getKeys():
-            core.quit()
-    
-    return response, rt
+    return t
 
-# =============================================================================
-# EXPERIMENT PHASES
-# =============================================================================
+# ── Trial runner ───────────────────────────────────────────────────────────────
 
-class APPLExperiment:
-    def __init__(self, win, exp_info):
-        self.win = win
-        self.exp_info = exp_info
-        self.pulse_count = 4  # Start pulse counter
-        self.response_history = []
-        
-        # Initialize stimuli paths based on version
-        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Stimuli")
-        self.prac_path = os.path.join(base_path, "prac")
-        self.learning_path = os.path.join(base_path, "learning")
-        self.control_path = os.path.join(base_path, "control")
-        self.afc_path = os.path.join(base_path, "AFC")
-        self.bubbles_path = os.path.join(base_path, "bubbles")
-        
-        # Define stimuli for each phase
-        self.init_stimuli()
-        
-    def init_stimuli(self):
-        """Initialize all stimuli arrays"""
-        
-        # Hello/Learning/Control/Bye images
-        self.hlcb = [
-            os.path.join(self.bubbles_path, "hello.jpg"),
-            os.path.join(self.bubbles_path, "learning.jpg"),
-            os.path.join(self.bubbles_path, "control.jpg"),
-            os.path.join(self.bubbles_path, "bye.jpg")
-        ]
-        
-        # Learning stimuli (28 items with 6 words each) - UPDATED based on 03_learning_final.sce
-        # Learning pics arrays - UPDATED from the .sce file
-        learning_pics1 = ["learning/PICTURE_400.jpg", "learning/PICTURE_402.jpg", 
-                          "learning/PICTURE_405.jpg", "learning/PICTURE_462.jpg",
-                          "learning/PICTURE_53.jpg", "learning/PICTURE_216.jpg", 
-                          "learning/PICTURE_21.jpg"]
-        learning_pics2 = ["learning/PICTURE_480.jpg", "learning/PICTURE_488.jpg",
-                          "learning/PICTURE_508.jpg", "learning/PICTURE_15.jpg",
-                          "learning/PICTURE_695.jpg", "learning/PICTURE_703.jpg",
-                          "learning/PICTURE_95.jpg"]
-        learning_pics3 = ["learning/PICTURE_576.jpg", "learning/PICTURE_581.jpg",
-                          "learning/PICTURE_52.jpg", "learning/PICTURE_594.jpg",
-                          "learning/PICTURE_297.jpg", "learning/PICTURE_23.jpg",
-                          "learning/PICTURE_605.jpg"]
-        learning_pics4 = ["learning/PICTURE_247.jpg", "learning/PICTURE_43.jpg",
-                          "learning/PICTURE_610.jpg", "learning/PICTURE_741.jpg",
-                          "learning/PICTURE_235.jpg", "learning/PICTURE_720.jpg",
-                          "learning/PICTURE_599.jpg"]
-        
-        # Learning words arrays - UPDATED from the .sce file
-        learning_words1 = [
-            ["Lopfer", "Loptem", "Lopdor", "Lopmig", "Lopter"],
-            ["Resar", "Rerod", "Regan", "Reper", "Remert"],
-            ["Nomtap", "Nomgan", "Nomtun", "Nomzerl", "Nomser"],
-            ["Jamip", "Jamun", "Jakel", "Jaser", "Jasull"],
-            ["Knele", "Knera", "Knefe", "Knetam", "Knesam"],
-            ["Tignam", "Tigfe", "Tigdon", "Tigdam", "Tigmer"],
-            ["Krükta", "Krükel", "Krüktem", "Krüklass", "Krükmig"]
-        ]
-        
-        learning_words2 = [
-            ["Zamet", "Zate", "Zabig", "Zabelt", "Zatir"],
-            ["Jehler", "Jehrig", "Jehmel", "Jehtir", "Jehse"],
-            ["Zerbe", "Zermel", "Zerse", "Zerpet", "Zertock"],
-            ["Joten", "Joper", "Josant", "Jotolt", "Jota"],
-            ["Munem", "Muschot", "Mufi", "Mugir", "Mupat"],
-            ["Knusap", "Knufi", "Knufeg", "Knupat", "Knuler"],
-            ["Klenter", "Klentant", "Klenban", "Klenta", "Klenfalt"]
-        ]
-        
-        learning_words3 = [
-            ["Schöle", "Schölte", "Schölse", "Schölme", "Schölter"],
-            ["Zampe", "Zamse", "Zamram", "Zambel", "Zamler"],
-            ["Geiten", "Geibel", "Geiner", "Geiper", "Geitel"],
-            ["Gürbas", "Gürzer", "Gürter", "Gürbel", "Gürse"],
-            ["Eume", "Eupis", "Euko", "Eudet", "Eutaf"],
-            ["Koptan", "Koptel", "Koptur", "Kopster", "Kopsel"],
-            ["Kegan", "Ketan", "Ketosch", "Keton", "Keteik"]
-        ]
-        
-        learning_words4 = [
-            ["Stise", "Stitons", "Stisin", "Stigit", "Stisum"],
-            ["Finser", "Finsin", "Finlas", "Finsum", "Finges"],
-            ["Seise", "Seimer", "Seitos", "Seiges", "Seitu"],
-            ["Soktau", "Soklet", "Soktal", "Sokma", "Sokbat"],
-            ["Efdi", "Efter", "Efto", "Efser", "Efnel"],
-            ["Tulser", "Tulte", "Tulpos", "Tulber", "Tuldet"],
-            ["Klotel", "Klosal", "Klotons", "Klobat", "Kloger"]
-        ]
-        
-        # Combine into LEARNING array (28 items)
-        self.LEARNING = []
-        for i in range(7):
-            self.LEARNING.append([learning_pics1[i]] + learning_words1[i])
-        for i in range(7):
-            self.LEARNING.append([learning_pics2[i]] + learning_words2[i])
-        for i in range(7):
-            self.LEARNING.append([learning_pics3[i]] + learning_words3[i])
-        for i in range(7):
-            self.LEARNING.append([learning_pics4[i]] + learning_words4[i])
-        
-        # Control stimuli (28 items with 3 words each) - UPDATED from 03_learning_final.sce
-        self.CONTROL = [
-            ["control/PICTURE_2.jpg", "Reifen", "Tiger", "Kompass"],
-            ["control/PICTURE_98.jpg", "Tiger", "Kompass", "Gewehr"],
-            ["control/PICTURE_292.jpg", "Kompass", "Gewehr", "Tunnel"],
-            ["control/PICTURE_645.jpg", "Gewehr", "Tunnel", "Reifen"],
-            ["control/PICTURE_286.jpg", "Tunnel", "Reifen", "Tiger"],
-            ["control/PICTURE_733.jpg", "Brille", "Vogel", "Wolle"],
-            ["control/PICTURE_430.jpg", "Vogel", "Wolle", "Hose"],
-            ["control/PICTURE_134.jpg", "Wolle", "Hose", "Bagger"],
-            ["control/PICTURE_718.jpg", "Hose", "Bagger", "Brille"],
-            ["control/PICTURE_746.jpg", "Kegel", "Möwe", "Flagge"],
-            ["control/PICTURE_220.jpg", "Möwe", "Flagge", "Blume"],
-            ["control/PICTURE_295.jpg", "Flagge", "Blume", "Kegel"],
-            ["control/PICTURE_312.jpg", "Blume", "Kegel", "Möwe"],
-            ["control/PICTURE_731.jpg", "Bagger", "Brille", "Vogel"],
-            ["control/PICTURE_549.jpg", "Schlange", "Parfüm", "Bibel"],
-            ["control/PICTURE_314.jpg", "Parfüm", "Bibel", "Tasche"],
-            ["control/PICTURE_350.jpg", "Bibel", "Tasche", "Vorhang"],
-            ["control/PICTURE_388.jpg", "Tasche", "Vorhang", "Schlange"],
-            ["control/PICTURE_418.jpg", "Vorhang", "Schlange", "Parfüm"],
-            ["control/PICTURE_476.jpg", "Schürze", "Nagel", "Apfel"],
-            ["control/PICTURE_485.jpg", "Nagel", "Apfel", "Tasse"],
-            ["control/PICTURE_552.jpg", "Apfel", "Tasse", "Säule"],
-            ["control/PICTURE_498.jpg", "Tasse", "Säule", "Schürze"],
-            ["control/PICTURE_386.jpg", "Bombe", "Maske", "Spiegel"],
-            ["control/PICTURE_84.jpg", "Maske", "Spiegel", "Schlitten"],
-            ["control/PICTURE_340.jpg", "Spiegel", "Schlitten", "Bombe"],
-            ["control/PICTURE_625.jpg", "Schlitten", "Bombe", "Maske"],
-            ["control/PICTURE_663.jpg", "Säule", "Schürze", "Nagel"]
-        ]
-        
-        # Build trial blocks
-        self.build_blocks()
-        
-    def build_blocks(self):
-        """Build trial blocks for learning and control phases"""
-        
-        # Initialize blocks (14 trials per block, 4 learning stages)
-        self.blk1 = [[[] for _ in range(4)] for _ in range(14)]
-        self.blk2 = [[[] for _ in range(4)] for _ in range(14)]
-        self.blk3 = [[[] for _ in range(4)] for _ in range(14)]
-        self.blk4 = [[[] for _ in range(4)] for _ in range(14)]
-        self.ctrl1 = [[[] for _ in range(4)] for _ in range(14)]
-        self.ctrl2 = [[[] for _ in range(4)] for _ in range(14)]
-        
-        # Fill learning blocks (based on the .sce file structure)
-        a, b, c, d = 0, 0, 0, 0
-        for i, item in enumerate(self.LEARNING):
-            idx = i + 1
-            if idx <= 7:  # Block 1
-                # Create trials for each learning stage
-                # Each picture appears with correct word and 4 incorrect words
-                for ls in range(4):
-                    self.blk1[a][ls] = f"{item[0]};{item[1]};{item[1]};c"
-                    self.blk1[a+1][ls] = f"{item[0]};{item[ls+2]};{item[1]};i"
-                a += 2
-            elif idx <= 14:  # Block 2
-                for ls in range(4):
-                    self.blk2[b][ls] = f"{item[0]};{item[1]};{item[1]};c"
-                    self.blk2[b+1][ls] = f"{item[0]};{item[ls+2]};{item[1]};i"
-                b += 2
-            elif idx <= 21:  # Block 3
-                for ls in range(4):
-                    self.blk3[c][ls] = f"{item[0]};{item[1]};{item[1]};c"
-                    self.blk3[c+1][ls] = f"{item[0]};{item[ls+2]};{item[1]};i"
-                c += 2
-            else:  # Block 4 (i > 21 and i <= 28)
-                for ls in range(4):
-                    self.blk4[d][ls] = f"{item[0]};{item[1]};{item[1]};c"
-                    self.blk4[d+1][ls] = f"{item[0]};{item[ls+2]};{item[1]};i"
-                d += 2
-        
-        # Fill control blocks (based on the .sce file structure)
-        a, b = 0, 0
-        for i in range(0, len(self.CONTROL), 2):
-            if i < 14:
-                for ls in range(4):
-                    if ls < 2:
-                        self.ctrl1[a][ls] = f"{self.CONTROL[i][0]};{self.CONTROL[i][1]};{self.CONTROL[i][1]};c"
-                        self.ctrl1[a+1][ls] = f"{self.CONTROL[i][0]};{self.CONTROL[i][ls+2]};{self.CONTROL[i][1]};i"
-                    else:
-                        self.ctrl1[a][ls] = f"{self.CONTROL[i+1][0]};{self.CONTROL[i+1][1]};{self.CONTROL[i+1][1]};c"
-                        self.ctrl1[a+1][ls] = f"{self.CONTROL[i+1][0]};{self.CONTROL[i+1][ls-1]};{self.CONTROL[i+1][1]};i"
-                a += 2
-            else:
-                for ls in range(4):
-                    if ls < 2:
-                        self.ctrl2[b][ls] = f"{self.CONTROL[i][0]};{self.CONTROL[i][1]};{self.CONTROL[i][1]};c"
-                        self.ctrl2[b+1][ls] = f"{self.CONTROL[i][0]};{self.CONTROL[i][ls+2]};{self.CONTROL[i][1]};i"
-                    else:
-                        self.ctrl2[b][ls] = f"{self.CONTROL[i+1][0]};{self.CONTROL[i+1][1]};{self.CONTROL[i+1][1]};c"
-                        self.ctrl2[b+1][ls] = f"{self.CONTROL[i+1][0]};{self.CONTROL[i+1][ls-1]};{self.CONTROL[i+1][1]};i"
-                b += 2
-        
-        # Create task list (6 blocks total: 4 learning + 2 control)
-        self.Task_List = {
-            1: self.blk1,
-            2: self.blk2,
-            3: self.blk3,
-            4: self.blk4,
-            5: self.ctrl1,
-            6: self.ctrl2
-        }
-        
-        # Shuffle learning stages within each block (with constraints from .sce)
-        for blk in range(1, 7):
-            for ls in range(4):
-                isOK = False
-                while not isOK:
-                    dummy = self.Task_List[blk][ls].copy()
-                    random.shuffle(dummy)
-                    
-                    # Check constraints: no consecutive same picture or word
-                    isOK = True
-                    for k in range(13):
-                        parts1 = dummy[k].split(';')
-                        parts2 = dummy[k+1].split(';')
-                        
-                        if parts1[0] == parts2[0] or parts1[1] == parts2[1] or parts1[2] == parts2[1]:
-                            isOK = False
-                            break
-                    
-                    if isOK:
-                        self.Task_List[blk][ls] = dummy
-        
-        # Set block order (with constraints from .sce)
-        self.BlockOrder = [1, 2, 3, 4, 5, 6]
-        
-        # Shuffle with constraints: control blocks (5,6) not first or last, not consecutive
-        isOrderOK = False
-        while not isOrderOK:
-            random.shuffle(self.BlockOrder)
-            isOrderOK = True
-            
-            # Check constraints from .sce
-            if self.BlockOrder[0] in [5, 6] or self.BlockOrder[5] in [5, 6]:
-                isOrderOK = False
-                continue
-                
-            for x in range(1, 6):
-                if (self.BlockOrder[x-1] == 5 and self.BlockOrder[x] == 6) or \
-                   (self.BlockOrder[x-1] == 6 and self.BlockOrder[x] == 5):
-                    isOrderOK = False
-                    break
-        
-        # Print block order for verification
-        print(f"Block order: {self.BlockOrder}")
-        
-    # =========================================================================
-    # INSTRUCTION PHASES (based on 00_Instr_1.sce and 02_Instr_2.sce)
-    # =========================================================================
-    
-    def show_instructions_1(self):
-        """Show first instruction set (00_Instr_1.sce)"""
-        win.color = [1, 1, 1]  # White background
-        win.flip()
-        
-        # Instructions 1-7
-        for i in range(1, 8):
-            full_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"instr_1{i}.jpg")
-            
-            if os.path.exists(full_path):
-                instr_img = visual.ImageStim(self.win, image=full_path, size=(1280, 720))
-                instr_img.draw()
-                self.win.flip()
-                
-                # Wait for response (button 1 for first 6, button 2 for last)
-                if i < 7:
-                    event.waitKeys(keyList=['1'])  # Left arrow in Presentation
-                else:
-                    event.waitKeys(keyList=['2'])  # Right arrow in Presentation
-            else:
-                # Fallback text instructions
-                text = f"Instruktion {i}/7\n\nDrücke {'1' if i<7 else '2'} um fortzufahren"
-                text_stim = visual.TextStim(self.win, text=text, color='black', height=50)
-                text_stim.draw()
-                self.win.flip()
-                event.waitKeys(keyList=['1' if i<7 else '2'])
-        
-        win.color = 'black'
-        win.flip()
-    
-    def show_instructions_2(self):
-        """Show second instruction set (02_Instr_2.sce)"""
-        win.color = [1, 1, 1]  # White background
-        win.flip()
-        
-        full_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "instr_21.jpg")
-        if os.path.exists(full_path):
-            instr_img = visual.ImageStim(self.win, image=full_path, size=(1280, 720))
-            instr_img.draw()
-            self.win.flip()
-            event.waitKeys(keyList=['2'])
-        else:
-            text = "Instruktion\n\nDrücke 2 um fortzufahren"
-            text_stim = visual.TextStim(self.win, text=text, color='black', height=50)
-            text_stim.draw()
-            self.win.flip()
-            event.waitKeys(keyList=['2'])
-        
-        win.color = 'black'
-        win.flip()
-    
-    # =========================================================================
-    # PRACTICE PHASE (based on 01_Prac.sce)
-    # =========================================================================
-    
-    def run_practice(self):
-        """Run practice phase"""
-        # Get practice images
-        prac_images = glob.glob(os.path.join(self.prac_path, "*.jpg"))
-        
-        if not prac_images:
-            print("No practice images found, skipping practice phase")
-            return
-        
-        # Shuffle and run 2 repetitions (from .sce: loop int l = 1 until l > 2)
-        for rep in range(2):
-            random.shuffle(prac_images)
-            
-            for img_path in prac_images:
-                # Determine if correct or incorrect based on filename (contains 'k')
-                filename = os.path.basename(img_path).lower()
-                is_correct = 'k' in filename
-                
-                # Present image for 2.5 seconds (from .sce: time = 0, then time = 2500)
-                pres_pic.setImage(img_path)
-                pres_pic.size = (1224, 987)  # From .sce
-                pres_pic.draw()
-                win.flip()
-                
-                # Wait for response (2.5 seconds)
-                timer = core.Clock()
-                response = None
-                rt = None
-                
-                while timer.getTime() < 2.5:
-                    keys = event.getKeys(keyList=['1', '2'], timeStamped=timer)
-                    if keys and response is None:
-                        response = keys[0][0]
-                        rt = keys[0][1]
-                    
-                    if 'escape' in event.getKeys():
-                        core.quit()
-                    core.wait(0.01)
-                
-                # Show response text (from .sce: time = 2500)
-                response_text.setText('-')
-                response_text.draw()
-                win.flip()
-                core.wait(0.5)  # Short delay before next trial
-                
-                # Log response
-                self.log_practice_trial(img_path, is_correct, response, rt)
-            
-            # Fixation between repetitions (from .sce: fixTrial with 4.5s)
-            if rep < 1:  # After first repetition, before second
-                fixation.draw()
-                win.flip()
-                core.wait(4.5)
-    
-    def log_practice_trial(self, img_path, is_correct, response, rt):
-        """Log practice trial data"""
-        data_line = {
-            'phase': 'practice',
-            'image': img_path,
-            'is_correct': is_correct,
-            'response': response,
-            'rt': rt,
-            'timestamp': core.getTime()
-        }
-        self.response_history.append(data_line)
-        logging.data(f"PRAC: {img_path}, correct:{is_correct}, resp:{response}, rt:{rt}")
-    
-    # =========================================================================
-    # LEARNING PHASE (based on 03_learning_final.sce)
-    # =========================================================================
-    
-    def run_learning_phase(self):
-        """Run main learning phase with feedback"""
-        
-        # Show intro (from .sce)
-        intro_text = "Das Experiment\nbeginnt gleich.\n\nZu Erinnerung: \n   Ja = Zeigefinger\n Nein = Daumen"
-        feedback_text.setText(intro_text)
-        feedback_text.draw()
-        win.flip()
-        core.wait(2)
-        
-        # Wait for first pulse if in fMRI mode
-        if self.exp_info['fmri_mode']:
-            wait_for_pulse()
-        
-        first_trial = True
-        
-        # Run blocks
-        for blk_idx, blk_num in enumerate(self.BlockOrder):
-            currBlk = blk_num
-            
-            # Determine block type and show appropriate bubble
-            if currBlk in [5, 6]:
-                bubble = self.hlcb[2]  # Control
-                bubble_code = "control"
-            else:
-                bubble = self.hlcb[1]  # Learning
-                bubble_code = "learning"
-            
-            # Check if this is the last learning block (from .sce)
-            is_last_learning = (blk_idx == 5 and currBlk in [1, 2, 3, 4])
-            
-            # Fixation before block (4 pulses from .sce)
-            for f in range(4):
-                if f < 3:
-                    fixation.draw()
-                    win.flip()
-                    core.wait(4.5)
-                    self.pulse_count += 1
-                else:
-                    # Show block info bubble (4th pulse)
-                    if os.path.exists(bubble):
-                        info_pic.setImage(bubble)
-                        info_pic.size = (600, 398)  # From .sce
-                        info_pic.draw()
-                        win.flip()
-                    else:
-                        text_stim = visual.TextStim(self.win, text=bubble_code.upper(), 
-                                                    color='white', height=100)
-                        text_stim.draw()
-                        win.flip()
-                    core.wait(4.5)
-                    self.pulse_count += 1
-            
-            # Run learning stages (1-4)
-            for ls in range(4):
-                for i in range(14):  # 14 trials per learning stage
-                    
-                    # Get trial data
-                    trial_str = self.Task_List[currBlk][ls][i]
-                    parts = trial_str.split(';')
-                    
-                    if len(parts) < 4:
-                        continue
-                    
-                    pic_file, pres_word_str, correct_word, trial_type = parts
-                    
-                    # Get old response count (from .sce)
-                    old_resp_count = len(self.response_history)
-                    
-                    # Load and present stimulus
-                    full_pic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
-                                                "Stimuli", pic_file)
-                    
-                    if os.path.exists(full_pic_path):
-                        pres_pic.setImage(full_pic_path)
-                        pres_pic.size = (600, 600)  # From .sce
-                    else:
-                        # Try alternative path
-                        alt_path = os.path.join(self.bubbles_path, "..", pic_file)
-                        if os.path.exists(alt_path):
-                            pres_pic.setImage(alt_path)
-                            pres_pic.size = (600, 600)
-                        else:
-                            print(f"Image not found: {pic_file}")
-                            continue
-                    
-                    # Present stimulus (2.5 seconds from .sce)
-                    pres_pic.draw()
-                    pres_word.setText(pres_word_str)
-                    pres_word.draw()
-                    win.flip()
-                    
-                    stim_onset = core.getTime()
-                    response = None
-                    rt = None
-                    
-                    # Wait for response during stimulus presentation
-                    resp_timer = core.Clock()
-                    while resp_timer.getTime() < 2.5:
-                        keys = event.getKeys(keyList=['1', '2'], timeStamped=resp_timer)
-                        if keys and response is None:
-                            response = keys[0][0]
-                            rt = keys[0][1]
-                        core.wait(0.01)
-                    
-                    # Clear screen briefly
-                    win.flip()
-                    
-                    # Determine feedback (from .sce logic)
-                    curr_resp_count = len(self.response_history)
-                    target_resp = old_resp_count + 1
-                    
-                    # Check response and timing
-                    if response is not None:
-                        # Response within time window
-                        if (trial_type == 'c' and response == '1') or \
-                           (trial_type == 'i' and response == '2'):
-                            feedback = f"Korrekt, das ist {correct_word}"
-                        else:
-                            feedback = f"Falsch, das ist {correct_word}"
-                    else:
-                        # No response or too late
-                        feedback = f"Zu spät, das ist {correct_word}"
-                    
-                    # Show feedback (2 seconds from .sce)
-                    feedback_text.setText(feedback)
-                    feedback_text.draw()
-                    win.flip()
-                    core.wait(2.0)
-                    
-                    # Log trial
-                    self.log_learning_trial(blk_idx+1, currBlk, ls+1, i+1, 
-                                           pic_file, pres_word_str, correct_word, 
-                                           trial_type, response, rt)
-                    
-                    self.pulse_count += 1
-                
-                # Fixation between learning stages (from .sce)
-                fixation.draw()
-                win.flip()
-                core.wait(4.5)
-                self.pulse_count += 1
-            
-            # End of block - show bye bubble if last block (from .sce)
-            if blk_idx == len(self.BlockOrder) - 1:
-                for f in range(4):
-                    if f < 3:
-                        fixation.draw()
-                        win.flip()
-                        core.wait(4.5)
-                        self.pulse_count += 1
-                    else:
-                        if os.path.exists(self.hlcb[3]):  # Bye image
-                            info_pic.setImage(self.hlcb[3])
-                            info_pic.size = (600, 398)
-                            info_pic.draw()
-                            win.flip()
-                        core.wait(4.5)
-                        self.pulse_count += 1
-    
-    def log_learning_trial(self, block_run, block_num, learning_stage, trial_num,
-                          pic_file, word, correct_word, trial_type, response, rt):
-        """Log learning trial data"""
-        # Determine accuracy
-        if response is not None:
-            if (trial_type == 'c' and response == '1') or \
-               (trial_type == 'i' and response == '2'):
-                accuracy = 1
-            else:
-                accuracy = 0
-        else:
-            accuracy = -1  # No response
-        
-        data_line = {
-            'phase': 'learning',
-            'block_run': block_run,
-            'block_num': block_num,
-            'learning_stage': learning_stage,
-            'trial_num': trial_num,
-            'image': pic_file,
-            'word': word,
-            'correct_word': correct_word,
-            'trial_type': trial_type,
-            'response': response,
-            'rt': rt,
-            'accuracy': accuracy,
-            'pulse': self.pulse_count,
-            'timestamp': core.getTime()
-        }
-        self.response_history.append(data_line)
-        
-        logging.data(f"LEARN: B{block_run}_{block_num}_LS{learning_stage}_T{trial_num}: "
-                     f"{word}/{correct_word}/{trial_type}, resp:{response}, rt:{rt}, acc:{accuracy}")
-    
-    # =========================================================================
-    # AFC PHASES (from original .py - keep as is)
-    # =========================================================================
-    
-    def run_afc_phase(self, phase_num=1):
-        """Run AFC (Alternative Forced Choice) phase"""
-        
-        # Get AFC images
-        afc_images = glob.glob(os.path.join(self.afc_path, "*.jpg"))
-        if not afc_images:
-            print(f"No AFC images found for phase {phase_num}")
-            return
-        
-        random.shuffle(afc_images)
-        
-        for img_path in afc_images:
-            # Extract filename for event code
-            fname = os.path.basename(img_path)
-            
-            # Set size based on phase (from original .py)
-            if phase_num == 1:
-                pres_pic.size = (1624, 1187)
-            else:
-                pres_pic.size = (1324, 1087)
-            
-            # Present image until response
-            pres_pic.setImage(img_path)
-            pres_pic.draw()
-            win.flip()
-            
-            # Wait for response (1, 2, or 3)
-            keys = event.waitKeys(keyList=['1', '2', '3', 'escape'])
-            if 'escape' in keys:
-                core.quit()
-            
-            response = keys[0]
-            
-            # Log response
-            self.log_afc_trial(phase_num, img_path, response)
-            
-            # Brief pause
-            core.wait(0.5)
-    
-    def log_afc_trial(self, phase_num, image, response):
-        """Log AFC trial data"""
-        data_line = {
-            'phase': f'afc_{phase_num}',
-            'image': image,
-            'response': response,
-            'timestamp': core.getTime()
-        }
-        self.response_history.append(data_line)
-        logging.data(f"AFC{phase_num}: {image}, resp:{response}")
-    
-    # =========================================================================
-    # MAIN EXPERIMENT FLOW
-    # =========================================================================
-    
-    def run(self):
-        """Run complete experiment following the .sce sequence"""
-        
-        # 00_Instr_1.sce
-        self.show_instructions_1()
-        
-        # 01_Prac.sce
-        self.run_practice()
-        
-        # 02_Instr_2.sce
-        self.show_instructions_2()
-        
-        # 04_AFC.sce (from original, not in provided .sce files)
-        self.run_afc_phase(phase_num=1)
-        
-        # 03_learning_final.sce
-        self.run_learning_phase()
-        
-        # 05_AFC.sce (from original)
-        self.run_afc_phase(phase_num=2)
-        
-        # End of experiment
-        thank_you = "Vielen Dank für Ihre Teilnahme!"
-        thank_stim = visual.TextStim(self.win, text=thank_you, color='white', height=100)
-        thank_stim.draw()
-        win.flip()
-        core.wait(3)
-        
-        # Save data
-        self.save_data()
-    
-    def save_data(self):
-        """Save all response data to CSV"""
-        import csv
-        
-        csv_file = filename + '.csv'
-        
-        if self.response_history:
-            # Get all field names
-            fieldnames = set()
-            for entry in self.response_history:
-                fieldnames.update(entry.keys())
-            fieldnames = sorted(list(fieldnames))
-            
-            with open(csv_file, 'w', newline='', encoding='utf-8') as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
-                writer.writeheader()
-                for entry in self.response_history:
-                    writer.writerow(entry)
-            
-            print(f"Data saved to {csv_file}")
+def run_trial(trial, phase, block_run, block_num, ls_num, trial_idx):
+    """
+    Phase 1  (2.5 s):  Image + word; response accepted any time; window completes.
+    Phase 2  (2.0 s):  Feedback text only.
+    """
+    pic_path     = os.path.join(STIM_DIR, trial['pic'])
+    word         = trial['word']
+    correct_word = trial['correct_word']
+    condition    = trial['condition']
 
+    # Phase 1 ─────────────────────────────────────────────────────────────
+    if os.path.isfile(pic_path):
+        pres_pic.setImage(pic_path)
+        pres_pic.draw()
+    else:
+        visual.TextStim(win, text=f"[{trial['pic']}]",
+                        color='white', height=50).draw()
+    pres_word.setText(word)
+    pres_word.draw()
+    if not fmri_mode:
+        key_label_1.draw()
+        key_label_2.draw()
+    win.flip()
+    onset = global_clock.getTime()
 
-# =============================================================================
-# MAIN
-# =============================================================================
+    event.clearEvents()
+    resp_clock = core.Clock()
+    response = rt = None
+    while resp_clock.getTime() < STIM_DUR:
+        keys = event.getKeys(keyList=[KEY_YES, KEY_NO, 'escape'],
+                             timeStamped=resp_clock)
+        if keys:
+            key, t = keys[0]
+            if key == 'escape':
+                _csv_file.close(); win.close(); core.quit()
+            response, rt = key, t
+            break
+        check_quit()
 
-if __name__ == "__main__":
-    try:
-        # Create and run experiment
-        exp = APPLExperiment(win, exp_info)
-        exp.run()
-        
-    except Exception as e:
-        print(f"Error: {e}")
-        import traceback
-        traceback.print_exc()
-        
-    finally:
-        # Clean up
-        win.close()
-        core.quit()
+    elapsed = resp_clock.getTime()
+    if elapsed < STIM_DUR:
+        core.wait(STIM_DUR - elapsed)
+
+    # Correctness ──────────────────────────────────────────────────────────
+    if response is None:
+        correct_flag = 'timeout'
+        fb_msg = f'Zu sp\u00e4t, das ist {correct_word}'
+    elif (condition == 'c' and response == KEY_YES) or \
+         (condition == 'i' and response == KEY_NO):
+        correct_flag = 'correct'
+        fb_msg = f'Korrekt, das ist {correct_word}'
+    else:
+        correct_flag = 'incorrect'
+        fb_msg = f'Falsch, das ist {correct_word}'
+
+    # Phase 2 ─────────────────────────────────────────────────────────────
+    feedback_text.setText(fb_msg)
+    feedback_text.draw()
+    win.flip()
+    core.wait(FEEDBACK_DUR)
+    check_quit()
+
+    write_row(phase=phase, block_run=block_run, block_num=block_num,
+              learning_stage=ls_num, trial=trial_idx,
+              image=trial['pic'], word=word,
+              correct_word=correct_word, condition=condition,
+              response=response, correct=correct_flag,
+              rt=round(rt, 4) if rt else '',
+              onset_time=round(onset, 4))
+
+    logging.data(f"{phase} run{block_run}_blk{block_num}_LS{ls_num}_T{trial_idx}: "
+                 f"word={word} corr={correct_word} cond={condition} "
+                 f"resp={response} rt={rt} acc={correct_flag}")
+
+# ── Block runner ───────────────────────────────────────────────────────────────
+
+def run_block(items, block_run, block_num, phase, n_ls=4):
+    task_list = build_block_trials(items, n_ls)
+    for ls in range(n_ls):
+        shuffled = shuffle_trials(task_list[ls])
+        for t_idx, trial in enumerate(shuffled, 1):
+            run_trial(trial, phase=phase, block_run=block_run,
+                      block_num=block_num, ls_num=ls + 1, trial_idx=t_idx)
+        show_fixation(FIX_DUR)
+
+def run_afc():
+    afc_files = get_stimuli(AFC_DIR)
+    if not afc_files:
+        return
+    random.shuffle(afc_files)
+    for t_idx, img_path in enumerate(afc_files, 1):
+        event.clearEvents()
+        afc_pic.setImage(img_path); afc_pic.draw(); win.flip()
+        onset = global_clock.getTime()
+        keys  = event.waitKeys(keyList=['1', '2', '3', 'escape'])
+        rt    = global_clock.getTime() - onset
+        if 'escape' in keys:
+            _csv_file.close(); win.close(); core.quit()
+        write_row(phase='AFC', trial=t_idx,
+                  image=os.path.basename(img_path),
+                  response=keys[0], rt=round(rt, 4),
+                  onset_time=round(onset, 4))
+
+# ── Block order ────────────────────────────────────────────────────────────────
+def make_block_order():
+    order = list(range(6))
+    ctrl  = {4, 5}
+    for _ in range(2000):
+        random.shuffle(order)
+        if order[0] in ctrl or order[-1] in ctrl:
+            continue
+        if any(order[k] in ctrl and order[k+1] in ctrl
+               for k in range(5)):
+            continue
+        return order
+    return [0, 4, 1, 2, 5, 3]
+
+# ── Bubble paths ───────────────────────────────────────────────────────────────
+# Set 2: bubbles/ is at the script root (no Stimuli/ subfolder)
+BUBBLES = {
+    'hello':    _p('bubbles', 'hello.jpg'),
+    'learning': _p('bubbles', 'learning.jpg'),
+    'control':  _p('bubbles', 'control.jpg'),
+    'bye':      _p('bubbles', 'bye.jpg'),
+}
+
+ALL_BLOCKS = [
+    (LEARNING[0:7],   'learning-1', 'learning', 1),
+    (LEARNING[7:14],  'learning-2', 'learning', 2),
+    (LEARNING[14:21], 'learning-3', 'learning', 3),
+    (LEARNING[21:28], 'learning-4', 'learning', 4),
+    (CONTROL[0:14],   'control-1',  'control',  5),
+    (CONTROL[14:28],  'control-2',  'control',  6),
+]
+
+# ── Main experiment ────────────────────────────────────────────────────────────
+
+# 00  Instructions Part 1  (7 slides, SPACE to advance)
+show_instructions_part1()
+
+# 01  Instructions Part 2  (1 slide, SPACE to start)
+show_instructions_part2()
+
+# 02  Hello
+show_bubble(BUBBLES['hello'], duration=FIX_DUR)
+
+# 03  Main blocks
+order = make_block_order()
+for run_idx, blk_idx in enumerate(order):
+    items, phase, bubble_key, block_num = ALL_BLOCKS[blk_idx]
+    show_bubble(BUBBLES[bubble_key], duration=FIX_DUR)
+    run_block(items, block_run=run_idx + 1, block_num=block_num,
+              phase=phase, n_ls=4)
+
+# 04  Bye
+show_bubble(BUBBLES['bye'], duration=FIX_DUR)
+
+# 05  Instructions Part 3 – AFC  (4 slides, SPACE on last)
+show_instructions_part3()
+
+# 06  AFC
+run_afc()
+
+# End
+feedback_text.setText('Vielen Dank f\u00fcr Ihre Teilnahme!')
+feedback_text.draw(); win.flip()
+core.wait(3.0)
+
+_csv_file.close(); win.close(); core.quit()

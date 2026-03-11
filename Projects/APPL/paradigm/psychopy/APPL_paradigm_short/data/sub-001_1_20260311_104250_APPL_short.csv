@@ -1,0 +1,6 @@
+participant,session,phase,block_run,block_num,learning_stage,trial,image,word,correct_word,condition,response,correct,rt,onset_time
+sub-001,1,learning-2,1,2,1,1,learning/PICTURE_673.jpg,Veschegt,Ingal,i,1,incorrect,2.2611,18.9325
+sub-001,1,learning-2,1,2,1,2,learning/PICTURE_354.jpg,Aglud,Aglud,c,2,incorrect,0.8359,23.4697
+sub-001,1,learning-2,1,2,1,3,learning/PICTURE_606.jpg,Plumpent,Lokrast,i,,timeout,,28.0069
+sub-001,1,learning-2,1,2,1,4,learning/PICTURE_308.jpg,Ingam,Ingam,c,1,correct,0.4897,32.5441
+sub-001,1,learning-2,1,2,1,5,learning/PICTURE_321.jpg,Straugel,Mobe,i,2,correct,0.4725,37.0814
