@@ -1,11 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FACEMEM — Paradigm</title>
-    <style>
+#!/usr/bin/env python3
+"""
+02_generate_paradigm.py
+Generates a per-project paradigm HTML page from *_description.json.
+Rich sections (Procedure, Trial Structure, Design, Timing, Software,
+Response Device, Keywords) live here; the overview HTML only shows
+short description + background.
+"""
 
+import json
+import importlib.util
+from pathlib import Path
+from typing import List, Dict
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Small HTML helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _load_description(project_dir: Path, project_name: str) -> Dict:
+    """Load *_description.json; return minimal defaults if absent."""
+    desc_path = project_dir / f"{project_name}_description.json"
+    defaults = {
+        "full_name":         project_name,
+        "short_description": "Behavioral task.",
+        "modality":          "unknown",
+        "cognitive_domain":  "unknown",
+        "task_type":         "unknown",
+        "difficulty":        "unknown",
+    }
+    if not desc_path.exists():
+        return defaults
+    try:
+        with open(desc_path, encoding="utf-8") as fh:
+            data = json.load(fh)
+        for k, v in defaults.items():
+            data.setdefault(k, v)
+        # Legacy compat
+        if "description" in data and "short_description" not in data:
+            data["short_description"] = data["description"]
+        return data
+    except Exception as e:
+        print(f"  Warning: could not load {desc_path.name}: {e}")
+        return defaults
+
+
+def _info_card(label: str, value: str) -> str:
+    if not value or value == "unknown":
+        return ""
+    return f"""        <div class="info-card">
+            <div class="info-card-label">{label}</div>
+            <div class="info-card-value">{value}</div>
+        </div>"""
+
+
+def _section(title: str, body_html: str) -> str:
+    return f"""        <div class="section">
+            <h2>{title}</h2>
+            {body_html}
+        </div>"""
+
+
+def _text_box(text: str) -> str:
+    return f'        <div class="text-box">{text}</div>'
+
+
+def _timing_chips(timing_dict: Dict) -> str:
+    chips = "".join(
+        f'<span class="timing-chip"><span class="chip-label">'
+        f'{k.replace("_", " ").title()}</span> {v}</span>'
+        for k, v in timing_dict.items()
+    )
+    return f'<div class="timing-row">{chips}</div>'
+
+
+def _keyword_chips(kws: List[str]) -> str:
+    chips = "".join(f'<span class="kw-chip">{k}</span>' for k in kws)
+    return f'<div class="kw-row">{chips}</div>'
+
+
+_GITHUB_SVG = (
+    '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">'
+    '<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59'
+    ".4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49"
+    "-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53"
+    ".63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87"
+    ".51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15"
+    "-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27"
+    " 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1"
+    ".16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65"
+    " 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15"
+    '.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
+)
+
+
+def _github_link(href: str, label: str = "View on GitHub") -> str:
+    return (f'<a href="{href}" class="github-link" target="_blank">'
+            f'{_GITHUB_SVG} {label}</a>')
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CSS (metallic green — matches dashboard aesthetic)
+# ─────────────────────────────────────────────────────────────────────────────
+
+_CSS = """
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -488,145 +585,316 @@
             padding-top: 22px;
             border-top: 1px solid rgba(190, 150, 80, 0.25);
         }
+"""
 
-        /* ── Software & Language block ──────────────────────────────── */
-        .sw-row {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(190, 150, 80, 0.18);
-        }
-        .sw-row:last-child { border-bottom: none; padding-bottom: 0; }
-        .sw-row:first-child { padding-top: 0; }
 
-        .sw-row-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
+# ─────────────────────────────────────────────────────────────────────────────
+# Main class
+# ─────────────────────────────────────────────────────────────────────────────
 
-        .sw-name {
-            color: #3a2010;
-            font-size: 0.97em;
-            font-weight: 600;
-        }
+class InteractiveDashboard:
+    """Generates paradigm HTML pages for each project."""
 
-        .sw-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-size: 0.72em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
+    def __init__(self, base_path: str):
+        self.base_path = Path(base_path)
+        self.all_projects: List[Dict] = []
 
-        .sw-badge-original {
-            background: linear-gradient(135deg, rgba(212,160,32,0.18) 0%, rgba(192,120,56,0.18) 100%);
-            border: 1px solid rgba(192,120,56,0.50);
-            color: #8a4a10;
-        }
+    # ── project loading ───────────────────────────────────────────────────
 
-        .sw-badge-compatible {
-            background: linear-gradient(135deg, rgba(184,176,190,0.20) 0%, rgba(196,160,180,0.20) 100%);
-            border: 1px solid rgba(184,176,190,0.50);
-            color: #6a5070;
-        }
+    def load_all_projects(self) -> List[Dict]:
+        projects_path = self.base_path / "Projects"
+        if not projects_path.exists():
+            print(f"Projects path not found: {projects_path}")
+            return []
 
-        .lang-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        _generator = None
+        try:
+            candidates = [
+                Path(__file__).parent / "01_multi_project_overview.py",
+                self.base_path / "01_multi_project_overview.py",
+                self.base_path.parent / "01_multi_project_overview.py",
+                Path(__file__).parent / "multi_project_overview_GREEN.py",
+                self.base_path / "multi_project_overview_GREEN.py",
+            ]
+            for c in candidates:
+                if c.exists():
+                    spec = importlib.util.spec_from_file_location("_overview", c)
+                    mod  = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(mod)
+                    _generator = mod.ProjectOverviewGenerator(str(self.base_path))
+                    print(f"  Live-analysis fallback: {c.name}")
+                    break
+        except Exception as e:
+            print(f"  Live-analysis not available: {e}")
 
-        .lang-chip {
-            background: rgba(160,110,50,0.10);
-            border: 1px solid rgba(190,150,80,0.35);
-            border-radius: 10px;
-            padding: 2px 10px;
-            font-size: 0.82em;
-            color: #6a4010;
-            font-weight: 500;
-        }
+        for project_dir in sorted(projects_path.iterdir()):
+            if not project_dir.is_dir():
+                continue
+            project_name = project_dir.name
+            data = None
 
-        .sw-link {
-            font-size: 0.85em;
-            margin-top: 2px;
-        }
+            for jf in ([project_dir / f"{project_name}_data.json"]
+                       + sorted(project_dir.glob("*_data.json"))):
+                if jf.exists():
+                    try:
+                        with open(jf) as f:
+                            data = json.load(f)
+                        print(f"  Loaded (JSON): {project_name}")
+                        break
+                    except Exception as e:
+                        print(f"  Error reading {jf.name}: {e}")
 
-        .sw-lang-note {
-            font-size: 0.88em;
-            color: #7a5030;
-        }
+            if data is None and _generator is not None:
+                if ((project_dir / "bids_data").exists()
+                        or any(project_dir.rglob("*_RT_beh.tsv"))):
+                    try:
+                        data = _generator.analyze_project(project_name)
+                        if data:
+                            print(f"  Loaded (live): {project_name}")
+                    except Exception as e:
+                        print(f"  Live analysis failed for {project_name}: {e}")
 
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="project-code">FACEMEM</div>
-        <div class="project-full-name">Face Memory Recognition</div>
-        <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
-        <div class="info-grid">
-        <div class="info-card">
-            <div class="info-card-label">Modality</div>
-            <div class="info-card-value">visual</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Recording Modality</div>
-            <div class="info-card-value">behavioral</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Cognitive Domain</div>
-            <div class="info-card-value">episodic memory</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Task Type</div>
-            <div class="info-card-value">recognition memory</div>
-        </div>
-        </div>
-        <div class="section">
-            <h2>Interactive Demo</h2>
-            
+            if data is None:
+                # No behavioral data but description JSON may exist → still generate page
+                desc_path = project_dir / f"{project_name}_description.json"
+                if desc_path.exists():
+                    data = {"project_name": project_name}
+                    print(f"  Loaded (desc only): {project_name}")
+                else:
+                    print(f"  Skipped (no data): {project_name}")
+                    continue
+
+            data.pop("learning_stage_data", None)
+            data.setdefault("project_name", project_name)
+            data.setdefault("project_info", {})
+            data.setdefault("demographics", {})
+            data.setdefault("reliability_metrics", {})
+            data["has_short_version"] = self.check_short_version(project_dir)
+            self.all_projects.append(data)
+
+        print(f"\n  Total projects loaded: {len(self.all_projects)}")
+        return self.all_projects
+
+    def check_short_version(self, project_dir: Path) -> bool:
+        n = project_dir.name
+        patterns = [
+            project_dir / "paradigm" / "psychopy" / f"{n}_paradigm_short" / f"{n}_short_version.py",
+            project_dir / "paradigm" / "psychopy" / f"{n}_short_version.py",
+            project_dir / "paradigm" / f"{n}_short_version.py",
+        ]
+        return any(p.exists() for p in patterns)
+
+    # ── HTML generator ────────────────────────────────────────────────────
+
+    def generate_test_paradigm_launcher(self, project_data: Dict) -> str:
+        pn       = project_data.get("project_name", "Unknown")
+        proj_dir = self.base_path / "Projects" / pn
+
+        # Load rich description JSON; fall back to project_info from data.json
+        desc = _load_description(proj_dir, pn)
+        pi   = project_data.get("project_info", {})
+        for k, v in pi.items():
+            desc.setdefault(k, v)
+
+        full_name   = desc.get("full_name", pn)
+        short_desc  = desc.get("short_description") or desc.get("description", "")
+        long_desc   = desc.get("long_description", "")
+        background  = desc.get("background", "")
+        procedure   = desc.get("procedure", "")
+        trial_str   = desc.get("trial_structure", "")
+        design      = desc.get("design", "")
+        software    = desc.get("software", "")
+        resp_device = desc.get("response_device", "")
+        timing      = desc.get("timing", {})
+        keywords    = desc.get("keywords", [])
+        modality    = desc.get("modality", "")
+        domain      = desc.get("cognitive_domain", "")
+        task_type   = desc.get("task_type", "")
+        difficulty  = desc.get("difficulty", "")
+        n_sessions  = desc.get("n_sessions", "")
+
+        # ── Info cards ───────────────────────────────────────────────────
+        card_defs = [
+            ("Modality",         modality),
+            ("Cognitive Domain", domain),
+            ("Task Type",        task_type),
+        ]
+        info_cards = "\n".join(_info_card(lbl, val) for lbl, val in card_defs)
+
+        # ── Description ──────────────────────────────────────────────────
+        desc_content = short_desc
+        if long_desc:
+            desc_content += f"<br><br>{long_desc}"
+        desc_section = (
+            _section("Description", _text_box(desc_content))
+            if desc_content else ""
+        )
+
+        # ── Background ───────────────────────────────────────────────────
+        bg_section = (
+            _section("Background", _text_box(background))
+            if background else ""
+        )
+
+        # ── Paradigm Details grid ────────────────────────────────────────
+        detail_cells = []
+        if procedure:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Procedure</div>'
+                f'<div class="detail-text">{procedure}</div></div>')
+        if trial_str:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Trial Structure</div>'
+                f'<div class="detail-text">{trial_str}</div></div>')
+        if design:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Design</div>'
+                f'<div class="detail-text">{design}</div></div>')
+        if software:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Software</div>'
+                f'<div class="detail-text">{software}</div></div>')
+        if resp_device:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Response Device</div>'
+                f'<div class="detail-text">{resp_device}</div></div>')
+        if timing:
+            detail_cells.append(
+                f'<div class="detail-cell">'
+                f'<div class="detail-label">Timing</div>'
+                f'{_timing_chips(timing)}</div>')
+        if keywords:
+            detail_cells.append(
+                f'<div class="detail-cell detail-cell-full">'
+                f'<div class="detail-label">Keywords</div>'
+                f'{_keyword_chips(keywords)}</div>')
+
+        detail_section = ""
+        if detail_cells:
+            detail_section = _section(
+                "Paradigm Details",
+                f'<div class="detail-grid">{"".join(detail_cells)}</div>')
+
+        # ── Interactive Demo ─────────────────────────────────────────────
+        demo_section = _section("Interactive Demo", f"""
             <div class="demo-box">
                 <strong>Try it now:</strong> Experience a browser-based demo version
                 of this paradigm with reduced trials and timing.
             </div>
             <div class="btn-container">
-                <a href="paradigm/psychopy/FACEMEM_paradigm_short/FACEMEM_demo.html"
+                <a href="paradigm/psychopy/{pn}_paradigm_short/{pn}_demo.html"
                    class="btn btn-demo" target="_blank">
                     Launch Interactive Demo
                 </a>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Description</h2>
-                    <div class="text-box">Two-phase study–test paradigm measuring encoding and recognition of unfamiliar face identities.<br><br>The Face Memory Recognition (FACEMEM) paradigm captures the full encoding–retrieval cycle for unfamiliar face identities. During the study phase, participants view a series of face photographs and make a shallow orienting judgment. In the subsequent test phase, studied faces are presented alongside age- and gender-matched foils and participants make old/new recognition judgements. Performance metrics include hit rate, false alarm rate, and d-prime, providing a signal-detection framework for memory sensitivity independent of response bias.</div>
-        </div>
-        <div class="section">
-            <h2>Background</h2>
-                    <div class="text-box">Face recognition memory is one of the most extensively studied domains in cognitive neuroscience, given the existence of dedicated neural circuitry in the fusiform face area and its connection to anterior temporal and hippocampal regions supporting person-identity nodes. FACEMEM operationalises this using standardised face stimulus sets to enable cross-site and cross-cohort comparisons. Because faces are inherently holistic stimuli, the task places particular demands on binding of configural features, making it sensitive to aging and disruptions in integrative encoding.</div>
-        </div>
-        <div class="section">
-            <h2>Paradigm Details</h2>
-            <div class="detail-grid"><div class="detail-cell"><div class="detail-label">Procedure</div><div class="detail-text">Session 1 (study): 90 target faces shown for 3 s each with a pleasantness rating task. Session 2 (test, same day or after delay): 90 target + 90 foil faces; participant presses 'old' or 'new'. Two additional blocks of novel face pairs assess within-session learning.</div></div><div class="detail-cell"><div class="detail-label">Trial Structure</div><div class="detail-text">Study trial: face image displayed centrally for 3 s, followed by 1 s ISI; participant rates pleasantness (1–4 scale). Test trial: face displayed until response; participant presses left (old) or right (new).</div></div><div class="detail-cell"><div class="detail-label">Design</div><div class="detail-text">Within-subjects, two-phase (study–test). Optional delayed-test session at 24 h or 1 week.</div></div><div class="detail-cell"><div class="detail-label">Software &amp; Language</div><div class="sw-row">  <div class="sw-row-header"><span class="sw-badge sw-badge-original">Original</span> <span class="sw-name">E-Prime 3.0</span></div>  <div class="lang-row"><span class="lang-chip">German</span></div>  <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/FACEMEM/paradigm/eprime" class="github-link sw-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View files</a></div></div><div class="detail-cell"><div class="detail-label">Response Device</div><div class="detail-text">keyboard (left/right arrow) or two-button box</div></div><div class="detail-cell"><div class="detail-label">Timing</div><div class="timing-row"><span class="timing-chip"><span class="chip-label">Study Duration S</span> 3</span><span class="timing-chip"><span class="chip-label">Test Until Response</span> True</span><span class="timing-chip"><span class="chip-label">Isi S</span> 1</span></div></div><div class="detail-cell detail-cell-full"><div class="detail-label">Keywords</div><div class="kw-row"><span class="kw-chip">face recognition</span><span class="kw-chip">episodic memory</span><span class="kw-chip">hit rate</span><span class="kw-chip">d-prime</span><span class="kw-chip">fusiform face area</span><span class="kw-chip">holistic processing</span></div></div></div>
-        </div>
-        <div class="section">
-            <h2>Paradigm Files</h2>
-            <div class="links-grid"><div class="link-card"><h3><span class="sw-badge sw-badge-original" style="font-size:0.65em;vertical-align:middle;margin-right:8px">Original</span>E-Prime 3.0</h3><p>Languages available: <strong>German</strong></p><code>BEEHub/Projects/FACEMEM/paradigm/eprime</code><a href="https://github.com/memoslap/BEEHub/tree/main/Projects/FACEMEM/paradigm/eprime" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></div><div class="link-card"><h3>Stimuli</h3><p>All stimulus materials and experimental resources.</p><code>BEEHub/Projects/FACEMEM/paradigm/psychopy/FACEMEM_paradigm_short/Stimuli/</code><a href="https://github.com/memoslap/BEEHub/tree/main/Projects/FACEMEM/paradigm/psychopy/FACEMEM_paradigm_short/Stimuli" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></div></div>
-        </div>
-        <div class="section">
-            <h2>Running the Paradigm</h2>
-            
+            </div>""")
+
+        # ── Paradigm Files ───────────────────────────────────────────────
+        gh = f"https://github.com/memoslap/BEEHub/tree/main/Projects/{pn}"
+        files_section = _section("Paradigm Files", f"""
+            <div class="links-grid">
+                <div class="link-card">
+                    <h3>PsychoPy Version</h3>
+                    <p>Full implementation with all features for running the experiment.</p>
+                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/</code>
+                    {_github_link(f"{gh}/paradigm/psychopy")}
+                </div>
+                <div class="link-card">
+                    <h3>Short Test Version</h3>
+                    <p>Reduced version for quick testing and debugging.</p>
+                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/</code>
+                    {_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short")}
+                </div>
+                <div class="link-card">
+                    <h3>Presentation Files</h3>
+                    <p>Original Neurobehavioral Systems files with stimuli.</p>
+                    <code>BEEHub/Projects/{pn}/paradigm/presentation/</code>
+                    {_github_link(f"{gh}/paradigm/presentation")}
+                </div>
+                <div class="link-card">
+                    <h3>Stimuli</h3>
+                    <p>All stimulus materials and experimental resources.</p>
+                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/Stimuli/</code>
+                    {_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short/Stimuli")}
+                </div>
+            </div>""")
+
+        # ── Running instructions ─────────────────────────────────────────
+        run_section = _section("Running the Paradigm", f"""
             <div class="instructions-box">
                 <h3>PsychoPy Instructions</h3>
                 <ul>
                     <li>Install PsychoPy (recommended version 2021.2 or later)</li>
                     <li>Clone or download the repository from GitHub</li>
                     <li>Navigate to the PsychoPy directory for this project</li>
-                    <li>Run: <code>python FACEMEM_short_version.py</code> (test version)</li>
+                    <li>Run: <code>python {pn}_short_version.py</code> (test version)</li>
                     <li>Follow the on-screen instructions</li>
                 </ul>
-            </div>
+            </div>""")
+
+        # ── Assemble ─────────────────────────────────────────────────────
+        return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{pn} — Paradigm</title>
+    <style>
+{_CSS}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="project-code">{pn}</div>
+        <div class="project-full-name">{full_name}</div>
+        <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
+        <div class="info-grid">
+{info_cards}
         </div>
+{demo_section}
+{desc_section}
+{bg_section}
+{detail_section}
+{files_section}
+{run_section}
         <div class="footer-row">
             <a href="../../dashboard.html" class="btn btn-back">&#8592; Back to Dashboard</a>
         </div>
     </div>
 </body>
-</html>
+</html>"""
+
+    # ── Save paradigm pages ───────────────────────────────────────────────
+
+    def save_test_paradigm_launchers(self) -> int:
+        count = 0
+        for project in self.all_projects:
+            pn = project.get("project_name")
+            project_dir = self.base_path / "Projects" / pn
+            html = self.generate_test_paradigm_launcher(project)
+            out  = project_dir / f"{pn}_paradigm.html"
+            with open(out, "w", encoding="utf-8") as f:
+                f.write(html)
+            print(f"  Created: {out}")
+            count += 1
+        return count
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+def main():
+    import sys
+    base_path = (sys.argv[1] if len(sys.argv) > 1
+                 else Path(__file__).resolve().parent.parent)
+    d = InteractiveDashboard(base_path)
+    d.load_all_projects()
+    count = d.save_test_paradigm_launchers()
+    print(f"Paradigm pages created: {count}")
+
+
+if __name__ == "__main__":
+    main()

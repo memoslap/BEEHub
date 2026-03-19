@@ -50,7 +50,7 @@ class ProjectOverviewGenerator:
             'modality':           'unknown',
             'cognitive_domain':   'unknown',
             'task_type':          'unknown',
-            'difficulty':         'unknown',
+            'language':           'unknown',
         }
         if not desc_path.exists():
             return defaults

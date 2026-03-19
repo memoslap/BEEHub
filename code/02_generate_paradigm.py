@@ -21,12 +21,16 @@ def _load_description(project_dir: Path, project_name: str) -> Dict:
     """Load *_description.json; return minimal defaults if absent."""
     desc_path = project_dir / f"{project_name}_description.json"
     defaults = {
-        "full_name":         project_name,
-        "short_description": "Behavioral task.",
-        "modality":          "unknown",
-        "cognitive_domain":  "unknown",
-        "task_type":         "unknown",
-        "difficulty":        "unknown",
+        "full_name":           project_name,
+        "short_description":   "Behavioral task.",
+        "modality":            "unknown",
+        "cognitive_domain":    "unknown",
+        "task_type":           "unknown",
+        "language":            "unknown",
+        "recording_modality":  "",
+        "software_original":   "",
+        "language_original":   "",
+        "implementations":     [],
     }
     if not desc_path.exists():
         return defaults
@@ -76,6 +80,49 @@ def _timing_chips(timing_dict: Dict) -> str:
 def _keyword_chips(kws: List[str]) -> str:
     chips = "".join(f'<span class="kw-chip">{k}</span>' for k in kws)
     return f'<div class="kw-row">{chips}</div>'
+
+
+def _lang_chips(langs: List[str]) -> str:
+    chips = "".join(f'<span class="lang-chip">{l.title()}</span>' for l in langs)
+    return f'<div class="lang-row">{chips}</div>'
+
+
+def _software_language_block(implementations: List[Dict],
+                              software_original: str,
+                              language_original: str,
+                              pn: str,
+                              gh: str) -> str:
+    """Build the Software & Language detail cell content."""
+    if not implementations:
+        # Fallback: use legacy software field
+        text = software_original or "—"
+        if language_original:
+            text += f'<br><span class="sw-lang-note">Language: {language_original.title()}</span>'
+        return f'<div class="detail-text">{text}</div>'
+
+    rows = []
+    # Sort: originals first
+    sorted_impl = sorted(implementations, key=lambda x: 0 if x.get("type") == "original" else 1)
+    for impl in sorted_impl:
+        sw      = impl.get("software", "")
+        itype   = impl.get("type", "compatible")   # "original" | "compatible"
+        langs   = impl.get("languages_available", [])
+        folder  = impl.get("folder", "")
+        badge   = ('<span class="sw-badge sw-badge-original">Original</span>'
+                   if itype == "original"
+                   else '<span class="sw-badge sw-badge-compatible">Compatible</span>')
+        lang_html = _lang_chips(langs) if langs else ""
+        link_html = (f'<a href="{gh}/{folder}" class="github-link sw-link" target="_blank">'
+                     f'{_GITHUB_SVG} View files</a>'
+                     if folder else "")
+        rows.append(
+            f'<div class="sw-row">'
+            f'  <div class="sw-row-header">{badge} <span class="sw-name">{sw}</span></div>'
+            f'  {lang_html}'
+            f'  {link_html}'
+            f'</div>'
+        )
+    return "".join(rows)
 
 
 _GITHUB_SVG = (
@@ -585,6 +632,72 @@ _CSS = """
             padding-top: 22px;
             border-top: 1px solid rgba(190, 150, 80, 0.25);
         }
+
+        /* ── Software & Language block ──────────────────────────────── */
+        .sw-row {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.18);
+        }
+        .sw-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sw-row:first-child { padding-top: 0; }
+
+        .sw-row-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .sw-name {
+            color: #3a2010;
+            font-size: 0.97em;
+            font-weight: 600;
+        }
+
+        .sw-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .sw-badge-original {
+            background: linear-gradient(135deg, rgba(212,160,32,0.18) 0%, rgba(192,120,56,0.18) 100%);
+            border: 1px solid rgba(192,120,56,0.50);
+            color: #8a4a10;
+        }
+
+        .sw-badge-compatible {
+            background: linear-gradient(135deg, rgba(184,176,190,0.20) 0%, rgba(196,160,180,0.20) 100%);
+            border: 1px solid rgba(184,176,190,0.50);
+            color: #6a5070;
+        }
+
+        .lang-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+
+        .lang-chip {
+            background: rgba(160,110,50,0.10);
+            border: 1px solid rgba(190,150,80,0.35);
+            border-radius: 10px;
+            padding: 2px 10px;
+            font-size: 0.82em;
+            color: #6a4010;
+            font-weight: 500;
+        }
+
+        .sw-link {
+            font-size: 0.85em;
+            margin-top: 2px;
+        }
+
+        .sw-lang-note {
+            font-size: 0.88em;
+            color: #7a5030;
+        }
 """
 
 
@@ -669,20 +782,59 @@ class InteractiveDashboard:
             data.setdefault("project_info", {})
             data.setdefault("demographics", {})
             data.setdefault("reliability_metrics", {})
-            data["has_short_version"] = self.check_short_version(project_dir)
+            data["short_version_stem"] = self.check_short_version(project_dir)
+            data["has_short_version"]  = data["short_version_stem"] is not None
             self.all_projects.append(data)
 
         print(f"\n  Total projects loaded: {len(self.all_projects)}")
         return self.all_projects
 
-    def check_short_version(self, project_dir: Path) -> bool:
+    def check_short_version(self, project_dir: Path) -> str | None:
+        """Check if a short version paradigm file exists.
+
+        Searches for language-suffixed filename first (e.g. OLMM_short_version_german.py),
+        reading language_original from the description JSON, then falls back to the
+        legacy name without a language suffix.
+
+        Returns the matched filename stem (without .py), or None if not found.
+        """
         n = project_dir.name
-        patterns = [
-            project_dir / "paradigm" / "psychopy" / f"{n}_paradigm_short" / f"{n}_short_version.py",
-            project_dir / "paradigm" / "psychopy" / f"{n}_short_version.py",
-            project_dir / "paradigm" / f"{n}_short_version.py",
+
+        # Try to read language_original from the description JSON
+        lang = None
+        desc_path = project_dir / f"{n}_description.json"
+        if desc_path.exists():
+            try:
+                import json as _json
+                with open(desc_path, encoding="utf-8") as fh:
+                    desc = _json.load(fh)
+                lang = desc.get("language_original") or desc.get("language") or None
+                if lang:
+                    lang = lang.strip().lower()
+            except Exception:
+                pass
+
+        short_dir = project_dir / "paradigm" / "psychopy" / f"{n}_paradigm_short"
+
+        candidates = []
+        if lang:
+            stem = f"{n}_short_version_{lang}"
+            candidates += [
+                (short_dir / f"{stem}.py", stem),
+                (project_dir / "paradigm" / "psychopy" / f"{stem}.py", stem),
+                (project_dir / "paradigm" / f"{stem}.py", stem),
+            ]
+        legacy_stem = f"{n}_short_version"
+        candidates += [
+            (short_dir / f"{legacy_stem}.py", legacy_stem),
+            (project_dir / "paradigm" / "psychopy" / f"{legacy_stem}.py", legacy_stem),
+            (project_dir / "paradigm" / f"{legacy_stem}.py", legacy_stem),
         ]
-        return any(p.exists() for p in patterns)
+
+        for path, stem in candidates:
+            if path.exists():
+                return stem   # e.g. "OLMM_short_version_german"
+        return None
 
     # ── HTML generator ────────────────────────────────────────────────────
 
@@ -696,28 +848,32 @@ class InteractiveDashboard:
         for k, v in pi.items():
             desc.setdefault(k, v)
 
-        full_name   = desc.get("full_name", pn)
-        short_desc  = desc.get("short_description") or desc.get("description", "")
-        long_desc   = desc.get("long_description", "")
-        background  = desc.get("background", "")
-        procedure   = desc.get("procedure", "")
-        trial_str   = desc.get("trial_structure", "")
-        design      = desc.get("design", "")
-        software    = desc.get("software", "")
-        resp_device = desc.get("response_device", "")
-        timing      = desc.get("timing", {})
-        keywords    = desc.get("keywords", [])
-        modality    = desc.get("modality", "")
-        domain      = desc.get("cognitive_domain", "")
-        task_type   = desc.get("task_type", "")
-        difficulty  = desc.get("difficulty", "")
-        n_sessions  = desc.get("n_sessions", "")
+        full_name       = desc.get("full_name", pn)
+        short_desc      = desc.get("short_description") or desc.get("description", "")
+        long_desc       = desc.get("long_description", "")
+        background      = desc.get("background", "")
+        procedure       = desc.get("procedure", "")
+        trial_str       = desc.get("trial_structure", "")
+        design          = desc.get("design", "")
+        software        = desc.get("software", "")
+        resp_device     = desc.get("response_device", "")
+        timing          = desc.get("timing", {})
+        keywords        = desc.get("keywords", [])
+        modality        = desc.get("modality", "")
+        domain          = desc.get("cognitive_domain", "")
+        task_type       = desc.get("task_type", "")
+        n_sessions      = desc.get("n_sessions", "")
+        rec_modality    = desc.get("recording_modality", "")
+        software_orig   = desc.get("software_original", software)
+        language_orig   = desc.get("language_original", desc.get("language", ""))
+        implementations = desc.get("implementations", [])
 
         # ── Info cards ───────────────────────────────────────────────────
         card_defs = [
-            ("Modality",         modality),
-            ("Cognitive Domain", domain),
-            ("Task Type",        task_type),
+            ("Modality",            modality),
+            ("Recording Modality",  rec_modality),
+            ("Cognitive Domain",    domain),
+            ("Task Type",           task_type),
         ]
         info_cards = "\n".join(_info_card(lbl, val) for lbl, val in card_defs)
 
@@ -736,6 +892,9 @@ class InteractiveDashboard:
             if background else ""
         )
 
+        # ── GitHub base URL (used in both detail cells and files section) ──
+        gh = f"https://github.com/memoslap/BEEHub/tree/main/Projects/{pn}"
+
         # ── Paradigm Details grid ────────────────────────────────────────
         detail_cells = []
         if procedure:
@@ -753,11 +912,14 @@ class InteractiveDashboard:
                 f'<div class="detail-cell">'
                 f'<div class="detail-label">Design</div>'
                 f'<div class="detail-text">{design}</div></div>')
-        if software:
+        # Software & Language — always shown if any info available
+        if implementations or software_orig or language_orig:
+            sw_block = _software_language_block(
+                implementations, software_orig, language_orig, pn, gh)
             detail_cells.append(
                 f'<div class="detail-cell">'
-                f'<div class="detail-label">Software</div>'
-                f'<div class="detail-text">{software}</div></div>')
+                f'<div class="detail-label">Software &amp; Language</div>'
+                f'{sw_block}</div>')
         if resp_device:
             detail_cells.append(
                 f'<div class="detail-cell">'
@@ -794,36 +956,68 @@ class InteractiveDashboard:
             </div>""")
 
         # ── Paradigm Files ───────────────────────────────────────────────
-        gh = f"https://github.com/memoslap/BEEHub/tree/main/Projects/{pn}"
-        files_section = _section("Paradigm Files", f"""
-            <div class="links-grid">
-                <div class="link-card">
-                    <h3>PsychoPy Version</h3>
-                    <p>Full implementation with all features for running the experiment.</p>
-                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/</code>
-                    {_github_link(f"{gh}/paradigm/psychopy")}
-                </div>
-                <div class="link-card">
-                    <h3>Short Test Version</h3>
-                    <p>Reduced version for quick testing and debugging.</p>
-                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/</code>
-                    {_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short")}
-                </div>
-                <div class="link-card">
-                    <h3>Presentation Files</h3>
-                    <p>Original Neurobehavioral Systems files with stimuli.</p>
-                    <code>BEEHub/Projects/{pn}/paradigm/presentation/</code>
-                    {_github_link(f"{gh}/paradigm/presentation")}
-                </div>
-                <div class="link-card">
-                    <h3>Stimuli</h3>
-                    <p>All stimulus materials and experimental resources.</p>
-                    <code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/Stimuli/</code>
-                    {_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short/Stimuli")}
-                </div>
-            </div>""")
+        # Build file cards dynamically from implementations (originals first),
+        # with a fallback set of cards if no implementations are defined.
+        file_cards = []
+
+        if implementations:
+            sorted_impl = sorted(implementations,
+                                 key=lambda x: 0 if x.get("type") == "original" else 1)
+            for impl in sorted_impl:
+                sw     = impl.get("software", "Unknown")
+                itype  = impl.get("type", "compatible")
+                langs  = impl.get("languages_available", [])
+                folder = impl.get("folder", "")
+                badge  = ("Original" if itype == "original" else "Compatible")
+                badge_cls = ("sw-badge-original" if itype == "original"
+                             else "sw-badge-compatible")
+                lang_str = ", ".join(l.title() for l in langs) if langs else "—"
+                link = _github_link(f"{gh}/{folder}") if folder else ""
+                code_path = f"BEEHub/Projects/{pn}/{folder}" if folder else ""
+                file_cards.append(
+                    f'<div class="link-card">'
+                    f'<h3><span class="sw-badge {badge_cls}" '
+                    f'style="font-size:0.65em;vertical-align:middle;margin-right:8px">'
+                    f'{badge}</span>{sw}</h3>'
+                    f'<p>Languages available: <strong>{lang_str}</strong></p>'
+                    f'{"<code>" + code_path + "</code>" if code_path else ""}'
+                    f'{link}'
+                    f'</div>'
+                )
+        else:
+            # Legacy fallback cards
+            file_cards = [
+                f'<div class="link-card">'
+                f'<h3>PsychoPy Version</h3>'
+                f'<p>Full implementation with all features for running the experiment.</p>'
+                f'<code>BEEHub/Projects/{pn}/paradigm/psychopy/</code>'
+                f'{_github_link(f"{gh}/paradigm/psychopy")}'
+                f'</div>',
+                f'<div class="link-card">'
+                f'<h3>Short Test Version</h3>'
+                f'<p>Reduced version for quick testing and debugging.</p>'
+                f'<code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/</code>'
+                f'{_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short")}'
+                f'</div>',
+            ]
+
+        # Always add a Stimuli card
+        file_cards.append(
+            f'<div class="link-card">'
+            f'<h3>Stimuli</h3>'
+            f'<p>All stimulus materials and experimental resources.</p>'
+            f'<code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/Stimuli/</code>'
+            f'{_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short/Stimuli")}'
+            f'</div>'
+        )
+
+        files_section = _section(
+            "Paradigm Files",
+            f'<div class="links-grid">{"".join(file_cards)}</div>'
+        )
 
         # ── Running instructions ─────────────────────────────────────────
+        short_stem = project_data.get("short_version_stem") or f"{pn}_short_version"
         run_section = _section("Running the Paradigm", f"""
             <div class="instructions-box">
                 <h3>PsychoPy Instructions</h3>
@@ -831,7 +1025,7 @@ class InteractiveDashboard:
                     <li>Install PsychoPy (recommended version 2021.2 or later)</li>
                     <li>Clone or download the repository from GitHub</li>
                     <li>Navigate to the PsychoPy directory for this project</li>
-                    <li>Run: <code>python {pn}_short_version.py</code> (test version)</li>
+                    <li>Run: <code>python {short_stem}.py</code> (test version)</li>
                     <li>Follow the on-screen instructions</li>
                 </ul>
             </div>""")

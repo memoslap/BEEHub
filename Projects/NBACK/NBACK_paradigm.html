@@ -489,6 +489,72 @@
             border-top: 1px solid rgba(190, 150, 80, 0.25);
         }
 
+        /* ── Software & Language block ──────────────────────────────── */
+        .sw-row {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.18);
+        }
+        .sw-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sw-row:first-child { padding-top: 0; }
+
+        .sw-row-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .sw-name {
+            color: #3a2010;
+            font-size: 0.97em;
+            font-weight: 600;
+        }
+
+        .sw-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .sw-badge-original {
+            background: linear-gradient(135deg, rgba(212,160,32,0.18) 0%, rgba(192,120,56,0.18) 100%);
+            border: 1px solid rgba(192,120,56,0.50);
+            color: #8a4a10;
+        }
+
+        .sw-badge-compatible {
+            background: linear-gradient(135deg, rgba(184,176,190,0.20) 0%, rgba(196,160,180,0.20) 100%);
+            border: 1px solid rgba(184,176,190,0.50);
+            color: #6a5070;
+        }
+
+        .lang-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+
+        .lang-chip {
+            background: rgba(160,110,50,0.10);
+            border: 1px solid rgba(190,150,80,0.35);
+            border-radius: 10px;
+            padding: 2px 10px;
+            font-size: 0.82em;
+            color: #6a4010;
+            font-weight: 500;
+        }
+
+        .sw-link {
+            font-size: 0.85em;
+            margin-top: 2px;
+        }
+
+        .sw-lang-note {
+            font-size: 0.88em;
+            color: #7a5030;
+        }
+
     </style>
 </head>
 <body>
@@ -500,6 +566,10 @@
         <div class="info-card">
             <div class="info-card-label">Modality</div>
             <div class="info-card-value">visual</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Recording Modality</div>
+            <div class="info-card-value">behavioral</div>
         </div>
         <div class="info-card">
             <div class="info-card-label">Cognitive Domain</div>
@@ -534,37 +604,11 @@
         </div>
         <div class="section">
             <h2>Paradigm Details</h2>
-            <div class="detail-grid"><div class="detail-cell"><div class="detail-label">Procedure</div><div class="detail-text">Each session consists of four blocks of 2-back and two blocks of 0-back stimuli. Stimuli are letters (or spatial positions) presented at a 2-s rate. Participants press a target key (match) or a non-target key (no match) for each item. Accuracy and RT are scored per block. Block order is counterbalanced.</div></div><div class="detail-cell"><div class="detail-label">Trial Structure</div><div class="detail-text">2-back trial: letter displayed for 500 ms, 1500 ms ISI; respond if letter matches 2 positions back. 0-back trial: identical timing; respond if letter matches a pre-specified target (e.g., 'X'). Each block: 40 items (2-back) or 20 items (0-back), ~25% targets.</div></div><div class="detail-cell"><div class="detail-label">Design</div><div class="detail-text">Within-subjects, two-session repeated-measures. Four blocks of 2-back and two of 0-back per session.</div></div><div class="detail-cell"><div class="detail-label">Software</div><div class="detail-text">E-Prime 3.0 / PsychoPy</div></div><div class="detail-cell"><div class="detail-label">Response Device</div><div class="detail-text">two-button response box or keyboard</div></div><div class="detail-cell"><div class="detail-label">Timing</div><div class="timing-row"><span class="timing-chip"><span class="chip-label">Stimulus Duration Ms</span> 500</span><span class="timing-chip"><span class="chip-label">Isi Ms</span> 1500</span><span class="timing-chip"><span class="chip-label">Block Duration Approx S</span> 90</span></div></div><div class="detail-cell detail-cell-full"><div class="detail-label">Keywords</div><div class="kw-row"><span class="kw-chip">n-back</span><span class="kw-chip">working memory</span><span class="kw-chip">updating</span><span class="kw-chip">dorsolateral prefrontal cortex</span><span class="kw-chip">fluid intelligence</span><span class="kw-chip">frontoparietal network</span></div></div></div>
+            <div class="detail-grid"><div class="detail-cell"><div class="detail-label">Procedure</div><div class="detail-text">Each session consists of four blocks of 2-back and two blocks of 0-back stimuli. Stimuli are letters (or spatial positions) presented at a 2-s rate. Participants press a target key (match) or a non-target key (no match) for each item. Accuracy and RT are scored per block. Block order is counterbalanced.</div></div><div class="detail-cell"><div class="detail-label">Trial Structure</div><div class="detail-text">2-back trial: letter displayed for 500 ms, 1500 ms ISI; respond if letter matches 2 positions back. 0-back trial: identical timing; respond if letter matches a pre-specified target (e.g., 'X'). Each block: 40 items (2-back) or 20 items (0-back), ~25% targets.</div></div><div class="detail-cell"><div class="detail-label">Design</div><div class="detail-text">Within-subjects, two-session repeated-measures. Four blocks of 2-back and two of 0-back per session.</div></div><div class="detail-cell"><div class="detail-label">Software &amp; Language</div><div class="sw-row">  <div class="sw-row-header"><span class="sw-badge sw-badge-original">Original</span> <span class="sw-name">E-Prime 3.0</span></div>  <div class="lang-row"><span class="lang-chip">German</span></div>  <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/eprime" class="github-link sw-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View files</a></div><div class="sw-row">  <div class="sw-row-header"><span class="sw-badge sw-badge-compatible">Compatible</span> <span class="sw-name">PsychoPy</span></div>  <div class="lang-row"><span class="lang-chip">German</span></div>  <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy" class="github-link sw-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View files</a></div></div><div class="detail-cell"><div class="detail-label">Response Device</div><div class="detail-text">two-button response box or keyboard</div></div><div class="detail-cell"><div class="detail-label">Timing</div><div class="timing-row"><span class="timing-chip"><span class="chip-label">Stimulus Duration Ms</span> 500</span><span class="timing-chip"><span class="chip-label">Isi Ms</span> 1500</span><span class="timing-chip"><span class="chip-label">Block Duration Approx S</span> 90</span></div></div><div class="detail-cell detail-cell-full"><div class="detail-label">Keywords</div><div class="kw-row"><span class="kw-chip">n-back</span><span class="kw-chip">working memory</span><span class="kw-chip">updating</span><span class="kw-chip">dorsolateral prefrontal cortex</span><span class="kw-chip">fluid intelligence</span><span class="kw-chip">frontoparietal network</span></div></div></div>
         </div>
         <div class="section">
             <h2>Paradigm Files</h2>
-            
-            <div class="links-grid">
-                <div class="link-card">
-                    <h3>PsychoPy Version</h3>
-                    <p>Full implementation with all features for running the experiment.</p>
-                    <code>BEEHub/Projects/NBACK/paradigm/psychopy/</code>
-                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-                </div>
-                <div class="link-card">
-                    <h3>Short Test Version</h3>
-                    <p>Reduced version for quick testing and debugging.</p>
-                    <code>BEEHub/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short/</code>
-                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-                </div>
-                <div class="link-card">
-                    <h3>Presentation Files</h3>
-                    <p>Original Neurobehavioral Systems files with stimuli.</p>
-                    <code>BEEHub/Projects/NBACK/paradigm/presentation/</code>
-                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/presentation" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-                </div>
-                <div class="link-card">
-                    <h3>Stimuli</h3>
-                    <p>All stimulus materials and experimental resources.</p>
-                    <code>BEEHub/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short/Stimuli/</code>
-                    <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short/Stimuli" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-                </div>
-            </div>
+            <div class="links-grid"><div class="link-card"><h3><span class="sw-badge sw-badge-original" style="font-size:0.65em;vertical-align:middle;margin-right:8px">Original</span>E-Prime 3.0</h3><p>Languages available: <strong>German</strong></p><code>BEEHub/Projects/NBACK/paradigm/eprime</code><a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/eprime" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></div><div class="link-card"><h3><span class="sw-badge sw-badge-compatible" style="font-size:0.65em;vertical-align:middle;margin-right:8px">Compatible</span>PsychoPy</h3><p>Languages available: <strong>German</strong></p><code>BEEHub/Projects/NBACK/paradigm/psychopy</code><a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></div><div class="link-card"><h3>Stimuli</h3><p>All stimulus materials and experimental resources.</p><code>BEEHub/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short/Stimuli/</code><a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy/NBACK_paradigm_short/Stimuli" class="github-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a></div></div>
         </div>
         <div class="section">
             <h2>Running the Paradigm</h2>

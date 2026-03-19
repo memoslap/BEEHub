@@ -208,7 +208,118 @@ body {
         rgba(232,192,72,0.55) 50%, rgba(212,160,32,0.35) 70%, transparent 100%);
 }
 
-/* Feedback text above image (mirroring PsychoPy pos=(0,350)) */
+/* ── ESC exit overlay ─────────────────────────────────────── */
+#esc-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 12, 4, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+#esc-overlay.visible {
+    display: flex;
+    animation: escFadeIn 0.18s ease;
+}
+@keyframes escFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.esc-card {
+    background: linear-gradient(145deg,
+        rgba(252,248,242,0.98) 0%,
+        rgba(240,230,210,0.97) 100%
+    );
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 18px;
+    padding: 36px 42px 30px;
+    max-width: 380px;
+    width: 90%;
+    box-shadow:
+        0 24px 60px rgba(100,60,10,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.esc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, #9e5c1e, #d4a020, #e8c048, #d4a020, #9e5c1e);
+    opacity: 0.9;
+}
+.esc-icon {
+    font-size: 2.2em;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+.esc-title {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #5a3010;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+.esc-msg {
+    font-size: 0.88em;
+    color: #8a6040;
+    line-height: 1.6;
+    margin-bottom: 26px;
+}
+.esc-key-hint {
+    display: inline-block;
+    background: rgba(160,110,50,0.12);
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 0.82em;
+    font-family: monospace;
+    color: #7a5030;
+    margin: 0 2px;
+}
+.esc-btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.esc-btn-leave {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #9e5c1e 0%, #c07838 50%, #d4a020 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(192,120,56,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+.esc-btn-leave:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192,120,56,0.50);
+}
+.esc-btn-resume {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color: #2a1a0a;
+    box-shadow: 0 4px 12px rgba(180,150,180,0.25);
+}
+.esc-btn-resume:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+}
 #feedback-line {
     color:#e8d8b0; font-size:1.1em; font-weight:400;
     margin-bottom:12px; text-align:center;
@@ -366,6 +477,10 @@ body {
             <div class="key-item">
                 <span class="key-badge">1 / 2 / 3</span>
                 <span>Select option in the final recognition test</span>
+            </div>
+            <div class="key-item">
+                <span class="key-badge">Esc</span>
+                <span>Exit the demo at any time</span>
             </div>
         </div>
     </div>
@@ -976,9 +1091,34 @@ function showResults() {
 function restartDemo() { showScreen('screen-instructions'); }
 
 // ──────────────────────────────────────────────────────────────
+// ESC EXIT OVERLAY
+// ──────────────────────────────────────────────────────────────
+function showEscOverlay() {
+    document.getElementById('esc-overlay').classList.add('visible');
+}
+
+function dismissEscOverlay() {
+    document.getElementById('esc-overlay').classList.remove('visible');
+}
+
+// ──────────────────────────────────────────────────────────────
 // KEYBOARD
 // ──────────────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
+    // Escape: toggle exit overlay (works on any screen)
+    if (e.key === 'Escape') {
+        const overlay = document.getElementById('esc-overlay');
+        if (overlay.classList.contains('visible')) {
+            dismissEscOverlay();
+        } else {
+            showEscOverlay();
+        }
+        return;
+    }
+
+    // Block trial keypresses while the exit overlay is open
+    if (document.getElementById('esc-overlay').classList.contains('visible')) return;
+
     const screen = document.querySelector('.screen.active')?.id;
     if (screen === 'screen-trial') {
         if (e.key === 'ArrowLeft')  recordResponse('left');
@@ -991,5 +1131,23 @@ document.addEventListener('keydown', e => {
     }
 });
 </script>
+
+<!-- ── ESC exit overlay — placed here so it exists when the script above runs ── -->
+<div id="esc-overlay" role="dialog" aria-modal="true" aria-label="Exit demo"
+     onclick="if(event.target===this) dismissEscOverlay()">
+    <div class="esc-card">
+        <div class="esc-icon">🚪</div>
+        <div class="esc-title">Leave the demo?</div>
+        <div class="esc-msg">
+            Your current progress will not be saved.<br>
+            Press <span class="esc-key-hint">Esc</span> again or click <em>Continue</em> to keep going.
+        </div>
+        <div class="esc-btn-row">
+            <a href="../../../OLMM_paradigm.html" class="esc-btn-leave">Leave Demo</a>
+            <button class="esc-btn-resume" onclick="dismissEscOverlay()">Continue</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

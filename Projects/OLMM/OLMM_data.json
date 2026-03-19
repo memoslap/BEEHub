@@ -8,10 +8,23 @@
     "procedure": "In each session, participants complete four learning stages (LS1\u2013LS4) in which they study object\u2013location pairs and are immediately tested with a four-alternative forced-choice spatial probe. Learning trials are interleaved with control trials consisting of a simple object-naming colour judgment that controls for non-mnemonic visuospatial processing. Session 2 occurs 7\u201314 days later.",
     "trial_structure": "Learning trial: object image appears on grid for up to 25 s; participant indicates remembered location by pressing the response key corresponding to the target quadrant. Control trial: single object displayed centrally; participant presses key to confirm colour (coherence = 'c') or incoherence ('i'). ~240 learning and ~80 control trials per session.",
     "design": "Within-subjects, two-session repeated-measures. Inter-session interval 7\u201314 days.",
-    "modality": "visual-spatial",
+    "modality": "visual",
     "cognitive_domain": "spatial memory",
     "task_type": "object-location binding",
-    "difficulty": "moderate",
+    "language": "german",
+    "recording_modality": "behavioral",
+    "software_original": "Presentation (Neurobehavioral Systems)",
+    "language_original": "german",
+    "implementations": [
+      {
+        "software": "Presentation (Neurobehavioral Systems)",
+        "type": "original",
+        "languages_available": [
+          "german"
+        ],
+        "folder": "paradigm/presentation"
+      }
+    ],
     "keywords": [
       "object-location binding",
       "spatial memory",

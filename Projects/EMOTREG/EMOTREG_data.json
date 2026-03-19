@@ -8,10 +8,23 @@
     "procedure": "Each session contains three runs of 30 regulate and 20 observe trials. Images are drawn from the IAPS or NAPS databases, matched for low-level visual properties. A cue word ('REGULATE' or 'OBSERVE') precedes each image. At image offset, participants rate their current emotional state on a 1\u20139 scale. RT is the latency to submit the rating.",
     "trial_structure": "Regulate trial: cue (1 s) \u2192 aversive image (6 s) \u2192 rating scale (max 3 s). Observe trial: identical timing with neutral cue; participant views image passively before rating. ISI: 2\u20134 s fixation.",
     "design": "Within-subjects, two-session repeated-measures. Different image sets used per session to prevent habituation.",
-    "modality": "visual-emotional",
+    "modality": "visual",
     "cognitive_domain": "emotion regulation",
     "task_type": "cognitive reappraisal",
-    "difficulty": "hard",
+    "language": "english",
+    "recording_modality": "behavioral",
+    "software_original": "E-Prime 3.0",
+    "language_original": "english",
+    "implementations": [
+      {
+        "software": "E-Prime 3.0",
+        "type": "original",
+        "languages_available": [
+          "english"
+        ],
+        "folder": "paradigm/eprime"
+      }
+    ],
     "keywords": [
       "emotion regulation",
       "cognitive reappraisal",

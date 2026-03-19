@@ -11,7 +11,29 @@
     "modality": "linguistic",
     "cognitive_domain": "declarative memory",
     "task_type": "associative learning",
-    "difficulty": "moderate",
+    "language": "german",
+    "recording_modality": "mri",
+    "software_original": "Presentation (Neurobehavioral Systems)",
+    "language_original": "german",
+    "implementations": [
+      {
+        "software": "Presentation (Neurobehavioral Systems)",
+        "type": "original",
+        "languages_available": [
+          "german"
+        ],
+        "folder": "paradigm/presentation"
+      },
+      {
+        "software": "PsychoPy",
+        "type": "compatible",
+        "languages_available": [
+          "german",
+          "english"
+        ],
+        "folder": "paradigm/psychopy"
+      }
+    ],
     "keywords": [
       "pseudoword",
       "associative learning",

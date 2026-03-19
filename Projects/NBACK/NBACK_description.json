@@ -9,10 +9,42 @@
   "modality": "visual",
   "cognitive_domain": "working memory",
   "task_type": "continuous performance / n-back",
-  "difficulty": "moderate-hard",
-  "keywords": ["n-back", "working memory", "updating", "dorsolateral prefrontal cortex", "fluid intelligence", "frontoparietal network"],
+  "language": "german",
+  "recording_modality": "behavioral",
+  "software_original": "E-Prime 3.0",
+  "language_original": "german",
+  "implementations": [
+    {
+      "software": "E-Prime 3.0",
+      "type": "original",
+      "languages_available": [
+        "german"
+      ],
+      "folder": "paradigm/eprime"
+    },
+    {
+      "software": "PsychoPy",
+      "type": "compatible",
+      "languages_available": [
+        "german"
+      ],
+      "folder": "paradigm/psychopy"
+    }
+  ],
+  "keywords": [
+    "n-back",
+    "working memory",
+    "updating",
+    "dorsolateral prefrontal cortex",
+    "fluid intelligence",
+    "frontoparietal network"
+  ],
   "response_device": "two-button response box or keyboard",
-  "timing": {"stimulus_duration_ms": 500, "isi_ms": 1500, "block_duration_approx_s": 90},
+  "timing": {
+    "stimulus_duration_ms": 500,
+    "isi_ms": 1500,
+    "block_duration_approx_s": 90
+  },
   "n_sessions": 2,
   "software": "E-Prime 3.0 / PsychoPy"
 }

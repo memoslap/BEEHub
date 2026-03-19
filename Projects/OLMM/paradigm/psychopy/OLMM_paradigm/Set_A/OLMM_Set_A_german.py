@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-OLMM – Set B (PsychoPy)
+OLMM – Set A (PsychoPy)
 =========================
 Object-Location Memory Mapping – full experiment, counterbalanced Set A.
 
@@ -61,7 +61,7 @@ FIX_DUR      = 4.500   # inter-block fixation (fMRI baseline)
 
 # ── Experiment dialog ──────────────────────────────────────────────────────────
 exp_info = {"Participant": "", "Session": "1", "fMRI mode": False}
-dlg = gui.DlgFromDict(exp_info, title="OLMM Set B", sortKeys=False)
+dlg = gui.DlgFromDict(exp_info, title="OLMM Set A", sortKeys=False)
 if not dlg.OK: core.quit()
 
 participant = exp_info["Participant"]
@@ -70,7 +70,7 @@ fmri_mode   = exp_info["fMRI mode"]
 
 os.makedirs(DATA_DIR, exist_ok=True)
 date_str   = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-data_fname = _p("data", f"{participant}_ses{session}_{date_str}_OLMM_B.csv")
+data_fname = _p("data", f"{participant}_ses{session}_{date_str}_OLMM_A.csv")
 
 # ── Window & clock ─────────────────────────────────────────────────────────────
 win = visual.Window(size=(1280,720), fullscr=True,
@@ -100,7 +100,7 @@ _csv_writer.writerow(["participant","session","set",
                       "response_key","correct","rt","onset_time"])
 
 def write_row(**kw):
-    _csv_writer.writerow([participant, session, "B",
+    _csv_writer.writerow([participant, session, "A",
         kw.get("phase",""), kw.get("block",""), kw.get("rep",""), kw.get("trial",""),
         kw.get("stimulus",""), kw.get("stim_type",""),
         kw.get("direction",""), kw.get("side",""),
@@ -165,6 +165,163 @@ def show_instructions(img_paths):
                             color="white", height=60).draw()
         win.flip()
         event.waitKeys(keyList=["space","escape"]); check_quit()
+
+
+def show_text_slide(title, body, footer="[SPACE to continue]", advance_key="space"):
+    """Render a text instruction slide on a black background."""
+    visual.TextStim(win, text=title, color="white", height=36,
+                    bold=True, pos=(0, 280), wrapWidth=1100).draw()
+    visual.Line(win, start=(-540, 240), end=(540, 240),
+                lineColor="white", lineWidth=1).draw()
+    visual.TextStim(win, text=body, color="white", height=28,
+                    pos=(0, 20), wrapWidth=1050, alignText="left").draw()
+    visual.TextStim(win, text=footer, color="white", height=22,
+                    pos=(0, -295), wrapWidth=1100).draw()
+    win.flip()
+    event.waitKeys(keyList=[advance_key, "escape"]); check_quit()
+
+
+def show_instructions_part1():
+    """8 text slides for the learning phase (German)."""
+    show_text_slide(
+        title="Willkommen – OLMM-Studie",
+        body=(
+            "Vielen Dank für Ihre Teilnahme!\n\n"
+            "In dieser Aufgabe lernen Sie, wo Häuser auf einer Karte stehen.\n\n"
+            "Ihre Aufgabe ist es, sich die genaue Position\n"
+            "jedes Hauses zu merken."
+        ),
+        footer="Folie 1 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Was Sie sehen werden",
+        body=(
+            "Sie sehen jeweils ein Bild, das ein Haus auf einer Karte zeigt.\n\n"
+            "Das Haus steht entweder an der RICHTIGEN Position\n"
+            "oder an einer FALSCHEN Position.\n\n"
+            "Ihre Aufgabe: Entscheiden Sie, ob das Haus\n"
+            "an der richtigen Stelle steht."
+        ),
+        footer="Folie 2 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Tasten",
+        body=(
+            "Drücken Sie:\n\n"
+            "  PFEIL LINKS  <-   JA,  das ist die richtige Position\n\n"
+            "  PFEIL RECHTS  ->  NEIN,  das ist nicht die richtige Position\n\n"
+            "Sie haben 2,5 Sekunden Zeit pro Bild.\n"
+            "Antworten Sie so schnell und genau wie möglich."
+        ),
+        footer="Folie 3 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Rückmeldung",
+        body=(
+            "Nach jeder Antwort sehen Sie eine Rückmeldung:\n\n"
+            "  'Richtig!'   – Ihre Antwort war korrekt\n\n"
+            "  'Falsch!'    – Ihre Antwort war nicht korrekt\n\n"
+            "  'Zu spät!'   – Sie haben nicht rechtzeitig geantwortet\n\n"
+            "Außerdem wird Ihnen die korrekte Position des Hauses gezeigt."
+        ),
+        footer="Folie 4 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Lernwiederholungen",
+        body=(
+            "Jedes Haus wird mehrmals gezeigt.\n\n"
+            "Beim ersten Mal kennen Sie die richtige Position noch nicht –\n"
+            "das ist normal. Nutzen Sie die Rückmeldungen zum Lernen.\n\n"
+            "Mit jeder Wiederholung sollte es Ihnen leichter fallen,\n"
+            "die richtige Position zu erkennen."
+        ),
+        footer="Folie 5 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Kontrollaufgabe",
+        body=(
+            "Zwischendurch gibt es eine Kontrollaufgabe.\n\n"
+            "Dort sehen Sie dasselbe Bild und beantworten die Frage:\n\n"
+            "  'Ist das Haus auf der rechten Seite des Bildes?'\n\n"
+            "Auch hier: PFEIL LINKS = JA, PFEIL RECHTS = NEIN.\n\n"
+            "Schauen Sie sich einfach das Bild an – kein Ortsgedächtnis nötig."
+        ),
+        footer="Folie 6 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Wichtige Hinweise",
+        body=(
+            "Versuchen Sie, sich wirklich die POSITION jedes Hauses zu merken,\n"
+            "nicht nur das Aussehen des Hauses.\n\n"
+            "Die Aufgabe testet räumliches Gedächtnis –\n"
+            "wo genau auf der Karte befindet sich das Haus?\n\n"
+            "Antworten Sie so schnell und genau wie möglich."
+        ),
+        footer="Folie 7 / 8   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Bereit?",
+        body=(
+            "Sie sind nun bereit, mit der Aufgabe zu beginnen.\n\n"
+            "Zur Erinnerung:\n"
+            "  PFEIL LINKS  <-  JA   (richtige Position)\n"
+            "  PFEIL RECHTS ->  NEIN  (falsche Position)\n\n"
+            "Sie haben 2,5 Sekunden pro Bild.\n\n"
+            "Viel Erfolg!"
+        ),
+        footer="Folie 8 / 8   [LEERTASTE -> Start]",
+        advance_key="space"
+    )
+
+
+def show_instructions_part2():
+    """4 text slides for the AFC recognition test (German)."""
+    show_text_slide(
+        title="Gedächtnistest",
+        body=(
+            "Sie haben alle Lernblöcke abgeschlossen.\n\n"
+            "Jetzt folgt ein Gedächtnistest.\n\n"
+            "Sie sehen Bilder mit drei verschiedenen Positionen für dasselbe Haus.\n"
+            "Nur eine Position war die richtige – welche war es?"
+        ),
+        footer="Folie 1 / 4   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Ihre Aufgabe",
+        body=(
+            "Wählen Sie aus den drei gezeigten Positionen\n"
+            "die Position, die Sie während der Lernphase gelernt haben.\n\n"
+            "Drücken Sie:\n\n"
+            "       1  →  linke Position\n"
+            "       2  →  mittlere Position\n"
+            "       3  →  rechte Position"
+        ),
+        footer="Folie 2 / 4   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Hinweise",
+        body=(
+            "Es gibt keine Zeitbeschränkung.\n\n"
+            "Antworten Sie so genau wie möglich.\n\n"
+            "Wenn Sie unsicher sind, raten Sie –\n"
+            "lassen Sie kein Bild unbeantwortet."
+        ),
+        footer="Folie 3 / 4   [LEERTASTE -> weiter]"
+    )
+    show_text_slide(
+        title="Gedächtnistest – Bereit?",
+        body=(
+            "Der Gedächtnistest beginnt gleich.\n\n"
+            "Zur Erinnerung:\n\n"
+            "       1  →  linke Position\n"
+            "       2  →  mittlere Position\n"
+            "       3  →  rechte Position\n\n"
+            "Viel Erfolg!"
+        ),
+        footer="Folie 4 / 4   [LEERTASTE -> Start]",
+        advance_key="space"
+    )
+
 
 # ── Trial runners ──────────────────────────────────────────────────────────────
 
@@ -360,7 +517,7 @@ def run_control_block(block_dir, block_num, n_reps=4):
 # ── Main experiment ────────────────────────────────────────────────────────────
 
 # 00  Instructions Part 1
-show_instructions([_p(STIM_INSTR_DIR, f"Folie{i}.JPG") for i in range(1,9)])
+show_instructions_part1()
 
 # 01  Learning Block 1
 run_learning_block(STIM_LEARN_DIRS[0], block_num=1)
@@ -381,7 +538,7 @@ run_control_block(STIM_CTRL_DIRS[1], block_num=2)
 run_learning_block(STIM_LEARN_DIRS[3], block_num=4)
 
 # 07  Instructions Part 2 (AFC)
-show_instructions([_p(STIM_INSTR_DIR, f"Folie{i}.JPG") for i in range(9,13)])
+show_instructions_part2()
 
 # 08  AFC Test
 afc_files = get_stimuli(STIM_AFC_DIR)

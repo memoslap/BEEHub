@@ -2,21 +2,44 @@
 
 ## What is BEE Hub?
 
-**BEE Hub** (Behavioral Experimental Exploration Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the paradigm selection bottleneck: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that matter most for experimental implementation — test-retest reliability (ICC), effect sizes, sample characteristics, and cognitive domain classification.
+**BEE Hub** (Behavioral Experiments Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the paradigm selection bottleneck: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that also matter for experimental implementation — test-retest reliability (ICC), effect sizes, and sample characteristics.
 
 BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardized reliability profile for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to FAIR principles (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, ICC, and consistency — making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be meta-analysis ready, enabling large-scale synthesis of field-wide reproducibility patterns.
+
 
 ---
 
 This document covers everything needed to add a new project so that the full BEE Hub pipeline — analysis, HTML reports, interactive dashboard, and paradigm pages — discovers and processes it automatically.
 
+> **Two things must exist before any script will process your project:**
+> 1. A correctly named and structured folder with BIDS-compliant TSV data files (Steps 1–4)
+> 2. A `MYPROJECT_description.json` file (Step 5)
+>
+> Without the TSV data the analysis script has nothing to compute. Without the description JSON all metadata fields fall back to `"unknown"` and the paradigm page renders with no content.
+
 ---
 
 ## Overview: How the Pipeline Works
 
-The three scripts run in order. Each one depends on the output of the previous:
+### Before running the scripts — create your description JSON
+
+Use the interactive web form **`01_description_form.html`** to generate a valid `MYPROJECT_description.json` without writing JSON by hand:
+
+1. Open `BEEHub/code/01_description_form.html` in any modern browser (no server required — it runs fully offline)
+2. Fill in the six wizard steps: Identity → Scientific Background → Task Classification → Procedure & Design → Software & Implementations → Review & Download
+3. The JSON preview on the right updates live as you type
+4. Click **Download JSON File** — the file is saved to your Downloads folder
+5. Move the downloaded file to `BEEHub/Projects/MYPROJECT/MYPROJECT_description.json`
+
+The form validates required fields and prevents common mistakes (mismatched names, empty required cells). It is the recommended way to create description files for all new projects.
+
+### The three analysis scripts run in order
+
+Each one depends on the output of the previous:
 
 ```
+[01_description_form.html]     ← browser tool, run first, produces description JSON
+
 01_multi_project_overview.py   →   reads  TSV files / participants.tsv
                                           MYPROJECT_description.json
                                           bibliography.json  (optional)
@@ -32,7 +55,7 @@ The three scripts run in order. Each one depends on the output of the previous:
                                    writes dashboard.html
 ```
 
-Run them from the `BEEHub/` root:
+Run the scripts from the `BEEHub/` root:
 
 ```bash
 python code/01_multi_project_overview.py
@@ -50,11 +73,13 @@ python code/01_multi_project_overview.py /path/to/BEEHub
 
 ## Step 1 — Create the Project Folder
 
-All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier and must match the name used everywhere else (filenames, BIDS labels, description JSON key):
+> **This step is mandatory.** The analysis script (`01_multi_project_overview.py`) discovers projects by scanning `BEEHub/Projects/`. If the folder does not exist, or exists but contains no valid BIDS TSV files, the project is silently skipped. No folder = no analysis = no dashboard card.
+
+All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier and must match the name used everywhere else (filenames, BIDS labels, description JSON filename):
 
 - All-caps alphanumeric only: `MYPROJECT`
 - No spaces, hyphens, or special characters
-- The folder name and the identifier must be identical — a mismatch is the most common reason a project silently fails
+- The folder name and the identifier must be **identical** in all of: the folder itself, the `task-` BIDS field inside every TSV filename, and the prefix of `MYPROJECT_description.json` — a mismatch at any of these points is the most common reason a project silently fails
 
 ```
 BEEHub/
@@ -206,72 +231,97 @@ Each TSV must have a matching JSON sidecar with the same stem (e.g. `sub-001_ses
 
 ## Step 5 — Add a Description JSON
 
-Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT/`. This is the **primary source** of all paradigm metadata shown in the overview HTML header (short description + background) and the full paradigm page (procedure, trial structure, design, timing, software, response device, keywords).
+Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT/`. This is the **primary source** of all paradigm metadata shown in the overview HTML header (short description + background) and the full paradigm page (procedure, trial structure, design, timing, software, response device, keywords). It also drives the dashboard filter dropdowns for modality, recording modality, cognitive domain, task type, and language.
 
-The file is read at HTML generation time by both `01_multi_project_overview.py` and `02_generate_paradigm.py`. If it is absent, the scripts fall back to minimal defaults (`"unknown"` for metadata fields) and no rich description is rendered.
+> **Recommended:** Use the interactive browser tool **`BEEHub/code/01_description_form.html`** to generate this file. Open it in any modern browser, fill in the wizard, and click Download. The form validates required fields and produces correctly structured JSON — no manual editing needed.
+
+If the description JSON is absent, the scripts fall back to minimal defaults (`"unknown"` for all metadata fields) and no rich content is rendered on any page.
 
 ### Content split between pages
 
-| Field | Shown in `_overview.html` | Shown in `_paradigm.html` |
-|---|---|---|
-| `short_description` | ✅ (header) | ✅ (Description section) |
-| `long_description` | — | ✅ (appended to Description) |
-| `background` | ✅ (header) | ✅ (Background section) |
-| `procedure` | — | ✅ (Paradigm Details grid) |
-| `trial_structure` | — | ✅ (Paradigm Details grid) |
-| `design` | — | ✅ (Paradigm Details grid) |
-| `software` | — | ✅ (Paradigm Details grid) |
-| `response_device` | — | ✅ (Paradigm Details grid) |
-| `timing` | — | ✅ (timing chips) |
-| `keywords` | — | ✅ (keyword chips) |
-| `modality`, `cognitive_domain`, `task_type` | ✅ (badge row) | ✅ (info cards) |
+| Field | Shown in `_overview.html` | Shown in `_paradigm.html` | Dashboard filter |
+|---|---|---|---|
+| `short_description` | ✅ (header) | ✅ (Description section) | — |
+| `long_description` | — | ✅ (appended to Description) | — |
+| `background` | ✅ (header) | ✅ (Background section) | — |
+| `procedure` | — | ✅ (Paradigm Details grid) | — |
+| `trial_structure` | — | ✅ (Paradigm Details grid) | — |
+| `design` | — | ✅ (Paradigm Details grid) | — |
+| `response_device` | — | ✅ (Paradigm Details grid) | — |
+| `timing` | — | ✅ (timing chips) | — |
+| `keywords` | — | ✅ (keyword chips) | — |
+| `modality` | ✅ (badge row) | ✅ (info card) | ✅ Stimulus Modality |
+| `recording_modality` | — | ✅ (info card) | ✅ Recording Modality |
+| `cognitive_domain` | ✅ (badge row) | ✅ (info card) | ✅ Cognitive Domain |
+| `task_type` | ✅ (badge row) | ✅ (info card) | — |
+| `language` | ✅ (tag) | — | ✅ Language |
+| `software_original` | — | ✅ (Software & Language cell) | — |
+| `language_original` | — | ✅ (Software & Language cell) | — |
+| `implementations` | — | ✅ (Software & Language + Paradigm Files) | — |
 
 ### Full schema
 
 ```json
 {
-  "full_name":         "My New Paradigm",
-  "short_description": "One sentence describing what participants do.",
-  "long_description":  "Two to three paragraph scientific description of the paradigm, its theoretical motivation, and what it measures.",
-  "background":        "Neuroscientific context, individual-differences relevance, and prior literature.",
-  "procedure":         "Session-by-session procedure — how many stages, what happens in each.",
-  "trial_structure":   "Exact trial timing, stimulus presentation, and response window per trial type.",
-  "design":            "Repeated-measures details — number of sessions, inter-session interval.",
-  "modality":          "visual | linguistic | visual-spatial | visual-emotional",
-  "cognitive_domain":  "working memory | episodic memory | spatial memory | declarative memory | semantic memory | cognitive control | emotion regulation",
-  "task_type":         "associative learning | object-location binding | n-back | recognition memory | generation | interference | navigation | regulation",
-  "difficulty":        "easy | moderate | hard",
-  "keywords":          ["keyword1", "keyword2", "keyword3"],
-  "timing":            { "stimulus_duration_s": 2.5, "isi_range_s": [2, 4] },
-  "software":          "PsychoPy | Presentation (Neurobehavioral Systems) | E-Prime 3.0",
-  "response_device":   "two-button response box | keyboard | eye-tracker",
-  "n_sessions":        2
+  "full_name":          "My New Paradigm",
+  "short_description":  "One sentence describing what participants do.",
+  "long_description":   "Two to three paragraph scientific description of the paradigm, its theoretical motivation, and what it measures.",
+  "background":         "Neuroscientific context, individual-differences relevance, and prior literature.",
+  "procedure":          "Session-by-session procedure — how many stages, what happens in each.",
+  "trial_structure":    "Exact trial timing, stimulus presentation, and response window per trial type.",
+  "design":             "Repeated-measures details — number of sessions, inter-session interval.",
+  "modality":           "visual | auditory | linguistic | tactile | multimodal | virtual environment",
+  "cognitive_domain":   "working memory | episodic memory | declarative memory | spatial memory | semantic memory | spatial cognition | cognitive control | emotion regulation | attention | language | perception | learning",
+  "task_type":          "associative learning | object-location binding | continuous performance / n-back | recognition memory | covert verb generation | color-word interference | cognitive reappraisal | virtual navigation and pointing | go / no-go | flanker | task switching | stop-signal",
+  "language":           "german | english | french | spanish | dutch | italian | language-independent",
+  "recording_modality": "behavioral | mri | eeg | pet | eye_tracking | fnirs | meg",
+  "software_original":  "Presentation (Neurobehavioral Systems) | E-Prime 3.0 | PsychoPy | Unity 3D",
+  "language_original":  "german | english | …",
+  "implementations": [
+    {
+      "software":             "Presentation (Neurobehavioral Systems)",
+      "type":                 "original",
+      "languages_available":  ["german"],
+      "folder":               "paradigm/presentation"
+    },
+    {
+      "software":             "PsychoPy",
+      "type":                 "compatible",
+      "languages_available":  ["german", "english"],
+      "folder":               "paradigm/psychopy"
+    }
+  ],
+  "keywords":       ["keyword1", "keyword2", "keyword3"],
+  "timing":         { "stimulus_duration_s": 2.5, "isi_range_s": [2, 4] },
+  "software":       "Presentation (Neurobehavioral Systems)",
+  "response_device":"two-button response box | keyboard | eye-tracker | joystick",
+  "n_sessions":     2
 }
 ```
 
-The file must be valid UTF-8 JSON. A parse error prints a warning and the paradigm panel falls back to defaults silently.
+**Field notes:**
+- `modality` describes the **stimulus type** (what the participant sees/hears). `recording_modality` describes the **measurement device** (how data is collected). Both are separate and both drive their own dashboard filter.
+- `implementations` lists every software version of the paradigm. Always put the original first (`"type": "original"`); compatible ports follow (`"type": "compatible"`). Each entry can have a different `languages_available` list. The `software_original` and `language_original` fields are auto-filled from the first original entry by `01_description_form.html`.
+- The legacy `software` field (a plain string) is kept for backwards compatibility and is auto-populated from the first original implementation.
+- The file must be valid UTF-8 JSON. A parse error prints a warning and the paradigm panel falls back to defaults silently.
 
 ---
 
 ## Step 6 — Register Metadata in `01_multi_project_overview.py` (legacy fallback)
 
-If no `MYPROJECT_description.json` is present, `01_multi_project_overview.py` reads project metadata from the `self.project_descriptions` dict inside `ProjectOverviewGenerator.__init__`. This serves as a lightweight fallback — the description JSON (Step 5) is always preferred and supports a much richer set of fields.
+If no `MYPROJECT_description.json` is present, `01_multi_project_overview.py` reads project metadata from the `self.project_descriptions` dict inside `ProjectOverviewGenerator.__init__`. This serves as a lightweight fallback — the description JSON (Step 5, generated via `01_description_form.html`) is always preferred and supports a much richer set of fields.
 
 To use the fallback, add an entry:
 
 ```python
 'MYPROJECT': {
-    'full_name':        'My New Paradigm',
-    'description':      'One-sentence description of what participants do.',
-    'modality':         'visual',           # visual | linguistic | visual-spatial | visual-emotional
-    'cognitive_domain': 'working_memory',   # memory | working_memory | semantic_memory |
-                                            # spatial_cognition | cognitive_control |
-                                            # emotion_regulation
-    'task_type':        'monitoring',       # learning | recognition | generation |
-                                            # interference | monitoring | navigation |
-                                            # encoding-retrieval | regulation
-    'difficulty':       'moderate',         # easy | easy-moderate | moderate |
-                                            # moderate-hard | hard | very_hard
+    'full_name':          'My New Paradigm',
+    'description':        'One-sentence description of what participants do.',
+    'modality':           'visual',        # visual | auditory | linguistic | tactile | multimodal
+    'cognitive_domain':   'working memory',
+    'task_type':          'continuous performance / n-back',
+    'language':           'german',        # german | english | french | spanish | …
+    'recording_modality': 'behavioral',    # behavioral | mri | eeg | pet | eye_tracking | fnirs | meg
 },
 ```
 
@@ -415,14 +465,14 @@ Projects/MYPROJECT/
 
 ## Step 9 — Generated Output Files
 
-After running the scripts, the following files are created automatically. **Do not edit them by hand** — they are regenerated each run:
+After running the scripts, the following files are created automatically. **Do not edit them by hand** — they are regenerated on every run:
 
 | File | Created by | Description |
 |---|---|---|
 | `Projects/MYPROJECT/MYPROJECT_data.json` | `01_multi_project_overview.py` | Analysis results used by all downstream scripts |
 | `Projects/MYPROJECT/MYPROJECT_overview.html` | `01_multi_project_overview.py` | Individual project report with violin plots, scatter plots, reliability radar, stage charts, and publications box. Header shows short description + background from `MYPROJECT_description.json` |
-| `Projects/MYPROJECT/MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page with interactive demo link, GitHub links, and full paradigm details (procedure, trial structure, design, timing, software, keywords) from `MYPROJECT_description.json` |
-| `dashboard.html` | `03_generate_dashboard.py` | Interactive multi-project dashboard with filters, ICC radars, and project cards |
+| `Projects/MYPROJECT/MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page with interactive demo link, GitHub links, and full paradigm details (procedure, trial structure, design, timing, software & language block, keywords) sourced from `MYPROJECT_description.json`. The **Software & Language** section is built dynamically from `implementations` — original version is always listed first, compatible ports follow, each with their available languages and a GitHub link |
+| `dashboard.html` | `03_generate_dashboard.py` | Interactive multi-project dashboard with combo-select filters (Stimulus Modality, Recording Modality, Cognitive Domain, Task Type, Language), ICC radars, and project cards. Each filter has a dropdown of known values plus a free-text entry for new values not yet in the dataset |
 
 The dashboard reads two logo files from the `BEEHub/` root (the same folder as `dashboard.html`). Both must be present for the header logos to display:
 
@@ -477,33 +527,42 @@ Subjects with only one session contribute to descriptive statistics (demographic
 
 ## Checklist Before Running
 
-- [ ] `Projects/MYPROJECT/` folder exists with the exact identifier
+**Folder & BIDS data (required for analysis)**
+- [ ] `Projects/MYPROJECT/` folder exists with the exact all-caps identifier
 - [ ] `participants.tsv` present with `participant_id`, `sex`, `age` columns
-- [ ] At least one subject has `bids_data/sub-XXX/ses-Y/` folder
-- [ ] Each session has `*_RT_beh.tsv`, `*_ACC_beh.tsv`, `*_ACCBIN_beh.tsv` plus matching `.json` sidecars
-- [ ] `task-` field in every filename matches the project folder name exactly
-- [ ] `trial_type` column present and identical across all three TSV types per session
-- [ ] `learning_stage` column included and consistent (if stages are meaningful)
-- [ ] `accuracy_binary` values are integer `0` / `1`, not float or string
-- [ ] No empty cells — all missing values are `n/a`
-- [ ] `MYPROJECT_description.json` placed in `Projects/MYPROJECT/` with at least `full_name`, `short_description`, `modality`, `cognitive_domain`, and `task_type`
-- [ ] If using legacy fallback: entry added to `self.project_descriptions` in `01_multi_project_overview.py`
-- [ ] If providing a bibliography: `bibliography.json` placed in `Projects/MYPROJECT/`, valid UTF-8 JSON, v2 schema with a `publications` array
-- [ ] If providing a short version: folder name and filename both use the exact project identifier
-- [ ] If providing a demo: `MYPROJECT_demo.html` placed in the `MYPROJECT_paradigm_short/` folder, image paths relative via `Stimuli/`
-- [ ] `beehub_logo.svg` and `logo_memoslap.png` present in `BEEHub/` root for dashboard header logos
+- [ ] At least one subject has a `bids_data/sub-XXX/ses-Y/` folder
+- [ ] Each session folder contains all three TSV files: `*_RT_beh.tsv`, `*_ACC_beh.tsv`, `*_ACCBIN_beh.tsv`
+- [ ] Each TSV has a matching `.json` sidecar with the same filename stem
+- [ ] The `task-` field in every filename matches the project folder name exactly (case-sensitive)
+- [ ] `trial_type` column is present and uses identical labels across all three TSV types per session
+- [ ] `learning_stage` column is included and consistent if your paradigm has meaningful sub-phases
+- [ ] `accuracy_binary` values are integer `0` or `1` — not float, not string
+- [ ] No empty cells anywhere — all missing values written as `n/a`
+
+**Description JSON (required for metadata and paradigm page)**
+- [ ] `MYPROJECT_description.json` created using `BEEHub/code/01_description_form.html` (recommended) or written manually
+- [ ] File placed at `Projects/MYPROJECT/MYPROJECT_description.json`
+- [ ] Contains at minimum: `full_name`, `short_description`, `modality`, `recording_modality`, `cognitive_domain`, `task_type`, `language`
+- [ ] `implementations` list present with at least one entry (original software first)
+- [ ] File is valid UTF-8 JSON (the browser form guarantees this; validate manually if hand-edited)
+
+**Optional but recommended**
+- [ ] `bibliography.json` placed in `Projects/MYPROJECT/` — valid UTF-8 JSON, v2 schema with a `publications` array
+- [ ] Short version PsychoPy script placed in the correct location for the Paradigm button to appear
+- [ ] `MYPROJECT_demo.html` placed in `MYPROJECT_paradigm_short/` for the Launch Demo button
+- [ ] `beehub_logo.svg` and `logo_memoslap.png` present in the `BEEHub/` root for dashboard header logos
 
 ---
 
 ## AI Assistance Statement
 
-This repository — including the analysis pipeline (`01_multi_project_overview.py`), the paradigm page generator (`02_generate_paradigm.py`), the interactive dashboard (`03_generate_dashboard.py`), the interactive browser-based task demos (`APPL_demo.html`, `OLMM_demo.html`), the BIDS TSV generator (`gen_bids_beh.py`), the dummy project generator (`generate_dummy_projects.py`), the platform concept diagram, the BEE Hub logo, and this documentation — was developed with the assistance of **Claude Sonnet 4.5** (Anthropic, 2025), accessed via [claude.ai](https://claude.ai).
+This repository — including the analysis pipeline (`01_multi_project_overview.py`), the paradigm page generator (`02_generate_paradigm.py`), the interactive dashboard (`03_generate_dashboard.py`), the description JSON builder (`01_description_form.html`), the interactive browser-based task demos (`APPL_demo.html`, `OLMM_demo.html`), the BIDS TSV generator (`gen_bids_beh.py`), the dummy project generator (`generate_dummy_projects.py`), the platform concept diagram, the BEE Hub logo, and this documentation — was developed with the assistance of **Claude Sonnet 4.6** (Anthropic, 2025), accessed via [claude.ai](https://claude.ai).
 
 All scientific content, paradigm designs, experimental parameters, data structures, and research decisions were conceived and validated by the authors. Claude was used as a coding and documentation assistant throughout iterative development.
 
 **Suggested citation for the AI assistance:**
 
-> Anthropic. (2025). *Claude Sonnet 4.5* [Large language model]. https://www.anthropic.com
+> Anthropic. (2025). *Claude Sonnet 4.6* [Large language model]. https://www.anthropic.com
 
 ---
 

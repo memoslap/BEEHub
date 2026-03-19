@@ -112,64 +112,27 @@ class InteractiveDashboard:
             })
             data.setdefault("reliability_metrics", {})
 
-            data["short_version_stem"] = self.check_short_version(project_dir)
-            data["has_short_version"]  = data["short_version_stem"] is not None
+            data["has_short_version"] = self.check_short_version(project_dir)
             self.all_projects.append(data)
 
         print(f"\n  Total projects loaded: {len(self.all_projects)}")
         return self.all_projects
     
-    def check_short_version(self, project_dir: Path) -> str | None:
-        """Check if a short version paradigm file exists.
-
-        Search order:
-          1. {name}_short_version_{language}.py  — language from description JSON
-          2. {name}_short_version.py             — legacy filename (no language suffix)
-
-        Returns the matched filename stem (without .py) so the dashboard can
-        build the correct href, or None if no file is found.
-        """
+    def check_short_version(self, project_dir: Path) -> bool:
+        """Check if a short version paradigm file exists"""
         project_name = project_dir.name
-
-        # Try to read language_original from the description JSON
-        lang = None
-        desc_path = project_dir / f"{project_name}_description.json"
-        if desc_path.exists():
-            try:
-                import json as _json
-                with open(desc_path, encoding="utf-8") as fh:
-                    desc = _json.load(fh)
-                lang = desc.get("language_original") or desc.get("language") or None
-                if lang:
-                    lang = lang.strip().lower()
-            except Exception:
-                pass
-
-        short_dir = project_dir / "paradigm" / "psychopy" / f"{project_name}_paradigm_short"
-
-        # Build candidate list — language-suffixed first, then legacy
-        candidates = []
-        if lang:
-            stem = f"{project_name}_short_version_{lang}"
-            candidates += [
-                (short_dir / f"{stem}.py", stem),
-                (project_dir / "paradigm" / "psychopy" / f"{stem}.py", stem),
-                (project_dir / "paradigm" / f"{stem}.py", stem),
-            ]
-        # Legacy (no language suffix)
-        legacy_stem = f"{project_name}_short_version"
-        candidates += [
-            (short_dir / f"{legacy_stem}.py", legacy_stem),
-            (project_dir / "paradigm" / "psychopy" / f"{legacy_stem}.py", legacy_stem),
-            (project_dir / "paradigm" / f"{legacy_stem}.py", legacy_stem),
+        # Check for pattern: BEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/APPL_short_version.py
+        short_version_patterns = [
+            project_dir / "paradigm" / "psychopy" / f"{project_name}_paradigm_short" / f"{project_name}_short_version.py",
+            project_dir / "paradigm" / "psychopy" / f"{project_name}_short_version.py",
+            project_dir / "paradigm" / f"{project_name}_short_version.py",
         ]
-
-        for path, stem in candidates:
-            if path.exists():
-                print(f"  Found short version: {path}")
-                return stem          # e.g. "OLMM_short_version_german"
-
-        return None
+        
+        for pattern in short_version_patterns:
+            if pattern.exists():
+                print(f"  Found short version: {pattern}")
+                return True
+        return False
     
     def extract_unique_values(self) -> Dict:
         """Extract unique values for filter options"""
@@ -794,9 +757,6 @@ class InteractiveDashboard:
             border: 1px solid;
             font-weight: 500;
             text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             box-shadow: 
                 0 1px 3px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.7);
@@ -818,13 +778,9 @@ class InteractiveDashboard:
             background: linear-gradient(135deg, #ffeee6 0%, #ffdcc9 100%);
         }}
         .tag.recording {{
-            border-color: #c07838;
-            color: #6b3a10;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b8 100%);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
+            border-color: #5a8a72;
+            color: #1e4a38;
+            background: linear-gradient(135deg, #e8f5ef 0%, #d0ece0 100%);
         }}
         
         .project-stats {{
@@ -1212,164 +1168,34 @@ class InteractiveDashboard:
 
         .formula-box {{
             background: linear-gradient(135deg,
-                rgba(255,255,255,0.85) 0%,
-                rgba(240,252,248,0.90) 100%
+                rgba(64, 224, 208, 0.07) 0%,
+                rgba(64, 158, 128, 0.07) 100%
             );
-            border: 1px solid rgba(64, 158, 128, 0.22);
-            border-left: 3px solid rgba(64, 224, 208, 0.6);
-            border-radius: 10px;
-            padding: 16px 18px 12px;
+            border: 1px solid rgba(64, 158, 128, 0.2);
+            border-radius: 8px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+            gap: 4px;
         }}
 
-        /* ── Math expression rendering ── */
-        .math-expr {{
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            line-height: 1;
-            padding: 4px 0;
-        }}
-
-        .math-lhs {{
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 1.05em;
-            font-style: italic;
+        .formula-main {{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88em;
             color: #1e5f44;
             font-weight: 600;
-            margin-right: 2px;
         }}
 
-        .math-eq {{
-            font-family: 'Georgia', serif;
-            font-size: 1em;
-            color: #409e80;
-            font-weight: 400;
-            margin: 0 4px;
-        }}
-
-        /* CSS fraction: numerator over denominator with a bar */
-        .math-frac {{
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            vertical-align: middle;
-            margin: 0 3px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }}
-
-        .math-num {{
-            font-size: 0.82em;
-            color: #1e5f44;
-            padding: 0 4px 2px;
-            font-style: italic;
-            white-space: nowrap;
-        }}
-
-        .math-bar {{
-            width: 100%;
-            height: 1.5px;
-            background: #2d8659;
-            min-width: 20px;
-        }}
-
-        .math-den {{
-            font-size: 0.82em;
-            color: #1e5f44;
-            padding: 2px 4px 0;
-            font-style: italic;
-            white-space: nowrap;
-        }}
-
-        .math-var {{
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            font-size: 0.95em;
-            color: #1e5f44;
-        }}
-
-        .math-op {{
-            font-size: 0.95em;
-            color: #2d8659;
-            margin: 0 2px;
-            font-weight: 500;
-        }}
-
-        .math-sub {{
-            font-size: 0.65em;
-            vertical-align: sub;
-            color: #2d8659;
-        }}
-
-        .math-sup {{
-            font-size: 0.65em;
-            vertical-align: super;
-            color: #2d8659;
-        }}
-
-        .math-paren {{
-            font-size: 1.15em;
+        .formula-sub {{
+            font-size: 0.8em;
             color: #5a8a72;
-            font-weight: 300;
-            line-height: 1;
         }}
 
-        .math-sqrt {{
-            display: inline-flex;
-            align-items: center;
-            margin: 0 2px;
-        }}
-
-        .math-sqrt-sign {{
-            font-size: 1.2em;
-            color: #2d8659;
-            margin-right: 1px;
-            line-height: 1;
-        }}
-
-        .math-sqrt-content {{
-            border-top: 1.5px solid #2d8659;
-            padding: 1px 4px 0;
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-size: 0.85em;
-            color: #1e5f44;
-        }}
-
-        /* Legend row below the formula */
-        .formula-legend {{
-            font-size: 0.78em;
-            color: #5a8a72;
-            border-top: 1px dashed rgba(64,158,128,0.25);
-            padding-top: 8px;
-            line-height: 1.6;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }}
-
-        .formula-legend b {{
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-weight: 600;
-            color: #2d8659;
-        }}
-
-        /* Range badge */
         .formula-range {{
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.78em;
-            color: #fff;
-            background: linear-gradient(90deg, #2d8659 0%, #40e0d0 100%);
-            border-radius: 20px;
-            padding: 3px 12px;
+            font-size: 0.8em;
+            color: #409e80;
             font-weight: 500;
-            align-self: flex-start;
-            letter-spacing: 0.2px;
+            margin-top: 2px;
         }}
 
         /* ── About / description box ── */
@@ -1524,6 +1350,18 @@ class InteractiveDashboard:
             </div>
 
             <div class="filter-group">
+                <label class="filter-label">Language of Paradigm</label>
+                <select id="languageFilter" class="filter-select">
+                    <option value="">All Languages</option>
+"""
+        
+        for lang in unique_values['languages']:
+            html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
+        
+        html += """                </select>
+            </div>
+
+            <div class="filter-group">
                 <label class="filter-label">Recording Modality</label>
                 <select id="recordingModalityFilter" class="filter-select">
                     <option value="">All Recording Modalities</option>
@@ -1536,22 +1374,11 @@ class InteractiveDashboard:
 """
 
         for rec in unique_values['recording_modalities']:
+            # Only add if not already in the fixed list above
             fixed = {'behavioral','mri','eeg','pet','eye_tracking','fnirs'}
             if rec.lower() not in fixed:
                 html += f'                    <option value="{rec}">{rec.replace("_", " ").title()}</option>\n'
 
-        html += """                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label">Language of Paradigm</label>
-                <select id="languageFilter" class="filter-select">
-                    <option value="">All Languages</option>
-"""
-        
-        for lang in unique_values['languages']:
-            html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
-        
         html += f"""                </select>
             </div>
         </div>
@@ -1627,21 +1454,9 @@ class InteractiveDashboard:
                             <li>Reported separately for RT and Accuracy; each value represents the mean ICC across subjects who completed at least two sessions</li>
                         </ul>
                         <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">ICC(3,1)</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">MS</span><span class="math-sub">r</span> + (<span class="math-var">k</span> &minus; 1) &middot; <span class="math-var">MS</span><span class="math-sub">e</span></span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">r</span></b> = between-subjects mean square &nbsp;&middot;&nbsp;
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">e</span></b> = error mean square &nbsp;&middot;&nbsp;
-                                <b>k</b> = number of sessions
-                            </div>
-                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent &nbsp;&middot;&nbsp; task trials only</span>
+                            <span class="formula-main">ICC(3,1) = (MSr &minus; MSe) / (MSr + (k&minus;1) &middot; MSe)</span>
+                            <span class="formula-sub">MSr = Mean Square rows (subjects) &nbsp;|&nbsp; MSe = Mean Square error &nbsp;|&nbsp; k = sessions</span>
+                            <span class="formula-range">Range &minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent across sessions &nbsp;&middot;&nbsp; task trials only</span>
                         </div>
                     </div>
                 </div>
@@ -1658,25 +1473,9 @@ class InteractiveDashboard:
                             <li>Complements ICC as a simple, intuitive reliability indicator</li>
                         </ul>
                         <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">r</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num">&Sigma; (<span class="math-var">X</span><span class="math-sub">1</span> &minus; <span class="math-var">X&#772;</span><span class="math-sub">1</span>) (<span class="math-var">X</span><span class="math-sub">2</span> &minus; <span class="math-var">X&#772;</span><span class="math-sub">2</span>)</span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">
-                                        <span class="math-sqrt">
-                                            <span class="math-sqrt-sign">&radic;</span>
-                                            <span class="math-sqrt-content">&Sigma;(<span class="math-var">X</span><span class="math-sub">1</span>&minus;<span class="math-var">X&#772;</span><span class="math-sub">1</span>)<span class="math-sup">2</span> &middot; &Sigma;(<span class="math-var">X</span><span class="math-sub">2</span>&minus;<span class="math-var">X&#772;</span><span class="math-sub">2</span>)<span class="math-sup">2</span></span>
-                                        </span>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>X<span style="font-size:0.75em;vertical-align:sub">1</span>, X<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session values &nbsp;&middot;&nbsp;
-                                <b>X&#772;<span style="font-size:0.75em;vertical-align:sub">1</span>, X&#772;<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = stronger correlation</span>
+                            <span class="formula-main">r = &Sigma;[(X&sub1; &minus; X&#772;&sub1;)(X&sub2; &minus; X&#772;&sub2;)] / &radic;[&Sigma;(X&sub1;&minus;X&#772;&sub1;)&sup2; &middot; &Sigma;(X&sub2;&minus;X&#772;&sub2;)&sup2;]</span>
+                            <span class="formula-sub">X&sub1;, X&sub2; = session values &nbsp;|&nbsp; X&#772; = session means</span>
+                            <span class="formula-range">Range 0 &rarr; 1 &nbsp;&middot;&nbsp; higher = stronger correlation</span>
                         </div>
                     </div>
                 </div>
@@ -1693,30 +1492,9 @@ class InteractiveDashboard:
                             <li>A score of 1 means no detectable shift across sessions</li>
                         </ul>
                         <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">d</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">M</span><span class="math-sub">1</span> &minus; <span class="math-var">M</span><span class="math-sub">2</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
-                                </span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
-                                <span class="math-lhs" style="margin-left:4px">Stability</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-var">1</span>
-                                <span class="math-op">&minus;</span>
-                                <span class="math-frac">
-                                    <span class="math-num">|<span class="math-var">d</span>|</span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">2</span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>M<span style="font-size:0.75em;vertical-align:sub">1</span>, M<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means &nbsp;&middot;&nbsp;
-                                <b>SD<span style="font-size:0.75em;vertical-align:sub">pooled</span></b> = pooled standard deviation
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
+                            <span class="formula-main">d = (M&sub1; &minus; M&sub2;) / SD_pooled</span>
+                            <span class="formula-sub">Stability = 1 &minus; (|d| / 2) &nbsp;|&nbsp; M = mean, SD_pooled = pooled SD</span>
+                            <span class="formula-range">Range 0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
                         </div>
                     </div>
                 </div>
@@ -1733,31 +1511,9 @@ class InteractiveDashboard:
                             <li>Identifies tasks where participants respond erratically</li>
                         </ul>
                         <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">CV</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">SD</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">Mean</span></span>
-                                </span>
-                                <span class="math-op">&times; 100</span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
-                                <span class="math-lhs" style="margin-left:4px">Consistency</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-var">1</span>
-                                <span class="math-op">&minus;</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">CV</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">50</span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>SD</b> = within-session standard deviation &nbsp;&middot;&nbsp;
-                                <b>Mean</b> = within-session mean RT
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
+                            <span class="formula-main">CV = (SD / Mean) &times; 100</span>
+                            <span class="formula-sub">Consistency = 1 &minus; (CV / 50) &nbsp;|&nbsp; SD = within-session standard deviation</span>
+                            <span class="formula-range">Range 0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
                         </div>
                     </div>
                 </div>
@@ -1966,7 +1722,7 @@ class InteractiveDashboard:
                         <div class="project-tags">
                             <span class="tag modality">${{info.modality || 'unknown'}}</span>
                             <span class="tag domain">${{info.cognitive_domain || 'unknown'}}</span>
-                            ${{info.recording_modality ? `<span class="tag recording">${{info.recording_modality.toLowerCase()}}</span>` : ''}}
+                            ${{info.recording_modality ? `<span class="tag recording">${{info.recording_modality.toUpperCase()}}</span>` : ''}}
                             ${{info.language ? `<span class="tag language">${{info.language}}</span>` : ''}}
                         </div>
                         <div class="project-stats">
@@ -1989,7 +1745,7 @@ class InteractiveDashboard:
                         </div>
                         <div class="project-actions">
                             <a href="Projects/${{project.project_name}}/${{project.project_name}}_overview.html" class="project-link">View Details</a>
-                            ${{project.has_short_version ? `<a href="Projects/${{project.project_name}}/${{project.project_name}}_paradigm.html" class="project-link test-paradigm" title="Short version: ${{project.short_version_stem}}.py">Paradigm</a>` : ''}}
+                            ${{project.has_short_version ? `<a href="Projects/${{project.project_name}}/${{project.project_name}}_paradigm.html" class="project-link test-paradigm">Paradigm</a>` : ''}}
                         </div>
                     </div>
                 `;

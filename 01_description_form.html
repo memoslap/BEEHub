@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEE Hub — Description JSON Builder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bronze:    #c07838;
+    --bronze-dk: #9e5c1e;
+    --gold:      #d4a020;
+    --gold-lt:   #e8c048;
+    --silver:    #b8b0be;
+    --cream:     #faf6f0;
+    --parchment: #f0e8d8;
+    --warm-mid:  #e8dcc8;
+    --ink:       #2a1a0a;
+    --ink-mid:   #5a3a18;
+    --ink-light: #9a6a40;
+    --card-bg:   rgba(235,222,200,0.85);
+    --border:    rgba(190,150,80,0.30);
+    --shadow:    rgba(160,110,50,0.18);
+    --radius:    14px;
+    --step-count: 6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(145deg, #e8e0d0 0%, #f0e8d8 40%, #faf6f0 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 32px 20px 60px;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .site-header .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6em;
+    background: linear-gradient(135deg, #6b3a10 0%, #c07838 30%, #d4a020 50%, #c4a0b4 80%, #9e5c1e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+  .site-header .tagline {
+    color: var(--ink-light);
+    font-size: 1em;
+    font-weight: 300;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    .preview-col { order: -1; }
+  }
+
+  /* ── Wizard card ── */
+  .wizard-card {
+    background: linear-gradient(145deg,
+      rgba(240,230,210,0.92) 0%,
+      rgba(252,248,242,0.97) 40%,
+      rgba(240,230,210,0.92) 100%
+    );
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 48px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.8);
+    overflow: hidden;
+    position: relative;
+  }
+  .wizard-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, #6b3a10, #c07838, #d4a020, #e8c048, #d4a020, #b8b0be, #6b3a10);
+    opacity: 0.9;
+  }
+
+  /* ── Step progress ── */
+  .step-bar {
+    display: flex;
+    padding: 28px 32px 0;
+    gap: 0;
+    position: relative;
+  }
+  .step-bar::after {
+    content: '';
+    position: absolute;
+    left: 52px; right: 52px;
+    top: 42px;
+    height: 2px;
+    background: var(--warm-mid);
+  }
+  .step-dot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+  }
+  .step-dot .dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--warm-mid);
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75em;
+    font-weight: 700;
+    color: var(--ink-light);
+    transition: all 0.3s;
+  }
+  .step-dot.active .dot {
+    background: linear-gradient(135deg, var(--bronze), var(--gold));
+    border-color: var(--gold);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(212,160,32,0.2);
+  }
+  .step-dot.done .dot {
+    background: linear-gradient(135deg, var(--bronze-dk), var(--bronze));
+    border-color: var(--bronze);
+    color: #fff;
+  }
+  .step-dot .step-label {
+    font-size: 0.68em;
+    font-weight: 500;
+    color: var(--ink-light);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .step-dot.active .step-label { color: var(--bronze-dk); font-weight: 700; }
+
+  /* ── Step panels ── */
+  .step-panels { padding: 32px; }
+
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadeSlide 0.3s ease; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateX(12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6em;
+    color: var(--bronze-dk);
+    margin-bottom: 6px;
+  }
+  .step-subtitle {
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  /* ── Form fields ── */
+  .field { margin-bottom: 22px; }
+  .field label {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--bronze-dk);
+    margin-bottom: 7px;
+  }
+  .field .hint {
+    font-size: 0.78em;
+    color: var(--ink-light);
+    margin-bottom: 7px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .field input[type="text"],
+  .field input[type="number"],
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: rgba(255,252,246,0.95);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.96em;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 3px rgba(160,110,50,0.08);
+  }
+  .field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212,160,32,0.15), inset 0 1px 3px rgba(160,110,50,0.08);
+  }
+  .field select { cursor: pointer; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+  /* ── Keyword / chip input ── */
+  .chip-input-wrap {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255,252,246,0.95);
+    padding: 8px 10px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    min-height: 48px;
+    cursor: text;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .chip-input-wrap:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212,160,32,0.15);
+  }
+  .chip {
+    background: linear-gradient(135deg, rgba(212,160,32,0.12), rgba(192,120,56,0.12));
+    border: 1px solid rgba(190,150,80,0.40);
+    border-radius: 20px;
+    padding: 3px 10px 3px 12px;
+    font-size: 0.85em;
+    color: var(--ink-mid);
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chip button {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-light); font-size: 1em; line-height: 1;
+    padding: 0; display: flex;
+  }
+  .chip button:hover { color: var(--bronze); }
+  .chip-input {
+    border: none; outline: none; background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9em; color: var(--ink);
+    flex: 1; min-width: 120px;
+    padding: 3px 4px;
+  }
+
+  /* ── Implementations builder ── */
+  .impl-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
+  .impl-card {
+    background: rgba(225,210,185,0.55);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    position: relative;
+  }
+  .impl-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .impl-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .impl-badge.original {
+    background: rgba(212,160,32,0.15);
+    border: 1px solid rgba(192,120,56,0.5);
+    color: #8a4a10;
+  }
+  .impl-badge.compatible {
+    background: rgba(184,176,190,0.2);
+    border: 1px solid rgba(184,176,190,0.5);
+    color: #6a5070;
+  }
+  .impl-remove {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-light); font-size: 1.2em;
+    line-height: 1; padding: 2px 4px; border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .impl-remove:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
+
+  .impl-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .impl-fields .field { margin-bottom: 0; }
+  .impl-fields .field.full { grid-column: 1 / -1; }
+
+  .add-impl-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+  }
+  .add-impl-btn:hover {
+    border-color: var(--bronze);
+    color: var(--bronze);
+    background: rgba(192,120,56,0.05);
+  }
+
+  /* ── Timing builder ── */
+  .timing-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .timing-row-item {
+    display: grid; grid-template-columns: 1fr 1fr auto;
+    gap: 8px; align-items: center;
+  }
+  .timing-row-item input {
+    width: 100%;
+    background: rgba(255,252,246,0.95);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9em;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .timing-row-item input:focus { border-color: var(--gold); }
+  .timing-row-item .rem-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-light); font-size: 1.1em; padding: 4px;
+    border-radius: 4px; transition: color 0.2s;
+  }
+  .timing-row-item .rem-btn:hover { color: #c0392b; }
+
+  /* ── Navigation buttons ── */
+  .wizard-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 32px 32px;
+    margin-top: 8px;
+  }
+  .btn {
+    padding: 12px 28px;
+    border: none; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95em; font-weight: 600;
+    cursor: pointer; transition: all 0.25s;
+    letter-spacing: 0.2px;
+  }
+  .btn-secondary {
+    background: var(--warm-mid);
+    color: var(--ink-mid);
+    box-shadow: 0 2px 8px rgba(160,110,50,0.12);
+  }
+  .btn-secondary:hover {
+    background: var(--parchment);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--bronze) 0%, var(--gold) 50%, var(--bronze) 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(212,160,32,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212,160,32,0.45);
+  }
+  .btn-download {
+    background: linear-gradient(135deg, var(--bronze-dk) 0%, var(--bronze) 40%, var(--gold) 100%);
+    color: #fff;
+    padding: 14px 36px;
+    font-size: 1.05em;
+    box-shadow: 0 6px 24px rgba(192,120,56,0.4);
+    width: 100%;
+    border-radius: 12px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(192,120,56,0.5);
+  }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* ── Preview panel ── */
+  .preview-col { position: sticky; top: 24px; }
+  .preview-card {
+    background: linear-gradient(145deg, rgba(30,20,10,0.94), rgba(50,30,10,0.96));
+    border-radius: 16px;
+    border: 1px solid rgba(212,160,32,0.25);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .preview-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid rgba(212,160,32,0.15);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .preview-dots { display: flex; gap: 6px; }
+  .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .preview-dot:nth-child(1) { background: #ff5f57; }
+  .preview-dot:nth-child(2) { background: #febc2e; }
+  .preview-dot:nth-child(3) { background: #28c840; }
+  .preview-filename {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78em;
+    color: rgba(212,160,32,0.7);
+    flex: 1; text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .preview-body {
+    padding: 18px 20px;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .preview-body::-webkit-scrollbar { width: 4px; }
+  .preview-body::-webkit-scrollbar-track { background: transparent; }
+  .preview-body::-webkit-scrollbar-thumb { background: rgba(212,160,32,0.3); border-radius: 4px; }
+  pre#jsonPreview {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78em;
+    line-height: 1.7;
+    color: #e8dcc8;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  /* JSON syntax highlighting */
+  .jk { color: #d4a020; }   /* key */
+  .js { color: #a8d8a0; }   /* string value */
+  .jn { color: #f0b080; }   /* number */
+  .jb { color: #c4a0b4; }   /* boolean/null */
+  .jp { color: rgba(200,180,140,0.5); } /* punctuation */
+
+  /* ── Download section ── */
+  .download-card {
+    background: linear-gradient(135deg,
+      rgba(212,160,32,0.08) 0%,
+      rgba(192,120,56,0.08) 100%
+    );
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 14px;
+    padding: 22px;
+    margin-top: 16px;
+    text-align: center;
+  }
+  .download-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1em;
+    color: var(--bronze-dk);
+    margin-bottom: 8px;
+  }
+  .download-notice {
+    font-size: 0.82em;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .download-notice strong { color: var(--bronze); }
+  .download-path {
+    background: rgba(30,20,10,0.08);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78em;
+    color: var(--ink-mid);
+    margin-bottom: 16px;
+    word-break: break-all;
+    text-align: left;
+  }
+
+  /* ── Success banner ── */
+  .success-banner {
+    display: none;
+    background: linear-gradient(135deg, rgba(212,160,32,0.15), rgba(192,120,56,0.15));
+    border: 1px solid rgba(190,150,80,0.5);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.88em;
+    color: var(--bronze-dk);
+    margin-top: 12px;
+    text-align: center;
+    font-weight: 500;
+  }
+  .success-banner.show { display: block; animation: fadeSlide 0.4s ease; }
+
+  /* ── Required asterisk ── */
+  .req { color: var(--bronze); margin-left: 2px; }
+
+  /* ── Section divider in step ── */
+  .section-divider {
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin: 24px 0 16px;
+  }
+
+  /* ── Combo-select (dropdown + free-text entry) ── */
+  .combo-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .combo-custom {
+    width: 100%;
+    background: rgba(255,252,246,0.95);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9em;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 3px rgba(160,110,50,0.06);
+  }
+  .combo-custom::placeholder {
+    color: var(--ink-light);
+    font-style: italic;
+    opacity: 0.7;
+  }
+  .combo-custom:focus {
+    border-style: solid;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212,160,32,0.15), inset 0 1px 3px rgba(160,110,50,0.08);
+  }
+  .combo-custom.active {
+    border-style: solid;
+    border-color: var(--bronze);
+    background: rgba(255,248,235,0.98);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">BEE Hub</div>
+  <div class="tagline">Description JSON Builder — create your paradigm metadata file</div>
+</header>
+
+<div class="layout">
+
+  <!-- ── Wizard ── -->
+  <div class="wizard-col">
+    <div class="wizard-card">
+
+      <!-- Step progress bar -->
+      <div class="step-bar" id="stepBar">
+        <div class="step-dot active" onclick="goToStep(0)">
+          <div class="dot">1</div>
+          <span class="step-label">Identity</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(1)">
+          <div class="dot">2</div>
+          <span class="step-label">Description</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(2)">
+          <div class="dot">3</div>
+          <span class="step-label">Classification</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(3)">
+          <div class="dot">4</div>
+          <span class="step-label">Procedure</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(4)">
+          <div class="dot">5</div>
+          <span class="step-label">Software</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(5)">
+          <div class="dot">6</div>
+          <span class="step-label">Finalize</span>
+        </div>
+      </div>
+
+      <!-- ── STEP 1: Identity ── -->
+      <div class="step-panels">
+        <div class="step-panel active" id="panel-0">
+          <div class="step-title">Paradigm Identity</div>
+          <div class="step-subtitle">Basic identification fields for your paradigm. The project code should match the folder name exactly.</div>
+
+          <div class="field">
+            <label>Project Code <span class="req">*</span></label>
+            <div class="hint">Short uppercase identifier used as folder name, e.g. APPL, NBACK, STROOP</div>
+            <input type="text" id="f_project_code" placeholder="e.g. NBACK" oninput="updatePreview()" style="text-transform:uppercase">
+          </div>
+          <div class="field">
+            <label>Full Name <span class="req">*</span></label>
+            <div class="hint">Complete descriptive name of the paradigm</div>
+            <input type="text" id="f_full_name" placeholder="e.g. N-Back Working Memory" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Short Description <span class="req">*</span></label>
+            <div class="hint">One or two sentences summarising the task for the dashboard card</div>
+            <textarea id="f_short_description" rows="3" placeholder="Continuous performance task requiring…" oninput="updatePreview()"></textarea>
+          </div>
+          <div class="field">
+            <label>Long Description</label>
+            <div class="hint">Full scientific description of the paradigm's design and rationale</div>
+            <textarea id="f_long_description" rows="5" placeholder="The N-Back Working Memory paradigm…" oninput="updatePreview()"></textarea>
+          </div>
+        </div>
+
+        <!-- ── STEP 2: Description ── -->
+        <div class="step-panel" id="panel-1">
+          <div class="step-title">Scientific Background</div>
+          <div class="step-subtitle">Provide theoretical context and references that motivate use of this paradigm.</div>
+
+          <div class="field">
+            <label>Background</label>
+            <div class="hint">Theoretical and empirical context, relevant brain regions, key references</div>
+            <textarea id="f_background" rows="6" placeholder="Working memory — the capacity to hold and manipulate information…" oninput="updatePreview()"></textarea>
+          </div>
+          <div class="field">
+            <label>Keywords</label>
+            <div class="hint">Type a keyword and press <strong>Enter</strong> or <strong>,</strong> to add it</div>
+            <div class="chip-input-wrap" id="kwWrap" onclick="document.getElementById('kwInput').focus()">
+              <input class="chip-input" id="kwInput" placeholder="Add keyword…" onkeydown="handleChip(event,'keywords')">
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: Classification ── -->
+        <div class="step-panel" id="panel-2">
+          <div class="step-title">Task Classification</div>
+          <div class="step-subtitle">These fields drive the dashboard filters — choose from the list or type a new value below each dropdown.</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Stimulus Modality <span class="req">*</span></label>
+              <div class="hint">Type of stimulus used</div>
+              <div class="combo-wrap">
+                <select id="f_modality" onchange="onComboSelect('f_modality','f_modality_custom');updatePreview()">
+                  <option value="">— select —</option>
+                  <option>visual</option>
+                  <option>auditory</option>
+                  <option>linguistic</option>
+                  <option>tactile</option>
+                  <option>multimodal</option>
+                  <option>virtual environment</option>
+                </select>
+                <input class="combo-custom" id="f_modality_custom" placeholder="or type a new modality…"
+                  oninput="onComboCustom('f_modality_custom','f_modality');updatePreview()">
+              </div>
+            </div>
+            <div class="field">
+              <label>Recording Modality <span class="req">*</span></label>
+              <div class="hint">Measurement device / imaging</div>
+              <div class="combo-wrap">
+                <select id="f_recording_modality" onchange="onComboSelect('f_recording_modality','f_recording_modality_custom');updatePreview()">
+                  <option value="">— select —</option>
+                  <option value="behavioral">Behavioral</option>
+                  <option value="mri">MRI</option>
+                  <option value="eeg">EEG</option>
+                  <option value="pet">PET</option>
+                  <option value="eye_tracking">Eye-tracking</option>
+                  <option value="fnirs">fNIRS</option>
+                  <option value="meg">MEG</option>
+                </select>
+                <input class="combo-custom" id="f_recording_modality_custom" placeholder="or type a new recording modality…"
+                  oninput="onComboCustom('f_recording_modality_custom','f_recording_modality');updatePreview()">
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Cognitive Domain <span class="req">*</span></label>
+              <div class="hint">Primary cognitive process measured</div>
+              <div class="combo-wrap">
+                <select id="f_cognitive_domain" onchange="onComboSelect('f_cognitive_domain','f_cognitive_domain_custom');updatePreview()">
+                  <option value="">— select —</option>
+                  <option>working memory</option>
+                  <option>episodic memory</option>
+                  <option>declarative memory</option>
+                  <option>spatial memory</option>
+                  <option>semantic memory</option>
+                  <option>spatial cognition</option>
+                  <option>cognitive control</option>
+                  <option>emotion regulation</option>
+                  <option>attention</option>
+                  <option>language</option>
+                  <option>perception</option>
+                  <option>learning</option>
+                </select>
+                <input class="combo-custom" id="f_cognitive_domain_custom" placeholder="or type a new domain…"
+                  oninput="onComboCustom('f_cognitive_domain_custom','f_cognitive_domain');updatePreview()">
+              </div>
+            </div>
+            <div class="field">
+              <label>Task Type <span class="req">*</span></label>
+              <div class="hint">Specific paradigm class or method</div>
+              <div class="combo-wrap">
+                <select id="f_task_type" onchange="onComboSelect('f_task_type','f_task_type_custom');updatePreview()">
+                  <option value="">— select —</option>
+                  <option>continuous performance / n-back</option>
+                  <option>associative learning</option>
+                  <option>recognition memory</option>
+                  <option>object-location binding</option>
+                  <option>virtual navigation and pointing</option>
+                  <option>color-word interference</option>
+                  <option>cognitive reappraisal</option>
+                  <option>covert verb generation</option>
+                  <option>go / no-go</option>
+                  <option>flanker</option>
+                  <option>task switching</option>
+                  <option>oddball / P300</option>
+                  <option>stop-signal</option>
+                </select>
+                <input class="combo-custom" id="f_task_type_custom" placeholder="or type a new task type…"
+                  oninput="onComboCustom('f_task_type_custom','f_task_type');updatePreview()">
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Paradigm Language <span class="req">*</span></label>
+              <div class="hint">Language of the stimulus material</div>
+              <div class="combo-wrap">
+                <select id="f_language" onchange="onComboSelect('f_language','f_language_custom');updatePreview()">
+                  <option value="">— select —</option>
+                  <option value="german">German</option>
+                  <option value="english">English</option>
+                  <option value="french">French</option>
+                  <option value="spanish">Spanish</option>
+                  <option value="dutch">Dutch</option>
+                  <option value="italian">Italian</option>
+                  <option value="language-independent">Language-independent</option>
+                </select>
+                <input class="combo-custom" id="f_language_custom" placeholder="or type a new language…"
+                  oninput="onComboCustom('f_language_custom','f_language');updatePreview()">
+              </div>
+            </div>
+            <div class="field">
+              <label>Number of Sessions</label>
+              <div class="hint">How many sessions per participant</div>
+              <input type="number" id="f_n_sessions" placeholder="e.g. 2" min="1" oninput="updatePreview()">
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 4: Procedure ── -->
+        <div class="step-panel" id="panel-3">
+          <div class="step-title">Procedure & Design</div>
+          <div class="step-subtitle">Describe how the paradigm is run and provide timing parameters.</div>
+
+          <div class="field">
+            <label>Procedure</label>
+            <div class="hint">Step-by-step description of what happens in each session</div>
+            <textarea id="f_procedure" rows="4" placeholder="Each session consists of…" oninput="updatePreview()"></textarea>
+          </div>
+          <div class="field">
+            <label>Trial Structure</label>
+            <div class="hint">Detailed description of a single trial for each condition</div>
+            <textarea id="f_trial_structure" rows="4" placeholder="Target trial: stimulus displayed for X s; participant presses…" oninput="updatePreview()"></textarea>
+          </div>
+          <div class="field">
+            <label>Design</label>
+            <div class="hint">Within/between-subjects, number of sessions, inter-session interval</div>
+            <textarea id="f_design" rows="2" placeholder="Within-subjects, two-session repeated-measures. Sessions separated by 7–14 days." oninput="updatePreview()"></textarea>
+          </div>
+          <div class="field">
+            <label>Response Device</label>
+            <div class="hint">e.g. two-button response box, keyboard, joystick</div>
+            <input type="text" id="f_response_device" placeholder="e.g. two-button response box" oninput="updatePreview()">
+          </div>
+
+          <div class="section-divider">Timing Parameters</div>
+          <div class="hint" style="margin-bottom:12px">Add one parameter per row. Key = parameter name (e.g. <code>stimulus_duration_s</code>), Value = number or range (e.g. <code>25</code> or <code>[2, 4]</code>).</div>
+          <div class="timing-list" id="timingList"></div>
+          <button class="add-impl-btn" onclick="addTiming()">＋ Add timing parameter</button>
+        </div>
+
+        <!-- ── STEP 5: Software & Implementations ── -->
+        <div class="step-panel" id="panel-4">
+          <div class="step-title">Software & Implementations</div>
+          <div class="step-subtitle">List every version of the paradigm. Add the <strong>original</strong> first, then any compatible ports. Each can have its own set of available languages.</div>
+
+          <div class="impl-list" id="implList"></div>
+          <button class="add-impl-btn" onclick="addImpl('compatible')">＋ Add compatible implementation</button>
+
+          <div class="section-divider" style="margin-top:28px">Legacy Software Field</div>
+          <div class="field">
+            <div class="hint">This field is kept for backwards compatibility and is filled automatically from the first original implementation above. You may override it here.</div>
+            <input type="text" id="f_software" placeholder="Auto-filled from implementations…" oninput="updatePreview()">
+          </div>
+        </div>
+
+        <!-- ── STEP 6: Finalize ── -->
+        <div class="step-panel" id="panel-5">
+          <div class="step-title">Review & Download</div>
+          <div class="step-subtitle">Check the JSON preview on the right, then download your file. The JSON will be saved to your browser's <strong>Downloads</strong> folder.</div>
+
+          <div class="download-card">
+            <div class="download-title">Save your description file</div>
+            <div class="download-notice">
+              Your file will be named <strong id="filenameDisplay">PROJECTCODE_description.json</strong> and saved to your <strong>Downloads folder</strong>. Move it to the correct project directory afterward:
+            </div>
+            <div class="download-path" id="pathDisplay">BEEHub/Projects/PROJECTCODE/PROJECTCODE_description.json</div>
+            <button class="btn btn-download" onclick="downloadJSON()">⬇ Download JSON File</button>
+            <div class="success-banner" id="successBanner">
+              ✓ File saved to Downloads — move it to your project folder to complete setup.
+            </div>
+          </div>
+
+          <div class="section-divider" style="margin-top:28px">Validation checklist</div>
+          <div id="validationList" style="font-size:0.88em; line-height:2; color: var(--ink-mid);"></div>
+        </div>
+      </div>
+
+      <!-- Nav buttons -->
+      <div class="wizard-nav">
+        <button class="btn btn-secondary" id="btnBack" onclick="prevStep()" style="visibility:hidden">← Back</button>
+        <button class="btn btn-primary" id="btnNext" onclick="nextStep()">Next →</button>
+      </div>
+
+    </div><!-- /wizard-card -->
+  </div><!-- /wizard-col -->
+
+  <!-- ── Preview ── -->
+  <div class="preview-col">
+    <div class="preview-card">
+      <div class="preview-header">
+        <div class="preview-dots">
+          <div class="preview-dot"></div>
+          <div class="preview-dot"></div>
+          <div class="preview-dot"></div>
+        </div>
+        <div class="preview-filename" id="previewFilename">projectcode_description.json</div>
+      </div>
+      <div class="preview-body">
+        <pre id="jsonPreview"></pre>
+      </div>
+    </div>
+
+    <div class="download-card" style="margin-top:16px; display:none" id="sideDownload">
+      <button class="btn btn-download" onclick="downloadJSON()" style="margin-bottom:0">⬇ Download JSON</button>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let currentStep = 0;
+const TOTAL_STEPS = 6;
+
+const state = {
+  keywords: [],
+  implementations: [],
+  timing: []
+};
+
+// Seed one original implementation slot on load
+window.addEventListener('DOMContentLoaded', () => {
+  addImpl('original');
+  addTiming();
+  updatePreview();
+});
+
+// ── Step navigation ────────────────────────────────────────────────────────
+function goToStep(idx) {
+  if (idx < 0 || idx >= TOTAL_STEPS) return;
+  document.getElementById(`panel-${currentStep}`).classList.remove('active');
+  currentStep = idx;
+  document.getElementById(`panel-${currentStep}`).classList.add('active');
+  updateStepBar();
+  updateNavButtons();
+  if (idx === TOTAL_STEPS - 1) {
+    updateValidation();
+    document.getElementById('sideDownload').style.display = 'block';
+  }
+  updatePreview();
+}
+
+function nextStep() { goToStep(currentStep + 1); }
+function prevStep() { goToStep(currentStep - 1); }
+
+function updateStepBar() {
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.remove('active', 'done');
+    if (i === currentStep) dot.classList.add('active');
+    else if (i < currentStep) dot.classList.add('done');
+  });
+}
+
+function updateNavButtons() {
+  const back = document.getElementById('btnBack');
+  const next = document.getElementById('btnNext');
+  back.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+  if (currentStep === TOTAL_STEPS - 1) {
+    next.style.display = 'none';
+  } else {
+    next.style.display = '';
+    next.textContent = currentStep === TOTAL_STEPS - 2 ? 'Review →' : 'Next →';
+  }
+}
+
+// ── Keyword chips ──────────────────────────────────────────────────────────
+function handleChip(e, field) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.replace(/,/g, '').trim();
+    if (val) {
+      state.keywords.push(val);
+      renderChips();
+      e.target.value = '';
+      updatePreview();
+    }
+  }
+}
+
+function renderChips() {
+  const wrap = document.getElementById('kwWrap');
+  const input = document.getElementById('kwInput');
+  // Remove existing chips
+  wrap.querySelectorAll('.chip').forEach(c => c.remove());
+  state.keywords.forEach((kw, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerHTML = `${kw}<button onclick="removeChip(${i})" title="Remove">✕</button>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function removeChip(i) {
+  state.keywords.splice(i, 1);
+  renderChips();
+  updatePreview();
+}
+
+// ── Language chips per implementation ─────────────────────────────────────
+function handleLangChip(e, implIdx) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.replace(/,/g, '').trim().toLowerCase();
+    if (val && !state.implementations[implIdx].languages_available.includes(val)) {
+      state.implementations[implIdx].languages_available.push(val);
+      renderImplLangChips(implIdx);
+      e.target.value = '';
+      updatePreview();
+    }
+  }
+}
+
+function renderImplLangChips(implIdx) {
+  const wrap = document.getElementById(`langWrap-${implIdx}`);
+  if (!wrap) return;
+  const input = document.getElementById(`langInput-${implIdx}`);
+  wrap.querySelectorAll('.chip').forEach(c => c.remove());
+  state.implementations[implIdx].languages_available.forEach((lang, li) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerHTML = `${lang}<button onclick="removeLangChip(${implIdx},${li})" title="Remove">✕</button>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function removeLangChip(implIdx, li) {
+  state.implementations[implIdx].languages_available.splice(li, 1);
+  renderImplLangChips(implIdx);
+  updatePreview();
+}
+
+// ── Implementations ────────────────────────────────────────────────────────
+let implCounter = 0;
+
+function addImpl(type) {
+  const idx = state.implementations.length;
+  state.implementations.push({
+    software: '',
+    type: type,
+    languages_available: [],
+    folder: ''
+  });
+  renderImplList();
+  updatePreview();
+}
+
+function removeImpl(idx) {
+  state.implementations.splice(idx, 1);
+  renderImplList();
+  updatePreview();
+}
+
+function renderImplList() {
+  const list = document.getElementById('implList');
+  list.innerHTML = '';
+  state.implementations.forEach((impl, i) => {
+    const card = document.createElement('div');
+    card.className = 'impl-card';
+    const badgeClass = impl.type === 'original' ? 'original' : 'compatible';
+    const badgeLabel = impl.type === 'original' ? 'Original' : 'Compatible';
+    card.innerHTML = `
+      <div class="impl-card-header">
+        <span class="impl-badge ${badgeClass}">${badgeLabel}</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          ${impl.type === 'compatible' ? `<select onchange="state.implementations[${i}].type=this.value;renderImplList();updatePreview()" style="font-size:0.8em;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:rgba(255,252,246,0.95);color:var(--ink);cursor:pointer">
+            <option value="original" ${impl.type==='original'?'selected':''}>Original</option>
+            <option value="compatible" ${impl.type==='compatible'?'selected':''}>Compatible</option>
+          </select>` : ''}
+          <button class="impl-remove" onclick="removeImpl(${i})" title="Remove">✕</button>
+        </div>
+      </div>
+      <div class="impl-fields">
+        <div class="field">
+          <label>Software</label>
+          <input type="text" value="${impl.software}" placeholder="e.g. PsychoPy"
+            oninput="state.implementations[${i}].software=this.value;updatePreview();autoFillSoftware()">
+        </div>
+        <div class="field">
+          <label>Folder path</label>
+          <input type="text" value="${impl.folder}" placeholder="paradigm/psychopy"
+            oninput="state.implementations[${i}].folder=this.value;updatePreview()">
+        </div>
+        <div class="field full">
+          <label>Languages available</label>
+          <div class="chip-input-wrap" id="langWrap-${i}" onclick="document.getElementById('langInput-${i}').focus()">
+            <input class="chip-input" id="langInput-${i}" placeholder="Type language, press Enter…"
+              onkeydown="handleLangChip(event,${i})">
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+    // Re-render existing lang chips
+    renderImplLangChips(i);
+  });
+}
+
+function autoFillSoftware() {
+  const orig = state.implementations.find(i => i.type === 'original');
+  const sw = document.getElementById('f_software');
+  if (orig && !sw._manuallyEdited) {
+    sw.value = orig.software;
+  }
+  updatePreview();
+}
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'f_software') e.target._manuallyEdited = true;
+});
+
+// ── Timing ────────────────────────────────────────────────────────────────
+function addTiming() {
+  state.timing.push({ key: '', value: '' });
+  renderTimingList();
+}
+
+function removeTiming(i) {
+  state.timing.splice(i, 1);
+  renderTimingList();
+  updatePreview();
+}
+
+function renderTimingList() {
+  const list = document.getElementById('timingList');
+  list.innerHTML = '';
+  state.timing.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'timing-row-item';
+    row.innerHTML = `
+      <input type="text" value="${t.key}" placeholder="e.g. stimulus_duration_s"
+        oninput="state.timing[${i}].key=this.value;updatePreview()">
+      <input type="text" value="${t.value}" placeholder="e.g. 25 or [2, 4]"
+        oninput="state.timing[${i}].value=this.value;updatePreview()">
+      <button class="rem-btn" onclick="removeTiming(${i})" title="Remove">✕</button>`;
+    list.appendChild(row);
+  });
+}
+
+// ── Combo-select helpers ───────────────────────────────────────────────────
+// When dropdown changes → clear the custom input
+function onComboSelect(selectId, inputId) {
+  const inp = document.getElementById(inputId);
+  inp.value = '';
+  inp.classList.remove('active');
+}
+
+// When custom input is typed → reset dropdown to blank
+function onComboCustom(inputId, selectId) {
+  const inp = document.getElementById(inputId);
+  const sel = document.getElementById(selectId);
+  if (inp.value.trim()) {
+    sel.value = '';
+    inp.classList.add('active');
+  } else {
+    inp.classList.remove('active');
+  }
+}
+
+// Returns the effective value: custom input takes priority over dropdown
+function comboVal(selectId, inputId) {
+  const custom = document.getElementById(inputId).value.trim().toLowerCase();
+  if (custom) return custom;
+  return document.getElementById(selectId).value;
+}
+
+// ── Build JSON object ──────────────────────────────────────────────────────
+function buildJSON() {
+  const code = document.getElementById('f_project_code').value.trim().toUpperCase();
+
+  // Build timing object
+  const timing = {};
+  state.timing.forEach(t => {
+    if (!t.key.trim()) return;
+    const v = t.value.trim();
+    if (v.startsWith('[')) {
+      try { timing[t.key.trim()] = JSON.parse(v); } catch { timing[t.key.trim()] = v; }
+    } else if (!isNaN(v) && v !== '') {
+      timing[t.key.trim()] = Number(v);
+    } else if (v === 'true') {
+      timing[t.key.trim()] = true;
+    } else if (v === 'false') {
+      timing[t.key.trim()] = false;
+    } else if (v) {
+      timing[t.key.trim()] = v;
+    }
+  });
+
+  // Build implementations
+  const implementations = state.implementations
+    .filter(i => i.software.trim())
+    .map(i => ({
+      software: i.software.trim(),
+      type: i.type,
+      languages_available: i.languages_available,
+      folder: i.folder.trim()
+    }));
+
+  // Find original software
+  const origImpl = implementations.find(i => i.type === 'original');
+  const softwareOrig = origImpl ? origImpl.software : '';
+  const langOrig = origImpl && origImpl.languages_available.length > 0
+    ? origImpl.languages_available[0] : '';
+
+  const obj = {};
+  const addIf = (k, v) => { if (v !== undefined && v !== null && v !== '') obj[k] = v; };
+
+  addIf('full_name',          document.getElementById('f_full_name').value.trim());
+  addIf('short_description',  document.getElementById('f_short_description').value.trim());
+  addIf('long_description',   document.getElementById('f_long_description').value.trim());
+  addIf('background',         document.getElementById('f_background').value.trim());
+  addIf('procedure',          document.getElementById('f_procedure').value.trim());
+  addIf('trial_structure',    document.getElementById('f_trial_structure').value.trim());
+  addIf('design',             document.getElementById('f_design').value.trim());
+  addIf('modality',           comboVal('f_modality',          'f_modality_custom'));
+  addIf('cognitive_domain',   comboVal('f_cognitive_domain',  'f_cognitive_domain_custom'));
+  addIf('task_type',          comboVal('f_task_type',         'f_task_type_custom'));
+  addIf('language',           comboVal('f_language',          'f_language_custom'));
+  addIf('recording_modality', comboVal('f_recording_modality','f_recording_modality_custom'));
+  if (softwareOrig)   obj.software_original  = softwareOrig;
+  if (langOrig)       obj.language_original  = langOrig;
+  if (implementations.length) obj.implementations = implementations;
+  if (state.keywords.length)  obj.keywords = [...state.keywords];
+  addIf('response_device', document.getElementById('f_response_device').value.trim());
+  if (Object.keys(timing).length) obj.timing = timing;
+  const ns = document.getElementById('f_n_sessions').value;
+  if (ns) obj.n_sessions = Number(ns);
+  const sw = document.getElementById('f_software').value.trim() || softwareOrig;
+  if (sw) obj.software = sw;
+
+  return { code, obj };
+}
+
+// ── JSON syntax highlight ──────────────────────────────────────────────────
+function highlight(json) {
+  return json
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"([^"]+)"(\s*:)/g, '<span class="jk">"$1"</span><span class="jp">$2</span>')
+    .replace(/:\s*"([^"]*)"/g, ': <span class="js">"$1"</span>')
+    .replace(/:\s*(\d+\.?\d*)/g, ': <span class="jn">$1</span>')
+    .replace(/:\s*(true|false|null)/g, ': <span class="jb">$1</span>')
+    .replace(/([{}\[\],])/g, '<span class="jp">$1</span>');
+}
+
+// ── Update live preview ────────────────────────────────────────────────────
+function updatePreview() {
+  const { code, obj } = buildJSON();
+  const filename = code ? `${code}_description.json` : 'projectcode_description.json';
+  document.getElementById('previewFilename').textContent = filename;
+  document.getElementById('filenameDisplay').textContent = filename;
+  document.getElementById('pathDisplay').textContent =
+    `BEEHub/Projects/${code || 'PROJECTCODE'}/${filename}`;
+  document.getElementById('jsonPreview').innerHTML =
+    highlight(JSON.stringify(obj, null, 2));
+}
+
+// ── Validation ────────────────────────────────────────────────────────────
+function updateValidation() {
+  const checks = [
+    { label: 'Project Code set',          ok: !!document.getElementById('f_project_code').value.trim() },
+    { label: 'Full name provided',         ok: !!document.getElementById('f_full_name').value.trim() },
+    { label: 'Short description provided', ok: !!document.getElementById('f_short_description').value.trim() },
+    { label: 'Stimulus modality selected', ok: !!comboVal('f_modality',          'f_modality_custom') },
+    { label: 'Recording modality selected',ok: !!comboVal('f_recording_modality','f_recording_modality_custom') },
+    { label: 'Cognitive domain selected',  ok: !!comboVal('f_cognitive_domain',  'f_cognitive_domain_custom') },
+    { label: 'Task type provided',         ok: !!comboVal('f_task_type',         'f_task_type_custom') },
+    { label: 'Paradigm language selected', ok: !!comboVal('f_language',          'f_language_custom') },
+    { label: 'At least one implementation',ok: state.implementations.some(i=>i.software.trim()) },
+    { label: 'Keywords added',             ok: state.keywords.length > 0 },
+  ];
+  const el = document.getElementById('validationList');
+  el.innerHTML = checks.map(c =>
+    `<div style="color:${c.ok ? '#6b3a10' : '#c0392b'}">
+      ${c.ok ? '✓' : '✗'} ${c.label}
+    </div>`
+  ).join('');
+}
+
+// ── Download ──────────────────────────────────────────────────────────────
+function downloadJSON() {
+  const { code, obj } = buildJSON();
+  const filename = code ? `${code}_description.json` : 'description.json';
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  const banner = document.getElementById('successBanner');
+  banner.classList.add('show');
+  setTimeout(() => banner.classList.remove('show'), 5000);
+}
+</script>
+</body>
+</html>

@@ -104,7 +104,7 @@ class InteractiveDashboard:
             data.setdefault("project_info", {
                 "full_name": project_name, "description": "",
                 "modality": "unknown", "cognitive_domain": "unknown",
-                "task_type": "unknown", "language": None, "recording_modality": None,
+                "task_type": "unknown", "difficulty": "unknown",
             })
             data.setdefault("demographics", {
                 "n_participants": 0, "age_mean": None,
@@ -112,91 +112,44 @@ class InteractiveDashboard:
             })
             data.setdefault("reliability_metrics", {})
 
-            data["short_version_stem"] = self.check_short_version(project_dir)
-            data["has_short_version"]  = data["short_version_stem"] is not None
+            data["has_short_version"] = self.check_short_version(project_dir)
             self.all_projects.append(data)
 
         print(f"\n  Total projects loaded: {len(self.all_projects)}")
         return self.all_projects
     
-    def check_short_version(self, project_dir: Path) -> str | None:
-        """Check if a short version paradigm file exists.
-
-        Search order:
-          1. {name}_short_version_{language}.py  — language from description JSON
-          2. {name}_short_version.py             — legacy filename (no language suffix)
-
-        Returns the matched filename stem (without .py) so the dashboard can
-        build the correct href, or None if no file is found.
-        """
+    def check_short_version(self, project_dir: Path) -> bool:
+        """Check if a short version paradigm file exists"""
         project_name = project_dir.name
-
-        # Try to read language_original from the description JSON
-        lang = None
-        desc_path = project_dir / f"{project_name}_description.json"
-        if desc_path.exists():
-            try:
-                import json as _json
-                with open(desc_path, encoding="utf-8") as fh:
-                    desc = _json.load(fh)
-                lang = desc.get("language_original") or desc.get("language") or None
-                if lang:
-                    lang = lang.strip().lower()
-            except Exception:
-                pass
-
-        short_dir = project_dir / "paradigm" / "psychopy" / f"{project_name}_paradigm_short"
-
-        # Build candidate list — language-suffixed first, then legacy
-        candidates = []
-        if lang:
-            stem = f"{project_name}_short_version_{lang}"
-            candidates += [
-                (short_dir / f"{stem}.py", stem),
-                (project_dir / "paradigm" / "psychopy" / f"{stem}.py", stem),
-                (project_dir / "paradigm" / f"{stem}.py", stem),
-            ]
-        # Legacy (no language suffix)
-        legacy_stem = f"{project_name}_short_version"
-        candidates += [
-            (short_dir / f"{legacy_stem}.py", legacy_stem),
-            (project_dir / "paradigm" / "psychopy" / f"{legacy_stem}.py", legacy_stem),
-            (project_dir / "paradigm" / f"{legacy_stem}.py", legacy_stem),
+        # Check for pattern: BEHub/Projects/APPL/paradigm/psychopy/APPL_paradigm_short/APPL_short_version.py
+        short_version_patterns = [
+            project_dir / "paradigm" / "psychopy" / f"{project_name}_paradigm_short" / f"{project_name}_short_version.py",
+            project_dir / "paradigm" / "psychopy" / f"{project_name}_short_version.py",
+            project_dir / "paradigm" / f"{project_name}_short_version.py",
         ]
-
-        for path, stem in candidates:
-            if path.exists():
-                print(f"  Found short version: {path}")
-                return stem          # e.g. "OLMM_short_version_german"
-
-        return None
+        
+        for pattern in short_version_patterns:
+            if pattern.exists():
+                print(f"  Found short version: {pattern}")
+                return True
+        return False
     
     def extract_unique_values(self) -> Dict:
         """Extract unique values for filter options"""
         modalities = set()
         domains = set()
         task_types = set()
-        languages = set()
-        recording_modalities = set()
         
         for project in self.all_projects:
             info = project.get('project_info', {})
             modalities.add(info.get('modality', 'unknown'))
             domains.add(info.get('cognitive_domain', 'unknown'))
             task_types.add(info.get('task_type', 'unknown'))
-            lang = info.get('language', None)
-            if lang:
-                languages.add(lang)
-            rec_mod = info.get('recording_modality', None)
-            if rec_mod:
-                recording_modalities.add(rec_mod)
         
         return {
             'modalities': sorted(modalities),
             'domains': sorted(domains),
-            'task_types': sorted(task_types),
-            'languages': sorted(languages),
-            'recording_modalities': sorted(recording_modalities)
+            'task_types': sorted(task_types)
         }
     
     def get_data_ranges(self) -> Dict:
@@ -250,7 +203,7 @@ class InteractiveDashboard:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEE Hub — BEhavioral Experiments</title>
+    <title>BEE Hub — Behavioral Experimental Exploration</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         * {{
@@ -794,9 +747,6 @@ class InteractiveDashboard:
             border: 1px solid;
             font-weight: 500;
             text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             box-shadow: 
                 0 1px 3px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.7);
@@ -812,19 +762,10 @@ class InteractiveDashboard:
             color: #1e5f44;
             background: linear-gradient(135deg, #ffe9d9 0%, #ffd4b3 100%);
         }}
-        .tag.language {{ 
+        .tag.difficulty {{ 
             border-color: #409e80;
             color: #1a5238;
             background: linear-gradient(135deg, #ffeee6 0%, #ffdcc9 100%);
-        }}
-        .tag.recording {{
-            border-color: #c07838;
-            color: #6b3a10;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b8 100%);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
         }}
         
         .project-stats {{
@@ -1046,7 +987,7 @@ class InteractiveDashboard:
                 rgba(245, 252, 249, 0.98) 50%,
                 rgba(235, 248, 243, 0.95) 100%
             );
-            padding: 0;
+            padding: 40px;
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow:
@@ -1056,43 +997,6 @@ class InteractiveDashboard:
             border: 1px solid rgba(64, 158, 128, 0.25);
             position: relative;
             overflow: hidden;
-        }}
-
-        .reliability-panel-toggle {{
-            width: 100%;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 22px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-align: left;
-        }}
-
-        .reliability-panel-toggle:hover .reliability-panel-title {{
-            opacity: 0.8;
-        }}
-
-        .reliability-toggle-arrow {{
-            font-size: 1.2em;
-            color: #409e80;
-            transition: transform 0.3s ease;
-            flex-shrink: 0;
-            margin-left: 16px;
-        }}
-
-        .reliability-panel.open .reliability-toggle-arrow {{
-            transform: rotate(180deg);
-        }}
-
-        .reliability-panel-body {{
-            display: none;
-            padding: 0 40px 40px;
-        }}
-
-        .reliability-panel.open .reliability-panel-body {{
-            display: block;
         }}
 
         .reliability-panel::before {{
@@ -1108,10 +1012,16 @@ class InteractiveDashboard:
         }}
 
         .reliability-panel-header {{
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-            flex: 1;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg,
+                transparent 0%,
+                rgba(64, 158, 128, 0.3) 10%,
+                rgba(64, 224, 208, 0.5) 50%,
+                rgba(64, 158, 128, 0.3) 90%,
+                transparent 100%
+            ) 1;
         }}
 
         .reliability-panel-title {{
@@ -1212,242 +1122,34 @@ class InteractiveDashboard:
 
         .formula-box {{
             background: linear-gradient(135deg,
-                rgba(255,255,255,0.85) 0%,
-                rgba(240,252,248,0.90) 100%
-            );
-            border: 1px solid rgba(64, 158, 128, 0.22);
-            border-left: 3px solid rgba(64, 224, 208, 0.6);
-            border-radius: 10px;
-            padding: 16px 18px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-        }}
-
-        /* ── Math expression rendering ── */
-        .math-expr {{
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            line-height: 1;
-            padding: 4px 0;
-        }}
-
-        .math-lhs {{
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 1.05em;
-            font-style: italic;
-            color: #1e5f44;
-            font-weight: 600;
-            margin-right: 2px;
-        }}
-
-        .math-eq {{
-            font-family: 'Georgia', serif;
-            font-size: 1em;
-            color: #409e80;
-            font-weight: 400;
-            margin: 0 4px;
-        }}
-
-        /* CSS fraction: numerator over denominator with a bar */
-        .math-frac {{
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            vertical-align: middle;
-            margin: 0 3px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }}
-
-        .math-num {{
-            font-size: 0.82em;
-            color: #1e5f44;
-            padding: 0 4px 2px;
-            font-style: italic;
-            white-space: nowrap;
-        }}
-
-        .math-bar {{
-            width: 100%;
-            height: 1.5px;
-            background: #2d8659;
-            min-width: 20px;
-        }}
-
-        .math-den {{
-            font-size: 0.82em;
-            color: #1e5f44;
-            padding: 2px 4px 0;
-            font-style: italic;
-            white-space: nowrap;
-        }}
-
-        .math-var {{
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            font-size: 0.95em;
-            color: #1e5f44;
-        }}
-
-        .math-op {{
-            font-size: 0.95em;
-            color: #2d8659;
-            margin: 0 2px;
-            font-weight: 500;
-        }}
-
-        .math-sub {{
-            font-size: 0.65em;
-            vertical-align: sub;
-            color: #2d8659;
-        }}
-
-        .math-sup {{
-            font-size: 0.65em;
-            vertical-align: super;
-            color: #2d8659;
-        }}
-
-        .math-paren {{
-            font-size: 1.15em;
-            color: #5a8a72;
-            font-weight: 300;
-            line-height: 1;
-        }}
-
-        .math-sqrt {{
-            display: inline-flex;
-            align-items: center;
-            margin: 0 2px;
-        }}
-
-        .math-sqrt-sign {{
-            font-size: 1.2em;
-            color: #2d8659;
-            margin-right: 1px;
-            line-height: 1;
-        }}
-
-        .math-sqrt-content {{
-            border-top: 1.5px solid #2d8659;
-            padding: 1px 4px 0;
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-size: 0.85em;
-            color: #1e5f44;
-        }}
-
-        /* Legend row below the formula */
-        .formula-legend {{
-            font-size: 0.78em;
-            color: #5a8a72;
-            border-top: 1px dashed rgba(64,158,128,0.25);
-            padding-top: 8px;
-            line-height: 1.6;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }}
-
-        .formula-legend b {{
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-weight: 600;
-            color: #2d8659;
-        }}
-
-        /* Range badge */
-        .formula-range {{
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.78em;
-            color: #fff;
-            background: linear-gradient(90deg, #2d8659 0%, #40e0d0 100%);
-            border-radius: 20px;
-            padding: 3px 12px;
-            font-weight: 500;
-            align-self: flex-start;
-            letter-spacing: 0.2px;
-        }}
-
-        /* ── About / description box ── */
-        .about-box {{
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.97) 0%,
-                rgba(245, 252, 249, 0.98) 50%,
-                rgba(255, 255, 255, 0.97) 100%
+                rgba(64, 224, 208, 0.07) 0%,
+                rgba(64, 158, 128, 0.07) 100%
             );
             border: 1px solid rgba(64, 158, 128, 0.2);
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow:
-                0 6px 24px rgba(64, 158, 128, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            position: relative;
-            overflow: hidden;
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }}
 
-        .about-box::before {{
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg,
-                #2d8659 0%, #409e80 20%, #40e0d0 40%,
-                #48d1cc 60%, #40e0d0 80%, #2d8659 100%
-            );
-            opacity: 0.7;
-        }}
-
-        .about-box-inner {{
-            padding: 28px 36px 30px;
-        }}
-
-        .about-title {{
-            background: linear-gradient(135deg,
-                #1e5f44 0%, #2d8659 30%, #409e80 60%, #1e5f44 100%
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.15em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.2px;
-        }}
-
-        .about-text {{
-            color: #444;
-            font-size: 0.95em;
-            line-height: 1.75;
-            margin: 0;
-        }}
-
-        .about-text strong {{
+        .formula-main {{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88em;
             color: #1e5f44;
             font-weight: 600;
         }}
 
-        .about-tags {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 18px;
+        .formula-sub {{
+            font-size: 0.8em;
+            color: #5a8a72;
         }}
 
-        .about-tag {{
-            padding: 4px 13px;
-            border-radius: 20px;
+        .formula-range {{
             font-size: 0.8em;
+            color: #409e80;
             font-weight: 500;
-            border: 1px solid rgba(64, 158, 128, 0.35);
-            color: #2d8659;
-            background: linear-gradient(135deg,
-                rgba(64, 224, 208, 0.08) 0%,
-                rgba(64, 158, 128, 0.08) 100%
-            );
+            margin-top: 2px;
         }}
     </style>
 </head>
@@ -1456,31 +1158,12 @@ class InteractiveDashboard:
         <img src="logo_memoslap.png" alt="MemoSlap Logo" class="header-logo-left"/>
         <div class="header-text">
             <h1>BEE Hub</h1>
-            <p class="subtitle">BEhavioral Experiments &mdash; Discover, Compare &amp; Validate Paradigms</p>
+            <p class="subtitle">Behavioral Experimental Exploration — Discover, Compare &amp; Validate Paradigms</p>
         </div>
         <img src="beehub_logo.svg" alt="BEE Hub Logo" class="header-logo-right"/>
     </div>
-
-    <div class="about-box">
-        <div class="about-box-inner">
-            <div class="about-title">What is BEE Hub?</div>
-            <p class="about-text">
-                <strong>BEE Hub</strong> (Behavioral Experiments Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the <strong>paradigm selection bottleneck</strong>: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that matter most &mdash; test-retest reliability (ICC), effect sizes, sample characteristics, and cognitive domain classification.
-            </p>
-            <p class="about-text" style="margin-top: 12px;">
-                BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardised <strong>reliability profile</strong> for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to <strong>FAIR principles</strong> (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, ICC, and consistency &mdash; making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be <strong>meta-analysis ready</strong>, enabling large-scale synthesis of field-wide reproducibility patterns.
-            </p>
-            <div class="about-tags">
-                <span class="about-tag">&#10003; Open-source &amp; Git-versioned</span>
-                <span class="about-tag">&#10003; FAIR principles</span>
-                <span class="about-tag">&#10003; BIDS-inspired structure</span>
-                <span class="about-tag">&#10003; Test-retest reliability (ICC)</span>
-                <span class="about-tag">&#10003; Meta-analysis ready</span>
-                <span class="about-tag">&#10003; Standardised reliability profiles</span>
-            </div>
-        </div>
     </div>
-
+    
     <div class="filters-container">
         <div class="filters-title">
             Filter Options
@@ -1519,38 +1202,6 @@ class InteractiveDashboard:
         
         for task in unique_values['task_types']:
             html += f'                    <option value="{task}">{task.replace("_", " ").title()}</option>\n'
-        
-        html += f"""                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label">Recording Modality</label>
-                <select id="recordingModalityFilter" class="filter-select">
-                    <option value="">All Recording Modalities</option>
-                    <option value="behavioral">Behavioral</option>
-                    <option value="mri">MRI</option>
-                    <option value="eeg">EEG</option>
-                    <option value="pet">PET</option>
-                    <option value="eye_tracking">Eye-tracking</option>
-                    <option value="fnirs">fNIRS</option>
-"""
-
-        for rec in unique_values['recording_modalities']:
-            fixed = {'behavioral','mri','eeg','pet','eye_tracking','fnirs'}
-            if rec.lower() not in fixed:
-                html += f'                    <option value="{rec}">{rec.replace("_", " ").title()}</option>\n'
-
-        html += """                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label">Language of Paradigm</label>
-                <select id="languageFilter" class="filter-select">
-                    <option value="">All Languages</option>
-"""
-        
-        for lang in unique_values['languages']:
-            html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
         
         html += f"""                </select>
             </div>
@@ -1599,180 +1250,14 @@ class InteractiveDashboard:
             <button class="btn btn-reset" onclick="resetFilters()">Reset All</button>
         </div>
     </div>
-
-    <div class="reliability-panel" id="reliabilityPanel">
-        <button class="reliability-panel-toggle" onclick="toggleReliabilityPanel()" aria-expanded="false">
-            <div class="reliability-panel-header">
-                <div class="reliability-panel-title">Reliability Metrics Explained</div>
-            </div>
-            <span class="reliability-toggle-arrow">▼</span>
-        </button>
-        <div class="reliability-panel-body">
-            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(64, 158, 128, 0.3) 10%, rgba(64, 224, 208, 0.5) 50%, rgba(64, 158, 128, 0.3) 90%, transparent 100%) 1;">
-                <div class="reliability-panel-subtitle">
-                    All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are derived from task trials only; control, rest, and baseline conditions are excluded.
-                </div>
-            </div>
-            <div class="metric-cards-grid">
-
-                <div class="metric-card">
-                    <div class="metric-card-header">
-                        <div class="metric-card-name">ICC(3,1) — Intraclass Correlation</div>
-                        <div class="metric-card-tagline">Test-retest consistency across sessions — task trials only, control/rest/baseline excluded</div>
-                    </div>
-                    <div class="metric-card-body">
-                        <ul class="metric-card-points">
-                            <li>Computed exclusively on task trial types — control, rest, fixation, baseline, and catch conditions are always excluded from the ICC calculation</li>
-                            <li>Two-way mixed model, single measures — sessions are treated as fixed, subjects as random; session mean differences are partialled out of the error term (consistency estimate, not absolute agreement)</li>
-                            <li>Reported separately for RT and Accuracy; each value represents the mean ICC across subjects who completed at least two sessions</li>
-                        </ul>
-                        <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">ICC(3,1)</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">MS</span><span class="math-sub">r</span> + (<span class="math-var">k</span> &minus; 1) &middot; <span class="math-var">MS</span><span class="math-sub">e</span></span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">r</span></b> = between-subjects mean square &nbsp;&middot;&nbsp;
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">e</span></b> = error mean square &nbsp;&middot;&nbsp;
-                                <b>k</b> = number of sessions
-                            </div>
-                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent &nbsp;&middot;&nbsp; task trials only</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-card-header">
-                        <div class="metric-card-name">Pearson r &mdash; Correlation</div>
-                        <div class="metric-card-tagline">Linear association between Session 1 and Session 2</div>
-                    </div>
-                    <div class="metric-card-body">
-                        <ul class="metric-card-points">
-                            <li>Measures how strongly values co-vary across sessions</li>
-                            <li>Sensitive to linear association, not absolute agreement</li>
-                            <li>Complements ICC as a simple, intuitive reliability indicator</li>
-                        </ul>
-                        <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">r</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num">&Sigma; (<span class="math-var">X</span><span class="math-sub">1</span> &minus; <span class="math-var">X&#772;</span><span class="math-sub">1</span>) (<span class="math-var">X</span><span class="math-sub">2</span> &minus; <span class="math-var">X&#772;</span><span class="math-sub">2</span>)</span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">
-                                        <span class="math-sqrt">
-                                            <span class="math-sqrt-sign">&radic;</span>
-                                            <span class="math-sqrt-content">&Sigma;(<span class="math-var">X</span><span class="math-sub">1</span>&minus;<span class="math-var">X&#772;</span><span class="math-sub">1</span>)<span class="math-sup">2</span> &middot; &Sigma;(<span class="math-var">X</span><span class="math-sub">2</span>&minus;<span class="math-var">X&#772;</span><span class="math-sub">2</span>)<span class="math-sup">2</span></span>
-                                        </span>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>X<span style="font-size:0.75em;vertical-align:sub">1</span>, X<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session values &nbsp;&middot;&nbsp;
-                                <b>X&#772;<span style="font-size:0.75em;vertical-align:sub">1</span>, X&#772;<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = stronger correlation</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-card-header">
-                        <div class="metric-card-name">Stability &mdash; from Cohen&apos;s d</div>
-                        <div class="metric-card-tagline">Magnitude of mean change between sessions</div>
-                    </div>
-                    <div class="metric-card-body">
-                        <ul class="metric-card-points">
-                            <li>Detects systematic shifts such as practice or fatigue effects</li>
-                            <li>Derived from Cohen&apos;s d &mdash; inverted so that higher = more stable</li>
-                            <li>A score of 1 means no detectable shift across sessions</li>
-                        </ul>
-                        <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">d</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">M</span><span class="math-sub">1</span> &minus; <span class="math-var">M</span><span class="math-sub">2</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
-                                </span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
-                                <span class="math-lhs" style="margin-left:4px">Stability</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-var">1</span>
-                                <span class="math-op">&minus;</span>
-                                <span class="math-frac">
-                                    <span class="math-num">|<span class="math-var">d</span>|</span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">2</span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>M<span style="font-size:0.75em;vertical-align:sub">1</span>, M<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means &nbsp;&middot;&nbsp;
-                                <b>SD<span style="font-size:0.75em;vertical-align:sub">pooled</span></b> = pooled standard deviation
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-card-header">
-                        <div class="metric-card-name">Consistency &mdash; from CV</div>
-                        <div class="metric-card-tagline">Within-session trial-to-trial variability</div>
-                    </div>
-                    <div class="metric-card-body">
-                        <ul class="metric-card-points">
-                            <li>Captures trial-level noise within each session</li>
-                            <li>Coefficient of Variation is inverted &mdash; lower noise = higher score</li>
-                            <li>Identifies tasks where participants respond erratically</li>
-                        </ul>
-                        <div class="formula-box">
-                            <div class="math-expr">
-                                <span class="math-lhs">CV</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">SD</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">Mean</span></span>
-                                </span>
-                                <span class="math-op">&times; 100</span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
-                                <span class="math-lhs" style="margin-left:4px">Consistency</span>
-                                <span class="math-eq">=</span>
-                                <span class="math-var">1</span>
-                                <span class="math-op">&minus;</span>
-                                <span class="math-frac">
-                                    <span class="math-num"><span class="math-var">CV</span></span>
-                                    <span class="math-bar"></span>
-                                    <span class="math-den">50</span>
-                                </span>
-                            </div>
-                            <div class="formula-legend">
-                                <b>SD</b> = within-session standard deviation &nbsp;&middot;&nbsp;
-                                <b>Mean</b> = within-session mean RT
-                            </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+    
     <div class="results-container">
         <div class="results-header">
             Results: <span class="results-count" id="resultsCount">0</span> Projects
         </div>
         <div class="projects-grid" id="projectsGrid"></div>
     </div>
-
+    
     <div class="charts-row">
         <div class="chart-container">
             <div class="chart-title">RT ICC Across Projects (task trials only)</div>
@@ -1794,6 +1279,94 @@ class InteractiveDashboard:
         <div class="chart-container">
             <div class="chart-title">RT Consistency Across Projects</div>
             <div id="consistencyRadar"></div>
+        </div>
+    </div>
+
+    <div class="reliability-panel">
+        <div class="reliability-panel-header">
+            <div class="reliability-panel-title">Reliability Metrics Explained</div>
+            <div class="reliability-panel-subtitle">
+                All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are derived from task trials only; control, rest, and baseline conditions are excluded.
+            </div>
+        </div>
+        <div class="metric-cards-grid">
+
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-card-name">ICC(3,1) — Intraclass Correlation</div>
+                    <div class="metric-card-tagline">Test-retest consistency across sessions — task trials only, control/rest/baseline excluded</div>
+                </div>
+                <div class="metric-card-body">
+                    <ul class="metric-card-points">
+                        <li>Computed exclusively on task trial types — control, rest, fixation, baseline, and catch conditions are always excluded from the ICC calculation</li>
+                        <li>Two-way mixed model, single measures — sessions are treated as fixed, subjects as random; session mean differences are partialled out of the error term (consistency estimate, not absolute agreement)</li>
+                        <li>Reported separately for RT and Accuracy; each value represents the mean ICC across subjects who completed at least two sessions</li>
+                    </ul>
+                    <div class="formula-box">
+                        <span class="formula-main">ICC(3,1) = (MSr − MSe) / (MSr + (k−1) · MSe)</span>
+                        <span class="formula-sub">MSr = Mean Square rows (subjects) &nbsp;|&nbsp; MSe = Mean Square error &nbsp;|&nbsp; k = sessions</span>
+                        <span class="formula-range">Range −1 → 1 &nbsp;·&nbsp; higher = more consistent across sessions &nbsp;·&nbsp; task trials only</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-card-name">Pearson r — Correlation</div>
+                    <div class="metric-card-tagline">Linear association between Session 1 and Session 2</div>
+                </div>
+                <div class="metric-card-body">
+                    <ul class="metric-card-points">
+                        <li>Measures how strongly values co-vary across sessions</li>
+                        <li>Sensitive to linear association, not absolute agreement</li>
+                        <li>Complements ICC as a simple, intuitive reliability indicator</li>
+                    </ul>
+                    <div class="formula-box">
+                        <span class="formula-main">r = Σ[(X₁ − X̄₁)(X₂ − X̄₂)] / √[Σ(X₁−X̄₁)² · Σ(X₂−X̄₂)²]</span>
+                        <span class="formula-sub">X₁, X₂ = session values &nbsp;|&nbsp; X̄ = session means</span>
+                        <span class="formula-range">Range 0 → 1 &nbsp;·&nbsp; higher = stronger correlation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-card-name">Stability — from Cohen's d</div>
+                    <div class="metric-card-tagline">Magnitude of mean change between sessions</div>
+                </div>
+                <div class="metric-card-body">
+                    <ul class="metric-card-points">
+                        <li>Detects systematic shifts such as practice or fatigue effects</li>
+                        <li>Derived from Cohen's d — inverted so that higher = more stable</li>
+                        <li>A score of 1 means no detectable shift across sessions</li>
+                    </ul>
+                    <div class="formula-box">
+                        <span class="formula-main">d = (M₁ − M₂) / SD_pooled</span>
+                        <span class="formula-sub">Stability = 1 − (|d| / 2) &nbsp;|&nbsp; M = mean, SD_pooled = pooled SD</span>
+                        <span class="formula-range">Range 0 → 1 &nbsp;·&nbsp; higher = more stable across sessions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-card-header">
+                    <div class="metric-card-name">Consistency — from CV</div>
+                    <div class="metric-card-tagline">Within-session trial-to-trial variability</div>
+                </div>
+                <div class="metric-card-body">
+                    <ul class="metric-card-points">
+                        <li>Captures trial-level noise within each session</li>
+                        <li>Coefficient of Variation is inverted — lower noise = higher score</li>
+                        <li>Identifies tasks where participants respond erratically</li>
+                    </ul>
+                    <div class="formula-box">
+                        <span class="formula-main">CV = (SD / Mean) × 100</span>
+                        <span class="formula-sub">Consistency = 1 − (CV / 50) &nbsp;|&nbsp; SD = within-session standard deviation</span>
+                        <span class="formula-range">Range 0 → 1 &nbsp;·&nbsp; higher = more consistent responding</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -1825,19 +1398,10 @@ class InteractiveDashboard:
             document.getElementById(id).addEventListener('input', updateSliderDisplays);
         }});
         
-        function toggleReliabilityPanel() {{
-            const panel = document.getElementById('reliabilityPanel');
-            const btn = panel.querySelector('.reliability-panel-toggle');
-            panel.classList.toggle('open');
-            btn.setAttribute('aria-expanded', panel.classList.contains('open'));
-        }}
-
         function applyFilters() {{
             const modality = document.getElementById('modalityFilter').value;
             const domain = document.getElementById('domainFilter').value;
             const taskType = document.getElementById('taskFilter').value;
-            const language = document.getElementById('languageFilter').value;
-            const recordingModality = document.getElementById('recordingModalityFilter').value;
             
             const ageMin = parseFloat(document.getElementById('ageMin').value);
             const ageMax = parseFloat(document.getElementById('ageMax').value);
@@ -1857,8 +1421,6 @@ class InteractiveDashboard:
                 if (modality && info.modality !== modality) return false;
                 if (domain && info.cognitive_domain !== domain) return false;
                 if (taskType && info.task_type !== taskType) return false;
-                if (language && info.language !== language) return false;
-                if (recordingModality && info.recording_modality !== recordingModality) return false;
                 
                 // Check demographic filters
                 if (demo.age_mean) {{
@@ -1868,7 +1430,7 @@ class InteractiveDashboard:
                     if (demo.n_participants < subMin || demo.n_participants > subMax) return false;
                 }}
                 
-                // Check reliability filters - reliability_metrics contains task trial types only
+                // Check reliability filters — reliability_metrics contains task trial types only
                 // (control/rest conditions are stored separately in control_reliability and excluded here)
                 let allIccs = [];
                 
@@ -1910,8 +1472,6 @@ class InteractiveDashboard:
             document.getElementById('modalityFilter').value = '';
             document.getElementById('domainFilter').value = '';
             document.getElementById('taskFilter').value = '';
-            document.getElementById('languageFilter').value = '';
-            document.getElementById('recordingModalityFilter').value = '';
             
             document.getElementById('ageMin').value = {ranges['age_min']};
             document.getElementById('ageMax').value = {ranges['age_max']};
@@ -1966,8 +1526,6 @@ class InteractiveDashboard:
                         <div class="project-tags">
                             <span class="tag modality">${{info.modality || 'unknown'}}</span>
                             <span class="tag domain">${{info.cognitive_domain || 'unknown'}}</span>
-                            ${{info.recording_modality ? `<span class="tag recording">${{info.recording_modality.toLowerCase()}}</span>` : ''}}
-                            ${{info.language ? `<span class="tag language">${{info.language}}</span>` : ''}}
                         </div>
                         <div class="project-stats">
                             <div class="stat-item">
@@ -1989,7 +1547,7 @@ class InteractiveDashboard:
                         </div>
                         <div class="project-actions">
                             <a href="Projects/${{project.project_name}}/${{project.project_name}}_overview.html" class="project-link">View Details</a>
-                            ${{project.has_short_version ? `<a href="Projects/${{project.project_name}}/${{project.project_name}}_paradigm.html" class="project-link test-paradigm" title="Short version: ${{project.short_version_stem}}.py">Paradigm</a>` : ''}}
+                            ${{project.has_short_version ? `<a href="Projects/${{project.project_name}}/${{project.project_name}}_paradigm.html" class="project-link test-paradigm">Paradigm</a>` : ''}}
                         </div>
                     </div>
                 `;

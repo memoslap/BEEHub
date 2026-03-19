@@ -232,8 +232,8 @@ def show_instructions_part1():
         body=(
             "Sie sind nun bereit, mit der Aufgabe zu beginnen.\n\n"
             "Denken Sie daran:\n"
-            "1 = JA   (richtiges Wort)\n"
-            "2 = NEIN (falsches Wort)\n\n"
+            "  1 = JA   (richtiges Wort)\n"
+            "  2 = NEIN (falsches Wort)\n\n"
             "Antworten Sie innerhalb von 2,5 Sekunden.\n\n"
             "Viel Erfolg!"
         ),
@@ -276,9 +276,9 @@ def show_instructions_part3():
             "Wählen Sie das Wort, das während der Lernphase\n"
             "zu diesem Bild gehörte.\n\n"
             "Drücken Sie:\n\n"
-            "       1  →  linkes Wort\n"
-            "       2  →  mittleres Wort\n"
-            "       3  →  rechtes Wort"
+            "       1  ->  linkes Wort\n"
+            "       2  ->  mittleres Wort\n"
+            "       3  ->  rechtes Wort"
         ),
         footer="Folie 2 / 4"
     )
@@ -297,9 +297,9 @@ def show_instructions_part3():
         body=(
             "Der Gedächtnistest beginnt gleich.\n\n"
             "Zur Erinnerung:\n\n"
-            "       1  →  linkes Wort\n"
-            "       2  →  mittleres Wort\n"
-            "       3  →  rechtes Wort\n\n"
+            "       1  ->  linkes Wort\n"
+            "       2  ->  mittleres Wort\n"
+            "       3  ->  rechtes Wort\n\n"
             "Viel Erfolg!"
         ),
         footer="Drücken Sie die LEERTASTE, um zu beginnen.",
