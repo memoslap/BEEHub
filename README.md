@@ -1,6 +1,6 @@
 ![BEE Hub](beehub_logo.png)
 
-## What is BEE Hub?
+## What is Research BEE Hub?
 
 **Research BEE Hub** (Research Behavioral Experiments Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the paradigm selection bottleneck: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that also matter for experimental implementation — test-retest reliability (ICC), effect sizes, and sample characteristics.
 
