@@ -1006,8 +1006,8 @@ class InteractiveDashboard:
             f'<div class="link-card">'
             f'<h3>Stimuli</h3>'
             f'<p>All stimulus materials and experimental resources.</p>'
-            f'<code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm_short/Stimuli/</code>'
-            f'{_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm_short/Stimuli")}'
+            f'<code>BEEHub/Projects/{pn}/paradigm/psychopy/{pn}_paradigm</code>'
+            f'{_github_link(f"{gh}/paradigm/psychopy/{pn}_paradigm")}'
             f'</div>'
         )
 
