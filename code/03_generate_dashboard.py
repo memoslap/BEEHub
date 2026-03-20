@@ -228,71 +228,84 @@ class InteractiveDashboard:
         }
     
     def get_data_ranges(self) -> Dict:
-        """Get min/max ranges for all metric sliders — task and control separately."""
-        ages, n_subjects = [], []
+        """Get min/max ranges for all metric sliders — task and control separately.
 
-        # Collect raw values per metric key, for task and control separately
-        raw = {
-            'task': {k: [] for k in ['rt_icc','acc_icc','rt_pearson_r','acc_pearson_r',
-                                      'rt_cohens_d','acc_cohens_d','rt_cv','acc_cv']},
-            'ctrl': {k: [] for k in ['rt_icc','acc_icc','rt_pearson_r','acc_pearson_r',
-                                      'rt_cohens_d','acc_cohens_d','rt_cv','acc_cv']},
+        Instead of a hardcoded list of keys, this method scans the actual
+        metric keys present in each project's reliability dicts.  Any key
+        ending in one of the four metric suffixes (_icc_mean, _pearson_r_mean,
+        _cohens_d_mean, _cv_mean) is collected, regardless of the outcome-ID
+        prefix (rt_, acc_, score_, dist_, …).
+        """
+        ages, n_subjects = [], []
+        # raw[src][metric_short_key] = list of values
+        raw_task: Dict[str, list] = {}
+        raw_ctrl: Dict[str, list] = {}
+
+        METRIC_SUFFIXES = {
+            '_icc_mean':       'icc',
+            '_pearson_r_mean': 'pearson_r',
+            '_cohens_d_mean':  'cohens_d',
+            '_cv_mean':        'cv',
         }
-        key_map = {
-            'rt_icc':       'rt_icc_mean',
-            'acc_icc':      'acc_icc_mean',
-            'rt_pearson_r': 'rt_pearson_r_mean',
-            'acc_pearson_r':'acc_pearson_r_mean',
-            'rt_cohens_d':  'rt_cohens_d_mean',
-            'acc_cohens_d': 'acc_cohens_d_mean',
-            'rt_cv':        'rt_cv_mean',
-            'acc_cv':       'acc_cv_mean',
-        }
+
+        def _collect(metrics_dict: dict, raw: dict):
+            for k, v in metrics_dict.items():
+                if v is None:
+                    continue
+                for suffix in METRIC_SUFFIXES:
+                    if k.endswith(suffix):
+                        short = k[:-len('_mean')]   # e.g. 'rt_icc', 'score_cv'
+                        raw.setdefault(short, []).append(float(v))
+
         for project in self.all_projects:
             demo = project.get('demographics', {})
-            if demo.get('age_mean'):        ages.append(demo['age_mean'])
-            if demo.get('n_participants'):  n_subjects.append(demo['n_participants'])
-            for src, field in [('task','reliability_metrics'),('ctrl','control_reliability')]:
-                for metrics in project.get(field, {}).values():
-                    for short, full in key_map.items():
-                        v = metrics.get(full)
-                        if v is not None:
-                            raw[src][short].append(v)
+            if demo.get('age_mean'):       ages.append(demo['age_mean'])
+            if demo.get('n_participants'): n_subjects.append(demo['n_participants'])
+            for m in project.get('reliability_metrics', {}).values():
+                _collect(m, raw_task)
+            for m in project.get('control_reliability', {}).values():
+                _collect(m, raw_ctrl)
 
         def _rng(lst, pad=0.05, lo=-1.0, hi=1.0):
             if not lst: return (lo, hi)
-            mn = round(min(lst) - pad, 2)
-            mx = round(max(lst) + pad, 2)
-            return (max(lo, mn), min(hi, mx))
+            return (max(lo, round(min(lst)-pad, 2)), min(hi, round(max(lst)+pad, 2)))
 
         def _rng_cv(lst):
             if not lst: return (0, 100)
-            return (max(0, round(min(lst)-0.5,1)), round(max(lst)+0.5,1))
+            return (max(0, round(min(lst)-0.5, 1)), round(max(lst)+0.5, 1))
 
         def _rng_d(lst):
             if not lst: return (-3, 3)
-            return (round(min(lst)-0.1,2), round(max(lst)+0.1,2))
+            return (round(min(lst)-0.1, 2), round(max(lst)+0.1, 2))
 
         r = {
-            'age_min':       int(min(ages))          if ages        else 18,
-            'age_max':       int(max(ages)) + 1       if ages        else 65,
-            'subjects_min':  int(min(n_subjects))     if n_subjects  else 0,
-            'subjects_max':  int(max(n_subjects)) + 5 if n_subjects  else 100,
+            'age_min':      int(min(ages))          if ages       else 18,
+            'age_max':      int(max(ages)) + 1       if ages       else 65,
+            'subjects_min': int(min(n_subjects))     if n_subjects else 0,
+            'subjects_max': int(max(n_subjects)) + 5 if n_subjects else 100,
         }
-        for src in ('task','ctrl'):
-            p = raw[src]
-            r[f'{src}_rt_icc_min'],        r[f'{src}_rt_icc_max']        = _rng(p['rt_icc'])
-            r[f'{src}_acc_icc_min'],       r[f'{src}_acc_icc_max']       = _rng(p['acc_icc'])
-            r[f'{src}_rt_pearson_min'],    r[f'{src}_rt_pearson_max']    = _rng(p['rt_pearson_r'])
-            r[f'{src}_acc_pearson_min'],   r[f'{src}_acc_pearson_max']   = _rng(p['acc_pearson_r'])
-            r[f'{src}_rt_cohens_min'],     r[f'{src}_rt_cohens_max']     = _rng_d(p['rt_cohens_d'])
-            r[f'{src}_acc_cohens_min'],    r[f'{src}_acc_cohens_max']    = _rng_d(p['acc_cohens_d'])
-            r[f'{src}_rt_cv_min'],         r[f'{src}_rt_cv_max']         = _rng_cv(p['rt_cv'])
-            r[f'{src}_acc_cv_min'],        r[f'{src}_acc_cv_max']        = _rng_cv(p['acc_cv'])
-        # legacy keys used by old ICC slider references
-        r['rt_icc_min']  = r['task_rt_icc_min'];  r['rt_icc_max']  = r['task_rt_icc_max']
-        r['acc_icc_min'] = r['task_acc_icc_min']; r['acc_icc_max'] = r['task_acc_icc_max']
-        r['cv_min']      = r['task_rt_cv_min'];   r['cv_max']      = r['task_rt_cv_max']
+
+        # Build ranges for every short key found in the data
+        all_shorts = set(raw_task) | set(raw_ctrl)
+        for short in all_shorts:
+            for src, raw in [('task', raw_task), ('ctrl', raw_ctrl)]:
+                vals = raw.get(short, [])
+                if short.endswith('_cv'):
+                    lo, hi = _rng_cv(vals)
+                elif short.endswith('_cohens_d'):
+                    lo, hi = _rng_d(vals)
+                else:
+                    lo, hi = _rng(vals)
+                r[f'{src}_{short}_min'] = lo
+                r[f'{src}_{short}_max'] = hi
+
+        # Legacy keys (kept for backward compat with older JSON files)
+        r.setdefault('rt_icc_min',  r.get('task_rt_icc_min',  -1))
+        r.setdefault('rt_icc_max',  r.get('task_rt_icc_max',   1))
+        r.setdefault('acc_icc_min', r.get('task_acc_icc_min', -1))
+        r.setdefault('acc_icc_max', r.get('task_acc_icc_max',  1))
+        r.setdefault('cv_min',      r.get('task_rt_cv_min',    0))
+        r.setdefault('cv_max',      r.get('task_rt_cv_max',  100))
         return r
     
     def generate_dashboard_html(self) -> str:
@@ -1870,37 +1883,42 @@ class InteractiveDashboard:
         // ── Per-metric data ranges (computed server-side) ─────────────────────
         const DATA_RANGES = {ranges_json};
 
-        // ── Metric definitions used for dynamic slider generation ─────────────
-        const SLIDER_METRICS = [
-            {{
-                id: 'icc', label: 'ICC(3,1)',
-                sliders: [
-                    {{ sid: 'rt_icc',  label: 'RT ICC',      key: 'rt_icc_mean',  step: 0.05, decimals: 2 }},
-                    {{ sid: 'acc_icc', label: 'Accuracy ICC', key: 'acc_icc_mean', step: 0.05, decimals: 2 }},
-                ],
-            }},
-            {{
-                id: 'pearson_r', label: 'Pearson r',
-                sliders: [
-                    {{ sid: 'rt_pearson',  label: 'RT Pearson r',      key: 'rt_pearson_r_mean',  step: 0.05, decimals: 2 }},
-                    {{ sid: 'acc_pearson', label: 'Accuracy Pearson r', key: 'acc_pearson_r_mean', step: 0.05, decimals: 2 }},
-                ],
-            }},
-            {{
-                id: 'cohens_d', label: 'Stability (Cohen\u2019s d)',
-                sliders: [
-                    {{ sid: 'rt_cohens',  label: 'RT Cohen\u2019s d',      key: 'rt_cohens_d_mean',  step: 0.1, decimals: 2 }},
-                    {{ sid: 'acc_cohens', label: 'Accuracy Cohen\u2019s d', key: 'acc_cohens_d_mean', step: 0.1, decimals: 2 }},
-                ],
-            }},
-            {{
-                id: 'cv', label: 'Consistency (CV)',
-                sliders: [
-                    {{ sid: 'rt_cv',  label: 'RT CV (%)',       key: 'rt_cv_mean',  step: 0.5, decimals: 1 }},
-                    {{ sid: 'acc_cv', label: 'Accuracy CV (%)', key: 'acc_cv_mean', step: 0.5, decimals: 1 }},
-                ],
-            }},
+        // ── Metric definitions — built dynamically from DATA_RANGES keys ─────
+        // Supports any outcome prefix (rt_, acc_, score_, dist_, …)
+        const METRIC_SUFFIXES = [
+            {{ suffix: '_icc',       metricId: 'icc',       label: 'ICC(3,1)',                step: 0.05, decimals: 2 }},
+            {{ suffix: '_pearson_r', metricId: 'pearson_r', label: 'Pearson r',               step: 0.05, decimals: 2 }},
+            {{ suffix: '_cohens_d',  metricId: 'cohens_d',  label: 'Stability (Cohen’s d)', step: 0.1,  decimals: 2 }},
+            {{ suffix: '_cv',        metricId: 'cv',        label: 'Consistency (CV)',         step: 0.5,  decimals: 1 }},
         ];
+        function _getOutcomePrefixes() {{
+            const prefixes = new Set();
+            Object.keys(DATA_RANGES).forEach(k => {{
+                const m = k.match(/^task_(.+?)_icc_min$/);
+                if (m) prefixes.add(m[1]);
+            }});
+            if (prefixes.size === 0) ['rt', 'acc'].forEach(p => prefixes.add(p));
+            return [...prefixes];
+        }}
+        function _humanLabel(oid) {{
+            const MAP = {{ rt:'RT', acc:'Accuracy', accbin:'Accuracy',
+                           score:'Score', dist:'Distance', freq:'Frequency' }};
+            return MAP[oid] || oid.toUpperCase();
+        }}
+        function _buildSliderMetrics() {{
+            const prefixes = _getOutcomePrefixes();
+            return METRIC_SUFFIXES.map(ms => ({{
+                id: ms.metricId, label: ms.label,
+                sliders: prefixes.map(p => ({{
+                    sid:      p + ms.suffix,
+                    label:    _humanLabel(p) + ' ' + ms.label,
+                    key:      p + ms.suffix + '_mean',
+                    step:     ms.step,
+                    decimals: ms.decimals,
+                }})),
+            }}));
+        }}
+        const SLIDER_METRICS = _buildSliderMetrics()
 
         /**
          * Rebuild the dynamic slider container based on current metric + source selection.
@@ -2105,12 +2123,20 @@ class InteractiveDashboard:
                 const reliability = project.reliability_metrics || {{}};
                 
                 // Get overall average ICC from task trial types only (control/rest excluded)
-                let allIccs = [];
+                // Primary ICC: use highest-priority outcome ICC key
+                const primaryKey = project.primary_icc_key || 'accbin_icc_mean';
+                let primaryIccVals2 = [];
                 for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_icc_mean) allIccs.push(metrics.rt_icc_mean);
-                    if (metrics.acc_icc_mean) allIccs.push(metrics.acc_icc_mean);
+                    const v = metrics[primaryKey];
+                    if (v !== null && v !== undefined) primaryIccVals2.push(v);
                 }}
-                const overallIcc = allIccs.length > 0 ? (allIccs.reduce((a,b) => a+b) / allIccs.length).toFixed(2) : 'N/A';
+                const overallIcc = primaryIccVals2.length > 0
+                    ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
+                    : 'N/A';
+                const _omLabel = (project.outcome_measures || [])
+                    .sort((a,b) => (a.display_priority||99) - (b.display_priority||99))
+                    .find(o => (o.id.toLowerCase() + '_icc_mean') === primaryKey);
+                const primaryLabelStr = _omLabel ? _omLabel.label : primaryKey.replace('_icc_mean','').toUpperCase();
                 
                 // Get overall mean Consistency CV
                 let allCvs = [];
@@ -2138,9 +2164,9 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{demo.age_mean ? demo.age_mean.toFixed(1) : 'N/A'}}</div>
                                 <div class="stat-label">Mean Age</div>
                             </div>
-                            <div class="stat-item" title="Mean ICC(3,1) across task trial types — control/rest/baseline excluded">
+                            <div class="stat-item" title="Mean ICC(3,1) for the primary outcome — task trials only">
                                 <div class="stat-value">${{overallIcc}}</div>
-                                <div class="stat-label">Overall ICC<br><span style="font-size:0.72em;color:#888;font-weight:400;">(task only)</span></div>
+                                <div class="stat-label">${{primaryLabelStr}} ICC<br><span style="font-size:0.72em;color:#888;font-weight:400;">(task only)</span></div>
                             </div>
                             <div class="stat-item" title="Mean within-subject RT coefficient of variation across task trial types — control/rest excluded">
                                 <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
@@ -2156,31 +2182,25 @@ class InteractiveDashboard:
             }}).join('');
         }}
         
-        // ── Metric & source registry (mirrors reliability_metrics.py) ──────
-        const METRIC_REGISTRY = [
-            {{
-                id: 'icc', label: 'ICC(3,1)',
-                rt_key: 'rt_icc_mean', acc_key: 'acc_icc_mean',
-                normalise: v => Math.max(0, Math.min(1, v))
-            }},
-            {{
-                id: 'pearson_r', label: 'Pearson r',
-                rt_key: 'rt_pearson_r_mean', acc_key: 'acc_pearson_r_mean',
-                normalise: v => Math.max(0, Math.min(1, v))
-            }},
-            {{
-                id: 'cohens_d', label: 'Stability (Cohen\u2019s d)',
-                rt_key: 'rt_cohens_d_mean', acc_key: 'acc_cohens_d_mean',
-                normalise: v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2))
-            }},
-            {{
-                id: 'cv', label: 'Consistency (CV)',
-                rt_key: 'rt_cv_mean', acc_key: 'acc_cv_mean',
-                normalise: v => Math.max(0, Math.min(1, 1 - v / 50))
-            }},
-            // ── Add new metrics here ────────────────────────────────────────
-        ];
-        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]));
+        // ── Metric & source registry — built dynamically ────────────────────
+        const _METRIC_NORMS = {{
+            icc:       v => Math.max(0, Math.min(1, v)),
+            pearson_r: v => Math.max(0, Math.min(1, v)),
+            cohens_d:  v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
+            cv:        v => Math.max(0, Math.min(1, 1 - v / 50)),
+        }};
+        function _buildMetricRegistry() {{
+            const prefixes = _getOutcomePrefixes();
+            return METRIC_SUFFIXES.map(ms => ({{
+                id:         ms.metricId,
+                label:      ms.label,
+                normalise:  _METRIC_NORMS[ms.metricId] || (v => Math.max(0, Math.min(1, v))),
+                _suffix:    ms.suffix + '_mean',
+                _prefixes:  prefixes,
+            }}));
+        }}
+        const METRIC_REGISTRY = _buildMetricRegistry();
+        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]))
 
         // ── Helpers ──────────────────────────────────────────────────────────
 
@@ -2324,16 +2344,34 @@ class InteractiveDashboard:
 
             // Now plot each radar
             for (const d of radarDefs) {{
-                const isTask   = !d.useControl;
-                const pal      = isTask ? METRIC_COLOURS[d.reg.id] : CTRL_COLOURS[d.reg.id];
-                const colour   = pal ? pal.line : '#409e80';
-                const fill     = pal ? pal.fill : 'rgba(64,158,128,0.25)';
-                const tickCol  = pal ? pal.tick : '#1a5238';
+                const isTask  = !d.useControl;
+                const pal     = isTask ? METRIC_COLOURS[d.reg.id] : CTRL_COLOURS[d.reg.id];
+                const colour  = pal ? pal.line : '#409e80';
+                const fill    = pal ? pal.fill : 'rgba(64,158,128,0.25)';
+                const tickCol = pal ? pal.tick : '#1a5238';
 
-                // Determine which key (rt or acc) to use
-                const useRt  = d.sl.sid.startsWith('rt_');
-                const mapKey = useRt ? 'rt_key' : 'acc_key';
-                const vals   = _perProjectMean(mapKey, d.reg, d.useControl);
+                // The reliability dict key is directly: sl.sid + '_mean'
+                // e.g. sl.sid='rt_icc' → key='rt_icc_mean', sl.sid='accbin_cv' → 'accbin_cv_mean'
+                const reliabilityKey = d.sl.sid + '_mean';
+                const vals = filteredProjects.map(p => {{
+                    const taskRel    = p.reliability_metrics || {{}};
+                    const controlRel = p.control_reliability || {{}};
+                    let dict;
+                    if (d.useControl) {{
+                        const hasCtrl = Object.values(controlRel).some(
+                            m => m[reliabilityKey] !== null && m[reliabilityKey] !== undefined
+                        );
+                        dict = hasCtrl ? controlRel : taskRel;
+                    }} else {{
+                        dict = taskRel;
+                    }}
+                    const rawVals = Object.values(dict)
+                        .map(m => m[reliabilityKey])
+                        .filter(v => v !== null && v !== undefined);
+                    if (rawVals.length === 0) return 0;
+                    const mean = rawVals.reduce((a,b) => a+b, 0) / rawVals.length;
+                    return d.reg.normalise(mean);
+                }});
 
                 _plotRadar(d.divId, _buildRadarTrace(vals, projectNames, colour, fill), tickCol);
             }}

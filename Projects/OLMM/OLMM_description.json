@@ -17,13 +17,18 @@
     {
       "software": "Presentation (Neurobehavioral Systems)",
       "type": "original",
-      "languages_available": ["german"],
+      "languages_available": [
+        "german"
+      ],
       "folder": "paradigm/presentation"
     },
     {
       "software": "PsychoPy",
       "type": "compatible",
-      "languages_available": ["german", "english"],
+      "languages_available": [
+        "german",
+        "english"
+      ],
       "folder": "paradigm/psychopy"
     }
   ],
@@ -44,5 +49,31 @@
     ]
   },
   "n_sessions": 2,
-  "software": "Presentation (Neurobehavioral Systems)"
+  "software": "Presentation (Neurobehavioral Systems)",
+  "outcome_measures": [
+    {
+      "id": "ACCBIN",
+      "suffix": "_ACCBIN_beh.tsv",
+      "column": "accuracy_binary",
+      "label": "Accuracy",
+      "axis_label": "Accuracy (%)",
+      "higher_is_better": true,
+      "is_binary": true,
+      "is_primary": false,
+      "is_helper": false,
+      "display_priority": 1
+    },
+    {
+      "id": "RT",
+      "suffix": "_RT_beh.tsv",
+      "column": "response_time_ms",
+      "label": "Reaction Time",
+      "axis_label": "RT (ms)",
+      "higher_is_better": false,
+      "is_binary": false,
+      "is_primary": true,
+      "is_helper": false,
+      "display_priority": 2
+    }
+  ]
 }

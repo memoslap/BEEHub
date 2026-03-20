@@ -23,7 +23,7 @@
     --border:    rgba(190,150,80,0.30);
     --shadow:    rgba(160,110,50,0.18);
     --radius:    14px;
-    --step-count: 6;
+    --step-count: 7;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -587,6 +587,10 @@
         </div>
         <div class="step-dot" onclick="goToStep(5)">
           <div class="dot">6</div>
+          <span class="step-label">Outcomes</span>
+        </div>
+        <div class="step-dot" onclick="goToStep(6)">
+          <div class="dot">7</div>
           <span class="step-label">Finalize</span>
         </div>
       </div>
@@ -807,6 +811,29 @@
 
         <!-- ── STEP 6: Finalize ── -->
         <div class="step-panel" id="panel-5">
+          <div class="step-title">Outcome Measures</div>
+          <div class="step-subtitle">Define custom outcome TSV files if your paradigm does not
+            use standard RT / Accuracy measures (e.g. game score, distance, frequency).
+            Leave empty to use BEEHub defaults (RT + ACC + ACCBIN).</div>
+
+          <div style="margin-top:18px">
+            <div id="outcomeList" style="display:flex;flex-direction:column;gap:12px;"></div>
+            <button style="margin-top:14px;padding:9px 20px;border-radius:9px;border:1px dashed var(--bronze);
+              background:rgba(192,120,56,0.07);color:var(--bronze-dk);font-size:0.9em;cursor:pointer;font-weight:500;"
+              onclick="addOutcome()">+ Add Outcome Measure</button>
+          </div>
+
+          <div class="section-divider" style="margin-top:24px"><span>How it works</span></div>
+          <p style="font-size:0.85em;color:var(--ink-light);margin-top:10px;line-height:1.6;">
+            Each entry generates an <code>outcome_measures</code> array in the JSON.
+            The pipeline discovers TSV files by <strong>suffix</strong>
+            (e.g. <code>_SCORE_beh.tsv</code>) and reads values from <strong>column</strong>
+            (e.g. <code>score</code>). Standard RT/ACC outcomes are used automatically if
+            you leave this section empty.
+          </p>
+        </div>
+
+        <div class="step-panel" id="panel-6">
           <div class="step-title">Review & Download</div>
           <div class="step-subtitle">Check the JSON preview on the right, then download your file. The JSON will be saved to your browser's <strong>Downloads</strong> folder.</div>
 
@@ -862,18 +889,20 @@
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
 let currentStep = 0;
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 const state = {
   keywords: [],
   implementations: [],
-  timing: []
+  timing: [],
+  outcome_measures: []
 };
 
 // Seed one original implementation slot on load
 window.addEventListener('DOMContentLoaded', () => {
   addImpl('original');
   addTiming();
+  renderOutcomeList();
   updatePreview();
 });
 
@@ -1173,12 +1202,113 @@ function buildJSON() {
   if (state.keywords.length)  obj.keywords = [...state.keywords];
   addIf('response_device', document.getElementById('f_response_device').value.trim());
   if (Object.keys(timing).length) obj.timing = timing;
+  const validOutcomes = state.outcome_measures.filter(o => o.id.trim() && o.suffix.trim() && o.column.trim());
+  if (validOutcomes.length > 0) {
+    obj.outcome_measures = validOutcomes.map((o, idx) => ({
+      id:               o.id.trim().toUpperCase(),
+      suffix:           o.suffix.trim(),
+      column:           o.column.trim(),
+      label:            o.label.trim() || o.id.trim(),
+      axis_label:       o.axis_label.trim() || o.column.trim(),
+      higher_is_better: o.higher_is_better,
+      is_binary:        o.is_binary,
+      display_priority: o.display_priority || (idx + 1),
+    }));
+  }
   const ns = document.getElementById('f_n_sessions').value;
   if (ns) obj.n_sessions = Number(ns);
   const sw = document.getElementById('f_software').value.trim() || softwareOrig;
   if (sw) obj.software = sw;
 
   return { code, obj };
+}
+
+// ── Outcome Measures ──────────────────────────────────────────────────────
+function addOutcome() {
+  const nextPriority = state.outcome_measures.length + 1;
+  state.outcome_measures.push({
+    id: '', suffix: '', column: '', label: '', axis_label: '',
+    higher_is_better: true, is_binary: false,
+    display_priority: nextPriority,
+  });
+  renderOutcomeList();
+  updatePreview();
+}
+
+function removeOutcome(i) {
+  state.outcome_measures.splice(i, 1);
+  renderOutcomeList();
+  updatePreview();
+}
+
+function renderOutcomeList() {
+  const list = document.getElementById('outcomeList');
+  if (!list) return;
+  list.innerHTML = '';
+  if (state.outcome_measures.length === 0) {
+    list.innerHTML = '<p style="font-size:0.85em;color:var(--ink-light);font-style:italic;">' +
+      'No custom outcomes defined — BEEHub defaults (RT + ACC + ACCBIN) will be used.</p>';
+    return;
+  }
+  state.outcome_measures.forEach((om, i) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'background:rgba(192,120,56,0.06);border:1px solid var(--border);' +
+      'border-radius:12px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;';
+    card.innerHTML = `
+      <button onclick="removeOutcome(${i})" title="Remove"
+        style="position:absolute;top:10px;right:12px;background:none;border:none;
+               color:var(--ink-light);font-size:1.1em;cursor:pointer;">✕</button>
+      <div class="field">
+        <label>ID <span style="color:#c07838">*</span></label>
+        <input type="text" value="${om.id}" placeholder="e.g. SCORE"
+          oninput="state.outcome_measures[${i}].id=this.value.toUpperCase();this.value=this.value.toUpperCase();updatePreview()">
+      </div>
+      <div class="field">
+        <label>TSV suffix <span style="color:#c07838">*</span></label>
+        <input type="text" value="${om.suffix}" placeholder="e.g. _SCORE_beh.tsv"
+          oninput="state.outcome_measures[${i}].suffix=this.value;updatePreview()">
+      </div>
+      <div class="field">
+        <label>Column name <span style="color:#c07838">*</span></label>
+        <input type="text" value="${om.column}" placeholder="e.g. score"
+          oninput="state.outcome_measures[${i}].column=this.value;updatePreview()">
+      </div>
+      <div class="field">
+        <label>Human label</label>
+        <input type="text" value="${om.label}" placeholder="e.g. Game Score"
+          oninput="state.outcome_measures[${i}].label=this.value;updatePreview()">
+      </div>
+      <div class="field">
+        <label>Axis label</label>
+        <input type="text" value="${om.axis_label}" placeholder="e.g. Score (pts)"
+          oninput="state.outcome_measures[${i}].axis_label=this.value;updatePreview()">
+      </div>
+      <div class="field" style="display:flex;flex-direction:column;gap:8px;justify-content:flex-end;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" ${om.higher_is_better?'checked':''} style="width:15px;height:15px;"
+            onchange="state.outcome_measures[${i}].higher_is_better=this.checked;updatePreview()">
+          Higher = better
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" ${om.is_binary?'checked':''} style="width:15px;height:15px;"
+            onchange="state.outcome_measures[${i}].is_binary=this.checked;updatePreview()">
+          Binary (0/1) values
+        </label>
+      </div>
+      <div class="field" style="grid-column: 1 / -1;">
+        <label style="font-size:0.85em;color:var(--ink-mid);">
+          Display Priority
+          <span style="font-weight:400;color:var(--ink-light);margin-left:6px;">
+            (1 = most important — shown as primary ICC in dashboard card)
+          </span>
+        </label>
+        <input type="number" min="1" max="99" value="${om.display_priority||i+1}"
+          style="width:80px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                 background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+          oninput="state.outcome_measures[${i}].display_priority=parseInt(this.value)||${i+1};updatePreview()">
+      </div>`;
+    list.appendChild(card);
+  });
 }
 
 // ── JSON syntax highlight ──────────────────────────────────────────────────

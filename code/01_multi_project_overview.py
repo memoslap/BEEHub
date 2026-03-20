@@ -36,24 +36,46 @@ try:
         ReliabilityMetrics,
         split_trial_types,
         ALL_METRIC_IDS,
+        DEFAULT_OUTCOMES,
+        ACCBIN_ID,
+        DEFAULT_DISPLAY_PRIORITY,
     )
 except ImportError:
-    # Fallback: try a normal import (e.g., if both files are on sys.path)
-    from reliability_metrics import ReliabilityMetrics, split_trial_types, ALL_METRIC_IDS
+    from reliability_metrics import (ReliabilityMetrics, split_trial_types,
+                                     ALL_METRIC_IDS, DEFAULT_OUTCOMES, ACCBIN_ID,
+                                     DEFAULT_DISPLAY_PRIORITY)
 
 class ProjectOverviewGenerator:
     """Generates comprehensive overview dashboard for all projects"""
     
     def __init__(self, base_path: str):
         self.base_path = Path(base_path)
-        
-        # Fixed outcome-file suffixes and their primary columns.
-        # Each outcome has its own dedicated TSV: *_RT_beh.tsv, *_ACC_beh.tsv, *_ACCBIN_beh.tsv
-        self.outcome_files = {
-            'RT':     {'suffix': '_RT_beh.tsv',     'column': 'response_time_ms'},
-            'ACC':    {'suffix': '_ACC_beh.tsv',     'column': 'accuracy'},
-            'ACCBIN': {'suffix': '_ACCBIN_beh.tsv',  'column': 'accuracy_binary'},
-        }
+
+    def _resolve_outcomes(self, project_name: str) -> List[Dict]:
+        """Return the outcome list for a project.
+
+        Priority:
+        1. ``outcome_measures`` declared in ``<project>_description.json``
+        2. ``DEFAULT_OUTCOMES`` from reliability_metrics (RT / ACC / ACCBIN)
+
+        Each entry must have at minimum:
+            id, suffix, column, label, axis_label, higher_is_better
+
+        Optional flags (default False):
+            is_primary  – this outcome's ACCBIN sibling filters correct trials
+            is_binary   – values are 0/1 → displayed as percentages
+        """
+        desc = self.load_description(project_name)
+        custom = desc.get('outcome_measures')
+        if custom and isinstance(custom, list) and len(custom) > 0:
+            for rank, om in enumerate(custom, start=1):
+                om.setdefault('higher_is_better', True)
+                om.setdefault('is_primary', False)
+                om.setdefault('is_binary', False)
+                om.setdefault('is_helper', False)   # True = used for filtering only, not plotted
+                om.setdefault('display_priority', rank)
+            return custom
+        return DEFAULT_OUTCOMES
 
     def load_description(self, project_name: str) -> Dict:
         """Load project description from <project>/<project>_description.json.
@@ -148,26 +170,35 @@ class ProjectOverviewGenerator:
         print(f"Found projects: {project_folders}")
         return project_folders
     
-    def load_outcome_data(self, project_name: str, outcome: str) -> pd.DataFrame:
-        """
-        Load all TSV files for a specific outcome measure (RT, ACC, or ACCBIN).
+    def load_outcome_data(self, project_name: str, outcome) -> pd.DataFrame:
+        """Load all TSV files for one outcome measure.
+
+        *outcome* may be:
+        - a dict entry from ``_resolve_outcomes`` (preferred), or
+        - a legacy string key ``'RT'`` / ``'ACC'`` / ``'ACCBIN'`` (kept for
+          backward-compatibility — maps to DEFAULT_OUTCOMES).
+
         Scans flat bids_data/ and the BIDS sub-*/ses-*/ hierarchy.
-        Adds subject_id and session columns from filename BIDS entities.
         """
+        # ── Legacy string key support ────────────────────────────────────────
+        if isinstance(outcome, str):
+            _legacy = {o['id']: o for o in DEFAULT_OUTCOMES}
+            outcome = _legacy.get(outcome, {'id': outcome,
+                                            'suffix': f'_{outcome}_beh.tsv',
+                                            'column': outcome.lower()})
+
         bids_path = self.base_path / "Projects" / project_name / "bids_data"
         if not bids_path.exists():
             return pd.DataFrame()
 
-        suffix = self.outcome_files[outcome]['suffix']
+        suffix   = outcome['suffix']
         all_data = []
 
-        # Flat files directly in bids_data/
         for f in bids_path.glob(f"*{suffix}"):
             df = self._load_outcome_file(f)
             if not df.empty:
                 all_data.append(df)
 
-        # BIDS hierarchy: sub-*/ses-*/
         for subject_dir in bids_path.glob("sub-*"):
             if not subject_dir.is_dir():
                 continue
@@ -217,29 +248,42 @@ class ProjectOverviewGenerator:
         return ReliabilityMetrics.calculate_icc(data1, data2)
     
     def analyze_project(self, project_name: str) -> Dict:
-        """Comprehensive analysis of a project"""
+        """Comprehensive analysis of a project.
+
+        Works with any set of outcome measures — either the standard RT/ACC
+        pair or custom outcomes declared in the project's _description.json
+        under the ``outcome_measures`` key.
+        """
         print(f"\nAnalyzing project: {project_name}")
-        
-        # Load data
+
+        # ── Resolve outcomes for this project ────────────────────────────────
+        outcomes    = self._resolve_outcomes(project_name)
+        # Separate the binary-accuracy outcome used for correct-trial filtering
+        accbin_out  = next((o for o in outcomes if o.get('is_binary') or
+                            o['id'] == ACCBIN_ID), None)
+        # Primary outcomes to visualise and compute reliability for
+        # (everything except a pure binary helper like ACCBIN)
+        vis_outcomes = [o for o in outcomes if not o.get('is_helper', False)]
+
+        # ── Load data ────────────────────────────────────────────────────────
         participants = self.load_participants_data(project_name)
+        loaded: Dict[str, pd.DataFrame] = {}
+        for om in outcomes:
+            loaded[om['id']] = self.load_outcome_data(project_name, om)
 
-        # Load each outcome from its dedicated TSV
-        rt_data   = self.load_outcome_data(project_name, 'RT')      # response_time_ms
-        acc_data  = self.load_outcome_data(project_name, 'ACC')     # accuracy (correct/incorrect)
-        accbin_data = self.load_outcome_data(project_name, 'ACCBIN') # accuracy_binary (0/1)
+        accbin_data = loaded.get(ACCBIN_ID, pd.DataFrame())
+        if accbin_out and accbin_out['id'] != ACCBIN_ID:
+            accbin_data = loaded.get(accbin_out['id'], pd.DataFrame())
 
-        # At least one outcome must be present
-        if participants.empty or (rt_data.empty and acc_data.empty):
+        # At least one visualisable outcome must be present
+        if participants.empty or all(loaded[o['id']].empty for o in vis_outcomes):
             print(f"  No valid data for {project_name}")
             return None
 
-        rt_col     = 'response_time_ms' if not rt_data.empty else None
-        acc_col    = 'accuracy_binary'  if not accbin_data.empty else None  # use binary for stats
-
-        # Get project description from <project>_description.json
+        # ── Get project description ───────────────────────────────────────────
         proj_desc = self.load_description(project_name)
-        
-        # Demographics
+
+        # ── Demographics ─────────────────────────────────────────────────────
         demographics = {
             'n_participants': len(participants),
             'age_mean': float(participants['age'].mean()) if not participants['age'].isna().all() else None,
@@ -248,158 +292,217 @@ class ProjectOverviewGenerator:
             'age_max':  float(participants['age'].max())  if not participants['age'].isna().all() else None,
             'sex_distribution': participants['sex'].value_counts().to_dict()
         }
-        
-        # Trial types (read from RT file, fall back to ACC)
-        ref_data   = rt_data if not rt_data.empty else acc_data
-        trial_types = ref_data['trial_type'].unique().tolist() if 'trial_type' in ref_data.columns else []
-        sessions    = ref_data['session'].unique().tolist()    if 'session'    in ref_data.columns else []
 
-        # Collect data by trial type and session
+        # ── Trial types / sessions from first non-empty outcome ───────────────
+        ref_df = next((loaded[o['id']] for o in vis_outcomes
+                       if not loaded[o['id']].empty), pd.DataFrame())
+        trial_types = (ref_df['trial_type'].unique().tolist()
+                       if 'trial_type' in ref_df.columns else [])
+        sessions    = (ref_df['session'].unique().tolist()
+                       if 'session'    in ref_df.columns else [])
+
+        # ── Correct-trial filtering for primary outcomes ──────────────────────
+        corrected: Dict[str, pd.DataFrame] = {}
+        for om in vis_outcomes:
+            df_om = loaded[om['id']]
+            if df_om.empty:
+                corrected[om['id']] = df_om
+                continue
+            if om.get('is_primary', False) and not accbin_data.empty:
+                def _add_idx(df):
+                    df = df.copy()
+                    df['_trial_idx'] = df.groupby(['subject_id', 'session']).cumcount()
+                    return df
+                om_idx  = _add_idx(df_om)
+                acc_idx = _add_idx(accbin_data)
+                acc_key = acc_idx[['subject_id', 'session', '_trial_idx',
+                                   'accuracy_binary']].copy()
+                acc_key['accuracy_binary'] = pd.to_numeric(
+                    acc_key['accuracy_binary'], errors='coerce')
+                merged = om_idx.merge(acc_key, on=['subject_id', 'session', '_trial_idx'],
+                                      how='left', suffixes=('', '_acc'))
+                corrected[om['id']] = merged[merged['accuracy_binary'] == 1].drop(
+                    columns=['_trial_idx', 'accuracy_binary'], errors='ignore')
+            else:
+                corrected[om['id']] = df_om
+
+        # ── data_by_condition — generic over all visual outcomes ──────────────
         data_by_condition = {}
-
-        # Pre-build a correct-response RT index: for each (subject_id, session, trial_type)
-        # keep only rows where accuracy_binary == 1, matched by positional trial index.
-        # This mirrors the filter in _calculate_reliability so violin/scatter plots show
-        # the same RT population that feeds the ICC calculations.
-        rt_correct = pd.DataFrame()
-        if not rt_data.empty and not accbin_data.empty:
-            def _add_idx(df):
-                df = df.copy()
-                df['_trial_idx'] = df.groupby(['subject_id', 'session']).cumcount()
-                return df
-            rt_idx  = _add_idx(rt_data)
-            acc_idx = _add_idx(accbin_data)
-            acc_key = acc_idx[['subject_id', 'session', '_trial_idx', 'accuracy_binary']].copy()
-            acc_key['accuracy_binary'] = pd.to_numeric(acc_key['accuracy_binary'], errors='coerce')
-            merged = rt_idx.merge(acc_key, on=['subject_id', 'session', '_trial_idx'],
-                                  how='left', suffixes=('', '_acc'))
-            rt_correct = merged[merged['accuracy_binary'] == 1].drop(
-                columns=['_trial_idx', 'accuracy_binary'], errors='ignore'
-            )
-        if rt_correct.empty:
-            rt_correct = rt_data  # fallback: no ACCBIN available, use all RT
-
         for trial_type in trial_types if trial_types else ['all']:
             for session in sessions if sessions else ['all']:
-                # --- RT (correct responses only) ---
-                rt_vals = []
-                if not rt_correct.empty:
-                    df_rt = rt_correct.copy()
-                    if trial_types:
-                        df_rt = df_rt[df_rt['trial_type'] == trial_type]
-                    if sessions:
-                        df_rt = df_rt[df_rt['session'] == session]
-                    rt_vals = pd.to_numeric(df_rt['response_time_ms'], errors='coerce').dropna().tolist()
-
-                # --- ACC (binary for mean/std stats) ---
-                acc_vals = []
-                subject_acc_pct = []
-                if not accbin_data.empty:
-                    df_acc = accbin_data.copy()
-                    if trial_types:
-                        df_acc = df_acc[df_acc['trial_type'] == trial_type]
-                    if sessions:
-                        df_acc = df_acc[df_acc['session'] == session]
-                    acc_vals = pd.to_numeric(df_acc['accuracy_binary'], errors='coerce').dropna().tolist()
-                    if 'subject_id' in df_acc.columns:
-                        for subj in df_acc['subject_id'].unique():
-                            subj_acc = pd.to_numeric(
-                                df_acc[df_acc['subject_id'] == subj]['accuracy_binary'],
-                                errors='coerce').dropna().values
-                            if len(subj_acc) > 0:
-                                subject_acc_pct.append(float(np.mean(subj_acc) * 100))
-
                 key = f"{trial_type}_ses{session}"
-                data_by_condition[key] = {
-                    'trial_type':            trial_type,
-                    'session':               session,
-                    'rt_values':             rt_vals,
-                    'rt_mean':               float(np.mean(rt_vals))   if rt_vals  else None,
-                    'rt_std':                float(np.std(rt_vals))    if rt_vals  else None,
-                    'rt_median':             float(np.median(rt_vals)) if rt_vals  else None,
-                    'acc_values':            acc_vals,
-                    'acc_mean':              float(np.mean(acc_vals))  if acc_vals else None,
-                    'acc_std':               float(np.std(acc_vals))   if acc_vals else None,
-                    'subject_acc_percentages': subject_acc_pct,
-                    'n_trials':              len(rt_vals) if rt_vals else len(acc_vals),
+                entry: Dict = {
+                    'trial_type': trial_type,
+                    'session':    session,
+                    'outcomes':   {},
+                    # Legacy keys for backward-compatible HTML templates:
+                    'rt_values':             [],  'rt_mean':  None,
+                    'rt_std':                None, 'rt_median': None,
+                    'acc_values':            [],  'acc_mean': None,
+                    'acc_std':               None,
+                    'subject_acc_percentages': [],
+                    'n_trials':              0,
                 }
-        
-        # Reliability — pass RT and ACCBIN DataFrames directly.
-        # Split into task conditions and control/rest conditions so the project
-        # HTML can show two separate radar plots.
+                for om in vis_outcomes:
+                    df_src = corrected.get(om['id'], pd.DataFrame())
+                    if df_src.empty:
+                        continue
+                    dff = df_src.copy()
+                    if trial_types:
+                        dff = dff[dff['trial_type'] == trial_type]
+                    if sessions:
+                        dff = dff[dff['session'] == session]
+                    col  = om['column']
+                    vals = (pd.to_numeric(dff[col], errors='coerce').dropna().tolist()
+                            if col in dff.columns else [])
+                    subj_pct = []
+                    if om.get('is_binary', False) and 'subject_id' in dff.columns:
+                        for subj in dff['subject_id'].unique():
+                            sv = pd.to_numeric(
+                                dff[dff['subject_id'] == subj][col],
+                                errors='coerce').dropna().values
+                            if len(sv) > 0:
+                                subj_pct.append(float(np.mean(sv) * 100))
+                    entry['outcomes'][om['id']] = {
+                        'id':               om['id'],
+                        'label':            om['label'],
+                        'axis_label':       om['axis_label'],
+                        'column':           col,
+                        'is_binary':        om.get('is_binary', False),
+                        'higher_is_better': om.get('higher_is_better', True),
+                        'values':           vals,
+                        'mean':             float(np.mean(vals))   if vals else None,
+                        'std':              float(np.std(vals))    if vals else None,
+                        'median':           float(np.median(vals)) if vals else None,
+                        'subject_pct':      subj_pct,
+                    }
+                    # Legacy compat
+                    if om['id'] == 'RT':
+                        entry['rt_values'] = vals
+                        entry['rt_mean']   = entry['outcomes']['RT']['mean']
+                        entry['rt_std']    = entry['outcomes']['RT']['std']
+                        entry['rt_median'] = entry['outcomes']['RT']['median']
+                    if om['id'] == 'ACCBIN':
+                        entry['acc_values']              = vals
+                        entry['acc_mean']                = entry['outcomes']['ACCBIN']['mean']
+                        entry['acc_std']                 = entry['outcomes']['ACCBIN']['std']
+                        entry['subject_acc_percentages'] = subj_pct
+                entry['n_trials'] = max(
+                    (len(entry['outcomes'][o['id']]['values'])
+                     for o in vis_outcomes if o['id'] in entry['outcomes']),
+                    default=0)
+                data_by_condition[key] = entry
+
+        # ── Reliability — computed per outcome, then merged ───────────────────
         task_trial_types, control_trial_types = split_trial_types(trial_types)
 
-        reliability         = self._calculate_reliability(rt_data, accbin_data, task_trial_types)
-        control_reliability = self._calculate_reliability(rt_data, accbin_data, control_trial_types)
+        def _compute_rel(tt_list):
+            out_rels = []
+            for om in vis_outcomes:
+                df_om = loaded[om['id']]
+                if df_om.empty:
+                    continue
+                rel = ReliabilityMetrics.compute_for_outcome(
+                    df_om, om['column'], om['id'], tt_list,
+                    accbin_df=accbin_data if om.get('is_primary') else None,
+                    filter_correct=om.get('is_primary', False),
+                )
+                out_rels.append(rel)
+            return ReliabilityMetrics.merge_outcome_reliabilities(out_rels)
 
+        reliability         = _compute_rel(task_trial_types)
+        control_reliability = _compute_rel(control_trial_types)
+
+        # Outcome metadata stored in report for use by JS templates
+        outcome_meta = [
+            {
+                'id':               o['id'],
+                'label':            o['label'],
+                'axis_label':       o['axis_label'],
+                'is_binary':        o.get('is_binary', False),
+                'display_priority': o.get('display_priority', DEFAULT_DISPLAY_PRIORITY),
+            }
+            for o in vis_outcomes
+        ]
         # ── Learning-stage breakdown (individual project view only) ──────────
         # Detect whether a learning_stage column exists in the RT or ACC data.
         # If so, compute mean RT and mean accuracy per stage × trial_type so the
         # project HTML can show progression charts.  This data is intentionally
         # NOT passed to the radar / reliability metrics.
+        # ── Learning-stage breakdown ─────────────────────────────────────────
+        # Use the first non-empty visual outcome as the reference for stage
+        # detection; compute per-stage means for ALL visual outcomes.
         learning_stage_data = {}
         stage_col = 'learning_stage'
-        ref_ls = rt_data if not rt_data.empty else accbin_data
+        ref_ls = ref_df   # first non-empty outcome DataFrame, determined above
 
-        # A column is considered "has stages" only when it exists AND contains at
-        # least one non-null, non-empty, non-'n/a' value.
         def _has_real_stages(df: pd.DataFrame) -> bool:
             if df.empty or stage_col not in df.columns:
                 return False
-            valid = (df[stage_col]
-                     .dropna()
-                     .astype(str)
-                     .str.strip()
+            valid = (df[stage_col].dropna().astype(str).str.strip()
                      .pipe(lambda s: s[s.ne('') & s.str.lower().ne('n/a')]))
             return len(valid) > 0
 
         has_stages = _has_real_stages(ref_ls)
 
         if has_stages:
-            # Canonical stage list: drop null, empty, and literal 'n/a' values
             raw_stages = ref_ls[stage_col].dropna().astype(str).str.strip()
             raw_stages = raw_stages[raw_stages.ne('') & raw_stages.str.lower().ne('n/a')]
             all_stages = sorted(raw_stages.unique().tolist(), key=lambda s: str(s))
+
             for tt in trial_types if trial_types else ['all']:
-                stage_rt_means   = []
-                stage_rt_sems    = []
-                stage_acc_means  = []
-                stage_acc_sems   = []
-
-                for stage in all_stages:
-                    # RT per stage — match exact string value
-                    if not rt_data.empty:
-                        df_s = rt_data.copy()
+                # Build per-stage stats for each visual outcome
+                stage_outcomes: Dict[str, Dict] = {}
+                for om in vis_outcomes:
+                    df_om = loaded[om['id']]
+                    if df_om.empty or stage_col not in df_om.columns:
+                        continue
+                    col = om['column']
+                    scale = 100 if om.get('is_binary', False) else 1
+                    means, sems = [], []
+                    for stage in all_stages:
+                        dfs = df_om.copy()
                         if trial_types:
-                            df_s = df_s[df_s['trial_type'] == tt]
-                        df_s = df_s[df_s[stage_col].astype(str).str.strip() == stage]
-                        vals = pd.to_numeric(df_s['response_time_ms'], errors='coerce').dropna()
-                        stage_rt_means.append(float(vals.mean()) if len(vals) else None)
-                        stage_rt_sems.append(float(vals.sem())  if len(vals) > 1 else None)
-                    else:
-                        stage_rt_means.append(None)
-                        stage_rt_sems.append(None)
+                            dfs = dfs[dfs['trial_type'] == tt]
+                        dfs = dfs[dfs[stage_col].astype(str).str.strip() == stage]
+                        vals = pd.to_numeric(dfs[col], errors='coerce').dropna() if col in dfs else pd.Series([], dtype=float)
+                        means.append(float(vals.mean() * scale) if len(vals) else None)
+                        sems.append(float(vals.sem()  * scale) if len(vals) > 1 else None)
+                    stage_outcomes[om['id']] = {'means': means, 'sems': sems}
 
-                    # ACC per stage (binary → percentage)
-                    if not accbin_data.empty:
-                        df_s = accbin_data.copy()
-                        if trial_types:
-                            df_s = df_s[df_s['trial_type'] == tt]
-                        df_s = df_s[df_s[stage_col].astype(str).str.strip() == stage]
-                        vals = pd.to_numeric(df_s['accuracy_binary'], errors='coerce').dropna()
-                        stage_acc_means.append(float(vals.mean() * 100) if len(vals) else None)
-                        stage_acc_sems.append(float(vals.sem()  * 100) if len(vals) > 1 else None)
-                    else:
-                        stage_acc_means.append(None)
-                        stage_acc_sems.append(None)
+                if not stage_outcomes:
+                    continue
 
+                # Legacy keys for backward-compatible HTML (RT + ACC)
+                rt_om  = next((o for o in vis_outcomes if o['id'] == 'RT'), None)
+                acc_om = next((o for o in vis_outcomes if o.get('is_binary')), None)
                 learning_stage_data[tt] = {
-                    'stages':          all_stages,
-                    'rt_means':        stage_rt_means,
-                    'rt_sems':         stage_rt_sems,
-                    'acc_means':       stage_acc_means,
-                    'acc_sems':        stage_acc_sems,
+                    'stages':       all_stages,
+                    'outcomes':     stage_outcomes,
+                    # Legacy:
+                    'rt_means':     stage_outcomes.get('RT', {}).get('means', [None]*len(all_stages)),
+                    'rt_sems':      stage_outcomes.get('RT', {}).get('sems',  [None]*len(all_stages)),
+                    'acc_means':    stage_outcomes.get('ACCBIN', {}).get('means', [None]*len(all_stages)),
+                    'acc_sems':     stage_outcomes.get('ACCBIN', {}).get('sems',  [None]*len(all_stages)),
                 }
+
+        # ── Pick the primary ICC key for the dashboard card ─────────────────
+        # Select the ICC key of the highest-priority outcome that actually has
+        # data in the reliability dict.  Fallback chain: ACCBIN → RT → first
+        # outcome with any ICC value.
+        def _pick_primary_icc_key(meta: list, rel: dict) -> str:
+            # Try each outcome in priority order
+            sorted_meta = sorted(meta, key=lambda o: o.get('display_priority', DEFAULT_DISPLAY_PRIORITY))
+            for om in sorted_meta:
+                key = f"{om['id'].lower()}_icc_mean"
+                if any(m.get(key) is not None for m in rel.values()):
+                    return key
+            # Fallback: return the first icc_mean key that has actual data
+            for m in rel.values():
+                for k, v in m.items():
+                    if k.endswith('_icc_mean') and v is not None:
+                        return k
+            return None
 
         # Compile report
         report = {
@@ -410,11 +513,15 @@ class ProjectOverviewGenerator:
             'sessions':                sessions    if sessions    else ['all'],
             'data_by_condition':       data_by_condition,
             'reliability_metrics':     reliability,
-            'control_reliability':     control_reliability,   # control/rest trial types only
-            'learning_stage_data':     learning_stage_data,   # empty dict if no stage column
+            'control_reliability':     control_reliability,
+            'learning_stage_data':     learning_stage_data,
+            'outcome_measures':        outcome_meta,
+            'primary_icc_key':         _pick_primary_icc_key(outcome_meta, reliability),
             'column_names': {
-                'rt_column':  rt_col,
-                'acc_column': acc_col
+                'rt_column':  next((o['column'] for o in vis_outcomes
+                                    if o['id'] == 'RT'), None),
+                'acc_column': next((o['column'] for o in outcomes
+                                    if o.get('is_binary')), None),
             }
         }
         
@@ -903,38 +1010,44 @@ class ProjectOverviewGenerator:
         <div class="charts-grid">
 """
         
-        # RT Violin Plot
-        html += f"""
+        # ── Violin + Scatter divs — only for outcomes that have actual data ───
+        outcome_meta_local = report.get('outcome_measures') or [
+            {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+            {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+        ]
+        # Determine which outcomes have at least one non-empty value in data_by_condition
+        def _outcome_has_data(om_id, is_bin, dbc):
+            for cond in dbc.values():
+                odata = cond.get('outcomes', {}).get(om_id)
+                if odata is not None:
+                    vals = odata.get('subject_pct', []) if is_bin else odata.get('values', [])
+                    if vals:
+                        return True
+                # Legacy fallback check
+                if om_id == 'RT' and cond.get('rt_values'):
+                    return True
+                if om_id in ('ACCBIN', 'ACC') and cond.get('subject_acc_percentages'):
+                    return True
+            return False
+
+        active_outcomes = [
+            om for om in outcome_meta_local
+            if _outcome_has_data(om['id'], om.get('is_binary', False), data_by_cond)
+        ]
+
+        for om in active_outcomes:
+            om_id  = om['id'].lower()
+            om_lbl = om['label']
+            html += f"""
             <div class="chart-container">
-                <div class="chart-title"> Reaction Time Distribution</div>
-                <div id="{proj_name}_rt_violin"></div>
+                <div class="chart-title">{om_lbl} Distribution</div>
+                <div id="{proj_name}_{om_id}_violin"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">{om_lbl} Test-Retest (mean per subject)</div>
+                <div id="{proj_name}_{om_id}_scatter"></div>
             </div>
 """
-        
-        # Accuracy Violin Plot
-        html += f"""
-            <div class="chart-container">
-                <div class="chart-title"> Accuracy Distribution</div>
-                <div id="{proj_name}_acc_violin"></div>
-            </div>
-"""
-        
-        # RT Scatter Plot
-        html += f"""
-            <div class="chart-container">
-                <div class="chart-title">📍 🔁 RT Test-Retest (mean per subject)</div>
-                <div id="{proj_name}_rt_scatter"></div>
-            </div>
-"""
-        
-        # Accuracy Scatter Plot
-        html += f"""
-            <div class="chart-container">
-                <div class="chart-title">📍 🔁 Accuracy Test-Retest (mean per subject)</div>
-                <div id="{proj_name}_acc_scatter"></div>
-            </div>
-"""
-        
         # Learning-stage progression charts — above radar
         if report.get('learning_stage_data'):
             html += f"""
@@ -968,7 +1081,8 @@ class ProjectOverviewGenerator:
         html += self._generate_plots_js(proj_name, data_by_cond, reliability,
                                         report['trial_types'],
                                         report.get('learning_stage_data', {}),
-                                        report.get('control_reliability', {}))
+                                        report.get('control_reliability', {}),
+                                        outcome_meta=active_outcomes)
         
         html += """
     </script>
@@ -979,12 +1093,22 @@ class ProjectOverviewGenerator:
     def _generate_plots_js(self, proj_name: str, data_by_cond: Dict,
                           reliability: Dict, trial_types: List[str],
                           learning_stage_data: Dict = None,
-                          control_reliability: Dict = None) -> str:
-        """Generate JavaScript for all plots"""
-        
+                          control_reliability: Dict = None,
+                          outcome_meta: List[Dict] = None) -> str:
+        """Generate JavaScript for all plots.
+
+        outcome_meta: list of outcome dicts from the report (id, label,
+        axis_label, is_binary).  When None, falls back to legacy RT/ACC.
+        """
         js = ""
         if control_reliability is None:
             control_reliability = {}
+        if outcome_meta is None:
+            # Legacy fallback
+            outcome_meta = [
+                {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+                {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+            ]
         
         # Color mapping
         colors = {
@@ -1007,269 +1131,158 @@ class ProjectOverviewGenerator:
             'all': '#8e24aa'
         }
         
-        # RT Violin Plot
-        rt_traces = []
-        for key, data in data_by_cond.items():
-            if data['rt_values']:
-                trial_type = data['trial_type']
-                session = data['session']
-                color = colors.get(trial_type, '#8e24aa')
-                
-                label = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
-                
-                rt_traces.append({
-                    'y': data['rt_values'],
-                    'type': 'violin',
-                    'name': label,
-                    'box': {'visible': True},
-                    'meanline': {'visible': True},
-                    'marker': {'color': color},
-                    'line': {'color': color}
-                })
-        
-        if rt_traces:
-            # Clamp y-axis: use IQR fence so extreme outliers don't compress
-            # the violin into unreadable proportions. Both bounds are derived
-            # from the data — no hardcoded ms ceiling — so slow paradigms
-            # (e.g. APPL at ~9 s) display correctly alongside fast ones.
-            all_rt_vals = []
+        # ── Violin plots — one per visual outcome ────────────────────────────
+        for om in outcome_meta:
+            om_id    = om['id']
+            is_bin   = om.get('is_binary', False)
+            ax_label = om['axis_label']
+            div_id   = f"{proj_name}_{om_id.lower()}_violin"
+
+            traces = []
+            all_vals = []
             for key, data in data_by_cond.items():
-                all_rt_vals.extend(data.get('rt_values', []))
-            if all_rt_vals:
-                q1  = float(np.percentile(all_rt_vals, 25))
-                q3  = float(np.percentile(all_rt_vals, 75))
-                iqr = q3 - q1
-                rt_y_min = max(0,   q1 - 2.5 * iqr)
-                rt_y_max =          q3 + 2.5 * iqr
+                odata = data.get('outcomes', {}).get(om_id)
+                if odata is None:
+                    # Legacy fallback
+                    if om_id == 'RT':
+                        vals = data.get('rt_values', [])
+                    elif om_id in ('ACCBIN', 'ACC'):
+                        vals = data.get('subject_acc_percentages', [])
+                    else:
+                        continue
+                else:
+                    vals = odata['subject_pct'] if is_bin else odata['values']
+
+                if not vals:
+                    continue
+                all_vals.extend(vals)
+                trial_type = data['trial_type']
+                session    = data['session']
+                color      = colors.get(trial_type, '#8e24aa')
+                lbl        = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
+                trace = {
+                    'y': vals, 'type': 'violin', 'name': lbl,
+                    'box': {'visible': True}, 'meanline': {'visible': True},
+                    'marker': {'color': color}, 'line': {'color': color},
+                }
+                if is_bin:
+                    trace.update({
+                        'spanmode': 'hard', 'bandwidth': 4,
+                        'points': 'all', 'jitter': 0.3, 'pointpos': 0,
+                        'marker': {'color': color, 'size': 5, 'opacity': 0.6},
+                        'fillcolor': color,
+                    })
+                traces.append(trace)
+
+            if not traces:
+                continue
+
+            if is_bin:
+                y_min = max(0,   min(all_vals) - 8) if all_vals else 0
+                y_max = min(105, max(all_vals) + 8) if all_vals else 105
+                range_str = f"[{y_min}, {y_max}]"
             else:
-                rt_y_min, rt_y_max = 0, 2000
+                if all_vals:
+                    q1  = float(np.percentile(all_vals, 25))
+                    q3  = float(np.percentile(all_vals, 75))
+                    iqr = q3 - q1
+                    y_min = max(0, q1 - 2.5 * iqr)
+                    y_max = q3 + 2.5 * iqr
+                else:
+                    y_min, y_max = 0, 2000
+                range_str = f"[{y_min:.0f}, {y_max:.0f}]"
 
             js += f"""
-        var rtTraces = {json.dumps(rt_traces)};
-        var rtLayout = {{
+        var traces_{om_id} = {json.dumps(traces)};
+        var layout_{om_id} = {{
             plot_bgcolor: "rgba(255, 255, 255, 0.95)",
             paper_bgcolor: "rgba(250, 250, 250, 0.5)",
             font: {{color: '#333', size: 12}},
             height: 420,
             yaxis: {{
-                title: 'Reaction Time (ms)',
+                title: '{ax_label}',
                 gridcolor: "rgba(64, 158, 128, 0.2)",
                 titlefont: {{size: 14}},
-                range: [{rt_y_min:.0f}, {rt_y_max:.0f}]
+                range: {range_str}
             }},
             xaxis: {{gridcolor: "rgba(64, 158, 128, 0.2)"}},
             showlegend: true,
-            legend: {{
-                bgcolor: "rgba(240, 240, 240, 0.9)",
-                bordercolor: "rgba(64, 158, 128, 0.3)",
-                borderwidth: 1
-            }},
-            violingap: 0.3,
-            violinmode: 'group',
+            legend: {{bgcolor: "rgba(240,240,240,0.9)",
+                      bordercolor: "rgba(64,158,128,0.3)", borderwidth: 1}},
+            violingap: 0.3, violinmode: 'group',
             margin: {{l: 60, r: 30, t: 30, b: 50}}
         }};
-        Plotly.newPlot('{proj_name}_rt_violin', rtTraces, rtLayout, {{responsive: true}});
+        Plotly.newPlot('{div_id}', traces_{om_id}, layout_{om_id}, {{responsive: true}});
 """
-        
-        # Accuracy Violin Plot - SUBJECT-LEVEL PERCENTAGES
-        acc_traces = []
-        for key, data in data_by_cond.items():
-            # Use subject-level accuracy percentages
-            if data.get('subject_acc_percentages'):
-                trial_type = data['trial_type']
-                session = data['session']
-                color = colors.get(trial_type, '#8e24aa')
-                
-                label = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
-                
-                acc_traces.append({
-                    'y': data['subject_acc_percentages'],
-                    'type': 'violin',
-                    'name': label,
-                    'box': {'visible': True},
-                    'meanline': {'visible': True},
-                    'spanmode': 'hard',   # clamp KDE to actual data range, no bleed beyond 0/100
-                    'bandwidth': 4,       # moderate smoothing — avoids over-sharp edges at boundaries
-                    'points': 'all',      # show individual subject dots alongside violin
-                    'jitter': 0.3,
-                    'pointpos': 0,
-                    'marker': {
-                        'color': color,
-                        'size': 5,
-                        'opacity': 0.6
-                    },
-                    'line': {'color': color},
-                    'fillcolor': color.replace(')', ', 0.25)').replace('rgb', 'rgba') if color.startswith('rgb') else color,
+
+        # ── Test-Retest Scatter — one plot per visual outcome ───────────────
+        all_rel = {**reliability, **control_reliability}
+        for om in outcome_meta:
+            om_id    = om['id'].lower()
+            ax_label = om['axis_label']
+            div_id   = f"{proj_name}_{om_id}_scatter"
+            scatter_data = []
+            all_scatter  = []
+            for trial_type, metrics in all_rel.items():
+                s1       = metrics.get(f'{om_id}_s1_means', [])
+                s2       = metrics.get(f'{om_id}_s2_means', [])
+                subj_ids = metrics.get(f'{om_id}_subjects', [])
+                ses_lbl  = metrics.get('session_labels', ['ses-1', 'ses-2'])
+                if not s1 or not s2:
+                    continue
+                color   = colors.get(trial_type, '#8e24aa')
+                all_scatter.extend(s1 + s2)
+                icc_val = metrics.get(f'{om_id}_icc_mean')
+                icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
+                dec     = 1 if om.get('is_binary') else 0
+                hover   = [f'sub-{sid}<br>{ses_lbl[0]}: {x:.{dec}f}<br>{ses_lbl[1]}: {y:.{dec}f}'
+                           for sid, x, y in zip(subj_ids, s1, s2)]
+                scatter_data.append({
+                    'x': s1, 'y': s2, 'mode': 'markers',
+                    'name': f'{trial_type}{icc_str}', 'text': hover,
+                    'hovertemplate': '%{text}<extra></extra>',
+                    'marker': {'size': 9, 'color': color, 'opacity': 0.75,
+                               'line': {'width': 1, 'color': '#ffffff'}},
                 })
-        
-        if acc_traces:
-            # Compute a sensible y-range with padding so violins never look clipped
-            all_acc_vals = []
-            for key, data in data_by_cond.items():
-                all_acc_vals.extend(data.get('subject_acc_percentages', []))
-            y_min = max(0,   min(all_acc_vals) - 8) if all_acc_vals else 0
-            y_max = min(105, max(all_acc_vals) + 8) if all_acc_vals else 105
 
-            js += f"""
-        var accTraces = {json.dumps(acc_traces)};
-        var accLayout = {{
-            plot_bgcolor: "rgba(255, 255, 255, 0.95)",
-            paper_bgcolor: "rgba(250, 250, 250, 0.5)",
-            font: {{color: '#333', size: 12}},
-            height: 420,
-            yaxis: {{
-                title: 'Accuracy (%) per Subject',
-                gridcolor: "rgba(64, 158, 128, 0.2)",
-                range: [{y_min}, {y_max}],
-                titlefont: {{size: 14}},
-                zeroline: false
-            }},
-            xaxis: {{gridcolor: "rgba(64, 158, 128, 0.2)"}},
-            showlegend: true,
-            legend: {{
-                bgcolor: "rgba(240, 240, 240, 0.9)",
-                bordercolor: "rgba(64, 158, 128, 0.3)",
-                borderwidth: 1
-            }},
-            margin: {{l: 60, r: 30, t: 30, b: 50}},
-            violingap: 0.3,
-            violinmode: 'group'
-        }};
-        Plotly.newPlot('{proj_name}_acc_violin', accTraces, accLayout, {{responsive: true}});
-"""
-        
-        # ── RT Test-Retest Scatter (one dot per subject, ses1 mean vs ses2 mean) ──
-        # Built from per-subject means stored in reliability dict — shows the
-        # actual data structure that drives ICC, with identity line for reference.
-        rt_scatter_data = []
-        all_scatter_rt  = []
-        for trial_type, metrics in {**reliability, **control_reliability}.items():
-            s1 = metrics.get('rt_s1_means', [])
-            s2 = metrics.get('rt_s2_means', [])
-            subj_ids = metrics.get('rt_subjects', [])
-            ses_labels = metrics.get('session_labels', ['ses-1', 'ses-2'])
-            if not s1 or not s2:
-                continue
-            color = colors.get(trial_type, '#8e24aa')
-            all_scatter_rt.extend(s1 + s2)
-            icc_val = metrics.get('rt_icc_mean')
-            icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
-            hover = [f'sub-{sid}<br>ses{ses_labels[0]}: {x:.0f} ms<br>ses{ses_labels[1]}: {y:.0f} ms'
-                     for sid, x, y in zip(subj_ids, s1, s2)]
-            rt_scatter_data.append({
-                'x': s1, 'y': s2,
-                'mode': 'markers',
-                'name': f'{trial_type}{icc_str}',
-                'text': hover,
-                'hovertemplate': '%{text}<extra></extra>',
-                'marker': {'size': 9, 'color': color, 'opacity': 0.75,
-                           'line': {'width': 1, 'color': '#ffffff'}}
-            })
-
-        if rt_scatter_data and all_scatter_rt:
-            axis_min = max(0,   min(all_scatter_rt) * 0.92)
-            axis_max =          max(all_scatter_rt) * 1.08
-            ses_labels = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
-            # Identity line (perfect test-retest)
-            rt_scatter_data.append({
-                'x': [axis_min, axis_max], 'y': [axis_min, axis_max],
-                'mode': 'lines', 'name': 'Identity (perfect retest)',
-                'line': {'color': 'rgba(150,150,150,0.5)', 'width': 1.5, 'dash': 'dash'},
-                'hoverinfo': 'skip'
-            })
-            js += f"""
-        var rtScatter = {json.dumps(rt_scatter_data)};
-        var rtScatterLayout = {{
+            if scatter_data and all_scatter:
+                ax_min = max(0, min(all_scatter) * 0.92)
+                ax_max = max(all_scatter) * 1.08
+                ses_lbl = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
+                scatter_data.append({
+                    'x': [ax_min, ax_max], 'y': [ax_min, ax_max],
+                    'mode': 'lines', 'name': 'Identity (perfect retest)',
+                    'line': {'color': 'rgba(150,150,150,0.5)', 'width': 1.5, 'dash': 'dash'},
+                    'hoverinfo': 'skip',
+                })
+                js += f"""
+        var scatter_{om_id} = {json.dumps(scatter_data)};
+        var scatterLayout_{om_id} = {{
             plot_bgcolor: "rgba(255, 255, 255, 0.95)",
             paper_bgcolor: "rgba(250, 250, 250, 0.5)",
             font: {{color: '#333', size: 12}},
             xaxis: {{
-                title: 'Mean RT {ses_labels[0]} (ms)',
-                gridcolor: "rgba(64, 158, 128, 0.2)",
-                titlefont: {{size: 13}},
-                range: [{axis_min:.0f}, {axis_max:.0f}]
-            }},
-            yaxis: {{
-                title: 'Mean RT {ses_labels[1]} (ms)',
-                gridcolor: "rgba(64, 158, 128, 0.2)",
-                titlefont: {{size: 13}},
-                range: [{axis_min:.0f}, {axis_max:.0f}]
-            }},
-            showlegend: true,
-            legend: {{
-                bgcolor: "rgba(240, 240, 240, 0.9)",
-                bordercolor: "rgba(64, 158, 128, 0.3)",
-                borderwidth: 1
-            }},
-            hovermode: 'closest',
-            margin: {{l: 70, r: 30, t: 30, b: 60}}
-        }};
-        Plotly.newPlot('{proj_name}_rt_scatter', rtScatter, rtScatterLayout, {{responsive: true}});
-"""
-        
-        # ── Accuracy Test-Retest Scatter (per-subject mean acc%, ses1 vs ses2) ──
-        acc_scatter_data = []
-        all_scatter_acc  = []
-        for trial_type, metrics in {**reliability, **control_reliability}.items():
-            s1       = metrics.get('acc_s1_means', [])
-            s2       = metrics.get('acc_s2_means', [])
-            subj_ids = metrics.get('acc_subjects', [])
-            ses_lbls = metrics.get('session_labels', ['ses-1', 'ses-2'])
-            if not s1 or not s2:
-                continue
-            color = colors.get(trial_type, '#8e24aa')
-            all_scatter_acc.extend(s1 + s2)
-            icc_val = metrics.get('acc_icc_mean')
-            icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
-            hover = [f'sub-{sid}<br>{ses_lbls[0]}: {x:.1f}%<br>{ses_lbls[1]}: {y:.1f}%'
-                     for sid, x, y in zip(subj_ids, s1, s2)]
-            acc_scatter_data.append({
-                'x': s1, 'y': s2,
-                'mode': 'markers',
-                'name': f'{trial_type}{icc_str}',
-                'text': hover,
-                'hovertemplate': '%{text}<extra></extra>',
-                'marker': {'size': 10, 'color': color, 'opacity': 0.75,
-                           'line': {'width': 1, 'color': '#ffffff'}}
-            })
-
-        if acc_scatter_data and all_scatter_acc:
-            ax_min = max(0,   min(all_scatter_acc) - 5)
-            ax_max = min(105, max(all_scatter_acc) + 5)
-            _ses = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
-            acc_scatter_data.append({
-                'x': [ax_min, ax_max], 'y': [ax_min, ax_max],
-                'mode': 'lines', 'name': 'Identity (perfect retest)',
-                'line': {'color': 'rgba(150,150,150,0.5)', 'width': 1.5, 'dash': 'dash'},
-                'hoverinfo': 'skip'
-            })
-            js += f"""
-        var accScatter = {json.dumps(acc_scatter_data)};
-        var accScatterLayout = {{
-            plot_bgcolor: "rgba(255, 255, 255, 0.95)",
-            paper_bgcolor: "rgba(250, 250, 250, 0.5)",
-            font: {{color: '#333', size: 12}},
-            xaxis: {{
-                title: 'Mean Accuracy {_ses[0]} (%)',
+                title: '{ax_label} — {ses_lbl[0]}',
                 gridcolor: "rgba(64, 158, 128, 0.2)",
                 titlefont: {{size: 13}},
                 range: [{ax_min:.1f}, {ax_max:.1f}]
             }},
             yaxis: {{
-                title: 'Mean Accuracy {_ses[1]} (%)',
+                title: '{ax_label} — {ses_lbl[1]}',
                 gridcolor: "rgba(64, 158, 128, 0.2)",
                 titlefont: {{size: 13}},
                 range: [{ax_min:.1f}, {ax_max:.1f}],
                 zeroline: false
             }},
             showlegend: true,
-            legend: {{bgcolor: "rgba(240,240,240,0.9)", bordercolor: "rgba(64,158,128,0.3)", borderwidth: 1}},
+            legend: {{bgcolor: "rgba(240,240,240,0.9)",
+                      bordercolor: "rgba(64,158,128,0.3)", borderwidth: 1}},
             hovermode: 'closest',
             margin: {{l: 70, r: 30, t: 30, b: 60}}
         }};
-        Plotly.newPlot('{proj_name}_acc_scatter', accScatter, accScatterLayout, {{responsive: true}});
+        Plotly.newPlot('{div_id}', scatter_{om_id}, scatterLayout_{om_id}, {{responsive: true}});
 """
-        
+
         # ── Radar helper — delegates to ReliabilityMetrics.build_radar_spokes ──
         def _build_radar_js(rel_dict, div_id, color='#40e0d0', fill='rgba(64, 224, 208, 0.15)',
                             selected_metrics=None):
@@ -2196,23 +2209,38 @@ class ProjectOverviewGenerator:
         <div class="charts-grid">
 """
 
-        # ── Standard per-condition plots ──────────────────────────────────
-        html += f"""
+        # ── Per-outcome plots — only for outcomes with actual data ─────────
+        om_meta_divs = report.get('outcome_measures') or [
+            {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+            {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+        ]
+        def _has_data(om_id, is_bin, dbc):
+            for cond in dbc.values():
+                odata = cond.get('outcomes', {}).get(om_id)
+                if odata is not None:
+                    chk = odata.get('subject_pct', []) if is_bin else odata.get('values', [])
+                    if chk:
+                        return True
+                if om_id == 'RT' and cond.get('rt_values'):
+                    return True
+                if om_id in ('ACCBIN', 'ACC') and cond.get('subject_acc_percentages'):
+                    return True
+            return False
+
+        active_om = [o for o in om_meta_divs
+                     if _has_data(o['id'], o.get('is_binary', False), data_by_cond)]
+
+        for om in active_om:
+            oid  = om['id'].lower()
+            olbl = om['label']
+            html += f"""
             <div class="chart-container">
-                <div class="chart-title">Reaction Time Distribution</div>
-                <div id="{proj_name}_rt_violin"></div>
+                <div class="chart-title">{olbl} Distribution</div>
+                <div id="{proj_name}_{oid}_violin"></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">Accuracy Distribution</div>
-                <div id="{proj_name}_acc_violin"></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title"> RT Test-Retest (mean per subject)</div>
-                <div id="{proj_name}_rt_scatter"></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title"> Accuracy Test-Retest (mean per subject)</div>
-                <div id="{proj_name}_acc_scatter"></div>
+                <div class="chart-title">{olbl} Test-Retest (mean per subject)</div>
+                <div id="{proj_name}_{oid}_scatter"></div>
             </div>
 """
 
@@ -2262,7 +2290,8 @@ class ProjectOverviewGenerator:
         html += self._generate_plots_js(proj_name, data_by_cond, reliability,
                                         report['trial_types'],
                                         report.get('learning_stage_data', {}),
-                                        control_reliability)
+                                        control_reliability,
+                                        outcome_meta=active_om)
         html += """
     </script>
 </body>
