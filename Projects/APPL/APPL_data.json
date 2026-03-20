@@ -28,8 +28,7 @@
         "software": "PsychoPy",
         "type": "compatible",
         "languages_available": [
-          "german",
-          "english"
+          "german"
         ],
         "folder": "paradigm/psychopy"
       }

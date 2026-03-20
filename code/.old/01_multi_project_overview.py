@@ -9,37 +9,12 @@ import json
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from scipy import stats
 from typing import Dict, List, Tuple
+from pathlib import Path
 import warnings
 import sys
 warnings.filterwarnings('ignore')
-
-# ── Reliability metrics — all calculations live in reliability_metrics.py ────
-# Import from the same directory as this script so it works regardless of the
-# current working directory.
-try:
-    import importlib.util as _ilu
-    _rm_candidates = [
-        Path(__file__).resolve().parent / "reliability_metrics.py",
-        Path(__file__).resolve().parent.parent / "reliability_metrics.py",
-    ]
-    _rm_mod = None
-    for _c in _rm_candidates:
-        if _c.exists():
-            _spec = _ilu.spec_from_file_location("reliability_metrics", _c)
-            _rm_mod = _ilu.module_from_spec(_spec)
-            _spec.loader.exec_module(_rm_mod)
-            break
-    if _rm_mod is None:
-        raise ImportError("reliability_metrics.py not found next to this script.")
-    from reliability_metrics import (  # type: ignore  # noqa: E402
-        ReliabilityMetrics,
-        split_trial_types,
-        ALL_METRIC_IDS,
-    )
-except ImportError:
-    # Fallback: try a normal import (e.g., if both files are on sys.path)
-    from reliability_metrics import ReliabilityMetrics, split_trial_types, ALL_METRIC_IDS
 
 class ProjectOverviewGenerator:
     """Generates comprehensive overview dashboard for all projects"""
@@ -209,12 +184,33 @@ class ProjectOverviewGenerator:
         
         return df
     
-    # ── Metric calculations — delegated to ReliabilityMetrics ────────────────
-    # These thin wrappers keep backward-compatibility for any external code
-    # that calls generator.calculate_icc(...) etc. directly.
-
     def calculate_icc(self, data1: np.ndarray, data2: np.ndarray) -> float:
-        return ReliabilityMetrics.calculate_icc(data1, data2)
+        """Calculate ICC(3,1) — two-way mixed model, absolute agreement, single measures.
+        Session effects (column variance) are partialled out of the error term but
+        are NOT included in the denominator, making this a consistency estimate.
+        Formula: ICC(3,1) = (MSr - MSe) / (MSr + (k-1)*MSe)
+        """
+        if len(data1) != len(data2) or len(data1) == 0:
+            return np.nan
+        
+        n = len(data1)
+        k = 2
+        
+        data = np.column_stack([data1, data2])
+        grand_mean = np.mean(data)
+        row_means = np.mean(data, axis=1)
+        col_means = np.mean(data, axis=0)
+        
+        ss_total = np.sum((data - grand_mean) ** 2)
+        ss_rows  = k * np.sum((row_means - grand_mean) ** 2)
+        ss_cols  = n * np.sum((col_means - grand_mean) ** 2)
+        ss_error = ss_total - ss_rows - ss_cols
+        
+        ms_rows  = ss_rows  / (n - 1)
+        ms_error = ss_error / ((n - 1) * (k - 1))
+        
+        icc = (ms_rows - ms_error) / (ms_rows + (k - 1) * ms_error)
+        return icc
     
     def analyze_project(self, project_name: str) -> Dict:
         """Comprehensive analysis of a project"""
@@ -327,7 +323,16 @@ class ProjectOverviewGenerator:
         # Reliability — pass RT and ACCBIN DataFrames directly.
         # Split into task conditions and control/rest conditions so the project
         # HTML can show two separate radar plots.
-        task_trial_types, control_trial_types = split_trial_types(trial_types)
+        _EXCLUDE_TYPES = {'control', 'rest', 'baseline', 'fixation', 'fix',
+                          'instruction', 'pause', 'break', 'catch', 'null'}
+
+        def _is_control(t):
+            return (t.lower() in _EXCLUDE_TYPES
+                    or t.lower().startswith('ctrl')
+                    or t.lower().startswith('rest'))
+
+        task_trial_types    = [t for t in trial_types if not _is_control(t)]
+        control_trial_types = [t for t in trial_types if     _is_control(t)]
 
         reliability         = self._calculate_reliability(rt_data, accbin_data, task_trial_types)
         control_reliability = self._calculate_reliability(rt_data, accbin_data, control_trial_types)
@@ -421,23 +426,206 @@ class ProjectOverviewGenerator:
         return report
     
     def calculate_cohens_d(self, data1: np.ndarray, data2: np.ndarray) -> float:
-        return ReliabilityMetrics.calculate_cohens_d(data1, data2)
-
+        """Calculate Cohen's d for paired samples"""
+        if len(data1) != len(data2) or len(data1) == 0:
+            return np.nan
+        
+        diff = data1 - data2
+        std_diff = np.std(diff, ddof=1)
+        if std_diff == 0:
+            return 0.0
+        return np.mean(diff) / std_diff
+    
     def calculate_pearson_r(self, data1: np.ndarray, data2: np.ndarray) -> float:
-        return ReliabilityMetrics.calculate_pearson_r(data1, data2)
-
+        """Calculate Pearson correlation coefficient"""
+        if len(data1) != len(data2) or len(data1) < 2:
+            return np.nan
+        
+        try:
+            r, p = stats.pearsonr(data1, data2)
+            return r
+        except:
+            return np.nan
+    
     def calculate_cv(self, data: np.ndarray) -> float:
-        return ReliabilityMetrics.calculate_cv(data)
+        """Calculate coefficient of variation"""
+        if len(data) == 0:
+            return np.nan
+        
+        mean = np.mean(data)
+        if mean == 0:
+            return np.nan
+        
+        return (np.std(data, ddof=1) / mean) * 100
     
     def _calculate_reliability(self, rt_data: pd.DataFrame, accbin_data: pd.DataFrame,
                                trial_types: List[str]) -> Dict:
-        """Delegate to ReliabilityMetrics.compute_reliability_dict.
+        """Calculate comprehensive reliability metrics from separate RT and ACCBIN DataFrames.
 
-        Keeping this thin wrapper preserves the existing call-sites in
-        analyse_project() unchanged.
+        RT reliability is computed on correct responses only (accuracy_binary == 1).
+        Trials where accuracy_binary is 0 (incorrect) or n/a (late/missing) are excluded
+        from all RT ICC, Pearson r, Cohen's d, and CV calculations.
+        Accuracy reliability uses all trials with a valid (non-NaN) accuracy_binary value.
         """
-        return ReliabilityMetrics.compute_reliability_dict(rt_data, accbin_data, trial_types)
 
+        reliability = {}
+
+        for trial_type in (trial_types if trial_types else ['all']):
+
+            # --- filter by trial_type ---
+            if trial_types:
+                df_rt  = rt_data[rt_data['trial_type']  == trial_type].copy() if not rt_data.empty  else pd.DataFrame()
+                df_acc = accbin_data[accbin_data['trial_type'] == trial_type].copy() if not accbin_data.empty else pd.DataFrame()
+            else:
+                df_rt  = rt_data.copy()  if not rt_data.empty  else pd.DataFrame()
+                df_acc = accbin_data.copy() if not accbin_data.empty else pd.DataFrame()
+
+            # --- RT: keep correct responses only (accuracy_binary == 1) ---
+            # Join RT rows with ACCBIN rows on subject_id + session + trial position
+            # so that only trials with a correct response contribute to RT reliability.
+            if not df_rt.empty and not df_acc.empty:
+                # Build a positional trial index within each subject × session × trial_type
+                # group, which is the only shared key between the two TSV files.
+                def add_trial_index(df):
+                    df = df.copy()
+                    df['_trial_idx'] = df.groupby(
+                        ['subject_id', 'session']
+                    ).cumcount()
+                    return df
+
+                df_rt_idx  = add_trial_index(df_rt)
+                df_acc_idx = add_trial_index(df_acc)
+
+                # Keep only the accuracy_binary column from ACCBIN for the merge
+                acc_key = df_acc_idx[['subject_id', 'session', '_trial_idx', 'accuracy_binary']].copy()
+                acc_key['accuracy_binary'] = pd.to_numeric(acc_key['accuracy_binary'], errors='coerce')
+
+                df_rt_merged = df_rt_idx.merge(
+                    acc_key,
+                    on=['subject_id', 'session', '_trial_idx'],
+                    how='left',
+                    suffixes=('', '_acc')
+                )
+
+                # Restrict RT to correct trials only
+                df_rt = df_rt_merged[df_rt_merged['accuracy_binary'] == 1].drop(
+                    columns=['_trial_idx', 'accuracy_binary'], errors='ignore'
+                )
+
+            # Determine sessions from whichever DataFrame is available
+            ref = df_rt if not df_rt.empty else df_acc
+            if ref.empty or 'session' not in ref.columns:
+                continue
+            sessions = sorted(ref['session'].unique())
+            if len(sessions) < 2:
+                continue
+
+            # Subjects with data in both sessions
+            def multi_session_subjects(df):
+                if df.empty or 'subject_id' not in df.columns:
+                    return []
+                counts = df.groupby('subject_id')['session'].nunique()
+                return counts[counts >= 2].index.tolist()
+
+            rt_subjects  = multi_session_subjects(df_rt)
+            acc_subjects = multi_session_subjects(df_acc)
+
+            rt_cv_ses1, rt_cv_ses2 = [], []
+            acc_cv_ses1, acc_cv_ses2 = [], []
+
+            # ── RT: one mean per subject per session → ICC across subjects
+            #    Standard test-retest reliability: rows=subjects, columns=sessions.
+            #    The old approach fed per-subject trial vectors into ICC, which
+            #    measured meaningless trial-order correlation (~0.13 instead of ~0.76).
+            rt_s1_means, rt_s2_means = [], []
+            for subject in rt_subjects:
+                subj = df_rt[df_rt['subject_id'] == subject]
+                s1 = pd.to_numeric(subj[subj['session'] == sessions[0]]['response_time_ms'], errors='coerce').dropna().values
+                s2 = pd.to_numeric(subj[subj['session'] == sessions[1]]['response_time_ms'], errors='coerce').dropna().values
+                if len(s1) > 0 and len(s2) > 0:
+                    rt_s1_means.append(float(np.mean(s1)))
+                    rt_s2_means.append(float(np.mean(s2)))
+                if len(s1) > 1:
+                    cv = self.calculate_cv(s1)
+                    if not np.isnan(cv): rt_cv_ses1.append(cv)
+                if len(s2) > 1:
+                    cv = self.calculate_cv(s2)
+                    if not np.isnan(cv): rt_cv_ses2.append(cv)
+
+            rt_s1 = np.array(rt_s1_means)
+            rt_s2 = np.array(rt_s2_means)
+            rt_iccs      = [self.calculate_icc(rt_s1, rt_s2)]       if len(rt_s1) > 2 else []
+            rt_pearson_r = [self.calculate_pearson_r(rt_s1, rt_s2)] if len(rt_s1) > 2 else []
+            rt_cohens_d  = [self.calculate_cohens_d(rt_s1, rt_s2)]  if len(rt_s1) > 2 else []
+            rt_iccs      = [v for v in rt_iccs      if not np.isnan(v)]
+            rt_pearson_r = [v for v in rt_pearson_r if not np.isnan(v)]
+            rt_cohens_d  = [v for v in rt_cohens_d  if not np.isnan(v)]
+
+            # ── Accuracy: same approach
+            acc_s1_means, acc_s2_means = [], []
+            for subject in acc_subjects:
+                subj = df_acc[df_acc['subject_id'] == subject]
+                s1 = pd.to_numeric(subj[subj['session'] == sessions[0]]['accuracy_binary'], errors='coerce').dropna().values
+                s2 = pd.to_numeric(subj[subj['session'] == sessions[1]]['accuracy_binary'], errors='coerce').dropna().values
+                if len(s1) > 0 and len(s2) > 0:
+                    acc_s1_means.append(float(np.mean(s1)))
+                    acc_s2_means.append(float(np.mean(s2)))
+                if len(s1) > 1:
+                    cv = self.calculate_cv(s1)
+                    if not np.isnan(cv): acc_cv_ses1.append(cv)
+                if len(s2) > 1:
+                    cv = self.calculate_cv(s2)
+                    if not np.isnan(cv): acc_cv_ses2.append(cv)
+
+            acc_s1 = np.array(acc_s1_means)
+            acc_s2 = np.array(acc_s2_means)
+            acc_iccs      = [self.calculate_icc(acc_s1, acc_s2)]       if len(acc_s1) > 2 else []
+            acc_pearson_r = [self.calculate_pearson_r(acc_s1, acc_s2)] if len(acc_s1) > 2 else []
+            acc_cohens_d  = [self.calculate_cohens_d(acc_s1, acc_s2)]  if len(acc_s1) > 2 else []
+            acc_iccs      = [v for v in acc_iccs      if not np.isnan(v)]
+            acc_pearson_r = [v for v in acc_pearson_r if not np.isnan(v)]
+            acc_cohens_d  = [v for v in acc_cohens_d  if not np.isnan(v)]
+            
+            reliability[trial_type] = {
+                # ICC metrics
+                'rt_icc_mean': float(np.mean(rt_iccs)) if rt_iccs else None,
+                'rt_icc_std': float(np.std(rt_iccs)) if rt_iccs else None,
+                'rt_icc_min': float(np.min(rt_iccs)) if rt_iccs else None,
+                'rt_icc_max': float(np.max(rt_iccs)) if rt_iccs else None,
+                'acc_icc_mean': float(np.mean(acc_iccs)) if acc_iccs else None,
+                'acc_icc_std': float(np.std(acc_iccs)) if acc_iccs else None,
+                'acc_icc_min': float(np.min(acc_iccs)) if acc_iccs else None,
+                'acc_icc_max': float(np.max(acc_iccs)) if acc_iccs else None,
+                # Cohen's d metrics
+                'rt_cohens_d_mean': float(np.mean(rt_cohens_d)) if rt_cohens_d else None,
+                'rt_cohens_d_std': float(np.std(rt_cohens_d)) if rt_cohens_d else None,
+                'acc_cohens_d_mean': float(np.mean(acc_cohens_d)) if acc_cohens_d else None,
+                'acc_cohens_d_std': float(np.std(acc_cohens_d)) if acc_cohens_d else None,
+                # Pearson r metrics
+                'rt_pearson_r_mean': float(np.mean(rt_pearson_r)) if rt_pearson_r else None,
+                'rt_pearson_r_std': float(np.std(rt_pearson_r)) if rt_pearson_r else None,
+                'acc_pearson_r_mean': float(np.mean(acc_pearson_r)) if acc_pearson_r else None,
+                'acc_pearson_r_std': float(np.std(acc_pearson_r)) if acc_pearson_r else None,
+                # Coefficient of Variation (within-subject variability)
+                'rt_cv_mean': float(np.mean(rt_cv_ses1 + rt_cv_ses2)) if (rt_cv_ses1 or rt_cv_ses2) else None,
+                'rt_cv_std': float(np.std(rt_cv_ses1 + rt_cv_ses2)) if (rt_cv_ses1 or rt_cv_ses2) else None,
+                'acc_cv_mean': float(np.mean(acc_cv_ses1 + acc_cv_ses2)) if (acc_cv_ses1 or acc_cv_ses2) else None,
+                'acc_cv_std': float(np.std(acc_cv_ses1 + acc_cv_ses2)) if (acc_cv_ses1 or acc_cv_ses2) else None,
+                # Sample sizes
+                'n_subjects_rt':  len(rt_subjects),
+                'n_subjects_acc': len(acc_subjects),
+                'n_subjects': max(len(rt_subjects), len(acc_subjects)),
+                # Per-subject means for ses1 / ses2 — used by the test-retest scatter plot
+                'rt_s1_means':  rt_s1_means,
+                'rt_s2_means':  rt_s2_means,
+                'rt_subjects':  rt_subjects,
+                'acc_s1_means': [float(v * 100) for v in acc_s1_means],  # store as %
+                'acc_s2_means': [float(v * 100) for v in acc_s2_means],
+                'acc_subjects': acc_subjects,
+                'session_labels': [str(sessions[0]), str(sessions[1])],
+            }
+        
+        return reliability
     
     def generate_dashboard_html(self, all_reports: List[Dict]) -> str:
         """Generate comprehensive dashboard HTML"""
@@ -1270,10 +1458,37 @@ class ProjectOverviewGenerator:
         Plotly.newPlot('{proj_name}_acc_scatter', accScatter, accScatterLayout, {{responsive: true}});
 """
         
-        # ── Radar helper — delegates to ReliabilityMetrics.build_radar_spokes ──
-        def _build_radar_js(rel_dict, div_id, color='#40e0d0', fill='rgba(64, 224, 208, 0.15)',
-                            selected_metrics=None):
-            categories, values = ReliabilityMetrics.build_radar_spokes(rel_dict, selected_metrics)
+        # ── Radar helper — reusable for both task and control ────────────
+        def _build_radar_js(rel_dict, div_id):
+            categories = []
+            values = []
+            for trial_type, metrics in rel_dict.items():
+                if metrics.get('rt_icc_mean') is not None:
+                    categories.append(f'{trial_type} RT ICC')
+                    values.append(max(0, min(1, metrics['rt_icc_mean'])))
+                if metrics.get('acc_icc_mean') is not None:
+                    categories.append(f'{trial_type} Acc ICC')
+                    values.append(max(0, min(1, metrics['acc_icc_mean'])))
+                if metrics.get('rt_pearson_r_mean') is not None:
+                    categories.append(f'{trial_type} RT Pearson r')
+                    values.append(max(0, min(1, metrics['rt_pearson_r_mean'])))
+                if metrics.get('acc_pearson_r_mean') is not None:
+                    categories.append(f'{trial_type} Acc Pearson r')
+                    values.append(max(0, min(1, metrics['acc_pearson_r_mean'])))
+                if metrics.get('rt_cohens_d_mean') is not None:
+                    d_abs = min(abs(metrics['rt_cohens_d_mean']), 2.0)  # cap at 2 → score never goes below 0
+                    categories.append(f'{trial_type} RT Stability')
+                    values.append(max(0, min(1, 1 - (d_abs / 2))))
+                if metrics.get('acc_cohens_d_mean') is not None:
+                    d_abs = min(abs(metrics['acc_cohens_d_mean']), 2.0)
+                    categories.append(f'{trial_type} Acc Stability')
+                    values.append(max(0, min(1, 1 - (d_abs / 2))))
+                if metrics.get('rt_cv_mean') is not None:
+                    categories.append(f'{trial_type} RT Consistency')
+                    values.append(max(0, min(1, 1 - (metrics['rt_cv_mean'] / 50))))
+                if metrics.get('acc_cv_mean') is not None:
+                    categories.append(f'{trial_type} Acc Consistency')
+                    values.append(max(0, min(1, 1 - (metrics['acc_cv_mean'] / 50))))
             if not categories:
                 return ''
             categories.append(categories[0])
@@ -1283,9 +1498,9 @@ class ProjectOverviewGenerator:
                 'r': values,
                 'theta': categories,
                 'fill': 'toself',
-                'fillcolor': fill,
-                'line': {'color': color, 'width': 3},
-                'marker': {'color': color, 'size': 10}
+                'fillcolor': 'rgba(64, 224, 208, 0.15)',
+                'line': {'color': '#40e0d0', 'width': 3},
+                'marker': {'color': '#40e0d0', 'size': 10}
             }]
             return f"""
         var radarData_{div_id} = {json.dumps(radar_data)};
@@ -1321,10 +1536,9 @@ class ProjectOverviewGenerator:
         if reliability:
             js += _build_radar_js(reliability, f'{proj_name}_radar_task')
 
-        # Control / rest radar — different colour so it is visually distinct
+        # Control / rest radar
         if control_reliability:
-            js += _build_radar_js(control_reliability, f'{proj_name}_radar_control',
-                                  color='#ffa726', fill='rgba(255, 167, 38, 0.15)')
+            js += _build_radar_js(control_reliability, f'{proj_name}_radar_control')
         
         # ── Learning-stage progression plots (individual project view only) ──
         if learning_stage_data:

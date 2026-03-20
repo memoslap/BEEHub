@@ -9,6 +9,34 @@ import numpy as np
 from pathlib import Path
 from typing import List, Dict
 
+# Import metric registry for the radar dropdown labels
+try:
+    import importlib.util as _ilu
+    _rm_candidates = [
+        Path(__file__).resolve().parent / "reliability_metrics.py",
+        Path(__file__).resolve().parent.parent / "reliability_metrics.py",
+    ]
+    _rm_mod = None
+    for _c in _rm_candidates:
+        if _c.exists():
+            _spec = _ilu.spec_from_file_location("reliability_metrics", _c)
+            _rm_mod = _ilu.module_from_spec(_spec)
+            _spec.loader.exec_module(_rm_mod)
+            break
+    if _rm_mod is not None:
+        from reliability_metrics import METRIC_REGISTRY, ALL_METRIC_IDS  # type: ignore  # noqa
+    else:
+        raise ImportError
+except ImportError:
+    # Minimal fallback so the dashboard still generates without the module
+    METRIC_REGISTRY = [
+        {"id": "icc",       "label": "ICC(3,1)"},
+        {"id": "pearson_r", "label": "Pearson r"},
+        {"id": "cohens_d",  "label": "Stability (Cohen\u2019s d)"},
+        {"id": "cv",        "label": "Consistency (CV)"},
+    ]
+    ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
+
 
 class InteractiveDashboard:
     """Generates interactive HTML dashboard with advanced filtering"""
@@ -200,43 +228,72 @@ class InteractiveDashboard:
         }
     
     def get_data_ranges(self) -> Dict:
-        """Get min/max ranges for slider filters.
-        Reads only from reliability_metrics (task trial types).
-        Control/rest conditions are stored in control_reliability and excluded.
-        """
-        ages = []
-        n_subjects = []
-        rt_iccs = []
-        acc_iccs = []
-        rt_cvs = []
-        
+        """Get min/max ranges for all metric sliders — task and control separately."""
+        ages, n_subjects = [], []
+
+        # Collect raw values per metric key, for task and control separately
+        raw = {
+            'task': {k: [] for k in ['rt_icc','acc_icc','rt_pearson_r','acc_pearson_r',
+                                      'rt_cohens_d','acc_cohens_d','rt_cv','acc_cv']},
+            'ctrl': {k: [] for k in ['rt_icc','acc_icc','rt_pearson_r','acc_pearson_r',
+                                      'rt_cohens_d','acc_cohens_d','rt_cv','acc_cv']},
+        }
+        key_map = {
+            'rt_icc':       'rt_icc_mean',
+            'acc_icc':      'acc_icc_mean',
+            'rt_pearson_r': 'rt_pearson_r_mean',
+            'acc_pearson_r':'acc_pearson_r_mean',
+            'rt_cohens_d':  'rt_cohens_d_mean',
+            'acc_cohens_d': 'acc_cohens_d_mean',
+            'rt_cv':        'rt_cv_mean',
+            'acc_cv':       'acc_cv_mean',
+        }
         for project in self.all_projects:
             demo = project.get('demographics', {})
-            if demo.get('age_mean'):
-                ages.append(demo['age_mean'])
-            if demo.get('n_participants'):
-                n_subjects.append(demo['n_participants'])
-            
-            for metrics in project.get('reliability_metrics', {}).values():
-                if metrics.get('rt_icc_mean') is not None:
-                    rt_iccs.append(metrics['rt_icc_mean'])
-                if metrics.get('acc_icc_mean') is not None:
-                    acc_iccs.append(metrics['acc_icc_mean'])
-                if metrics.get('rt_cv_mean') is not None:
-                    rt_cvs.append(metrics['rt_cv_mean'])
-        
-        return {
-            'age_min': int(min(ages)) if ages else 18,
-            'age_max': int(max(ages)) + 1 if ages else 65,
-            'subjects_min': int(min(n_subjects)) if n_subjects else 0,
-            'subjects_max': int(max(n_subjects)) + 5 if n_subjects else 100,
-            'rt_icc_min': round(min(rt_iccs), 2) if rt_iccs else -1,
-            'rt_icc_max': round(max(rt_iccs), 2) if rt_iccs else 1,
-            'acc_icc_min': round(min(acc_iccs), 2) if acc_iccs else -1,
-            'acc_icc_max': round(max(acc_iccs), 2) if acc_iccs else 1,
-            'cv_min': max(0, round(min(rt_cvs) - 0.5, 1)) if rt_cvs else 0,
-            'cv_max': round(max(rt_cvs) + 0.5, 1) if rt_cvs else 100,
+            if demo.get('age_mean'):        ages.append(demo['age_mean'])
+            if demo.get('n_participants'):  n_subjects.append(demo['n_participants'])
+            for src, field in [('task','reliability_metrics'),('ctrl','control_reliability')]:
+                for metrics in project.get(field, {}).values():
+                    for short, full in key_map.items():
+                        v = metrics.get(full)
+                        if v is not None:
+                            raw[src][short].append(v)
+
+        def _rng(lst, pad=0.05, lo=-1.0, hi=1.0):
+            if not lst: return (lo, hi)
+            mn = round(min(lst) - pad, 2)
+            mx = round(max(lst) + pad, 2)
+            return (max(lo, mn), min(hi, mx))
+
+        def _rng_cv(lst):
+            if not lst: return (0, 100)
+            return (max(0, round(min(lst)-0.5,1)), round(max(lst)+0.5,1))
+
+        def _rng_d(lst):
+            if not lst: return (-3, 3)
+            return (round(min(lst)-0.1,2), round(max(lst)+0.1,2))
+
+        r = {
+            'age_min':       int(min(ages))          if ages        else 18,
+            'age_max':       int(max(ages)) + 1       if ages        else 65,
+            'subjects_min':  int(min(n_subjects))     if n_subjects  else 0,
+            'subjects_max':  int(max(n_subjects)) + 5 if n_subjects  else 100,
         }
+        for src in ('task','ctrl'):
+            p = raw[src]
+            r[f'{src}_rt_icc_min'],        r[f'{src}_rt_icc_max']        = _rng(p['rt_icc'])
+            r[f'{src}_acc_icc_min'],       r[f'{src}_acc_icc_max']       = _rng(p['acc_icc'])
+            r[f'{src}_rt_pearson_min'],    r[f'{src}_rt_pearson_max']    = _rng(p['rt_pearson_r'])
+            r[f'{src}_acc_pearson_min'],   r[f'{src}_acc_pearson_max']   = _rng(p['acc_pearson_r'])
+            r[f'{src}_rt_cohens_min'],     r[f'{src}_rt_cohens_max']     = _rng_d(p['rt_cohens_d'])
+            r[f'{src}_acc_cohens_min'],    r[f'{src}_acc_cohens_max']    = _rng_d(p['acc_cohens_d'])
+            r[f'{src}_rt_cv_min'],         r[f'{src}_rt_cv_max']         = _rng_cv(p['rt_cv'])
+            r[f'{src}_acc_cv_min'],        r[f'{src}_acc_cv_max']        = _rng_cv(p['acc_cv'])
+        # legacy keys used by old ICC slider references
+        r['rt_icc_min']  = r['task_rt_icc_min'];  r['rt_icc_max']  = r['task_rt_icc_max']
+        r['acc_icc_min'] = r['task_acc_icc_min']; r['acc_icc_max'] = r['task_acc_icc_max']
+        r['cv_min']      = r['task_rt_cv_min'];   r['cv_max']      = r['task_rt_cv_max']
+        return r
     
     def generate_dashboard_html(self) -> str:
         """Generate interactive dashboard HTML"""
@@ -244,6 +301,7 @@ class InteractiveDashboard:
         unique_values = self.extract_unique_values()
         ranges = self.get_data_ranges()
         projects_json = json.dumps(self.all_projects, indent=2)
+        ranges_json   = json.dumps(ranges)
         
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1449,6 +1507,30 @@ class InteractiveDashboard:
                 rgba(64, 158, 128, 0.08) 100%
             );
         }}
+
+        .radio-pill {{
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(64, 158, 128, 0.4);
+            background: rgba(255,255,255,0.85);
+            color: #1e5f44;
+            font-size: 0.92em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+        .radio-pill:hover {{
+            border-color: #40e0d0;
+            background: rgba(64, 224, 208, 0.1);
+        }}
+        .radio-pill input[type="radio"] {{
+            accent-color: #2d8659;
+            width: 14px;
+            height: 14px;
+        }}
     </style>
 </head>
 <body>
@@ -1485,44 +1567,41 @@ class InteractiveDashboard:
         <div class="filters-title">
             Filter Options
         </div>
-        
+"""
+
+        # ── Grid 1: Modality / Domain / Task Type / Recording Modality ────
+        html += """
         <div class="filters-grid">
             <div class="filter-group">
                 <label class="filter-label">Modality</label>
                 <select id="modalityFilter" class="filter-select">
                     <option value="">All Modalities</option>
 """
-        
         for mod in unique_values['modalities']:
             html += f'                    <option value="{mod}">{mod.replace("_", " ").title()}</option>\n'
-        
-        html += """                </select>
+        html += """
+                </select>
             </div>
-            
             <div class="filter-group">
                 <label class="filter-label">Cognitive Domain</label>
                 <select id="domainFilter" class="filter-select">
                     <option value="">All Domains</option>
 """
-        
         for domain in unique_values['domains']:
             html += f'                    <option value="{domain}">{domain.replace("_", " ").title()}</option>\n'
-        
-        html += """                </select>
+        html += """
+                </select>
             </div>
-            
             <div class="filter-group">
                 <label class="filter-label">Task Type</label>
                 <select id="taskFilter" class="filter-select">
                     <option value="">All Task Types</option>
 """
-        
         for task in unique_values['task_types']:
             html += f'                    <option value="{task}">{task.replace("_", " ").title()}</option>\n'
-        
-        html += f"""                </select>
+        html += """
+                </select>
             </div>
-
             <div class="filter-group">
                 <label class="filter-label">Recording Modality</label>
                 <select id="recordingModalityFilter" class="filter-select">
@@ -1534,29 +1613,27 @@ class InteractiveDashboard:
                     <option value="eye_tracking">Eye-tracking</option>
                     <option value="fnirs">fNIRS</option>
 """
-
         for rec in unique_values['recording_modalities']:
             fixed = {'behavioral','mri','eeg','pet','eye_tracking','fnirs'}
             if rec.lower() not in fixed:
                 html += f'                    <option value="{rec}">{rec.replace("_", " ").title()}</option>\n'
-
-        html += """                </select>
+        html += """
+                </select>
             </div>
+        </div>
 
+        <!-- Row 2: Language + Age slider + Subjects slider + Radar controls -->
+        <div class="filters-grid" style="margin-top:20px;">
             <div class="filter-group">
                 <label class="filter-label">Language of Paradigm</label>
                 <select id="languageFilter" class="filter-select">
                     <option value="">All Languages</option>
 """
-        
         for lang in unique_values['languages']:
             html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
-        
-        html += f"""                </select>
+        html += f"""
+                </select>
             </div>
-        </div>
-        
-        <div class="filters-grid" style="margin-top: 25px;">
             <div class="filter-group">
                 <label class="filter-label">Mean Age (years)</label>
                 <div class="slider-container">
@@ -1565,7 +1642,6 @@ class InteractiveDashboard:
                     <input type="range" id="ageMax" min="{ranges['age_min']}" max="{ranges['age_max']}" value="{ranges['age_max']}" step="1">
                 </div>
             </div>
-            
             <div class="filter-group">
                 <label class="filter-label">Number of Subjects</label>
                 <div class="slider-container">
@@ -1574,26 +1650,37 @@ class InteractiveDashboard:
                     <input type="range" id="subjectsMax" min="{ranges['subjects_min']}" max="{ranges['subjects_max']}" value="{ranges['subjects_max']}" step="5">
                 </div>
             </div>
-            
-            <div class="filter-group">
-                <label class="filter-label">Overall ICC (Mean)</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="iccValue">-1.00 - 1.00</div>
-                    <input type="range" id="iccMin" min="-1" max="1" value="-1" step="0.05">
-                    <input type="range" id="iccMax" min="-1" max="1" value="1" step="0.05">
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <label class="filter-label">Consistency CV Mean (%)</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="cvValue">{ranges['cv_min']:.2f} - {ranges['cv_max']:.2f}</div>
-                    <input type="range" id="cvMin" min="{ranges['cv_min']}" max="{ranges['cv_max']}" value="{ranges['cv_min']}" step="0.5">
-                    <input type="range" id="cvMax" min="{ranges['cv_min']}" max="{ranges['cv_max']}" value="{ranges['cv_max']}" step="0.5">
+            <div class="filter-group" style="grid-column: 1 / -1;">
+                <label class="filter-label">Metrics &amp; Data Source</label>
+                <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin-top:8px;">
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-size:0.78em; color:#888; text-transform:uppercase; letter-spacing:0.4px;">Metric</span>
+                        <select id="radarMetricFilter" class="filter-select" style="min-width:200px;" onchange="onSelectionChange()">
+                            <option value="all">All Metrics</option>
+                            <option value="icc">ICC(3,1)</option>
+                            <option value="pearson_r">Pearson r</option>
+                            <option value="cohens_d">Stability (Cohen&apos;s d)</option>
+                            <option value="cv">Consistency (CV)</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-size:0.78em; color:#888; text-transform:uppercase; letter-spacing:0.4px;">Data Source</span>
+                        <div style="display:flex; gap:8px; align-items:center; padding-top:2px;">
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="task" checked onchange="onSelectionChange()"> Task only</label>
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="control" onchange="onSelectionChange()"> Control only</label>
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="both" onchange="onSelectionChange()"> Both (separate)</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
+        <!-- Row 3: dynamic metric sliders — rebuilt by rebuildSliders() -->
+        <div id="dynamicSlidersContainer" style="margin-top:20px;">
+            <!-- populated dynamically -->
+        </div>
+"""
+        html += f"""
         <div class="action-buttons">
             <button class="btn btn-apply" onclick="applyFilters()">Apply Filters</button>
             <button class="btn btn-reset" onclick="resetFilters()">Reset All</button>
@@ -1773,55 +1860,114 @@ class InteractiveDashboard:
         <div class="projects-grid" id="projectsGrid"></div>
     </div>
 
-    <div class="charts-row">
-        <div class="chart-container">
-            <div class="chart-title">RT ICC Across Projects (task trials only)</div>
-            <div id="rtIccRadar"></div>
-        </div>
-        
-        <div class="chart-container">
-            <div class="chart-title">Accuracy ICC Across Projects (task trials only)</div>
-            <div id="accIccRadar"></div>
-        </div>
-    </div>
-    
-    <div class="charts-row">
-        <div class="chart-container">
-            <div class="chart-title">RT Stability Across Projects</div>
-            <div id="stabilityRadar"></div>
-        </div>
-        
-        <div class="chart-container">
-            <div class="chart-title">RT Consistency Across Projects</div>
-            <div id="consistencyRadar"></div>
-        </div>
-    </div>
+    <!-- Dynamic radar container — rebuilt by updateCharts() -->
+    <div id="radarChartsContainer"></div>
 
     <script>
         const allProjects = {projects_json};
         let filteredProjects = [...allProjects];
-        
-        // Update slider displays
-        function updateSliderDisplays() {{
-            const ageMin = document.getElementById('ageMin').value;
-            const ageMax = document.getElementById('ageMax').value;
-            document.getElementById('ageValue').textContent = `${{ageMin}} - ${{ageMax}}`;
-            
-            const subMin = document.getElementById('subjectsMin').value;
-            const subMax = document.getElementById('subjectsMax').value;
-            document.getElementById('subjectsValue').textContent = `${{subMin}} - ${{subMax}}`;
-            
-            const iccMin = parseFloat(document.getElementById('iccMin').value);
-            const iccMax = parseFloat(document.getElementById('iccMax').value);
-            document.getElementById('iccValue').textContent = `${{iccMin.toFixed(2)}} - ${{iccMax.toFixed(2)}}`;
-            
-            const cvMin = parseFloat(document.getElementById('cvMin').value);
-            const cvMax = parseFloat(document.getElementById('cvMax').value);
-            document.getElementById('cvValue').textContent = `${{cvMin.toFixed(2)}} - ${{cvMax.toFixed(2)}}`;
+
+        // ── Per-metric data ranges (computed server-side) ─────────────────────
+        const DATA_RANGES = {ranges_json};
+
+        // ── Metric definitions used for dynamic slider generation ─────────────
+        const SLIDER_METRICS = [
+            {{
+                id: 'icc', label: 'ICC(3,1)',
+                sliders: [
+                    {{ sid: 'rt_icc',  label: 'RT ICC',      key: 'rt_icc_mean',  step: 0.05, decimals: 2 }},
+                    {{ sid: 'acc_icc', label: 'Accuracy ICC', key: 'acc_icc_mean', step: 0.05, decimals: 2 }},
+                ],
+            }},
+            {{
+                id: 'pearson_r', label: 'Pearson r',
+                sliders: [
+                    {{ sid: 'rt_pearson',  label: 'RT Pearson r',      key: 'rt_pearson_r_mean',  step: 0.05, decimals: 2 }},
+                    {{ sid: 'acc_pearson', label: 'Accuracy Pearson r', key: 'acc_pearson_r_mean', step: 0.05, decimals: 2 }},
+                ],
+            }},
+            {{
+                id: 'cohens_d', label: 'Stability (Cohen\u2019s d)',
+                sliders: [
+                    {{ sid: 'rt_cohens',  label: 'RT Cohen\u2019s d',      key: 'rt_cohens_d_mean',  step: 0.1, decimals: 2 }},
+                    {{ sid: 'acc_cohens', label: 'Accuracy Cohen\u2019s d', key: 'acc_cohens_d_mean', step: 0.1, decimals: 2 }},
+                ],
+            }},
+            {{
+                id: 'cv', label: 'Consistency (CV)',
+                sliders: [
+                    {{ sid: 'rt_cv',  label: 'RT CV (%)',       key: 'rt_cv_mean',  step: 0.5, decimals: 1 }},
+                    {{ sid: 'acc_cv', label: 'Accuracy CV (%)', key: 'acc_cv_mean', step: 0.5, decimals: 1 }},
+                ],
+            }},
+        ];
+
+        /**
+         * Rebuild the dynamic slider container based on current metric + source selection.
+         * All metric × RT/Acc × task/control combinations get their own dual-range slider.
+         */
+        function rebuildSliders() {{
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const isBoth = selectedSource === 'both';
+            const container = document.getElementById('dynamicSlidersContainer');
+
+            const metricsToShow = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            const sources = isBoth
+                ? [{{ key: 'task', label: 'Task' }}, {{ key: 'ctrl', label: 'Control' }}]
+                : [{{ key: selectedSource === 'control' ? 'ctrl' : 'task',
+                     label: selectedSource === 'control' ? 'Control' : 'Task' }}];
+
+            let html = '<div class="filters-grid">';
+            for (const src of sources) {{
+                for (const metric of metricsToShow) {{
+                    for (const sl of metric.sliders) {{
+                        const fullId = sl.sid + '_' + src.key;
+                        const mnKey  = src.key + '_' + sl.sid + '_min';
+                        const mxKey  = src.key + '_' + sl.sid + '_max';
+                        const mn     = DATA_RANGES[mnKey] !== undefined ? DATA_RANGES[mnKey] : -1;
+                        const mx     = DATA_RANGES[mxKey] !== undefined ? DATA_RANGES[mxKey] :  1;
+                        const srcTag = isBoth
+                            ? ' <span style="font-size:0.75em;color:#888;">(' + src.label + ')</span>'
+                            : '';
+                        html += `
+                            <div class="filter-group" id="sliderGroup_${{fullId}}">
+                                <label class="filter-label">${{sl.label}}${{srcTag}}</label>
+                                <div class="slider-container">
+                                    <div class="slider-value" id="val_${{fullId}}">${{mn.toFixed(sl.decimals)}} \u2013 ${{mx.toFixed(sl.decimals)}}</div>
+                                    <input type="range" id="min_${{fullId}}" min="${{mn}}" max="${{mx}}" value="${{mn}}" step="${{sl.step}}"
+                                           oninput="updateDualSlider('${{fullId}}', ${{sl.decimals}})">
+                                    <input type="range" id="max_${{fullId}}" min="${{mn}}" max="${{mx}}" value="${{mx}}" step="${{sl.step}}"
+                                           oninput="updateDualSlider('${{fullId}}', ${{sl.decimals}})">
+                                </div>
+                            </div>`;
+                    }}
+                }}
+            }}
+            html += '</div>';
+            container.innerHTML = html;
         }}
-        
-        // Add event listeners to sliders
-        ['ageMin', 'ageMax', 'subjectsMin', 'subjectsMax', 'iccMin', 'iccMax', 'cvMin', 'cvMax'].forEach(id => {{
+
+        function updateDualSlider(fullId, decimals) {{
+            const mn = parseFloat(document.getElementById('min_' + fullId).value);
+            const mx = parseFloat(document.getElementById('max_' + fullId).value);
+            document.getElementById('val_' + fullId).textContent =
+                mn.toFixed(decimals) + ' \u2013 ' + mx.toFixed(decimals);
+        }}
+
+        // Update age/subjects display labels (static sliders)
+        function updateSliderDisplays() {{
+            document.getElementById('ageValue').textContent =
+                document.getElementById('ageMin').value + ' - ' + document.getElementById('ageMax').value;
+            document.getElementById('subjectsValue').textContent =
+                document.getElementById('subjectsMin').value + ' - ' + document.getElementById('subjectsMax').value;
+        }}
+
+        // Event listeners for static sliders only
+        ['ageMin', 'ageMax', 'subjectsMin', 'subjectsMax'].forEach(id => {{
             document.getElementById(id).addEventListener('input', updateSliderDisplays);
         }});
         
@@ -1833,75 +1979,90 @@ class InteractiveDashboard:
         }}
 
         function applyFilters() {{
-            const modality = document.getElementById('modalityFilter').value;
-            const domain = document.getElementById('domainFilter').value;
-            const taskType = document.getElementById('taskFilter').value;
-            const language = document.getElementById('languageFilter').value;
-            const recordingModality = document.getElementById('recordingModalityFilter').value;
-            
+            const modality         = document.getElementById('modalityFilter').value;
+            const domain           = document.getElementById('domainFilter').value;
+            const taskType         = document.getElementById('taskFilter').value;
+            const language         = document.getElementById('languageFilter').value;
+            const recordingModality= document.getElementById('recordingModalityFilter').value;
+
             const ageMin = parseFloat(document.getElementById('ageMin').value);
             const ageMax = parseFloat(document.getElementById('ageMax').value);
             const subMin = parseInt(document.getElementById('subjectsMin').value);
             const subMax = parseInt(document.getElementById('subjectsMax').value);
-            const iccMin = parseFloat(document.getElementById('iccMin').value);
-            const iccMax = parseFloat(document.getElementById('iccMax').value);
-            const cvMin = parseFloat(document.getElementById('cvMin').value);
-            const cvMax = parseFloat(document.getElementById('cvMax').value);
-            
+
+            // Collect active dynamic slider constraints
+            // Each rendered slider has id="min_{{sid}}_{{src}}" / "max_{{sid}}_{{src}}"
+            const activeConstraints = [];
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const sources = selectedSource === 'both'
+                ? ['task', 'ctrl']
+                : [selectedSource === 'control' ? 'ctrl' : 'task'];
+
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const metricsToCheck = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            for (const src of sources) {{
+                const dictField = src === 'ctrl' ? 'control_reliability' : 'reliability_metrics';
+                for (const metric of metricsToCheck) {{
+                    for (const sl of metric.sliders) {{
+                        const fullId = sl.sid + '_' + src;
+                        const minEl  = document.getElementById('min_' + fullId);
+                        const maxEl  = document.getElementById('max_' + fullId);
+                        if (!minEl || !maxEl) continue;
+                        activeConstraints.push({{
+                            field:    dictField,
+                            key:      sl.key,
+                            minVal:   parseFloat(minEl.value),
+                            maxVal:   parseFloat(maxEl.value),
+                            minRange: parseFloat(minEl.min),
+                            maxRange: parseFloat(maxEl.max),
+                        }});
+                    }}
+                }}
+            }}
+
             filteredProjects = allProjects.filter(project => {{
                 const info = project.project_info || {{}};
-                const demo = project.demographics || {{}};
-                const reliability = project.reliability_metrics || {{}};
-                
-                // Check categorical filters
-                if (modality && info.modality !== modality) return false;
-                if (domain && info.cognitive_domain !== domain) return false;
-                if (taskType && info.task_type !== taskType) return false;
-                if (language && info.language !== language) return false;
-                if (recordingModality && info.recording_modality !== recordingModality) return false;
-                
-                // Check demographic filters
-                if (demo.age_mean) {{
+                const demo = project.demographics  || {{}};
+
+                // Categorical filters
+                if (modality          && info.modality             !== modality)          return false;
+                if (domain            && info.cognitive_domain      !== domain)            return false;
+                if (taskType          && info.task_type             !== taskType)          return false;
+                if (language          && info.language              !== language)          return false;
+                if (recordingModality && info.recording_modality    !== recordingModality) return false;
+
+                // Demographic filters — only apply when slider moved from full range
+                const ageSliderMin = parseFloat(document.getElementById('ageMin').min);
+                const ageSliderMax = parseFloat(document.getElementById('ageMax').max);
+                const subSliderMin = parseFloat(document.getElementById('subjectsMin').min);
+                const subSliderMax = parseFloat(document.getElementById('subjectsMax').max);
+                if (demo.age_mean && (ageMin > ageSliderMin || ageMax < ageSliderMax)) {{
                     if (demo.age_mean < ageMin || demo.age_mean > ageMax) return false;
                 }}
-                if (demo.n_participants) {{
+                if (demo.n_participants && (subMin > subSliderMin || subMax < subSliderMax)) {{
                     if (demo.n_participants < subMin || demo.n_participants > subMax) return false;
                 }}
-                
-                // Check reliability filters - reliability_metrics contains task trial types only
-                // (control/rest conditions are stored separately in control_reliability and excluded here)
-                let allIccs = [];
-                
-                for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_icc_mean !== null && metrics.rt_icc_mean !== undefined) {{
-                        allIccs.push(metrics.rt_icc_mean);
-                    }}
-                    if (metrics.acc_icc_mean !== null && metrics.acc_icc_mean !== undefined) {{
-                        allIccs.push(metrics.acc_icc_mean);
-                    }}
+
+                // Dynamic metric slider filters
+                for (const c of activeConstraints) {{
+                    // Skip if slider is at its full range (no actual filtering)
+                    if (c.minVal <= c.minRange && c.maxVal >= c.maxRange) continue;
+
+                    const rel = project[c.field] || {{}};
+                    const vals = Object.values(rel)
+                        .map(m => m[c.key])
+                        .filter(v => v !== null && v !== undefined);
+                    if (vals.length === 0) continue;
+                    const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+                    if (mean < c.minVal || mean > c.maxVal) return false;
                 }}
-                
-                // Calculate overall mean ICC (combining all RT and Accuracy ICC values)
-                if (allIccs.length > 0) {{
-                    const overallMeanIcc = allIccs.reduce((a,b) => a+b) / allIccs.length;
-                    if (overallMeanIcc < iccMin || overallMeanIcc > iccMax) return false;
-                }}
-                
-                // Check Consistency CV filter
-                let allCvs = [];
-                for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_cv_mean !== null && metrics.rt_cv_mean !== undefined) {{
-                        allCvs.push(metrics.rt_cv_mean);
-                    }}
-                }}
-                if (allCvs.length > 0) {{
-                    const overallMeanCv = allCvs.reduce((a,b) => a+b) / allCvs.length;
-                    if (overallMeanCv < cvMin || overallMeanCv > cvMax) return false;
-                }}
-                
+
                 return true;
             }});
-            
+
             displayProjects();
             updateCharts();
         }}
@@ -1912,17 +2073,16 @@ class InteractiveDashboard:
             document.getElementById('taskFilter').value = '';
             document.getElementById('languageFilter').value = '';
             document.getElementById('recordingModalityFilter').value = '';
-            
+            document.getElementById('radarMetricFilter').value = 'all';
+            document.querySelector('input[name="radarSource"][value="task"]').checked = true;
+
             document.getElementById('ageMin').value = {ranges['age_min']};
             document.getElementById('ageMax').value = {ranges['age_max']};
             document.getElementById('subjectsMin').value = {ranges['subjects_min']};
             document.getElementById('subjectsMax').value = {ranges['subjects_max']};
-            document.getElementById('iccMin').value = -1;
-            document.getElementById('iccMax').value = 1;
-            document.getElementById('cvMin').value = {ranges['cv_min']};
-            document.getElementById('cvMax').value = {ranges['cv_max']};
-            
+
             updateSliderDisplays();
+            rebuildSliders();          // regenerates metric sliders at full range
             filteredProjects = [...allProjects];
             displayProjects();
             updateCharts();
@@ -1978,13 +2138,13 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{demo.age_mean ? demo.age_mean.toFixed(1) : 'N/A'}}</div>
                                 <div class="stat-label">Mean Age</div>
                             </div>
-                            <div class="stat-item">
+                            <div class="stat-item" title="Mean ICC(3,1) across task trial types — control/rest/baseline excluded">
                                 <div class="stat-value">${{overallIcc}}</div>
-                                <div class="stat-label">Overall ICC</div>
+                                <div class="stat-label">Overall ICC<br><span style="font-size:0.72em;color:#888;font-weight:400;">(task only)</span></div>
                             </div>
-                            <div class="stat-item">
+                            <div class="stat-item" title="Mean within-subject RT coefficient of variation across task trial types — control/rest excluded">
                                 <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
-                                <div class="stat-label">Consistency CV</div>
+                                <div class="stat-label">Consistency CV<br><span style="font-size:0.72em;color:#888;font-weight:400;">(task RT only)</span></div>
                             </div>
                         </div>
                         <div class="project-actions">
@@ -1996,230 +2156,191 @@ class InteractiveDashboard:
             }}).join('');
         }}
         
-        function updateCharts() {{
-            const projectNames = filteredProjects.map(p => p.project_name);
-            
-            // RT ICC Radar - Copper
-            const rtIccs = [];
-            filteredProjects.forEach(p => {{
-                let iccs = [];
-                Object.values(p.reliability_metrics || {{}}).forEach(m => {{
-                    if (m.rt_icc_mean !== null && m.rt_icc_mean !== undefined) {{
-                        iccs.push(m.rt_icc_mean);
-                    }}
-                }});
-                rtIccs.push(iccs.length > 0 ? iccs.reduce((a,b) => a+b) / iccs.length : 0);
-            }});
-            
-            const rtIccRadarData = [{{
-                type: 'scatterpolar',
-                r: rtIccs,
-                theta: projectNames,
-                fill: 'toself',
-                fillcolor: 'rgba(64, 158, 128, 0.25)',
-                line: {{
-                    color: '#409e80',
-                    width: 3
-                }},
-                marker: {{
-                    color: '#409e80',
-                    size: 10,
-                    line: {{
-                        color: '#ffffff',
-                        width: 2
-                    }}
+        // ── Metric & source registry (mirrors reliability_metrics.py) ──────
+        const METRIC_REGISTRY = [
+            {{
+                id: 'icc', label: 'ICC(3,1)',
+                rt_key: 'rt_icc_mean', acc_key: 'acc_icc_mean',
+                normalise: v => Math.max(0, Math.min(1, v))
+            }},
+            {{
+                id: 'pearson_r', label: 'Pearson r',
+                rt_key: 'rt_pearson_r_mean', acc_key: 'acc_pearson_r_mean',
+                normalise: v => Math.max(0, Math.min(1, v))
+            }},
+            {{
+                id: 'cohens_d', label: 'Stability (Cohen\u2019s d)',
+                rt_key: 'rt_cohens_d_mean', acc_key: 'acc_cohens_d_mean',
+                normalise: v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2))
+            }},
+            {{
+                id: 'cv', label: 'Consistency (CV)',
+                rt_key: 'rt_cv_mean', acc_key: 'acc_cv_mean',
+                normalise: v => Math.max(0, Math.min(1, 1 - v / 50))
+            }},
+            // ── Add new metrics here ────────────────────────────────────────
+        ];
+        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]));
+
+        // ── Helpers ──────────────────────────────────────────────────────────
+
+        /** Extract per-project mean values for one metric key from task OR control dict. */
+        function _perProjectMean(key, reg, useControl) {{
+            return filteredProjects.map(p => {{
+                const taskRel    = p.reliability_metrics || {{}};
+                const controlRel = p.control_reliability || {{}};
+                let dict;
+                if (useControl) {{
+                    const hasControl = Object.values(controlRel).some(
+                        m => m[reg[key]] !== null && m[reg[key]] !== undefined
+                    );
+                    dict = hasControl ? controlRel : taskRel;
+                }} else {{
+                    dict = taskRel;
                 }}
-            }}];
-            
-            const rtIccLayout = {{
-                polar: {{
-                    bgcolor: 'rgba(255, 255, 255, 0.95)',
-                    radialaxis: {{
-                        visible: true,
-                        range: [-0.2, 1],
-                        gridcolor: 'rgba(64, 158, 128, 0.2)',
-                        tickfont: {{color: '#1a5238', size: 12, weight: 500}}
-                    }},
-                    angularaxis: {{
-                        gridcolor: 'rgba(64, 158, 128, 0.2)',
-                        tickfont: {{color: '#1a5238', size: 11, weight: 500}}
-                    }}
-                }},
-                paper_bgcolor: 'rgba(250, 250, 250, 0.5)',
-                font: {{color: '#1a5238'}},
-                showlegend: false,
-                height: 450
-            }};
-            
-            Plotly.newPlot('rtIccRadar', rtIccRadarData, rtIccLayout, {{responsive: true}});
-            
-            // Accuracy ICC Radar - Rose Gold
-            const accIccs = [];
-            filteredProjects.forEach(p => {{
-                let iccs = [];
-                Object.values(p.reliability_metrics || {{}}).forEach(m => {{
-                    if (m.acc_icc_mean !== null && m.acc_icc_mean !== undefined) {{
-                        iccs.push(m.acc_icc_mean);
-                    }}
+                let vals = [];
+                Object.values(dict).forEach(m => {{
+                    const v = m[reg[key]];
+                    if (v !== null && v !== undefined) vals.push(reg.normalise(v));
                 }});
-                accIccs.push(iccs.length > 0 ? iccs.reduce((a,b) => a+b) / iccs.length : 0);
+                return vals.length > 0 ? vals.reduce((a,b) => a+b) / vals.length : 0;
             }});
-            
-            const accIccRadarData = [{{
-                type: 'scatterpolar',
-                r: accIccs,
-                theta: projectNames,
-                fill: 'toself',
-                fillcolor: 'rgba(183, 110, 121, 0.25)',
-                line: {{
-                    color: '#3d9970',
-                    width: 3
-                }},
-                marker: {{
-                    color: '#3d9970',
-                    size: 10,
-                    line: {{
-                        color: '#ffffff',
-                        width: 2
-                    }}
-                }}
-            }}];
-            
-            const accIccLayout = {{
-                polar: {{
-                    bgcolor: 'rgba(255, 255, 255, 0.95)',
-                    radialaxis: {{
-                        visible: true,
-                        range: [-0.2, 1],
-                        gridcolor: 'rgba(183, 110, 121, 0.2)',
-                        tickfont: {{color: '#8b5a65', size: 12, weight: 500}}
-                    }},
-                    angularaxis: {{
-                        gridcolor: 'rgba(183, 110, 121, 0.2)',
-                        tickfont: {{color: '#8b5a65', size: 11, weight: 500}}
-                    }}
-                }},
-                paper_bgcolor: 'rgba(250, 250, 250, 0.5)',
-                font: {{color: '#8b5a65'}},
-                showlegend: false,
-                height: 450
-            }};
-            
-            Plotly.newPlot('accIccRadar', accIccRadarData, accIccLayout, {{responsive: true}});
-            
-            // Stability Radar - Antique Gold
-            const stability = [];
-            filteredProjects.forEach(p => {{
-                let stabs = [];
-                Object.values(p.reliability_metrics || {{}}).forEach(m => {{
-                    if (m.rt_cohens_d_mean !== null && m.rt_cohens_d_mean !== undefined) {{
-                        const d_abs = Math.abs(m.rt_cohens_d_mean);
-                        const stab_score = Math.max(0, Math.min(1, 1 - (d_abs / 2)));
-                        stabs.push(stab_score);
-                    }}
-                }});
-                stability.push(stabs.length > 0 ? stabs.reduce((a,b) => a+b) / stabs.length : 0);
-            }});
-            
-            const stabilityRadarData = [{{
-                type: 'scatterpolar',
-                r: stability,
-                theta: projectNames,
-                fill: 'toself',
-                fillcolor: 'rgba(197, 179, 88, 0.25)',
-                line: {{
-                    color: '#5fbc9a',
-                    width: 3
-                }},
-                marker: {{
-                    color: '#5fbc9a',
-                    size: 10,
-                    line: {{
-                        color: '#ffffff',
-                        width: 2
-                    }}
-                }}
-            }}];
-            
-            const stabilityLayout = {{
-                polar: {{
-                    bgcolor: 'rgba(255, 255, 255, 0.95)',
-                    radialaxis: {{
-                        visible: true,
-                        range: [0, 1],
-                        gridcolor: 'rgba(197, 179, 88, 0.2)',
-                        tickfont: {{color: '#9d8c4a', size: 12, weight: 500}}
-                    }},
-                    angularaxis: {{
-                        gridcolor: 'rgba(197, 179, 88, 0.2)',
-                        tickfont: {{color: '#9d8c4a', size: 11, weight: 500}}
-                    }}
-                }},
-                paper_bgcolor: 'rgba(250, 250, 250, 0.5)',
-                font: {{color: '#9d8c4a'}},
-                showlegend: false,
-                height: 450
-            }};
-            
-            Plotly.newPlot('stabilityRadar', stabilityRadarData, stabilityLayout, {{responsive: true}});
-            
-            // Consistency Radar - Silver
-            const consistency = [];
-            filteredProjects.forEach(p => {{
-                let cons = [];
-                Object.values(p.reliability_metrics || {{}}).forEach(m => {{
-                    if (m.rt_cv_mean !== null && m.rt_cv_mean !== undefined) {{
-                        const cons_score = Math.max(0, Math.min(1, 1 - (m.rt_cv_mean / 50)));
-                        cons.push(cons_score);
-                    }}
-                }});
-                consistency.push(cons.length > 0 ? cons.reduce((a,b) => a+b) / cons.length : 0);
-            }});
-            
-            const consistencyRadarData = [{{
-                type: 'scatterpolar',
-                r: consistency,
-                theta: projectNames,
-                fill: 'toself',
-                fillcolor: 'rgba(192, 192, 192, 0.25)',
-                line: {{
-                    color: '#48d1cc',
-                    width: 3
-                }},
-                marker: {{
-                    color: '#48d1cc',
-                    size: 10,
-                    line: {{
-                        color: '#ffffff',
-                        width: 2
-                    }}
-                }}
-            }}];
-            
-            const consistencyLayout = {{
-                polar: {{
-                    bgcolor: 'rgba(255, 255, 255, 0.95)',
-                    radialaxis: {{
-                        visible: true,
-                        range: [0, 1],
-                        gridcolor: 'rgba(192, 192, 192, 0.2)',
-                        tickfont: {{color: '#808080', size: 12, weight: 500}}
-                    }},
-                    angularaxis: {{
-                        gridcolor: 'rgba(192, 192, 192, 0.2)',
-                        tickfont: {{color: '#808080', size: 11, weight: 500}}
-                    }}
-                }},
-                paper_bgcolor: 'rgba(250, 250, 250, 0.5)',
-                font: {{color: '#808080'}},
-                showlegend: false,
-                height: 450
-            }};
-            
-            Plotly.newPlot('consistencyRadar', consistencyRadarData, consistencyLayout, {{responsive: true}});
         }}
-        
-        // Initialize
+
+        /** Build a Plotly scatterpolar trace. */
+        function _buildRadarTrace(r_values, theta, color, fillColor) {{
+            const r = [...r_values, r_values[0]];
+            const t = [...theta, theta[0]];
+            return [{{
+                type: 'scatterpolar',
+                r: r, theta: t,
+                fill: 'toself',
+                fillcolor: fillColor,
+                line: {{ color: color, width: 3 }},
+                marker: {{ color: color, size: 10, line: {{ color: '#fff', width: 2 }} }}
+            }}];
+        }}
+
+        /** Render one radar into divId. */
+        function _plotRadar(divId, traces, radialColor) {{
+            const layout = {{
+                polar: {{
+                    bgcolor: 'rgba(255,255,255,0.95)',
+                    radialaxis: {{
+                        visible: true, range: [-0.2, 1],
+                        gridcolor: 'rgba(64,158,128,0.2)',
+                        tickfont: {{ color: radialColor || '#1a5238', size: 12, weight: 500 }}
+                    }},
+                    angularaxis: {{
+                        gridcolor: 'rgba(64,158,128,0.2)',
+                        tickfont: {{ color: '#1a5238', size: 11, weight: 500 }}
+                    }}
+                }},
+                paper_bgcolor: 'rgba(250,250,250,0.5)',
+                font: {{ color: '#1a5238' }},
+                showlegend: false,
+                height: 450
+            }};
+            Plotly.newPlot(divId, traces, layout, {{responsive: true}});
+        }}
+
+        // Colour palette per metric
+        const METRIC_COLOURS = {{
+            icc:      {{ line: '#409e80', fill: 'rgba(64,158,128,0.25)',  tick: '#1a5238' }},
+            pearson_r:{{ line: '#26c6da', fill: 'rgba(38,198,218,0.20)',  tick: '#0e6e7a' }},
+            cohens_d: {{ line: '#5fbc9a', fill: 'rgba(95,188,154,0.22)',  tick: '#2d6e4e' }},
+            cv:       {{ line: '#48d1cc', fill: 'rgba(72,209,204,0.20)',  tick: '#1a6b68' }},
+        }};
+        // Slightly darker tints for control conditions
+        const CTRL_COLOURS = {{
+            icc:      {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
+            pearson_r:{{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
+            cohens_d: {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)', tick: '#5c0070' }},
+            cv:       {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
+        }};
+
+        /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */
+        function onSelectionChange() {{
+            rebuildSliders();
+            applyFilters();   // applyFilters calls updateCharts internally
+        }}
+
+        /**
+         * Build the dynamic radar chart section.
+         * One radar per active slider × data source combination.
+         * For "All Metrics": 8 radars (task) or 16 (both).
+         * For a single metric: 2 radars (RT + Acc) or 4 (both).
+         */
+        function updateCharts() {{
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const isBoth         = selectedSource === 'both';
+            const projectNames   = filteredProjects.map(p => p.project_name);
+            const container      = document.getElementById('radarChartsContainer');
+
+            const metricsToShow = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            const sources = isBoth
+                ? [{{ key: 'task', label: 'task trials only', useControl: false }},
+                   {{ key: 'ctrl', label: 'control conditions', useControl: true }}]
+                : [{{ key: selectedSource === 'control' ? 'ctrl' : 'task',
+                      label: selectedSource === 'control' ? 'control conditions' : 'task trials only',
+                      useControl: selectedSource === 'control' }}];
+
+            // Build HTML shell — two radars per row
+            let html = '';
+            const radarDefs = [];   // collect (divId, metricId, sliderDef, useControl, srcLabel)
+
+            for (const src of sources) {{
+                for (const metric of metricsToShow) {{
+                    // Look up the matching METRIC_REGISTRY entry for normalisation
+                    const reg = METRIC_BY_ID[metric.id];
+                    for (const sl of metric.sliders) {{
+                        const divId = 'radar_' + sl.sid + '_' + src.key;
+                        const isRT  = sl.sid.startsWith('rt_');
+                        const title = metric.label + ' — ' + sl.label
+                              + ' <span style="font-size:0.78em;color:#888;">(' + src.label + ')</span>';
+                        radarDefs.push({{ divId, reg, sl, useControl: src.useControl, title }});
+                    }}
+                }}
+            }}
+
+            // Pair into rows of 2
+            for (let i = 0; i < radarDefs.length; i += 2) {{
+                html += '<div class="charts-row">';
+                for (let j = i; j < Math.min(i + 2, radarDefs.length); j++) {{
+                    const d = radarDefs[j];
+                    html += `<div class="chart-container">
+                        <div class="chart-title">${{d.title}}</div>
+                        <div id="${{d.divId}}"></div>
+                    </div>`;
+                }}
+                html += '</div>';
+            }}
+
+            container.innerHTML = html;
+
+            // Now plot each radar
+            for (const d of radarDefs) {{
+                const isTask   = !d.useControl;
+                const pal      = isTask ? METRIC_COLOURS[d.reg.id] : CTRL_COLOURS[d.reg.id];
+                const colour   = pal ? pal.line : '#409e80';
+                const fill     = pal ? pal.fill : 'rgba(64,158,128,0.25)';
+                const tickCol  = pal ? pal.tick : '#1a5238';
+
+                // Determine which key (rt or acc) to use
+                const useRt  = d.sl.sid.startsWith('rt_');
+                const mapKey = useRt ? 'rt_key' : 'acc_key';
+                const vals   = _perProjectMean(mapKey, d.reg, d.useControl);
+
+                _plotRadar(d.divId, _buildRadarTrace(vals, projectNames, colour, fill), tickCol);
+            }}
+        }}
+
+        // Initialize — build sliders first so applyFilters() can read them
+        rebuildSliders();
         applyFilters();
     </script>
 </body>

@@ -556,7 +556,7 @@ Subjects with only one session contribute to descriptive statistics (demographic
 
 ## AI Assistance Statement
 
-This repository — including the analysis pipeline (`01_multi_project_overview.py`), the paradigm page generator (`02_generate_paradigm.py`), the interactive dashboard (`03_generate_dashboard.py`), the description JSON builder (`01_description_form.html`), the interactive browser-based task demos (`APPL_demo.html`, `OLMM_demo.html`), the BIDS TSV generator (`gen_bids_beh.py`), the dummy project generator (`generate_dummy_projects.py`), the platform concept diagram, the BEE Hub logo, and this documentation — was developed with the assistance of **Claude Sonnet 4.6** (Anthropic, 2025), accessed via [claude.ai](https://claude.ai).
+This repository was developed with the assistance of **Claude Sonnet 4.6** (Anthropic, 2025), accessed via [claude.ai](https://claude.ai).
 
 All scientific content, paradigm designs, experimental parameters, data structures, and research decisions were conceived and validated by the authors. Claude was used as a coding and documentation assistant throughout iterative development.
 
