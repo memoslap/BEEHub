@@ -51,25 +51,25 @@ Realiability Metrics - unter die Filter , asuklappbar wenn man draufklickt (DONE
 
 
 ## 23.03.2026
-Recording experimental Seetup, "experimental context"   (kreis mit (i) information mit link für erklärung
+Recording experimental Setup, "experimental context"   (kreis mit (i) information mit link für erklärung
 
-metrics referenzen zitationen 
+metrics referenzen zitationen (Done)
 
-Ausklappbarer Filter box zu realiability metrics
+Ausklappbarer Filter box zu realiability metrics (Done)
 
-By Projektboxen APPL etc Abkürzungen kleiner unt unter Prjojektbeschreibung tauschen und das große machen
+By Projektboxen APPL etc Abkürzungen kleiner unt unter Prjojektbeschreibung tauschen und das große machen (Done)
 
-Cognitive Domain, Task Type , Modalities ... Reihenfolge im FIlter ändern
+Cognitive Domain, Task Type , Modalities ... Reihenfolge im FIlter ändern (Done)
 
-Metrix radar aufklappbar, in metrix aufklappbarer box
+Metrix radar aufklappbar, in metrix aufklappbarer box (Done)
 
-back to dashboard ganz oben
+back to dashboard ganz oben (Done)
 
-esc beschreibung zum rauskommen
+esc beschreibung zum rauskommen (Done)
 
 Publication in Paradigma, 
 
-- related publications wo paradigma verwendet wurde 
+- related publications wo paradigma verwendet wurde (Done; option eingefügt)
 
 - anonymisierte Date , daten von osf daten, wie soll man mit den grundlagendaten umgehen
 
@@ -77,6 +77,6 @@ Publication in Paradigma,
  background mit Zitationen
  
  
- - typical outcome bei paradigm ... was man erwarten würde... welche Hauptvariable 
+ - typical outcome bei paradigm ... was man erwarten würde... welche Hauptvariable (Done) 
  
- uni logo, unimedizin logo, Memoslap unten mit rein nehmen als disclaimer
+ uni logo, unimedizin logo, Memoslap unten mit rein nehmen als disclaimer (Done)

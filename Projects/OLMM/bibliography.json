@@ -1,10 +1,12 @@
 {
   "_schema": "bibliography_json_v2",
-  "_comment": "Each entry in 'publications' is one self-contained publication record. Add further entries by appending to the array.",
+  "_comment": "Two arrays: 'publications' = studies that used/validated this paradigm; 'background_publications' = references cited in the description, background, or detail sections of the paradigm page. Each entry is a self-contained publication record.",
 
   "publications": [
     {
       "id": "Abdelmotaleb2025",
+      "publication_type": "related",
+      "_type_comment": "Use 'related' for studies that used/validated this paradigm; 'background' for conceptual/methodological references cited in the text.",
       "title": "Identification of Reliable Target Brain Regions for Enhancing Object–Location Memory by Brain Stimulation",
       "authors": [
         "Abdelmotaleb, Mohamed",
@@ -50,9 +52,31 @@
     }
   ],
 
+  "background_publications": [
+    {
+      "id": "ExampleBackground2020",
+      "publication_type": "background",
+      "_type_comment": "Background publications are cited in the description, background, or typical_outcome sections of the paradigm page. They provide theoretical/methodological context but did not necessarily use this paradigm.",
+      "title": "Example background reference — replace with actual citation",
+      "authors": [
+        "Author, First",
+        "Author, Second"
+      ],
+      "journal": "Journal Name",
+      "volume": "1",
+      "pages": "1–10",
+      "year": 2020,
+      "doi": "",
+      "url": "",
+      "open_access": false,
+      "bibtex": ""
+    }
+  ],
+
   "_metadata": {
     "project": "OLMM",
     "export_date": "2026-03-10",
-    "exported_by": "BEE Hub"
+    "exported_by": "BEE Hub",
+    "_note": "Remove the placeholder entry in background_publications and replace with real references. The 'publications' array is consumed by the paradigm and overview HTML pages under 'Related Publications'. The 'background_publications' array is available for future rendering of a 'References' section."
   }
 }

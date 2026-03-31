@@ -1,0 +1,58 @@
+{
+  "_schema": "bibliography_json_v2",
+  "_comment": "Each entry in 'publications' is one self-contained publication record. Add further entries by appending to the array.",
+
+  "publications": [
+    {
+      "id": "Abdelmotaleb2025",
+      "title": "Identification of Reliable Target Brain Regions for Enhancing Object–Location Memory by Brain Stimulation",
+      "authors": [
+        "Abdelmotaleb, Mohamed",
+        "Niemann, Filip",
+        "Kocataş, Harun",
+        "Caisachana Guevara, Leonardo M.",
+        "Shahbabaie, Alireza",
+        "Malinowski, Robert",
+        "Riemann, Steffen",
+        "Fromm, Anna Elisabeth",
+        "Hayek, Dayana",
+        "Antonenko, Daria",
+        "Meinzer, Marcus",
+        "Flöel, Agnes"
+      ],
+      "journal": "Brain and Behavior",
+      "volume": "15",
+      "number": "7",
+      "pages": "e70658",
+      "year": 2025,
+      "month": "July",
+      "doi": "10.1002/brb3.70658",
+      "pmid": "40635372",
+      "pmcid": "PMC12241688",
+      "issn": "2162-3279",
+      "url": "https://doi.org/10.1002/brb3.70658",
+      "open_access": true,
+      "key_findings": {
+        "brain_regions": [
+          "Right hippocampus",
+          "Fusiform gyrus",
+          "Precuneus",
+          "Lateral temporo-occipital areas"
+        ],
+        "lateralization": "predominantly right-lateralized",
+        "reliability": {
+          "behavioral_accuracy_icc": 0.801,
+          "reaction_time_icc": 0.705,
+          "fmri_activity": "good-to-excellent reliability in key cortical regions"
+        }
+      },
+      "bibtex": "@article{Abdelmotaleb2025,\n  title   = {Identification of Reliable Target Brain Regions for Enhancing Object–Location Memory by Brain Stimulation},\n  author  = {Abdelmotaleb, Mohamed and Niemann, Filip and Kocataş, Harun and Caisachana Guevara, Leonardo M. and Shahbabaie, Alireza and Malinowski, Robert and Riemann, Steffen and Fromm, Anna Elisabeth and Hayek, Dayana and Antonenko, Daria and Meinzer, Marcus and Flöel, Agnes},\n  journal = {Brain and Behavior},\n  volume  = {15},\n  number  = {7},\n  pages   = {e70658},\n  year    = {2025},\n  month   = {July},\n  doi     = {10.1002/brb3.70658},\n  pmid    = {40635372},\n  pmcid   = {PMC12241688},\n  issn    = {2162-3279},\n  url     = {https://doi.org/10.1002/brb3.70658},\n  note    = {Open access}\n}"
+    }
+  ],
+
+  "_metadata": {
+    "project": "OLMM",
+    "export_date": "2026-03-10",
+    "exported_by": "BEE Hub"
+  }
+}

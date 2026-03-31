@@ -10,7 +10,7 @@
   "cognitive_domain": "spatial cognition",
   "task_type": "virtual navigation and pointing",
   "language": "german",
-  "recording_modality": "behavioral",
+  "experimental_context": "behavioral",
   "software_original": "Unity 3D / custom Python interface",
   "language_original": "german",
   "implementations": [

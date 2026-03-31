@@ -35,7 +35,6 @@
                 inset 0 -1px 0 rgba(160, 110, 50, 0.15);
             border: 1px solid rgba(190, 150, 80, 0.30);
             position: relative;
-            overflow: hidden;
         }
 
         .container::before {
@@ -169,6 +168,71 @@
                 #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
             );
             opacity: 0.7;
+        }
+
+        /* ── Typical Outcome box ─────────────────────────────────────── */
+        .typical-outcome-box {
+            background: linear-gradient(135deg,
+                rgba(212, 160, 32, 0.10) 0%,
+                rgba(232, 192, 72, 0.14) 40%,
+                rgba(212, 160, 32, 0.10) 100%
+            );
+            border: 1px solid rgba(212, 160, 32, 0.45);
+            border-left: 5px solid #d4a020;
+            border-radius: 12px;
+            padding: 28px 30px 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(212, 160, 32, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
+        }
+
+        .typical-outcome-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 25%, #e8c048 50%, #d4a020 75%, #c4a0b4 100%
+            );
+        }
+
+        .typical-outcome-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+        }
+
+        .typical-outcome-icon {
+            font-size: 1.25em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .typical-outcome-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 60%, #c07838 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .typical-outcome-body {
+            color: #3a2010;
+            font-size: 1.0em;
+            line-height: 1.80;
+        }
+
+        /* Highlight inline metric values: ICC, %, Cohen's d etc. */
+        .typical-outcome-body strong {
+            color: #7a4010;
+            font-weight: 600;
         }
 
         /* ── Paradigm detail grid ────────────────────────────────────── */
@@ -419,6 +483,47 @@
                         inset 0 1px 0 rgba(255, 255, 255, 0.40);
         }
 
+        .btn-top-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }
+
+        .btn-top-dashboard:hover {
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
         /* ── Instructions box ───────────────────────────────────────── */
         .instructions-box {
             background: linear-gradient(135deg,
@@ -555,22 +660,158 @@
             color: #7a5030;
         }
 
+        /* ── Related Publications ───────────────────────────────────── */
+        .publications-box {
+            background: linear-gradient(135deg,
+                rgba(210, 195, 175, 0.85) 0%,
+                rgba(235, 225, 210, 0.92) 50%,
+                rgba(210, 195, 175, 0.85) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.45);
+            border-radius: 14px;
+            padding: 28px 36px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(160, 120, 60, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.80);
+        }
+
+        .publications-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #6b3a10 0%, #c07838 25%, #d4a020 45%,
+                #e8c048 55%, #d4a020 75%, #6b3a10 100%);
+            opacity: 0.85;
+        }
+
+        .publications-title {
+            color: #6b3a10;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.35);
+        }
+
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pub-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.82) 0%,
+                rgba(252,248,242,0.92) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.30);
+            border-radius: 10px;
+            padding: 15px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 1px 4px rgba(160, 120, 60, 0.10),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-card:hover {
+            border-color: rgba(212, 160, 32, 0.70);
+            box-shadow: 0 4px 14px rgba(160, 120, 60, 0.22),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-number {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #c07838 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(160, 100, 30, 0.35);
+        }
+
+        .pub-content { flex: 1; min-width: 0; }
+
+        .pub-title {
+            color: #3a1e08;
+            font-size: 0.96em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .pub-title a { color: inherit; text-decoration: none; }
+        .pub-title a:hover { color: #6b3a10; text-decoration: underline; }
+
+        .pub-authors {
+            color: #7a5030;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .pub-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.77em;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .pub-badge.journal {
+            color: #5a3010;
+            border-color: rgba(190, 150, 80, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(250,235,210,0.85) 100%);
+        }
+
+        .pub-badge.year {
+            color: #6b3a10;
+            border-color: rgba(212, 160, 32, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,242,220,0.85) 100%);
+        }
+
+        .pub-badge.doi {
+            color: #7a4a10;
+            border-color: rgba(190, 140, 60, 0.45);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,238,210,0.85) 100%);
+            text-decoration: none;
+        }
+
+        a.pub-badge.doi:hover { color: #4a2008; text-decoration: underline; }
+
+        .pub-badge.oa {
+            color: #7a5a10;
+            border-color: rgba(200,160,40,0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,245,200,0.85) 100%);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
         <div class="project-code">APPL</div>
         <div class="project-full-name">Associative Pseudoword Learning</div>
         <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
         <div class="info-grid">
-        <div class="info-card">
-            <div class="info-card-label">Modality</div>
-            <div class="info-card-value">linguistic</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Recording Modality</div>
-            <div class="info-card-value">mri</div>
-        </div>
         <div class="info-card">
             <div class="info-card-label">Cognitive Domain</div>
             <div class="info-card-value">declarative memory</div>
@@ -578,6 +819,14 @@
         <div class="info-card">
             <div class="info-card-label">Task Type</div>
             <div class="info-card-value">associative learning</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Modality</div>
+            <div class="info-card-value">linguistic</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Experimental Context</div>
+            <div class="info-card-value">mri</div>
         </div>
         </div>
         <div class="section">
@@ -594,6 +843,7 @@
                 </a>
             </div>
         </div>
+
         <div class="section">
             <h2>Description</h2>
                     <div class="text-box">Language learning task probing the acquisition of novel word–meaning associations across repeated exposures.<br><br>The Associative Pseudoword Learning (APPL) paradigm investigates how the human brain encodes and consolidates associations between newly invented pseudowords and semantic referents. Participants learn to map a set of phonologically plausible but meaningless letter strings (e.g., 'MABREL', 'TUSKIN') onto object images or categories across multiple learning sessions. By requiring deliberate semantic binding, the task places heavy demands on the hippocampal–neocortical dialogue proposed to underlie new vocabulary acquisition.</div>
@@ -601,6 +851,16 @@
         <div class="section">
             <h2>Background</h2>
                     <div class="text-box">Word learning in adulthood involves not only phonological encoding but also the rapid formation of arbitrary form–meaning links. The APPL task operationalises this by presenting pseudowords that must be associated with visual referents over a series of study–test cycles. Repeated exposure across two sessions (with a multi-day interval) allows measurement of consolidation and test-retest reliability of the learning index. The task is sensitive to individual differences in language aptitude and is used as a translational model of second-language acquisition in healthy and clinical populations.</div>
+        </div>
+        <div class="section">
+            <h2>Typical Outcome</h2>
+            <div class="typical-outcome-box">
+                <div class="typical-outcome-header">
+                    <span class="typical-outcome-icon">&#128202;</span>
+                    <span class="typical-outcome-label">Expected results &amp; reliability benchmarks</span>
+                </div>
+                <div class="typical-outcome-body">The primary measure is recognition accuracy (% correct, forced-choice; chance = 50% for a binary known/unknown response). In healthy adults, accuracy increases progressively across learning stages from approximately 55–65% in LS1 to 80–90% by LS4 within a session, indicating rapid associative encoding over repeated exposures. At the beginning of Session 2 (1–2 weeks later), performance typically starts 10–20 percentage points above Session 1 LS1 baseline, demonstrating durable long-term consolidation of novel word–meaning links. Test-retest reliability of accuracy is good (ICC ≈ 0.70–0.85), making it the recommended index for reliability analyses. Reaction time is the secondary measure; RT shortens across stages as the associations become more fluent, and shows moderate test-retest reliability (ICC ≈ 0.50–0.65). Session-level stability is high: mean performance shifts between sessions are small (Cohen's d < 0.25), confirming that Session 2 differences reflect retention rather than procedural re-learning. Individual differences in learning rate (slope across LS1–LS4) are substantially larger than group-mean effects and are the theoretically most informative index for correlating with language aptitude, hippocampal connectivity, or clinical status. Control trial performance is near ceiling (> 92% correct) with minimal intra-individual variability, confirming that task difficulty effects are specific to the associative binding demand.</div>
+            </div>
         </div>
         <div class="section">
             <h2>Paradigm Details</h2>

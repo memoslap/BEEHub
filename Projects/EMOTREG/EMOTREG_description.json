@@ -10,7 +10,7 @@
   "cognitive_domain": "emotion regulation",
   "task_type": "cognitive reappraisal",
   "language": "english",
-  "recording_modality": "behavioral",
+  "experimental_context": "behavioral",
   "software_original": "E-Prime 3.0",
   "language_original": "english",
   "implementations": [

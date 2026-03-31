@@ -10,7 +10,7 @@
   "cognitive_domain": "episodic memory",
   "task_type": "recognition memory",
   "language": "german",
-  "recording_modality": "behavioral",
+  "experimental_context": "behavioral",
   "software_original": "E-Prime 3.0",
   "language_original": "german",
   "implementations": [

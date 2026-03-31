@@ -666,10 +666,22 @@
               </div>
             </div>
             <div class="field">
-              <label>Recording Modality <span class="req">*</span></label>
-              <div class="hint">Measurement device / imaging</div>
+              <label>Experimental Context <span class="req">*</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;
+                  width:15px;height:15px;border-radius:50%;border:1.5px solid var(--bronze);
+                  color:var(--bronze);font-size:0.68em;font-weight:700;font-style:italic;
+                  cursor:pointer;margin-left:5px;vertical-align:middle;"
+                  title="The measurement method for which this paradigm has been tested (e.g. MRI, EEG, Behavioral). This does not restrict use in other contexts — it reflects where validation evidence currently exists."
+                  onclick="document.getElementById('expCtxHint').style.display=document.getElementById('expCtxHint').style.display==='none'?'block':'none'">i</span>
+              </label>
+              <div class="hint">The measurement setup for which this paradigm has been validated (e.g. MRI, EEG, Behavioral)</div>
+              <div id="expCtxHint" style="display:none;font-size:0.80em;color:var(--bronze-dk);
+                background:rgba(192,120,56,0.07);border:1px solid rgba(192,120,56,0.25);
+                border-radius:8px;padding:10px 14px;margin-bottom:8px;line-height:1.6;">
+                <strong>Experimental Context</strong> describes the recording method for which this paradigm has been tested and optimised. It does <em>not</em> mean the paradigm cannot be used in other settings — it simply reflects current validation evidence, not a restriction.
+              </div>
               <div class="combo-wrap">
-                <select id="f_recording_modality" onchange="onComboSelect('f_recording_modality','f_recording_modality_custom');updatePreview()">
+                <select id="f_experimental_context" onchange="onComboSelect('f_experimental_context','f_experimental_context_custom');updatePreview()">
                   <option value="">— select —</option>
                   <option value="behavioral">Behavioral</option>
                   <option value="mri">MRI</option>
@@ -679,8 +691,8 @@
                   <option value="fnirs">fNIRS</option>
                   <option value="meg">MEG</option>
                 </select>
-                <input class="combo-custom" id="f_recording_modality_custom" placeholder="or type a new recording modality…"
-                  oninput="onComboCustom('f_recording_modality_custom','f_recording_modality');updatePreview()">
+                <input class="combo-custom" id="f_experimental_context_custom" placeholder="or type a new experimental context…"
+                  oninput="onComboCustom('f_experimental_context_custom','f_experimental_context');updatePreview()">
               </div>
             </div>
           </div>
@@ -1195,7 +1207,7 @@ function buildJSON() {
   addIf('cognitive_domain',   comboVal('f_cognitive_domain',  'f_cognitive_domain_custom'));
   addIf('task_type',          comboVal('f_task_type',         'f_task_type_custom'));
   addIf('language',           comboVal('f_language',          'f_language_custom'));
-  addIf('recording_modality', comboVal('f_recording_modality','f_recording_modality_custom'));
+  addIf('experimental_context', comboVal('f_experimental_context','f_experimental_context_custom'));
   if (softwareOrig)   obj.software_original  = softwareOrig;
   if (langOrig)       obj.language_original  = langOrig;
   if (implementations.length) obj.implementations = implementations;
@@ -1341,7 +1353,7 @@ function updateValidation() {
     { label: 'Full name provided',         ok: !!document.getElementById('f_full_name').value.trim() },
     { label: 'Short description provided', ok: !!document.getElementById('f_short_description').value.trim() },
     { label: 'Stimulus modality selected', ok: !!comboVal('f_modality',          'f_modality_custom') },
-    { label: 'Recording modality selected',ok: !!comboVal('f_recording_modality','f_recording_modality_custom') },
+    { label: 'Experimental context selected',ok: !!comboVal('f_experimental_context','f_experimental_context_custom') },
     { label: 'Cognitive domain selected',  ok: !!comboVal('f_cognitive_domain',  'f_cognitive_domain_custom') },
     { label: 'Task type provided',         ok: !!comboVal('f_task_type',         'f_task_type_custom') },
     { label: 'Paradigm language selected', ok: !!comboVal('f_language',          'f_language_custom') },

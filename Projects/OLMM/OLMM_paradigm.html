@@ -35,7 +35,6 @@
                 inset 0 -1px 0 rgba(160, 110, 50, 0.15);
             border: 1px solid rgba(190, 150, 80, 0.30);
             position: relative;
-            overflow: hidden;
         }
 
         .container::before {
@@ -169,6 +168,71 @@
                 #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
             );
             opacity: 0.7;
+        }
+
+        /* ── Typical Outcome box ─────────────────────────────────────── */
+        .typical-outcome-box {
+            background: linear-gradient(135deg,
+                rgba(212, 160, 32, 0.10) 0%,
+                rgba(232, 192, 72, 0.14) 40%,
+                rgba(212, 160, 32, 0.10) 100%
+            );
+            border: 1px solid rgba(212, 160, 32, 0.45);
+            border-left: 5px solid #d4a020;
+            border-radius: 12px;
+            padding: 28px 30px 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(212, 160, 32, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
+        }
+
+        .typical-outcome-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 25%, #e8c048 50%, #d4a020 75%, #c4a0b4 100%
+            );
+        }
+
+        .typical-outcome-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+        }
+
+        .typical-outcome-icon {
+            font-size: 1.25em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .typical-outcome-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 60%, #c07838 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .typical-outcome-body {
+            color: #3a2010;
+            font-size: 1.0em;
+            line-height: 1.80;
+        }
+
+        /* Highlight inline metric values: ICC, %, Cohen's d etc. */
+        .typical-outcome-body strong {
+            color: #7a4010;
+            font-weight: 600;
         }
 
         /* ── Paradigm detail grid ────────────────────────────────────── */
@@ -419,6 +483,47 @@
                         inset 0 1px 0 rgba(255, 255, 255, 0.40);
         }
 
+        .btn-top-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }
+
+        .btn-top-dashboard:hover {
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
         /* ── Instructions box ───────────────────────────────────────── */
         .instructions-box {
             background: linear-gradient(135deg,
@@ -555,22 +660,158 @@
             color: #7a5030;
         }
 
+        /* ── Related Publications ───────────────────────────────────── */
+        .publications-box {
+            background: linear-gradient(135deg,
+                rgba(210, 195, 175, 0.85) 0%,
+                rgba(235, 225, 210, 0.92) 50%,
+                rgba(210, 195, 175, 0.85) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.45);
+            border-radius: 14px;
+            padding: 28px 36px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(160, 120, 60, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.80);
+        }
+
+        .publications-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #6b3a10 0%, #c07838 25%, #d4a020 45%,
+                #e8c048 55%, #d4a020 75%, #6b3a10 100%);
+            opacity: 0.85;
+        }
+
+        .publications-title {
+            color: #6b3a10;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.35);
+        }
+
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pub-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.82) 0%,
+                rgba(252,248,242,0.92) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.30);
+            border-radius: 10px;
+            padding: 15px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 1px 4px rgba(160, 120, 60, 0.10),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-card:hover {
+            border-color: rgba(212, 160, 32, 0.70);
+            box-shadow: 0 4px 14px rgba(160, 120, 60, 0.22),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-number {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #c07838 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(160, 100, 30, 0.35);
+        }
+
+        .pub-content { flex: 1; min-width: 0; }
+
+        .pub-title {
+            color: #3a1e08;
+            font-size: 0.96em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .pub-title a { color: inherit; text-decoration: none; }
+        .pub-title a:hover { color: #6b3a10; text-decoration: underline; }
+
+        .pub-authors {
+            color: #7a5030;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .pub-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.77em;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .pub-badge.journal {
+            color: #5a3010;
+            border-color: rgba(190, 150, 80, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(250,235,210,0.85) 100%);
+        }
+
+        .pub-badge.year {
+            color: #6b3a10;
+            border-color: rgba(212, 160, 32, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,242,220,0.85) 100%);
+        }
+
+        .pub-badge.doi {
+            color: #7a4a10;
+            border-color: rgba(190, 140, 60, 0.45);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,238,210,0.85) 100%);
+            text-decoration: none;
+        }
+
+        a.pub-badge.doi:hover { color: #4a2008; text-decoration: underline; }
+
+        .pub-badge.oa {
+            color: #7a5a10;
+            border-color: rgba(200,160,40,0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,245,200,0.85) 100%);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
         <div class="project-code">OLMM</div>
         <div class="project-full-name">Object Memory Location Mapping</div>
         <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
         <div class="info-grid">
-        <div class="info-card">
-            <div class="info-card-label">Modality</div>
-            <div class="info-card-value">visual</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Recording Modality</div>
-            <div class="info-card-value">mri</div>
-        </div>
         <div class="info-card">
             <div class="info-card-label">Cognitive Domain</div>
             <div class="info-card-value">spatial memory</div>
@@ -578,6 +819,14 @@
         <div class="info-card">
             <div class="info-card-label">Task Type</div>
             <div class="info-card-value">object-location binding</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Modality</div>
+            <div class="info-card-value">visual</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Experimental Context</div>
+            <div class="info-card-value">mri</div>
         </div>
         </div>
         <div class="section">
@@ -594,6 +843,25 @@
                 </a>
             </div>
         </div>
+        <div class="publications-box">
+            <div class="publications-title">Related Publications</div>
+            <div class="pub-list">
+                    <div class="pub-card">
+                        <div class="pub-number">1</div>
+                        <div class="pub-content">
+                            <div class="pub-title"><a href="https://doi.org/10.1002/brb3.70658" target="_blank" rel="noopener">Identification of Reliable Target Brain Regions for Enhancing Object–Location Memory by Brain Stimulation</a></div>
+                            <div class="pub-authors">Abdelmotaleb, Mohamed et al.</div>
+                            <div class="pub-meta">
+                                <span class="pub-badge journal">Brain and Behavior, 15:e70658</span>
+                                <span class="pub-badge year">2025</span>
+                                <a class="pub-badge doi" href="https://doi.org/10.1002/brb3.70658" target="_blank" rel="noopener">DOI: 10.1002/brb3.70658</a>
+                                <span class="pub-badge oa">Open Access</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
         <div class="section">
             <h2>Description</h2>
                     <div class="text-box">Visual-spatial memory task requiring binding of object identity to allocentric location across learning stages.<br><br>The Object Memory Location Mapping (OLMM) paradigm measures the capacity to form and retain object–location associations in a two-dimensional spatial array. Participants view everyday objects placed at specific positions on a grid and must subsequently select the correct location from among foils. This design isolates the binding function of the hippocampus, specifically the ability to associate 'what' (object identity) with 'where' (spatial position), independent of egocentric navigation cues.</div>
@@ -601,6 +869,16 @@
         <div class="section">
             <h2>Background</h2>
                     <div class="text-box">Spatial memory and object-location binding are core functions attributed to the hippocampus and surrounding medial temporal lobe structures. The OLMM task is inspired by virtual Morris Water Maze analogues but operates in a purely allocentric, map-like format suitable for fMRI and EEG co-registration. Individual differences in OLMM accuracy correlate with hippocampal volume and have been proposed as a sensitive marker of early memory decline. The two-session design enables assessment of overnight and long-term consolidation effects.</div>
+        </div>
+        <div class="section">
+            <h2>Typical Outcome</h2>
+            <div class="typical-outcome-box">
+                <div class="typical-outcome-header">
+                    <span class="typical-outcome-icon">&#128202;</span>
+                    <span class="typical-outcome-label">Expected results &amp; reliability benchmarks</span>
+                </div>
+                <div class="typical-outcome-body">The primary measure is spatial accuracy (% correct, four-alternative forced choice; chance = 25%). In healthy younger adults, accuracy rises steeply across learning stages from approximately 40–50% in LS1 to 75–85% by LS4 within a single session, reflecting rapid within-session consolidation. Across sessions (7–14 days apart), performance at the start of Session 2 typically exceeds LS1 of Session 1 by 15–25 percentage points, indicating robust overnight and long-term consolidation. Test-retest reliability of accuracy is good to excellent (ICC ≈ 0.75–0.85 across sessions). Reaction time is a secondary measure and shows moderate reliability (ICC ≈ 0.55–0.70); RT typically decreases from LS1 to LS4 as participants become more familiar with the response mapping. Practice-related stability effects are small to negligible (Cohen's d < 0.3 for session-level means), confirming that performance differences across sessions reflect genuine memory retention rather than procedural drift. Control trial performance (colour-coherence judgement) is near ceiling (> 90% correct) with low intra-individual variability (CV < 10%), validating that observed learning effects are memory-specific.</div>
+            </div>
         </div>
         <div class="section">
             <h2>Paradigm Details</h2>
