@@ -1181,7 +1181,6 @@ class InteractiveDashboard:
             <h2>Typical Outcome</h2>
             <div class="typical-outcome-box">
                 <div class="typical-outcome-header">
-                    <span class="typical-outcome-icon">&#128202;</span>
                     <span class="typical-outcome-label">Expected results &amp; reliability benchmarks</span>
                 </div>
                 <div class="typical-outcome-body">{typical_outcome}</div>

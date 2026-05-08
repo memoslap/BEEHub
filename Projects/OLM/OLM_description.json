@@ -1,0 +1,85 @@
+{
+  "full_name": "Object–Location Memory",
+  "short_description": "Feedback-based associative learning task in which participants learn house–location associations on a 2D street map across repeated learning stages, with a right/left control condition.",
+  "long_description": "The Object–Location Memory (OLM) paradigm measures the capacity to form and retain object–location associations using a two-dimensional schematic street map. Participants view house images placed at specific positions and judge whether each house is at its correct location (yes/no), receiving trial-by-trial feedback. Across four learning stages per block, accuracy improves from near chance (~50–60%) to ~85%, reflecting feedback-driven associative learning. A control task (left/right side judgement) controls for perceptual and motor demands without engaging memory. This design isolates the binding function attributed to the hippocampus—specifically, linking object identity ('what') with allocentric spatial position ('where')—while engaging a broader network of temporo-occipital, fusiform, and precuneus regions.",
+  "background": "Object–location memory is a subtype of spatial memory essential for remembering where objects are positioned in the environment. It is attributed primarily to the hippocampus and surrounding medial temporal lobe structures but also engages lateral temporo-occipital cortices, fusiform gyri, and the precuneus. OLM declines with normal aging and is further impaired in neurodegenerative diseases. The present paradigm is an fMRI adaptation of a well-established OLM task (Flöel et al. 2012; Külzow et al. 2014) and was developed to (a) identify cortical target regions for transcranial direct current stimulation (tDCS) and (b) assess the test–retest reliability of behavioral and fMRI outcomes in a crossover design. The neurocognitive model of Postma et al. (2004, 2008) provides the theoretical foundation, with right-lateralised temporo-occipital involvement consistently reported in OLM tasks.",
+  "typical_outcome": "The primary measure is response accuracy (% correct, binary yes/no; chance = 50%). In healthy young adults (N = 20, mean age 25), accuracy improves significantly across four learning stages (GLMM stage estimate = 0.211, p < 0.001), rising from approximately 60% in Stage 1 to 85% by Stage 4. Control task accuracy starts high (~83%) and is near ceiling by later stages. Reaction time (correct trials) decreases across stages (estimate = −0.050, p < 0.001), with learning trials slower than control trials at all stages. Test–retest reliability across two sessions (≥ 1 week apart, parallel task versions) is good for accuracy (ICC = 0.801, 95% CI [0.737, 0.850]) and moderate for RT (ICC = 0.705, 95% CI [0.613, 0.777]). Session effects on accuracy are non-significant (p = 0.614), confirming paradigm stability. fMRI activation in key regions (fusiform, lateral occipital cortex) shows moderate-to-excellent test–retest reliability (ICC 0.80–0.92).",
+  "procedure": "Participants undergo two task-based fMRI sessions separated by at least 1 week, with counterbalanced parallel task versions (A and B). In each session, participants complete six learning blocks and two control blocks in a block design. Each block has four stages of 10 trials. In the learning task, participants judge whether a house is at the correct position on a schematic street map (yes/no) and receive immediate feedback including the correct location. In the control task, participants judge whether a house is on the right or left side of the map. Sham tDCS (focal 3×1 montage, 40 s) is administered during scanning to simulate the protocol of the overarching tDCS study. Responses are made via MRI-compatible response grips.",
+  "trial_structure": "Each trial lasts 4.5 s: 2.5 s stimulus presentation (house on street map) during which the participant responds, followed by 2 s of written feedback (correct/incorrect, plus the correct location). A 4.5 s fixation cross follows each stage (10 trials). An 18 s fixation cross separates learning and control blocks. Learning: 6 blocks × 4 stages × 10 trials = 240 trials per session (30 unique house–location associations, 5 per block). Control: 2 blocks × 4 stages × 10 trials = 80 trials per session (10 houses, left/right judgement).",
+  "design": "Within-subjects, two-session repeated-measures with counterbalanced parallel task versions (A/B). Inter-session interval ≥ 1 week.",
+  "modality": "visual",
+  "cognitive_domain": "spatial memory",
+  "task_type": "object-location binding",
+  "language": "german",
+  "experimental_context": "mri",
+  "software_original": "Presentation (Neurobehavioral Systems)",
+  "language_original": "german",
+  "implementations": [
+    {
+      "software": "Presentation (Neurobehavioral Systems)",
+      "type": "original",
+      "languages_available": [
+        "german"
+      ],
+      "folder": "paradigm/presentation"
+    },
+    {
+      "software": "PsychoPy",
+      "type": "compatible",
+      "languages_available": [
+        "german",
+        "english"
+      ],
+      "folder": "paradigm/psychopy"
+    }
+  ],
+  "keywords": [
+    "object-location memory",
+    "spatial memory",
+    "hippocampus",
+    "allocentric",
+    "feedback-based learning",
+    "fusiform gyrus",
+    "lateral occipital cortex",
+    "precuneus",
+    "test-retest reliability",
+    "tDCS",
+    "fMRI"
+  ],
+  "response_device": "MRI-compatible response grips (NordicNeuro)",
+  "timing": {
+    "trial_duration_s": 4.5,
+    "stimulus_duration_s": 2.5,
+    "feedback_duration_s": 2.0,
+    "fixation_post_stage_s": 4.5,
+    "fixation_between_blocks_s": 18
+  },
+  "n_sessions": 2,
+  "software": "Presentation (Neurobehavioral Systems)",
+  "outcome_measures": [
+    {
+      "id": "ACCBIN",
+      "suffix": "_ACCBIN_beh.tsv",
+      "column": "accuracy_binary",
+      "label": "Accuracy",
+      "axis_label": "Accuracy (%)",
+      "higher_is_better": true,
+      "is_binary": true,
+      "is_primary": false,
+      "is_helper": false,
+      "display_priority": 1
+    },
+    {
+      "id": "RT",
+      "suffix": "_RT_beh.tsv",
+      "column": "response_time_ms",
+      "label": "Reaction Time",
+      "axis_label": "RT (ms)",
+      "higher_is_better": false,
+      "is_binary": false,
+      "is_primary": true,
+      "is_helper": false,
+      "display_priority": 2
+    }
+  ]
+}

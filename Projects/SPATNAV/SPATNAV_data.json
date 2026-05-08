@@ -11551,7 +11551,7 @@
             1
           ],
           "mean": 0.7906184486373166,
-          "std": 0.4068671986184673,
+          "std": 0.4068671986184674,
           "median": 1.0,
           "subject_pct": [
             95.83333333333334,
@@ -20669,8 +20669,8 @@
             3775.9,
             4022.1
           ],
-          "mean": 2686.6294663573085,
-          "std": 825.9159917312049,
+          "mean": 2686.629466357308,
+          "std": 825.915991731205,
           "median": 2599.7,
           "subject_pct": []
         }
@@ -29728,8 +29728,8 @@
         3775.9,
         4022.1
       ],
-      "rt_mean": 2686.6294663573085,
-      "rt_std": 825.9159917312049,
+      "rt_mean": 2686.629466357308,
+      "rt_std": 825.915991731205,
       "rt_median": 2599.7,
       "acc_values": [
         1,
@@ -41182,7 +41182,7 @@
         1
       ],
       "acc_mean": 0.7906184486373166,
-      "acc_std": 0.4068671986184673,
+      "acc_std": 0.4068671986184674,
       "subject_acc_percentages": [
         95.83333333333334,
         89.35185185185185,
@@ -52702,7 +52702,7 @@
             0
           ],
           "mean": 0.7966457023060797,
-          "std": 0.4024938848024064,
+          "std": 0.40249388480240633,
           "median": 1.0,
           "subject_pct": [
             91.66666666666666,
@@ -61890,7 +61890,7 @@
             3038.2
           ],
           "mean": 2629.23711622807,
-          "std": 835.1862645034034,
+          "std": 835.1862645034033,
           "median": 2533.95,
           "subject_pct": []
         }
@@ -71018,7 +71018,7 @@
         3038.2
       ],
       "rt_mean": 2629.23711622807,
-      "rt_std": 835.1862645034034,
+      "rt_std": 835.1862645034033,
       "rt_median": 2533.95,
       "acc_values": [
         0,
@@ -82471,7 +82471,7 @@
         0
       ],
       "acc_mean": 0.7966457023060797,
-      "acc_std": 0.4024938848024064,
+      "acc_std": 0.40249388480240633,
       "subject_acc_percentages": [
         91.66666666666666,
         81.48148148148148,
@@ -147527,7 +147527,7 @@
             1658.1,
             956.8
           ],
-          "mean": 1125.8819180231417,
+          "mean": 1125.881918023142,
           "std": 268.9205031048453,
           "median": 1104.35,
           "subject_pct": []
@@ -157733,7 +157733,7 @@
         1658.1,
         956.8
       ],
-      "rt_mean": 1125.8819180231417,
+      "rt_mean": 1125.881918023142,
       "rt_std": 268.9205031048453,
       "rt_median": 1104.35,
       "acc_values": [
@@ -169248,16 +169248,21 @@
   },
   "reliability_metrics": {
     "navigation": {
-      "accbin_icc_mean": 0.47615170830327297,
+      "accbin_icc_mean": 0.5620407062327654,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.47615170830327297,
-      "accbin_icc_max": 0.47615170830327297,
-      "accbin_pearson_r_mean": 0.47654325490544,
+      "accbin_icc_min": 0.5620407062327654,
+      "accbin_icc_max": 0.5620407062327654,
+      "accbin_icc_agreement_mean": 0.5629544718593898,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.5629544718593898,
+      "accbin_icc_agreement_max": 0.5629544718593898,
+      "accbin_icc_n_observations": 159,
+      "accbin_pearson_r_mean": 0.47654325490544003,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": 0.0572620599693159,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 50.46802012780781,
-      "accbin_cv_std": 17.149746018328532,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 53,
       "accbin_s1_means": [
         0.9305555555555556,
@@ -169428,10 +169433,15 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.5997542235897938,
+      "rt_icc_mean": 0.7007355032607592,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.5997542235897938,
-      "rt_icc_max": 0.5997542235897938,
+      "rt_icc_min": 0.7007355032607592,
+      "rt_icc_max": 0.7007355032607592,
+      "rt_icc_agreement_mean": 0.6946509831659012,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.6946509831659012,
+      "rt_icc_agreement_max": 0.6946509831659012,
+      "rt_icc_n_observations": 159,
       "rt_pearson_r_mean": 0.603754686792352,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": -0.19336471108399658,
@@ -169606,16 +169616,21 @@
       ]
     },
     "pointing": {
-      "accbin_icc_mean": 0.4597391869732524,
+      "accbin_icc_mean": 0.425739085484564,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.4597391869732524,
-      "accbin_icc_max": 0.4597391869732524,
-      "accbin_pearson_r_mean": 0.4601473699791463,
+      "accbin_icc_min": 0.425739085484564,
+      "accbin_icc_max": 0.425739085484564,
+      "accbin_icc_agreement_mean": 0.4257881728968576,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.4257881728968576,
+      "accbin_icc_agreement_max": 0.4257881728968576,
+      "accbin_icc_n_observations": 159,
+      "accbin_pearson_r_mean": 0.46014736997914624,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": 0.08382212071526018,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 33.70504186874131,
-      "accbin_cv_std": 16.176240688423373,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 53,
       "accbin_s1_means": [
         0.9953703703703703,
@@ -169786,11 +169801,16 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.6305386646819149,
+      "rt_icc_mean": 0.6221532022711148,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.6305386646819149,
-      "rt_icc_max": 0.6305386646819149,
-      "rt_pearson_r_mean": 0.6346046851744576,
+      "rt_icc_min": 0.6221532022711148,
+      "rt_icc_max": 0.6221532022711148,
+      "rt_icc_agreement_mean": 0.6156908144209299,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.6156908144209299,
+      "rt_icc_agreement_max": 0.6156908144209299,
+      "rt_icc_n_observations": 159,
+      "rt_pearson_r_mean": 0.6346046851744573,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": -0.1854395960001292,
       "rt_cohens_d_std": 0.0,
@@ -169966,16 +169986,21 @@
   },
   "control_reliability": {
     "all": {
-      "accbin_icc_mean": 0.48302473216346475,
+      "accbin_icc_mean": 0.5044079301978326,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.48302473216346475,
-      "accbin_icc_max": 0.48302473216346475,
+      "accbin_icc_min": 0.5044079301978326,
+      "accbin_icc_max": 0.5044079301978326,
+      "accbin_icc_agreement_mean": 0.5048294286888617,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.5048294286888617,
+      "accbin_icc_agreement_max": 0.5048294286888617,
+      "accbin_icc_n_observations": 159,
       "accbin_pearson_r_mean": 0.4835291297469811,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": 0.07193561931938287,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 42.565565579297584,
-      "accbin_cv_std": 15.842703250696227,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 53,
       "accbin_s1_means": [
         0.9629629629629629,
@@ -170146,10 +170171,15 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.5756958378835255,
+      "rt_icc_mean": 0.5947468218801124,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.5756958378835255,
-      "rt_icc_max": 0.5756958378835255,
+      "rt_icc_min": 0.5947468218801124,
+      "rt_icc_max": 0.5947468218801124,
+      "rt_icc_agreement_mean": 0.5885902110905932,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.5885902110905932,
+      "rt_icc_agreement_max": 0.5885902110905932,
+      "rt_icc_n_observations": 159,
       "rt_pearson_r_mean": 0.5796605030717469,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": -0.18328533744640163,
@@ -170448,7 +170478,7 @@
       "display_priority": 2
     }
   ],
-  "primary_icc_key": "accbin_icc_mean",
+  "primary_icc_key": "accbin_icc_agreement_mean",
   "column_names": {
     "rt_column": "response_time_ms",
     "acc_column": "accuracy_binary"

@@ -30,10 +30,11 @@ try:
 except ImportError:
     # Minimal fallback so the dashboard still generates without the module
     METRIC_REGISTRY = [
-        {"id": "icc",       "label": "ICC(3,1)"},
-        {"id": "pearson_r", "label": "Pearson r"},
-        {"id": "cohens_d",  "label": "Stability (Cohen\u2019s d)"},
-        {"id": "cv",        "label": "Consistency (CV)"},
+        {"id": "icc",            "label": "ICC Consistency"},
+        {"id": "icc_agreement",  "label": "ICC Agreement"},
+        {"id": "pearson_r",      "label": "Pearson r"},
+        {"id": "cohens_d",       "label": "Stability (Cohen\u2019s d)"},
+        {"id": "cv",             "label": "Consistency (CV)"},
     ]
     ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
 
@@ -242,10 +243,11 @@ class InteractiveDashboard:
         raw_ctrl: Dict[str, list] = {}
 
         METRIC_SUFFIXES = {
-            '_icc_mean':       'icc',
-            '_pearson_r_mean': 'pearson_r',
-            '_cohens_d_mean':  'cohens_d',
-            '_cv_mean':        'cv',
+            '_icc_mean':            'icc',
+            '_icc_agreement_mean':  'icc_agreement',
+            '_pearson_r_mean':      'pearson_r',
+            '_cohens_d_mean':       'cohens_d',
+            '_cv_mean':             'cv',
         }
 
         def _collect(metrics_dict: dict, raw: dict):
@@ -1939,7 +1941,8 @@ class InteractiveDashboard:
                         <span style="font-size:0.78em; color:#a08840; text-transform:uppercase; letter-spacing:0.4px;">Metric</span>
                         <select id="radarMetricFilter" class="filter-select" style="min-width:200px;" onchange="onSelectionChange()">
                             <option value="all">All Metrics</option>
-                            <option value="icc">ICC(3,1)</option>
+                            <option value="icc">ICC Consistency</option>
+                            <option value="icc_agreement">ICC Agreement</option>
                             <option value="pearson_r">Pearson r</option>
                             <option value="cohens_d">Stability (Cohen&apos;s d)</option>
                             <option value="cv">Consistency (CV)</option>
@@ -1986,24 +1989,24 @@ class InteractiveDashboard:
             <!-- ── 3. Metric descriptions ── -->
             <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.4) 10%, rgba(212, 180, 74, 0.55) 50%, rgba(201, 162, 39, 0.4) 90%, transparent 100%) 1;">
                 <div class="reliability-panel-subtitle" style="color:#a08840">
-                    All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are derived from task trials only; control, rest, and baseline conditions are excluded.
+                    All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are computed at the learning-stage level (subject × stage means) and derived from task trials only; control, rest, and baseline conditions are excluded.
                 </div>
             </div>
             <div class="metric-cards-grid">
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">ICC(3,1) — Intraclass Correlation</div>
-                        <div class="metric-card-tagline">Test-retest consistency across sessions — task trials only, control/rest/baseline excluded</div>
+                        <div class="metric-card-name">ICC(C,1) — Consistency</div>
+                        <div class="metric-card-tagline">Do subjects maintain their relative ranking across sessions? Stage-level, task trials only</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Computed exclusively on task trial types — control, rest, fixation, baseline, and catch conditions are always excluded from the ICC calculation</li>
-                            <li>Two-way mixed model, single measures — sessions are treated as fixed, subjects as random; session mean differences are partialled out of the error term (consistency estimate, not absolute agreement)</li>
-                            <li>Reported separately for RT and Accuracy; each value represents the mean ICC across subjects who completed at least two sessions</li>
+                            <li>Computed at the <strong>learning-stage level</strong> (one mean per subject &times; stage &times; session), matching standard practice in crossover fMRI-tDCS studies</li>
+                            <li>Two-way mixed model, single measures &mdash; ignores systematic session shifts; a uniform improvement across all subjects does not lower this ICC</li>
+                            <li>Useful for detecting whether individual differences are preserved across sessions</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
-                                <span class="math-lhs">ICC(3,1)</span>
+                                <span class="math-lhs">ICC(C,1)</span>
                                 <span class="math-eq">=</span>
                                 <span class="math-frac">
                                     <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
@@ -2012,19 +2015,52 @@ class InteractiveDashboard:
                                 </span>
                             </div>
                             <div class="formula-legend">
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">r</span></b> = between-subjects mean square &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">r</span></b> = between-rows (subject &times; stage) mean square &nbsp;&middot;&nbsp;
                                 <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">e</span></b> = error mean square &nbsp;&middot;&nbsp;
                                 <b>k</b> = number of sessions
                             </div>
-                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent &nbsp;&middot;&nbsp; task trials only</span>
+                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent ranking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">ICC(A,1) — Absolute Agreement</div>
+                        <div class="metric-card-tagline">Are scores truly interchangeable across sessions? Penalises session shifts. Stage-level, task trials only</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Same stage-level computation as ICC(C,1), but includes the <strong>session (column) effect</strong> in the denominator &mdash; any systematic shift between sessions lowers this value</li>
+                            <li>Matches the R <code>irr::icc(model='twoway', type='agreement', unit='single')</code> call used in Abdelmotaleb et al. (2025)</li>
+                            <li>The stricter, more conservative metric &mdash; preferred when confirming no session/practice effects exist</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">ICC(A,1)</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">MS</span><span class="math-sub">r</span> + (<span class="math-var">k</span>&minus;1)&middot;<span class="math-var">MS</span><span class="math-sub">e</span> + <span class="math-frac"><span class="math-num"><span class="math-var">k</span></span><span class="math-bar"></span><span class="math-den"><span class="math-var">n</span></span></span>(<span class="math-var">MS</span><span class="math-sub">c</span>&minus;<span class="math-var">MS</span><span class="math-sub">e</span>)</span>
+                                </span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">r</span></b> = between-rows &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">c</span></b> = between-columns (sessions) &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">e</span></b> = error &nbsp;&middot;&nbsp;
+                                <b>n</b> = rows &nbsp;&middot;&nbsp; <b>k</b> = sessions
+                            </div>
+                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable &amp; interchangeable</span>
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
                                 <a href="https://doi.org/10.1037/1040-3590.8.4.500" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
-                                <a href="https://doi.org/10.1152/japplphysiol.01092.2002" target="_blank">McGraw &amp; Wong (1996)</a> —
-                                ICC(3,1) two-way mixed model is the recommended form for test-retest reliability of behavioural measures;
-                                benchmarks: &ge;0.75 excellent, 0.60–0.74 good, 0.40–0.59 moderate
-                                <em>(Cicchetti, 1994, Psychol. Assessment)</em>.
+                                <a href="https://doi.org/10.1152/japplphysiol.01092.2002" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
+                                When consistency &asymp; agreement, the paradigm is stable in every sense. When they diverge,
+                                the gap quantifies the session effect.
+                                Benchmarks: &ge;0.75 good, &ge;0.90 excellent
+                                <em>(Koo &amp; Li, 2016, J. Chiropr. Med.)</em>.
                             </span>
                         </div>
                     </div>
@@ -2195,10 +2231,11 @@ class InteractiveDashboard:
         // ── Metric definitions — built dynamically from DATA_RANGES keys ─────
         // Supports any outcome prefix (rt_, acc_, score_, dist_, …)
         const METRIC_SUFFIXES = [
-            {{ suffix: '_icc',       metricId: 'icc',       label: 'ICC(3,1)',                step: 0.05, decimals: 2 }},
-            {{ suffix: '_pearson_r', metricId: 'pearson_r', label: 'Pearson r',               step: 0.05, decimals: 2 }},
-            {{ suffix: '_cohens_d',  metricId: 'cohens_d',  label: 'Stability (Cohen’s d)', step: 0.1,  decimals: 2 }},
-            {{ suffix: '_cv',        metricId: 'cv',        label: 'Consistency (CV)',         step: 0.5,  decimals: 1 }},
+            {{ suffix: '_icc',           metricId: 'icc',           label: 'ICC Consistency',           step: 0.05, decimals: 2 }},
+            {{ suffix: '_icc_agreement', metricId: 'icc_agreement', label: 'ICC Agreement',             step: 0.05, decimals: 2 }},
+            {{ suffix: '_pearson_r',     metricId: 'pearson_r',     label: 'Pearson r',                 step: 0.05, decimals: 2 }},
+            {{ suffix: '_cohens_d',      metricId: 'cohens_d',      label: 'Stability (Cohen’s d)', step: 0.1,  decimals: 2 }},
+            {{ suffix: '_cv',            metricId: 'cv',            label: 'Consistency (CV)',           step: 0.5,  decimals: 1 }},
         ];
         function _getOutcomePrefixes() {{
             const prefixes = new Set();
@@ -2446,16 +2483,22 @@ class InteractiveDashboard:
                 const primaryId = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
                 const primaryLabel = primaryOm ? primaryOm.label : primaryId.toUpperCase();
 
-                // ICC for highest-priority outcome
-                const primaryIccKey = primaryId + '_icc_mean';
+                // ICC for highest-priority outcome — prefer agreement, fall back to consistency
+                const primaryIccAgrKey = primaryId + '_icc_agreement_mean';
+                const primaryIccConKey = primaryId + '_icc_mean';
                 let primaryIccVals2 = [];
                 for (const metrics of Object.values(reliability)) {{
-                    const v = metrics[primaryIccKey];
+                    const va = metrics[primaryIccAgrKey];
+                    const vc = metrics[primaryIccConKey];
+                    const v = (va !== null && va !== undefined) ? va : vc;
                     if (v !== null && v !== undefined) primaryIccVals2.push(v);
                 }}
                 const overallIcc = primaryIccVals2.length > 0
                     ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
                     : 'N/A';
+                const iccType = primaryIccVals2.length > 0
+                    && Object.values(reliability).some(m => m[primaryIccAgrKey] !== null && m[primaryIccAgrKey] !== undefined)
+                    ? 'ICC(A)' : 'ICC(C)';
 
                 // CV for highest-priority outcome; fall back to rt_cv_mean if absent
                 const primaryCvKey = primaryId + '_cv_mean';
@@ -2490,9 +2533,9 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{demo.age_mean ? demo.age_mean.toFixed(1) : 'N/A'}}</div>
                                 <div class="stat-label">Mean Age</div>
                             </div>
-                            <div class="stat-item" title="Mean ICC(3,1) for the primary outcome — task trials only">
+                            <div class="stat-item" title="Mean ICC (absolute agreement) for the primary outcome — stage-level, task trials only">
                                 <div class="stat-value">${{overallIcc}}</div>
-                                <div class="stat-label">${{primaryLabel}} ICC<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
+                                <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
                             <div class="stat-item" title="Mean within-subject CV for the primary outcome across task trial types — control/rest excluded">
                                 <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
@@ -2510,10 +2553,11 @@ class InteractiveDashboard:
         
         // ── Metric & source registry — built dynamically ────────────────────
         const _METRIC_NORMS = {{
-            icc:       v => Math.max(0, Math.min(1, v)),
-            pearson_r: v => Math.max(0, Math.min(1, v)),
-            cohens_d:  v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
-            cv:        v => Math.max(0, Math.min(1, 1 - v / 50)),
+            icc:           v => Math.max(0, Math.min(1, v)),
+            icc_agreement: v => Math.max(0, Math.min(1, v)),
+            pearson_r:     v => Math.max(0, Math.min(1, v)),
+            cohens_d:      v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
+            cv:            v => Math.max(0, Math.min(1, 1 - v / 50)),
         }};
         function _buildMetricRegistry() {{
             const prefixes = _getOutcomePrefixes();
@@ -2592,17 +2636,19 @@ class InteractiveDashboard:
 
         // Colour palette per metric
         const METRIC_COLOURS = {{
-            icc:      {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
-            pearson_r:{{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)',  tick: '#7a5a00' }},
-            cohens_d: {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
-            cv:       {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
+            icc:           {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
+            icc_agreement: {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
+            pearson_r:     {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)',  tick: '#7a5a00' }},
+            cohens_d:      {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
+            cv:            {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
         }};
         // Slightly darker tints for control conditions
         const CTRL_COLOURS = {{
-            icc:      {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
-            pearson_r:{{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
-            cohens_d: {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)', tick: '#5c0070' }},
-            cv:       {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
+            icc:           {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
+            icc_agreement: {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)',  tick: '#2e7d32' }},
+            pearson_r:     {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
+            cohens_d:      {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)', tick: '#5c0070' }},
+            cv:            {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
         }};
 
         /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */

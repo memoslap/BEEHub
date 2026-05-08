@@ -132,7 +132,7 @@ class InteractiveDashboard:
             data.setdefault("project_info", {
                 "full_name": project_name, "description": "",
                 "modality": "unknown", "cognitive_domain": "unknown",
-                "task_type": "unknown", "language": None, "recording_modality": None,
+                "task_type": "unknown", "language": None, "experimental_context": None,
             })
             data.setdefault("demographics", {
                 "n_participants": 0, "age_mean": None,
@@ -205,7 +205,7 @@ class InteractiveDashboard:
         domains = set()
         task_types = set()
         languages = set()
-        recording_modalities = set()
+        experimental_contexts = set()
         
         for project in self.all_projects:
             info = project.get('project_info', {})
@@ -215,16 +215,16 @@ class InteractiveDashboard:
             lang = info.get('language', None)
             if lang:
                 languages.add(lang)
-            rec_mod = info.get('recording_modality', None)
+            rec_mod = info.get('experimental_context', None)
             if rec_mod:
-                recording_modalities.add(rec_mod)
+                experimental_contexts.add(rec_mod)
         
         return {
             'modalities': sorted(modalities),
             'domains': sorted(domains),
             'task_types': sorted(task_types),
             'languages': sorted(languages),
-            'recording_modalities': sorted(recording_modalities)
+            'experimental_contexts': sorted(experimental_contexts)
         }
     
     def get_data_ranges(self) -> Dict:
@@ -586,6 +586,104 @@ class InteractiveDashboard:
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+
+        .info-icon {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1.5px solid #c9a227;
+            background: transparent;
+            color: #c9a227;
+            font-size: 0.72em;
+            font-weight: 700;
+            font-style: italic;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s, color 0.2s;
+            -webkit-text-fill-color: #c9a227;
+            line-height: 1;
+            user-select: none;
+        }}
+        .info-icon:hover {{
+            background: rgba(201, 162, 39, 0.15);
+        }}
+
+        /* ── Info tooltip modal ── */
+        .info-modal-overlay {{
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }}
+        .info-modal-overlay.open {{
+            display: flex;
+        }}
+        .info-modal {{
+            background: linear-gradient(135deg,
+                rgba(28, 26, 16, 0.99) 0%,
+                rgba(38, 35, 20, 0.99) 100%
+            );
+            border: 1px solid rgba(201, 162, 39, 0.5);
+            border-radius: 14px;
+            padding: 28px 32px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow:
+                0 16px 48px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(201, 162, 39, 0.15);
+            position: relative;
+        }}
+        .info-modal::before {{
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 14px 14px 0 0;
+            background: linear-gradient(90deg,
+                #2c2c2c 0%, #c9a227 30%, #f0d060 50%, #c9a227 70%, #2c2c2c 100%
+            );
+        }}
+        .info-modal-title {{
+            background: linear-gradient(135deg, #f0d060 0%, #c9a227 60%, #e5c158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.05em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 14px;
+        }}
+        .info-modal-body {{
+            color: #c8b080;
+            font-size: 0.92em;
+            line-height: 1.75;
+        }}
+        .info-modal-close {{
+            position: absolute;
+            top: 12px; right: 16px;
+            background: none;
+            border: none;
+            color: #a08840;
+            font-size: 1.3em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+        }}
+        .info-modal-close:hover {{
+            color: #f0d060;
+            background: rgba(201, 162, 39, 0.12);
         }}
         
         .filter-select {{
@@ -1786,7 +1884,7 @@ class InteractiveDashboard:
             </div>
         </div>
 
-        <!-- Row 2: Language + Recording Modality -->
+        <!-- Row 2: Language + Experimental Context -->
         <div class="filters-grid" style="margin-top:20px;">
             <div class="filter-group">
                 <label class="filter-label">Language of Paradigm</label>
@@ -1799,9 +1897,9 @@ class InteractiveDashboard:
                 </select>
             </div>
             <div class="filter-group">
-                <label class="filter-label">Recording Modality</label>
-                <select id="recordingModalityFilter" class="filter-select">
-                    <option value="">All Recording Modalities</option>
+                <label class="filter-label">Experimental Context <span class="info-icon" onclick="document.getElementById('expCtxModal').classList.add('open')" title="What is Experimental Context?">i</span></label>
+                <select id="experimentalContextFilter" class="filter-select">
+                    <option value="">All Experimental Contexts</option>
                     <option value="behavioral">Behavioral</option>
                     <option value="mri">MRI</option>
                     <option value="eeg">EEG</option>
@@ -1809,7 +1907,7 @@ class InteractiveDashboard:
                     <option value="eye_tracking">Eye-tracking</option>
                     <option value="fnirs">fNIRS</option>
 """
-        for rec in unique_values['recording_modalities']:
+        for rec in unique_values['experimental_contexts']:
             fixed = {'behavioral','mri','eeg','pet','eye_tracking','fnirs'}
             if rec.lower() not in fixed:
                 html += f'                    <option value="{rec}">{rec.replace("_", " ").title()}</option>\n'
@@ -2219,7 +2317,7 @@ class InteractiveDashboard:
             const domain           = document.getElementById('domainFilter').value;
             const taskType         = document.getElementById('taskFilter').value;
             const language         = document.getElementById('languageFilter').value;
-            const recordingModality= document.getElementById('recordingModalityFilter').value;
+            const experimentalContext= document.getElementById('experimentalContextFilter').value;
 
             const ageMin = parseFloat(document.getElementById('ageMin').value);
             const ageMax = parseFloat(document.getElementById('ageMax').value);
@@ -2268,7 +2366,7 @@ class InteractiveDashboard:
                 if (domain            && info.cognitive_domain      !== domain)            return false;
                 if (taskType          && info.task_type             !== taskType)          return false;
                 if (language          && info.language              !== language)          return false;
-                if (recordingModality && info.recording_modality    !== recordingModality) return false;
+                if (experimentalContext && info.experimental_context    !== experimentalContext) return false;
 
                 // Demographic filters — only apply when slider moved from full range
                 const ageSliderMin = parseFloat(document.getElementById('ageMin').min);
@@ -2308,7 +2406,7 @@ class InteractiveDashboard:
             document.getElementById('domainFilter').value = '';
             document.getElementById('taskFilter').value = '';
             document.getElementById('languageFilter').value = '';
-            document.getElementById('recordingModalityFilter').value = '';
+            document.getElementById('experimentalContextFilter').value = '';
             document.getElementById('radarMetricFilter').value = 'all';
             document.querySelector('input[name="radarSource"][value="task"]').checked = true;
 
@@ -2381,7 +2479,7 @@ class InteractiveDashboard:
                             <span class="tag task">${{info.task_type || 'unknown'}}</span>
                             <span class="tag modality">${{info.modality || 'unknown'}}</span>
                             ${{info.language ? `<span class="tag language">${{info.language}}</span>` : '<span class="tag language">—</span>'}}
-                            ${{info.recording_modality ? `<span class="tag recording">${{info.recording_modality.toLowerCase()}}</span>` : ''}}
+                            ${{info.experimental_context ? `<span class="tag recording">${{info.experimental_context.toLowerCase()}}</span>` : ''}}
                         </div>
                         <div class="project-stats">
                             <div class="stat-item">
@@ -2609,6 +2707,18 @@ class InteractiveDashboard:
         rebuildSliders();
         applyFilters();
     </script>
+
+    <!-- ── Experimental Context info modal ── -->
+    <div class="info-modal-overlay" id="expCtxModal" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="info-modal">
+            <button class="info-modal-close" onclick="document.getElementById('expCtxModal').classList.remove('open')" aria-label="Close">&times;</button>
+            <div class="info-modal-title">Experimental Context</div>
+            <div class="info-modal-body">
+                The <strong style="-webkit-text-fill-color:#f0d060;color:#f0d060;">Experimental Context</strong> describes the measurement method or recording setup for which this paradigm has been tested and optimised &mdash; for example MRI, EEG, or purely behavioural.<br><br>
+                This does <em>not</em> mean the paradigm cannot be used in other settings. It simply reflects the context in which it has been validated so far. A paradigm labelled <em>MRI</em> can often be adapted for behavioural or EEG use; the label indicates current evidence, not a restriction.
+            </div>
+        </div>
+    </div>
 
     <div class="footer-disclaimer">
         <div class="footer-logos">

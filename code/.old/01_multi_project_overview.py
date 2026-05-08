@@ -131,11 +131,11 @@ class ProjectOverviewGenerator:
         task_type       = proj_info.get('task_type', '')
         modality        = proj_info.get('modality', '')
         language        = proj_info.get('language', '')
-        rec_modality    = proj_info.get('recording_modality', '')
+        rec_modality    = proj_info.get('experimental_context', '')
         n_sessions      = proj_info.get('n_sessions', '')
 
         # ── Badge row — matches dashboard filter order exactly:
-        #    Cognitive Domain → Task Type → Modality → Language → Recording Modality
+        #    Cognitive Domain → Task Type → Modality → Language → Experimental Context
         badge_values = []
         for v in [domain, task_type, modality, language, rec_modality]:
             if v and v != 'unknown':

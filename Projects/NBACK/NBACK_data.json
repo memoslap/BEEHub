@@ -39973,7 +39973,7 @@
             687.3,
             726.1
           ],
-          "mean": 778.7764343823593,
+          "mean": 778.7764343823592,
           "std": 246.84064537395545,
           "median": 750.3,
           "subject_pct": []
@@ -58665,7 +58665,7 @@
         687.3,
         726.1
       ],
-      "rt_mean": 778.7764343823593,
+      "rt_mean": 778.7764343823592,
       "rt_std": 246.84064537395545,
       "rt_median": 750.3,
       "acc_values": [
@@ -170071,7 +170071,7 @@
             1
           ],
           "mean": 0.9052083333333333,
-          "std": 0.2929269646127209,
+          "std": 0.29292696461272083,
           "median": 1.0,
           "subject_pct": [
             98.75,
@@ -199821,7 +199821,7 @@
         1
       ],
       "acc_mean": 0.9052083333333333,
-      "acc_std": 0.2929269646127209,
+      "acc_std": 0.29292696461272083,
       "subject_acc_percentages": [
         98.75,
         98.33333333333333,
@@ -220056,8 +220056,8 @@
             770.2,
             796.0
           ],
-          "mean": 605.3147582164539,
-          "std": 152.91619994452276,
+          "mean": 605.3147582164538,
+          "std": 152.91619994452273,
           "median": 589.8499999999999,
           "subject_pct": []
         }
@@ -229618,8 +229618,8 @@
         770.2,
         796.0
       ],
-      "rt_mean": 605.3147582164539,
-      "rt_std": 152.91619994452276,
+      "rt_mean": 605.3147582164538,
+      "rt_std": 152.91619994452273,
       "rt_median": 589.8499999999999,
       "acc_values": [
         1,
@@ -240236,16 +240236,21 @@
   },
   "reliability_metrics": {
     "2back": {
-      "accbin_icc_mean": 0.8886135408228336,
+      "accbin_icc_mean": 0.8589768284424997,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.8886135408228336,
-      "accbin_icc_max": 0.8886135408228336,
-      "accbin_pearson_r_mean": 0.8901819611594441,
+      "accbin_icc_min": 0.8589768284424997,
+      "accbin_icc_max": 0.8589768284424997,
+      "accbin_icc_agreement_mean": 0.8595362964724741,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.8595362964724741,
+      "accbin_icc_agreement_max": 0.8595362964724741,
+      "accbin_icc_n_observations": 176,
+      "accbin_pearson_r_mean": 0.890181961159444,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": -0.04306185922921941,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 34.47027402847848,
-      "accbin_cv_std": 17.409543667716914,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 44,
       "accbin_s1_means": [
         0.6145833333333334,
@@ -240389,11 +240394,16 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.8689614411780434,
+      "rt_icc_mean": 0.9088364972173099,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.8689614411780434,
-      "rt_icc_max": 0.8689614411780434,
-      "rt_pearson_r_mean": 0.8699533333487639,
+      "rt_icc_min": 0.9088364972173099,
+      "rt_icc_max": 0.9088364972173099,
+      "rt_icc_agreement_mean": 0.9090737824362309,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.9090737824362309,
+      "rt_icc_agreement_max": 0.9090737824362309,
+      "rt_icc_n_observations": 176,
+      "rt_pearson_r_mean": 0.8699533333487641,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": 0.06583342796918058,
       "rt_cohens_d_std": 0.0,
@@ -240540,16 +240550,21 @@
       ]
     },
     "0back": {
-      "accbin_icc_mean": 0.9151271897723039,
+      "accbin_icc_mean": 0.8453736608842497,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.9151271897723039,
-      "accbin_icc_max": 0.9151271897723039,
-      "accbin_pearson_r_mean": 0.9180989701322668,
+      "accbin_icc_min": 0.8453736608842497,
+      "accbin_icc_max": 0.8453736608842497,
+      "accbin_icc_agreement_mean": 0.8461091438276737,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.8461091438276737,
+      "accbin_icc_agreement_max": 0.8461091438276737,
+      "accbin_icc_n_observations": 176,
+      "accbin_pearson_r_mean": 0.918098970132267,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": -0.010750546410407336,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 29.49949485451041,
-      "accbin_cv_std": 19.312251919843334,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 44,
       "accbin_s1_means": [
         0.6166666666666667,
@@ -240693,11 +240708,16 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.8587483435385236,
+      "rt_icc_mean": 0.8416695934964757,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.8587483435385236,
-      "rt_icc_max": 0.8587483435385236,
-      "rt_pearson_r_mean": 0.8595454950032009,
+      "rt_icc_min": 0.8416695934964757,
+      "rt_icc_max": 0.8416695934964757,
+      "rt_icc_agreement_mean": 0.8416939751978962,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.8416939751978962,
+      "rt_icc_agreement_max": 0.8416939751978962,
+      "rt_icc_n_observations": 176,
+      "rt_pearson_r_mean": 0.859545495003201,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": 0.07680646001624158,
       "rt_cohens_d_std": 0.0,
@@ -240846,16 +240866,21 @@
   },
   "control_reliability": {
     "all": {
-      "accbin_icc_mean": 0.9089638127577251,
+      "accbin_icc_mean": 0.8815878334832663,
       "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.9089638127577251,
-      "accbin_icc_max": 0.9089638127577251,
-      "accbin_pearson_r_mean": 0.9108833239996419,
+      "accbin_icc_min": 0.8815878334832663,
+      "accbin_icc_max": 0.8815878334832663,
+      "accbin_icc_agreement_mean": 0.8820970099716584,
+      "accbin_icc_agreement_std": 0.0,
+      "accbin_icc_agreement_min": 0.8820970099716584,
+      "accbin_icc_agreement_max": 0.8820970099716584,
+      "accbin_icc_n_observations": 176,
+      "accbin_pearson_r_mean": 0.9108833239996418,
       "accbin_pearson_r_std": 0.0,
       "accbin_cohens_d_mean": -0.034867827100477,
       "accbin_cohens_d_std": 0.0,
-      "accbin_cv_mean": 32.96380003730101,
-      "accbin_cv_std": 17.78604086809416,
+      "accbin_cv_mean": null,
+      "accbin_cv_std": null,
       "accbin_n_subjects": 44,
       "accbin_s1_means": [
         0.6152777777777778,
@@ -240999,11 +241024,16 @@
         "1",
         "2"
       ],
-      "rt_icc_mean": 0.8681149450965462,
+      "rt_icc_mean": 0.8912195232329836,
       "rt_icc_std": 0.0,
-      "rt_icc_min": 0.8681149450965462,
-      "rt_icc_max": 0.8681149450965462,
-      "rt_pearson_r_mean": 0.868933904666557,
+      "rt_icc_min": 0.8912195232329836,
+      "rt_icc_max": 0.8912195232329836,
+      "rt_icc_agreement_mean": 0.8913920848082121,
+      "rt_icc_agreement_std": 0.0,
+      "rt_icc_agreement_min": 0.8913920848082121,
+      "rt_icc_agreement_max": 0.8913920848082121,
+      "rt_icc_n_observations": 176,
+      "rt_pearson_r_mean": 0.8689339046665571,
       "rt_pearson_r_std": 0.0,
       "rt_cohens_d_mean": 0.06762405360659299,
       "rt_cohens_d_std": 0.0,
@@ -241167,7 +241197,7 @@
             94.27083333333334
           ],
           "sems": [
-            0.3822552213414828,
+            0.3822552213414829,
             0.3303163945220377,
             0.27090488830049186,
             0.22616375512078943
@@ -241176,7 +241206,7 @@
         "RT": {
           "means": [
             944.7004071969698,
-            796.845965909091,
+            796.8459659090908,
             696.1143181818181,
             696.0878125
           ],
@@ -241190,7 +241220,7 @@
       },
       "rt_means": [
         944.7004071969698,
-        796.845965909091,
+        796.8459659090908,
         696.1143181818181,
         696.0878125
       ],
@@ -241207,7 +241237,7 @@
         94.27083333333334
       ],
       "acc_sems": [
-        0.3822552213414828,
+        0.3822552213414829,
         0.3303163945220377,
         0.27090488830049186,
         0.22616375512078943
@@ -241292,7 +241322,7 @@
       "display_priority": 2
     }
   ],
-  "primary_icc_key": "accbin_icc_mean",
+  "primary_icc_key": "accbin_icc_agreement_mean",
   "column_names": {
     "rt_column": "response_time_ms",
     "acc_column": "accuracy_binary"
