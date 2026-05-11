@@ -116,9 +116,18 @@ def split_trial_types(trial_types: List[str]) -> Tuple[List[str], List[str]]:
 METRIC_REGISTRY: List[Dict] = [
     {
         "id":          "icc",
-        "label":       "ICC(3,1)",
-        "description": "Intraclass Correlation — two-way mixed, consistency estimate.",
-        "radar_label": "{tt} {label} ICC",
+        "label":       "ICC Consistency",
+        "description": "Intraclass Correlation — two-way mixed, consistency estimate ICC(C,1). "
+                       "Computed at the learning-stage level (subject × stage means).",
+        "radar_label": "{tt} {label} ICC(C)",
+        "normalise":   "icc",
+    },
+    {
+        "id":          "icc_agreement",
+        "label":       "ICC Agreement",
+        "description": "Intraclass Correlation — two-way mixed, absolute agreement ICC(A,1). "
+                       "Penalises systematic session shifts. Computed at the learning-stage level.",
+        "radar_label": "{tt} {label} ICC(A)",
         "normalise":   "icc",
     },
     {
@@ -165,6 +174,10 @@ class ReliabilityMetrics:
 
     @staticmethod
     def calculate_icc(data1: np.ndarray, data2: np.ndarray) -> float:
+        """ICC(C,1) — two-way mixed, consistency, single measures.
+
+        Formula: (MS_rows − MS_error) / (MS_rows + (k−1)·MS_error)
+        """
         if len(data1) != len(data2) or len(data1) == 0:
             return np.nan
         n, k = len(data1), 2
@@ -178,6 +191,31 @@ class ReliabilityMetrics:
         ms_rows  = ss_rows  / (n - 1)
         ms_error = ss_error / ((n - 1) * (k - 1))
         return (ms_rows - ms_error) / (ms_rows + (k - 1) * ms_error)
+
+    @staticmethod
+    def calculate_icc_agreement(data1: np.ndarray, data2: np.ndarray) -> float:
+        """ICC(A,1) — two-way mixed, absolute agreement, single measures.
+
+        Matches R's ``irr::icc(model='twoway', type='agreement', unit='single')``.
+        Formula: (MS_rows − MS_error) / (MS_rows + (k−1)·MS_error + k/n·(MS_cols − MS_error))
+        """
+        if len(data1) != len(data2) or len(data1) == 0:
+            return np.nan
+        n, k = len(data1), 2
+        data = np.column_stack([data1, data2])
+        grand_mean = np.mean(data)
+        row_means  = np.mean(data, axis=1)
+        col_means  = np.mean(data, axis=0)
+        ss_rows  = k * np.sum((row_means  - grand_mean) ** 2)
+        ss_cols  = n * np.sum((col_means  - grand_mean) ** 2)
+        ss_error = np.sum((data - grand_mean) ** 2) - ss_rows - ss_cols
+        ms_rows  = ss_rows  / (n - 1)
+        ms_cols  = ss_cols  / (k - 1)
+        ms_error = ss_error / ((n - 1) * (k - 1))
+        denom = ms_rows + (k - 1) * ms_error + (k / n) * (ms_cols - ms_error)
+        if denom == 0:
+            return np.nan
+        return (ms_rows - ms_error) / denom
 
     @staticmethod
     def calculate_cohens_d(data1: np.ndarray, data2: np.ndarray) -> float:
@@ -238,25 +276,18 @@ class ReliabilityMetrics:
     ) -> Dict:
         """Compute all reliability metrics for *one* outcome across trial types.
 
-        Parameters
-        ----------
-        df:
-            DataFrame loaded from the outcome's TSV (must have columns
-            ``subject_id``, ``session``, ``trial_type``, and *column*).
-        column:
-            Name of the value column in *df* (e.g. ``response_time_ms``,
-            ``score``, ``accuracy_binary``).
-        outcome_id:
-            Short identifier used as key prefix in the returned dict
-            (e.g. ``"rt"`` → keys like ``rt_icc_mean``).
-        trial_types:
-            List of trial-type labels to compute metrics for.
-        accbin_df:
-            Optional binary-accuracy DataFrame.  When provided and
-            *filter_correct* is True, only rows where ``accuracy_binary == 1``
-            are kept for reliability computation (correct-trial RT filtering).
-        filter_correct:
-            Whether to apply correct-trial filtering (only meaningful for RT).
+        ICC is now computed at the **learning-stage level** (one mean per
+        subject × stage × session) to match the methodology of Abdelmotaleb
+        et al. (2025) and the R ``irr::icc`` call used in the paper.  When
+        no ``learning_stage`` column is present, the code falls back to the
+        previous session-level approach.
+
+        Both ICC(C,1) (consistency) and ICC(A,1) (absolute agreement) are
+        computed and stored under separate keys.
+
+        Pearson r and Cohen's d are computed on session-level means (overall
+        mean per subject per session) because they describe the between-session
+        relationship at the subject level, not the stage level.
         """
         reliability: Dict = {}
         oid = outcome_id.lower()
@@ -302,31 +333,91 @@ class ReliabilityMetrics:
 
             subjects = _multi(dff)
 
-            s1_means, s2_means, cv_all = [], [], []
+            # ── Stage-level means for ICC ────────────────────────────────────
+            # Group by (subject_id, learning_stage, session) → mean value.
+            # This yields N_subjects × N_stages rows per session, matching
+            # the R code: group_by(ID, Stage, Session) %>% summarize(mean=...)
+            has_stages = ('learning_stage' in dff.columns and
+                          dff['learning_stage'].dropna().astype(str).str.strip()
+                          .pipe(lambda s: s[s.ne('') & s.str.lower().ne('n/a')]).nunique() > 1)
+
+            stage_s1, stage_s2 = [], []  # stage-level paired vectors for ICC
+            s1_means, s2_means, cv_all = [], [], []  # session-level for Pearson/Cohen/CV
+
             for subject in subjects:
                 subj = dff[dff['subject_id'] == subject]
-                v1 = pd.to_numeric(subj[subj['session'] == sessions[0]][column],
-                                   errors='coerce').dropna().values
-                v2 = pd.to_numeric(subj[subj['session'] == sessions[1]][column],
-                                   errors='coerce').dropna().values
-                if len(v1) > 0 and len(v2) > 0:
-                    s1_means.append(float(np.mean(v1)))
-                    s2_means.append(float(np.mean(v2)))
-                for v in (v1, v2):
-                    if len(v) > 1:
-                        cv = cls.calculate_cv(v)
-                        if not np.isnan(cv):
-                            cv_all.append(cv)
+                v1_all = pd.to_numeric(subj[subj['session'] == sessions[0]][column],
+                                       errors='coerce').dropna()
+                v2_all = pd.to_numeric(subj[subj['session'] == sessions[1]][column],
+                                       errors='coerce').dropna()
+                if len(v1_all) == 0 or len(v2_all) == 0:
+                    continue
+
+                # Session-level means (for Pearson r, Cohen's d, scatter plots)
+                s1_means.append(float(v1_all.mean()))
+                s2_means.append(float(v2_all.mean()))
+
+                # CV per session
+                # Skip CV for binary outcomes (ACCBIN etc.): for a 0/1
+                # Bernoulli variable, SD is forced to be √(p(1−p)), so
+                # CV = √((1−p)/p)·100 is a deterministic function of the
+                # mean accuracy and carries no information about measurement
+                # consistency. Leaving cv_all empty here lets downstream code
+                # (build_radar_spokes, normalise_for_radar) drop the spoke
+                # entirely rather than render a misleading low value.
+                #
+                # Detection: (a) explicit outcome_id allow-list or (b) the
+                # actual values are a subset of {0, 1}. (b) catches the
+                # legacy wrapper path (compute_reliability_dict) which passes
+                # outcome_id='ACC' for binary accuracy_binary data.
+                vals_union = set(v1_all.unique()) | set(v2_all.unique())
+                is_binary = (outcome_id in BINARY_OUTCOME_IDS or
+                             (len(vals_union) > 0 and vals_union <= {0, 1, 0.0, 1.0}))
+                if not is_binary:
+                    for v in (v1_all.values, v2_all.values):
+                        if len(v) > 1:
+                            cv = cls.calculate_cv(v)
+                            if not np.isnan(cv):
+                                cv_all.append(cv)
+
+                # Stage-level means (for ICC)
+                if has_stages:
+                    subj_s1 = subj[subj['session'] == sessions[0]]
+                    subj_s2 = subj[subj['session'] == sessions[1]]
+                    stages_present = sorted(
+                        set(subj_s1['learning_stage'].dropna().unique()) &
+                        set(subj_s2['learning_stage'].dropna().unique())
+                    )
+                    for stage in stages_present:
+                        sv1 = pd.to_numeric(
+                            subj_s1[subj_s1['learning_stage'] == stage][column],
+                            errors='coerce').dropna()
+                        sv2 = pd.to_numeric(
+                            subj_s2[subj_s2['learning_stage'] == stage][column],
+                            errors='coerce').dropna()
+                        if len(sv1) > 0 and len(sv2) > 0:
+                            stage_s1.append(float(sv1.mean()))
+                            stage_s2.append(float(sv2.mean()))
+
+            # If no stage-level data, fall back to session-level for ICC
+            if not stage_s1:
+                stage_s1 = list(s1_means)
+                stage_s2 = list(s2_means)
 
             s1 = np.array(s1_means)
             s2 = np.array(s2_means)
+            icc_s1 = np.array(stage_s1)
+            icc_s2 = np.array(stage_s2)
 
             def _safe(lst):
                 return [v for v in lst if not np.isnan(v)]
 
-            iccs      = _safe([cls.calculate_icc(s1, s2)]       if len(s1) > 2 else [])
-            pearson   = _safe([cls.calculate_pearson_r(s1, s2)] if len(s1) > 2 else [])
-            cohens    = _safe([cls.calculate_cohens_d(s1, s2)]  if len(s1) > 2 else [])
+            # ICC computed on stage-level paired means
+            iccs       = _safe([cls.calculate_icc(icc_s1, icc_s2)]           if len(icc_s1) > 2 else [])
+            iccs_agree = _safe([cls.calculate_icc_agreement(icc_s1, icc_s2)] if len(icc_s1) > 2 else [])
+            # Pearson and Cohen's d on session-level means
+            pearson    = _safe([cls.calculate_pearson_r(s1, s2)] if len(s1) > 2 else [])
+            cohens     = _safe([cls.calculate_cohens_d(s1, s2)]  if len(s1) > 2 else [])
 
             def _m(lst): return float(np.mean(lst)) if lst else None
             def _s(lst): return float(np.std(lst))  if lst else None
@@ -334,21 +425,33 @@ class ReliabilityMetrics:
             def _x(lst): return float(np.max(lst))  if lst else None
 
             reliability[trial_type] = {
-                f'{oid}_icc_mean':      _m(iccs),
-                f'{oid}_icc_std':       _s(iccs),
-                f'{oid}_icc_min':       _n(iccs),
-                f'{oid}_icc_max':       _x(iccs),
-                f'{oid}_pearson_r_mean': _m(pearson),
-                f'{oid}_pearson_r_std':  _s(pearson),
-                f'{oid}_cohens_d_mean':  _m(cohens),
-                f'{oid}_cohens_d_std':   _s(cohens),
-                f'{oid}_cv_mean':        _m(cv_all),
-                f'{oid}_cv_std':         _s(cv_all),
-                f'{oid}_n_subjects':     len(subjects),
-                f'{oid}_s1_means':       s1_means,
-                f'{oid}_s2_means':       s2_means,
-                f'{oid}_subjects':       subjects,
-                'session_labels':        [str(sessions[0]), str(sessions[1])],
+                # ICC consistency (stage-level)
+                f'{oid}_icc_mean':                _m(iccs),
+                f'{oid}_icc_std':                 _s(iccs),
+                f'{oid}_icc_min':                 _n(iccs),
+                f'{oid}_icc_max':                 _x(iccs),
+                # ICC absolute agreement (stage-level)
+                f'{oid}_icc_agreement_mean':       _m(iccs_agree),
+                f'{oid}_icc_agreement_std':        _s(iccs_agree),
+                f'{oid}_icc_agreement_min':        _n(iccs_agree),
+                f'{oid}_icc_agreement_max':        _x(iccs_agree),
+                # Stage-level info
+                f'{oid}_icc_n_observations':       len(stage_s1),
+                # Pearson r (session-level)
+                f'{oid}_pearson_r_mean':           _m(pearson),
+                f'{oid}_pearson_r_std':            _s(pearson),
+                # Cohen's d (session-level)
+                f'{oid}_cohens_d_mean':            _m(cohens),
+                f'{oid}_cohens_d_std':             _s(cohens),
+                # CV (within-session trial-level)
+                f'{oid}_cv_mean':                  _m(cv_all),
+                f'{oid}_cv_std':                   _s(cv_all),
+                # Metadata
+                f'{oid}_n_subjects':               len(subjects),
+                f'{oid}_s1_means':                 s1_means,
+                f'{oid}_s2_means':                 s2_means,
+                f'{oid}_subjects':                 subjects,
+                'session_labels':                  [str(sessions[0]), str(sessions[1])],
             }
 
         return reliability

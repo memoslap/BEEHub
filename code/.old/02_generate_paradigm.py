@@ -27,7 +27,7 @@ def _load_description(project_dir: Path, project_name: str) -> Dict:
         "cognitive_domain":    "unknown",
         "task_type":           "unknown",
         "language":            "unknown",
-        "recording_modality":  "",
+        "experimental_context":  "",
         "software_original":   "",
         "language_original":   "",
         "implementations":     [],
@@ -348,6 +348,12 @@ _CSS = """
             margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+        }
+
+        .typical-outcome-icon {
+            font-size: 1.25em;
+            line-height: 1;
+            flex-shrink: 0;
         }
 
         .typical-outcome-label {
@@ -1137,19 +1143,19 @@ class InteractiveDashboard:
         domain          = desc.get("cognitive_domain", "")
         task_type       = desc.get("task_type", "")
         n_sessions      = desc.get("n_sessions", "")
-        rec_modality    = desc.get("recording_modality", "")
+        rec_modality    = desc.get("experimental_context", "")
         software_orig   = desc.get("software_original", software)
         language_orig   = desc.get("language_original", desc.get("language", ""))
         implementations = desc.get("implementations", [])
         typical_outcome = desc.get("typical_outcome", "")
 
         # ── Info cards — order matches dashboard filters exactly:
-        #    Cognitive Domain → Task Type → Modality → Recording Modality
+        #    Cognitive Domain → Task Type → Modality → Experimental Context
         card_defs = [
             ("Cognitive Domain",    domain),
             ("Task Type",           task_type),
             ("Modality",            modality),
-            ("Recording Modality",  rec_modality),
+            ("Experimental Context",  rec_modality),
         ]
         info_cards = "\n".join(_info_card(lbl, val) for lbl, val in card_defs)
 

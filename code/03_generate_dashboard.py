@@ -7,7 +7,7 @@ Creates a filterable overview dashboard from all project JSON files
 import json
 import numpy as np
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Optional, Tuple
 
 # Import metric registry for the radar dropdown labels
 try:
@@ -30,11 +30,13 @@ try:
 except ImportError:
     # Minimal fallback so the dashboard still generates without the module
     METRIC_REGISTRY = [
-        {"id": "icc",            "label": "ICC Consistency"},
-        {"id": "icc_agreement",  "label": "ICC Agreement"},
-        {"id": "pearson_r",      "label": "Pearson r"},
-        {"id": "cohens_d",       "label": "Stability (Cohen\u2019s d)"},
-        {"id": "cv",             "label": "Consistency (CV)"},
+        {"id": "icc",                  "label": "ICC Consistency"},
+        {"id": "icc_agreement",        "label": "ICC Agreement"},
+        {"id": "pearson_r",            "label": "Pearson r"},
+        {"id": "cronbach_alpha",       "label": "Internal consistency (\u03b1)"},
+        {"id": "session_shift_d",      "label": "Session-shift stability"},
+        {"id": "paradigm_effect_size", "label": "Paradigm effect size"},
+        {"id": "cv",                   "label": "Within-session CV"},
     ]
     ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
 
@@ -231,33 +233,65 @@ class InteractiveDashboard:
     def get_data_ranges(self) -> Dict:
         """Get min/max ranges for all metric sliders — task and control separately.
 
-        Instead of a hardcoded list of keys, this method scans the actual
-        metric keys present in each project's reliability dicts.  Any key
-        ending in one of the four metric suffixes (_icc_mean, _pearson_r_mean,
-        _cohens_d_mean, _cv_mean) is collected, regardless of the outcome-ID
-        prefix (rt_, acc_, score_, dist_, …).
+        Scans actual reliability keys present in each project.  Recognises both
+        the legacy ``_<metric>_mean`` suffix scheme and the new bare-suffix
+        scheme (``_icc``, ``_session_shift_d``, ``_paradigm_effect_size``,
+        ``_cronbach_alpha``).  Ancillary fields (CI bounds, F, df, p, n,
+        contrast, type, subjects, s1_means, s2_means) are skipped.
         """
         ages, n_subjects = [], []
         # raw[src][metric_short_key] = list of values
         raw_task: Dict[str, list] = {}
         raw_ctrl: Dict[str, list] = {}
 
-        METRIC_SUFFIXES = {
-            '_icc_mean':            'icc',
-            '_icc_agreement_mean':  'icc_agreement',
-            '_pearson_r_mean':      'pearson_r',
-            '_cohens_d_mean':       'cohens_d',
-            '_cv_mean':             'cv',
-        }
+        # Order matters: longest suffix first so '_icc_agreement_mean'
+        # is matched before '_icc_mean'.  Each suffix maps to a short
+        # metric label used in the slider key, e.g. 'rt_icc'.
+        METRIC_SUFFIXES = [
+            ('_icc_agreement_mean',     'icc_agreement'),
+            ('_icc_agreement',          'icc_agreement'),
+            ('_paradigm_effect_size',   'paradigm_effect_size'),
+            ('_session_shift_d',        'session_shift_d'),
+            ('_cronbach_alpha',         'cronbach_alpha'),
+            ('_pearson_r_mean',         'pearson_r'),
+            ('_pearson_r',              'pearson_r'),
+            ('_cohens_d_mean',          'cohens_d'),
+            ('_icc_mean',               'icc'),
+            ('_icc',                    'icc'),
+            ('_cv_mean',                'cv'),
+        ]
+
+        # Suffixes that must NEVER be classified as a primary metric value
+        SKIP_SUFFIXES = (
+            '_ci_low', '_ci_high', '_F', '_df1', '_df2', '_p',
+            '_n', '_n_observations', '_n_items', '_n_subjects',
+            '_contrast', '_type', '_subjects', '_s1_means', '_s2_means',
+            '_std', '_min', '_max',
+        )
+
+        def _classify(key: str) -> Optional[Tuple[str, str]]:
+            if any(key.endswith(s) for s in SKIP_SUFFIXES):
+                return None
+            for suffix, short in METRIC_SUFFIXES:
+                if key.endswith(suffix):
+                    oid = key[: -len(suffix)]   # 'rt', 'accbin', ...
+                    if not oid:
+                        return None
+                    return (f'{oid}_{short}', short)
+            return None
 
         def _collect(metrics_dict: dict, raw: dict):
             for k, v in metrics_dict.items():
-                if v is None:
+                # Only collect numeric scalars — skip lists/dicts/strings
+                if v is None or isinstance(v, (list, dict, str, bool)):
                     continue
-                for suffix in METRIC_SUFFIXES:
-                    if k.endswith(suffix):
-                        short = k[:-len('_mean')]   # e.g. 'rt_icc', 'score_cv'
-                        raw.setdefault(short, []).append(float(v))
+                if isinstance(v, float) and (v != v):  # NaN
+                    continue
+                cls = _classify(k)
+                if cls is None:
+                    continue
+                short_key, _short = cls
+                raw.setdefault(short_key, []).append(float(v))
 
         for project in self.all_projects:
             demo = project.get('demographics', {})
@@ -294,8 +328,17 @@ class InteractiveDashboard:
                 vals = raw.get(short, [])
                 if short.endswith('_cv'):
                     lo, hi = _rng_cv(vals)
-                elif short.endswith('_cohens_d'):
+                elif short.endswith('_cohens_d') or short.endswith('_session_shift_d'):
                     lo, hi = _rng_d(vals)
+                elif short.endswith('_paradigm_effect_size'):
+                    # Effect sizes can be much larger than 1 — pad wider
+                    if vals:
+                        lo, hi = round(min(vals)-0.2, 2), round(max(vals)+0.2, 2)
+                    else:
+                        lo, hi = -3.0, 3.0
+                elif short.endswith('_cronbach_alpha'):
+                    # α is in (-∞, 1] but practically [0, 1]; allow small negatives
+                    lo, hi = _rng(vals, pad=0.05, lo=-0.5, hi=1.0)
                 else:
                     lo, hi = _rng(vals)
                 r[f'{src}_{short}_min'] = lo
@@ -1944,8 +1987,10 @@ class InteractiveDashboard:
                             <option value="icc">ICC Consistency</option>
                             <option value="icc_agreement">ICC Agreement</option>
                             <option value="pearson_r">Pearson r</option>
-                            <option value="cohens_d">Stability (Cohen&apos;s d)</option>
-                            <option value="cv">Consistency (CV)</option>
+                            <option value="cronbach_alpha">Internal consistency (α)</option>
+                            <option value="session_shift_d">Session-shift stability</option>
+                            <option value="paradigm_effect_size">Paradigm effect size</option>
+                            <option value="cv">Within-session CV</option>
                         </select>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:4px;">
@@ -2003,6 +2048,7 @@ class InteractiveDashboard:
                             <li>Computed at the <strong>learning-stage level</strong> (one mean per subject &times; stage &times; session), matching standard practice in crossover fMRI-tDCS studies</li>
                             <li>Two-way mixed model, single measures &mdash; ignores systematic session shifts; a uniform improvement across all subjects does not lower this ICC</li>
                             <li>Useful for detecting whether individual differences are preserved across sessions</li>
+                            <li><strong>Reported with 95 % CI, F statistic, and p-value</strong> (computed via <code>pingouin.intraclass_corr</code>; matches R's <code>irr::icc</code>)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
@@ -2111,23 +2157,24 @@ class InteractiveDashboard:
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Stability &mdash; from Cohen&apos;s d</div>
-                        <div class="metric-card-tagline">Magnitude of mean change between sessions</div>
+                        <div class="metric-card-name">Session-shift stability</div>
+                        <div class="metric-card-tagline">Magnitude of mean change between sessions &mdash; <em>not</em> the paradigm's effect size</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Detects systematic shifts such as practice or fatigue effects</li>
-                            <li>Derived from Cohen&apos;s d &mdash; inverted so that higher = more stable</li>
-                            <li>A score of 1 means no detectable shift across sessions</li>
+                            <li>Detects systematic shifts such as practice or fatigue effects across the two sessions</li>
+                            <li>Paired Cohen's d on session-level means &mdash; inverted on the radar so higher = more stable</li>
+                            <li>A score near 1 means the paradigm's mean did not drift between Session 1 and Session 2</li>
+                            <li><strong>Distinct from "paradigm effect size"</strong> below: this is a reliability concept (small shift is good), not paradigm sensitivity (a large within-session contrast is good)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
-                                <span class="math-lhs">d</span>
+                                <span class="math-lhs">d<span class="math-sub">paired</span></span>
                                 <span class="math-eq">=</span>
                                 <span class="math-frac">
                                     <span class="math-num"><span class="math-var">M</span><span class="math-sub">1</span> &minus; <span class="math-var">M</span><span class="math-sub">2</span></span>
                                     <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">diff</span></span>
                                 </span>
                                 <span class="math-op" style="margin-left:14px; color:#8a7040; font-size:0.8em; font-style:normal">&there4;</span>
                                 <span class="math-lhs" style="margin-left:4px">Stability</span>
@@ -2142,15 +2189,14 @@ class InteractiveDashboard:
                             </div>
                             <div class="formula-legend">
                                 <b>M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">1</span>, M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">2</span></b> = session means &nbsp;&middot;&nbsp;
-                                <b>SD<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">pooled</span></b> = pooled standard deviation
+                                <b>SD<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">diff</span></b> = SD of paired differences
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = less drift between sessions</span>
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
                                 <a href="https://doi.org/10.1037/h0044887" target="_blank">Cohen (1988)</a> —
-                                <em>Statistical Power Analysis for the Behavioral Sciences (2nd ed.)</em>.
-                                Cohen&apos;s d quantifies the standardised mean difference between sessions; conventional benchmarks: |d| &lt; 0.2 negligible, 0.2–0.5 small, 0.5–0.8 medium, &gt;0.8 large shift.
+                                conventional benchmarks: |d| &lt; 0.2 negligible, 0.2&ndash;0.5 small, 0.5&ndash;0.8 medium, &gt;0.8 large shift.
                                 Inverted here so that stability = 1 indicates no session-to-session drift.
                             </span>
                         </div>
@@ -2159,8 +2205,107 @@ class InteractiveDashboard:
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Consistency &mdash; from CV</div>
-                        <div class="metric-card-tagline">Within-session trial-to-trial variability</div>
+                        <div class="metric-card-name">Internal consistency &mdash; Cronbach&apos;s α / KR-20</div>
+                        <div class="metric-card-tagline">Within-session item homogeneity across trials &mdash; complements test-retest</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Computed across <strong>trial-level items within Session 1</strong> &mdash; for binary accuracy this is mathematically KR-20</li>
+                            <li>Different construct from test-retest ICC: high α means the trials within a session measure the same thing, whatever that thing is</li>
+                            <li>A paradigm can have low test-retest ICC <em>and</em> high α (variable across days but consistent within a day) or vice versa</li>
+                            <li><strong>Reported with 95 % CI</strong> (computed via <code>pingouin.cronbach_alpha</code>)</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">α</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">k</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">k</span> &minus; 1</span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">&Sigma; <span class="math-var">σ²</span><span class="math-sub">i</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">σ²</span><span class="math-sub">total</span></span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>k</b> = number of trials &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">i</span></b> = variance of trial i &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">total</span></b> = variance of subject totals
+                            </div>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent across trials</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.1007/BF02310555" target="_blank">Cronbach (1951)</a> /
+                                <a href="https://doi.org/10.1007/BF02288892" target="_blank">Kuder &amp; Richardson (1937)</a>;
+                                Pike et al. (2022) note internal consistency and test-retest reliability address different sources of measurement error and should both be reported for behavioural paradigms.
+                                Benchmarks: ≥0.70 acceptable, ≥0.80 good, ≥0.90 excellent.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Paradigm effect size (Hedges&apos; g)</div>
+                        <div class="metric-card-tagline">Within-session contrast magnitude &mdash; how strongly the paradigm moves the score</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Computed within <strong>Session 1 only</strong> on a paradigm-specific contrast &mdash; for OLM that's last vs first learning stage; for n-back it would be high vs low load; for Stroop, incongruent vs congruent</li>
+                            <li>Hedges' g is preferred over Cohen's d for small samples (n &lt; 50): applies the small-sample bias correction</li>
+                            <li><strong>Reported with bootstrap 95 % CI</strong> (BCa, n_boot=2000) so two paradigms with similar means but different precision are distinguishable</li>
+                            <li>This is a <em>sensitivity</em> metric, not a reliability metric: a paradigm can be highly reliable (high ICC, high α) but uninformative (g near 0) &mdash; visible at a glance by inspecting both</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">g</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">M</span><span class="math-sub">A</span> &minus; <span class="math-var">M</span><span class="math-sub">B</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">3</span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den">4<span class="math-var">N</span> &minus; 9</span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>A, B</b> = the two paradigm conditions (e.g. LS4 vs LS1) &nbsp;&middot;&nbsp;
+                                <b>N</b> = total observations
+                            </div>
+                            <span class="formula-range">|g| 0 &rarr; ∞ &nbsp;&middot;&nbsp; capped at 1.5 for radar display &nbsp;&middot;&nbsp; |g| ≥ 0.8 = large</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.3102/10769986006002107" target="_blank">Hedges (1981)</a>;
+                                Lakens (2013) <em>Front. Psychol.</em> &mdash; bootstrap CIs from
+                                <a href="https://doi.org/10.21105/joss.01026" target="_blank">Vallat (2018, JOSS)</a>.
+                                A radar score of 1.0 corresponds to |g| ≥ 1.5 (very large effect).
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Within-session CV</div>
+                        <div class="metric-card-tagline">Trial-to-trial variability within a single session</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
@@ -2230,12 +2375,28 @@ class InteractiveDashboard:
 
         // ── Metric definitions — built dynamically from DATA_RANGES keys ─────
         // Supports any outcome prefix (rt_, acc_, score_, dist_, …)
+        // 'keys' is a list of fallback field names, tried in order — this
+        // lets us read both the new bare schema (`rt_icc`) and the legacy
+        // schema (`rt_icc_mean`) without two separate code paths.
         const METRIC_SUFFIXES = [
-            {{ suffix: '_icc',           metricId: 'icc',           label: 'ICC Consistency',           step: 0.05, decimals: 2 }},
-            {{ suffix: '_icc_agreement', metricId: 'icc_agreement', label: 'ICC Agreement',             step: 0.05, decimals: 2 }},
-            {{ suffix: '_pearson_r',     metricId: 'pearson_r',     label: 'Pearson r',                 step: 0.05, decimals: 2 }},
-            {{ suffix: '_cohens_d',      metricId: 'cohens_d',      label: 'Stability (Cohen’s d)', step: 0.1,  decimals: 2 }},
-            {{ suffix: '_cv',            metricId: 'cv',            label: 'Consistency (CV)',           step: 0.5,  decimals: 1 }},
+            {{ suffix: '_icc',                  metricId: 'icc',                  label: 'ICC Consistency',         step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc',                  '{{p}}_icc_mean']           }},
+            {{ suffix: '_icc_agreement',        metricId: 'icc_agreement',        label: 'ICC Agreement',           step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc_agreement',        '{{p}}_icc_agreement_mean'] }},
+            {{ suffix: '_pearson_r',            metricId: 'pearson_r',            label: 'Pearson r',               step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_pearson_r',            '{{p}}_pearson_r_mean']     }},
+            {{ suffix: '_cronbach_alpha',       metricId: 'cronbach_alpha',       label: 'Internal consistency (\u03b1)', step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_cronbach_alpha']                                   }},
+            {{ suffix: '_session_shift_d',      metricId: 'session_shift_d',      label: 'Session-shift stability', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_session_shift_d',      '{{p}}_cohens_d_mean']      }},
+            {{ suffix: '_paradigm_effect_size', metricId: 'paradigm_effect_size', label: 'Paradigm effect size',    step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_paradigm_effect_size']                             }},
+            {{ suffix: '_cv',                   metricId: 'cv',                   label: 'Within-session CV',       step: 0.5,  decimals: 1,
+               keysTpl: ['{{p}}_cv_mean']                                          }},
+            // Legacy id retained so an "all" view + old JSON still produce a slider
+            {{ suffix: '_cohens_d',             metricId: 'cohens_d',             label: 'Stability (Cohen\u2019s d)', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_cohens_d_mean',        '{{p}}_session_shift_d'],
+               hidden: true }},
         ];
         function _getOutcomePrefixes() {{
             const prefixes = new Set();
@@ -2253,12 +2414,14 @@ class InteractiveDashboard:
         }}
         function _buildSliderMetrics() {{
             const prefixes = _getOutcomePrefixes();
-            return METRIC_SUFFIXES.map(ms => ({{
+            return METRIC_SUFFIXES
+              .filter(ms => !ms.hidden)
+              .map(ms => ({{
                 id: ms.metricId, label: ms.label,
                 sliders: prefixes.map(p => ({{
                     sid:      p + ms.suffix,
                     label:    _humanLabel(p) + ' ' + ms.label,
-                    key:      p + ms.suffix + '_mean',
+                    keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
                     step:     ms.step,
                     decimals: ms.decimals,
                 }})),
@@ -2384,7 +2547,7 @@ class InteractiveDashboard:
                         if (!minEl || !maxEl) continue;
                         activeConstraints.push({{
                             field:    dictField,
-                            key:      sl.key,
+                            keys:     sl.keys,   // try each in order; first non-null wins
                             minVal:   parseFloat(minEl.value),
                             maxVal:   parseFloat(maxEl.value),
                             minRange: parseFloat(minEl.min),
@@ -2424,7 +2587,14 @@ class InteractiveDashboard:
 
                     const rel = project[c.field] || {{}};
                     const vals = Object.values(rel)
-                        .map(m => m[c.key])
+                        .map(m => {{
+                            // Try each candidate key in order; first non-null wins
+                            for (const k of c.keys) {{
+                                const v = m[k];
+                                if (v !== null && v !== undefined) return v;
+                            }}
+                            return null;
+                        }})
                         .filter(v => v !== null && v !== undefined);
                     if (vals.length === 0) continue;
                     const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
@@ -2483,22 +2653,43 @@ class InteractiveDashboard:
                 const primaryId = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
                 const primaryLabel = primaryOm ? primaryOm.label : primaryId.toUpperCase();
 
-                // ICC for highest-priority outcome — prefer agreement, fall back to consistency
-                const primaryIccAgrKey = primaryId + '_icc_agreement_mean';
-                const primaryIccConKey = primaryId + '_icc_mean';
+                // ICC for highest-priority outcome — prefer agreement, fall back to consistency.
+                // Tries new bare keys first (post-pingouin schema), then falls back to legacy `_mean`.
+                const primaryIccAgrKeys = [primaryId + '_icc_agreement', primaryId + '_icc_agreement_mean'];
+                const primaryIccConKeys = [primaryId + '_icc',           primaryId + '_icc_mean'];
+                const _firstNonNull = (obj, keys) => {{
+                    for (const k of keys) {{
+                        const v = obj[k];
+                        if (v !== null && v !== undefined) return {{val: v, key: k}};
+                    }}
+                    return null;
+                }};
                 let primaryIccVals2 = [];
+                let agreementSeen = false;
+                let ciLow = null, ciHigh = null;
                 for (const metrics of Object.values(reliability)) {{
-                    const va = metrics[primaryIccAgrKey];
-                    const vc = metrics[primaryIccConKey];
-                    const v = (va !== null && va !== undefined) ? va : vc;
-                    if (v !== null && v !== undefined) primaryIccVals2.push(v);
+                    const agr = _firstNonNull(metrics, primaryIccAgrKeys);
+                    const con = _firstNonNull(metrics, primaryIccConKeys);
+                    const pick = agr || con;
+                    if (!pick) continue;
+                    primaryIccVals2.push(pick.val);
+                    if (agr) agreementSeen = true;
+                    // Pull the matching CI bounds if present in new schema
+                    const baseKey = pick.key.endsWith('_mean')
+                        ? pick.key.slice(0, -'_mean'.length)
+                        : pick.key;
+                    const lo = metrics[baseKey + '_ci_low'];
+                    const hi = metrics[baseKey + '_ci_high'];
+                    if (lo !== null && lo !== undefined && ciLow === null) ciLow = lo;
+                    if (hi !== null && hi !== undefined && ciHigh === null) ciHigh = hi;
                 }}
                 const overallIcc = primaryIccVals2.length > 0
                     ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
                     : 'N/A';
-                const iccType = primaryIccVals2.length > 0
-                    && Object.values(reliability).some(m => m[primaryIccAgrKey] !== null && m[primaryIccAgrKey] !== undefined)
-                    ? 'ICC(A)' : 'ICC(C)';
+                const iccType = (primaryIccVals2.length > 0 && agreementSeen) ? 'ICC(A)' : 'ICC(C)';
+                const iccCiText = (ciLow !== null && ciHigh !== null && primaryIccVals2.length === 1)
+                    ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
+                    : '';
 
                 // CV for highest-priority outcome; fall back to rt_cv_mean if absent
                 const primaryCvKey = primaryId + '_cv_mean';
@@ -2534,7 +2725,7 @@ class InteractiveDashboard:
                                 <div class="stat-label">Mean Age</div>
                             </div>
                             <div class="stat-item" title="Mean ICC (absolute agreement) for the primary outcome — stage-level, task trials only">
-                                <div class="stat-value">${{overallIcc}}</div>
+                                <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
                                 <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
                             <div class="stat-item" title="Mean within-subject CV for the primary outcome across task trial types — control/rest excluded">
@@ -2553,11 +2744,14 @@ class InteractiveDashboard:
         
         // ── Metric & source registry — built dynamically ────────────────────
         const _METRIC_NORMS = {{
-            icc:           v => Math.max(0, Math.min(1, v)),
-            icc_agreement: v => Math.max(0, Math.min(1, v)),
-            pearson_r:     v => Math.max(0, Math.min(1, v)),
-            cohens_d:      v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
-            cv:            v => Math.max(0, Math.min(1, 1 - v / 50)),
+            icc:                    v => Math.max(0, Math.min(1, v)),
+            icc_agreement:          v => Math.max(0, Math.min(1, v)),
+            pearson_r:              v => Math.max(0, Math.min(1, v)),
+            cronbach_alpha:         v => Math.max(0, Math.min(1, v)),
+            session_shift_d:        v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
+            cohens_d:               v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),  // legacy alias
+            paradigm_effect_size:   v => Math.max(0, Math.min(1, Math.abs(v) / 1.5)),  // |g|/1.5, capped
+            cv:                     v => Math.max(0, Math.min(1, 1 - v / 50)),
         }};
         function _buildMetricRegistry() {{
             const prefixes = _getOutcomePrefixes();
@@ -2636,19 +2830,25 @@ class InteractiveDashboard:
 
         // Colour palette per metric
         const METRIC_COLOURS = {{
-            icc:           {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
-            icc_agreement: {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
-            pearson_r:     {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)',  tick: '#7a5a00' }},
-            cohens_d:      {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
-            cv:            {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
+            icc:                    {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
+            icc_agreement:          {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
+            pearson_r:              {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)', tick: '#7a5a00' }},
+            cronbach_alpha:         {{ line: '#8a6d3b', fill: 'rgba(138,109,59,0.22)',  tick: '#6b5023' }},
+            session_shift_d:        {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
+            cohens_d:               {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},  // legacy
+            paradigm_effect_size:   {{ line: '#a83232', fill: 'rgba(168,50,50,0.20)',   tick: '#6b1a1a' }},
+            cv:                     {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
         }};
         // Slightly darker tints for control conditions
         const CTRL_COLOURS = {{
-            icc:           {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
-            icc_agreement: {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)',  tick: '#2e7d32' }},
-            pearson_r:     {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
-            cohens_d:      {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)', tick: '#5c0070' }},
-            cv:            {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
+            icc:                    {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
+            icc_agreement:          {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)', tick: '#2e7d32' }},
+            pearson_r:              {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
+            cronbach_alpha:         {{ line: '#ce93d8', fill: 'rgba(206,147,216,0.20)', tick: '#6a1b9a' }},
+            session_shift_d:        {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},
+            cohens_d:               {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},  // legacy
+            paradigm_effect_size:   {{ line: '#ff5252', fill: 'rgba(255,82,82,0.20)',   tick: '#8a0000' }},
+            cv:                     {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
         }};
 
         /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */
@@ -2722,23 +2922,31 @@ class InteractiveDashboard:
                 const fill    = pal ? pal.fill : 'rgba(64,158,128,0.25)';
                 const tickCol = pal ? pal.tick : '#5a4200';
 
-                // The reliability dict key is directly: sl.sid + '_mean'
-                // e.g. sl.sid='rt_icc' → key='rt_icc_mean', sl.sid='accbin_cv' → 'accbin_cv_mean'
-                const reliabilityKey = d.sl.sid + '_mean';
+                // Try the new bare key first (`rt_icc`), then the legacy
+                // `_mean` suffix (`rt_icc_mean`).  This keeps old JSONs
+                // working while picking up the post-pingouin schema.
+                const candidateKeys = d.sl.keys || [d.sl.sid + '_mean'];
+                const _firstAvailable = (m) => {{
+                    for (const k of candidateKeys) {{
+                        const v = m[k];
+                        if (v !== null && v !== undefined) return v;
+                    }}
+                    return null;
+                }};
+                const _hasAny = (rel) => Object.values(rel).some(
+                    m => _firstAvailable(m) !== null
+                );
                 const vals = filteredProjects.map(p => {{
                     const taskRel    = p.reliability_metrics || {{}};
                     const controlRel = p.control_reliability || {{}};
                     let dict;
                     if (d.useControl) {{
-                        const hasCtrl = Object.values(controlRel).some(
-                            m => m[reliabilityKey] !== null && m[reliabilityKey] !== undefined
-                        );
-                        dict = hasCtrl ? controlRel : taskRel;
+                        dict = _hasAny(controlRel) ? controlRel : taskRel;
                     }} else {{
                         dict = taskRel;
                     }}
                     const rawVals = Object.values(dict)
-                        .map(m => m[reliabilityKey])
+                        .map(_firstAvailable)
                         .filter(v => v !== null && v !== undefined);
                     if (rawVals.length === 0) return 0;
                     const mean = rawVals.reduce((a,b) => a+b, 0) / rawVals.length;

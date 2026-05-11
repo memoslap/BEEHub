@@ -510,16 +510,18 @@ class ProjectOverviewGenerator:
         # data in the reliability dict.  Fallback chain: ACCBIN → RT → first
         # outcome with any ICC value.
         def _pick_primary_icc_key(meta: list, rel: dict) -> str:
-            # Try each outcome in priority order
+            # Try each outcome in priority order, preferring absolute agreement
             sorted_meta = sorted(meta, key=lambda o: o.get('display_priority', DEFAULT_DISPLAY_PRIORITY))
             for om in sorted_meta:
-                key = f"{om['id'].lower()}_icc_mean"
-                if any(m.get(key) is not None for m in rel.values()):
-                    return key
-            # Fallback: return the first icc_mean key that has actual data
+                # Prefer absolute agreement, fall back to consistency
+                for suffix in ('_icc_agreement_mean', '_icc_mean'):
+                    key = f"{om['id'].lower()}{suffix}"
+                    if any(m.get(key) is not None for m in rel.values()):
+                        return key
+            # Fallback: return the first icc key that has actual data
             for m in rel.values():
                 for k, v in m.items():
-                    if k.endswith('_icc_mean') and v is not None:
+                    if ('_icc_' in k and k.endswith('_mean') and v is not None):
                         return k
             return None
 
@@ -1283,7 +1285,13 @@ class ProjectOverviewGenerator:
                 color   = colors.get(trial_type, '#f0d060')
                 all_scatter.extend(s1 + s2)
                 icc_val = metrics.get(f'{om_id}_icc_mean')
-                icc_str = f'  ICC={icc_val:.2f}' if icc_val is not None else ''
+                icc_a_val = metrics.get(f'{om_id}_icc_agreement_mean')
+                icc_parts = []
+                if icc_a_val is not None:
+                    icc_parts.append(f'ICC(A)={icc_a_val:.2f}')
+                if icc_val is not None:
+                    icc_parts.append(f'ICC(C)={icc_val:.2f}')
+                icc_str = '  ' + ' '.join(icc_parts) if icc_parts else ''
                 dec     = 1 if om.get('is_binary') else 0
                 hover   = [f'sub-{sid}<br>{ses_lbl[0]}: {x:.{dec}f}<br>{ses_lbl[1]}: {y:.{dec}f}'
                            for sid, x, y in zip(subj_ids, s1, s2)]
