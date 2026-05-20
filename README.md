@@ -4,7 +4,7 @@
 
 **Research BEE Hub** (Research Behavioral Experiments Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the paradigm selection bottleneck: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that also matter for experimental implementation — test-retest reliability (ICC), effect sizes, and sample characteristics.
 
-Research BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardized reliability profile for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to FAIR principles (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, ICC, and consistency — making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be meta-analysis ready, enabling large-scale synthesis of field-wide reproducibility patterns.
+Research BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardized reliability profile for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to FAIR principles (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, and ICC — making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be meta-analysis ready, enabling large-scale synthesis of field-wide reproducibility patterns.
 
 ---
 
@@ -132,8 +132,8 @@ The pipeline loads outcome files by the `suffix` declared in `outcome_measures` 
 
 | Outcome ID | Suffix | Primary column | Role |
 |---|---|---|---|
-| `ACCBIN` | `*_ACCBIN_beh.tsv` | `accuracy_binary` | Binary accuracy (0/1) — primary visual outcome, used for ICC card |
-| `RT` | `*_RT_beh.tsv` | `response_time_ms` | Reaction time — filtered to correct trials when ACCBIN present |
+| `ACCBIN` | `*_ACCBIN_beh.tsv` | `accuracy_binary` | Binary accuracy (0/1) — primary visual outcome, ICC shown on dashboard card |
+| `RT` | `*_RT_beh.tsv` | `response_time_ms` | Reaction time — filtered to correct trials when ACCBIN present; Within-session CV reported |
 
 If you declare custom `outcome_measures` you only need to provide the TSV files that actually exist for your paradigm — missing files are silently skipped.
 
@@ -201,7 +201,7 @@ Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT
 
 > **Recommended:** Use **`BEEHub/code/01_description_form.html`** — open in any browser, fill in the seven steps, click Download. The **Outcome Measures** step (Step 6 of the wizard) lets you define custom outcomes with priority, suffix, column name, and display flags.
 
-### Outcome Measures — the most important new field
+### Outcome Measures — the most important field
 
 The `outcome_measures` array tells the pipeline which TSV files to load, which column to read, how to display the data, and which outcome's ICC to show on the dashboard card.
 
@@ -244,10 +244,12 @@ The `outcome_measures` array tells the pipeline which TSV files to load, which c
 | `label` | string | `id` | Human-readable label for plot titles and dashboard card |
 | `axis_label` | string | `column` | Y-axis label on violin and scatter plots |
 | `higher_is_better` | bool | `true` | Used for future display logic (currently stored, not rendered) |
-| `is_binary` | bool | `false` | **True** when values are 0/1. Violin plots then show subject-level mean percentages rather than raw trial values — essential for accuracy measures |
+| `is_binary` | bool | `false` | **True** when values are 0/1. Violin plots show subject-level mean percentages rather than raw trial values. **No CV or Accuracy % is computed or displayed** for binary outcomes — see note below |
 | `is_primary` | bool | `false` | **True** for the RT outcome when correct-trial filtering is desired. Triggers RT filtering: only trials where the paired `ACCBIN` value equals 1 are included in RT reliability calculations |
 | `is_helper` | bool | `false` | **True** to use this outcome for filtering only — it is loaded but **never plotted** and never gets its own chart divs. Use this for a pure binary mask that you do not want to display |
 | `display_priority` | int | position in list | **1 = most important.** The dashboard card ICC stat shows the ICC of the highest-priority outcome that actually has data. If the priority-1 outcome has no data, the next in line is used automatically |
+
+> **Binary accuracy and CV:** For outcomes with `is_binary: true`, the pipeline intentionally does **not** compute or display a within-session CV or an Accuracy % metric. Bernoulli CV is a deterministic re-expression of the mean (CV = √((1−p)/p) · 100), which means it carries no independent information beyond the ICC. Reliability for binary accuracy is instead fully represented by ICC(A), ICC(C), Cronbach's α (KR-20), and Pearson r. The dashboard card shows ICC only for binary primary outcomes — no CV column, no Accuracy % column.
 
 #### Priority rules and fallback behaviour
 
@@ -255,14 +257,14 @@ The pipeline applies `display_priority` at every step:
 
 1. **Which ICC appears on the dashboard card** — the outcome with the lowest `display_priority` number that has real ICC data wins. Label on the card reads `"{label} ICC"` (e.g. "Accuracy ICC", "Reaction Time ICC").
 2. **Which violin/scatter plots are generated** — only outcomes where data was actually found. If `_ACCBIN_beh.tsv` is missing, no Accuracy violin is created; no empty boxes appear.
-3. **Dashboard ICC slider range** — computed from the primary outcome ICC range across all projects.
+3. **Which CV slider appears in the dashboard** — only for continuous (non-binary) outcomes. Binary accuracy outcomes have no CV slider.
 
 Default priority (used when `outcome_measures` is absent):
 
 | Outcome | Priority | Role |
 |---|---|---|
-| ACCBIN | 1 | Binary accuracy — primary display metric |
-| RT | 2 | Reaction time — used for correct-trial filtering via ACCBIN |
+| ACCBIN | 1 | Binary accuracy — ICC shown on dashboard card |
+| RT | 2 | Reaction time — CV computed and shown; filtered to correct trials via ACCBIN |
 
 #### Adding a custom outcome
 
@@ -355,25 +357,32 @@ All statistical computation is centralised in `BEEHub/code/reliability_metrics.p
 
 ### How it works
 
-For each outcome declared in `outcome_measures`, `compute_for_outcome()` is called with the loaded DataFrame and the outcome's column name. Results are keyed by `{id.lower()}_{metric}_{stat}` — e.g. `accbin_icc_mean`, `rt_cv_std`. All per-outcome results are then merged into a single reliability dict per trial type.
+For each outcome declared in `outcome_measures`, `compute_for_outcome()` is called with the loaded DataFrame and the outcome's column name. Results are keyed by `{id.lower()}_{metric}` — e.g. `accbin_icc`, `rt_cv_mean`. All per-outcome results are then merged into a single reliability dict per trial type and stored in the JSON under `reliability_metrics` (task trials) and `control_reliability` (control/rest conditions).
 
 ### Metrics computed
 
-| Metric | Key pattern | Description |
-|---|---|---|
-| **ICC(3,1)** | `{oid}_icc_mean/std/min/max` | Two-way mixed, consistency estimate. Task trials only |
-| **Pearson r** | `{oid}_pearson_r_mean/std` | Session 1 vs Session 2 subject means |
-| **Stability** (Cohen's d) | `{oid}_cohens_d_mean/std` | Paired d between sessions — inverted for radar display |
-| **Consistency** (CV) | `{oid}_cv_mean/std` | Within-session coefficient of variation |
+| Metric | Key pattern | Applies to | Description |
+|---|---|---|---|
+| **ICC(C,1)** | `{oid}_icc`, `{oid}_icc_ci_low/high`, `{oid}_icc_F/df1/df2/p` | All outcomes | Two-way mixed, consistency, single measures. Computed at learning-stage level when `learning_stage` column is present, otherwise at session level. Backed by pingouin ≥ 0.5 |
+| **ICC(A,1)** | `{oid}_icc_agreement`, `{oid}_icc_agreement_ci_low/high`, …`_F/df1/df2/p` | All outcomes | Two-way mixed, absolute agreement. Penalises systematic session shifts. Shown on dashboard card in preference to ICC(C,1) when available |
+| **Pearson r** | `{oid}_pearson_r` | All outcomes | Linear correlation between session 1 and session 2 subject-level means |
+| **Session-shift stability** | `{oid}_session_shift_d` | All outcomes | Paired Cohen's d on session means. Small \|d\| = stable across retests. Displayed as `1 − (\|d\| / 2)` on radar (inverted — higher = more stable). Not a paradigm effect size |
+| **Paradigm effect size** | `{oid}_paradigm_effect_size`, …`_ci_low/high`, …`_contrast`, …`_n` | All outcomes | Hedges' g for the within-session main contrast (e.g. last vs first learning stage, incongruent vs congruent). Bootstrapped 95% CI via pingouin |
+| **Cronbach's α / KR-20** | `{oid}_cronbach_alpha`, …`_ci_low/high`, …`_n_items` | All outcomes | Internal consistency across session-1 trials. For binary outcomes this is KR-20. Capped at 100 items |
+| **Within-session CV** | `{oid}_cv_mean`, `{oid}_cv_std` | **Continuous outcomes only** | Trial-level coefficient of variation within each session. **Not computed for binary outcomes** (Bernoulli CV is deterministic given the mean). The CV slider and CV radar spoke are absent for binary accuracy outcomes |
 
 Reliability is only calculated when a subject has data in at least 2 sessions.
+
+### ICC computation detail
+
+ICC is computed at the **learning-stage level** when a `learning_stage` column is present — i.e. one mean per subject × stage × session — matching the methodology of published reliability studies (e.g. Abdelmotaleb et al., 2025). When no `learning_stage` column is present, session-level subject means are used as fallback. Both consistency ICC(C,1) and agreement ICC(A,1) are always reported.
 
 ### Adding a new metric
 
 1. Add a `calculate_<name>(data1, data2)` static method to `ReliabilityMetrics`
 2. Wire it up inside `compute_for_outcome` — add keys to the returned dict
 3. Add a normalisation branch in `normalise_for_radar`
-4. Add an entry to `METRIC_REGISTRY` with `id`, `label`, `radar_label`, and `normalise` rule
+4. Add an entry to `METRIC_REGISTRY` with `id`, `label`, `radar_label`, `normalise`, and optionally `skip_for_binary: True` if the metric is not meaningful for 0/1 data
 
 ### Adding a new outcome type
 
@@ -455,7 +464,7 @@ Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_demo.htm
 | `MYPROJECT_data.json` | `01_multi_project_overview.py` | Analysis results including `outcome_measures`, `primary_icc_key`, `reliability_metrics`, `control_reliability`, `data_by_condition` |
 | `MYPROJECT_overview.html` | `01_multi_project_overview.py` | Per-project report. Charts are generated **only for outcomes with actual data** — no empty boxes for missing files |
 | `MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page |
-| `dashboard.html` | `03_generate_dashboard.py` | Interactive dashboard. Project cards show ICC of the **highest-priority outcome with data**. Radar charts use per-outcome reliability keys dynamically |
+| `dashboard.html` | `03_generate_dashboard.py` | Interactive dashboard. Project cards show ICC of the **highest-priority outcome with data**. CV stat is shown only for continuous primary outcomes — binary accuracy projects show 3 stat cells (Subjects, Mean Age, ICC) |
 
 ---
 
@@ -463,12 +472,15 @@ Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_demo.htm
 
 > **Task trials only:** All reliability metrics exclude any `trial_type` matching: `control`, `rest`, `baseline`, `fixation`, `fix`, `instruction`, `pause`, `break`, `catch`, `null`, or any label starting with `ctrl` or `rest`. Control conditions are stored separately as `control_reliability` but do not contribute to dashboard ICC values.
 
-| Metric | What it measures | Range |
-|---|---|---|
-| **ICC(3,1)** | Two-way mixed, consistency estimate — session means partialled out | −1 → 1, higher better |
-| **Pearson r** | Linear correlation between session 1 and session 2 subject means | −1 → 1, higher better |
-| **Stability** (Cohen's d) | Absence of systematic shift between sessions. Displayed as `1 − (|d| / 2)` | 0 → 1, higher better |
-| **Consistency** (CV%) | Within-session trial variability. Displayed as `1 − CV/50` on radar | 0 → 1, higher better |
+| Metric | What it measures | Range | Binary outcomes |
+|---|---|---|---|
+| **ICC(A,1)** | Two-way mixed, absolute agreement — penalises systematic session drift | −1 → 1, higher better | ✅ computed |
+| **ICC(C,1)** | Two-way mixed, consistency — session means partialled out | −1 → 1, higher better | ✅ computed |
+| **Pearson r** | Linear correlation between session 1 and session 2 subject means | −1 → 1, higher better | ✅ computed |
+| **Session-shift stability** (paired Cohen's d) | Absence of systematic shift between sessions. Displayed as `1 − (\|d\| / 2)` | 0 → 1, higher better | ✅ computed |
+| **Paradigm effect size** (Hedges' g) | Within-session main contrast — paradigm sensitivity | unbounded, larger better | ✅ computed |
+| **Cronbach's α / KR-20** | Within-session internal consistency across trials | −∞ → 1, higher better | ✅ computed (KR-20) |
+| **Within-session CV** | Trial-level variability within a session. Displayed as `1 − CV/50` on radar | 0 → 1, higher better | ❌ not computed — Bernoulli CV is deterministic |
 
 Reliability requires: subject present in ≥ 2 sessions with ≥ 1 value per session.
 
@@ -512,7 +524,7 @@ Reliability requires: subject present in ≥ 2 sessions with ≥ 1 value per ses
 - [ ] `outcome_measures` array present with at minimum one entry for your primary accuracy/score outcome
 - [ ] Each outcome entry has `id`, `suffix`, `column`, `display_priority`
 - [ ] The highest-priority outcome has `display_priority: 1` and its TSV file exists
-- [ ] Binary accuracy outcomes have `is_binary: true` so violin plots show percentages
+- [ ] Binary accuracy outcomes have `is_binary: true` so violin plots show percentages (note: no CV computed)
 - [ ] The RT outcome (if present) has `is_primary: true` to enable correct-trial filtering
 - [ ] File is valid UTF-8 JSON
 
@@ -530,9 +542,7 @@ This repository was developed with the assistance of **Claude Sonnet 4.6** (Anth
 
 All scientific content, paradigm designs, experimental parameters, data structures, and research decisions were conceived and validated by the authors. Claude was used as a coding and documentation assistant throughout iterative development.
 
-**Suggested citation:**
-
-> Anthropic. (2025). *Claude Sonnet 4.6* [Large language model]. https://www.anthropic.com
+> Anthropic. (2025). *Claude Sonnet 4.6*. https://www.anthropic.com
 
 ---
 
