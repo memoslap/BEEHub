@@ -1,0 +1,32 @@
+{
+  "TaskName": "OLM",
+  "TaskDescription": "Binary trial accuracy (1 = correct, 0 = incorrect or no response).",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Reaction time in seconds (stimulus onset to first button press).",
+    "Units": "seconds"
+  },
+  "accuracy_binary": {
+    "Description": "1 if the trial's feedback code started with 'correct', else 0. This is the column used for test\u2013retest ICCs.",
+    "Levels": {
+      "1": "correct",
+      "0": "incorrect or missed"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Object-location learning trial (Code contains block1..block6).",
+      "control": "Right/left control trial (Code contains crt1/crt2)."
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier LS1\u2013LS4."
+  },
+  "stimulus": {
+    "Description": "Filename of the house image presented on the street map (NOT the feedback image)."
+  }
+}

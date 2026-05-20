@@ -48,3 +48,35 @@ Realiability Metrics - unter die Filter , asuklappbar wenn man draufklickt (DONE
 -- sortierung der Paradigm Files nach Software & Lanugages
 
 ## Running the Paradigm -> Running the Paradigm free version -(solved with original/compatible tag
+
+
+## 23.03.2026
+Recording experimental Setup, "experimental context"   (kreis mit (i) information mit link für erklärung
+
+metrics referenzen zitationen (Done)
+
+Ausklappbarer Filter box zu realiability metrics (Done)
+
+By Projektboxen APPL etc Abkürzungen kleiner unt unter Prjojektbeschreibung tauschen und das große machen (Done)
+
+Cognitive Domain, Task Type , Modalities ... Reihenfolge im FIlter ändern (Done)
+
+Metrix radar aufklappbar, in metrix aufklappbarer box (Done)
+
+back to dashboard ganz oben (Done)
+
+esc beschreibung zum rauskommen (Done)
+
+Publication in Paradigma, 
+
+- related publications wo paradigma verwendet wurde (Done; option eingefügt)
+
+- anonymisierte Date , daten von osf daten, wie soll man mit den grundlagendaten umgehen
+
+- in nutzerbedingungen einlesen
+ background mit Zitationen
+ 
+ 
+ - typical outcome bei paradigm ... was man erwarten würde... welche Hauptvariable (Done) 
+ 
+ uni logo, unimedizin logo, Memoslap unten mit rein nehmen als disclaimer (Done)

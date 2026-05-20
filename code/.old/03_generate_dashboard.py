@@ -7,7 +7,7 @@ Creates a filterable overview dashboard from all project JSON files
 import json
 import numpy as np
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Optional, Tuple
 
 # Import metric registry for the radar dropdown labels
 try:
@@ -30,10 +30,13 @@ try:
 except ImportError:
     # Minimal fallback so the dashboard still generates without the module
     METRIC_REGISTRY = [
-        {"id": "icc",       "label": "ICC(3,1)"},
-        {"id": "pearson_r", "label": "Pearson r"},
-        {"id": "cohens_d",  "label": "Stability (Cohen\u2019s d)"},
-        {"id": "cv",        "label": "Consistency (CV)"},
+        {"id": "icc",                  "label": "ICC Consistency"},
+        {"id": "icc_agreement",        "label": "ICC Agreement"},
+        {"id": "pearson_r",            "label": "Pearson r"},
+        {"id": "cronbach_alpha",       "label": "Internal consistency (\u03b1)"},
+        {"id": "session_shift_d",      "label": "Session-shift stability"},
+        {"id": "paradigm_effect_size", "label": "Paradigm effect size"},
+        {"id": "cv",                   "label": "Within-session CV"},
     ]
     ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
 
@@ -132,7 +135,7 @@ class InteractiveDashboard:
             data.setdefault("project_info", {
                 "full_name": project_name, "description": "",
                 "modality": "unknown", "cognitive_domain": "unknown",
-                "task_type": "unknown", "language": None, "recording_modality": None,
+                "task_type": "unknown", "language": None, "experimental_context": None,
             })
             data.setdefault("demographics", {
                 "n_participants": 0, "age_mean": None,
@@ -205,7 +208,7 @@ class InteractiveDashboard:
         domains = set()
         task_types = set()
         languages = set()
-        recording_modalities = set()
+        experimental_contexts = set()
         
         for project in self.all_projects:
             info = project.get('project_info', {})
@@ -215,56 +218,185 @@ class InteractiveDashboard:
             lang = info.get('language', None)
             if lang:
                 languages.add(lang)
-            rec_mod = info.get('recording_modality', None)
+            rec_mod = info.get('experimental_context', None)
             if rec_mod:
-                recording_modalities.add(rec_mod)
+                experimental_contexts.add(rec_mod)
         
         return {
             'modalities': sorted(modalities),
             'domains': sorted(domains),
             'task_types': sorted(task_types),
             'languages': sorted(languages),
-            'recording_modalities': sorted(recording_modalities)
+            'experimental_contexts': sorted(experimental_contexts)
         }
     
     def get_data_ranges(self) -> Dict:
-        """Get min/max ranges for slider filters.
-        Reads only from reliability_metrics (task trial types).
-        Control/rest conditions are stored in control_reliability and excluded.
+        """Get min/max ranges for all metric sliders — task and control separately.
+
+        Scans actual reliability keys present in each project.  Recognises both
+        the legacy ``_<metric>_mean`` suffix scheme and the new bare-suffix
+        scheme (``_icc``, ``_session_shift_d``, ``_paradigm_effect_size``,
+        ``_cronbach_alpha``).  Ancillary fields (CI bounds, F, df, p, n,
+        contrast, type, subjects, s1_means, s2_means) are skipped.
         """
-        ages = []
-        n_subjects = []
-        rt_iccs = []
-        acc_iccs = []
-        rt_cvs = []
-        
+        ages, n_subjects = [], []
+        # raw[src][metric_short_key] = list of values
+        raw_task: Dict[str, list] = {}
+        raw_ctrl: Dict[str, list] = {}
+
+        # Order matters: longest suffix first so '_icc_agreement_mean'
+        # is matched before '_icc_mean'.  Each suffix maps to a short
+        # metric label used in the slider key, e.g. 'rt_icc'.
+        METRIC_SUFFIXES = [
+            ('_icc_agreement_mean',     'icc_agreement'),
+            ('_icc_agreement',          'icc_agreement'),
+            ('_paradigm_effect_size',   'paradigm_effect_size'),
+            ('_session_shift_d',        'session_shift_d'),
+            ('_cronbach_alpha',         'cronbach_alpha'),
+            ('_pearson_r_mean',         'pearson_r'),
+            ('_pearson_r',              'pearson_r'),
+            ('_cohens_d_mean',          'cohens_d'),
+            ('_accuracy_percent_mean',  'accuracy_percent'),
+            ('_icc_mean',               'icc'),
+            ('_icc',                    'icc'),
+            ('_cv_mean',                'cv'),
+        ]
+
+        # Suffixes that must NEVER be classified as a primary metric value
+        SKIP_SUFFIXES = (
+            '_ci_low', '_ci_high', '_F', '_df1', '_df2', '_p',
+            '_n', '_n_observations', '_n_items', '_n_subjects',
+            '_contrast', '_type', '_subjects', '_s1_means', '_s2_means',
+            '_std', '_min', '_max',
+        )
+
+        def _classify(key: str) -> Optional[Tuple[str, str]]:
+            if any(key.endswith(s) for s in SKIP_SUFFIXES):
+                return None
+            for suffix, short in METRIC_SUFFIXES:
+                if key.endswith(suffix):
+                    oid = key[: -len(suffix)]   # 'rt', 'accbin', ...
+                    if not oid:
+                        return None
+                    return (f'{oid}_{short}', short)
+            return None
+
+        def _is_binary_accuracy_prefix(prefix: str) -> bool:
+            p = (prefix or '').lower()
+            return p in {'acc', 'accbin', 'accuracy', 'accuracy_binary'}
+
+        def _derive_accuracy_percent(metrics_dict: dict, prefix: str) -> Optional[float]:
+            """Return mean accuracy (%) from new scalar keys or legacy s1/s2 arrays."""
+            scalar = metrics_dict.get(f'{prefix}_accuracy_percent_mean')
+            if scalar is not None and not isinstance(scalar, (list, dict, str, bool)):
+                try:
+                    val = float(scalar)
+                    if val == val:  # not NaN
+                        return val
+                except Exception:
+                    pass
+            vals = []
+            for key in (f'{prefix}_s1_means', f'{prefix}_s2_means'):
+                arr = metrics_dict.get(key)
+                if isinstance(arr, list):
+                    vals.extend([float(x) for x in arr if x is not None])
+            if not vals:
+                return None
+            # Treat only bounded 0/1-like outcome means as binary accuracy.
+            if all(0.0 <= x <= 1.0 for x in vals):
+                return float(np.mean(vals) * 100.0)
+            return None
+
+        def _collect(metrics_dict: dict, raw: dict):
+            for k, v in metrics_dict.items():
+                # Only collect numeric scalars — skip lists/dicts/strings
+                if v is None or isinstance(v, (list, dict, str, bool)):
+                    continue
+                if isinstance(v, float) and (v != v):  # NaN
+                    continue
+                cls = _classify(k)
+                if cls is None:
+                    continue
+                short_key, _short = cls
+                raw.setdefault(short_key, []).append(float(v))
+
+            # Legacy JSONs may not contain *_accuracy_percent_mean yet. Derive
+            # it from the paired session means so binary accuracy can appear as
+            # Accuracy % instead of an empty/misleading Accuracy CV slider.
+            prefixes = set()
+            for k in metrics_dict.keys():
+                if k.endswith('_s1_means'):
+                    prefixes.add(k[:-len('_s1_means')])
+                elif k.endswith('_accuracy_percent_mean'):
+                    prefixes.add(k[:-len('_accuracy_percent_mean')])
+            for prefix in prefixes:
+                if not _is_binary_accuracy_prefix(prefix):
+                    continue
+                pct = _derive_accuracy_percent(metrics_dict, prefix)
+                if pct is not None:
+                    raw.setdefault(f'{prefix}_accuracy_percent', []).append(pct)
+
         for project in self.all_projects:
             demo = project.get('demographics', {})
-            if demo.get('age_mean'):
-                ages.append(demo['age_mean'])
-            if demo.get('n_participants'):
-                n_subjects.append(demo['n_participants'])
-            
-            for metrics in project.get('reliability_metrics', {}).values():
-                if metrics.get('rt_icc_mean') is not None:
-                    rt_iccs.append(metrics['rt_icc_mean'])
-                if metrics.get('acc_icc_mean') is not None:
-                    acc_iccs.append(metrics['acc_icc_mean'])
-                if metrics.get('rt_cv_mean') is not None:
-                    rt_cvs.append(metrics['rt_cv_mean'])
-        
-        return {
-            'age_min': int(min(ages)) if ages else 18,
-            'age_max': int(max(ages)) + 1 if ages else 65,
-            'subjects_min': int(min(n_subjects)) if n_subjects else 0,
+            if demo.get('age_mean'):       ages.append(demo['age_mean'])
+            if demo.get('n_participants'): n_subjects.append(demo['n_participants'])
+            for m in project.get('reliability_metrics', {}).values():
+                _collect(m, raw_task)
+            for m in project.get('control_reliability', {}).values():
+                _collect(m, raw_ctrl)
+
+        def _rng(lst, pad=0.05, lo=-1.0, hi=1.0):
+            if not lst: return (lo, hi)
+            return (max(lo, round(min(lst)-pad, 2)), min(hi, round(max(lst)+pad, 2)))
+
+        def _rng_cv(lst):
+            if not lst: return (0, 100)
+            return (max(0, round(min(lst)-0.5, 1)), round(max(lst)+0.5, 1))
+
+        def _rng_d(lst):
+            if not lst: return (-3, 3)
+            return (round(min(lst)-0.1, 2), round(max(lst)+0.1, 2))
+
+        r = {
+            'age_min':      int(min(ages))          if ages       else 18,
+            'age_max':      int(max(ages)) + 1       if ages       else 65,
+            'subjects_min': int(min(n_subjects))     if n_subjects else 0,
             'subjects_max': int(max(n_subjects)) + 5 if n_subjects else 100,
-            'rt_icc_min': round(min(rt_iccs), 2) if rt_iccs else -1,
-            'rt_icc_max': round(max(rt_iccs), 2) if rt_iccs else 1,
-            'acc_icc_min': round(min(acc_iccs), 2) if acc_iccs else -1,
-            'acc_icc_max': round(max(acc_iccs), 2) if acc_iccs else 1,
-            'cv_min': max(0, round(min(rt_cvs) - 0.5, 1)) if rt_cvs else 0,
-            'cv_max': round(max(rt_cvs) + 0.5, 1) if rt_cvs else 100,
         }
+
+        # Build ranges for every short key found in the data
+        all_shorts = set(raw_task) | set(raw_ctrl)
+        for short in all_shorts:
+            for src, raw in [('task', raw_task), ('ctrl', raw_ctrl)]:
+                vals = raw.get(short, [])
+                if short.endswith('_cv'):
+                    lo, hi = _rng_cv(vals)
+                elif short.endswith('_accuracy_percent'):
+                    lo, hi = _rng_cv(vals)  # percentage scale, 0–100
+                elif short.endswith('_cohens_d') or short.endswith('_session_shift_d'):
+                    lo, hi = _rng_d(vals)
+                elif short.endswith('_paradigm_effect_size'):
+                    # Effect sizes can be much larger than 1 — pad wider
+                    if vals:
+                        lo, hi = round(min(vals)-0.2, 2), round(max(vals)+0.2, 2)
+                    else:
+                        lo, hi = -3.0, 3.0
+                elif short.endswith('_cronbach_alpha'):
+                    # α is in (-∞, 1] but practically [0, 1]; allow small negatives
+                    lo, hi = _rng(vals, pad=0.05, lo=-0.5, hi=1.0)
+                else:
+                    lo, hi = _rng(vals)
+                r[f'{src}_{short}_min'] = lo
+                r[f'{src}_{short}_max'] = hi
+
+        # Legacy keys (kept for backward compat with older JSON files)
+        r.setdefault('rt_icc_min',  r.get('task_rt_icc_min',  -1))
+        r.setdefault('rt_icc_max',  r.get('task_rt_icc_max',   1))
+        r.setdefault('acc_icc_min', r.get('task_acc_icc_min', -1))
+        r.setdefault('acc_icc_max', r.get('task_acc_icc_max',  1))
+        r.setdefault('cv_min',      r.get('task_rt_cv_min',    0))
+        r.setdefault('cv_max',      r.get('task_rt_cv_max',  100))
+        return r
     
     def generate_dashboard_html(self) -> str:
         """Generate interactive dashboard HTML"""
@@ -272,6 +404,7 @@ class InteractiveDashboard:
         unique_values = self.extract_unique_values()
         ranges = self.get_data_ranges()
         projects_json = json.dumps(self.all_projects, indent=2)
+        ranges_json   = json.dumps(ranges)
         
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -289,28 +422,28 @@ class InteractiveDashboard:
         
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 50%, #ffffff 100%);
-            color: #333;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
+            color: #d4b44a;
             padding: 20px;
             background-attachment: fixed;
         }}
         
         .header {{
             background: linear-gradient(135deg, 
-                rgba(144, 195, 168, 0.9) 0%,
-                rgba(168, 218, 195, 0.95) 25%,
-                rgba(192, 232, 216, 0.98) 50%,
-                rgba(168, 218, 195, 0.95) 75%,
-                rgba(144, 195, 168, 0.9) 100%
+                rgba(44, 44, 44, 0.92) 0%,
+                rgba(55, 55, 55, 0.94) 25%,
+                rgba(65, 65, 65, 0.96) 50%,
+                rgba(55, 55, 55, 0.94) 75%,
+                rgba(44, 44, 44, 0.92) 100%
             );
             padding: 36px 50px 30px;
             border-radius: 20px;
             margin-bottom: 30px;
             box-shadow: 
-                0 10px 40px rgba(64, 158, 128, 0.25),
+                0 10px 40px rgba(201, 162, 39, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.15);
-            border: 1px solid rgba(64, 158, 128, 0.3);
+                inset 0 -1px 0 rgba(201, 162, 39, 0.15);
+            border: 1px solid rgba(201, 162, 39, 0.4);
             position: relative;
             overflow: hidden;
             text-align: center;
@@ -320,16 +453,6 @@ class InteractiveDashboard:
             text-align: center;
         }}
 
-        .header-logo-left {{
-            position: absolute;
-            left: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 110px;
-            width: auto;
-            filter: drop-shadow(0 3px 10px rgba(45,134,89,0.18));
-        }}
-
         .header-logo-right {{
             position: absolute;
             right: 40px;
@@ -337,7 +460,93 @@ class InteractiveDashboard:
             transform: translateY(-50%);
             height: 110px;
             width: auto;
-            filter: drop-shadow(0 3px 10px rgba(45,134,89,0.18));
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.25));
+        }}
+
+        /* ── Footer disclaimer ── */
+        .footer-disclaimer {{
+            margin-top: 40px;
+            padding: 30px 40px;
+            border-radius: 16px;
+            background: linear-gradient(135deg,
+                rgba(28, 26, 16, 0.97) 0%,
+                rgba(36, 33, 19, 0.98) 50%,
+                rgba(28, 26, 16, 0.97) 100%
+            );
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(201, 162, 39, 0.10);
+            position: relative;
+            overflow: hidden;
+        }}
+
+        .footer-disclaimer::before {{
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #2c2c2c 0%, #3d3d3d 20%, #c9a227 40%,
+                #d4b44a 60%, #c9a227 80%, #2c2c2c 100%
+            );
+            opacity: 0.6;
+        }}
+
+        .footer-logos {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 36px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }}
+
+        .footer-logos img {{
+            height: 64px;
+            width: auto;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+            opacity: 0.90;
+            transition: opacity 0.2s ease;
+        }}
+
+        .footer-logos img:hover {{
+            opacity: 1;
+        }}
+
+        .footer-divider {{
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(201, 162, 39, 0.35) 20%,
+                rgba(212, 180, 74, 0.50) 50%,
+                rgba(201, 162, 39, 0.35) 80%,
+                transparent 100%
+            );
+            margin-bottom: 18px;
+        }}
+
+        .footer-text {{
+            text-align: center;
+            color: #7a6030;
+            font-size: 0.82em;
+            line-height: 1.7;
+            font-weight: 300;
+        }}
+
+        .footer-text a {{
+            color: #a08840;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(201, 162, 39, 0.4);
+        }}
+
+        .footer-text a:hover {{
+            color: #c9a227;
+            border-bottom-color: #c9a227;
+        }}
+
+        .footer-text strong {{
+            color: #a08840;
+            font-weight: 500;
         }}
 
         .header::before {{
@@ -348,26 +557,26 @@ class InteractiveDashboard:
             right: 0;
             height: 4px;
             background: linear-gradient(90deg, 
-                #2d8659 0%,
-                #409e80 15%,
-                #40e0d0 30%,
-                #48d1cc 50%,
-                #40e0d0 70%,
-                #409e80 85%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #3d3d3d 15%,
+                #c9a227 30%,
+                #d4b44a 50%,
+                #c9a227 70%,
+                #3d3d3d 85%,
+                #2c2c2c 100%
             );
             opacity: 0.8;
         }}
         
         h1 {{
             background: linear-gradient(135deg, 
-                #1e5f44 0%,
-                #2d8659 15%,
-                #409e80 30%,
-                #40e0d0 50%,
-                #409e80 70%,
-                #2d8659 85%,
-                #1e5f44 100%
+                #1a1a1a 0%,
+                #2c2c2c 15%,
+                #3d3d3d 30%,
+                #c9a227 50%,
+                #3d3d3d 70%,
+                #2c2c2c 85%,
+                #1a1a1a 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -379,25 +588,25 @@ class InteractiveDashboard:
         }}
 
         .subtitle {{
-            color: #1e5f44;
+            color: #d4b44a;
             font-size: 1.2em;
             font-weight: 300;
         }}
         
         .filters-container {{
             background: linear-gradient(135deg, 
-                rgba(235, 248, 243, 0.95) 0%, 
-                rgba(245, 252, 249, 0.98) 50%, 
-                rgba(235, 248, 243, 0.95) 100%
+                rgba(28, 26, 20, 0.97) 0%, 
+                rgba(35, 32, 22, 0.98) 50%, 
+                rgba(28, 26, 20, 0.97) 100%
             );
             padding: 35px;
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow: 
-                0 8px 32px rgba(64, 158, 128, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.1);
-            border: 1px solid rgba(64, 158, 128, 0.25);
+                0 8px 32px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(201, 162, 39, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(201, 162, 39, 0.3);
             position: relative;
             overflow: hidden;
         }}
@@ -410,23 +619,23 @@ class InteractiveDashboard:
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, 
-                #2d8659 0%,
-                #409e80 20%,
-                #40e0d0 40%,
-                #48d1cc 60%,
-                #40e0d0 80%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #3d3d3d 20%,
+                #c9a227 40%,
+                #d4b44a 60%,
+                #c9a227 80%,
+                #2c2c2c 100%
             );
             opacity: 0.7;
         }}
         
         .filters-title {{
             background: linear-gradient(135deg, 
-                #1e5f44 0%,
-                #2d8659 25%,
-                #409e80 50%,
-                #2d8659 75%,
-                #1e5f44 100%
+                #1a1a1a 0%,
+                #2c2c2c 25%,
+                #3d3d3d 50%,
+                #2c2c2c 75%,
+                #1a1a1a 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -437,9 +646,9 @@ class InteractiveDashboard:
             border-bottom: 2px solid;
             border-image: linear-gradient(90deg, 
                 transparent 0%,
-                rgba(64, 158, 128, 0.3) 10%,
-                rgba(64, 224, 208, 0.5) 50%,
-                rgba(64, 158, 128, 0.3) 90%,
+                rgba(201, 162, 39, 0.4) 10%,
+                rgba(212, 180, 74, 0.55) 50%,
+                rgba(201, 162, 39, 0.4) 90%,
                 transparent 100%
             ) 1;
             font-weight: 400;
@@ -459,7 +668,7 @@ class InteractiveDashboard:
         }}
         
         .filter-label {{
-            background: linear-gradient(90deg, #1e5f44 0%, #2d8659 100%);
+            background: linear-gradient(90deg, #7a5a00 0%, #c9a227 60%, #7a5a00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -467,40 +676,138 @@ class InteractiveDashboard:
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+
+        .info-icon {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1.5px solid #c9a227;
+            background: transparent;
+            color: #c9a227;
+            font-size: 0.72em;
+            font-weight: 700;
+            font-style: italic;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s, color 0.2s;
+            -webkit-text-fill-color: #c9a227;
+            line-height: 1;
+            user-select: none;
+        }}
+        .info-icon:hover {{
+            background: rgba(201, 162, 39, 0.15);
+        }}
+
+        /* ── Info tooltip modal ── */
+        .info-modal-overlay {{
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }}
+        .info-modal-overlay.open {{
+            display: flex;
+        }}
+        .info-modal {{
+            background: linear-gradient(135deg,
+                rgba(28, 26, 16, 0.99) 0%,
+                rgba(38, 35, 20, 0.99) 100%
+            );
+            border: 1px solid rgba(201, 162, 39, 0.5);
+            border-radius: 14px;
+            padding: 28px 32px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow:
+                0 16px 48px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(201, 162, 39, 0.15);
+            position: relative;
+        }}
+        .info-modal::before {{
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 14px 14px 0 0;
+            background: linear-gradient(90deg,
+                #2c2c2c 0%, #c9a227 30%, #f0d060 50%, #c9a227 70%, #2c2c2c 100%
+            );
+        }}
+        .info-modal-title {{
+            background: linear-gradient(135deg, #f0d060 0%, #c9a227 60%, #e5c158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.05em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 14px;
+        }}
+        .info-modal-body {{
+            color: #c8b080;
+            font-size: 0.92em;
+            line-height: 1.75;
+        }}
+        .info-modal-close {{
+            position: absolute;
+            top: 12px; right: 16px;
+            background: none;
+            border: none;
+            color: #a08840;
+            font-size: 1.3em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+        }}
+        .info-modal-close:hover {{
+            color: #f0d060;
+            background: rgba(201, 162, 39, 0.12);
         }}
         
         .filter-select {{
             background: linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.95) 0%, 
-                rgba(250, 254, 252, 0.98) 100%
+                rgba(255, 252, 235, 0.98) 100%
             );
-            border: 1px solid rgba(64, 158, 128, 0.3);
-            color: #1e5f44;
+            border: 1px solid rgba(201, 162, 39, 0.4);
+            color: #1a1a1a;
             padding: 14px;
             border-radius: 10px;
             font-size: 1em;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 
-                0 2px 8px rgba(64, 158, 128, 0.15),
+                0 2px 8px rgba(201, 162, 39, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
                 inset 0 -1px 0 rgba(64, 158, 128, 0.05);
         }}
         
         .filter-select:hover {{
-            border-color: rgba(64, 224, 208, 0.5);
+            border-color: rgba(212, 180, 74, 0.55);
             box-shadow: 
-                0 4px 12px rgba(64, 224, 208, 0.25),
+                0 4px 12px rgba(212, 180, 74, 0.30),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.1);
+                inset 0 -1px 0 rgba(201, 162, 39, 0.1);
         }}
         
         .filter-select:focus {{
             outline: none;
-            border-color: #40e0d0;
+            border-color: #c9a227;
             box-shadow: 
-                0 0 0 3px rgba(64, 224, 208, 0.2),
-                0 4px 12px rgba(64, 224, 208, 0.3),
+                0 0 0 3px rgba(212, 180, 74, 0.25),
+                0 4px 12px rgba(212, 180, 74, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }}
         
@@ -512,9 +819,9 @@ class InteractiveDashboard:
         
         .slider-value {{
             background: linear-gradient(135deg, 
-                #2d8659 0%,
-                #40e0d0 50%,
-                #2d8659 100%
+                #f0d060 0%,
+                #c9a227 50%,
+                #f0d060 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -529,15 +836,15 @@ class InteractiveDashboard:
             height: 5px;
             border-radius: 3px;
             background: linear-gradient(180deg, 
-                rgba(200, 230, 220, 0.8) 0%, 
-                rgba(220, 240, 235, 0.9) 100%
+                rgba(40, 36, 20, 0.9) 0%, 
+                rgba(55, 48, 25, 0.95) 100%
             );
             outline: none;
             -webkit-appearance: none;
             box-shadow: 
-                inset 0 1px 3px rgba(64, 158, 128, 0.2),
+                inset 0 1px 3px rgba(201, 162, 39, 0.2),
                 0 1px 0 rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(64, 158, 128, 0.15);
+            border: 1px solid rgba(201, 162, 39, 0.15);
         }}
         
         input[type="range"]::-webkit-slider-thumb {{
@@ -547,16 +854,16 @@ class InteractiveDashboard:
             height: 24px;
             border-radius: 50%;
             background: linear-gradient(135deg, 
-                #40e0d0 0%,
-                #7fffd4 50%,
-                #40e0d0 100%
+                #e5c158 0%,
+                #f0d060 50%,
+                #c9a227 100%
             );
             cursor: pointer;
-            border: 2px solid #fff;
+            border: 2px solid #1a1a1a;
             box-shadow: 
-                0 2px 8px rgba(64, 224, 208, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+                0 2px 10px rgba(201, 162, 39, 0.6),
+                0 0 6px rgba(240, 208, 96, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }}
         
         input[type="range"]::-moz-range-thumb {{
@@ -564,16 +871,16 @@ class InteractiveDashboard:
             height: 24px;
             border-radius: 50%;
             background: linear-gradient(135deg, 
-                #40e0d0 0%,
-                #7fffd4 50%,
-                #40e0d0 100%
+                #e5c158 0%,
+                #f0d060 50%,
+                #c9a227 100%
             );
             cursor: pointer;
-            border: 2px solid #fff;
+            border: 2px solid #1a1a1a;
             box-shadow: 
-                0 2px 8px rgba(64, 224, 208, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+                0 2px 10px rgba(201, 162, 39, 0.6),
+                0 0 6px rgba(240, 208, 96, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }}
         
         .action-buttons {{
@@ -616,13 +923,13 @@ class InteractiveDashboard:
         
         .btn-apply {{
             background: linear-gradient(135deg, 
-                #2d8659 0%,
-                #40e0d0 50%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #c9a227 50%,
+                #2c2c2c 100%
             );
             color: #fff;
             box-shadow: 
-                0 4px 16px rgba(64, 224, 208, 0.4),
+                0 4px 16px rgba(212, 180, 74, 0.45),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -631,7 +938,7 @@ class InteractiveDashboard:
         .btn-apply:hover {{
             transform: translateY(-2px);
             box-shadow: 
-                0 6px 20px rgba(64, 224, 208, 0.5),
+                0 6px 20px rgba(212, 180, 74, 0.55),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }}
@@ -642,39 +949,39 @@ class InteractiveDashboard:
         
         .btn-reset {{
             background: linear-gradient(135deg, 
-                #a8dac3 0%,
-                #c5e8d8 50%,
-                #a8dac3 100%
+                #3d3d3d 0%,
+                #5a5a5a 50%,
+                #3d3d3d 100%
             );
-            color: #1e5f44;
+            color: #c9a227;
             box-shadow: 
-                0 2px 8px rgba(168, 218, 195, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+                0 2px 8px rgba(201, 162, 39, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }}
         
         .btn-reset:hover {{
             transform: translateY(-2px);
             box-shadow: 
-                0 4px 12px rgba(168, 218, 195, 0.4),
+                0 4px 12px rgba(201, 162, 39, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.05);
         }}
         
         .results-container {{
             background: linear-gradient(135deg, 
-                rgba(250, 250, 250, 0.95) 0%, 
-                rgba(255, 255, 255, 0.98) 50%, 
-                rgba(248, 248, 248, 0.95) 100%
+                rgba(22, 20, 14, 0.97) 0%, 
+                rgba(30, 27, 18, 0.98) 50%, 
+                rgba(22, 20, 14, 0.97) 100%
             );
             padding: 35px;
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow: 
-                0 8px 32px rgba(64, 158, 128, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.1);
-            border: 1px solid rgba(64, 224, 208, 0.2);
+                0 8px 32px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(201, 162, 39, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(201, 162, 39, 0.3);
             position: relative;
             overflow: hidden;
         }}
@@ -687,23 +994,23 @@ class InteractiveDashboard:
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, 
-                #2d8659 0%,
-                #40e0d0 20%,
-                #409e80 40%,
-                #48d1cc 60%,
-                #409e80 80%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #c9a227 20%,
+                #3d3d3d 40%,
+                #d4b44a 60%,
+                #3d3d3d 80%,
+                #2c2c2c 100%
             );
             opacity: 0.6;
         }}
         
         .results-header {{
             background: linear-gradient(135deg, 
-                #1e5f44 0%,
-                #409e80 25%,
-                #2d8659 50%,
-                #409e80 75%,
-                #1e5f44 100%
+                #c9a227 0%,
+                #f0d060 35%,
+                #e5c158 50%,
+                #f0d060 65%,
+                #c9a227 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -714,9 +1021,9 @@ class InteractiveDashboard:
             border-bottom: 2px solid;
             border-image: linear-gradient(90deg, 
                 transparent 0%,
-                rgba(64, 158, 128, 0.3) 10%,
-                rgba(64, 224, 208, 0.5) 50%,
-                rgba(64, 158, 128, 0.3) 90%,
+                rgba(201, 162, 39, 0.4) 10%,
+                rgba(212, 180, 74, 0.55) 50%,
+                rgba(201, 162, 39, 0.4) 90%,
                 transparent 100%
             ) 1;
             font-weight: 400;
@@ -724,9 +1031,9 @@ class InteractiveDashboard:
         
         .results-count {{
             background: linear-gradient(135deg, 
-                #2d8659 0%,
-                #40e0d0 50%,
-                #2d8659 100%
+                #f0d060 0%,
+                #e5c158 50%,
+                #c9a227 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -743,13 +1050,13 @@ class InteractiveDashboard:
         }}
         
         .project-card {{
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            background: linear-gradient(135deg, #1c1a10 0%, #201e12 50%, #1a1810 100%);
             padding: 28px;
             border-radius: 14px;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.06);
+                0 4px 24px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(201, 162, 39, 0.12);
+            border: 1px solid rgba(201, 162, 39, 0.25);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -763,11 +1070,11 @@ class InteractiveDashboard:
             right: 0;
             height: 4px;
             background: linear-gradient(90deg, 
-                #2d8659 0%,    /* Bronze */
-                #40e0d0 25%,   /* Gold */
-                #409e80 50%,   /* Copper */
-                #48d1cc 75%,   /* Silver */
-                #2d8659 100%   /* Bronze */
+                #2c2c2c 0%,    /* Bronze */
+                #c9a227 25%,   /* Gold */
+                #3d3d3d 50%,   /* Copper */
+                #d4b44a 75%,   /* Silver */
+                #2c2c2c 100%   /* Bronze */
             );
             opacity: 0.7;
         }}
@@ -775,8 +1082,9 @@ class InteractiveDashboard:
         .project-card:hover {{
             transform: translateY(-5px);
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 8px 36px rgba(0, 0, 0, 0.85),
+                0 0 20px rgba(201, 162, 39, 0.15),
+                inset 0 1px 0 rgba(201, 162, 39, 0.2);
         }}
         
         .project-card:hover::before {{
@@ -785,32 +1093,34 @@ class InteractiveDashboard:
         }}
         
         .project-name {{
+            color: #a08840;
+            font-size: 0.82em;
+            font-weight: 300;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }}
+        
+        .project-full-name {{
             background: linear-gradient(135deg, 
-                #409e80 0%,    /* Copper */
-                #2d8659 25%,   /* Bronze */
-                #40e0d0 50%,   /* Gold */
-                #2d8659 75%,   /* Bronze */
-                #409e80 100%   /* Copper */
+                #e5c158 0%,
+                #f0d060 30%,
+                #c9a227 50%,
+                #f0d060 70%,
+                #e5c158 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.6em;
+            font-size: 1.25em;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             letter-spacing: -0.3px;
-        }}
-        
-        .project-full-name {{
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 15px;
-            font-weight: 300;
         }}
         
         .project-tags {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin-bottom: 18px;
         }}
@@ -830,25 +1140,30 @@ class InteractiveDashboard:
                 inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }}
         
-        .tag.modality {{ 
-            border-color: #40e0d0;
-            color: #2f6f50;
-            background: linear-gradient(135deg, #fff9e6 0%, #ffedb3 100%);
-        }}
         .tag.domain {{ 
-            border-color: #2d8659;
-            color: #1e5f44;
-            background: linear-gradient(135deg, #ffe9d9 0%, #ffd4b3 100%);
+            border-color: #cd7f32;
+            color: #e5c158;
+            background: linear-gradient(135deg, #251a08 0%, #1e1408 100%);
+        }}
+        .tag.task {{ 
+            border-color: #c9a227;
+            color: #f0d060;
+            background: linear-gradient(135deg, #2a2310 0%, #1e1a08 100%);
+        }}
+        .tag.modality {{ 
+            border-color: #b8962e;
+            color: #d4b44a;
+            background: linear-gradient(135deg, #201c0a 0%, #181408 100%);
         }}
         .tag.language {{ 
-            border-color: #409e80;
-            color: #1a5238;
-            background: linear-gradient(135deg, #ffeee6 0%, #ffdcc9 100%);
+            border-color: #a0722a;
+            color: #c9a227;
+            background: linear-gradient(135deg, #201808 0%, #181206 100%);
         }}
         .tag.recording {{
-            border-color: #c07838;
-            color: #6b3a10;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b8 100%);
+            border-color: #8a6020;
+            color: #b89a50;
+            background: linear-gradient(135deg, #1c1606 0%, #141004 100%);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -864,17 +1179,17 @@ class InteractiveDashboard:
         
         .stat-item {{
             background: linear-gradient(135deg, 
-                rgba(64, 224, 208, 0.08) 0%,   /* Gold tint */
-                rgba(64, 158, 128, 0.08) 50%,  /* Bronze tint */
-                rgba(64, 158, 128, 0.08) 100%  /* Copper tint */
+                rgba(20, 18, 10, 0.98) 0%,
+                rgba(30, 27, 14, 0.98) 50%,
+                rgba(20, 18, 10, 0.98) 100%
             );
             padding: 14px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid rgba(64, 158, 128, 0.15);
+            border: 1px solid rgba(201, 162, 39, 0.35);
             box-shadow: 
-                0 2px 6px rgba(64, 158, 128, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                0 2px 8px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(201, 162, 39, 0.1);
             position: relative;
             overflow: hidden;
         }}
@@ -888,7 +1203,7 @@ class InteractiveDashboard:
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent 0%,
-                rgba(64, 224, 208, 0.2) 50%,
+                rgba(212, 180, 74, 0.25) 50%,
                 transparent 100%
             );
             transition: left 0.5s ease;
@@ -900,9 +1215,9 @@ class InteractiveDashboard:
         
         .stat-value {{
             background: linear-gradient(135deg, 
-                #1e5f44 0%,
-                #409e80 50%,
-                #1e5f44 100%
+                #f0d060 0%,
+                #c9a227 50%,
+                #f0d060 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -914,7 +1229,7 @@ class InteractiveDashboard:
         }}
         
         .stat-label {{
-            color: #888;
+            color: #b89a50;
             font-size: 0.85em;
             margin-top: 4px;
             font-weight: 400;
@@ -934,9 +1249,9 @@ class InteractiveDashboard:
             padding: 12px 24px;
             text-align: center;
             background: linear-gradient(135deg, 
-                #2d8659 0%,
-                #40e0d0 50%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #c9a227 50%,
+                #2c2c2c 100%
             );
             color: #fff;
             text-decoration: none;
@@ -944,7 +1259,7 @@ class InteractiveDashboard:
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 
-                0 3px 10px rgba(64, 158, 128, 0.35),
+                0 3px 10px rgba(201, 162, 39, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -965,20 +1280,20 @@ class InteractiveDashboard:
         .project-link:hover {{
             transform: translateY(-2px);
             box-shadow: 
-                0 5px 15px rgba(64, 158, 128, 0.45),
+                0 5px 15px rgba(201, 162, 39, 0.45),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             background: linear-gradient(135deg, 
-                #40e0d0 0%,
+                #c9a227 0%,
                 #e5c158 50%,
-                #40e0d0 100%
+                #c9a227 100%
             );
         }}
         
         .project-link.test-paradigm:hover {{
             background: linear-gradient(135deg, 
                 #cd7f32 0%,
-                #40e0d0 50%,
+                #c9a227 50%,
                 #cd7f32 100%
             );
             box-shadow: 
@@ -990,25 +1305,25 @@ class InteractiveDashboard:
         .no-results {{
             text-align: center;
             padding: 60px;
-            color: #999;
+            color: #a08840;
             font-size: 1.3em;
             font-weight: 300;
         }}
         
         .chart-container {{
             background: linear-gradient(135deg, 
-                rgba(250, 250, 250, 0.95) 0%, 
-                rgba(255, 255, 255, 0.98) 50%, 
-                rgba(248, 248, 248, 0.95) 100%
+                rgba(22, 20, 14, 0.97) 0%, 
+                rgba(30, 27, 18, 0.98) 50%, 
+                rgba(22, 20, 14, 0.97) 100%
             );
             padding: 35px;
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow: 
-                0 8px 32px rgba(64, 158, 128, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.1);
-            border: 1px solid rgba(64, 224, 208, 0.2);
+                0 8px 32px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(201, 162, 39, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(201, 162, 39, 0.3);
             position: relative;
             overflow: hidden;
         }}
@@ -1021,12 +1336,12 @@ class InteractiveDashboard:
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, 
-                #2d8659 0%,
-                #40e0d0 20%,
-                #409e80 40%,
-                #48d1cc 60%,
-                #409e80 80%,
-                #2d8659 100%
+                #2c2c2c 0%,
+                #c9a227 20%,
+                #3d3d3d 40%,
+                #d4b44a 60%,
+                #3d3d3d 80%,
+                #2c2c2c 100%
             );
             opacity: 0.6;
         }}
@@ -1037,11 +1352,11 @@ class InteractiveDashboard:
         
         .chart-title {{
             background: linear-gradient(135deg, 
-                #1e5f44 0%,
-                #409e80 25%,
-                #2d8659 50%,
-                #409e80 75%,
-                #1e5f44 100%
+                #c9a227 0%,
+                #f0d060 35%,
+                #e5c158 50%,
+                #f0d060 65%,
+                #c9a227 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1052,9 +1367,9 @@ class InteractiveDashboard:
             border-bottom: 2px solid;
             border-image: linear-gradient(90deg, 
                 transparent 0%,
-                rgba(64, 158, 128, 0.3) 10%,
-                rgba(64, 224, 208, 0.5) 50%,
-                rgba(64, 158, 128, 0.3) 90%,
+                rgba(201, 162, 39, 0.4) 10%,
+                rgba(212, 180, 74, 0.55) 50%,
+                rgba(201, 162, 39, 0.4) 90%,
                 transparent 100%
             ) 1;
             font-weight: 400;
@@ -1070,18 +1385,18 @@ class InteractiveDashboard:
         /* ── Reliability Metrics Explained panel ── */
         .reliability-panel {{
             background: linear-gradient(135deg,
-                rgba(235, 248, 243, 0.95) 0%,
-                rgba(245, 252, 249, 0.98) 50%,
-                rgba(235, 248, 243, 0.95) 100%
+                rgba(22, 20, 12, 0.98) 0%,
+                rgba(30, 28, 16, 0.99) 50%,
+                rgba(22, 20, 12, 0.98) 100%
             );
             padding: 0;
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow:
-                0 8px 32px rgba(64, 158, 128, 0.2),
+                0 8px 32px rgba(201, 162, 39, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(64, 158, 128, 0.1);
-            border: 1px solid rgba(64, 158, 128, 0.25);
+                inset 0 -1px 0 rgba(201, 162, 39, 0.1);
+            border: 1px solid rgba(201, 162, 39, 0.25);
             position: relative;
             overflow: hidden;
         }}
@@ -1104,7 +1419,7 @@ class InteractiveDashboard:
 
         .reliability-toggle-arrow {{
             font-size: 1.2em;
-            color: #409e80;
+            color: #3d3d3d;
             transition: transform 0.3s ease;
             flex-shrink: 0;
             margin-left: 16px;
@@ -1123,14 +1438,61 @@ class InteractiveDashboard:
             display: block;
         }}
 
+        .inner-section-toggle {{
+            width: 100%;
+            background: none;
+            border: none;
+            border-top: 2px solid;
+            border-image: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.4) 10%, rgba(212, 180, 74, 0.55) 50%, rgba(201, 162, 39, 0.4) 90%, transparent 100%) 1;
+            cursor: pointer;
+            padding: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+        }}
+
+        .inner-section-toggle:hover .inner-section-title {{
+            opacity: 0.8;
+        }}
+
+        .inner-section-title {{
+            font-size: 1em;
+            font-weight: 500;
+            color: #a08840;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+
+        .inner-section-arrow {{
+            font-size: 1em;
+            color: #a08840;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }}
+
+        .inner-section.open .inner-section-arrow {{
+            transform: rotate(180deg);
+        }}
+
+        .inner-section-body {{
+            display: none;
+            padding-top: 20px;
+        }}
+
+        .inner-section.open .inner-section-body {{
+            display: block;
+        }}
+
         .reliability-panel::before {{
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg,
-                #2d8659 0%, #409e80 20%, #40e0d0 40%,
-                #48d1cc 60%, #40e0d0 80%, #2d8659 100%
+                #2c2c2c 0%, #3d3d3d 20%, #c9a227 40%,
+                #d4b44a 60%, #c9a227 80%, #2c2c2c 100%
             );
             opacity: 0.7;
         }}
@@ -1144,7 +1506,7 @@ class InteractiveDashboard:
 
         .reliability-panel-title {{
             background: linear-gradient(135deg,
-                #1e5f44 0%, #2d8659 25%, #409e80 50%, #2d8659 75%, #1e5f44 100%
+                #c9a227 0%, #f0d060 35%, #e5c158 50%, #f0d060 65%, #c9a227 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1156,7 +1518,7 @@ class InteractiveDashboard:
         }}
 
         .reliability-panel-subtitle {{
-            color: #5a8a72;
+            color: #8a7040;
             font-size: 0.95em;
             font-weight: 300;
         }}
@@ -1168,12 +1530,12 @@ class InteractiveDashboard:
         }}
 
         .metric-card {{
-            background: linear-gradient(135deg, #ffffff 0%, #f5fdf9 100%);
+            background: linear-gradient(135deg, #1c1a0e 0%, #221e0e 100%);
             border-radius: 12px;
-            border: 1px solid rgba(64, 158, 128, 0.2);
+            border: 1px solid rgba(201, 162, 39, 0.3);
             overflow: hidden;
             box-shadow:
-                0 4px 16px rgba(64, 158, 128, 0.12),
+                0 4px 16px rgba(201, 162, 39, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }}
@@ -1181,22 +1543,22 @@ class InteractiveDashboard:
         .metric-card:hover {{
             transform: translateY(-3px);
             box-shadow:
-                0 8px 24px rgba(64, 224, 208, 0.2),
+                0 8px 24px rgba(212, 180, 74, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }}
 
         .metric-card-header {{
             background: linear-gradient(135deg,
-                rgba(64, 158, 128, 0.12) 0%,
-                rgba(64, 224, 208, 0.10) 100%
+                rgba(201, 162, 39, 0.12) 0%,
+                rgba(201, 162, 39, 0.10) 100%
             );
             padding: 16px 20px 14px;
-            border-bottom: 1px solid rgba(64, 158, 128, 0.15);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.15);
         }}
 
         .metric-card-name {{
             background: linear-gradient(135deg,
-                #1e5f44 0%, #2d8659 40%, #409e80 100%
+                #f0d060 0%, #c9a227 50%, #e5c158 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1207,7 +1569,7 @@ class InteractiveDashboard:
         }}
 
         .metric-card-tagline {{
-            color: #5a8a72;
+            color: #8a7040;
             font-size: 0.85em;
             font-weight: 300;
         }}
@@ -1223,7 +1585,7 @@ class InteractiveDashboard:
         }}
 
         .metric-card-points li {{
-            color: #444;
+            color: #c8b080;
             font-size: 0.9em;
             line-height: 1.55;
             padding: 4px 0 4px 18px;
@@ -1234,17 +1596,17 @@ class InteractiveDashboard:
             content: '›';
             position: absolute;
             left: 4px;
-            color: #40e0d0;
+            color: #c9a227;
             font-weight: 700;
         }}
 
         .formula-box {{
             background: linear-gradient(135deg,
-                rgba(255,255,255,0.85) 0%,
-                rgba(240,252,248,0.90) 100%
+                rgba(25, 22, 10, 0.98) 0%,
+                rgba(35, 30, 12, 0.98) 100%
             );
-            border: 1px solid rgba(64, 158, 128, 0.22);
-            border-left: 3px solid rgba(64, 224, 208, 0.6);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-left: 3px solid rgba(201, 162, 39, 0.8);
             border-radius: 10px;
             padding: 16px 18px 12px;
             display: flex;
@@ -1267,7 +1629,7 @@ class InteractiveDashboard:
             font-family: 'Georgia', 'Times New Roman', serif;
             font-size: 1.05em;
             font-style: italic;
-            color: #1e5f44;
+            color: #d4b44a;
             font-weight: 600;
             margin-right: 2px;
         }}
@@ -1275,7 +1637,7 @@ class InteractiveDashboard:
         .math-eq {{
             font-family: 'Georgia', serif;
             font-size: 1em;
-            color: #409e80;
+            color: #c9a227;
             font-weight: 400;
             margin: 0 4px;
         }}
@@ -1292,7 +1654,7 @@ class InteractiveDashboard:
 
         .math-num {{
             font-size: 0.82em;
-            color: #1e5f44;
+            color: #d4b44a;
             padding: 0 4px 2px;
             font-style: italic;
             white-space: nowrap;
@@ -1301,13 +1663,13 @@ class InteractiveDashboard:
         .math-bar {{
             width: 100%;
             height: 1.5px;
-            background: #2d8659;
+            background: #c9a227;
             min-width: 20px;
         }}
 
         .math-den {{
             font-size: 0.82em;
-            color: #1e5f44;
+            color: #d4b44a;
             padding: 2px 4px 0;
             font-style: italic;
             white-space: nowrap;
@@ -1317,12 +1679,12 @@ class InteractiveDashboard:
             font-family: 'Georgia', 'Times New Roman', serif;
             font-style: italic;
             font-size: 0.95em;
-            color: #1e5f44;
+            color: #d4b44a;
         }}
 
         .math-op {{
             font-size: 0.95em;
-            color: #2d8659;
+            color: #c9a227;
             margin: 0 2px;
             font-weight: 500;
         }}
@@ -1330,18 +1692,18 @@ class InteractiveDashboard:
         .math-sub {{
             font-size: 0.65em;
             vertical-align: sub;
-            color: #2d8659;
+            color: #c9a227;
         }}
 
         .math-sup {{
             font-size: 0.65em;
             vertical-align: super;
-            color: #2d8659;
+            color: #c9a227;
         }}
 
         .math-paren {{
             font-size: 1.15em;
-            color: #5a8a72;
+            color: #8a7040;
             font-weight: 300;
             line-height: 1;
         }}
@@ -1354,24 +1716,24 @@ class InteractiveDashboard:
 
         .math-sqrt-sign {{
             font-size: 1.2em;
-            color: #2d8659;
+            color: #c9a227;
             margin-right: 1px;
             line-height: 1;
         }}
 
         .math-sqrt-content {{
-            border-top: 1.5px solid #2d8659;
+            border-top: 1.5px solid #c9a227;
             padding: 1px 4px 0;
             font-family: 'Georgia', serif;
             font-style: italic;
             font-size: 0.85em;
-            color: #1e5f44;
+            color: #d4b44a;
         }}
 
         /* Legend row below the formula */
         .formula-legend {{
             font-size: 0.78em;
-            color: #5a8a72;
+            color: #8a7040;
             border-top: 1px dashed rgba(64,158,128,0.25);
             padding-top: 8px;
             line-height: 1.6;
@@ -1382,7 +1744,7 @@ class InteractiveDashboard:
             font-family: 'Georgia', serif;
             font-style: italic;
             font-weight: 600;
-            color: #2d8659;
+            color: #d4b44a;
         }}
 
         /* Range badge */
@@ -1392,7 +1754,7 @@ class InteractiveDashboard:
             gap: 6px;
             font-size: 0.78em;
             color: #fff;
-            background: linear-gradient(90deg, #2d8659 0%, #40e0d0 100%);
+            background: linear-gradient(90deg, #2c2c2c 0%, #c9a227 100%);
             border-radius: 20px;
             padding: 3px 12px;
             font-weight: 500;
@@ -1404,14 +1766,14 @@ class InteractiveDashboard:
         .about-box {{
             background: linear-gradient(135deg,
                 rgba(255, 255, 255, 0.97) 0%,
-                rgba(245, 252, 249, 0.98) 50%,
+                rgba(255, 252, 235, 0.98) 50%,
                 rgba(255, 255, 255, 0.97) 100%
             );
-            border: 1px solid rgba(64, 158, 128, 0.2);
+            border: 1px solid rgba(201, 162, 39, 0.2);
             border-radius: 16px;
             margin-bottom: 30px;
             box-shadow:
-                0 6px 24px rgba(64, 158, 128, 0.12),
+                0 6px 24px rgba(201, 162, 39, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
             position: relative;
             overflow: hidden;
@@ -1423,8 +1785,8 @@ class InteractiveDashboard:
             top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg,
-                #2d8659 0%, #409e80 20%, #40e0d0 40%,
-                #48d1cc 60%, #40e0d0 80%, #2d8659 100%
+                #2c2c2c 0%, #3d3d3d 20%, #c9a227 40%,
+                #d4b44a 60%, #c9a227 80%, #2c2c2c 100%
             );
             opacity: 0.7;
         }}
@@ -1435,7 +1797,7 @@ class InteractiveDashboard:
 
         .about-title {{
             background: linear-gradient(135deg,
-                #1e5f44 0%, #2d8659 30%, #409e80 60%, #1e5f44 100%
+                #c9a227 0%, #f0d060 40%, #e5c158 60%, #c9a227 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1454,7 +1816,7 @@ class InteractiveDashboard:
         }}
 
         .about-text strong {{
-            color: #1e5f44;
+            color: #1a1a1a;
             font-weight: 600;
         }}
 
@@ -1470,12 +1832,50 @@ class InteractiveDashboard:
             border-radius: 20px;
             font-size: 0.8em;
             font-weight: 500;
-            border: 1px solid rgba(64, 158, 128, 0.35);
-            color: #2d8659;
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            color: #2c2c2c;
             background: linear-gradient(135deg,
-                rgba(64, 224, 208, 0.08) 0%,
+                rgba(201, 162, 39, 0.08) 0%,
                 rgba(64, 158, 128, 0.08) 100%
             );
+        }}
+
+        /* ── Scientific citation ── */
+        .metric-citation {{
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg,
+                rgba(201, 162, 39, 0.07) 0%,
+                rgba(201, 162, 39, 0.04) 100%
+            );
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-left: 3px solid rgba(201, 162, 39, 0.6);
+            border-radius: 8px;
+            font-size: 0.78em;
+            line-height: 1.55;
+        }}
+
+        .metric-citation-text {{
+            color: #a08840;
+        }}
+
+        .metric-citation-text a {{
+            color: #c9a227;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(201, 162, 39, 0.5);
+        }}
+
+        .metric-citation-text a:hover {{
+            color: #f0d060;
+            border-bottom-color: #f0d060;
+        }}
+
+        .metric-citation-text em {{
+            font-style: italic;
+            color: #b89a50;
         }}
 
         .radio-pill {{
@@ -1484,20 +1884,21 @@ class InteractiveDashboard:
             gap: 5px;
             padding: 7px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(64, 158, 128, 0.4);
-            background: rgba(255,255,255,0.85);
-            color: #1e5f44;
+            border: 1px solid rgba(201, 162, 39, 0.4);
+            background: rgba(22, 20, 10, 0.98);
+            color: #c9a227;
             font-size: 0.92em;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
         }}
         .radio-pill:hover {{
-            border-color: #40e0d0;
-            background: rgba(64, 224, 208, 0.1);
+            border-color: #d4b44a;
+            background: rgba(201, 162, 39, 0.1);
+            color: #f0d060;
         }}
         .radio-pill input[type="radio"] {{
-            accent-color: #2d8659;
+            accent-color: #c9a227;
             width: 14px;
             height: 14px;
         }}
@@ -1505,7 +1906,6 @@ class InteractiveDashboard:
 </head>
 <body>
     <div class="header">
-        <img src="logo_memoslap.png" alt="MemoSlap Logo" class="header-logo-left"/>
         <div class="header-text">
             <h1>Research BEE Hub</h1>
             <p class="subtitle">BEhavioral Experiments &mdash; Discover, Compare &amp; Validate Paradigms</p>
@@ -1537,48 +1937,59 @@ class InteractiveDashboard:
         <div class="filters-title">
             Filter Options
         </div>
-        
-        <div class="filters-grid">
-            <div class="filter-group">
-                <label class="filter-label">Modality</label>
-                <select id="modalityFilter" class="filter-select">
-                    <option value="">All Modalities</option>
 """
-        
-        for mod in unique_values['modalities']:
-            html += f'                    <option value="{mod}">{mod.replace("_", " ").title()}</option>\n'
-        
-        html += """                </select>
-            </div>
-            
+
+        # ── Grid 1: Cognitive Domain / Task Type / Modality ────
+        html += """
+        <div class="filters-grid">
             <div class="filter-group">
                 <label class="filter-label">Cognitive Domain</label>
                 <select id="domainFilter" class="filter-select">
                     <option value="">All Domains</option>
 """
-        
         for domain in unique_values['domains']:
             html += f'                    <option value="{domain}">{domain.replace("_", " ").title()}</option>\n'
-        
-        html += """                </select>
+        html += """
+                </select>
             </div>
-            
             <div class="filter-group">
                 <label class="filter-label">Task Type</label>
                 <select id="taskFilter" class="filter-select">
                     <option value="">All Task Types</option>
 """
-        
         for task in unique_values['task_types']:
             html += f'                    <option value="{task}">{task.replace("_", " ").title()}</option>\n'
-        
-        html += f"""                </select>
+        html += """
+                </select>
             </div>
-
             <div class="filter-group">
-                <label class="filter-label">Recording Modality</label>
-                <select id="recordingModalityFilter" class="filter-select">
-                    <option value="">All Recording Modalities</option>
+                <label class="filter-label">Modality</label>
+                <select id="modalityFilter" class="filter-select">
+                    <option value="">All Modalities</option>
+"""
+        for mod in unique_values['modalities']:
+            html += f'                    <option value="{mod}">{mod.replace("_", " ").title()}</option>\n'
+        html += """
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 2: Language + Experimental Context -->
+        <div class="filters-grid" style="margin-top:20px;">
+            <div class="filter-group">
+                <label class="filter-label">Language of Paradigm</label>
+                <select id="languageFilter" class="filter-select">
+                    <option value="">All Languages</option>
+"""
+        for lang in unique_values['languages']:
+            html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
+        html += """
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Experimental Context <span class="info-icon" onclick="document.getElementById('expCtxModal').classList.add('open')" title="What is Experimental Context?">i</span></label>
+                <select id="experimentalContextFilter" class="filter-select">
+                    <option value="">All Experimental Contexts</option>
                     <option value="behavioral">Behavioral</option>
                     <option value="mri">MRI</option>
                     <option value="eeg">EEG</option>
@@ -1586,97 +1997,16 @@ class InteractiveDashboard:
                     <option value="eye_tracking">Eye-tracking</option>
                     <option value="fnirs">fNIRS</option>
 """
-
-        for rec in unique_values['recording_modalities']:
+        for rec in unique_values['experimental_contexts']:
             fixed = {'behavioral','mri','eeg','pet','eye_tracking','fnirs'}
             if rec.lower() not in fixed:
                 html += f'                    <option value="{rec}">{rec.replace("_", " ").title()}</option>\n'
-
-        html += """                </select>
+        html += f"""
+                </select>
             </div>
-
-            <div class="filter-group">
-                <label class="filter-label">Language of Paradigm</label>
-                <select id="languageFilter" class="filter-select">
-                    <option value="">All Languages</option>
+        </div>
 """
-        
-        for lang in unique_values['languages']:
-            html += f'                    <option value="{lang}">{lang.replace("_", " ").title()}</option>\n'
-        
-        html += f"""                </select>
-            </div>
-        </div>
-        
-        <div class="filters-grid" style="margin-top: 25px;">
-            <div class="filter-group">
-                <label class="filter-label">Mean Age (years)</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="ageValue">{ranges['age_min']} - {ranges['age_max']}</div>
-                    <input type="range" id="ageMin" min="{ranges['age_min']}" max="{ranges['age_max']}" value="{ranges['age_min']}" step="1">
-                    <input type="range" id="ageMax" min="{ranges['age_min']}" max="{ranges['age_max']}" value="{ranges['age_max']}" step="1">
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <label class="filter-label">Number of Subjects</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="subjectsValue">{ranges['subjects_min']} - {ranges['subjects_max']}</div>
-                    <input type="range" id="subjectsMin" min="{ranges['subjects_min']}" max="{ranges['subjects_max']}" value="{ranges['subjects_min']}" step="5">
-                    <input type="range" id="subjectsMax" min="{ranges['subjects_min']}" max="{ranges['subjects_max']}" value="{ranges['subjects_max']}" step="5">
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <label class="filter-label">Overall ICC (Mean)</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="iccValue">-1.00 - 1.00</div>
-                    <input type="range" id="iccMin" min="-1" max="1" value="-1" step="0.05">
-                    <input type="range" id="iccMax" min="-1" max="1" value="1" step="0.05">
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <label class="filter-label">Consistency CV Mean (%)</label>
-                <div class="slider-container">
-                    <div class="slider-value" id="cvValue">{ranges['cv_min']:.2f} - {ranges['cv_max']:.2f}</div>
-                    <input type="range" id="cvMin" min="{ranges['cv_min']}" max="{ranges['cv_max']}" value="{ranges['cv_min']}" step="0.5">
-                    <input type="range" id="cvMax" min="{ranges['cv_min']}" max="{ranges['cv_max']}" value="{ranges['cv_max']}" step="0.5">
-                </div>
-            </div>
-        </div>
-        
-        <div class="filters-grid" style="margin-top: 25px;">
-            <div class="filter-group" style="grid-column: 1 / -1;">
-                <label class="filter-label">&#x1F4CA; Radar Plot — Metrics &amp; Data Source</label>
-                <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin-top:6px;">
-                    <select id="radarMetricFilter" class="filter-select" style="min-width:220px;"
-                            onchange="updateCharts()">
-                        <option value="all">All Metrics</option>
-                    <option value="icc">ICC(3,1)</option>
-                    <option value="pearson_r">Pearson r</option>
-                    <option value="cohens_d">Stability (Cohen's d)</option>
-                    <option value="cv">Consistency (CV)</option>
-                    </select>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        <label style="font-size:0.9em; color:#1e5f44; font-weight:600;">Data source:</label>
-                        <label class="radio-pill">
-                            <input type="radio" name="radarSource" value="task" checked
-                                   onchange="updateCharts()"> Task
-                        </label>
-                        <label class="radio-pill">
-                            <input type="radio" name="radarSource" value="control"
-                                   onchange="updateCharts()"> Control
-                        </label>
-                        <label class="radio-pill">
-                            <input type="radio" name="radarSource" value="both"
-                                   onchange="updateCharts()"> Both
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        html += f"""
         <div class="action-buttons">
             <button class="btn btn-apply" onclick="applyFilters()">Apply Filters</button>
             <button class="btn btn-reset" onclick="resetFilters()">Reset All</button>
@@ -1686,32 +2016,88 @@ class InteractiveDashboard:
     <div class="reliability-panel" id="reliabilityPanel">
         <button class="reliability-panel-toggle" onclick="toggleReliabilityPanel()" aria-expanded="false">
             <div class="reliability-panel-header">
-                <div class="reliability-panel-title">Reliability Metrics Explained</div>
+                <div class="reliability-panel-title">Reliability Metrics — Filter, Explore &amp; Compare</div>
             </div>
             <span class="reliability-toggle-arrow">▼</span>
         </button>
         <div class="reliability-panel-body">
-            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(64, 158, 128, 0.3) 10%, rgba(64, 224, 208, 0.5) 50%, rgba(64, 158, 128, 0.3) 90%, transparent 100%) 1;">
-                <div class="reliability-panel-subtitle">
-                    All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are derived from task trials only; control, rest, and baseline conditions are excluded.
+
+            <!-- ── 1. Metric & Data Source selector ── -->
+            <div style="margin-bottom: 30px; padding-bottom: 24px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.4) 10%, rgba(212, 180, 74, 0.55) 50%, rgba(201, 162, 39, 0.4) 90%, transparent 100%) 1;">
+                <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-size:0.78em; color:#a08840; text-transform:uppercase; letter-spacing:0.4px;">Metric</span>
+                        <select id="radarMetricFilter" class="filter-select" style="min-width:200px;" onchange="onSelectionChange()">
+                            <option value="all">All Metrics</option>
+                            <option value="icc">ICC Consistency</option>
+                            <option value="icc_agreement">ICC Agreement</option>
+                            <option value="pearson_r">Pearson r</option>
+                            <option value="cronbach_alpha">Internal consistency (α)</option>
+                            <option value="session_shift_d">Session-shift stability</option>
+                            <option value="paradigm_effect_size">Paradigm effect size</option>
+                            <option value="cv">Within-session CV</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-size:0.78em; color:#a08840; text-transform:uppercase; letter-spacing:0.4px;">Data Source</span>
+                        <div style="display:flex; gap:8px; align-items:center; padding-top:2px;">
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="task" checked onchange="onSelectionChange()"> Task only</label>
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="control" onchange="onSelectionChange()"> Control only</label>
+                            <label class="radio-pill"><input type="radio" name="radarSource" value="both" onchange="onSelectionChange()"> Both (separate)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 2. Metric range sliders ── -->
+            <div style="margin-bottom: 30px; padding-bottom: 24px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.4) 10%, rgba(212, 180, 74, 0.55) 50%, rgba(201, 162, 39, 0.4) 90%, transparent 100%) 1;">
+                <div class="reliability-panel-subtitle" style="color:#a08840; margin-bottom: 18px;">Filter by Metric Range</div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Mean Age (years)</label>
+                        <div class="slider-container">
+                            <div class="slider-value" id="ageValue">{ranges['age_min']} - {ranges['age_max']}</div>
+                            <input type="range" id="ageMin" min="{ranges['age_min']}" max="{ranges['age_max']}" value="{ranges['age_min']}" step="1">
+                            <input type="range" id="ageMax" min="{ranges['age_min']}" max="{ranges['age_max']}" value="{ranges['age_max']}" step="1">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Number of Subjects</label>
+                        <div class="slider-container">
+                            <div class="slider-value" id="subjectsValue">{ranges['subjects_min']} - {ranges['subjects_max']}</div>
+                            <input type="range" id="subjectsMin" min="{ranges['subjects_min']}" max="{ranges['subjects_max']}" value="{ranges['subjects_min']}" step="5">
+                            <input type="range" id="subjectsMax" min="{ranges['subjects_min']}" max="{ranges['subjects_max']}" value="{ranges['subjects_max']}" step="5">
+                        </div>
+                    </div>
+                </div>
+                <!-- Dynamic metric sliders — rebuilt by rebuildSliders() -->
+                <div id="dynamicSlidersContainer" style="margin-top:20px;">
+                    <!-- populated dynamically -->
+                </div>
+            </div>
+
+            <!-- ── 3. Metric descriptions ── -->
+            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid; border-image: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.4) 10%, rgba(212, 180, 74, 0.55) 50%, rgba(201, 162, 39, 0.4) 90%, transparent 100%) 1;">
+                <div class="reliability-panel-subtitle" style="color:#a08840">
+                    All scores are normalised to [0, 1] — higher values indicate better reliability. ICC values are computed at the learning-stage level (subject × stage means) and derived from task trials only; control, rest, and baseline conditions are excluded.
                 </div>
             </div>
             <div class="metric-cards-grid">
-
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">ICC(3,1) — Intraclass Correlation</div>
-                        <div class="metric-card-tagline">Test-retest consistency across sessions — task trials only, control/rest/baseline excluded</div>
+                        <div class="metric-card-name">ICC(C,1) — Consistency</div>
+                        <div class="metric-card-tagline">Do subjects maintain their relative ranking across sessions? Stage-level, task trials only</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Computed exclusively on task trial types — control, rest, fixation, baseline, and catch conditions are always excluded from the ICC calculation</li>
-                            <li>Two-way mixed model, single measures — sessions are treated as fixed, subjects as random; session mean differences are partialled out of the error term (consistency estimate, not absolute agreement)</li>
-                            <li>Reported separately for RT and Accuracy; each value represents the mean ICC across subjects who completed at least two sessions</li>
+                            <li>Computed at the <strong>learning-stage level</strong> (one mean per subject &times; stage &times; session), matching standard practice in crossover fMRI-tDCS studies</li>
+                            <li>Two-way mixed model, single measures &mdash; ignores systematic session shifts; a uniform improvement across all subjects does not lower this ICC</li>
+                            <li>Useful for detecting whether individual differences are preserved across sessions</li>
+                            <li><strong>Reported with 95 % CI, F statistic, and p-value</strong> (computed via <code>pingouin.intraclass_corr</code>; matches R's <code>irr::icc</code>)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
-                                <span class="math-lhs">ICC(3,1)</span>
+                                <span class="math-lhs">ICC(C,1)</span>
                                 <span class="math-eq">=</span>
                                 <span class="math-frac">
                                     <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
@@ -1720,11 +2106,61 @@ class InteractiveDashboard:
                                 </span>
                             </div>
                             <div class="formula-legend">
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">r</span></b> = between-subjects mean square &nbsp;&middot;&nbsp;
-                                <b>MS<span style="font-size:0.75em;vertical-align:sub">e</span></b> = error mean square &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">r</span></b> = between-rows (subject &times; stage) mean square &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">e</span></b> = error mean square &nbsp;&middot;&nbsp;
                                 <b>k</b> = number of sessions
                             </div>
-                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent &nbsp;&middot;&nbsp; task trials only</span>
+                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent ranking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">ICC(A,1) — Absolute Agreement</div>
+                        <div class="metric-card-tagline">Are scores truly interchangeable across sessions? Penalises session shifts. Stage-level, task trials only</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Same stage-level computation as ICC(C,1), but includes the <strong>session (column) effect</strong> in the denominator &mdash; any systematic shift between sessions lowers this value</li>
+                            <li>Matches the R <code>irr::icc(model='twoway', type='agreement', unit='single')</code> call used in Abdelmotaleb et al. (2025)</li>
+                            <li>The stricter, more conservative metric &mdash; preferred when confirming no session/practice effects exist</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">ICC(A,1)</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">MS</span><span class="math-sub">r</span> &minus; <span class="math-var">MS</span><span class="math-sub">e</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">MS</span><span class="math-sub">r</span> + (<span class="math-var">k</span>&minus;1)&middot;<span class="math-var">MS</span><span class="math-sub">e</span> + <span class="math-frac"><span class="math-num"><span class="math-var">k</span></span><span class="math-bar"></span><span class="math-den"><span class="math-var">n</span></span></span>(<span class="math-var">MS</span><span class="math-sub">c</span>&minus;<span class="math-var">MS</span><span class="math-sub">e</span>)</span>
+                                </span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">r</span></b> = between-rows &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">c</span></b> = between-columns (sessions) &nbsp;&middot;&nbsp;
+                                <b>MS<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">e</span></b> = error &nbsp;&middot;&nbsp;
+                                <b>n</b> = rows &nbsp;&middot;&nbsp; <b>k</b> = sessions
+                            </div>
+                            <span class="formula-range">&minus;1 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable &amp; interchangeable</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <!-- ✅ Shrout & Fleiss (1979): "Intraclass correlations: uses in assessing
+                                     rater reliability." Psychological Bulletin 86(2):420-428. -->
+                                <a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was a wrong J Applied Physiology article. Correct DOI:
+                                     McGraw & Wong (1996) "Forming Inferences About Some Intraclass
+                                     Correlation Coefficients" Psychological Methods 1(1):30-46. -->
+                                <a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
+                                When consistency &asymp; agreement, the paradigm is stable in every sense. When they diverge,
+                                the gap quantifies the session effect.
+                                Benchmarks: &ge;0.75 good, &ge;0.90 excellent
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was from an unrelated Psychological Assessment article. Correct DOI:
+                                     Koo & Li (2016) "A Guideline of Selecting and Reporting ICC for
+                                     Reliability Research" J Chiropr Med 15(2):155-163. -->
+                                <em>(<a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank">Koo &amp; Li, 2016, J. Chiropr. Med.</a>)</em>.
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -1756,35 +2192,44 @@ class InteractiveDashboard:
                                 </span>
                             </div>
                             <div class="formula-legend">
-                                <b>X<span style="font-size:0.75em;vertical-align:sub">1</span>, X<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session values &nbsp;&middot;&nbsp;
-                                <b>X&#772;<span style="font-size:0.75em;vertical-align:sub">1</span>, X&#772;<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means
+                                <b>X<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">1</span>, X<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">2</span></b> = session values &nbsp;&middot;&nbsp;
+                                <b>X&#772;<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">1</span>, X&#772;<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">2</span></b> = session means
                             </div>
                             <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = stronger correlation</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank">Pearson (1920)</a>;
+                                used as a supplementary reliability index alongside ICC in cognitive neuroscience
+                                <em>(<a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank">Hedge et al., 2018, Behav. Res. Methods</a>)</em>.
+                                Note: unlike ICC, Pearson r is insensitive to systematic session offsets — a high r with a large mean shift still indicates poor absolute reliability.
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Stability &mdash; from Cohen&apos;s d</div>
-                        <div class="metric-card-tagline">Magnitude of mean change between sessions</div>
+                        <div class="metric-card-name">Session-shift stability</div>
+                        <div class="metric-card-tagline">Magnitude of mean change between sessions &mdash; <em>not</em> the paradigm's effect size</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Detects systematic shifts such as practice or fatigue effects</li>
-                            <li>Derived from Cohen&apos;s d &mdash; inverted so that higher = more stable</li>
-                            <li>A score of 1 means no detectable shift across sessions</li>
+                            <li>Detects systematic shifts such as practice or fatigue effects across the two sessions</li>
+                            <li>Paired Cohen's d on session-level means &mdash; inverted on the radar so higher = more stable</li>
+                            <li>A score near 1 means the paradigm's mean did not drift between Session 1 and Session 2</li>
+                            <li><strong>Distinct from "paradigm effect size"</strong> below: this is a reliability concept (small shift is good), not paradigm sensitivity (a large within-session contrast is good)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
-                                <span class="math-lhs">d</span>
+                                <span class="math-lhs">d<span class="math-sub">paired</span></span>
                                 <span class="math-eq">=</span>
                                 <span class="math-frac">
                                     <span class="math-num"><span class="math-var">M</span><span class="math-sub">1</span> &minus; <span class="math-var">M</span><span class="math-sub">2</span></span>
                                     <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">diff</span></span>
                                 </span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
+                                <span class="math-op" style="margin-left:14px; color:#8a7040; font-size:0.8em; font-style:normal">&there4;</span>
                                 <span class="math-lhs" style="margin-left:4px">Stability</span>
                                 <span class="math-eq">=</span>
                                 <span class="math-var">1</span>
@@ -1796,24 +2241,131 @@ class InteractiveDashboard:
                                 </span>
                             </div>
                             <div class="formula-legend">
-                                <b>M<span style="font-size:0.75em;vertical-align:sub">1</span>, M<span style="font-size:0.75em;vertical-align:sub">2</span></b> = session means &nbsp;&middot;&nbsp;
-                                <b>SD<span style="font-size:0.75em;vertical-align:sub">pooled</span></b> = pooled standard deviation
+                                <b>M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">1</span>, M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">2</span></b> = session means &nbsp;&middot;&nbsp;
+                                <b>SD<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">diff</span></b> = SD of paired differences
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = less drift between sessions</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank">Cohen (1992)</a> —
+                                conventional benchmarks: |d| &lt; 0.2 negligible, 0.2&ndash;0.5 small, 0.5&ndash;0.8 medium, &gt;0.8 large shift.
+                                Inverted here so that stability = 1 indicates no session-to-session drift.
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Consistency &mdash; from CV</div>
-                        <div class="metric-card-tagline">Within-session trial-to-trial variability</div>
+                        <div class="metric-card-name">Internal consistency &mdash; Cronbach&apos;s α / KR-20</div>
+                        <div class="metric-card-tagline">Within-session item homogeneity across trials &mdash; complements test-retest</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Captures trial-level noise within each session</li>
+                            <li>Computed across <strong>trial-level items within Session 1</strong> &mdash; for binary accuracy this is mathematically KR-20</li>
+                            <li>Different construct from test-retest ICC: high α means the trials within a session measure the same thing, whatever that thing is</li>
+                            <li>A paradigm can have low test-retest ICC <em>and</em> high α (variable across days but consistent within a day) or vice versa</li>
+                            <li><strong>Reported with 95 % CI</strong> (computed via <code>pingouin.cronbach_alpha</code>)</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">α</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">k</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">k</span> &minus; 1</span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">&Sigma; <span class="math-var">σ²</span><span class="math-sub">i</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">σ²</span><span class="math-sub">total</span></span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>k</b> = number of trials &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">i</span></b> = variance of trial i &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">total</span></b> = variance of subject totals
+                            </div>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent across trials</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.1007/BF02310555" target="_blank">Cronbach (1951)</a> /
+                                <a href="https://doi.org/10.1007/BF02288391" target="_blank">Kuder &amp; Richardson (1937)</a>;
+                                Internal consistency and test-retest reliability address different aspects of measurement error and should both be reported when available.
+                                Benchmarks: ≥0.70 acceptable, ≥0.80 good, ≥0.90 excellent.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Paradigm effect size (Hedges&apos; g)</div>
+                        <div class="metric-card-tagline">Within-session contrast magnitude &mdash; how strongly the paradigm moves the score</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Computed within <strong>Session 1 only</strong> on a paradigm-specific contrast &mdash; for OLM that's last vs first learning stage; for n-back it would be high vs low load; for Stroop, incongruent vs congruent</li>
+                            <li>Hedges' g is preferred over Cohen's d for small samples (n &lt; 50): applies the small-sample bias correction</li>
+                            <li><strong>Reported with bootstrap 95 % CI</strong> (BCa, n_boot=2000) so two paradigms with similar means but different precision are distinguishable</li>
+                            <li>This is a <em>sensitivity</em> metric, not a reliability metric: a paradigm can be highly reliable (high ICC, high α) but uninformative (g near 0) &mdash; visible at a glance by inspecting both</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">g</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">M</span><span class="math-sub">A</span> &minus; <span class="math-var">M</span><span class="math-sub">B</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">3</span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den">4<span class="math-var">N</span> &minus; 9</span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>A, B</b> = the two paradigm conditions (e.g. LS4 vs LS1) &nbsp;&middot;&nbsp;
+                                <b>N</b> = total observations
+                            </div>
+                            <span class="formula-range">|g| 0 &rarr; ∞ &nbsp;&middot;&nbsp; capped at 1.5 for radar display &nbsp;&middot;&nbsp; |g| ≥ 0.8 = large</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.3102/10769986006002107" target="_blank">Hedges (1981)</a>;
+                                <a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank">Lakens (2013, Front. Psychol.)</a> &mdash; bootstrap CIs from
+                                <a href="https://doi.org/10.21105/joss.01026" target="_blank">Vallat (2018, JOSS)</a>.
+                                A radar score of 1.0 corresponds to |g| ≥ 1.5 (very large effect).
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Within-session CV</div>
+                        <div class="metric-card-tagline">Trial-to-trial variability within a single session</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Captures trial-level noise within each session for continuous outcomes such as RT</li>
                             <li>Coefficient of Variation is inverted &mdash; lower noise = higher score</li>
                             <li>Identifies tasks where participants respond erratically</li>
+                            <li><strong>Binary 0/1 accuracy is shown as mean Accuracy&nbsp;% instead of CV</strong>, because Bernoulli CV is determined by the mean accuracy and is therefore not an independent reliability estimate</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
@@ -1825,7 +2377,7 @@ class InteractiveDashboard:
                                     <span class="math-den"><span class="math-var">Mean</span></span>
                                 </span>
                                 <span class="math-op">&times; 100</span>
-                                <span class="math-op" style="margin-left:14px; color:#5a8a72; font-size:0.8em; font-style:normal">&there4;</span>
+                                <span class="math-op" style="margin-left:14px; color:#8a7040; font-size:0.8em; font-style:normal">&there4;</span>
                                 <span class="math-lhs" style="margin-left:4px">Consistency</span>
                                 <span class="math-eq">=</span>
                                 <span class="math-var">1</span>
@@ -1838,76 +2390,330 @@ class InteractiveDashboard:
                             </div>
                             <div class="formula-legend">
                                 <b>SD</b> = within-session standard deviation &nbsp;&middot;&nbsp;
-                                <b>Mean</b> = within-session mean RT
+                                <b>Mean</b> = within-session mean for continuous outcomes; binary accuracy uses mean % correct
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
+                            <span class="formula-range">CV: 0 &rarr; 1 after inversion &nbsp;&middot;&nbsp; Accuracy %: 0 &rarr; 100, higher = better</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <!-- ✅ VERIFIED 2026-05-19 via CrossRef + Oxford Academic:
+                                     Hultsch DF, MacDonald SWS, Dixon RA (2002) "Variability in reaction
+                                     time performance of younger and older adults." J Gerontol B Psychol
+                                     Sci Soc Sci 57(2):P101–P115. Previous DOI resolved to an unrelated Neuropsychologia COMT planning paper. -->
+                                <a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank">Hultsch, MacDonald &amp; Dixon (2002)</a> &amp;
+                                <!-- ✅ VERIFIED 2026-05-19 via PubMed (PMID 23071524):
+                                     Dykiert D, Der G, Starr JM, Deary IJ (2012) "Age differences in
+                                     intra-individual variability in simple and choice reaction time."
+                                     PLoS ONE 7(10):e45759. -->
+                                <a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank">Dykiert et al. (2012)</a> &mdash;
+                                Intra-individual RT variability (CV) is a validated marker of attentional lapses and neural noise;
+                                CV &lt; 15% is considered low variability in healthy adults
+                                <em>(<a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank">Wagenmakers &amp; Brown, 2007, Psychol. Rev.</a>)</em>.
+                            </span>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+            <!-- ── 4. Radar plots ── -->
+            <div id="radarChartsContainer" style="margin-top: 24px;"></div>
+
+            <!-- ── 5. Bibliography panel (collapsible, at end of reliability box) ── -->
+            <div class="reliability-panel" id="bibliographyPanel" style="margin-top:18px;">
+                <button class="reliability-panel-toggle" onclick="toggleBibliographyPanel()" aria-expanded="false">
+                    <div class="reliability-panel-header">
+                        <div class="reliability-panel-title">Bibliography — Metric References &amp; Citations</div>
+                        <span class="reliability-toggle-arrow">&#9662;</span>
+                    </div>
+                </button>
+                <div class="reliability-panel-body">
+                    <div class="reliability-panel-subtitle" style="color:#a08840; margin-bottom: 14px;">
+                        This bibliography covers the statistical methods cited in the metric explanation cards above.
+                        Per-paradigm publication references are maintained in each project's <code>bibliography.json</code>.
+                    </div>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85em;color:#c8b080;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.3);text-align:left;">
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">Reference</th>
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">DOI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Shrout &amp; Fleiss (1979). Intraclass correlations: Uses in assessing rater reliability. <em>Psychol Bull</em> 86(2):420–428.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank" style="color:#c9a227;">10.1037/0033-2909.86.2.420</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">McGraw &amp; Wong (1996). Forming inferences about some intraclass correlation coefficients. <em>Psychol Methods</em> 1(1):30–46.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank" style="color:#c9a227;">10.1037/1082-989X.1.1.30</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Koo &amp; Li (2016). A guideline of selecting and reporting ICC for reliability research. <em>J Chiropr Med</em> 15(2):155–163.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank" style="color:#c9a227;">10.1016/j.jcm.2016.02.012</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Pearson (1920). Notes on the history of correlation. <em>Biometrika</em> 13(1):25–45.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank" style="color:#c9a227;">10.1093/biomet/13.1.25</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Hedge, Powell &amp; Sumner (2018). The reliability paradox: Why robust cognitive tasks do not produce reliable individual differences. <em>Behav Res Methods</em> 50(3):1166–1186.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank" style="color:#c9a227;">10.3758/s13428-017-0935-1</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Cohen (1992). A power primer. <em>Psychol Bull</em> 112(1):155–159.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank" style="color:#c9a227;">10.1037/0033-2909.112.1.155</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Cronbach (1951). Coefficient alpha and the internal structure of tests. <em>Psychometrika</em> 16(3):297–334.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02310555" target="_blank" style="color:#c9a227;">10.1007/BF02310555</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Kuder &amp; Richardson (1937). The theory of the estimation of test reliability. <em>Psychometrika</em> 2(3):151–160.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02288391" target="_blank" style="color:#c9a227;">10.1007/BF02288391</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hedges (1981). Distribution theory for Glass's estimator of effect size and related estimators. <em>J Educ Stat</em> 6(2):107–128.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3102/10769986006002107" target="_blank" style="color:#c9a227;">10.3102/10769986006002107</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Lakens (2013). Calculating and reporting effect sizes to facilitate cumulative science. <em>Front Psychol</em> 4:863.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank" style="color:#c9a227;">10.3389/fpsyg.2013.00863</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Vallat (2018). Pingouin: statistics in Python. <em>J Open Source Softw</em> 3(31):1026.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.21105/joss.01026" target="_blank" style="color:#c9a227;">10.21105/joss.01026</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hultsch, MacDonald &amp; Dixon (2002). Variability in reaction time performance of younger and older adults. <em>J Gerontol B</em> 57(2):P101–P115.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank" style="color:#c9a227;">10.1093/geronb/57.2.P101</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Dykiert, Der, Starr &amp; Deary (2012). Age differences in intra-individual variability in simple and choice RT. <em>PLoS ONE</em> 7(10):e45759.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank" style="color:#c9a227;">10.1371/journal.pone.0045759</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Wagenmakers &amp; Brown (2007). On the linear relation between the mean and the standard deviation of a response time distribution. <em>Psychol Rev</em> 114(3):830–841.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank" style="color:#c9a227;">10.1037/0033-295X.114.3.830</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 10px;">Weir (2005). Quantifying test-retest reliability using the ICC and the SEM. <em>J Strength Cond Res</em> 19(1):231–240.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1519/15184.1" target="_blank" style="color:#c9a227;">10.1519/15184.1</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 
-    <div class="results-container">
+        <div class="results-container">
         <div class="results-header">
             Results: <span class="results-count" id="resultsCount">0</span> Projects
         </div>
         <div class="projects-grid" id="projectsGrid"></div>
     </div>
 
-    <div class="charts-row">
-        <div class="chart-container">
-            <div class="chart-title">RT ICC Across Projects (task trials only)</div>
-            <div id="rtIccRadar"></div>
-        </div>
-        
-        <div class="chart-container">
-            <div class="chart-title">Accuracy ICC Across Projects (task trials only)</div>
-            <div id="accIccRadar"></div>
-        </div>
-    </div>
-    
-    <div class="charts-row">
-        <div class="chart-container">
-            <div class="chart-title">RT Stability Across Projects</div>
-            <div id="stabilityRadar"></div>
-        </div>
-        
-        <div class="chart-container">
-            <div class="chart-title">RT Consistency Across Projects</div>
-            <div id="consistencyRadar"></div>
-        </div>
-    </div>
-
     <script>
         const allProjects = {projects_json};
         let filteredProjects = [...allProjects];
-        
-        // Update slider displays
-        function updateSliderDisplays() {{
-            const ageMin = document.getElementById('ageMin').value;
-            const ageMax = document.getElementById('ageMax').value;
-            document.getElementById('ageValue').textContent = `${{ageMin}} - ${{ageMax}}`;
-            
-            const subMin = document.getElementById('subjectsMin').value;
-            const subMax = document.getElementById('subjectsMax').value;
-            document.getElementById('subjectsValue').textContent = `${{subMin}} - ${{subMax}}`;
-            
-            const iccMin = parseFloat(document.getElementById('iccMin').value);
-            const iccMax = parseFloat(document.getElementById('iccMax').value);
-            document.getElementById('iccValue').textContent = `${{iccMin.toFixed(2)}} - ${{iccMax.toFixed(2)}}`;
-            
-            const cvMin = parseFloat(document.getElementById('cvMin').value);
-            const cvMax = parseFloat(document.getElementById('cvMax').value);
-            document.getElementById('cvValue').textContent = `${{cvMin.toFixed(2)}} - ${{cvMax.toFixed(2)}}`;
+
+        // ── Per-metric data ranges (computed server-side) ─────────────────────
+        const DATA_RANGES = {ranges_json};
+
+        // ── Metric definitions — built dynamically from DATA_RANGES keys ─────
+        // Supports any outcome prefix (rt_, acc_, score_, dist_, …)
+        // 'keys' is a list of fallback field names, tried in order — this
+        // lets us read both the new bare schema (`rt_icc`) and the legacy
+        // schema (`rt_icc_mean`) without two separate code paths.
+        const METRIC_SUFFIXES = [
+            {{ suffix: '_icc',                  metricId: 'icc',                  label: 'ICC Consistency',         step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc',                  '{{p}}_icc_mean']           }},
+            {{ suffix: '_icc_agreement',        metricId: 'icc_agreement',        label: 'ICC Agreement',           step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc_agreement',        '{{p}}_icc_agreement_mean'] }},
+            {{ suffix: '_pearson_r',            metricId: 'pearson_r',            label: 'Pearson r',               step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_pearson_r',            '{{p}}_pearson_r_mean']     }},
+            {{ suffix: '_cronbach_alpha',       metricId: 'cronbach_alpha',       label: 'Internal consistency (\u03b1)', step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_cronbach_alpha']                                   }},
+            {{ suffix: '_session_shift_d',      metricId: 'session_shift_d',      label: 'Session-shift stability', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_session_shift_d',      '{{p}}_cohens_d_mean']      }},
+            {{ suffix: '_paradigm_effect_size', metricId: 'paradigm_effect_size', label: 'Paradigm effect size',    step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_paradigm_effect_size']                             }},
+            {{ suffix: '_cv',                   metricId: 'cv',                   label: 'Within-session CV',       step: 0.5,  decimals: 1,
+               keysTpl: ['{{p}}_cv_mean']                                          }},
+            // Legacy id retained so an "all" view + old JSON still produce a slider
+            {{ suffix: '_cohens_d',             metricId: 'cohens_d',             label: 'Stability (Cohen\u2019s d)', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_cohens_d_mean',        '{{p}}_session_shift_d'],
+               hidden: true }},
+        ];
+        function _getOutcomePrefixes() {{
+            const prefixes = new Set();
+            Object.keys(DATA_RANGES).forEach(k => {{
+                const m = k.match(/^task_(.+?)_icc_min$/);
+                if (m) prefixes.add(m[1]);
+            }});
+            if (prefixes.size === 0) ['rt', 'acc'].forEach(p => prefixes.add(p));
+            return [...prefixes];
         }}
-        
-        // Add event listeners to sliders
-        ['ageMin', 'ageMax', 'subjectsMin', 'subjectsMax', 'iccMin', 'iccMax', 'cvMin', 'cvMax'].forEach(id => {{
+        function _humanLabel(oid) {{
+            const MAP = {{ rt:'RT', acc:'Accuracy', accbin:'Accuracy',
+                           score:'Score', dist:'Distance', freq:'Frequency' }};
+            return MAP[oid] || oid.toUpperCase();
+        }}
+        function _isBinaryAccuracyPrefix(oid) {{
+            const p = (oid || '').toLowerCase();
+            return ['acc', 'accbin', 'accuracy', 'accuracy_binary'].includes(p);
+        }}
+        function _meanNumeric(values) {{
+            const nums = (values || []).filter(v => v !== null && v !== undefined && !Number.isNaN(Number(v))).map(Number);
+            return nums.length ? nums.reduce((a,b) => a+b, 0) / nums.length : null;
+        }}
+        function _accuracyPercentFromMetrics(metrics, prefix) {{
+            const direct = metrics[prefix + '_accuracy_percent_mean'];
+            if (direct !== null && direct !== undefined && !Number.isNaN(Number(direct))) return Number(direct);
+            const vals = [];
+            [prefix + '_s1_means', prefix + '_s2_means'].forEach(k => {{
+                const arr = metrics[k];
+                if (Array.isArray(arr)) arr.forEach(v => {{ if (v !== null && v !== undefined) vals.push(Number(v)); }});
+            }});
+            if (!vals.length || !vals.every(v => v >= 0 && v <= 1)) return null;
+            return _meanNumeric(vals) * 100;
+        }}
+        function _valueFromMetricObject(metrics, spec) {{
+            if (!metrics) return null;
+            if (spec.valueKind === 'accuracy_percent') {{
+                return _accuracyPercentFromMetrics(metrics, spec.prefix);
+            }}
+            for (const k of (spec.keys || [])) {{
+                const v = metrics[k];
+                if (v !== null && v !== undefined && !Array.isArray(v) && typeof v !== 'object') return Number(v);
+            }}
+            return null;
+        }}
+        function _rangeExists(src, sid) {{
+            return DATA_RANGES[src + '_' + sid + '_min'] !== undefined &&
+                   DATA_RANGES[src + '_' + sid + '_max'] !== undefined;
+        }}
+        function _sliderHasAnyRange(sid) {{
+            return _rangeExists('task', sid) || _rangeExists('ctrl', sid);
+        }}
+        function _buildSliderMetrics() {{
+            const prefixes = _getOutcomePrefixes();
+            return METRIC_SUFFIXES
+              .filter(ms => !ms.hidden)
+              .map(ms => ({{
+                id: ms.metricId, label: ms.label,
+                sliders: prefixes.map(p => {{
+                    if (ms.metricId === 'cv' && _isBinaryAccuracyPrefix(p)) {{
+                        return {{
+                            sid:      p + '_accuracy_percent',
+                            label:    _humanLabel(p) + ' (%)',
+                            keys:     [p + '_accuracy_percent_mean'],
+                            valueKind:'accuracy_percent',
+                            prefix:   p,
+                            step:     0.5,
+                            decimals: 1,
+                            displayMetricLabel: 'Accuracy percentage',
+                            normalise: v => Math.max(0, Math.min(1, v / 100)),
+                        }};
+                    }}
+                    return {{
+                        sid:      p + ms.suffix,
+                        label:    _humanLabel(p) + ' ' + ms.label,
+                        keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
+                        step:     ms.step,
+                        decimals: ms.decimals,
+                    }};
+                }}).filter(sl => _sliderHasAnyRange(sl.sid)),
+            }}))
+              .filter(metric => metric.sliders.length > 0);
+        }}
+        const SLIDER_METRICS = _buildSliderMetrics()
+
+        /**
+         * Rebuild the dynamic slider container based on current metric + source selection.
+         * All metric × RT/Acc × task/control combinations get their own dual-range slider.
+         */
+        function rebuildSliders() {{
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const isBoth = selectedSource === 'both';
+            const container = document.getElementById('dynamicSlidersContainer');
+
+            const metricsToShow = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            const sources = isBoth
+                ? [{{ key: 'task', label: 'Task' }}, {{ key: 'ctrl', label: 'Control' }}]
+                : [{{ key: selectedSource === 'control' ? 'ctrl' : 'task',
+                     label: selectedSource === 'control' ? 'Control' : 'Task' }}];
+
+            let html = '<div class="filters-grid">';
+            let rendered = 0;
+            for (const src of sources) {{
+                for (const metric of metricsToShow) {{
+                    for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
+                        const fullId = sl.sid + '_' + src.key;
+                        const mnKey  = src.key + '_' + sl.sid + '_min';
+                        const mxKey  = src.key + '_' + sl.sid + '_max';
+                        const mn     = DATA_RANGES[mnKey];
+                        const mx     = DATA_RANGES[mxKey];
+                        const srcTag = isBoth
+                            ? ' <span style="font-size:0.75em;color:#a08840;">(' + src.label + ')</span>'
+                            : '';
+                        rendered += 1;
+                        html += `
+                            <div class="filter-group" id="sliderGroup_${{fullId}}">
+                                <label class="filter-label">${{sl.label}}${{srcTag}}</label>
+                                <div class="slider-container">
+                                    <div class="slider-value" id="val_${{fullId}}">${{mn.toFixed(sl.decimals)}} \u2013 ${{mx.toFixed(sl.decimals)}}</div>
+                                    <input type="range" id="min_${{fullId}}" min="${{mn}}" max="${{mx}}" value="${{mn}}" step="${{sl.step}}"
+                                           oninput="updateDualSlider('${{fullId}}', ${{sl.decimals}})">
+                                    <input type="range" id="max_${{fullId}}" min="${{mn}}" max="${{mx}}" value="${{mx}}" step="${{sl.step}}"
+                                           oninput="updateDualSlider('${{fullId}}', ${{sl.decimals}})">
+                                </div>
+                            </div>`;
+                    }}
+                }}
+            }}
+            html += '</div>';
+            if (rendered === 0) {{
+                html = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No numeric values are available for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+            }}
+            container.innerHTML = html;
+        }}
+
+        function updateDualSlider(fullId, decimals) {{
+            const mn = parseFloat(document.getElementById('min_' + fullId).value);
+            const mx = parseFloat(document.getElementById('max_' + fullId).value);
+            document.getElementById('val_' + fullId).textContent =
+                mn.toFixed(decimals) + ' \u2013 ' + mx.toFixed(decimals);
+        }}
+
+        // Update age/subjects display labels (static sliders)
+        function updateSliderDisplays() {{
+            document.getElementById('ageValue').textContent =
+                document.getElementById('ageMin').value + ' - ' + document.getElementById('ageMax').value;
+            document.getElementById('subjectsValue').textContent =
+                document.getElementById('subjectsMin').value + ' - ' + document.getElementById('subjectsMax').value;
+        }}
+
+        // Event listeners for static sliders only
+        ['ageMin', 'ageMax', 'subjectsMin', 'subjectsMax'].forEach(id => {{
             document.getElementById(id).addEventListener('input', updateSliderDisplays);
         }});
         
+        function toggleInnerSection(id) {{
+            const sec = document.getElementById(id);
+            const btn = sec.querySelector('.inner-section-toggle');
+            sec.classList.toggle('open');
+            btn.setAttribute('aria-expanded', sec.classList.contains('open'));
+        }}
+
         function toggleReliabilityPanel() {{
             const panel = document.getElementById('reliabilityPanel');
             const btn = panel.querySelector('.reliability-panel-toggle');
@@ -1915,76 +2721,100 @@ class InteractiveDashboard:
             btn.setAttribute('aria-expanded', panel.classList.contains('open'));
         }}
 
+        function toggleBibliographyPanel() {{
+            const panel = document.getElementById('bibliographyPanel');
+            const btn = panel.querySelector('.reliability-panel-toggle');
+            panel.classList.toggle('open');
+            btn.setAttribute('aria-expanded', panel.classList.contains('open'));
+        }}
+
         function applyFilters() {{
-            const modality = document.getElementById('modalityFilter').value;
-            const domain = document.getElementById('domainFilter').value;
-            const taskType = document.getElementById('taskFilter').value;
-            const language = document.getElementById('languageFilter').value;
-            const recordingModality = document.getElementById('recordingModalityFilter').value;
-            
+            const modality         = document.getElementById('modalityFilter').value;
+            const domain           = document.getElementById('domainFilter').value;
+            const taskType         = document.getElementById('taskFilter').value;
+            const language         = document.getElementById('languageFilter').value;
+            const experimentalContext= document.getElementById('experimentalContextFilter').value;
+
             const ageMin = parseFloat(document.getElementById('ageMin').value);
             const ageMax = parseFloat(document.getElementById('ageMax').value);
             const subMin = parseInt(document.getElementById('subjectsMin').value);
             const subMax = parseInt(document.getElementById('subjectsMax').value);
-            const iccMin = parseFloat(document.getElementById('iccMin').value);
-            const iccMax = parseFloat(document.getElementById('iccMax').value);
-            const cvMin = parseFloat(document.getElementById('cvMin').value);
-            const cvMax = parseFloat(document.getElementById('cvMax').value);
-            
+
+            // Collect active dynamic slider constraints
+            // Each rendered slider has id="min_{{sid}}_{{src}}" / "max_{{sid}}_{{src}}"
+            const activeConstraints = [];
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const sources = selectedSource === 'both'
+                ? ['task', 'ctrl']
+                : [selectedSource === 'control' ? 'ctrl' : 'task'];
+
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const metricsToCheck = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            for (const src of sources) {{
+                const dictField = src === 'ctrl' ? 'control_reliability' : 'reliability_metrics';
+                for (const metric of metricsToCheck) {{
+                    for (const sl of metric.sliders) {{
+                        const fullId = sl.sid + '_' + src;
+                        const minEl  = document.getElementById('min_' + fullId);
+                        const maxEl  = document.getElementById('max_' + fullId);
+                        if (!minEl || !maxEl) continue;
+                        activeConstraints.push({{
+                            field:    dictField,
+                            keys:     sl.keys,   // try each in order; first non-null wins
+                            valueKind: sl.valueKind || null,
+                            prefix:   sl.prefix || null,
+                            minVal:   parseFloat(minEl.value),
+                            maxVal:   parseFloat(maxEl.value),
+                            minRange: parseFloat(minEl.min),
+                            maxRange: parseFloat(maxEl.max),
+                        }});
+                    }}
+                }}
+            }}
+
             filteredProjects = allProjects.filter(project => {{
                 const info = project.project_info || {{}};
-                const demo = project.demographics || {{}};
-                const reliability = project.reliability_metrics || {{}};
-                
-                // Check categorical filters
-                if (modality && info.modality !== modality) return false;
-                if (domain && info.cognitive_domain !== domain) return false;
-                if (taskType && info.task_type !== taskType) return false;
-                if (language && info.language !== language) return false;
-                if (recordingModality && info.recording_modality !== recordingModality) return false;
-                
-                // Check demographic filters
-                if (demo.age_mean) {{
+                const demo = project.demographics  || {{}};
+
+                // Categorical filters
+                if (modality          && info.modality             !== modality)          return false;
+                if (domain            && info.cognitive_domain      !== domain)            return false;
+                if (taskType          && info.task_type             !== taskType)          return false;
+                if (language          && info.language              !== language)          return false;
+                if (experimentalContext && info.experimental_context    !== experimentalContext) return false;
+
+                // Demographic filters — only apply when slider moved from full range
+                const ageSliderMin = parseFloat(document.getElementById('ageMin').min);
+                const ageSliderMax = parseFloat(document.getElementById('ageMax').max);
+                const subSliderMin = parseFloat(document.getElementById('subjectsMin').min);
+                const subSliderMax = parseFloat(document.getElementById('subjectsMax').max);
+                if (demo.age_mean && (ageMin > ageSliderMin || ageMax < ageSliderMax)) {{
                     if (demo.age_mean < ageMin || demo.age_mean > ageMax) return false;
                 }}
-                if (demo.n_participants) {{
+                if (demo.n_participants && (subMin > subSliderMin || subMax < subSliderMax)) {{
                     if (demo.n_participants < subMin || demo.n_participants > subMax) return false;
                 }}
-                
-                // Check reliability filters - reliability_metrics contains task trial types only
-                // (control/rest conditions are stored separately in control_reliability and excluded here)
-                let allIccs = [];
-                
-                for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_icc_mean !== null && metrics.rt_icc_mean !== undefined) {{
-                        allIccs.push(metrics.rt_icc_mean);
-                    }}
-                    if (metrics.acc_icc_mean !== null && metrics.acc_icc_mean !== undefined) {{
-                        allIccs.push(metrics.acc_icc_mean);
-                    }}
+
+                // Dynamic metric slider filters
+                for (const c of activeConstraints) {{
+                    // Skip if slider is at its full range (no actual filtering)
+                    if (c.minVal <= c.minRange && c.maxVal >= c.maxRange) continue;
+
+                    const rel = project[c.field] || {{}};
+                    const vals = Object.values(rel)
+                        .map(m => _valueFromMetricObject(m, c))
+                        .filter(v => v !== null && v !== undefined);
+                    if (vals.length === 0) continue;
+                    const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+                    if (mean < c.minVal || mean > c.maxVal) return false;
                 }}
-                
-                // Calculate overall mean ICC (combining all RT and Accuracy ICC values)
-                if (allIccs.length > 0) {{
-                    const overallMeanIcc = allIccs.reduce((a,b) => a+b) / allIccs.length;
-                    if (overallMeanIcc < iccMin || overallMeanIcc > iccMax) return false;
-                }}
-                
-                // Check Consistency CV filter
-                let allCvs = [];
-                for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_cv_mean !== null && metrics.rt_cv_mean !== undefined) {{
-                        allCvs.push(metrics.rt_cv_mean);
-                    }}
-                }}
-                if (allCvs.length > 0) {{
-                    const overallMeanCv = allCvs.reduce((a,b) => a+b) / allCvs.length;
-                    if (overallMeanCv < cvMin || overallMeanCv > cvMax) return false;
-                }}
-                
+
                 return true;
             }});
-            
+
             displayProjects();
             updateCharts();
         }}
@@ -1994,7 +2824,7 @@ class InteractiveDashboard:
             document.getElementById('domainFilter').value = '';
             document.getElementById('taskFilter').value = '';
             document.getElementById('languageFilter').value = '';
-            document.getElementById('recordingModalityFilter').value = '';
+            document.getElementById('experimentalContextFilter').value = '';
             document.getElementById('radarMetricFilter').value = 'all';
             document.querySelector('input[name="radarSource"][value="task"]').checked = true;
 
@@ -2002,12 +2832,9 @@ class InteractiveDashboard:
             document.getElementById('ageMax').value = {ranges['age_max']};
             document.getElementById('subjectsMin').value = {ranges['subjects_min']};
             document.getElementById('subjectsMax').value = {ranges['subjects_max']};
-            document.getElementById('iccMin').value = -1;
-            document.getElementById('iccMax').value = 1;
-            document.getElementById('cvMin').value = {ranges['cv_min']};
-            document.getElementById('cvMax').value = {ranges['cv_max']};
-            
+
             updateSliderDisplays();
+            rebuildSliders();          // regenerates metric sliders at full range
             filteredProjects = [...allProjects];
             displayProjects();
             updateCharts();
@@ -2029,30 +2856,113 @@ class InteractiveDashboard:
                 const demo = project.demographics || {{}};
                 const reliability = project.reliability_metrics || {{}};
                 
-                // Get overall average ICC from task trial types only (control/rest excluded)
-                let allIccs = [];
+                // Derive highest-priority outcome from outcome_measures (lowest display_priority number wins)
+                const outcomeMeasures = (project.outcome_measures || [])
+                    .slice()
+                    .sort((a, b) => (a.display_priority || 99) - (b.display_priority || 99));
+                const primaryOm = outcomeMeasures[0] || null;
+                const primaryId = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
+                const primaryLabel = primaryOm ? primaryOm.label : primaryId.toUpperCase();
+
+                // ICC for highest-priority outcome — prefer agreement, fall back to consistency.
+                // Tries new bare keys first (post-pingouin schema), then falls back to legacy `_mean`.
+                const primaryIccAgrKeys = [primaryId + '_icc_agreement', primaryId + '_icc_agreement_mean'];
+                const primaryIccConKeys = [primaryId + '_icc',           primaryId + '_icc_mean'];
+                const _firstNonNull = (obj, keys) => {{
+                    for (const k of keys) {{
+                        const v = obj[k];
+                        if (v !== null && v !== undefined) return {{val: v, key: k}};
+                    }}
+                    return null;
+                }};
+                let primaryIccVals2 = [];
+                let agreementSeen = false;
+                let ciLow = null, ciHigh = null;
                 for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_icc_mean) allIccs.push(metrics.rt_icc_mean);
-                    if (metrics.acc_icc_mean) allIccs.push(metrics.acc_icc_mean);
+                    const agr = _firstNonNull(metrics, primaryIccAgrKeys);
+                    const con = _firstNonNull(metrics, primaryIccConKeys);
+                    const pick = agr || con;
+                    if (!pick) continue;
+                    primaryIccVals2.push(pick.val);
+                    if (agr) agreementSeen = true;
+                    // Pull the matching CI bounds if present in new schema
+                    const baseKey = pick.key.endsWith('_mean')
+                        ? pick.key.slice(0, -'_mean'.length)
+                        : pick.key;
+                    const lo = metrics[baseKey + '_ci_low'];
+                    const hi = metrics[baseKey + '_ci_high'];
+                    if (lo !== null && lo !== undefined && ciLow === null) ciLow = lo;
+                    if (hi !== null && hi !== undefined && ciHigh === null) ciHigh = hi;
                 }}
-                const overallIcc = allIccs.length > 0 ? (allIccs.reduce((a,b) => a+b) / allIccs.length).toFixed(2) : 'N/A';
-                
-                // Get overall mean Consistency CV
-                let allCvs = [];
-                for (const metrics of Object.values(reliability)) {{
-                    if (metrics.rt_cv_mean !== null && metrics.rt_cv_mean !== undefined) allCvs.push(metrics.rt_cv_mean);
+                const overallIcc = primaryIccVals2.length > 0
+                    ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
+                    : 'N/A';
+                const iccType = (primaryIccVals2.length > 0 && agreementSeen) ? 'ICC(A)' : 'ICC(C)';
+                const iccCiText = (ciLow !== null && ciHigh !== null && primaryIccVals2.length === 1)
+                    ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
+                    : '';
+
+                // Dashboard variability/performance card.
+                // Continuous primary outcomes use CV. Binary accuracy uses mean
+                // Accuracy % instead of accbin_cv_mean, because binary CV is a
+                // deterministic function of the accuracy mean.
+                const _collectCv = (oid) => {{
+                    const cvKey = oid + '_cv_mean';
+                    const vals = [];
+                    for (const metrics of Object.values(reliability)) {{
+                        const v = metrics[cvKey];
+                        if (v !== null && v !== undefined) vals.push(Number(v));
+                    }}
+                    return vals;
+                }};
+                const _collectAccuracyPct = (oid) => {{
+                    const vals = [];
+                    for (const metrics of Object.values(reliability)) {{
+                        const pct = _accuracyPercentFromMetrics(metrics, oid);
+                        if (pct !== null && pct !== undefined) vals.push(Number(pct));
+                    }}
+                    return vals;
+                }};
+                let cardValue = 'N/A';
+                let cardLabel = primaryLabel + ' CV';
+                let cardTitle = 'Mean within-subject CV for continuous outcomes; binary accuracy is displayed as Accuracy %';
+                if (_isBinaryAccuracyPrefix(primaryId)) {{
+                    const accVals = _collectAccuracyPct(primaryId);
+                    if (accVals.length > 0) {{
+                        cardValue = (accVals.reduce((a,b) => a+b) / accVals.length).toFixed(2);
+                        cardLabel = primaryLabel + ' %';
+                    }}
+                }} else {{
+                    let allCvs = _collectCv(primaryId);
+                    let cvOutcomeLabel = primaryLabel;
+                    if (allCvs.length === 0) {{
+                        for (const om of outcomeMeasures) {{
+                            const oid = (om.id || '').toLowerCase();
+                            if (!oid || oid === primaryId || _isBinaryAccuracyPrefix(oid)) continue;
+                            const vals = _collectCv(oid);
+                            if (vals.length > 0) {{
+                                allCvs = vals;
+                                cvOutcomeLabel = om.label || oid.toUpperCase();
+                                break;
+                            }}
+                        }}
+                    }}
+                    if (allCvs.length > 0) {{
+                        cardValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
+                        cardLabel = cvOutcomeLabel + ' CV';
+                    }}
                 }}
-                const overallCv = allCvs.length > 0 ? (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2) : 'N/A';
                 
                 return `
                     <div class="project-card">
-                        <div class="project-name">${{project.project_name}}</div>
                         <div class="project-full-name">${{info.full_name || 'No description'}}</div>
+                        <div class="project-name">${{project.project_name}}</div>
                         <div class="project-tags">
-                            <span class="tag modality">${{info.modality || 'unknown'}}</span>
                             <span class="tag domain">${{info.cognitive_domain || 'unknown'}}</span>
-                            ${{info.recording_modality ? `<span class="tag recording">${{info.recording_modality.toLowerCase()}}</span>` : ''}}
-                            ${{info.language ? `<span class="tag language">${{info.language}}</span>` : ''}}
+                            <span class="tag task">${{info.task_type || 'unknown'}}</span>
+                            <span class="tag modality">${{info.modality || 'unknown'}}</span>
+                            ${{info.language ? `<span class="tag language">${{info.language}}</span>` : '<span class="tag language">—</span>'}}
+                            ${{info.experimental_context ? `<span class="tag recording">${{info.experimental_context.toLowerCase()}}</span>` : ''}}
                         </div>
                         <div class="project-stats">
                             <div class="stat-item">
@@ -2063,13 +2973,13 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{demo.age_mean ? demo.age_mean.toFixed(1) : 'N/A'}}</div>
                                 <div class="stat-label">Mean Age</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">${{overallIcc}}</div>
-                                <div class="stat-label">Overall ICC</div>
+                            <div class="stat-item" title="Mean ICC (absolute agreement) for the primary outcome — stage-level, task trials only">
+                                <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
+                                <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
-                                <div class="stat-label">Consistency CV</div>
+                            <div class="stat-item" title="${{cardTitle}}">
+                                <div class="stat-value">${{cardValue !== 'N/A' ? cardValue + '%' : 'N/A'}}</div>
+                                <div class="stat-label">${{cardLabel}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
                             </div>
                         </div>
                         <div class="project-actions">
@@ -2081,78 +2991,59 @@ class InteractiveDashboard:
             }}).join('');
         }}
         
-        // ── Metric & source registry (mirrors reliability_metrics.py) ──────
-        const METRIC_REGISTRY = [
-            {{
-                id: 'icc', label: 'ICC(3,1)',
-                rt_key: 'rt_icc_mean', acc_key: 'acc_icc_mean',
-                normalise: v => Math.max(0, Math.min(1, v))
-            }},
-            {{
-                id: 'pearson_r', label: 'Pearson r',
-                rt_key: 'rt_pearson_r_mean', acc_key: 'acc_pearson_r_mean',
-                normalise: v => Math.max(0, Math.min(1, v))
-            }},
-            {{
-                id: 'cohens_d', label: 'Stability (Cohen\u2019s d)',
-                rt_key: 'rt_cohens_d_mean', acc_key: 'acc_cohens_d_mean',
-                normalise: v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2))
-            }},
-            {{
-                id: 'cv', label: 'Consistency (CV)',
-                rt_key: 'rt_cv_mean', acc_key: 'acc_cv_mean',
-                normalise: v => Math.max(0, Math.min(1, 1 - v / 50))
-            }},
-            // ── Add new metrics here — add entry and matching key names ──────
-        ];
-        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]));
+        // ── Metric & source registry — built dynamically ────────────────────
+        const _METRIC_NORMS = {{
+            icc:                    v => Math.max(0, Math.min(1, v)),
+            icc_agreement:          v => Math.max(0, Math.min(1, v)),
+            pearson_r:              v => Math.max(0, Math.min(1, v)),
+            cronbach_alpha:         v => Math.max(0, Math.min(1, v)),
+            session_shift_d:        v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
+            cohens_d:               v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),  // legacy alias
+            paradigm_effect_size:   v => Math.max(0, Math.min(1, Math.abs(v) / 1.5)),  // |g|/1.5, capped
+            cv:                     v => Math.max(0, Math.min(1, 1 - v / 50)),
+            accuracy_percent:       v => Math.max(0, Math.min(1, v / 100)),
+        }};
+        function _buildMetricRegistry() {{
+            const prefixes = _getOutcomePrefixes();
+            return METRIC_SUFFIXES.map(ms => ({{
+                id:         ms.metricId,
+                label:      ms.label,
+                normalise:  _METRIC_NORMS[ms.metricId] || (v => Math.max(0, Math.min(1, v))),
+                _suffix:    ms.suffix + '_mean',
+                _prefixes:  prefixes,
+            }}));
+        }}
+        const METRIC_REGISTRY = _buildMetricRegistry();
+        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]))
 
-        function getRadarScores(project, selectedMetricId, source) {{
-            // source: 'task' | 'control' | 'both'
-            const taskRel    = project.reliability_metrics    || {{}};
-            const controlRel = project.control_reliability    || {{}};
+        // ── Helpers ──────────────────────────────────────────────────────────
 
-            // Determine which reliability dict(s) to draw from
-            let dicts = [];
-            if (source === 'task')    dicts = [taskRel];
-            else if (source === 'control') {{
-                // Fall back to task data if no control metrics available
-                const hasControl = Object.values(controlRel).some(m =>
-                    METRIC_REGISTRY.some(r => m[r.rt_key] !== null && m[r.rt_key] !== undefined)
-                );
-                dicts = hasControl ? [controlRel] : [taskRel];
-            }}
-            else dicts = [taskRel, controlRel];  // both
-
-            // Metrics to include
-            const metricsToShow = selectedMetricId === 'all'
-                ? METRIC_REGISTRY
-                : METRIC_REGISTRY.filter(m => m.id === selectedMetricId);
-
-            const categories = [];
-            const values     = [];
-
-            dicts.forEach(dict => {{
-                Object.entries(dict).forEach(([tt, metrics]) => {{
-                    metricsToShow.forEach(reg => {{
-                        const rtVal  = metrics[reg.rt_key];
-                        const accVal = metrics[reg.acc_key];
-                        if (rtVal !== null && rtVal !== undefined) {{
-                            categories.push(tt + ' RT ' + reg.label);
-                            values.push(reg.normalise(rtVal));
-                        }}
-                        if (accVal !== null && accVal !== undefined) {{
-                            categories.push(tt + ' Acc ' + reg.label);
-                            values.push(reg.normalise(accVal));
-                        }}
-                    }});
+        /** Extract per-project mean values for one metric key from task OR control dict. */
+        function _perProjectMean(key, reg, useControl) {{
+            return filteredProjects.map(p => {{
+                const taskRel    = p.reliability_metrics || {{}};
+                const controlRel = p.control_reliability || {{}};
+                let dict;
+                if (useControl) {{
+                    const hasControl = Object.values(controlRel).some(
+                        m => m[reg[key]] !== null && m[reg[key]] !== undefined
+                    );
+                    dict = hasControl ? controlRel : taskRel;
+                }} else {{
+                    dict = taskRel;
+                }}
+                let vals = [];
+                Object.values(dict).forEach(m => {{
+                    const v = m[reg[key]];
+                    if (v !== null && v !== undefined) vals.push(reg.normalise(v));
                 }});
+                return vals.length > 0 ? vals.reduce((a,b) => a+b) / vals.length : 0;
             }});
-
-            return {{ categories, values }};
         }}
 
+        /** Build a Plotly scatterpolar trace. */
         function _buildRadarTrace(r_values, theta, color, fillColor) {{
+            if (!r_values.length) return [];
             const r = [...r_values, r_values[0]];
             const t = [...theta, theta[0]];
             return [{{
@@ -2165,144 +3056,193 @@ class InteractiveDashboard:
             }}];
         }}
 
-        function _plotRadar(divId, traces, color) {{
+        /** Render one radar into divId. */
+        function _plotRadar(divId, traces, radialColor) {{
             const layout = {{
                 polar: {{
-                    bgcolor: 'rgba(255,255,255,0.95)',
+                    bgcolor: 'rgba(20,18,10,0.97)',
                     radialaxis: {{
                         visible: true, range: [-0.2, 1],
-                        gridcolor: 'rgba(64,158,128,0.2)',
-                        tickfont: {{ color: '#1a5238', size: 12, weight: 500 }}
+                        gridcolor: 'rgba(201, 162, 39, 0.2)',
+                        tickfont: {{ color: radialColor || '#c9a227', size: 12, weight: 500 }}
                     }},
                     angularaxis: {{
-                        gridcolor: 'rgba(64,158,128,0.2)',
-                        tickfont: {{ color: '#1a5238', size: 11, weight: 500 }}
+                        gridcolor: 'rgba(201, 162, 39, 0.2)',
+                        tickfont: {{ color: '#d4b44a', size: 11, weight: 500 }}
                     }}
                 }},
-                paper_bgcolor: 'rgba(250,250,250,0.5)',
-                font: {{ color: '#1a5238' }},
+                paper_bgcolor: 'rgba(15,14,8,0.9)',
+                font: {{ color: '#c9a227' }},
                 showlegend: false,
                 height: 450
             }};
             Plotly.newPlot(divId, traces, layout, {{responsive: true}});
         }}
 
+        // Colour palette per metric
+        const METRIC_COLOURS = {{
+            icc:                    {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
+            icc_agreement:          {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
+            pearson_r:              {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)', tick: '#7a5a00' }},
+            cronbach_alpha:         {{ line: '#8a6d3b', fill: 'rgba(138,109,59,0.22)',  tick: '#6b5023' }},
+            session_shift_d:        {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
+            cohens_d:               {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},  // legacy
+            paradigm_effect_size:   {{ line: '#a83232', fill: 'rgba(168,50,50,0.20)',   tick: '#6b1a1a' }},
+            cv:                     {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
+        }};
+        // Slightly darker tints for control conditions
+        const CTRL_COLOURS = {{
+            icc:                    {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
+            icc_agreement:          {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)', tick: '#2e7d32' }},
+            pearson_r:              {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
+            cronbach_alpha:         {{ line: '#ce93d8', fill: 'rgba(206,147,216,0.20)', tick: '#6a1b9a' }},
+            session_shift_d:        {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},
+            cohens_d:               {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},  // legacy
+            paradigm_effect_size:   {{ line: '#ff5252', fill: 'rgba(255,82,82,0.20)',   tick: '#8a0000' }},
+            cv:                     {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
+        }};
+
+        /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */
+        function onSelectionChange() {{
+            rebuildSliders();
+            applyFilters();   // applyFilters calls updateCharts internally
+        }}
+
+        /**
+         * Build the dynamic radar chart section.
+         * One radar per active slider × data source combination.
+         * For "All Metrics": 8 radars (task) or 16 (both).
+         * For a single metric: 2 radars (RT + Acc) or 4 (both).
+         */
         function updateCharts() {{
-            const projectNames    = filteredProjects.map(p => p.project_name);
-            const selectedMetric  = document.getElementById('radarMetricFilter').value;
-            const selectedSource  = document.querySelector('input[name="radarSource"]:checked').value;
+            const selectedMetric = document.getElementById('radarMetricFilter').value;
+            const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
+            const isBoth         = selectedSource === 'both';
+            const projectNames   = filteredProjects.map(p => p.project_name);
+            const container      = document.getElementById('radarChartsContainer');
 
-            // ── Determine which metrics to draw in each of the four radars ──
-            // When a specific metric is selected show that metric split across
-            // RT (top-left) and Acc (top-right).  When 'all' is chosen keep
-            // the original four-panel layout: RT-ICC, Acc-ICC, Stability, Consistency.
-            if (selectedMetric !== 'all') {{
-                const reg = METRIC_BY_ID[selectedMetric];
-                // Build per-project RT and Acc scores for the selected metric
-                const rtVals  = [];
-                const accVals = [];
-                filteredProjects.forEach(p => {{
-                    const taskRel    = p.reliability_metrics    || {{}};
-                    const controlRel = p.control_reliability    || {{}};
-                    let dicts = [];
-                    if (selectedSource === 'task') dicts = [taskRel];
-                    else if (selectedSource === 'control') {{
-                        const hasControl = Object.values(controlRel).some(m =>
-                            m[reg.rt_key] !== null && m[reg.rt_key] !== undefined
-                        );
-                        dicts = hasControl ? [controlRel] : [taskRel];
+            const metricsToShow = selectedMetric === 'all'
+                ? SLIDER_METRICS
+                : SLIDER_METRICS.filter(m => m.id === selectedMetric);
+
+            const sources = isBoth
+                ? [{{ key: 'task', label: 'task trials only', useControl: false }},
+                   {{ key: 'ctrl', label: 'control conditions', useControl: true }}]
+                : [{{ key: selectedSource === 'control' ? 'ctrl' : 'task',
+                      label: selectedSource === 'control' ? 'control conditions' : 'task trials only',
+                      useControl: selectedSource === 'control' }}];
+
+            // Build HTML shell — two radars per row
+            let html = '';
+            const radarDefs = [];   // collect (divId, metricId, sliderDef, useControl, srcLabel)
+
+            for (const src of sources) {{
+                for (const metric of metricsToShow) {{
+                    // Look up the matching METRIC_REGISTRY entry for normalisation
+                    const reg = METRIC_BY_ID[metric.id];
+                    for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
+                        const divId = 'radar_' + sl.sid + '_' + src.key;
+                        const metricTitle = sl.displayMetricLabel || metric.label;
+                        const title = metricTitle + ' — ' + sl.label
+                              + ' <span style="font-size:0.78em;color:#a08840;">(' + src.label + ')</span>';
+                        radarDefs.push({{ divId, reg, sl, useControl: src.useControl, title }});
                     }}
-                    else dicts = [taskRel, controlRel];
+                }}
+            }}
 
-                    let rtList = [], accList = [];
-                    dicts.forEach(d => {{
-                        Object.values(d).forEach(m => {{
-                            if (m[reg.rt_key]  !== null && m[reg.rt_key]  !== undefined) rtList.push(reg.normalise(m[reg.rt_key]));
-                            if (m[reg.acc_key] !== null && m[reg.acc_key] !== undefined) accList.push(reg.normalise(m[reg.acc_key]));
-                        }});
-                    }});
-                    rtVals.push(rtList.length  > 0 ? rtList.reduce((a,b)=>a+b)/rtList.length   : 0);
-                    accVals.push(accList.length > 0 ? accList.reduce((a,b)=>a+b)/accList.length : 0);
+            if (radarDefs.length === 0) {{
+                container.innerHTML = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No radar can be drawn for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+                return;
+            }}
+
+            // Pair into rows of 2
+            for (let i = 0; i < radarDefs.length; i += 2) {{
+                html += '<div class="charts-row">';
+                for (let j = i; j < Math.min(i + 2, radarDefs.length); j++) {{
+                    const d = radarDefs[j];
+                    html += `<div class="chart-container">
+                        <div class="chart-title">${{d.title}}</div>
+                        <div id="${{d.divId}}"></div>
+                    </div>`;
+                }}
+                html += '</div>';
+            }}
+
+            container.innerHTML = html;
+
+            // Now plot each radar
+            for (const d of radarDefs) {{
+                const isTask  = !d.useControl;
+                const pal     = isTask ? METRIC_COLOURS[d.reg.id] : CTRL_COLOURS[d.reg.id];
+                const colour  = pal ? pal.line : '#3d3d3d';
+                const fill    = pal ? pal.fill : 'rgba(64,158,128,0.25)';
+                const tickCol = pal ? pal.tick : '#5a4200';
+
+                // Try the new bare key first (`rt_icc`), then the legacy
+                // `_mean` suffix (`rt_icc_mean`).  This keeps old JSONs
+                // working while picking up the post-pingouin schema.
+                const _firstAvailable = (m) => _valueFromMetricObject(m, d.sl);
+                const _hasAny = (rel) => Object.values(rel).some(
+                    m => _firstAvailable(m) !== null
+                );
+                const vals = filteredProjects.map(p => {{
+                    const taskRel    = p.reliability_metrics || {{}};
+                    const controlRel = p.control_reliability || {{}};
+                    let dict;
+                    if (d.useControl) {{
+                        dict = _hasAny(controlRel) ? controlRel : taskRel;
+                    }} else {{
+                        dict = taskRel;
+                    }}
+                    const rawVals = Object.values(dict)
+                        .map(_firstAvailable)
+                        .filter(v => v !== null && v !== undefined);
+                    if (rawVals.length === 0) return null;
+                    const mean = rawVals.reduce((a,b) => a+b, 0) / rawVals.length;
+                    const normalise = d.sl.normalise || d.reg.normalise;
+                    return normalise(mean);
                 }});
 
-                const rtTraces  = _buildRadarTrace(rtVals,  projectNames, '#409e80', 'rgba(64,158,128,0.25)');
-                const accTraces = _buildRadarTrace(accVals, projectNames, '#3d9970', 'rgba(61,153,112,0.25)');
-
-                _plotRadar('rtIccRadar',      rtTraces,  '#409e80');
-                _plotRadar('accIccRadar',     accTraces, '#3d9970');
-
-                // Hide the stability & consistency panels — not applicable for a single metric
-                document.getElementById('stabilityRadar').closest('.chart-container').style.display = 'none';
-                document.getElementById('consistencyRadar').closest('.chart-container').style.display = 'none';
-
-                // Update chart titles
-                document.querySelector('#rtIccRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    reg.label + ' — RT  (' + selectedSource + ' conditions)';
-                document.querySelector('#accIccRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    reg.label + ' — Accuracy  (' + selectedSource + ' conditions)';
-            }} else {{
-                // 'all' — restore original four-panel layout
-                document.getElementById('stabilityRadar').closest('.chart-container').style.display = '';
-                document.getElementById('consistencyRadar').closest('.chart-container').style.display = '';
-
-                document.querySelector('#rtIccRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    'RT ICC Across Projects (' + selectedSource + ' conditions)';
-                document.querySelector('#accIccRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    'Accuracy ICC Across Projects (' + selectedSource + ' conditions)';
-                document.querySelector('#stabilityRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    'RT Stability Across Projects (' + selectedSource + ' conditions)';
-                document.querySelector('#consistencyRadar').closest('.chart-container')
-                    .querySelector('.chart-title').textContent =
-                    'RT Consistency Across Projects (' + selectedSource + ' conditions)';
-
-                const iccReg  = METRIC_BY_ID['icc'];
-                const stabReg = METRIC_BY_ID['cohens_d'];
-                const consReg = METRIC_BY_ID['cv'];
-
-                function _perProjectMean(key, reg) {{
-                    return filteredProjects.map(p => {{
-                        const taskRel    = p.reliability_metrics    || {{}};
-                        const controlRel = p.control_reliability    || {{}};
-                        let dicts = [];
-                        if (selectedSource === 'task') dicts = [taskRel];
-                        else if (selectedSource === 'control') {{
-                            const hasControl = Object.values(controlRel).some(m =>
-                                m[reg[key]] !== null && m[reg[key]] !== undefined
-                            );
-                            dicts = hasControl ? [controlRel] : [taskRel];
-                        }}
-                        else dicts = [taskRel, controlRel];
-                        let vals = [];
-                        dicts.forEach(d => {{
-                            Object.values(d).forEach(m => {{
-                                const v = m[reg[key]];
-                                if (v !== null && v !== undefined) vals.push(reg.normalise(v));
-                            }});
-                        }});
-                        return vals.length > 0 ? vals.reduce((a,b)=>a+b)/vals.length : 0;
-                    }});
-                }}
-
-                const rtIccs     = _perProjectMean('rt_key',  iccReg);
-                const accIccs    = _perProjectMean('acc_key', iccReg);
-                const stability  = _perProjectMean('rt_key',  stabReg);
-                const consistency = _perProjectMean('rt_key', consReg);
-
-                _plotRadar('rtIccRadar',      _buildRadarTrace(rtIccs,      projectNames, '#409e80', 'rgba(64,158,128,0.25)'),  '#409e80');
-                _plotRadar('accIccRadar',     _buildRadarTrace(accIccs,     projectNames, '#3d9970', 'rgba(183,110,121,0.25)'), '#3d9970');
-                _plotRadar('stabilityRadar',  _buildRadarTrace(stability,   projectNames, '#5fbc9a', 'rgba(197,179,88,0.25)'),  '#5fbc9a');
-                _plotRadar('consistencyRadar',_buildRadarTrace(consistency, projectNames, '#48d1cc', 'rgba(192,192,192,0.25)'), '#48d1cc');
+                _plotRadar(d.divId, _buildRadarTrace(vals, projectNames, colour, fill), tickCol);
             }}
         }}
 
-        // Initialize
+        // Initialize — build sliders first so applyFilters() can read them
+        rebuildSliders();
         applyFilters();
     </script>
+
+    <!-- ── Experimental Context info modal ── -->
+    <div class="info-modal-overlay" id="expCtxModal" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="info-modal">
+            <button class="info-modal-close" onclick="document.getElementById('expCtxModal').classList.remove('open')" aria-label="Close">&times;</button>
+            <div class="info-modal-title">Experimental Context</div>
+            <div class="info-modal-body">
+                The <strong style="-webkit-text-fill-color:#f0d060;color:#f0d060;">Experimental Context</strong> describes the measurement method or recording setup for which this paradigm has been tested and optimised &mdash; for example MRI, EEG, or purely behavioural.<br><br>
+                This does <em>not</em> mean the paradigm cannot be used in other settings. It simply reflects the context in which it has been validated so far. A paradigm labelled <em>MRI</em> can often be adapted for behavioural or EEG use; the label indicates current evidence, not a restriction.
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-disclaimer">
+        <div class="footer-logos">
+            <img src="logo_memoslap.png" alt="MemoSlap Logo"/>
+            <img src="beehub_logo.svg" alt="BEE Hub Logo"/>
+            <img src="university_logo.png" alt="Universität Greifswald Logo"/>
+            <img src="university_medicine_logo.png" alt="Universitätsmedizin Greifswald Logo"/>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-text">
+            <strong>Research BEE Hub</strong> is developed and maintained by the
+            <strong>MemoSlap Research Group</strong>. All paradigms and datasets are provided
+            for research and educational use. Please cite the original publications when using
+            paradigm data in your work. &mdash;
+            Open-source &middot; FAIR principles &middot; BIDS-inspired &middot;
+            <a href="https://github.com/memoslap/BEEHub" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </div>
+
 </body>
 </html>"""
         

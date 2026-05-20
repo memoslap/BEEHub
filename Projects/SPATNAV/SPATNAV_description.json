@@ -10,7 +10,7 @@
   "cognitive_domain": "spatial cognition",
   "task_type": "virtual navigation and pointing",
   "language": "german",
-  "recording_modality": "behavioral",
+  "experimental_context": "behavioral",
   "software_original": "Unity 3D / custom Python interface",
   "language_original": "german",
   "implementations": [
@@ -38,5 +38,31 @@
     "pointing_until_response": true
   },
   "n_sessions": 2,
-  "software": "Unity 3D / custom Python interface"
+  "software": "Unity 3D / custom Python interface",
+  "outcome_measures": [
+    {
+      "id": "ACCBIN",
+      "suffix": "_ACCBIN_beh.tsv",
+      "column": "accuracy_binary",
+      "label": "Accuracy",
+      "axis_label": "Accuracy (%)",
+      "higher_is_better": true,
+      "is_binary": true,
+      "is_primary": false,
+      "is_helper": false,
+      "display_priority": 1
+    },
+    {
+      "id": "RT",
+      "suffix": "_RT_beh.tsv",
+      "column": "response_time_ms",
+      "label": "Reaction Time",
+      "axis_label": "RT (ms)",
+      "higher_is_better": false,
+      "is_binary": false,
+      "is_primary": true,
+      "is_helper": false,
+      "display_priority": 2
+    }
+  ]
 }

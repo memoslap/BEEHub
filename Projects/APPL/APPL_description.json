@@ -3,6 +3,7 @@
   "short_description": "Language learning task probing the acquisition of novel word–meaning associations across repeated exposures.",
   "long_description": "The Associative Pseudoword Learning (APPL) paradigm investigates how the human brain encodes and consolidates associations between newly invented pseudowords and semantic referents. Participants learn to map a set of phonologically plausible but meaningless letter strings (e.g., 'MABREL', 'TUSKIN') onto object images or categories across multiple learning sessions. By requiring deliberate semantic binding, the task places heavy demands on the hippocampal–neocortical dialogue proposed to underlie new vocabulary acquisition.",
   "background": "Word learning in adulthood involves not only phonological encoding but also the rapid formation of arbitrary form–meaning links. The APPL task operationalises this by presenting pseudowords that must be associated with visual referents over a series of study–test cycles. Repeated exposure across two sessions (with a multi-day interval) allows measurement of consolidation and test-retest reliability of the learning index. The task is sensitive to individual differences in language aptitude and is used as a translational model of second-language acquisition in healthy and clinical populations.",
+  "typical_outcome": "The primary measure is recognition accuracy (% correct, forced-choice; chance = 50% for a binary known/unknown response). In healthy adults, accuracy increases progressively across learning stages from approximately 55–65% in LS1 to 80–90% by LS4 within a session, indicating rapid associative encoding over repeated exposures. At the beginning of Session 2 (1–2 weeks later), performance typically starts 10–20 percentage points above Session 1 LS1 baseline, demonstrating durable long-term consolidation of novel word–meaning links. Test-retest reliability of accuracy is good (ICC ≈ 0.70–0.85), making it the recommended index for reliability analyses. Reaction time is the secondary measure; RT shortens across stages as the associations become more fluent, and shows moderate test-retest reliability (ICC ≈ 0.50–0.65). Session-level stability is high: mean performance shifts between sessions are small (Cohen's d < 0.25), confirming that Session 2 differences reflect retention rather than procedural re-learning. Individual differences in learning rate (slope across LS1–LS4) are substantially larger than group-mean effects and are the theoretically most informative index for correlating with language aptitude, hippocampal connectivity, or clinical status. Control trial performance is near ceiling (> 92% correct) with minimal intra-individual variability, confirming that task difficulty effects are specific to the associative binding demand.",
   "procedure": "Each session consists of four learning stages (LS1–LS4). Within each stage, pseudoword–image pairs are first presented for study (learning trials), followed by a forced-choice recognition test (control trials). Reaction time and accuracy are recorded for every trial. Session 2 is administered 1–2 weeks after Session 1 to assess long-term retention and reliability.",
   "trial_structure": "Learning trial: pseudoword displayed centrally for up to 25 s; participant presses button 1 (known) or button 2 (unknown). Control trial: matched foil image presented under identical timing. Each stage comprises ~240 learning and ~80 control trials.",
   "design": "Within-subjects, two-session repeated-measures. Sessions separated by 7–14 days.",
@@ -10,26 +11,69 @@
   "cognitive_domain": "declarative memory",
   "task_type": "associative learning",
   "language": "german",
-  "recording_modality": "mri",
+  "experimental_context": "mri",
   "software_original": "Presentation (Neurobehavioral Systems)",
   "language_original": "german",
   "implementations": [
     {
       "software": "Presentation (Neurobehavioral Systems)",
       "type": "original",
-      "languages_available": ["german"],
+      "languages_available": [
+        "german"
+      ],
       "folder": "paradigm/presentation"
     },
     {
       "software": "PsychoPy",
       "type": "compatible",
-      "languages_available": ["german"],
+      "languages_available": [
+        "german"
+      ],
       "folder": "paradigm/psychopy"
     }
   ],
-  "keywords": ["pseudoword", "associative learning", "vocabulary acquisition", "hippocampus", "consolidation", "repeated measures"],
+  "keywords": [
+    "pseudoword",
+    "associative learning",
+    "vocabulary acquisition",
+    "hippocampus",
+    "consolidation",
+    "repeated measures"
+  ],
   "response_device": "two-button response box",
-  "timing": {"stimulus_duration_s": 25, "isi_range_s": [2, 4]},
+  "timing": {
+    "stimulus_duration_s": 25,
+    "isi_range_s": [
+      2,
+      4
+    ]
+  },
   "n_sessions": 2,
-  "software": "Presentation (Neurobehavioral Systems)"
+  "software": "Presentation (Neurobehavioral Systems)",
+  "outcome_measures": [
+    {
+      "id": "ACCBIN",
+      "suffix": "_ACCBIN_beh.tsv",
+      "column": "accuracy_binary",
+      "label": "Accuracy",
+      "axis_label": "Accuracy (%)",
+      "higher_is_better": true,
+      "is_binary": true,
+      "is_primary": false,
+      "is_helper": false,
+      "display_priority": 1
+    },
+    {
+      "id": "RT",
+      "suffix": "_RT_beh.tsv",
+      "column": "response_time_ms",
+      "label": "Reaction Time",
+      "axis_label": "RT (ms)",
+      "higher_is_better": false,
+      "is_binary": false,
+      "is_primary": true,
+      "is_helper": false,
+      "display_priority": 2
+    }
+  ]
 }

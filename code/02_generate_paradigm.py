@@ -27,7 +27,7 @@ def _load_description(project_dir: Path, project_name: str) -> Dict:
         "cognitive_domain":    "unknown",
         "task_type":           "unknown",
         "language":            "unknown",
-        "recording_modality":  "",
+        "experimental_context":  "",
         "software_original":   "",
         "language_original":   "",
         "implementations":     [],
@@ -179,7 +179,6 @@ _CSS = """
                 inset 0 -1px 0 rgba(160, 110, 50, 0.15);
             border: 1px solid rgba(190, 150, 80, 0.30);
             position: relative;
-            overflow: hidden;
         }
 
         .container::before {
@@ -313,6 +312,71 @@ _CSS = """
                 #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
             );
             opacity: 0.7;
+        }
+
+        /* ── Typical Outcome box ─────────────────────────────────────── */
+        .typical-outcome-box {
+            background: linear-gradient(135deg,
+                rgba(212, 160, 32, 0.10) 0%,
+                rgba(232, 192, 72, 0.14) 40%,
+                rgba(212, 160, 32, 0.10) 100%
+            );
+            border: 1px solid rgba(212, 160, 32, 0.45);
+            border-left: 5px solid #d4a020;
+            border-radius: 12px;
+            padding: 28px 30px 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(212, 160, 32, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
+        }
+
+        .typical-outcome-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 25%, #e8c048 50%, #d4a020 75%, #c4a0b4 100%
+            );
+        }
+
+        .typical-outcome-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+        }
+
+        .typical-outcome-icon {
+            font-size: 1.25em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .typical-outcome-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 60%, #c07838 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .typical-outcome-body {
+            color: #3a2010;
+            font-size: 1.0em;
+            line-height: 1.80;
+        }
+
+        /* Highlight inline metric values: ICC, %, Cohen's d etc. */
+        .typical-outcome-body strong {
+            color: #7a4010;
+            font-weight: 600;
         }
 
         /* ── Paradigm detail grid ────────────────────────────────────── */
@@ -563,6 +627,47 @@ _CSS = """
                         inset 0 1px 0 rgba(255, 255, 255, 0.40);
         }
 
+        .btn-top-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }
+
+        .btn-top-dashboard:hover {
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
         /* ── Instructions box ───────────────────────────────────────── */
         .instructions-box {
             background: linear-gradient(135deg,
@@ -698,6 +803,149 @@ _CSS = """
             font-size: 0.88em;
             color: #7a5030;
         }
+
+        /* ── Related Publications ───────────────────────────────────── */
+        .publications-box {
+            background: linear-gradient(135deg,
+                rgba(210, 195, 175, 0.85) 0%,
+                rgba(235, 225, 210, 0.92) 50%,
+                rgba(210, 195, 175, 0.85) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.45);
+            border-radius: 14px;
+            padding: 28px 36px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(160, 120, 60, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.80);
+        }
+
+        .publications-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #6b3a10 0%, #c07838 25%, #d4a020 45%,
+                #e8c048 55%, #d4a020 75%, #6b3a10 100%);
+            opacity: 0.85;
+        }
+
+        .publications-title {
+            color: #6b3a10;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.35);
+        }
+
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pub-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.82) 0%,
+                rgba(252,248,242,0.92) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.30);
+            border-radius: 10px;
+            padding: 15px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 1px 4px rgba(160, 120, 60, 0.10),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-card:hover {
+            border-color: rgba(212, 160, 32, 0.70);
+            box-shadow: 0 4px 14px rgba(160, 120, 60, 0.22),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-number {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #c07838 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(160, 100, 30, 0.35);
+        }
+
+        .pub-content { flex: 1; min-width: 0; }
+
+        .pub-title {
+            color: #3a1e08;
+            font-size: 0.96em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .pub-title a { color: inherit; text-decoration: none; }
+        .pub-title a:hover { color: #6b3a10; text-decoration: underline; }
+
+        .pub-authors {
+            color: #7a5030;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .pub-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.77em;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .pub-badge.journal {
+            color: #5a3010;
+            border-color: rgba(190, 150, 80, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(250,235,210,0.85) 100%);
+        }
+
+        .pub-badge.year {
+            color: #6b3a10;
+            border-color: rgba(212, 160, 32, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,242,220,0.85) 100%);
+        }
+
+        .pub-badge.doi {
+            color: #7a4a10;
+            border-color: rgba(190, 140, 60, 0.45);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,238,210,0.85) 100%);
+            text-decoration: none;
+        }
+
+        a.pub-badge.doi:hover { color: #4a2008; text-decoration: underline; }
+
+        .pub-badge.oa {
+            color: #7a5a10;
+            border-color: rgba(200,160,40,0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,245,200,0.85) 100%);
+        }
 """
 
 
@@ -713,6 +961,38 @@ class InteractiveDashboard:
         self.all_projects: List[Dict] = []
 
     # ── project loading ───────────────────────────────────────────────────
+
+    def load_bibliography(self, project_name: str) -> list:
+        """Load bibliography.json from the project folder.
+
+        Supports v2 (top-level 'publications' list) and v1 (legacy
+        'citation_N' flat keys). Returns a list of citation dicts,
+        empty when the file is absent or unparseable.
+        """
+        bib_path = self.base_path / "Projects" / project_name / "bibliography.json"
+        if not bib_path.exists():
+            return []
+        try:
+            with open(bib_path, encoding="utf-8") as f:
+                raw = json.load(f)
+        except Exception as e:
+            print(f"  Could not read bibliography for {project_name}: {e}")
+            return []
+
+        # v2 format
+        if "publications" in raw and isinstance(raw["publications"], list):
+            return [p for p in raw["publications"] if isinstance(p, dict)]
+
+        # v1 legacy format
+        citations = []
+        for key, value in raw.items():
+            if key.startswith("citation_") and isinstance(value, dict):
+                citations.append(value)
+        if citations and "key_findings" in raw:
+            kf = raw["key_findings"]
+            if isinstance(kf, dict) and "reliability" in kf:
+                citations[0].setdefault("key_findings", {})["reliability"] = kf["reliability"]
+        return citations
 
     def load_all_projects(self) -> List[Dict]:
         projects_path = self.base_path / "Projects"
@@ -863,17 +1143,19 @@ class InteractiveDashboard:
         domain          = desc.get("cognitive_domain", "")
         task_type       = desc.get("task_type", "")
         n_sessions      = desc.get("n_sessions", "")
-        rec_modality    = desc.get("recording_modality", "")
+        rec_modality    = desc.get("experimental_context", "")
         software_orig   = desc.get("software_original", software)
         language_orig   = desc.get("language_original", desc.get("language", ""))
         implementations = desc.get("implementations", [])
+        typical_outcome = desc.get("typical_outcome", "")
 
-        # ── Info cards ───────────────────────────────────────────────────
+        # ── Info cards — order matches dashboard filters exactly:
+        #    Cognitive Domain → Task Type → Modality → Experimental Context
         card_defs = [
-            ("Modality",            modality),
-            ("Recording Modality",  rec_modality),
             ("Cognitive Domain",    domain),
             ("Task Type",           task_type),
+            ("Modality",            modality),
+            ("Experimental Context",  rec_modality),
         ]
         info_cards = "\n".join(_info_card(lbl, val) for lbl, val in card_defs)
 
@@ -891,6 +1173,19 @@ class InteractiveDashboard:
             _section("Background", _text_box(background))
             if background else ""
         )
+
+        # ── Typical Outcome ──────────────────────────────────────────────────
+        typical_outcome_section = ""
+        if typical_outcome:
+            typical_outcome_section = f"""        <div class="section">
+            <h2>Typical Outcome</h2>
+            <div class="typical-outcome-box">
+                <div class="typical-outcome-header">
+                    <span class="typical-outcome-label">Expected results &amp; reliability benchmarks</span>
+                </div>
+                <div class="typical-outcome-body">{typical_outcome}</div>
+            </div>
+        </div>"""
 
         # ── GitHub base URL (used in both detail cells and files section) ──
         gh = f"https://github.com/memoslap/BEEHub/tree/main/Projects/{pn}"
@@ -1030,6 +1325,71 @@ class InteractiveDashboard:
                 </ul>
             </div>""")
 
+        # ── Related Publications ─────────────────────────────────────────
+        bibliography = self.load_bibliography(pn)
+        pub_section = ""
+        if bibliography:
+            def _fmt_authors(authors: list) -> str:
+                if not authors:
+                    return "Unknown authors"
+                if len(authors) <= 3:
+                    return ", ".join(authors)
+                return f"{authors[0]} et al."
+
+            pub_cards_html = ""
+            sorted_pubs = sorted(bibliography, key=lambda p: p.get("year") or 0, reverse=True)
+            for idx, pub in enumerate(sorted_pubs, start=1):
+                title      = pub.get("title", "Untitled")
+                authors    = _fmt_authors(pub.get("authors", []))
+                journal    = pub.get("journal", "")
+                year       = pub.get("year", "")
+                volume     = pub.get("volume", "")
+                pages      = pub.get("pages", "")
+                doi        = pub.get("doi", "")
+                oa         = pub.get("open_access", False)
+
+                journal_str = journal
+                if volume:
+                    journal_str += f", {volume}"
+                if pages:
+                    journal_str += f":{pages}"
+
+                doi_url = pub.get("url", f"https://doi.org/{doi}" if doi else "")
+                if doi_url:
+                    doi_html = f'<a class="pub-badge doi" href="{doi_url}" target="_blank" rel="noopener">DOI: {doi}</a>'
+                elif doi:
+                    doi_html = f'<span class="pub-badge doi">DOI: {doi}</span>'
+                else:
+                    doi_html = ""
+
+                oa_html    = '<span class="pub-badge oa">Open Access</span>' if oa else ""
+                title_html = (
+                    f'<a href="{doi_url}" target="_blank" rel="noopener">{title}</a>'
+                    if doi_url else title
+                )
+
+                pub_cards_html += f"""
+                    <div class="pub-card">
+                        <div class="pub-number">{idx}</div>
+                        <div class="pub-content">
+                            <div class="pub-title">{title_html}</div>
+                            <div class="pub-authors">{authors}</div>
+                            <div class="pub-meta">
+                                {"" if not journal_str else f'<span class="pub-badge journal">{journal_str}</span>'}
+                                {"" if not year else f'<span class="pub-badge year">{year}</span>'}
+                                {doi_html}
+                                {oa_html}
+                            </div>
+                        </div>
+                    </div>"""
+
+            pub_section = f"""        <div class="publications-box">
+            <div class="publications-title">Related Publications</div>
+            <div class="pub-list">{pub_cards_html}
+            </div>
+        </div>
+"""
+
         # ── Assemble ─────────────────────────────────────────────────────
         return f"""<!DOCTYPE html>
 <html lang="en">
@@ -1043,6 +1403,7 @@ class InteractiveDashboard:
 </head>
 <body>
     <div class="container">
+        <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
         <div class="project-code">{pn}</div>
         <div class="project-full-name">{full_name}</div>
         <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
@@ -1050,8 +1411,10 @@ class InteractiveDashboard:
 {info_cards}
         </div>
 {demo_section}
+{pub_section}
 {desc_section}
 {bg_section}
+{typical_outcome_section}
 {detail_section}
 {files_section}
 {run_section}

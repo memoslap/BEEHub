@@ -35,7 +35,6 @@
                 inset 0 -1px 0 rgba(160, 110, 50, 0.15);
             border: 1px solid rgba(190, 150, 80, 0.30);
             position: relative;
-            overflow: hidden;
         }
 
         .container::before {
@@ -169,6 +168,71 @@
                 #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%
             );
             opacity: 0.7;
+        }
+
+        /* ── Typical Outcome box ─────────────────────────────────────── */
+        .typical-outcome-box {
+            background: linear-gradient(135deg,
+                rgba(212, 160, 32, 0.10) 0%,
+                rgba(232, 192, 72, 0.14) 40%,
+                rgba(212, 160, 32, 0.10) 100%
+            );
+            border: 1px solid rgba(212, 160, 32, 0.45);
+            border-left: 5px solid #d4a020;
+            border-radius: 12px;
+            padding: 28px 30px 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 20px rgba(212, 160, 32, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.70);
+        }
+
+        .typical-outcome-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #9e5c1e 0%, #d4a020 25%, #e8c048 50%, #d4a020 75%, #c4a0b4 100%
+            );
+        }
+
+        .typical-outcome-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+        }
+
+        .typical-outcome-icon {
+            font-size: 1.25em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .typical-outcome-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 60%, #c07838 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .typical-outcome-body {
+            color: #3a2010;
+            font-size: 1.0em;
+            line-height: 1.80;
+        }
+
+        /* Highlight inline metric values: ICC, %, Cohen's d etc. */
+        .typical-outcome-body strong {
+            color: #7a4010;
+            font-weight: 600;
         }
 
         /* ── Paradigm detail grid ────────────────────────────────────── */
@@ -419,6 +483,47 @@
                         inset 0 1px 0 rgba(255, 255, 255, 0.40);
         }
 
+        .btn-top-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }
+
+        .btn-top-dashboard:hover {
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
         /* ── Instructions box ───────────────────────────────────────── */
         .instructions-box {
             background: linear-gradient(135deg,
@@ -555,22 +660,158 @@
             color: #7a5030;
         }
 
+        /* ── Related Publications ───────────────────────────────────── */
+        .publications-box {
+            background: linear-gradient(135deg,
+                rgba(210, 195, 175, 0.85) 0%,
+                rgba(235, 225, 210, 0.92) 50%,
+                rgba(210, 195, 175, 0.85) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.45);
+            border-radius: 14px;
+            padding: 28px 36px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(160, 120, 60, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.80);
+        }
+
+        .publications-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #6b3a10 0%, #c07838 25%, #d4a020 45%,
+                #e8c048 55%, #d4a020 75%, #6b3a10 100%);
+            opacity: 0.85;
+        }
+
+        .publications-title {
+            color: #6b3a10;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(190, 150, 80, 0.35);
+        }
+
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pub-card {
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.82) 0%,
+                rgba(252,248,242,0.92) 100%);
+            border: 1px solid rgba(190, 150, 80, 0.30);
+            border-radius: 10px;
+            padding: 15px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 1px 4px rgba(160, 120, 60, 0.10),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-card:hover {
+            border-color: rgba(212, 160, 32, 0.70);
+            box-shadow: 0 4px 14px rgba(160, 120, 60, 0.22),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .pub-number {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #c07838 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(160, 100, 30, 0.35);
+        }
+
+        .pub-content { flex: 1; min-width: 0; }
+
+        .pub-title {
+            color: #3a1e08;
+            font-size: 0.96em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .pub-title a { color: inherit; text-decoration: none; }
+        .pub-title a:hover { color: #6b3a10; text-decoration: underline; }
+
+        .pub-authors {
+            color: #7a5030;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .pub-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.77em;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .pub-badge.journal {
+            color: #5a3010;
+            border-color: rgba(190, 150, 80, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(250,235,210,0.85) 100%);
+        }
+
+        .pub-badge.year {
+            color: #6b3a10;
+            border-color: rgba(212, 160, 32, 0.50);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,242,220,0.85) 100%);
+        }
+
+        .pub-badge.doi {
+            color: #7a4a10;
+            border-color: rgba(190, 140, 60, 0.45);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(252,238,210,0.85) 100%);
+            text-decoration: none;
+        }
+
+        a.pub-badge.doi:hover { color: #4a2008; text-decoration: underline; }
+
+        .pub-badge.oa {
+            color: #7a5a10;
+            border-color: rgba(200,160,40,0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,245,200,0.85) 100%);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
         <div class="project-code">NBACK</div>
         <div class="project-full-name">N-Back Working Memory</div>
         <div class="page-subtitle">Paradigm Overview &amp; Resources</div>
         <div class="info-grid">
-        <div class="info-card">
-            <div class="info-card-label">Modality</div>
-            <div class="info-card-value">visual</div>
-        </div>
-        <div class="info-card">
-            <div class="info-card-label">Recording Modality</div>
-            <div class="info-card-value">behavioral</div>
-        </div>
         <div class="info-card">
             <div class="info-card-label">Cognitive Domain</div>
             <div class="info-card-value">working memory</div>
@@ -578,6 +819,14 @@
         <div class="info-card">
             <div class="info-card-label">Task Type</div>
             <div class="info-card-value">continuous performance / n-back</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Modality</div>
+            <div class="info-card-value">visual</div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-label">Experimental Context</div>
+            <div class="info-card-value">behavioral</div>
         </div>
         </div>
         <div class="section">
@@ -594,6 +843,7 @@
                 </a>
             </div>
         </div>
+
         <div class="section">
             <h2>Description</h2>
                     <div class="text-box">Continuous performance task requiring online maintenance and updating of stimulus identity across N intervening items.<br><br>The N-Back Working Memory (NBACK) paradigm is among the most widely used measures of working memory capacity and updating in cognitive neuroscience. Participants monitor a continuous stream of stimuli and indicate whether each item matches the one presented N positions back in the sequence. The critical manipulation — varying N — parametrically increases the demand on active maintenance and interference resolution. The 2-back condition (N=2) contrasts with a 0-back baseline (target defined by identity alone), isolating working memory updating from simple target detection.</div>
@@ -602,6 +852,7 @@
             <h2>Background</h2>
                     <div class="text-box">Working memory — the capacity to hold and manipulate information over short intervals — is one of the best predictors of fluid intelligence and academic achievement. The N-back task has been shown to activate a frontoparietal network including dorsolateral prefrontal cortex, posterior parietal cortex, and anterior cingulate, and has been used extensively to study individual differences, ageing, pharmacological modulation, and cognitive training effects. The 2-back versus 0-back contrast is one of the most reliably reproduced contrasts in the fMRI literature, making NBACK a useful functional localiser as well as a standalone measure.</div>
         </div>
+
         <div class="section">
             <h2>Paradigm Details</h2>
             <div class="detail-grid"><div class="detail-cell"><div class="detail-label">Procedure</div><div class="detail-text">Each session consists of four blocks of 2-back and two blocks of 0-back stimuli. Stimuli are letters (or spatial positions) presented at a 2-s rate. Participants press a target key (match) or a non-target key (no match) for each item. Accuracy and RT are scored per block. Block order is counterbalanced.</div></div><div class="detail-cell"><div class="detail-label">Trial Structure</div><div class="detail-text">2-back trial: letter displayed for 500 ms, 1500 ms ISI; respond if letter matches 2 positions back. 0-back trial: identical timing; respond if letter matches a pre-specified target (e.g., 'X'). Each block: 40 items (2-back) or 20 items (0-back), ~25% targets.</div></div><div class="detail-cell"><div class="detail-label">Design</div><div class="detail-text">Within-subjects, two-session repeated-measures. Four blocks of 2-back and two of 0-back per session.</div></div><div class="detail-cell"><div class="detail-label">Software &amp; Language</div><div class="sw-row">  <div class="sw-row-header"><span class="sw-badge sw-badge-original">Original</span> <span class="sw-name">E-Prime 3.0</span></div>  <div class="lang-row"><span class="lang-chip">German</span></div>  <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/eprime" class="github-link sw-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View files</a></div><div class="sw-row">  <div class="sw-row-header"><span class="sw-badge sw-badge-compatible">Compatible</span> <span class="sw-name">PsychoPy</span></div>  <div class="lang-row"><span class="lang-chip">German</span></div>  <a href="https://github.com/memoslap/BEEHub/tree/main/Projects/NBACK/paradigm/psychopy" class="github-link sw-link" target="_blank"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View files</a></div></div><div class="detail-cell"><div class="detail-label">Response Device</div><div class="detail-text">two-button response box or keyboard</div></div><div class="detail-cell"><div class="detail-label">Timing</div><div class="timing-row"><span class="timing-chip"><span class="chip-label">Stimulus Duration Ms</span> 500</span><span class="timing-chip"><span class="chip-label">Isi Ms</span> 1500</span><span class="timing-chip"><span class="chip-label">Block Duration Approx S</span> 90</span></div></div><div class="detail-cell detail-cell-full"><div class="detail-label">Keywords</div><div class="kw-row"><span class="kw-chip">n-back</span><span class="kw-chip">working memory</span><span class="kw-chip">updating</span><span class="kw-chip">dorsolateral prefrontal cortex</span><span class="kw-chip">fluid intelligence</span><span class="kw-chip">frontoparietal network</span></div></div></div>

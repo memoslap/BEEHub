@@ -1,0 +1,259 @@
+{
+  "_schema": "beehub_dashboard_bibliography_v1",
+  "_verified_date": "2026-05-19",
+  "_note": "Dashboard metric-card citation metadata. The dashboard table renders Reference and DOI only; used_in remains machine-readable metadata.",
+  "references": [
+    {
+      "id": "ShroutFleiss1979",
+      "used_in": [
+        "icc_agreement_card"
+      ],
+      "authors": "Shrout PE, Fleiss JL",
+      "year": 1979,
+      "title": "Intraclass correlations: Uses in assessing rater reliability",
+      "journal": "Psychological Bulletin",
+      "volume": "86",
+      "issue": "2",
+      "pages": "420–428",
+      "doi": "10.1037/0033-2909.86.2.420",
+      "verified": true
+    },
+    {
+      "id": "McGrawWong1996",
+      "used_in": [
+        "icc_agreement_card"
+      ],
+      "authors": "McGraw KO, Wong SP",
+      "year": 1996,
+      "title": "Forming inferences about some intraclass correlation coefficients",
+      "journal": "Psychological Methods",
+      "volume": "1",
+      "issue": "1",
+      "pages": "30–46",
+      "doi": "10.1037/1082-989X.1.1.30",
+      "verified": true,
+      "_note": "Corrected from a former dashboard DOI that resolved to an unrelated Journal of Applied Physiology article."
+    },
+    {
+      "id": "KooLi2016",
+      "used_in": [
+        "icc_agreement_card"
+      ],
+      "authors": "Koo TK, Li MY",
+      "year": 2016,
+      "title": "A Guideline of Selecting and Reporting Intraclass Correlation Coefficients for Reliability Research",
+      "journal": "Journal of Chiropractic Medicine",
+      "volume": "15",
+      "issue": "2",
+      "pages": "155–163",
+      "doi": "10.1016/j.jcm.2016.02.012",
+      "verified": true,
+      "_note": "Corrected from a former dashboard DOI that resolved to an unrelated Psychological Assessment article."
+    },
+    {
+      "id": "Pearson1920",
+      "used_in": [
+        "pearson_r_card"
+      ],
+      "authors": "Pearson K",
+      "year": 1920,
+      "title": "Notes on the history of correlation",
+      "journal": "Biometrika",
+      "volume": "13",
+      "issue": "1",
+      "pages": "25–45",
+      "doi": "10.1093/biomet/13.1.25",
+      "verified": true,
+      "_note": "Corrected: the Oxford DOI landing page lists issue 13(1), not 13(1–2)."
+    },
+    {
+      "id": "Cohen1992",
+      "authors": "Cohen J",
+      "year": 1992,
+      "title": "A power primer",
+      "journal": "Psychological Bulletin",
+      "volume": "112",
+      "issue": "1",
+      "pages": "155–159",
+      "doi": "10.1037/0033-2909.112.1.155",
+      "used_in": [
+        "session_shift_stability_card"
+      ],
+      "verified": true,
+      "_note": "Correct DOI for Cohen (1992) A power primer; replaces the former dashboard link that resolved to an unrelated Journal of Consulting Psychology article."
+    },
+    {
+      "id": "Cronbach1951",
+      "used_in": [
+        "cronbach_alpha_card"
+      ],
+      "authors": "Cronbach LJ",
+      "year": 1951,
+      "title": "Coefficient alpha and the internal structure of tests",
+      "journal": "Psychometrika",
+      "volume": "16",
+      "issue": "3",
+      "pages": "297–334",
+      "doi": "10.1007/BF02310555",
+      "verified": true
+    },
+    {
+      "id": "KuderRichardson1937",
+      "used_in": [
+        "cronbach_alpha_card"
+      ],
+      "authors": "Kuder GF, Richardson MW",
+      "year": 1937,
+      "title": "The theory of the estimation of test reliability",
+      "journal": "Psychometrika",
+      "volume": "2",
+      "issue": "3",
+      "pages": "151–160",
+      "doi": "10.1007/BF02288391",
+      "verified": true,
+      "_note": "Corrected: the former dashboard/JSON DOI resolves to Guttman (1945), A basis for analyzing test-retest reliability."
+    },
+    {
+      "id": "Hedges1981",
+      "used_in": [
+        "paradigm_effect_size_card"
+      ],
+      "authors": "Hedges LV",
+      "year": 1981,
+      "title": "Distribution theory for Glass's estimator of effect size and related estimators",
+      "journal": "Journal of Educational Statistics",
+      "volume": "6",
+      "issue": "2",
+      "pages": "107–128",
+      "doi": "10.3102/10769986006002107",
+      "verified": true
+    },
+    {
+      "id": "Vallat2018",
+      "used_in": [
+        "paradigm_effect_size_card",
+        "reliability_pipeline"
+      ],
+      "authors": "Vallat R",
+      "year": 2018,
+      "title": "Pingouin: statistics in Python",
+      "journal": "Journal of Open Source Software",
+      "volume": "3",
+      "issue": "31",
+      "pages": "1026",
+      "doi": "10.21105/joss.01026",
+      "verified": true
+    },
+    {
+      "id": "HultschMacDonaldDixon2002",
+      "used_in": [
+        "cv_card"
+      ],
+      "authors": "Hultsch DF, MacDonald SWS, Dixon RA",
+      "year": 2002,
+      "title": "Variability in reaction time performance of younger and older adults",
+      "journal": "The Journals of Gerontology Series B: Psychological Sciences and Social Sciences",
+      "volume": "57",
+      "issue": "2",
+      "pages": "P101–P115",
+      "doi": "10.1093/geronb/57.2.P101",
+      "verified": true,
+      "_note": "Corrected from a former dashboard DOI that resolved to a Neuropsychologia COMT planning paper."
+    },
+    {
+      "id": "Dykiert2012",
+      "used_in": [
+        "cv_card"
+      ],
+      "authors": "Dykiert D, Der G, Starr JM, Deary IJ",
+      "year": 2012,
+      "title": "Age differences in intra-individual variability in simple and choice reaction time: Systematic review and meta-analysis",
+      "journal": "PLoS ONE",
+      "volume": "7",
+      "issue": "10",
+      "pages": "e45759",
+      "doi": "10.1371/journal.pone.0045759",
+      "pmid": "23071524",
+      "verified": true,
+      "_note": "Corrected from a former dashboard DOI that resolved to a different Neuropsychology article."
+    },
+    {
+      "id": "Weir2005",
+      "used_in": [
+        "reliability_pipeline"
+      ],
+      "authors": "Weir JP",
+      "year": 2005,
+      "title": "Quantifying test-retest reliability using the intraclass correlation coefficient and the SEM",
+      "journal": "Journal of Strength and Conditioning Research",
+      "volume": "19",
+      "issue": "1",
+      "pages": "231–240",
+      "doi": "10.1519/15184.1",
+      "verified": true
+    },
+    {
+      "id": "Abdelmotaleb2025",
+      "used_in": [
+        "olm_paradigm",
+        "olm_overview"
+      ],
+      "authors": "Abdelmotaleb M, Niemann F, Kocataş H, Caisachana Guevara LM, Shahbabaie A, Malinowski R, Riemann S, Fromm AE, Hayek D, Antonenko D, Meinzer M, Flöel A",
+      "year": 2025,
+      "title": "Identification of reliable target brain regions for enhancing object–location memory by brain stimulation",
+      "journal": "Brain and Behavior",
+      "volume": "15",
+      "issue": "7",
+      "pages": "e70658",
+      "doi": "10.1002/brb3.70658",
+      "pmid": "40635372",
+      "open_access": true,
+      "verified": true
+    },
+    {
+      "id": "HedgePowellSumner2018",
+      "used_in": [
+        "pearson_r_card"
+      ],
+      "authors": "Hedge C, Powell G, Sumner P",
+      "year": 2018,
+      "title": "The reliability paradox: Why robust cognitive tasks do not produce reliable individual differences",
+      "journal": "Behavior Research Methods",
+      "volume": "50",
+      "issue": "3",
+      "pages": "1166–1186",
+      "doi": "10.3758/s13428-017-0935-1",
+      "verified": true
+    },
+    {
+      "id": "Lakens2013",
+      "used_in": [
+        "paradigm_effect_size_card"
+      ],
+      "authors": "Lakens D",
+      "year": 2013,
+      "title": "Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for t-tests and ANOVAs",
+      "journal": "Frontiers in Psychology",
+      "volume": "4",
+      "issue": null,
+      "pages": "863",
+      "doi": "10.3389/fpsyg.2013.00863",
+      "verified": true
+    },
+    {
+      "id": "WagenmakersBrown2007",
+      "used_in": [
+        "cv_card"
+      ],
+      "authors": "Wagenmakers E-J, Brown S",
+      "year": 2007,
+      "title": "On the linear relation between the mean and the standard deviation of a response time distribution",
+      "journal": "Psychological Review",
+      "volume": "114",
+      "issue": "3",
+      "pages": "830–841",
+      "doi": "10.1037/0033-295X.114.3.830",
+      "verified": true
+    }
+  ]
+}

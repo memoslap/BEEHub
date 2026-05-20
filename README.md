@@ -4,8 +4,7 @@
 
 **Research BEE Hub** (Research Behavioral Experiments Hub) is an open-source, Git-versioned platform for storing, analysing, and discovering behavioral paradigms alongside their critical validation metrics. The core problem it addresses is the paradigm selection bottleneck: when designing a new experiment, researchers currently have no efficient way to identify a paradigm with known reliability, demonstrated effects, and established statistical power. General sharing platforms such as OSF or Pavlovia facilitate data sharing but lack dedicated infrastructure for the metrics that also matter for experimental implementation — test-retest reliability (ICC), effect sizes, and sample characteristics.
 
-Research BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardized reliability profile for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to FAIR principles (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, ICC, and consistency — making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be meta-analysis ready, enabling large-scale synthesis of field-wide reproducibility patterns.
-
+Research BEE Hub fills this gap by hosting curated, piloted, or published experiments together with their datasets, analysis code, and a standardized reliability profile for each paradigm. Every project follows a consistent BIDS-inspired folder structure, is version-controlled, and adheres to FAIR principles (Findable, Accessible, Interoperable, Reusable). The interactive dashboard allows researchers to search, filter, and compare paradigms by modality, cognitive domain, sample size, and ICC — making reliability benchmarks directly visible and comparable across studies. The structured output is also designed to be meta-analysis ready, enabling large-scale synthesis of field-wide reproducibility patterns.
 
 ---
 
@@ -13,7 +12,7 @@ This document covers everything needed to add a new project so that the full BEE
 
 > **Two things must exist before any script will process your project:**
 > 1. A correctly named and structured folder with BIDS-compliant TSV data files (Steps 1–4)
-> 2. A `MYPROJECT_description.json` file (Step 5)
+> 2. A `MYPROJECT_description.json` file with an `outcome_measures` array (Step 5)
 >
 > Without the TSV data the analysis script has nothing to compute. Without the description JSON all metadata fields fall back to `"unknown"` and the paradigm page renders with no content.
 
@@ -26,12 +25,12 @@ This document covers everything needed to add a new project so that the full BEE
 Use the interactive web form **`01_description_form.html`** to generate a valid `MYPROJECT_description.json` without writing JSON by hand:
 
 1. Open `BEEHub/code/01_description_form.html` in any modern browser (no server required — it runs fully offline)
-2. Fill in the six wizard steps: Identity → Scientific Background → Task Classification → Procedure & Design → Software & Implementations → Review & Download
+2. Fill in the seven wizard steps: Identity → Description → Classification → Procedure → Software → **Outcome Measures** → Review & Download
 3. The JSON preview on the right updates live as you type
 4. Click **Download JSON File** — the file is saved to your Downloads folder
 5. Move the downloaded file to `BEEHub/Projects/MYPROJECT/MYPROJECT_description.json`
 
-The form validates required fields and prevents common mistakes (mismatched names, empty required cells). It is the recommended way to create description files for all new projects.
+The form validates required fields and prevents common mistakes. It is the recommended way to create description files for all new projects.
 
 ### The three analysis scripts run in order
 
@@ -39,6 +38,8 @@ Each one depends on the output of the previous:
 
 ```
 [01_description_form.html]     ← browser tool, run first, produces description JSON
+
+reliability_metrics.py         ← shared module, imported automatically (do not run directly)
 
 01_multi_project_overview.py   →   reads  TSV files / participants.tsv
                                           MYPROJECT_description.json
@@ -73,32 +74,30 @@ python code/01_multi_project_overview.py /path/to/BEEHub
 
 ## Step 1 — Create the Project Folder
 
-> **This step is mandatory.** The analysis script (`01_multi_project_overview.py`) discovers projects by scanning `BEEHub/Projects/`. If the folder does not exist, or exists but contains no valid BIDS TSV files, the project is silently skipped. No folder = no analysis = no dashboard card.
+> **This step is mandatory.** The analysis script (`01_multi_project_overview.py`) discovers projects by scanning `BEEHub/Projects/`. If the folder does not exist, or exists but contains no valid BIDS TSV files, the project is silently skipped.
 
-All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier and must match the name used everywhere else (filenames, BIDS labels, description JSON filename):
+All projects live under `BEEHub/Projects/`. The folder name **is** the project identifier:
 
 - All-caps alphanumeric only: `MYPROJECT`
 - No spaces, hyphens, or special characters
-- The folder name and the identifier must be **identical** in all of: the folder itself, the `task-` BIDS field inside every TSV filename, and the prefix of `MYPROJECT_description.json` — a mismatch at any of these points is the most common reason a project silently fails
+- The folder name must be **identical** in: the folder itself, the `task-` BIDS field inside every TSV filename, and the prefix of `MYPROJECT_description.json`
 
 ```
 BEEHub/
-├── beehub_logo.svg              ← dashboard header logo (right side)
-├── logo_memoslap.png            ← dashboard header logo (left side)
+├── beehub_logo.svg
+├── logo_memoslap.png
 └── Projects/
     └── MYPROJECT/
         ├── participants.tsv
-        ├── MYPROJECT_description.json   ← rich paradigm metadata, see Step 5
-        ├── bibliography.json            ← optional, see Step 7
+        ├── MYPROJECT_description.json
+        ├── bibliography.json            ← optional
         └── bids_data/
             └── sub-001/
                 ├── ses-1/
-                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_RT_beh.tsv
-                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_RT_beh.json
-                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_ACC_beh.tsv
-                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_ACC_beh.json
                 │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_ACCBIN_beh.tsv
-                │   └── sub-001_ses-1_task-MYPROJECT_acq-1_ACCBIN_beh.json
+                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_ACCBIN_beh.json
+                │   ├── sub-001_ses-1_task-MYPROJECT_acq-1_RT_beh.tsv
+                │   └── sub-001_ses-1_task-MYPROJECT_acq-1_RT_beh.json
                 └── ses-2/
                     └── ...
 ```
@@ -107,15 +106,13 @@ BEEHub/
 ```
 sub-<label>_ses-<label>_task-<PROJECTNAME>_acq-<label>_<OUTCOME>_beh.tsv
 ```
-The `task-` field must match the project folder name exactly (case-sensitive). The `acq-` field can be any integer; it is parsed from the filename but not used analytically.
+The `task-` field must match the project folder name exactly (case-sensitive). The `<OUTCOME>` suffix must match the `id` declared in `outcome_measures` (e.g. `ACCBIN`, `RT`).
 
 ---
 
 ## Step 2 — participants.tsv
 
-Place this file directly in `BEEHub/Projects/MYPROJECT/`. It is required for demographics and for linking subjects across sessions.
-
-Required columns (tab-separated, `n/a` for missing values):
+Place this file directly in `BEEHub/Projects/MYPROJECT/`. Required columns (tab-separated):
 
 | Column | Type | Description |
 |---|---|---|
@@ -125,85 +122,33 @@ Required columns (tab-separated, `n/a` for missing values):
 
 Rows where `participant_id` is `n/a` are automatically excluded from all analyses.
 
-**Example:**
-
-```tsv
-participant_id	sex	age
-sub-001	female	24.3
-sub-002	male	31.0
-sub-003	n/a	n/a
-```
-
 ---
 
 ## Step 3 — Outcome TSV Files
 
-Each session requires **three separate TSV files**, one per outcome type. The script loads them by suffix: `*_RT_beh.tsv`, `*_ACC_beh.tsv`, `*_ACCBIN_beh.tsv`. At least one of RT or ACCBIN must be present for a project to be analysed.
+The pipeline loads outcome files by the `suffix` declared in `outcome_measures` (see Step 5). Each session folder should contain one TSV per outcome type you wish to analyse.
 
-The first two columns are always `onset` and `duration`. The third is the primary outcome. Additional columns are optional but should be consistent across all three files for the same session.
+**Default outcomes** (used when `outcome_measures` is absent from the description JSON):
 
----
+| Outcome ID | Suffix | Primary column | Role |
+|---|---|---|---|
+| `ACCBIN` | `*_ACCBIN_beh.tsv` | `accuracy_binary` | Binary accuracy (0/1) — primary visual outcome, ICC shown on dashboard card |
+| `RT` | `*_RT_beh.tsv` | `response_time_ms` | Reaction time — filtered to correct trials when ACCBIN present; Within-session CV reported |
 
-### 3a. `*_RT_beh.tsv` — Reaction Time
+If you declare custom `outcome_measures` you only need to provide the TSV files that actually exist for your paradigm — missing files are silently skipped.
+
+### 3a. `*_ACCBIN_beh.tsv` — Binary Accuracy (primary outcome)
 
 | Column | Type | Required | Description |
 |---|---|---|---|
-| `onset` | float | ✅ | Stimulus onset in **seconds** from experiment start |
-| `duration` | float | ✅ | Time from stimulus onset to response, in **seconds** |
-| `response_time_ms` | float | ✅ | Reaction time in **milliseconds** — this is the primary analysis column |
-| `trial_type` | string | ✅ | Condition label, e.g. `learning`, `control`. No spaces — use underscores |
-| `learning_stage` | string | optional | Within-session stage label, e.g. `LS1`, `Block2`. Include when your paradigm has meaningful sub-phases — the individual project report will automatically generate stage progression charts. Omit or use `n/a` if not applicable |
-| `stimulus` | string | optional | Filename or identifier of the presented stimulus |
-| `response_port` | string / int | optional | Hardware response port number, or `n/a` |
+| `onset` | float | ✅ | Stimulus onset in **seconds** |
+| `duration` | float | ✅ | Trial duration in **seconds** |
+| `accuracy_binary` | int | ✅ | `1` = correct, `0` = incorrect — integer only, never float or string |
+| `trial_type` | string | ✅ | Condition label, e.g. `learning`, `control` |
+| `learning_stage` | string | optional | Sub-phase label, e.g. `LS1`. Triggers stage progression charts when present |
+| `stimulus` | string | optional | Stimulus filename or identifier |
 
 **Example:**
-
-```tsv
-onset	duration	response_time_ms	trial_type	learning_stage	stimulus	response_port
-0.000	1.141	1141.2	learning	LS1	stimuli/STIM_000.jpg	99
-3.598	0.696	695.6	learning	LS1	stimuli/STIM_001.jpg	100
-8.114	1.320	1320.0	control	LS1	stimuli/STIM_002.jpg	99
-```
-
----
-
-### 3b. `*_ACC_beh.tsv` — Categorical Accuracy
-
-| Column | Type | Required | Description |
-|---|---|---|---|
-| `onset` | float | ✅ | Same trial onsets as `_RT_beh.tsv` |
-| `duration` | float | ✅ | Same durations as `_RT_beh.tsv` |
-| `accuracy` | string | ✅ | `correct`, `incorrect`, or `n/a` |
-| `trial_type` | string | ✅ | Same condition labels as `_RT_beh.tsv` |
-| `learning_stage` | string | optional | Same stage labels as `_RT_beh.tsv` |
-| `stimulus` | string | optional | Same stimulus identifiers |
-
-**Example:**
-
-```tsv
-onset	duration	accuracy	trial_type	learning_stage	stimulus
-0.000	1.141	correct	learning	LS1	stimuli/STIM_000.jpg
-3.598	0.696	correct	learning	LS1	stimuli/STIM_001.jpg
-8.114	1.320	incorrect	control	LS1	stimuli/STIM_002.jpg
-```
-
----
-
-### 3c. `*_ACCBIN_beh.tsv` — Binary Accuracy
-
-This file is used for all quantitative accuracy statistics and reliability calculations. The `accuracy_binary` column must be integer `0` or `1` — **not** a float or a string.
-
-| Column | Type | Required | Description |
-|---|---|---|---|
-| `onset` | float | ✅ | Same trial onsets as `_RT_beh.tsv` |
-| `duration` | float | ✅ | Same durations as `_RT_beh.tsv` |
-| `accuracy_binary` | int | ✅ | `1` = correct, `0` = incorrect, `n/a` = missing |
-| `trial_type` | string | ✅ | Same condition labels as `_RT_beh.tsv` |
-| `learning_stage` | string | optional | Same stage labels as `_RT_beh.tsv` |
-| `stimulus` | string | optional | Same stimulus identifiers |
-
-**Example:**
-
 ```tsv
 onset	duration	accuracy_binary	trial_type	learning_stage	stimulus
 0.000	1.141	1	learning	LS1	stimuli/STIM_000.jpg
@@ -211,19 +156,40 @@ onset	duration	accuracy_binary	trial_type	learning_stage	stimulus
 8.114	1.320	0	control	LS1	stimuli/STIM_002.jpg
 ```
 
+### 3b. `*_RT_beh.tsv` — Reaction Time
+
+| Column | Type | Required | Description |
+|---|---|---|---|
+| `onset` | float | ✅ | Stimulus onset in **seconds** |
+| `duration` | float | ✅ | Trial duration in **seconds** |
+| `response_time_ms` | float | ✅ | Reaction time in **milliseconds** |
+| `trial_type` | string | ✅ | Same condition labels as ACCBIN file |
+| `learning_stage` | string | optional | Same stage labels as ACCBIN file |
+| `stimulus` | string | optional | Same stimulus identifiers |
+
+> **Correct-trial filtering:** When an `ACCBIN` file is present and the RT outcome has `is_primary: true`, only trials where `accuracy_binary == 1` are used for RT reliability calculations. This mirrors the ICC computation in published reliability studies.
+
+**Example:**
+```tsv
+onset	duration	response_time_ms	trial_type	learning_stage	stimulus
+0.000	1.141	1141.2	learning	LS1	stimuli/STIM_000.jpg
+3.598	0.696	695.6	learning	LS1	stimuli/STIM_001.jpg
+8.114	1.320	1320.0	control	LS1	stimuli/STIM_002.jpg
+```
+
 ---
 
 ## Step 4 — JSON Sidecar Files
 
-Each TSV must have a matching JSON sidecar with the same stem (e.g. `sub-001_ses-1_task-MYPROJECT_acq-1_RT_beh.json`). The sidecar is not read by any analysis script but is required for BIDS compliance. Minimum content:
+Each TSV must have a matching JSON sidecar with the same filename stem. Minimum content:
 
 ```json
 {
   "TaskName": "MYPROJECT",
   "TaskDescription": "Brief description of the task.",
-  "onset":            { "Description": "Stimulus onset in seconds from t0.", "Units": "seconds" },
-  "duration":         { "Description": "Response time in seconds.",           "Units": "seconds" },
-  "response_time_ms": { "Description": "Reaction time.",                      "Units": "milliseconds" }
+  "onset":              { "Description": "Stimulus onset in seconds from t0.", "Units": "seconds" },
+  "duration":           { "Description": "Trial duration in seconds.",         "Units": "seconds" },
+  "accuracy_binary":    { "Description": "1 = correct, 0 = incorrect.",        "Levels": {"0": "incorrect", "1": "correct"} }
 }
 ```
 
@@ -231,33 +197,95 @@ Each TSV must have a matching JSON sidecar with the same stem (e.g. `sub-001_ses
 
 ## Step 5 — Add a Description JSON
 
-Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT/`. This is the **primary source** of all paradigm metadata shown in the overview HTML header (short description + background) and the full paradigm page (procedure, trial structure, design, timing, software, response device, keywords). It also drives the dashboard filter dropdowns for modality, recording modality, cognitive domain, task type, and language.
+Place a `MYPROJECT_description.json` file directly in `BEEHub/Projects/MYPROJECT/`. This file drives all metadata shown in the overview HTML, paradigm page, and dashboard filters. It also controls which outcome files are loaded and in what priority order.
 
-> **Recommended:** Use the interactive browser tool **`BEEHub/code/01_description_form.html`** to generate this file. Open it in any modern browser, fill in the wizard, and click Download. The form validates required fields and produces correctly structured JSON — no manual editing needed.
+> **Recommended:** Use **`BEEHub/code/01_description_form.html`** — open in any browser, fill in the seven steps, click Download. The **Outcome Measures** step (Step 6 of the wizard) lets you define custom outcomes with priority, suffix, column name, and display flags.
 
-If the description JSON is absent, the scripts fall back to minimal defaults (`"unknown"` for all metadata fields) and no rich content is rendered on any page.
+### Outcome Measures — the most important field
 
-### Content split between pages
+The `outcome_measures` array tells the pipeline which TSV files to load, which column to read, how to display the data, and which outcome's ICC to show on the dashboard card.
 
-| Field | Shown in `_overview.html` | Shown in `_paradigm.html` | Dashboard filter |
+```json
+"outcome_measures": [
+  {
+    "id":               "ACCBIN",
+    "suffix":           "_ACCBIN_beh.tsv",
+    "column":           "accuracy_binary",
+    "label":            "Accuracy",
+    "axis_label":       "Accuracy (%)",
+    "higher_is_better": true,
+    "is_binary":        true,
+    "is_primary":       false,
+    "is_helper":        false,
+    "display_priority": 1
+  },
+  {
+    "id":               "RT",
+    "suffix":           "_RT_beh.tsv",
+    "column":           "response_time_ms",
+    "label":            "Reaction Time",
+    "axis_label":       "RT (ms)",
+    "higher_is_better": false,
+    "is_binary":        false,
+    "is_primary":       true,
+    "is_helper":        false,
+    "display_priority": 2
+  }
+]
+```
+
+#### Field reference
+
+| Field | Type | Default | Description |
 |---|---|---|---|
-| `short_description` | ✅ (header) | ✅ (Description section) | — |
-| `long_description` | — | ✅ (appended to Description) | — |
-| `background` | ✅ (header) | ✅ (Background section) | — |
-| `procedure` | — | ✅ (Paradigm Details grid) | — |
-| `trial_structure` | — | ✅ (Paradigm Details grid) | — |
-| `design` | — | ✅ (Paradigm Details grid) | — |
-| `response_device` | — | ✅ (Paradigm Details grid) | — |
-| `timing` | — | ✅ (timing chips) | — |
-| `keywords` | — | ✅ (keyword chips) | — |
-| `modality` | ✅ (badge row) | ✅ (info card) | ✅ Stimulus Modality |
-| `recording_modality` | — | ✅ (info card) | ✅ Recording Modality |
-| `cognitive_domain` | ✅ (badge row) | ✅ (info card) | ✅ Cognitive Domain |
-| `task_type` | ✅ (badge row) | ✅ (info card) | — |
-| `language` | ✅ (tag) | — | ✅ Language |
-| `software_original` | — | ✅ (Software & Language cell) | — |
-| `language_original` | — | ✅ (Software & Language cell) | — |
-| `implementations` | — | ✅ (Software & Language + Paradigm Files) | — |
+| `id` | string | — | Unique outcome identifier. Must match the `<OUTCOME>` suffix in TSV filenames (e.g. `ACCBIN` → `*_ACCBIN_beh.tsv`) |
+| `suffix` | string | — | TSV filename suffix used to find the files, e.g. `_ACCBIN_beh.tsv` |
+| `column` | string | — | Column name in the TSV that holds the primary values, e.g. `accuracy_binary`, `response_time_ms` |
+| `label` | string | `id` | Human-readable label for plot titles and dashboard card |
+| `axis_label` | string | `column` | Y-axis label on violin and scatter plots |
+| `higher_is_better` | bool | `true` | Used for future display logic (currently stored, not rendered) |
+| `is_binary` | bool | `false` | **True** when values are 0/1. Violin plots show subject-level mean percentages rather than raw trial values. **No CV or Accuracy % is computed or displayed** for binary outcomes — see note below |
+| `is_primary` | bool | `false` | **True** for the RT outcome when correct-trial filtering is desired. Triggers RT filtering: only trials where the paired `ACCBIN` value equals 1 are included in RT reliability calculations |
+| `is_helper` | bool | `false` | **True** to use this outcome for filtering only — it is loaded but **never plotted** and never gets its own chart divs. Use this for a pure binary mask that you do not want to display |
+| `display_priority` | int | position in list | **1 = most important.** The dashboard card ICC stat shows the ICC of the highest-priority outcome that actually has data. If the priority-1 outcome has no data, the next in line is used automatically |
+
+> **Binary accuracy and CV:** For outcomes with `is_binary: true`, the pipeline intentionally does **not** compute or display a within-session CV or an Accuracy % metric. Bernoulli CV is a deterministic re-expression of the mean (CV = √((1−p)/p) · 100), which means it carries no independent information beyond the ICC. Reliability for binary accuracy is instead fully represented by ICC(A), ICC(C), Cronbach's α (KR-20), and Pearson r. The dashboard card shows ICC only for binary primary outcomes — no CV column, no Accuracy % column.
+
+#### Priority rules and fallback behaviour
+
+The pipeline applies `display_priority` at every step:
+
+1. **Which ICC appears on the dashboard card** — the outcome with the lowest `display_priority` number that has real ICC data wins. Label on the card reads `"{label} ICC"` (e.g. "Accuracy ICC", "Reaction Time ICC").
+2. **Which violin/scatter plots are generated** — only outcomes where data was actually found. If `_ACCBIN_beh.tsv` is missing, no Accuracy violin is created; no empty boxes appear.
+3. **Which CV slider appears in the dashboard** — only for continuous (non-binary) outcomes. Binary accuracy outcomes have no CV slider.
+
+Default priority (used when `outcome_measures` is absent):
+
+| Outcome | Priority | Role |
+|---|---|---|
+| ACCBIN | 1 | Binary accuracy — ICC shown on dashboard card |
+| RT | 2 | Reaction time — CV computed and shown; filtered to correct trials via ACCBIN |
+
+#### Adding a custom outcome
+
+For paradigms that produce scores, distances, ratings, or other continuous measures, add a custom entry:
+
+```json
+{
+  "id":               "SCORE",
+  "suffix":           "_SCORE_beh.tsv",
+  "column":           "score",
+  "label":            "Game Score",
+  "axis_label":       "Score (pts)",
+  "higher_is_better": true,
+  "is_binary":        false,
+  "is_primary":       false,
+  "is_helper":        false,
+  "display_priority": 1
+}
+```
+
+The `01_description_form.html` wizard generates these entries through the Outcome Measures step — no manual JSON editing required.
 
 ### Full schema
 
@@ -265,24 +293,24 @@ If the description JSON is absent, the scripts fall back to minimal defaults (`"
 {
   "full_name":          "My New Paradigm",
   "short_description":  "One sentence describing what participants do.",
-  "long_description":   "Two to three paragraph scientific description of the paradigm, its theoretical motivation, and what it measures.",
-  "background":         "Neuroscientific context, individual-differences relevance, and prior literature.",
-  "procedure":          "Session-by-session procedure — how many stages, what happens in each.",
-  "trial_structure":    "Exact trial timing, stimulus presentation, and response window per trial type.",
-  "design":             "Repeated-measures details — number of sessions, inter-session interval.",
+  "long_description":   "Two to three paragraph scientific description.",
+  "background":         "Neuroscientific context and prior literature.",
+  "procedure":          "Session-by-session procedure.",
+  "trial_structure":    "Exact trial timing per trial type.",
+  "design":             "Repeated-measures details — sessions and intervals.",
   "modality":           "visual | auditory | linguistic | tactile | multimodal | virtual environment",
   "cognitive_domain":   "working memory | episodic memory | declarative memory | spatial memory | semantic memory | spatial cognition | cognitive control | emotion regulation | attention | language | perception | learning",
-  "task_type":          "associative learning | object-location binding | continuous performance / n-back | recognition memory | covert verb generation | color-word interference | cognitive reappraisal | virtual navigation and pointing | go / no-go | flanker | task switching | stop-signal",
+  "task_type":          "associative learning | recognition memory | n-back | color-word interference | cognitive reappraisal | virtual navigation | go/no-go | flanker | task switching | stop-signal",
   "language":           "german | english | french | spanish | dutch | italian | language-independent",
   "recording_modality": "behavioral | mri | eeg | pet | eye_tracking | fnirs | meg",
-  "software_original":  "Presentation (Neurobehavioral Systems) | E-Prime 3.0 | PsychoPy | Unity 3D",
+  "software_original":  "E-Prime 3.0 | PsychoPy | Presentation (Neurobehavioral Systems) | Unity 3D",
   "language_original":  "german | english | …",
   "implementations": [
     {
-      "software":             "Presentation (Neurobehavioral Systems)",
+      "software":             "E-Prime 3.0",
       "type":                 "original",
       "languages_available":  ["german"],
-      "folder":               "paradigm/presentation"
+      "folder":               "paradigm/eprime"
     },
     {
       "software":             "PsychoPy",
@@ -291,51 +319,97 @@ If the description JSON is absent, the scripts fall back to minimal defaults (`"
       "folder":               "paradigm/psychopy"
     }
   ],
-  "keywords":       ["keyword1", "keyword2", "keyword3"],
-  "timing":         { "stimulus_duration_s": 2.5, "isi_range_s": [2, 4] },
-  "software":       "Presentation (Neurobehavioral Systems)",
-  "response_device":"two-button response box | keyboard | eye-tracker | joystick",
-  "n_sessions":     2
+  "keywords":        ["keyword1", "keyword2"],
+  "timing":          { "stimulus_duration_s": 2.5, "isi_range_s": [2, 4] },
+  "software":        "E-Prime 3.0",
+  "response_device": "two-button response box | keyboard | joystick",
+  "n_sessions":      2,
+  "outcome_measures": [ ... ]
 }
 ```
 
-**Field notes:**
-- `modality` describes the **stimulus type** (what the participant sees/hears). `recording_modality` describes the **measurement device** (how data is collected). Both are separate and both drive their own dashboard filter.
-- `implementations` lists every software version of the paradigm. Always put the original first (`"type": "original"`); compatible ports follow (`"type": "compatible"`). Each entry can have a different `languages_available` list. The `software_original` and `language_original` fields are auto-filled from the first original entry by `01_description_form.html`.
-- The legacy `software` field (a plain string) is kept for backwards compatibility and is auto-populated from the first original implementation.
-- The file must be valid UTF-8 JSON. A parse error prints a warning and the paradigm panel falls back to defaults silently.
+### Content split between pages
+
+| Field | `_overview.html` | `_paradigm.html` | Dashboard filter |
+|---|---|---|---|
+| `short_description` | ✅ header | ✅ | — |
+| `long_description` | — | ✅ | — |
+| `background` | ✅ header | ✅ | — |
+| `procedure` | — | ✅ | — |
+| `trial_structure` | — | ✅ | — |
+| `design` | — | ✅ | — |
+| `response_device` | — | ✅ | — |
+| `timing` | — | ✅ chips | — |
+| `keywords` | — | ✅ chips | — |
+| `modality` | ✅ badge | ✅ | ✅ Stimulus Modality |
+| `recording_modality` | — | ✅ | ✅ Recording Modality |
+| `cognitive_domain` | ✅ badge | ✅ | ✅ Cognitive Domain |
+| `task_type` | ✅ badge | ✅ | — |
+| `language` | ✅ tag | — | ✅ Language |
+| `implementations` | — | ✅ | — |
+| `outcome_measures` | ✅ determines plots | ✅ determines plots | ✅ ICC card source |
 
 ---
 
-## Step 6 — Register Metadata in `01_multi_project_overview.py` (legacy fallback)
+## Step 6 — Reliability Metrics Module (`reliability_metrics.py`)
 
-If no `MYPROJECT_description.json` is present, `01_multi_project_overview.py` reads project metadata from the `self.project_descriptions` dict inside `ProjectOverviewGenerator.__init__`. This serves as a lightweight fallback — the description JSON (Step 5, generated via `01_description_form.html`) is always preferred and supports a much richer set of fields.
+All statistical computation is centralised in `BEEHub/code/reliability_metrics.py`. This module is imported automatically by `01_multi_project_overview.py` — **do not run it directly**.
 
-To use the fallback, add an entry:
+### How it works
+
+For each outcome declared in `outcome_measures`, `compute_for_outcome()` is called with the loaded DataFrame and the outcome's column name. Results are keyed by `{id.lower()}_{metric}` — e.g. `accbin_icc`, `rt_cv_mean`. All per-outcome results are then merged into a single reliability dict per trial type and stored in the JSON under `reliability_metrics` (task trials) and `control_reliability` (control/rest conditions).
+
+### Metrics computed
+
+| Metric | Key pattern | Applies to | Description |
+|---|---|---|---|
+| **ICC(C,1)** | `{oid}_icc`, `{oid}_icc_ci_low/high`, `{oid}_icc_F/df1/df2/p` | All outcomes | Two-way mixed, consistency, single measures. Computed at learning-stage level when `learning_stage` column is present, otherwise at session level. Backed by pingouin ≥ 0.5 |
+| **ICC(A,1)** | `{oid}_icc_agreement`, `{oid}_icc_agreement_ci_low/high`, …`_F/df1/df2/p` | All outcomes | Two-way mixed, absolute agreement. Penalises systematic session shifts. Shown on dashboard card in preference to ICC(C,1) when available |
+| **Pearson r** | `{oid}_pearson_r` | All outcomes | Linear correlation between session 1 and session 2 subject-level means |
+| **Session-shift stability** | `{oid}_session_shift_d` | All outcomes | Paired Cohen's d on session means. Small \|d\| = stable across retests. Displayed as `1 − (\|d\| / 2)` on radar (inverted — higher = more stable). Not a paradigm effect size |
+| **Paradigm effect size** | `{oid}_paradigm_effect_size`, …`_ci_low/high`, …`_contrast`, …`_n` | All outcomes | Hedges' g for the within-session main contrast (e.g. last vs first learning stage, incongruent vs congruent). Bootstrapped 95% CI via pingouin |
+| **Cronbach's α / KR-20** | `{oid}_cronbach_alpha`, …`_ci_low/high`, …`_n_items` | All outcomes | Internal consistency across session-1 trials. For binary outcomes this is KR-20. Capped at 100 items |
+| **Within-session CV** | `{oid}_cv_mean`, `{oid}_cv_std` | **Continuous outcomes only** | Trial-level coefficient of variation within each session. **Not computed for binary outcomes** (Bernoulli CV is deterministic given the mean). The CV slider and CV radar spoke are absent for binary accuracy outcomes |
+
+Reliability is only calculated when a subject has data in at least 2 sessions.
+
+### ICC computation detail
+
+ICC is computed at the **learning-stage level** when a `learning_stage` column is present — i.e. one mean per subject × stage × session — matching the methodology of published reliability studies (e.g. Abdelmotaleb et al., 2025). When no `learning_stage` column is present, session-level subject means are used as fallback. Both consistency ICC(C,1) and agreement ICC(A,1) are always reported.
+
+### Adding a new metric
+
+1. Add a `calculate_<name>(data1, data2)` static method to `ReliabilityMetrics`
+2. Wire it up inside `compute_for_outcome` — add keys to the returned dict
+3. Add a normalisation branch in `normalise_for_radar`
+4. Add an entry to `METRIC_REGISTRY` with `id`, `label`, `radar_label`, `normalise`, and optionally `skip_for_binary: True` if the metric is not meaningful for 0/1 data
+
+### Adding a new outcome type
+
+No changes to `reliability_metrics.py` are needed. Declare the outcome in `outcome_measures` in the description JSON — the pipeline calls `compute_for_outcome` for it automatically.
+
+---
+
+## Step 7 — Register Metadata (legacy fallback)
+
+If no `outcome_measures` is present in the description JSON, the pipeline falls back to `DEFAULT_OUTCOMES` defined in `reliability_metrics.py`:
 
 ```python
-'MYPROJECT': {
-    'full_name':          'My New Paradigm',
-    'description':        'One-sentence description of what participants do.',
-    'modality':           'visual',        # visual | auditory | linguistic | tactile | multimodal
-    'cognitive_domain':   'working memory',
-    'task_type':          'continuous performance / n-back',
-    'language':           'german',        # german | english | french | spanish | …
-    'recording_modality': 'behavioral',    # behavioral | mri | eeg | pet | eye_tracking | fnirs | meg
-},
+DEFAULT_OUTCOMES = [
+  { "id": "ACCBIN", "display_priority": 1, "is_binary": True,  ... },
+  { "id": "RT",     "display_priority": 2, "is_primary": True, ... },
+]
 ```
 
-If you skip both this step and Step 5, the project still analyses correctly — it just shows `unknown` for all metadata fields and won't benefit from dashboard filtering.
+This fallback loads `*_ACCBIN_beh.tsv` and `*_RT_beh.tsv` and behaves identically to an explicit declaration. Override it by adding `outcome_measures` to your description JSON.
 
 ---
 
-## Step 7 — Add a Bibliography (optional but recommended)
+## Step 8 — Add a Bibliography (optional but recommended)
 
-Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When present, the individual project report (`MYPROJECT_overview.html`) automatically renders a **Related Publications** box with all entries sorted newest-first. The file is silently ignored if absent or unparseable.
+Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When present, the individual project report renders a **Related Publications** box sorted newest-first.
 
-### Supported formats
-
-**v2 (recommended)** — a top-level `publications` array where each entry is a self-contained object:
+**v2 schema (recommended):**
 
 ```json
 {
@@ -344,7 +418,7 @@ Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When 
     {
       "id": "pub_001",
       "title": "Full paper title here",
-      "authors": ["Lastname A", "Lastname B", "Lastname C"],
+      "authors": ["Lastname A", "Lastname B"],
       "journal": "Journal Name",
       "volume": "12",
       "pages": "45--67",
@@ -360,147 +434,55 @@ Place a `bibliography.json` file directly in `BEEHub/Projects/MYPROJECT/`. When 
       },
       "bibtex": "@article{...}"
     }
-  ],
-  "_metadata": {
-    "project": "MYPROJECT",
-    "last_updated": "2024-06-01"
-  }
+  ]
 }
 ```
 
-**v1 (legacy)** — flat dict with `citation_1`, `citation_2`, … sibling keys and an optional top-level `key_findings` block. Still parsed correctly but v2 is preferred for all new projects.
-
-### Field reference
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `title` | string | ✅ | Full paper title — rendered as a clickable link when `doi` or `url` is present |
-| `authors` | array of strings | ✅ | Author list. Four or more entries are collapsed to `First Author et al.` in the display |
-| `journal` | string | ✅ | Journal or venue name |
-| `year` | integer | ✅ | Publication year — used for sorting newest-first; entries without a year sort to the bottom |
-| `doi` | string | recommended | DOI without the `https://doi.org/` prefix |
-| `url` | string | optional | Full URL — overrides the auto-generated DOI link if provided |
-| `open_access` | boolean | optional | When `true`, an Open Access badge is shown on the publication card |
-| `volume`, `pages` | string | optional | Displayed as a journal badge alongside the journal name |
-| `key_findings.reliability` | object | optional | ICC and other reliability values from the publication — stored for downstream use, not currently rendered in the UI |
-| `bibtex` | string | optional | Full BibTeX entry — stored for export, not rendered |
-
-### Notes
-
-- The file must be valid UTF-8 JSON. A parse error prints a warning and the publications box is silently omitted.
-- In v1 legacy format the top-level `key_findings.reliability` block is automatically merged into the first citation so ICC values are not lost.
-
 ---
 
-## Step 8 — Add a Paradigm Short Version and Interactive Demo (optional)
+## Step 9 — Add a Paradigm Short Version and Demo (optional)
 
-If you want the **Paradigm** button to appear on the project's dashboard card, place a short-version PsychoPy script at one of these locations (checked in order):
+Place a short-version PsychoPy script to trigger the **Paradigm** button on the dashboard card:
 
 | Priority | Path |
 |---|---|
-| 1st (preferred) | `Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_short_version.py` |
+| 1st | `Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_short_version.py` |
 | 2nd | `Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_short_version.py` |
 | 3rd | `Projects/MYPROJECT/paradigm/MYPROJECT_short_version.py` |
 
-The folder name and all filenames must use the **exact same identifier** as the project folder. A mismatch in capitalisation or spelling will silently prevent the button from appearing.
-
-### Interactive Demo HTML
-
-To enable the **Launch Interactive Demo** button on the paradigm page, place a self-contained HTML demo at:
-
+To enable the **Launch Interactive Demo** button place a self-contained HTML demo at:
 ```
 Projects/MYPROJECT/paradigm/psychopy/MYPROJECT_paradigm_short/MYPROJECT_demo.html
 ```
 
-The demo file must be **fully self-contained** — all JavaScript inline, no external dependencies. Image paths should be relative to the HTML file location using the `Stimuli/` subfolder convention:
-
-```
-MYPROJECT_paradigm_short/
-├── MYPROJECT_demo.html
-├── MYPROJECT_short_version.py
-└── Stimuli/
-    ├── bubbles/
-    │   ├── hello.jpg / hello.png
-    │   ├── learning.jpg / learning.png
-    │   └── bye.jpg / bye.png
-    ├── learning/
-    │   └── *.jpg
-    └── control/          ← or AFC/, prac/, etc. as needed
-        └── *.jpg
-```
-
-Image paths inside the HTML should be written relative to the HTML file, e.g.:
-
-```javascript
-const STIM_BASE = 'Stimuli/';
-img.src = STIM_BASE + 'learning/PICTURE_001.jpg';
-```
-
-The demo should implement the core task logic faithfully — correct/foil trial structure, response mapping, feedback, and timing — but with a reduced number of trials (typically 2 learning stages or repetitions rather than 4) so it completes in under 5 minutes.
-
-### Full expected layout
-
-```
-Projects/MYPROJECT/
-├── participants.tsv
-├── MYPROJECT_description.json               ← paradigm metadata, see Step 5
-├── bibliography.json                        ← publications, see Step 7
-├── bids_data/
-│   └── ...
-└── paradigm/
-    ├── psychopy/
-    │   ├── MYPROJECT_paradigm_short/
-    │   │   ├── MYPROJECT_short_version.py   ← triggers Paradigm button
-    │   │   ├── MYPROJECT_demo.html          ← triggers Launch Demo button
-    │   │   └── Stimuli/
-    │   │       ├── bubbles/
-    │   │       ├── learning/
-    │   │       └── control/
-    │   └── MYPROJECT_full_version.py        ← full experiment (optional)
-    └── presentation/
-        └── ...                              ← Presentation software files (optional)
-```
-
 ---
 
-## Step 9 — Generated Output Files
-
-After running the scripts, the following files are created automatically. **Do not edit them by hand** — they are regenerated on every run:
+## Step 10 — Generated Output Files
 
 | File | Created by | Description |
 |---|---|---|
-| `Projects/MYPROJECT/MYPROJECT_data.json` | `01_multi_project_overview.py` | Analysis results used by all downstream scripts |
-| `Projects/MYPROJECT/MYPROJECT_overview.html` | `01_multi_project_overview.py` | Individual project report with violin plots, scatter plots, reliability radar, stage charts, and publications box. Header shows short description + background from `MYPROJECT_description.json` |
-| `Projects/MYPROJECT/MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page with interactive demo link, GitHub links, and full paradigm details (procedure, trial structure, design, timing, software & language block, keywords) sourced from `MYPROJECT_description.json`. The **Software & Language** section is built dynamically from `implementations` — original version is always listed first, compatible ports follow, each with their available languages and a GitHub link |
-| `dashboard.html` | `03_generate_dashboard.py` | Interactive multi-project dashboard with combo-select filters (Stimulus Modality, Recording Modality, Cognitive Domain, Task Type, Language), ICC radars, and project cards. Each filter has a dropdown of known values plus a free-text entry for new values not yet in the dataset |
-
-The dashboard reads two logo files from the `BEEHub/` root (the same folder as `dashboard.html`). Both must be present for the header logos to display:
-
-| File | Position |
-|---|---|
-| `logo_memoslap.png` | Left side of header |
-| `beehub_logo.svg` | Right side of header |
+| `MYPROJECT_data.json` | `01_multi_project_overview.py` | Analysis results including `outcome_measures`, `primary_icc_key`, `reliability_metrics`, `control_reliability`, `data_by_condition` |
+| `MYPROJECT_overview.html` | `01_multi_project_overview.py` | Per-project report. Charts are generated **only for outcomes with actual data** — no empty boxes for missing files |
+| `MYPROJECT_paradigm.html` | `02_generate_paradigm.py` | Paradigm landing page |
+| `dashboard.html` | `03_generate_dashboard.py` | Interactive dashboard. Project cards show ICC of the **highest-priority outcome with data**. CV stat is shown only for continuous primary outcomes — binary accuracy projects show 3 stat cells (Subjects, Mean Age, ICC) |
 
 ---
 
 ## Reliability Metrics Reference
 
-The analysis computes four reliability metrics per trial type, calculated per subject across sessions and then averaged. The dashboard filter and project cards display these values.
+> **Task trials only:** All reliability metrics exclude any `trial_type` matching: `control`, `rest`, `baseline`, `fixation`, `fix`, `instruction`, `pause`, `break`, `catch`, `null`, or any label starting with `ctrl` or `rest`. Control conditions are stored separately as `control_reliability` but do not contribute to dashboard ICC values.
 
-> **Important — task trials only:** ICC(3,1) and all other reliability metrics are computed exclusively on **task trial types**. Any `trial_type` value matching the following labels is automatically excluded: `control`, `rest`, `baseline`, `fixation`, `fix`, `instruction`, `pause`, `break`, `catch`, `null`. These conditions are stored separately in the JSON output as `control_reliability` but do not contribute to dashboard ICC charts or the overall ICC score shown on project cards.
+| Metric | What it measures | Range | Binary outcomes |
+|---|---|---|---|
+| **ICC(A,1)** | Two-way mixed, absolute agreement — penalises systematic session drift | −1 → 1, higher better | ✅ computed |
+| **ICC(C,1)** | Two-way mixed, consistency — session means partialled out | −1 → 1, higher better | ✅ computed |
+| **Pearson r** | Linear correlation between session 1 and session 2 subject means | −1 → 1, higher better | ✅ computed |
+| **Session-shift stability** (paired Cohen's d) | Absence of systematic shift between sessions. Displayed as `1 − (\|d\| / 2)` | 0 → 1, higher better | ✅ computed |
+| **Paradigm effect size** (Hedges' g) | Within-session main contrast — paradigm sensitivity | unbounded, larger better | ✅ computed |
+| **Cronbach's α / KR-20** | Within-session internal consistency across trials | −∞ → 1, higher better | ✅ computed (KR-20) |
+| **Within-session CV** | Trial-level variability within a session. Displayed as `1 − CV/50` on radar | 0 → 1, higher better | ❌ not computed — Bernoulli CV is deterministic |
 
-| Metric | Source column | What it measures |
-|---|---|---|
-| **ICC(3,1)** (Intraclass Correlation) | `response_time_ms`, `accuracy_binary` | Two-way mixed model, consistency estimate. Session mean differences are partialled out but not penalised in the denominator. **Task trials only — control and rest conditions are always excluded.** Range −1 → 1; higher is better |
-| **Pearson r** | `response_time_ms`, `accuracy_binary` | Linear correlation between Session 1 and Session 2 values. Sensitive to association, not absolute agreement |
-| **Stability** (from Cohen's d) | `response_time_ms`, `accuracy_binary` | Absence of systematic shift between sessions. Displayed as `1 − (|d| / 2)`; range 0 → 1; higher means less practice or fatigue effect |
-| **Consistency CV** | `response_time_ms`, `accuracy_binary` | Within-session trial-to-trial variability. Calculated as `(SD / Mean) × 100`; lower CV = more consistent responding |
-
-Reliability is only calculated when:
-- A subject has data in **at least 2 sessions**
-- A subject has **at least 6 matched trials** in each of those sessions
-
-Subjects with only one session contribute to descriptive statistics (demographics, condition means) but not to any reliability metric.
+Reliability requires: subject present in ≥ 2 sessions with ≥ 1 value per session.
 
 ---
 
@@ -510,47 +492,47 @@ Subjects with only one session contribute to descriptive statistics (demographic
 |---|---|
 | **File format** | Tab-separated (`\t`), UTF-8 encoded |
 | **Missing values** | Always `n/a` (lowercase), never empty cells |
-| **Column order** | `onset`, `duration`, primary-outcome column, then optional columns in any order |
 | **Decimal separator** | Period `.` — never comma |
-| **onset / duration units** | Always **seconds** |
-| **response_time_ms units** | Always **milliseconds** |
-| **accuracy_binary values** | Integer `0` or `1` only — not `0.0`, not `"correct"` |
-| **trial_type values** | Consistent across all three TSVs for the same session; no spaces (use underscores) |
-| **learning_stage values** | Consistent across all three TSVs; stages are sorted alphanumerically for progression charts |
-| **Subject labels** | `sub-<digits>`, zero-padded to three digits recommended (`sub-001`) |
+| **onset / duration** | Always **seconds** |
+| **response_time_ms** | Always **milliseconds** |
+| **accuracy_binary** | Integer `0` or `1` only — not `0.0`, not `"correct"` |
+| **trial_type** | Consistent across all TSVs for the same session; no spaces |
+| **learning_stage** | Consistent across all TSVs; sorted alphanumerically for progression charts |
+| **Subject labels** | `sub-<digits>`, zero-padded recommended (`sub-001`) |
 | **Session labels** | `ses-<digit(s)>`, e.g. `ses-1`, `ses-2` |
-| **Project identifier** | Folder name, `task-` BIDS field, description JSON filename, and all generated filenames must all use the **exact same string** |
-| **MYPROJECT_description.json** | Valid UTF-8 JSON; all fields optional except `full_name`; parse errors are warned and the paradigm panel falls back to defaults |
-| **bibliography.json** | Valid UTF-8 JSON; v2 schema with a top-level `publications` array preferred; parse errors are warned and the publications box is silently skipped |
+| **Project identifier** | Folder name, `task-` field, description JSON, and TSV `<OUTCOME>` suffix must all match exactly |
 
 ---
 
 ## Checklist Before Running
 
-**Folder & BIDS data (required for analysis)**
+**Folder & BIDS data**
 - [ ] `Projects/MYPROJECT/` folder exists with the exact all-caps identifier
 - [ ] `participants.tsv` present with `participant_id`, `sex`, `age` columns
-- [ ] At least one subject has a `bids_data/sub-XXX/ses-Y/` folder
-- [ ] Each session folder contains all three TSV files: `*_RT_beh.tsv`, `*_ACC_beh.tsv`, `*_ACCBIN_beh.tsv`
-- [ ] Each TSV has a matching `.json` sidecar with the same filename stem
-- [ ] The `task-` field in every filename matches the project folder name exactly (case-sensitive)
-- [ ] `trial_type` column is present and uses identical labels across all three TSV types per session
-- [ ] `learning_stage` column is included and consistent if your paradigm has meaningful sub-phases
+- [ ] At least one subject has a `bids_data/sub-XXX/ses-Y/` folder with ≥ 2 sessions
+- [ ] TSV files present for each outcome declared in `outcome_measures`
+- [ ] Each TSV has a matching `.json` sidecar
+- [ ] `task-` field in every filename matches the project folder name exactly
+- [ ] `trial_type` column present and consistent across all TSV types per session
 - [ ] `accuracy_binary` values are integer `0` or `1` — not float, not string
-- [ ] No empty cells anywhere — all missing values written as `n/a`
+- [ ] No empty cells — all missing values written as `n/a`
 
-**Description JSON (required for metadata and paradigm page)**
-- [ ] `MYPROJECT_description.json` created using `BEEHub/code/01_description_form.html` (recommended) or written manually
-- [ ] File placed at `Projects/MYPROJECT/MYPROJECT_description.json`
-- [ ] Contains at minimum: `full_name`, `short_description`, `modality`, `recording_modality`, `cognitive_domain`, `task_type`, `language`
-- [ ] `implementations` list present with at least one entry (original software first)
-- [ ] File is valid UTF-8 JSON (the browser form guarantees this; validate manually if hand-edited)
+**Description JSON**
+- [ ] `MYPROJECT_description.json` created via `01_description_form.html` or written manually
+- [ ] Placed at `Projects/MYPROJECT/MYPROJECT_description.json`
+- [ ] Contains `full_name`, `short_description`, `modality`, `recording_modality`, `cognitive_domain`, `task_type`, `language`
+- [ ] `outcome_measures` array present with at minimum one entry for your primary accuracy/score outcome
+- [ ] Each outcome entry has `id`, `suffix`, `column`, `display_priority`
+- [ ] The highest-priority outcome has `display_priority: 1` and its TSV file exists
+- [ ] Binary accuracy outcomes have `is_binary: true` so violin plots show percentages (note: no CV computed)
+- [ ] The RT outcome (if present) has `is_primary: true` to enable correct-trial filtering
+- [ ] File is valid UTF-8 JSON
 
-**Optional but recommended**
-- [ ] `bibliography.json` placed in `Projects/MYPROJECT/` — valid UTF-8 JSON, v2 schema with a `publications` array
-- [ ] Short version PsychoPy script placed in the correct location for the Paradigm button to appear
-- [ ] `MYPROJECT_demo.html` placed in `MYPROJECT_paradigm_short/` for the Launch Demo button
-- [ ] `beehub_logo.svg` and `logo_memoslap.png` present in the `BEEHub/` root for dashboard header logos
+**Optional**
+- [ ] `bibliography.json` in `Projects/MYPROJECT/` — v2 schema with `publications` array
+- [ ] Short-version PsychoPy script in the correct location for the Paradigm button
+- [ ] `MYPROJECT_demo.html` for the Launch Demo button
+- [ ] `beehub_logo.svg` and `logo_memoslap.png` present in the `BEEHub/` root
 
 ---
 
@@ -560,9 +542,7 @@ This repository was developed with the assistance of **Claude Sonnet 4.6** (Anth
 
 All scientific content, paradigm designs, experimental parameters, data structures, and research decisions were conceived and validated by the authors. Claude was used as a coding and documentation assistant throughout iterative development.
 
-**Suggested citation for the AI assistance:**
-
-> Anthropic. (2025). *Claude Sonnet 4.6* [Large language model]. https://www.anthropic.com
+> Anthropic. (2025). *Claude Sonnet 4.6*. https://www.anthropic.com
 
 ---
 
