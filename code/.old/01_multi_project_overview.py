@@ -39,11 +39,13 @@ try:
         DEFAULT_OUTCOMES,
         ACCBIN_ID,
         DEFAULT_DISPLAY_PRIORITY,
+        get_metrics_provenance as _provenance,
     )
 except ImportError:
     from reliability_metrics import (ReliabilityMetrics, split_trial_types,
                                      ALL_METRIC_IDS, DEFAULT_OUTCOMES, ACCBIN_ID,
-                                     DEFAULT_DISPLAY_PRIORITY)
+                                     DEFAULT_DISPLAY_PRIORITY,
+                                     get_metrics_provenance as _provenance)
 
 class ProjectOverviewGenerator:
     """Generates comprehensive overview dashboard for all projects"""
@@ -327,7 +329,9 @@ class ProjectOverviewGenerator:
             if df_om.empty:
                 corrected[om['id']] = df_om
                 continue
-            if om.get('is_primary', False) and not accbin_data.empty:
+            needs_filter = om.get('requires_correct_filter',
+                                   om.get('is_primary', False))
+            if needs_filter and not accbin_data.empty:
                 def _add_idx(df):
                     df = df.copy()
                     df['_trial_idx'] = df.groupby(['subject_id', 'session']).cumcount()
@@ -421,10 +425,15 @@ class ProjectOverviewGenerator:
                 df_om = loaded[om['id']]
                 if df_om.empty:
                     continue
+                # Accept the new name `requires_correct_filter` from the
+                # description form, falling back to legacy `is_primary`.
+                needs_filter = om.get('requires_correct_filter',
+                                       om.get('is_primary', False))
                 rel = ReliabilityMetrics.compute_for_outcome(
                     df_om, om['column'], om['id'], tt_list,
-                    accbin_df=accbin_data if om.get('is_primary') else None,
-                    filter_correct=om.get('is_primary', False),
+                    accbin_df=accbin_data if needs_filter else None,
+                    filter_correct=needs_filter,
+                    paradigm_contrast=om.get('paradigm_contrast'),
                 )
                 out_rels.append(rel)
             return ReliabilityMetrics.merge_outcome_reliabilities(out_rels)
@@ -435,11 +444,14 @@ class ProjectOverviewGenerator:
         # Outcome metadata stored in report for use by JS templates
         outcome_meta = [
             {
-                'id':               o['id'],
-                'label':            o['label'],
-                'axis_label':       o['axis_label'],
-                'is_binary':        o.get('is_binary', False),
-                'display_priority': o.get('display_priority', DEFAULT_DISPLAY_PRIORITY),
+                'id':                      o['id'],
+                'label':                   o['label'],
+                'axis_label':              o['axis_label'],
+                'is_binary':               o.get('is_binary', False),
+                'display_priority':        o.get('display_priority', DEFAULT_DISPLAY_PRIORITY),
+                'requires_correct_filter': o.get('requires_correct_filter',
+                                                  o.get('is_primary', False)),
+                'paradigm_contrast':       o.get('paradigm_contrast'),
             }
             for o in vis_outcomes
         ]
@@ -543,7 +555,10 @@ class ProjectOverviewGenerator:
                                     if o['id'] == 'RT'), None),
                 'acc_column': next((o['column'] for o in outcomes
                                     if o.get('is_binary')), None),
-            }
+            },
+            # ── Provenance — record which library produced the metrics ─────
+            '_schema_version': 'beehub_reliability_v2_pingouin',
+            '_provenance':     _provenance(),
         }
         
         return report
@@ -1284,14 +1299,31 @@ class ProjectOverviewGenerator:
                     continue
                 color   = colors.get(trial_type, '#f0d060')
                 all_scatter.extend(s1 + s2)
-                icc_val = metrics.get(f'{om_id}_icc_mean')
-                icc_a_val = metrics.get(f'{om_id}_icc_agreement_mean')
+                # New schema (post-pingouin): bare ICC keys + CI bounds
+                # Fall back to legacy *_mean keys when working with old JSON
+                icc_val   = metrics.get(f'{om_id}_icc',          metrics.get(f'{om_id}_icc_mean'))
+                icc_a_val = metrics.get(f'{om_id}_icc_agreement', metrics.get(f'{om_id}_icc_agreement_mean'))
+                icc_clo   = metrics.get(f'{om_id}_icc_ci_low')
+                icc_chi   = metrics.get(f'{om_id}_icc_ci_high')
+                icc_aclo  = metrics.get(f'{om_id}_icc_agreement_ci_low')
+                icc_achi  = metrics.get(f'{om_id}_icc_agreement_ci_high')
+
+                def _fmt_icc(point, lo, hi):
+                    if point is None:
+                        return None
+                    s = f'{point:.2f}'
+                    if lo is not None and hi is not None:
+                        s += f' [{lo:.2f}, {hi:.2f}]'
+                    return s
+
                 icc_parts = []
-                if icc_a_val is not None:
-                    icc_parts.append(f'ICC(A)={icc_a_val:.2f}')
-                if icc_val is not None:
-                    icc_parts.append(f'ICC(C)={icc_val:.2f}')
-                icc_str = '  ' + ' '.join(icc_parts) if icc_parts else ''
+                a_str = _fmt_icc(icc_a_val, icc_aclo, icc_achi)
+                c_str = _fmt_icc(icc_val,   icc_clo,  icc_chi)
+                if a_str is not None:
+                    icc_parts.append(f'ICC(A)={a_str}')
+                if c_str is not None:
+                    icc_parts.append(f'ICC(C)={c_str}')
+                icc_str = '  ' + '  '.join(icc_parts) if icc_parts else ''
                 dec     = 1 if om.get('is_binary') else 0
                 hover   = [f'sub-{sid}<br>{ses_lbl[0]}: {x:.{dec}f}<br>{ses_lbl[1]}: {y:.{dec}f}'
                            for sid, x, y in zip(subj_ids, s1, s2)]
@@ -2359,6 +2391,52 @@ class ProjectOverviewGenerator:
         for om in active_om:
             oid  = om['id'].lower()
             olbl = om['label']
+
+            # ── Build per-trial-type stats banner (F, p, α, paradigm ES) ──
+            banner_rows = []
+            for tt, m in (reliability or {}).items():
+                bits = []
+                F   = m.get(f'{oid}_icc_F') or m.get(f'{oid}_icc_agreement_F')
+                df1 = m.get(f'{oid}_icc_df1') or m.get(f'{oid}_icc_agreement_df1')
+                df2 = m.get(f'{oid}_icc_df2') or m.get(f'{oid}_icc_agreement_df2')
+                p   = m.get(f'{oid}_icc_p')   or m.get(f'{oid}_icc_agreement_p')
+                if F is not None and df1 is not None and df2 is not None:
+                    p_str = (f'p={p:.3f}' if (p is not None and p >= 1e-3)
+                             else (f'p={p:.1e}' if p is not None else ''))
+                    bits.append(f'F({int(df1)},{int(df2)})={F:.2f} {p_str}'.strip())
+                pes  = m.get(f'{oid}_paradigm_effect_size')
+                pesc = m.get(f'{oid}_paradigm_effect_size_contrast')
+                pesl = m.get(f'{oid}_paradigm_effect_size_ci_low')
+                pesh = m.get(f'{oid}_paradigm_effect_size_ci_high')
+                if pes is not None and not (isinstance(pes, float) and np.isnan(pes)):
+                    pes_str = f'g={pes:.2f}'
+                    if pesl is not None and pesh is not None and not np.isnan(pesl):
+                        pes_str += f' [{pesl:.2f}, {pesh:.2f}]'
+                    if pesc:
+                        pes_str += f' ({pesc})'
+                    bits.append(pes_str)
+                alpha = m.get(f'{oid}_cronbach_alpha')
+                a_n   = m.get(f'{oid}_cronbach_alpha_n_items')
+                if alpha is not None and not (isinstance(alpha, float) and np.isnan(alpha)):
+                    bits.append(f'α={alpha:.2f}' + (f' ({a_n} items)' if a_n else ''))
+                if bits:
+                    banner_rows.append(
+                        f'<span style="color:#c9a227; font-weight:600;">{tt}</span>'
+                        f'<span style="color:#a08840;"> · </span>'
+                        f'<span style="color:#c8b080;">{" · ".join(bits)}</span>'
+                    )
+            stats_banner = ''
+            if banner_rows:
+                stats_banner = (
+                    '<div class="stats-banner" style="font-size:0.78em; color:#a08840; '
+                    'padding:8px 14px; margin:-8px 0 12px 0; '
+                    'background:rgba(20,18,10,0.6); '
+                    'border-left:2px solid rgba(201,162,39,0.4); '
+                    'border-radius:4px; line-height:1.7;">'
+                    + '<br>'.join(banner_rows) +
+                    '</div>'
+                )
+
             html += f"""
             <div class="chart-container">
                 <div class="chart-title">{olbl} Distribution</div>
@@ -2366,6 +2444,7 @@ class ProjectOverviewGenerator:
             </div>
             <div class="chart-container">
                 <div class="chart-title">{olbl} Test-Retest (mean per subject)</div>
+                {stats_banner}
                 <div id="{proj_name}_{oid}_scatter"></div>
             </div>
 """

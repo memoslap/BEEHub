@@ -280,6 +280,10 @@ class InteractiveDashboard:
                     return (f'{oid}_{short}', short)
             return None
 
+        def _is_binary_accuracy_prefix(prefix: str) -> bool:
+            p = (prefix or '').lower()
+            return p in {'acc', 'accbin', 'accuracy', 'accuracy_binary'}
+
         def _collect(metrics_dict: dict, raw: dict):
             for k, v in metrics_dict.items():
                 # Only collect numeric scalars — skip lists/dicts/strings
@@ -2101,12 +2105,20 @@ class InteractiveDashboard:
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1037/1040-3590.8.4.500" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
-                                <a href="https://doi.org/10.1152/japplphysiol.01092.2002" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
+                                <!-- ✅ Shrout & Fleiss (1979): "Intraclass correlations: uses in assessing
+                                     rater reliability." Psychological Bulletin 86(2):420-428. -->
+                                <a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was a wrong J Applied Physiology article. Correct DOI:
+                                     McGraw & Wong (1996) "Forming Inferences About Some Intraclass
+                                     Correlation Coefficients" Psychological Methods 1(1):30-46. -->
+                                <a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
                                 When consistency &asymp; agreement, the paradigm is stable in every sense. When they diverge,
                                 the gap quantifies the session effect.
                                 Benchmarks: &ge;0.75 good, &ge;0.90 excellent
-                                <em>(Koo &amp; Li, 2016, J. Chiropr. Med.)</em>.
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was from an unrelated Psychological Assessment article. Correct DOI:
+                                     Koo & Li (2016) "A Guideline of Selecting and Reporting ICC for
+                                     Reliability Research" J Chiropr Med 15(2):155-163. -->
+                                <em>(<a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank">Koo &amp; Li, 2016, J. Chiropr. Med.</a>)</em>.
                             </span>
                         </div>
                     </div>
@@ -2146,9 +2158,9 @@ class InteractiveDashboard:
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1093/biomet/13.1-2.25" target="_blank">Pearson (1920)</a>;
+                                <a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank">Pearson (1920)</a>;
                                 used as a supplementary reliability index alongside ICC in cognitive neuroscience
-                                <em>(Hedge et al., 2018, Behav. Res. Methods)</em>.
+                                <em>(<a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank">Hedge et al., 2018, Behav. Res. Methods</a>)</em>.
                                 Note: unlike ICC, Pearson r is insensitive to systematic session offsets — a high r with a large mean shift still indicates poor absolute reliability.
                             </span>
                         </div>
@@ -2195,7 +2207,7 @@ class InteractiveDashboard:
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1037/h0044887" target="_blank">Cohen (1988)</a> —
+                                <a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank">Cohen (1992)</a> —
                                 conventional benchmarks: |d| &lt; 0.2 negligible, 0.2&ndash;0.5 small, 0.5&ndash;0.8 medium, &gt;0.8 large shift.
                                 Inverted here so that stability = 1 indicates no session-to-session drift.
                             </span>
@@ -2245,8 +2257,8 @@ class InteractiveDashboard:
                         <div class="metric-citation">
                             <span class="metric-citation-text">
                                 <a href="https://doi.org/10.1007/BF02310555" target="_blank">Cronbach (1951)</a> /
-                                <a href="https://doi.org/10.1007/BF02288892" target="_blank">Kuder &amp; Richardson (1937)</a>;
-                                Pike et al. (2022) note internal consistency and test-retest reliability address different sources of measurement error and should both be reported for behavioural paradigms.
+                                <a href="https://doi.org/10.1007/BF02288391" target="_blank">Kuder &amp; Richardson (1937)</a>;
+                                Internal consistency and test-retest reliability address different aspects of measurement error and should both be reported when available.
                                 Benchmarks: ≥0.70 acceptable, ≥0.80 good, ≥0.90 excellent.
                             </span>
                         </div>
@@ -2294,7 +2306,7 @@ class InteractiveDashboard:
                         <div class="metric-citation">
                             <span class="metric-citation-text">
                                 <a href="https://doi.org/10.3102/10769986006002107" target="_blank">Hedges (1981)</a>;
-                                Lakens (2013) <em>Front. Psychol.</em> &mdash; bootstrap CIs from
+                                <a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank">Lakens (2013, Front. Psychol.)</a> &mdash; bootstrap CIs from
                                 <a href="https://doi.org/10.21105/joss.01026" target="_blank">Vallat (2018, JOSS)</a>.
                                 A radar score of 1.0 corresponds to |g| ≥ 1.5 (very large effect).
                             </span>
@@ -2309,9 +2321,10 @@ class InteractiveDashboard:
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Captures trial-level noise within each session</li>
+                            <li>Captures trial-level noise within each session for continuous outcomes such as RT</li>
                             <li>Coefficient of Variation is inverted &mdash; lower noise = higher score</li>
                             <li>Identifies tasks where participants respond erratically</li>
+                            <li><strong>Binary 0/1 accuracy is shown as mean Accuracy&nbsp;% instead of CV</strong>, because Bernoulli CV is determined by the mean accuracy and is therefore not an independent reliability estimate</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
@@ -2336,17 +2349,25 @@ class InteractiveDashboard:
                             </div>
                             <div class="formula-legend">
                                 <b>SD</b> = within-session standard deviation &nbsp;&middot;&nbsp;
-                                <b>Mean</b> = within-session mean RT
+                                <b>Mean</b> = within-session mean for continuous outcomes; binary accuracy uses mean % correct
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
+                            <span class="formula-range">CV: 0 &rarr; 1 after inversion &nbsp;&middot;&nbsp; Accuracy %: 0 &rarr; 100, higher = better</span>
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1016/j.neuropsychologia.2007.10.013" target="_blank">Hultsch et al. (1992)</a> &amp;
-                                <a href="https://doi.org/10.1037/0894-4105.21.4.390" target="_blank">Dykiert et al. (2012)</a> —
+                                <!-- ✅ VERIFIED 2026-05-19 via CrossRef + Oxford Academic:
+                                     Hultsch DF, MacDonald SWS, Dixon RA (2002) "Variability in reaction
+                                     time performance of younger and older adults." J Gerontol B Psychol
+                                     Sci Soc Sci 57(2):P101–P115. Previous DOI resolved to an unrelated Neuropsychologia COMT planning paper. -->
+                                <a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank">Hultsch, MacDonald &amp; Dixon (2002)</a> &amp;
+                                <!-- ✅ VERIFIED 2026-05-19 via PubMed (PMID 23071524):
+                                     Dykiert D, Der G, Starr JM, Deary IJ (2012) "Age differences in
+                                     intra-individual variability in simple and choice reaction time."
+                                     PLoS ONE 7(10):e45759. -->
+                                <a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank">Dykiert et al. (2012)</a> &mdash;
                                 Intra-individual RT variability (CV) is a validated marker of attentional lapses and neural noise;
                                 CV &lt; 15% is considered low variability in healthy adults
-                                <em>(Wagenmakers &amp; Brown, 2007, Psychol. Rev.)</em>.
+                                <em>(<a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank">Wagenmakers &amp; Brown, 2007, Psychol. Rev.</a>)</em>.
                             </span>
                         </div>
                     </div>
@@ -2355,6 +2376,94 @@ class InteractiveDashboard:
 
             <!-- ── 4. Radar plots ── -->
             <div id="radarChartsContainer" style="margin-top: 24px;"></div>
+
+            <!-- ── 5. Bibliography panel (collapsible, at end of reliability box) ── -->
+            <div class="reliability-panel" id="bibliographyPanel" style="margin-top:18px;">
+                <button class="reliability-panel-toggle" onclick="toggleBibliographyPanel()" aria-expanded="false">
+                    <div class="reliability-panel-header">
+                        <div class="reliability-panel-title">Bibliography — Metric References &amp; Citations</div>
+                        <span class="reliability-toggle-arrow">&#9662;</span>
+                    </div>
+                </button>
+                <div class="reliability-panel-body">
+                    <div class="reliability-panel-subtitle" style="color:#a08840; margin-bottom: 14px;">
+                        This bibliography covers the statistical methods cited in the metric explanation cards above.
+                        Per-paradigm publication references are maintained in each project's <code>bibliography.json</code>.
+                    </div>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85em;color:#c8b080;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.3);text-align:left;">
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">Reference</th>
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">DOI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Shrout &amp; Fleiss (1979). Intraclass correlations: Uses in assessing rater reliability. <em>Psychol Bull</em> 86(2):420–428.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank" style="color:#c9a227;">10.1037/0033-2909.86.2.420</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">McGraw &amp; Wong (1996). Forming inferences about some intraclass correlation coefficients. <em>Psychol Methods</em> 1(1):30–46.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank" style="color:#c9a227;">10.1037/1082-989X.1.1.30</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Koo &amp; Li (2016). A guideline of selecting and reporting ICC for reliability research. <em>J Chiropr Med</em> 15(2):155–163.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank" style="color:#c9a227;">10.1016/j.jcm.2016.02.012</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Pearson (1920). Notes on the history of correlation. <em>Biometrika</em> 13(1):25–45.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank" style="color:#c9a227;">10.1093/biomet/13.1.25</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Hedge, Powell &amp; Sumner (2018). The reliability paradox: Why robust cognitive tasks do not produce reliable individual differences. <em>Behav Res Methods</em> 50(3):1166–1186.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank" style="color:#c9a227;">10.3758/s13428-017-0935-1</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Cohen (1992). A power primer. <em>Psychol Bull</em> 112(1):155–159.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank" style="color:#c9a227;">10.1037/0033-2909.112.1.155</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Cronbach (1951). Coefficient alpha and the internal structure of tests. <em>Psychometrika</em> 16(3):297–334.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02310555" target="_blank" style="color:#c9a227;">10.1007/BF02310555</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Kuder &amp; Richardson (1937). The theory of the estimation of test reliability. <em>Psychometrika</em> 2(3):151–160.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02288391" target="_blank" style="color:#c9a227;">10.1007/BF02288391</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hedges (1981). Distribution theory for Glass's estimator of effect size and related estimators. <em>J Educ Stat</em> 6(2):107–128.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3102/10769986006002107" target="_blank" style="color:#c9a227;">10.3102/10769986006002107</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Lakens (2013). Calculating and reporting effect sizes to facilitate cumulative science. <em>Front Psychol</em> 4:863.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank" style="color:#c9a227;">10.3389/fpsyg.2013.00863</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Vallat (2018). Pingouin: statistics in Python. <em>J Open Source Softw</em> 3(31):1026.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.21105/joss.01026" target="_blank" style="color:#c9a227;">10.21105/joss.01026</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hultsch, MacDonald &amp; Dixon (2002). Variability in reaction time performance of younger and older adults. <em>J Gerontol B</em> 57(2):P101–P115.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank" style="color:#c9a227;">10.1093/geronb/57.2.P101</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Dykiert, Der, Starr &amp; Deary (2012). Age differences in intra-individual variability in simple and choice RT. <em>PLoS ONE</em> 7(10):e45759.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank" style="color:#c9a227;">10.1371/journal.pone.0045759</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Wagenmakers &amp; Brown (2007). On the linear relation between the mean and the standard deviation of a response time distribution. <em>Psychol Rev</em> 114(3):830–841.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank" style="color:#c9a227;">10.1037/0033-295X.114.3.830</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 10px;">Weir (2005). Quantifying test-retest reliability using the ICC and the SEM. <em>J Strength Cond Res</em> 19(1):231–240.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1519/15184.1" target="_blank" style="color:#c9a227;">10.1519/15184.1</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
 
         </div>
     </div>
@@ -2412,20 +2521,63 @@ class InteractiveDashboard:
                            score:'Score', dist:'Distance', freq:'Frequency' }};
             return MAP[oid] || oid.toUpperCase();
         }}
+        function _isBinaryAccuracyPrefix(oid) {{
+            const p = (oid || '').toLowerCase();
+            return ['acc', 'accbin', 'accuracy', 'accuracy_binary'].includes(p);
+        }}
+        function _meanNumeric(values) {{
+            const nums = (values || []).filter(v => v !== null && v !== undefined && !Number.isNaN(Number(v))).map(Number);
+            return nums.length ? nums.reduce((a,b) => a+b, 0) / nums.length : null;
+        }}
+        function _collectCv(reliabilityDict, oid) {{
+            // Return an array of CV values for the given outcome prefix from one project's reliability dict.
+            // Only populated for continuous outcomes — binary accuracy has no CV stored.
+            const cvKey = oid + '_cv_mean';
+            const vals = [];
+            for (const metrics of Object.values(reliabilityDict || {{}})) {{
+                const v = metrics[cvKey];
+                if (v !== null && v !== undefined) vals.push(Number(v));
+            }}
+            return vals;
+        }}
+        function _valueFromMetricObject(metrics, spec) {{
+            if (!metrics) return null;
+            for (const k of (spec.keys || [])) {{
+                const v = metrics[k];
+                if (v !== null && v !== undefined && !Array.isArray(v) && typeof v !== 'object') return Number(v);
+            }}
+            return null;
+        }}
+        function _rangeExists(src, sid) {{
+            return DATA_RANGES[src + '_' + sid + '_min'] !== undefined &&
+                   DATA_RANGES[src + '_' + sid + '_max'] !== undefined;
+        }}
+        function _sliderHasAnyRange(sid) {{
+            return _rangeExists('task', sid) || _rangeExists('ctrl', sid);
+        }}
         function _buildSliderMetrics() {{
             const prefixes = _getOutcomePrefixes();
             return METRIC_SUFFIXES
               .filter(ms => !ms.hidden)
               .map(ms => ({{
                 id: ms.metricId, label: ms.label,
-                sliders: prefixes.map(p => ({{
-                    sid:      p + ms.suffix,
-                    label:    _humanLabel(p) + ' ' + ms.label,
-                    keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
-                    step:     ms.step,
-                    decimals: ms.decimals,
-                }})),
-            }}));
+                sliders: prefixes
+                    .filter(p => {{
+                        // CV metric is only meaningful for continuous outcomes.
+                        // Skip entirely for binary accuracy prefixes.
+                        if (ms.metricId === 'cv' && _isBinaryAccuracyPrefix(p)) return false;
+                        return true;
+                    }})
+                    .map(p => ({{
+                        sid:      p + ms.suffix,
+                        label:    _humanLabel(p) + ' ' + ms.label,
+                        keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
+                        step:     ms.step,
+                        decimals: ms.decimals,
+                    }}))
+                    .filter(sl => _sliderHasAnyRange(sl.sid)),
+            }}))
+              .filter(metric => metric.sliders.length > 0);
         }}
         const SLIDER_METRICS = _buildSliderMetrics()
 
@@ -2449,17 +2601,20 @@ class InteractiveDashboard:
                      label: selectedSource === 'control' ? 'Control' : 'Task' }}];
 
             let html = '<div class="filters-grid">';
+            let rendered = 0;
             for (const src of sources) {{
                 for (const metric of metricsToShow) {{
                     for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
                         const fullId = sl.sid + '_' + src.key;
                         const mnKey  = src.key + '_' + sl.sid + '_min';
                         const mxKey  = src.key + '_' + sl.sid + '_max';
-                        const mn     = DATA_RANGES[mnKey] !== undefined ? DATA_RANGES[mnKey] : -1;
-                        const mx     = DATA_RANGES[mxKey] !== undefined ? DATA_RANGES[mxKey] :  1;
+                        const mn     = DATA_RANGES[mnKey];
+                        const mx     = DATA_RANGES[mxKey];
                         const srcTag = isBoth
                             ? ' <span style="font-size:0.75em;color:#a08840;">(' + src.label + ')</span>'
                             : '';
+                        rendered += 1;
                         html += `
                             <div class="filter-group" id="sliderGroup_${{fullId}}">
                                 <label class="filter-label">${{sl.label}}${{srcTag}}</label>
@@ -2475,6 +2630,9 @@ class InteractiveDashboard:
                 }}
             }}
             html += '</div>';
+            if (rendered === 0) {{
+                html = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No numeric values are available for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+            }}
             container.innerHTML = html;
         }}
 
@@ -2507,6 +2665,13 @@ class InteractiveDashboard:
 
         function toggleReliabilityPanel() {{
             const panel = document.getElementById('reliabilityPanel');
+            const btn = panel.querySelector('.reliability-panel-toggle');
+            panel.classList.toggle('open');
+            btn.setAttribute('aria-expanded', panel.classList.contains('open'));
+        }}
+
+        function toggleBibliographyPanel() {{
+            const panel = document.getElementById('bibliographyPanel');
             const btn = panel.querySelector('.reliability-panel-toggle');
             panel.classList.toggle('open');
             btn.setAttribute('aria-expanded', panel.classList.contains('open'));
@@ -2548,6 +2713,8 @@ class InteractiveDashboard:
                         activeConstraints.push({{
                             field:    dictField,
                             keys:     sl.keys,   // try each in order; first non-null wins
+                            valueKind: sl.valueKind || null,
+                            prefix:   sl.prefix || null,
                             minVal:   parseFloat(minEl.value),
                             maxVal:   parseFloat(maxEl.value),
                             minRange: parseFloat(minEl.min),
@@ -2587,14 +2754,7 @@ class InteractiveDashboard:
 
                     const rel = project[c.field] || {{}};
                     const vals = Object.values(rel)
-                        .map(m => {{
-                            // Try each candidate key in order; first non-null wins
-                            for (const k of c.keys) {{
-                                const v = m[k];
-                                if (v !== null && v !== undefined) return v;
-                            }}
-                            return null;
-                        }})
+                        .map(m => _valueFromMetricObject(m, c))
                         .filter(v => v !== null && v !== undefined);
                     if (vals.length === 0) continue;
                     const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
@@ -2691,18 +2851,34 @@ class InteractiveDashboard:
                     ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
                     : '';
 
-                // CV for highest-priority outcome; fall back to rt_cv_mean if absent
-                const primaryCvKey = primaryId + '_cv_mean';
-                let allCvs = [];
-                for (const metrics of Object.values(reliability)) {{
-                    const v = metrics[primaryCvKey] !== null && metrics[primaryCvKey] !== undefined
-                        ? metrics[primaryCvKey]
-                        : metrics['rt_cv_mean'];
-                    if (v !== null && v !== undefined) allCvs.push(v);
+                // Dashboard variability card — only for continuous primary outcomes.
+                // Binary accuracy: no CV card (Bernoulli CV is not meaningful).
+                // The ICC card above already reflects accuracy reliability fully.
+                let cardHtml = '';
+                if (!_isBinaryAccuracyPrefix(primaryId)) {{
+                    let allCvs = _collectCv(reliability, primaryId);
+                    let cvOutcomeLabel = primaryLabel;
+                    if (allCvs.length === 0) {{
+                        for (const om of outcomeMeasures) {{
+                            const oid = (om.id || '').toLowerCase();
+                            if (!oid || oid === primaryId || _isBinaryAccuracyPrefix(oid)) continue;
+                            const vals = _collectCv(reliability, oid);
+                            if (vals.length > 0) {{
+                                allCvs = vals;
+                                cvOutcomeLabel = om.label || oid.toUpperCase();
+                                break;
+                            }}
+                        }}
+                    }}
+                    if (allCvs.length > 0) {{
+                        const cvValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
+                        cardHtml = `
+                            <div class="stat-item" title="Mean within-subject CV for task trials">
+                                <div class="stat-value">${{cvValue}}%</div>
+                                <div class="stat-label">${{cvOutcomeLabel}} CV<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
+                            </div>`;
+                    }}
                 }}
-                const overallCv = allCvs.length > 0
-                    ? (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2)
-                    : 'N/A';
                 
                 return `
                     <div class="project-card">
@@ -2728,10 +2904,7 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
                                 <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
-                            <div class="stat-item" title="Mean within-subject CV for the primary outcome across task trial types — control/rest excluded">
-                                <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
-                                <div class="stat-label">${{primaryLabel}} CV<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
-                            </div>
+                            ${{cardHtml}}
                         </div>
                         <div class="project-actions">
                             <a href="Projects/${{project.project_name}}/${{project.project_name}}_overview.html" class="project-link">View Details</a>
@@ -2793,6 +2966,7 @@ class InteractiveDashboard:
 
         /** Build a Plotly scatterpolar trace. */
         function _buildRadarTrace(r_values, theta, color, fillColor) {{
+            if (!r_values.length) return [];
             const r = [...r_values, r_values[0]];
             const t = [...theta, theta[0]];
             return [{{
@@ -2890,13 +3064,19 @@ class InteractiveDashboard:
                     // Look up the matching METRIC_REGISTRY entry for normalisation
                     const reg = METRIC_BY_ID[metric.id];
                     for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
                         const divId = 'radar_' + sl.sid + '_' + src.key;
-                        const isRT  = sl.sid.startsWith('rt_');
-                        const title = metric.label + ' — ' + sl.label
+                        const metricTitle = sl.displayMetricLabel || metric.label;
+                        const title = metricTitle + ' — ' + sl.label
                               + ' <span style="font-size:0.78em;color:#a08840;">(' + src.label + ')</span>';
                         radarDefs.push({{ divId, reg, sl, useControl: src.useControl, title }});
                     }}
                 }}
+            }}
+
+            if (radarDefs.length === 0) {{
+                container.innerHTML = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No radar can be drawn for this metric/source combination. CV is only available for continuous outcomes.</div>';
+                return;
             }}
 
             // Pair into rows of 2
@@ -2925,14 +3105,7 @@ class InteractiveDashboard:
                 // Try the new bare key first (`rt_icc`), then the legacy
                 // `_mean` suffix (`rt_icc_mean`).  This keeps old JSONs
                 // working while picking up the post-pingouin schema.
-                const candidateKeys = d.sl.keys || [d.sl.sid + '_mean'];
-                const _firstAvailable = (m) => {{
-                    for (const k of candidateKeys) {{
-                        const v = m[k];
-                        if (v !== null && v !== undefined) return v;
-                    }}
-                    return null;
-                }};
+                const _firstAvailable = (m) => _valueFromMetricObject(m, d.sl);
                 const _hasAny = (rel) => Object.values(rel).some(
                     m => _firstAvailable(m) !== null
                 );
@@ -2948,9 +3121,10 @@ class InteractiveDashboard:
                     const rawVals = Object.values(dict)
                         .map(_firstAvailable)
                         .filter(v => v !== null && v !== undefined);
-                    if (rawVals.length === 0) return 0;
+                    if (rawVals.length === 0) return null;
                     const mean = rawVals.reduce((a,b) => a+b, 0) / rawVals.length;
-                    return d.reg.normalise(mean);
+                    const normalise = d.sl.normalise || d.reg.normalise;
+                    return normalise(mean);
                 }});
 
                 _plotRadar(d.divId, _buildRadarTrace(vals, projectNames, colour, fill), tickCol);

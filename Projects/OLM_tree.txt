@@ -4,306 +4,305 @@ OLM
 ├── bids_data
 │   ├── dataset_description.json
 │   ├── sub-001
-│   │   ├── ses-3
-│   │   │   ├── sub-001_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-001_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-001_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-001_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-001_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-001_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-001_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-001_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-001_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-001_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-001_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-001_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-001_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-001_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-001_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-001_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-001_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-001_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-001_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-001_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-001_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-001_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-001_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-001_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-002
-│   │   ├── ses-3
-│   │   │   ├── sub-002_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-002_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-002_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-002_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-002_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-002_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-002_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-002_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-002_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-002_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-002_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-002_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-002_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-002_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-002_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-002_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-002_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-002_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-002_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-002_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-002_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-002_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-002_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-002_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-006
-│   │   ├── ses-3
-│   │   │   ├── sub-006_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-006_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-006_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-006_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-006_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-006_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-006_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-006_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-006_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-006_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-006_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-006_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-006_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-006_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-006_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-006_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-006_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-006_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-006_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-006_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-006_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-006_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-006_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-006_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-012
-│   │   ├── ses-3
-│   │   │   ├── sub-012_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-012_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-012_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-012_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-012_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-012_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-012_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-012_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-012_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-012_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-012_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-012_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-012_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-012_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-012_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-012_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-012_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-012_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-012_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-012_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-012_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-012_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-012_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-012_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-015
-│   │   ├── ses-3
-│   │   │   ├── sub-015_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-015_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-015_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-015_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-015_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-015_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-015_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-015_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-015_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-015_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-015_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-015_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-015_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-015_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-015_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-015_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-015_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-015_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-015_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-015_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-015_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-015_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-015_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-015_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-016
-│   │   ├── ses-3
-│   │   │   ├── sub-016_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-016_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-016_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-016_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-016_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-016_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-016_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-016_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-016_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-016_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-016_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-016_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-016_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-016_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-016_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-016_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-016_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-016_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-016_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-016_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-016_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-016_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-016_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-016_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-018
-│   │   ├── ses-3
-│   │   │   ├── sub-018_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-018_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-018_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-018_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-018_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-018_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-018_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-018_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-018_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-018_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-018_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-018_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-018_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-018_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-018_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-018_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-018_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-018_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-018_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-018_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-018_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-018_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-018_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-018_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-020
-│   │   ├── ses-3
-│   │   │   ├── sub-020_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-020_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-020_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-020_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-020_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-020_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-020_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-020_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-020_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-020_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-020_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-020_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-020_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-020_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-020_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-020_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-020_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-020_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-020_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-020_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-020_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-020_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-020_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-020_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-021
-│   │   ├── ses-3
-│   │   │   ├── sub-021_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-021_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-021_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-021_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-021_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-021_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-021_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-021_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-021_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-021_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-021_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-021_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-021_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-021_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-021_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-021_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-021_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-021_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-021_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-021_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-021_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-021_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-021_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-021_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-022
-│   │   ├── ses-3
-│   │   │   ├── sub-022_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-022_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-022_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-022_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-022_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-022_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-022_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-022_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-022_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-022_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-022_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-022_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-022_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-022_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-022_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-022_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-022_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-022_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-022_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-022_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-022_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-022_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-022_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-022_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-026
-│   │   ├── ses-3
-│   │   │   ├── sub-026_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-026_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-026_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-026_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-026_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-026_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-026_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-026_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-026_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-026_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-026_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-026_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-026_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-026_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-026_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-026_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-026_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-026_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-026_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-026_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-026_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-026_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-026_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-026_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-030
-│   │   ├── ses-3
-│   │   │   ├── sub-030_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-030_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-030_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-030_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-030_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-030_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-030_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-030_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-030_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-030_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-030_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-030_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-030_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-030_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-030_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-030_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-030_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-030_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-030_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-030_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-030_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-030_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-030_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-030_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-042
-│   │   ├── ses-3
-│   │   │   ├── sub-042_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-042_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-042_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-042_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-042_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-042_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-042_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-042_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-042_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-042_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-042_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-042_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-042_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-042_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-042_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-042_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-042_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-042_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-042_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-042_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-042_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-042_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-042_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-042_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-044
-│   │   ├── ses-3
-│   │   │   ├── sub-044_ses-3_task-OLM_acq-1_ACC_beh.json
-│   │   │   ├── sub-044_ses-3_task-OLM_acq-1_ACC_beh.tsv
-│   │   │   ├── sub-044_ses-3_task-OLM_acq-1_ACCBIN_beh.json
-│   │   │   ├── sub-044_ses-3_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │   │   ├── sub-044_ses-3_task-OLM_acq-1_RT_beh.json
-│   │   │   └── sub-044_ses-3_task-OLM_acq-1_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-044_ses-4_task-OLM_acq-2_ACC_beh.json
-│   │       ├── sub-044_ses-4_task-OLM_acq-2_ACC_beh.tsv
-│   │       ├── sub-044_ses-4_task-OLM_acq-2_ACCBIN_beh.json
-│   │       ├── sub-044_ses-4_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │       ├── sub-044_ses-4_task-OLM_acq-2_RT_beh.json
-│   │       └── sub-044_ses-4_task-OLM_acq-2_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-044_ses-1_task-OLM_acq-1_ACC_beh.json
+│   │   │   ├── sub-044_ses-1_task-OLM_acq-1_ACC_beh.tsv
+│   │   │   ├── sub-044_ses-1_task-OLM_acq-1_ACCBIN_beh.json
+│   │   │   ├── sub-044_ses-1_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │   │   ├── sub-044_ses-1_task-OLM_acq-1_RT_beh.json
+│   │   │   └── sub-044_ses-1_task-OLM_acq-1_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-044_ses-2_task-OLM_acq-2_ACC_beh.json
+│   │       ├── sub-044_ses-2_task-OLM_acq-2_ACC_beh.tsv
+│   │       ├── sub-044_ses-2_task-OLM_acq-2_ACCBIN_beh.json
+│   │       ├── sub-044_ses-2_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │       ├── sub-044_ses-2_task-OLM_acq-2_RT_beh.json
+│   │       └── sub-044_ses-2_task-OLM_acq-2_RT_beh.tsv
 │   ├── sub-054
-│   │   ├── ses-3
-│   │   │   ├── sub-054_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-054_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-054_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-054_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-054_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-054_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-054_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-054_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-054_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-054_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-054_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-054_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-054_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-054_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-054_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-054_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-054_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-054_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-054_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-054_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-054_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-054_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-054_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-054_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-055
-│   │   ├── ses-3
-│   │   │   ├── sub-055_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-055_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-055_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-055_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-055_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-055_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-055_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-055_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-055_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-055_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-055_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-055_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-055_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-055_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-055_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-055_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-055_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-055_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-055_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-055_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-055_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-055_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-055_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-055_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-056
-│   │   ├── ses-3
-│   │   │   ├── sub-056_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-056_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-056_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-056_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-056_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-056_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-056_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-056_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-056_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-056_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-056_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-056_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-056_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-056_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-056_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-056_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-056_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-056_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-056_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-056_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-056_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-056_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-056_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-056_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-065
-│   │   ├── ses-3
-│   │   │   ├── sub-065_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-065_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-065_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-065_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-065_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-065_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-065_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-065_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-065_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-065_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-065_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-065_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-065_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-065_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-065_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-065_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-065_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-065_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-065_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-065_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-065_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-065_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-065_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-065_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   ├── sub-075
-│   │   ├── ses-3
-│   │   │   ├── sub-075_ses-3_task-OLM_acq-2_ACC_beh.json
-│   │   │   ├── sub-075_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│   │   │   ├── sub-075_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│   │   │   ├── sub-075_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│   │   │   ├── sub-075_ses-3_task-OLM_acq-2_RT_beh.json
-│   │   │   └── sub-075_ses-3_task-OLM_acq-2_RT_beh.tsv
-│   │   └── ses-4
-│   │       ├── sub-075_ses-4_task-OLM_acq-1_ACC_beh.json
-│   │       ├── sub-075_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│   │       ├── sub-075_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│   │       ├── sub-075_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│   │       ├── sub-075_ses-4_task-OLM_acq-1_RT_beh.json
-│   │       └── sub-075_ses-4_task-OLM_acq-1_RT_beh.tsv
+│   │   ├── ses-1
+│   │   │   ├── sub-075_ses-1_task-OLM_acq-2_ACC_beh.json
+│   │   │   ├── sub-075_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│   │   │   ├── sub-075_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│   │   │   ├── sub-075_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│   │   │   ├── sub-075_ses-1_task-OLM_acq-2_RT_beh.json
+│   │   │   └── sub-075_ses-1_task-OLM_acq-2_RT_beh.tsv
+│   │   └── ses-2
+│   │       ├── sub-075_ses-2_task-OLM_acq-1_ACC_beh.json
+│   │       ├── sub-075_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│   │       ├── sub-075_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│   │       ├── sub-075_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│   │       ├── sub-075_ses-2_task-OLM_acq-1_RT_beh.json
+│   │       └── sub-075_ses-2_task-OLM_acq-1_RT_beh.tsv
 │   └── sub-076
-│       ├── ses-3
-│       │   ├── sub-076_ses-3_task-OLM_acq-2_ACC_beh.json
-│       │   ├── sub-076_ses-3_task-OLM_acq-2_ACC_beh.tsv
-│       │   ├── sub-076_ses-3_task-OLM_acq-2_ACCBIN_beh.json
-│       │   ├── sub-076_ses-3_task-OLM_acq-2_ACCBIN_beh.tsv
-│       │   ├── sub-076_ses-3_task-OLM_acq-2_RT_beh.json
-│       │   └── sub-076_ses-3_task-OLM_acq-2_RT_beh.tsv
-│       └── ses-4
-│           ├── sub-076_ses-4_task-OLM_acq-1_ACC_beh.json
-│           ├── sub-076_ses-4_task-OLM_acq-1_ACC_beh.tsv
-│           ├── sub-076_ses-4_task-OLM_acq-1_ACCBIN_beh.json
-│           ├── sub-076_ses-4_task-OLM_acq-1_ACCBIN_beh.tsv
-│           ├── sub-076_ses-4_task-OLM_acq-1_RT_beh.json
-│           └── sub-076_ses-4_task-OLM_acq-1_RT_beh.tsv
-├── old_OLM_description.json
+│       ├── ses-1
+│       │   ├── sub-076_ses-1_task-OLM_acq-2_ACC_beh.json
+│       │   ├── sub-076_ses-1_task-OLM_acq-2_ACC_beh.tsv
+│       │   ├── sub-076_ses-1_task-OLM_acq-2_ACCBIN_beh.json
+│       │   ├── sub-076_ses-1_task-OLM_acq-2_ACCBIN_beh.tsv
+│       │   ├── sub-076_ses-1_task-OLM_acq-2_RT_beh.json
+│       │   └── sub-076_ses-1_task-OLM_acq-2_RT_beh.tsv
+│       └── ses-2
+│           ├── sub-076_ses-2_task-OLM_acq-1_ACC_beh.json
+│           ├── sub-076_ses-2_task-OLM_acq-1_ACC_beh.tsv
+│           ├── sub-076_ses-2_task-OLM_acq-1_ACCBIN_beh.json
+│           ├── sub-076_ses-2_task-OLM_acq-1_ACCBIN_beh.tsv
+│           ├── sub-076_ses-2_task-OLM_acq-1_RT_beh.json
+│           └── sub-076_ses-2_task-OLM_acq-1_RT_beh.tsv
 ├── OLM_data.json
 ├── OLM_description.json
 ├── OLM_overview.html
@@ -2770,104 +2769,104 @@ OLM
 │   └── Behavioural_sham_sham.R
 └── raw_logs
     ├── sub-001
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-001_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-001_ses-4_task-OLM_acq-2_beh.log
     ├── sub-002
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-002_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-002_ses-4_task-OLM_acq-1_beh.log
     ├── sub-006
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-006_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-006_ses-4_task-OLM_acq-2_beh.log
     ├── sub-012
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-012_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-012_ses-4_task-OLM_acq-2_beh.log
     ├── sub-015
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-015_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-015_ses-4_task-OLM_acq-2_beh.log
     ├── sub-016
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-016_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-016_ses-4_task-OLM_acq-2_beh.log
     ├── sub-018
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-018_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-018_ses-4_task-OLM_acq-1_beh.log
     ├── sub-020
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-020_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-020_ses-4_task-OLM_acq-1_beh.log
     ├── sub-021
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-021_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-021_ses-4_task-OLM_acq-2_beh.log
     ├── sub-022
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-022_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-022_ses-4_task-OLM_acq-1_beh.log
     ├── sub-026
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-026_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-026_ses-4_task-OLM_acq-2_beh.log
     ├── sub-030
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-030_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-030_ses-4_task-OLM_acq-2_beh.log
     ├── sub-042
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-042_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-042_ses-4_task-OLM_acq-2_beh.log
     ├── sub-044
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-044_ses-3_task-OLM_acq-1_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-044_ses-4_task-OLM_acq-2_beh.log
     ├── sub-054
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-054_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-054_ses-4_task-OLM_acq-1_beh.log
     ├── sub-055
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-055_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-055_ses-4_task-OLM_acq-1_beh.log
     ├── sub-056
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-056_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-056_ses-4_task-OLM_acq-1_beh.log
     ├── sub-065
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-065_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-065_ses-4_task-OLM_acq-1_beh.log
     ├── sub-075
-    │   ├── ses-3
+    │   ├── ses-1
     │   │   └── sub-075_ses-3_task-OLM_acq-2_beh.log
-    │   └── ses-4
+    │   └── ses-2
     │       └── sub-075_ses-4_task-OLM_acq-1_beh.log
     └── sub-076
-        ├── ses-3
+        ├── ses-1
         │   └── sub-076_ses-3_task-OLM_acq-2_beh.log
-        └── ses-4
+        └── ses-2
             └── sub-076_ses-4_task-OLM_acq-1_beh.log
 
-213 directories, 2657 files
+213 directories, 2656 files

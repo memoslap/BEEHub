@@ -7,7 +7,7 @@ Creates a filterable overview dashboard from all project JSON files
 import json
 import numpy as np
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Optional, Tuple
 
 # Import metric registry for the radar dropdown labels
 try:
@@ -30,11 +30,13 @@ try:
 except ImportError:
     # Minimal fallback so the dashboard still generates without the module
     METRIC_REGISTRY = [
-        {"id": "icc",            "label": "ICC Consistency"},
-        {"id": "icc_agreement",  "label": "ICC Agreement"},
-        {"id": "pearson_r",      "label": "Pearson r"},
-        {"id": "cohens_d",       "label": "Stability (Cohen\u2019s d)"},
-        {"id": "cv",             "label": "Consistency (CV)"},
+        {"id": "icc",                  "label": "ICC Consistency"},
+        {"id": "icc_agreement",        "label": "ICC Agreement"},
+        {"id": "pearson_r",            "label": "Pearson r"},
+        {"id": "cronbach_alpha",       "label": "Internal consistency (\u03b1)"},
+        {"id": "session_shift_d",      "label": "Session-shift stability"},
+        {"id": "paradigm_effect_size", "label": "Paradigm effect size"},
+        {"id": "cv",                   "label": "Within-session CV"},
     ]
     ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
 
@@ -231,33 +233,108 @@ class InteractiveDashboard:
     def get_data_ranges(self) -> Dict:
         """Get min/max ranges for all metric sliders — task and control separately.
 
-        Instead of a hardcoded list of keys, this method scans the actual
-        metric keys present in each project's reliability dicts.  Any key
-        ending in one of the four metric suffixes (_icc_mean, _pearson_r_mean,
-        _cohens_d_mean, _cv_mean) is collected, regardless of the outcome-ID
-        prefix (rt_, acc_, score_, dist_, …).
+        Scans actual reliability keys present in each project.  Recognises both
+        the legacy ``_<metric>_mean`` suffix scheme and the new bare-suffix
+        scheme (``_icc``, ``_session_shift_d``, ``_paradigm_effect_size``,
+        ``_cronbach_alpha``).  Ancillary fields (CI bounds, F, df, p, n,
+        contrast, type, subjects, s1_means, s2_means) are skipped.
         """
         ages, n_subjects = [], []
         # raw[src][metric_short_key] = list of values
         raw_task: Dict[str, list] = {}
         raw_ctrl: Dict[str, list] = {}
 
-        METRIC_SUFFIXES = {
-            '_icc_mean':            'icc',
-            '_icc_agreement_mean':  'icc_agreement',
-            '_pearson_r_mean':      'pearson_r',
-            '_cohens_d_mean':       'cohens_d',
-            '_cv_mean':             'cv',
-        }
+        # Order matters: longest suffix first so '_icc_agreement_mean'
+        # is matched before '_icc_mean'.  Each suffix maps to a short
+        # metric label used in the slider key, e.g. 'rt_icc'.
+        METRIC_SUFFIXES = [
+            ('_icc_agreement_mean',     'icc_agreement'),
+            ('_icc_agreement',          'icc_agreement'),
+            ('_paradigm_effect_size',   'paradigm_effect_size'),
+            ('_session_shift_d',        'session_shift_d'),
+            ('_cronbach_alpha',         'cronbach_alpha'),
+            ('_pearson_r_mean',         'pearson_r'),
+            ('_pearson_r',              'pearson_r'),
+            ('_cohens_d_mean',          'cohens_d'),
+            ('_accuracy_percent_mean',  'accuracy_percent'),
+            ('_icc_mean',               'icc'),
+            ('_icc',                    'icc'),
+            ('_cv_mean',                'cv'),
+        ]
+
+        # Suffixes that must NEVER be classified as a primary metric value
+        SKIP_SUFFIXES = (
+            '_ci_low', '_ci_high', '_F', '_df1', '_df2', '_p',
+            '_n', '_n_observations', '_n_items', '_n_subjects',
+            '_contrast', '_type', '_subjects', '_s1_means', '_s2_means',
+            '_std', '_min', '_max',
+        )
+
+        def _classify(key: str) -> Optional[Tuple[str, str]]:
+            if any(key.endswith(s) for s in SKIP_SUFFIXES):
+                return None
+            for suffix, short in METRIC_SUFFIXES:
+                if key.endswith(suffix):
+                    oid = key[: -len(suffix)]   # 'rt', 'accbin', ...
+                    if not oid:
+                        return None
+                    return (f'{oid}_{short}', short)
+            return None
+
+        def _is_binary_accuracy_prefix(prefix: str) -> bool:
+            p = (prefix or '').lower()
+            return p in {'acc', 'accbin', 'accuracy', 'accuracy_binary'}
+
+        def _derive_accuracy_percent(metrics_dict: dict, prefix: str) -> Optional[float]:
+            """Return mean accuracy (%) from new scalar keys or legacy s1/s2 arrays."""
+            scalar = metrics_dict.get(f'{prefix}_accuracy_percent_mean')
+            if scalar is not None and not isinstance(scalar, (list, dict, str, bool)):
+                try:
+                    val = float(scalar)
+                    if val == val:  # not NaN
+                        return val
+                except Exception:
+                    pass
+            vals = []
+            for key in (f'{prefix}_s1_means', f'{prefix}_s2_means'):
+                arr = metrics_dict.get(key)
+                if isinstance(arr, list):
+                    vals.extend([float(x) for x in arr if x is not None])
+            if not vals:
+                return None
+            # Treat only bounded 0/1-like outcome means as binary accuracy.
+            if all(0.0 <= x <= 1.0 for x in vals):
+                return float(np.mean(vals) * 100.0)
+            return None
 
         def _collect(metrics_dict: dict, raw: dict):
             for k, v in metrics_dict.items():
-                if v is None:
+                # Only collect numeric scalars — skip lists/dicts/strings
+                if v is None or isinstance(v, (list, dict, str, bool)):
                     continue
-                for suffix in METRIC_SUFFIXES:
-                    if k.endswith(suffix):
-                        short = k[:-len('_mean')]   # e.g. 'rt_icc', 'score_cv'
-                        raw.setdefault(short, []).append(float(v))
+                if isinstance(v, float) and (v != v):  # NaN
+                    continue
+                cls = _classify(k)
+                if cls is None:
+                    continue
+                short_key, _short = cls
+                raw.setdefault(short_key, []).append(float(v))
+
+            # Legacy JSONs may not contain *_accuracy_percent_mean yet. Derive
+            # it from the paired session means so binary accuracy can appear as
+            # Accuracy % instead of an empty/misleading Accuracy CV slider.
+            prefixes = set()
+            for k in metrics_dict.keys():
+                if k.endswith('_s1_means'):
+                    prefixes.add(k[:-len('_s1_means')])
+                elif k.endswith('_accuracy_percent_mean'):
+                    prefixes.add(k[:-len('_accuracy_percent_mean')])
+            for prefix in prefixes:
+                if not _is_binary_accuracy_prefix(prefix):
+                    continue
+                pct = _derive_accuracy_percent(metrics_dict, prefix)
+                if pct is not None:
+                    raw.setdefault(f'{prefix}_accuracy_percent', []).append(pct)
 
         for project in self.all_projects:
             demo = project.get('demographics', {})
@@ -294,8 +371,19 @@ class InteractiveDashboard:
                 vals = raw.get(short, [])
                 if short.endswith('_cv'):
                     lo, hi = _rng_cv(vals)
-                elif short.endswith('_cohens_d'):
+                elif short.endswith('_accuracy_percent'):
+                    lo, hi = _rng_cv(vals)  # percentage scale, 0–100
+                elif short.endswith('_cohens_d') or short.endswith('_session_shift_d'):
                     lo, hi = _rng_d(vals)
+                elif short.endswith('_paradigm_effect_size'):
+                    # Effect sizes can be much larger than 1 — pad wider
+                    if vals:
+                        lo, hi = round(min(vals)-0.2, 2), round(max(vals)+0.2, 2)
+                    else:
+                        lo, hi = -3.0, 3.0
+                elif short.endswith('_cronbach_alpha'):
+                    # α is in (-∞, 1] but practically [0, 1]; allow small negatives
+                    lo, hi = _rng(vals, pad=0.05, lo=-0.5, hi=1.0)
                 else:
                     lo, hi = _rng(vals)
                 r[f'{src}_{short}_min'] = lo
@@ -1944,8 +2032,10 @@ class InteractiveDashboard:
                             <option value="icc">ICC Consistency</option>
                             <option value="icc_agreement">ICC Agreement</option>
                             <option value="pearson_r">Pearson r</option>
-                            <option value="cohens_d">Stability (Cohen&apos;s d)</option>
-                            <option value="cv">Consistency (CV)</option>
+                            <option value="cronbach_alpha">Internal consistency (α)</option>
+                            <option value="session_shift_d">Session-shift stability</option>
+                            <option value="paradigm_effect_size">Paradigm effect size</option>
+                            <option value="cv">Within-session CV</option>
                         </select>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:4px;">
@@ -2003,6 +2093,7 @@ class InteractiveDashboard:
                             <li>Computed at the <strong>learning-stage level</strong> (one mean per subject &times; stage &times; session), matching standard practice in crossover fMRI-tDCS studies</li>
                             <li>Two-way mixed model, single measures &mdash; ignores systematic session shifts; a uniform improvement across all subjects does not lower this ICC</li>
                             <li>Useful for detecting whether individual differences are preserved across sessions</li>
+                            <li><strong>Reported with 95 % CI, F statistic, and p-value</strong> (computed via <code>pingouin.intraclass_corr</code>; matches R's <code>irr::icc</code>)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
@@ -2055,12 +2146,20 @@ class InteractiveDashboard:
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1037/1040-3590.8.4.500" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
-                                <a href="https://doi.org/10.1152/japplphysiol.01092.2002" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
+                                <!-- ✅ Shrout & Fleiss (1979): "Intraclass correlations: uses in assessing
+                                     rater reliability." Psychological Bulletin 86(2):420-428. -->
+                                <a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank">Shrout &amp; Fleiss (1979)</a> &amp;
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was a wrong J Applied Physiology article. Correct DOI:
+                                     McGraw & Wong (1996) "Forming Inferences About Some Intraclass
+                                     Correlation Coefficients" Psychological Methods 1(1):30-46. -->
+                                <a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank">McGraw &amp; Wong (1996)</a> &mdash;
                                 When consistency &asymp; agreement, the paradigm is stable in every sense. When they diverge,
                                 the gap quantifies the session effect.
                                 Benchmarks: &ge;0.75 good, &ge;0.90 excellent
-                                <em>(Koo &amp; Li, 2016, J. Chiropr. Med.)</em>.
+                                <!-- ✅ FIXED 2026-05-18: previous DOI was from an unrelated Psychological Assessment article. Correct DOI:
+                                     Koo & Li (2016) "A Guideline of Selecting and Reporting ICC for
+                                     Reliability Research" J Chiropr Med 15(2):155-163. -->
+                                <em>(<a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank">Koo &amp; Li, 2016, J. Chiropr. Med.</a>)</em>.
                             </span>
                         </div>
                     </div>
@@ -2100,9 +2199,9 @@ class InteractiveDashboard:
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1093/biomet/13.1-2.25" target="_blank">Pearson (1920)</a>;
+                                <a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank">Pearson (1920)</a>;
                                 used as a supplementary reliability index alongside ICC in cognitive neuroscience
-                                <em>(Hedge et al., 2018, Behav. Res. Methods)</em>.
+                                <em>(<a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank">Hedge et al., 2018, Behav. Res. Methods</a>)</em>.
                                 Note: unlike ICC, Pearson r is insensitive to systematic session offsets — a high r with a large mean shift still indicates poor absolute reliability.
                             </span>
                         </div>
@@ -2111,23 +2210,24 @@ class InteractiveDashboard:
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Stability &mdash; from Cohen&apos;s d</div>
-                        <div class="metric-card-tagline">Magnitude of mean change between sessions</div>
+                        <div class="metric-card-name">Session-shift stability</div>
+                        <div class="metric-card-tagline">Magnitude of mean change between sessions &mdash; <em>not</em> the paradigm's effect size</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Detects systematic shifts such as practice or fatigue effects</li>
-                            <li>Derived from Cohen&apos;s d &mdash; inverted so that higher = more stable</li>
-                            <li>A score of 1 means no detectable shift across sessions</li>
+                            <li>Detects systematic shifts such as practice or fatigue effects across the two sessions</li>
+                            <li>Paired Cohen's d on session-level means &mdash; inverted on the radar so higher = more stable</li>
+                            <li>A score near 1 means the paradigm's mean did not drift between Session 1 and Session 2</li>
+                            <li><strong>Distinct from "paradigm effect size"</strong> below: this is a reliability concept (small shift is good), not paradigm sensitivity (a large within-session contrast is good)</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
-                                <span class="math-lhs">d</span>
+                                <span class="math-lhs">d<span class="math-sub">paired</span></span>
                                 <span class="math-eq">=</span>
                                 <span class="math-frac">
                                     <span class="math-num"><span class="math-var">M</span><span class="math-sub">1</span> &minus; <span class="math-var">M</span><span class="math-sub">2</span></span>
                                     <span class="math-bar"></span>
-                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">diff</span></span>
                                 </span>
                                 <span class="math-op" style="margin-left:14px; color:#8a7040; font-size:0.8em; font-style:normal">&there4;</span>
                                 <span class="math-lhs" style="margin-left:4px">Stability</span>
@@ -2142,15 +2242,14 @@ class InteractiveDashboard:
                             </div>
                             <div class="formula-legend">
                                 <b>M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">1</span>, M<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">2</span></b> = session means &nbsp;&middot;&nbsp;
-                                <b>SD<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">pooled</span></b> = pooled standard deviation
+                                <b>SD<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">diff</span></b> = SD of paired differences
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more stable across sessions</span>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = less drift between sessions</span>
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1037/h0044887" target="_blank">Cohen (1988)</a> —
-                                <em>Statistical Power Analysis for the Behavioral Sciences (2nd ed.)</em>.
-                                Cohen&apos;s d quantifies the standardised mean difference between sessions; conventional benchmarks: |d| &lt; 0.2 negligible, 0.2–0.5 small, 0.5–0.8 medium, &gt;0.8 large shift.
+                                <a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank">Cohen (1992)</a> —
+                                conventional benchmarks: |d| &lt; 0.2 negligible, 0.2&ndash;0.5 small, 0.5&ndash;0.8 medium, &gt;0.8 large shift.
                                 Inverted here so that stability = 1 indicates no session-to-session drift.
                             </span>
                         </div>
@@ -2159,14 +2258,114 @@ class InteractiveDashboard:
 
                 <div class="metric-card">
                     <div class="metric-card-header">
-                        <div class="metric-card-name">Consistency &mdash; from CV</div>
-                        <div class="metric-card-tagline">Within-session trial-to-trial variability</div>
+                        <div class="metric-card-name">Internal consistency &mdash; Cronbach&apos;s α / KR-20</div>
+                        <div class="metric-card-tagline">Within-session item homogeneity across trials &mdash; complements test-retest</div>
                     </div>
                     <div class="metric-card-body">
                         <ul class="metric-card-points">
-                            <li>Captures trial-level noise within each session</li>
+                            <li>Computed across <strong>trial-level items within Session 1</strong> &mdash; for binary accuracy this is mathematically KR-20</li>
+                            <li>Different construct from test-retest ICC: high α means the trials within a session measure the same thing, whatever that thing is</li>
+                            <li>A paradigm can have low test-retest ICC <em>and</em> high α (variable across days but consistent within a day) or vice versa</li>
+                            <li><strong>Reported with 95 % CI</strong> (computed via <code>pingouin.cronbach_alpha</code>)</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">α</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">k</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">k</span> &minus; 1</span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">&Sigma; <span class="math-var">σ²</span><span class="math-sub">i</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">σ²</span><span class="math-sub">total</span></span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>k</b> = number of trials &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">i</span></b> = variance of trial i &nbsp;&middot;&nbsp;
+                                <b>σ²<span style="font-size:0.75em;vertical-align:sub;color:#d4b44a">total</span></b> = variance of subject totals
+                            </div>
+                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent across trials</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.1007/BF02310555" target="_blank">Cronbach (1951)</a> /
+                                <a href="https://doi.org/10.1007/BF02288391" target="_blank">Kuder &amp; Richardson (1937)</a>;
+                                Internal consistency and test-retest reliability address different aspects of measurement error and should both be reported when available.
+                                Benchmarks: ≥0.70 acceptable, ≥0.80 good, ≥0.90 excellent.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Paradigm effect size (Hedges&apos; g)</div>
+                        <div class="metric-card-tagline">Within-session contrast magnitude &mdash; how strongly the paradigm moves the score</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Computed within <strong>Session 1 only</strong> on a paradigm-specific contrast &mdash; for OLM that's last vs first learning stage; for n-back it would be high vs low load; for Stroop, incongruent vs congruent</li>
+                            <li>Hedges' g is preferred over Cohen's d for small samples (n &lt; 50): applies the small-sample bias correction</li>
+                            <li><strong>Reported with bootstrap 95 % CI</strong> (BCa, n_boot=2000) so two paradigms with similar means but different precision are distinguishable</li>
+                            <li>This is a <em>sensitivity</em> metric, not a reliability metric: a paradigm can be highly reliable (high ICC, high α) but uninformative (g near 0) &mdash; visible at a glance by inspecting both</li>
+                        </ul>
+                        <div class="formula-box">
+                            <div class="math-expr">
+                                <span class="math-lhs">g</span>
+                                <span class="math-eq">=</span>
+                                <span class="math-frac">
+                                    <span class="math-num"><span class="math-var">M</span><span class="math-sub">A</span> &minus; <span class="math-var">M</span><span class="math-sub">B</span></span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den"><span class="math-var">SD</span><span class="math-sub">pooled</span></span>
+                                </span>
+                                <span class="math-op">&middot;</span>
+                                <span class="math-op">(</span>
+                                <span class="math-var">1</span>
+                                <span class="math-op">&minus;</span>
+                                <span class="math-frac">
+                                    <span class="math-num">3</span>
+                                    <span class="math-bar"></span>
+                                    <span class="math-den">4<span class="math-var">N</span> &minus; 9</span>
+                                </span>
+                                <span class="math-op">)</span>
+                            </div>
+                            <div class="formula-legend">
+                                <b>A, B</b> = the two paradigm conditions (e.g. LS4 vs LS1) &nbsp;&middot;&nbsp;
+                                <b>N</b> = total observations
+                            </div>
+                            <span class="formula-range">|g| 0 &rarr; ∞ &nbsp;&middot;&nbsp; capped at 1.5 for radar display &nbsp;&middot;&nbsp; |g| ≥ 0.8 = large</span>
+                        </div>
+                        <div class="metric-citation">
+                            <span class="metric-citation-text">
+                                <a href="https://doi.org/10.3102/10769986006002107" target="_blank">Hedges (1981)</a>;
+                                <a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank">Lakens (2013, Front. Psychol.)</a> &mdash; bootstrap CIs from
+                                <a href="https://doi.org/10.21105/joss.01026" target="_blank">Vallat (2018, JOSS)</a>.
+                                A radar score of 1.0 corresponds to |g| ≥ 1.5 (very large effect).
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-header">
+                        <div class="metric-card-name">Within-session CV</div>
+                        <div class="metric-card-tagline">Trial-to-trial variability within a single session</div>
+                    </div>
+                    <div class="metric-card-body">
+                        <ul class="metric-card-points">
+                            <li>Captures trial-level noise within each session for continuous outcomes such as RT</li>
                             <li>Coefficient of Variation is inverted &mdash; lower noise = higher score</li>
                             <li>Identifies tasks where participants respond erratically</li>
+                            <li><strong>Binary 0/1 accuracy is shown as mean Accuracy&nbsp;% instead of CV</strong>, because Bernoulli CV is determined by the mean accuracy and is therefore not an independent reliability estimate</li>
                         </ul>
                         <div class="formula-box">
                             <div class="math-expr">
@@ -2191,17 +2390,25 @@ class InteractiveDashboard:
                             </div>
                             <div class="formula-legend">
                                 <b>SD</b> = within-session standard deviation &nbsp;&middot;&nbsp;
-                                <b>Mean</b> = within-session mean RT
+                                <b>Mean</b> = within-session mean for continuous outcomes; binary accuracy uses mean % correct
                             </div>
-                            <span class="formula-range">0 &rarr; 1 &nbsp;&middot;&nbsp; higher = more consistent responding</span>
+                            <span class="formula-range">CV: 0 &rarr; 1 after inversion &nbsp;&middot;&nbsp; Accuracy %: 0 &rarr; 100, higher = better</span>
                         </div>
                         <div class="metric-citation">
                             <span class="metric-citation-text">
-                                <a href="https://doi.org/10.1016/j.neuropsychologia.2007.10.013" target="_blank">Hultsch et al. (1992)</a> &amp;
-                                <a href="https://doi.org/10.1037/0894-4105.21.4.390" target="_blank">Dykiert et al. (2012)</a> —
+                                <!-- ✅ VERIFIED 2026-05-19 via CrossRef + Oxford Academic:
+                                     Hultsch DF, MacDonald SWS, Dixon RA (2002) "Variability in reaction
+                                     time performance of younger and older adults." J Gerontol B Psychol
+                                     Sci Soc Sci 57(2):P101–P115. Previous DOI resolved to an unrelated Neuropsychologia COMT planning paper. -->
+                                <a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank">Hultsch, MacDonald &amp; Dixon (2002)</a> &amp;
+                                <!-- ✅ VERIFIED 2026-05-19 via PubMed (PMID 23071524):
+                                     Dykiert D, Der G, Starr JM, Deary IJ (2012) "Age differences in
+                                     intra-individual variability in simple and choice reaction time."
+                                     PLoS ONE 7(10):e45759. -->
+                                <a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank">Dykiert et al. (2012)</a> &mdash;
                                 Intra-individual RT variability (CV) is a validated marker of attentional lapses and neural noise;
                                 CV &lt; 15% is considered low variability in healthy adults
-                                <em>(Wagenmakers &amp; Brown, 2007, Psychol. Rev.)</em>.
+                                <em>(<a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank">Wagenmakers &amp; Brown, 2007, Psychol. Rev.</a>)</em>.
                             </span>
                         </div>
                     </div>
@@ -2210,6 +2417,94 @@ class InteractiveDashboard:
 
             <!-- ── 4. Radar plots ── -->
             <div id="radarChartsContainer" style="margin-top: 24px;"></div>
+
+            <!-- ── 5. Bibliography panel (collapsible, at end of reliability box) ── -->
+            <div class="reliability-panel" id="bibliographyPanel" style="margin-top:18px;">
+                <button class="reliability-panel-toggle" onclick="toggleBibliographyPanel()" aria-expanded="false">
+                    <div class="reliability-panel-header">
+                        <div class="reliability-panel-title">Bibliography — Metric References &amp; Citations</div>
+                        <span class="reliability-toggle-arrow">&#9662;</span>
+                    </div>
+                </button>
+                <div class="reliability-panel-body">
+                    <div class="reliability-panel-subtitle" style="color:#a08840; margin-bottom: 14px;">
+                        This bibliography covers the statistical methods cited in the metric explanation cards above.
+                        Per-paradigm publication references are maintained in each project's <code>bibliography.json</code>.
+                    </div>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85em;color:#c8b080;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.3);text-align:left;">
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">Reference</th>
+                                <th style="padding:8px 10px;color:#c9a227;font-weight:600;">DOI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Shrout &amp; Fleiss (1979). Intraclass correlations: Uses in assessing rater reliability. <em>Psychol Bull</em> 86(2):420–428.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.86.2.420" target="_blank" style="color:#c9a227;">10.1037/0033-2909.86.2.420</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">McGraw &amp; Wong (1996). Forming inferences about some intraclass correlation coefficients. <em>Psychol Methods</em> 1(1):30–46.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/1082-989X.1.1.30" target="_blank" style="color:#c9a227;">10.1037/1082-989X.1.1.30</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Koo &amp; Li (2016). A guideline of selecting and reporting ICC for reliability research. <em>J Chiropr Med</em> 15(2):155–163.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1016/j.jcm.2016.02.012" target="_blank" style="color:#c9a227;">10.1016/j.jcm.2016.02.012</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Pearson (1920). Notes on the history of correlation. <em>Biometrika</em> 13(1):25–45.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/biomet/13.1.25" target="_blank" style="color:#c9a227;">10.1093/biomet/13.1.25</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Hedge, Powell &amp; Sumner (2018). The reliability paradox: Why robust cognitive tasks do not produce reliable individual differences. <em>Behav Res Methods</em> 50(3):1166–1186.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3758/s13428-017-0935-1" target="_blank" style="color:#c9a227;">10.3758/s13428-017-0935-1</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Cohen (1992). A power primer. <em>Psychol Bull</em> 112(1):155–159.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-2909.112.1.155" target="_blank" style="color:#c9a227;">10.1037/0033-2909.112.1.155</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Cronbach (1951). Coefficient alpha and the internal structure of tests. <em>Psychometrika</em> 16(3):297–334.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02310555" target="_blank" style="color:#c9a227;">10.1007/BF02310555</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Kuder &amp; Richardson (1937). The theory of the estimation of test reliability. <em>Psychometrika</em> 2(3):151–160.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1007/BF02288391" target="_blank" style="color:#c9a227;">10.1007/BF02288391</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hedges (1981). Distribution theory for Glass's estimator of effect size and related estimators. <em>J Educ Stat</em> 6(2):107–128.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3102/10769986006002107" target="_blank" style="color:#c9a227;">10.3102/10769986006002107</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Lakens (2013). Calculating and reporting effect sizes to facilitate cumulative science. <em>Front Psychol</em> 4:863.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.3389/fpsyg.2013.00863" target="_blank" style="color:#c9a227;">10.3389/fpsyg.2013.00863</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Vallat (2018). Pingouin: statistics in Python. <em>J Open Source Softw</em> 3(31):1026.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.21105/joss.01026" target="_blank" style="color:#c9a227;">10.21105/joss.01026</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Hultsch, MacDonald &amp; Dixon (2002). Variability in reaction time performance of younger and older adults. <em>J Gerontol B</em> 57(2):P101–P115.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1093/geronb/57.2.P101" target="_blank" style="color:#c9a227;">10.1093/geronb/57.2.P101</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);">
+                                <td style="padding:6px 10px;">Dykiert, Der, Starr &amp; Deary (2012). Age differences in intra-individual variability in simple and choice RT. <em>PLoS ONE</em> 7(10):e45759.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1371/journal.pone.0045759" target="_blank" style="color:#c9a227;">10.1371/journal.pone.0045759</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(201,162,39,0.12);background:rgba(20,18,10,0.3);">
+                                <td style="padding:6px 10px;">Wagenmakers &amp; Brown (2007). On the linear relation between the mean and the standard deviation of a response time distribution. <em>Psychol Rev</em> 114(3):830–841.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1037/0033-295X.114.3.830" target="_blank" style="color:#c9a227;">10.1037/0033-295X.114.3.830</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 10px;">Weir (2005). Quantifying test-retest reliability using the ICC and the SEM. <em>J Strength Cond Res</em> 19(1):231–240.</td>
+                                <td style="padding:6px 10px;"><a href="https://doi.org/10.1519/15184.1" target="_blank" style="color:#c9a227;">10.1519/15184.1</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
 
         </div>
     </div>
@@ -2230,12 +2525,28 @@ class InteractiveDashboard:
 
         // ── Metric definitions — built dynamically from DATA_RANGES keys ─────
         // Supports any outcome prefix (rt_, acc_, score_, dist_, …)
+        // 'keys' is a list of fallback field names, tried in order — this
+        // lets us read both the new bare schema (`rt_icc`) and the legacy
+        // schema (`rt_icc_mean`) without two separate code paths.
         const METRIC_SUFFIXES = [
-            {{ suffix: '_icc',           metricId: 'icc',           label: 'ICC Consistency',           step: 0.05, decimals: 2 }},
-            {{ suffix: '_icc_agreement', metricId: 'icc_agreement', label: 'ICC Agreement',             step: 0.05, decimals: 2 }},
-            {{ suffix: '_pearson_r',     metricId: 'pearson_r',     label: 'Pearson r',                 step: 0.05, decimals: 2 }},
-            {{ suffix: '_cohens_d',      metricId: 'cohens_d',      label: 'Stability (Cohen’s d)', step: 0.1,  decimals: 2 }},
-            {{ suffix: '_cv',            metricId: 'cv',            label: 'Consistency (CV)',           step: 0.5,  decimals: 1 }},
+            {{ suffix: '_icc',                  metricId: 'icc',                  label: 'ICC Consistency',         step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc',                  '{{p}}_icc_mean']           }},
+            {{ suffix: '_icc_agreement',        metricId: 'icc_agreement',        label: 'ICC Agreement',           step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_icc_agreement',        '{{p}}_icc_agreement_mean'] }},
+            {{ suffix: '_pearson_r',            metricId: 'pearson_r',            label: 'Pearson r',               step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_pearson_r',            '{{p}}_pearson_r_mean']     }},
+            {{ suffix: '_cronbach_alpha',       metricId: 'cronbach_alpha',       label: 'Internal consistency (\u03b1)', step: 0.05, decimals: 2,
+               keysTpl: ['{{p}}_cronbach_alpha']                                   }},
+            {{ suffix: '_session_shift_d',      metricId: 'session_shift_d',      label: 'Session-shift stability', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_session_shift_d',      '{{p}}_cohens_d_mean']      }},
+            {{ suffix: '_paradigm_effect_size', metricId: 'paradigm_effect_size', label: 'Paradigm effect size',    step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_paradigm_effect_size']                             }},
+            {{ suffix: '_cv',                   metricId: 'cv',                   label: 'Within-session CV',       step: 0.5,  decimals: 1,
+               keysTpl: ['{{p}}_cv_mean']                                          }},
+            // Legacy id retained so an "all" view + old JSON still produce a slider
+            {{ suffix: '_cohens_d',             metricId: 'cohens_d',             label: 'Stability (Cohen\u2019s d)', step: 0.1,  decimals: 2,
+               keysTpl: ['{{p}}_cohens_d_mean',        '{{p}}_session_shift_d'],
+               hidden: true }},
         ];
         function _getOutcomePrefixes() {{
             const prefixes = new Set();
@@ -2251,18 +2562,73 @@ class InteractiveDashboard:
                            score:'Score', dist:'Distance', freq:'Frequency' }};
             return MAP[oid] || oid.toUpperCase();
         }}
+        function _isBinaryAccuracyPrefix(oid) {{
+            const p = (oid || '').toLowerCase();
+            return ['acc', 'accbin', 'accuracy', 'accuracy_binary'].includes(p);
+        }}
+        function _meanNumeric(values) {{
+            const nums = (values || []).filter(v => v !== null && v !== undefined && !Number.isNaN(Number(v))).map(Number);
+            return nums.length ? nums.reduce((a,b) => a+b, 0) / nums.length : null;
+        }}
+        function _accuracyPercentFromMetrics(metrics, prefix) {{
+            const direct = metrics[prefix + '_accuracy_percent_mean'];
+            if (direct !== null && direct !== undefined && !Number.isNaN(Number(direct))) return Number(direct);
+            const vals = [];
+            [prefix + '_s1_means', prefix + '_s2_means'].forEach(k => {{
+                const arr = metrics[k];
+                if (Array.isArray(arr)) arr.forEach(v => {{ if (v !== null && v !== undefined) vals.push(Number(v)); }});
+            }});
+            if (!vals.length || !vals.every(v => v >= 0 && v <= 1)) return null;
+            return _meanNumeric(vals) * 100;
+        }}
+        function _valueFromMetricObject(metrics, spec) {{
+            if (!metrics) return null;
+            if (spec.valueKind === 'accuracy_percent') {{
+                return _accuracyPercentFromMetrics(metrics, spec.prefix);
+            }}
+            for (const k of (spec.keys || [])) {{
+                const v = metrics[k];
+                if (v !== null && v !== undefined && !Array.isArray(v) && typeof v !== 'object') return Number(v);
+            }}
+            return null;
+        }}
+        function _rangeExists(src, sid) {{
+            return DATA_RANGES[src + '_' + sid + '_min'] !== undefined &&
+                   DATA_RANGES[src + '_' + sid + '_max'] !== undefined;
+        }}
+        function _sliderHasAnyRange(sid) {{
+            return _rangeExists('task', sid) || _rangeExists('ctrl', sid);
+        }}
         function _buildSliderMetrics() {{
             const prefixes = _getOutcomePrefixes();
-            return METRIC_SUFFIXES.map(ms => ({{
+            return METRIC_SUFFIXES
+              .filter(ms => !ms.hidden)
+              .map(ms => ({{
                 id: ms.metricId, label: ms.label,
-                sliders: prefixes.map(p => ({{
-                    sid:      p + ms.suffix,
-                    label:    _humanLabel(p) + ' ' + ms.label,
-                    key:      p + ms.suffix + '_mean',
-                    step:     ms.step,
-                    decimals: ms.decimals,
-                }})),
-            }}));
+                sliders: prefixes.map(p => {{
+                    if (ms.metricId === 'cv' && _isBinaryAccuracyPrefix(p)) {{
+                        return {{
+                            sid:      p + '_accuracy_percent',
+                            label:    _humanLabel(p) + ' (%)',
+                            keys:     [p + '_accuracy_percent_mean'],
+                            valueKind:'accuracy_percent',
+                            prefix:   p,
+                            step:     0.5,
+                            decimals: 1,
+                            displayMetricLabel: 'Accuracy percentage',
+                            normalise: v => Math.max(0, Math.min(1, v / 100)),
+                        }};
+                    }}
+                    return {{
+                        sid:      p + ms.suffix,
+                        label:    _humanLabel(p) + ' ' + ms.label,
+                        keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
+                        step:     ms.step,
+                        decimals: ms.decimals,
+                    }};
+                }}).filter(sl => _sliderHasAnyRange(sl.sid)),
+            }}))
+              .filter(metric => metric.sliders.length > 0);
         }}
         const SLIDER_METRICS = _buildSliderMetrics()
 
@@ -2286,17 +2652,20 @@ class InteractiveDashboard:
                      label: selectedSource === 'control' ? 'Control' : 'Task' }}];
 
             let html = '<div class="filters-grid">';
+            let rendered = 0;
             for (const src of sources) {{
                 for (const metric of metricsToShow) {{
                     for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
                         const fullId = sl.sid + '_' + src.key;
                         const mnKey  = src.key + '_' + sl.sid + '_min';
                         const mxKey  = src.key + '_' + sl.sid + '_max';
-                        const mn     = DATA_RANGES[mnKey] !== undefined ? DATA_RANGES[mnKey] : -1;
-                        const mx     = DATA_RANGES[mxKey] !== undefined ? DATA_RANGES[mxKey] :  1;
+                        const mn     = DATA_RANGES[mnKey];
+                        const mx     = DATA_RANGES[mxKey];
                         const srcTag = isBoth
                             ? ' <span style="font-size:0.75em;color:#a08840;">(' + src.label + ')</span>'
                             : '';
+                        rendered += 1;
                         html += `
                             <div class="filter-group" id="sliderGroup_${{fullId}}">
                                 <label class="filter-label">${{sl.label}}${{srcTag}}</label>
@@ -2312,6 +2681,9 @@ class InteractiveDashboard:
                 }}
             }}
             html += '</div>';
+            if (rendered === 0) {{
+                html = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No numeric values are available for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+            }}
             container.innerHTML = html;
         }}
 
@@ -2344,6 +2716,13 @@ class InteractiveDashboard:
 
         function toggleReliabilityPanel() {{
             const panel = document.getElementById('reliabilityPanel');
+            const btn = panel.querySelector('.reliability-panel-toggle');
+            panel.classList.toggle('open');
+            btn.setAttribute('aria-expanded', panel.classList.contains('open'));
+        }}
+
+        function toggleBibliographyPanel() {{
+            const panel = document.getElementById('bibliographyPanel');
             const btn = panel.querySelector('.reliability-panel-toggle');
             panel.classList.toggle('open');
             btn.setAttribute('aria-expanded', panel.classList.contains('open'));
@@ -2384,7 +2763,9 @@ class InteractiveDashboard:
                         if (!minEl || !maxEl) continue;
                         activeConstraints.push({{
                             field:    dictField,
-                            key:      sl.key,
+                            keys:     sl.keys,   // try each in order; first non-null wins
+                            valueKind: sl.valueKind || null,
+                            prefix:   sl.prefix || null,
                             minVal:   parseFloat(minEl.value),
                             maxVal:   parseFloat(maxEl.value),
                             minRange: parseFloat(minEl.min),
@@ -2424,7 +2805,7 @@ class InteractiveDashboard:
 
                     const rel = project[c.field] || {{}};
                     const vals = Object.values(rel)
-                        .map(m => m[c.key])
+                        .map(m => _valueFromMetricObject(m, c))
                         .filter(v => v !== null && v !== undefined);
                     if (vals.length === 0) continue;
                     const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
@@ -2483,35 +2864,94 @@ class InteractiveDashboard:
                 const primaryId = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
                 const primaryLabel = primaryOm ? primaryOm.label : primaryId.toUpperCase();
 
-                // ICC for highest-priority outcome — prefer agreement, fall back to consistency
-                const primaryIccAgrKey = primaryId + '_icc_agreement_mean';
-                const primaryIccConKey = primaryId + '_icc_mean';
+                // ICC for highest-priority outcome — prefer agreement, fall back to consistency.
+                // Tries new bare keys first (post-pingouin schema), then falls back to legacy `_mean`.
+                const primaryIccAgrKeys = [primaryId + '_icc_agreement', primaryId + '_icc_agreement_mean'];
+                const primaryIccConKeys = [primaryId + '_icc',           primaryId + '_icc_mean'];
+                const _firstNonNull = (obj, keys) => {{
+                    for (const k of keys) {{
+                        const v = obj[k];
+                        if (v !== null && v !== undefined) return {{val: v, key: k}};
+                    }}
+                    return null;
+                }};
                 let primaryIccVals2 = [];
+                let agreementSeen = false;
+                let ciLow = null, ciHigh = null;
                 for (const metrics of Object.values(reliability)) {{
-                    const va = metrics[primaryIccAgrKey];
-                    const vc = metrics[primaryIccConKey];
-                    const v = (va !== null && va !== undefined) ? va : vc;
-                    if (v !== null && v !== undefined) primaryIccVals2.push(v);
+                    const agr = _firstNonNull(metrics, primaryIccAgrKeys);
+                    const con = _firstNonNull(metrics, primaryIccConKeys);
+                    const pick = agr || con;
+                    if (!pick) continue;
+                    primaryIccVals2.push(pick.val);
+                    if (agr) agreementSeen = true;
+                    // Pull the matching CI bounds if present in new schema
+                    const baseKey = pick.key.endsWith('_mean')
+                        ? pick.key.slice(0, -'_mean'.length)
+                        : pick.key;
+                    const lo = metrics[baseKey + '_ci_low'];
+                    const hi = metrics[baseKey + '_ci_high'];
+                    if (lo !== null && lo !== undefined && ciLow === null) ciLow = lo;
+                    if (hi !== null && hi !== undefined && ciHigh === null) ciHigh = hi;
                 }}
                 const overallIcc = primaryIccVals2.length > 0
                     ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
                     : 'N/A';
-                const iccType = primaryIccVals2.length > 0
-                    && Object.values(reliability).some(m => m[primaryIccAgrKey] !== null && m[primaryIccAgrKey] !== undefined)
-                    ? 'ICC(A)' : 'ICC(C)';
+                const iccType = (primaryIccVals2.length > 0 && agreementSeen) ? 'ICC(A)' : 'ICC(C)';
+                const iccCiText = (ciLow !== null && ciHigh !== null && primaryIccVals2.length === 1)
+                    ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
+                    : '';
 
-                // CV for highest-priority outcome; fall back to rt_cv_mean if absent
-                const primaryCvKey = primaryId + '_cv_mean';
-                let allCvs = [];
-                for (const metrics of Object.values(reliability)) {{
-                    const v = metrics[primaryCvKey] !== null && metrics[primaryCvKey] !== undefined
-                        ? metrics[primaryCvKey]
-                        : metrics['rt_cv_mean'];
-                    if (v !== null && v !== undefined) allCvs.push(v);
+                // Dashboard variability/performance card.
+                // Continuous primary outcomes use CV. Binary accuracy uses mean
+                // Accuracy % instead of accbin_cv_mean, because binary CV is a
+                // deterministic function of the accuracy mean.
+                const _collectCv = (oid) => {{
+                    const cvKey = oid + '_cv_mean';
+                    const vals = [];
+                    for (const metrics of Object.values(reliability)) {{
+                        const v = metrics[cvKey];
+                        if (v !== null && v !== undefined) vals.push(Number(v));
+                    }}
+                    return vals;
+                }};
+                const _collectAccuracyPct = (oid) => {{
+                    const vals = [];
+                    for (const metrics of Object.values(reliability)) {{
+                        const pct = _accuracyPercentFromMetrics(metrics, oid);
+                        if (pct !== null && pct !== undefined) vals.push(Number(pct));
+                    }}
+                    return vals;
+                }};
+                let cardValue = 'N/A';
+                let cardLabel = primaryLabel + ' CV';
+                let cardTitle = 'Mean within-subject CV for continuous outcomes; binary accuracy is displayed as Accuracy %';
+                if (_isBinaryAccuracyPrefix(primaryId)) {{
+                    const accVals = _collectAccuracyPct(primaryId);
+                    if (accVals.length > 0) {{
+                        cardValue = (accVals.reduce((a,b) => a+b) / accVals.length).toFixed(2);
+                        cardLabel = primaryLabel + ' %';
+                    }}
+                }} else {{
+                    let allCvs = _collectCv(primaryId);
+                    let cvOutcomeLabel = primaryLabel;
+                    if (allCvs.length === 0) {{
+                        for (const om of outcomeMeasures) {{
+                            const oid = (om.id || '').toLowerCase();
+                            if (!oid || oid === primaryId || _isBinaryAccuracyPrefix(oid)) continue;
+                            const vals = _collectCv(oid);
+                            if (vals.length > 0) {{
+                                allCvs = vals;
+                                cvOutcomeLabel = om.label || oid.toUpperCase();
+                                break;
+                            }}
+                        }}
+                    }}
+                    if (allCvs.length > 0) {{
+                        cardValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
+                        cardLabel = cvOutcomeLabel + ' CV';
+                    }}
                 }}
-                const overallCv = allCvs.length > 0
-                    ? (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2)
-                    : 'N/A';
                 
                 return `
                     <div class="project-card">
@@ -2534,12 +2974,12 @@ class InteractiveDashboard:
                                 <div class="stat-label">Mean Age</div>
                             </div>
                             <div class="stat-item" title="Mean ICC (absolute agreement) for the primary outcome — stage-level, task trials only">
-                                <div class="stat-value">${{overallIcc}}</div>
+                                <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
                                 <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
-                            <div class="stat-item" title="Mean within-subject CV for the primary outcome across task trial types — control/rest excluded">
-                                <div class="stat-value">${{overallCv !== 'N/A' ? overallCv + '%' : 'N/A'}}</div>
-                                <div class="stat-label">${{primaryLabel}} CV<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
+                            <div class="stat-item" title="${{cardTitle}}">
+                                <div class="stat-value">${{cardValue !== 'N/A' ? cardValue + '%' : 'N/A'}}</div>
+                                <div class="stat-label">${{cardLabel}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
                             </div>
                         </div>
                         <div class="project-actions">
@@ -2553,11 +2993,15 @@ class InteractiveDashboard:
         
         // ── Metric & source registry — built dynamically ────────────────────
         const _METRIC_NORMS = {{
-            icc:           v => Math.max(0, Math.min(1, v)),
-            icc_agreement: v => Math.max(0, Math.min(1, v)),
-            pearson_r:     v => Math.max(0, Math.min(1, v)),
-            cohens_d:      v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
-            cv:            v => Math.max(0, Math.min(1, 1 - v / 50)),
+            icc:                    v => Math.max(0, Math.min(1, v)),
+            icc_agreement:          v => Math.max(0, Math.min(1, v)),
+            pearson_r:              v => Math.max(0, Math.min(1, v)),
+            cronbach_alpha:         v => Math.max(0, Math.min(1, v)),
+            session_shift_d:        v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),
+            cohens_d:               v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),  // legacy alias
+            paradigm_effect_size:   v => Math.max(0, Math.min(1, Math.abs(v) / 1.5)),  // |g|/1.5, capped
+            cv:                     v => Math.max(0, Math.min(1, 1 - v / 50)),
+            accuracy_percent:       v => Math.max(0, Math.min(1, v / 100)),
         }};
         function _buildMetricRegistry() {{
             const prefixes = _getOutcomePrefixes();
@@ -2599,6 +3043,7 @@ class InteractiveDashboard:
 
         /** Build a Plotly scatterpolar trace. */
         function _buildRadarTrace(r_values, theta, color, fillColor) {{
+            if (!r_values.length) return [];
             const r = [...r_values, r_values[0]];
             const t = [...theta, theta[0]];
             return [{{
@@ -2636,19 +3081,25 @@ class InteractiveDashboard:
 
         // Colour palette per metric
         const METRIC_COLOURS = {{
-            icc:           {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
-            icc_agreement: {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
-            pearson_r:     {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)',  tick: '#7a5a00' }},
-            cohens_d:      {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
-            cv:            {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
+            icc:                    {{ line: '#3d3d3d', fill: 'rgba(201,162,39,0.25)',  tick: '#5a4200' }},
+            icc_agreement:          {{ line: '#6b8e23', fill: 'rgba(107,142,35,0.22)',  tick: '#4a6318' }},
+            pearson_r:              {{ line: '#b8962e', fill: 'rgba(184, 150, 46, 0.20)', tick: '#7a5a00' }},
+            cronbach_alpha:         {{ line: '#8a6d3b', fill: 'rgba(138,109,59,0.22)',  tick: '#6b5023' }},
+            session_shift_d:        {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},
+            cohens_d:               {{ line: '#5a5a5a', fill: 'rgba(184,150,46,0.22)',  tick: '#5a4000' }},  // legacy
+            paradigm_effect_size:   {{ line: '#a83232', fill: 'rgba(168,50,50,0.20)',   tick: '#6b1a1a' }},
+            cv:                     {{ line: '#d4b44a', fill: 'rgba(224,192,96,0.20)',  tick: '#6b5000' }},
         }};
         // Slightly darker tints for control conditions
         const CTRL_COLOURS = {{
-            icc:           {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
-            icc_agreement: {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)',  tick: '#2e7d32' }},
-            pearson_r:     {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
-            cohens_d:      {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)', tick: '#5c0070' }},
-            cv:            {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
+            icc:                    {{ line: '#ffa726', fill: 'rgba(255,167,38,0.20)',  tick: '#8a5700' }},
+            icc_agreement:          {{ line: '#66bb6a', fill: 'rgba(102,187,106,0.20)', tick: '#2e7d32' }},
+            pearson_r:              {{ line: '#ff7043', fill: 'rgba(255,112,67,0.20)',  tick: '#8a2500' }},
+            cronbach_alpha:         {{ line: '#ce93d8', fill: 'rgba(206,147,216,0.20)', tick: '#6a1b9a' }},
+            session_shift_d:        {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},
+            cohens_d:               {{ line: '#ab47bc', fill: 'rgba(171,71,188,0.20)',  tick: '#5c0070' }},  // legacy
+            paradigm_effect_size:   {{ line: '#ff5252', fill: 'rgba(255,82,82,0.20)',   tick: '#8a0000' }},
+            cv:                     {{ line: '#ec407a', fill: 'rgba(236,64,122,0.20)',  tick: '#8a003a' }},
         }};
 
         /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */
@@ -2690,13 +3141,19 @@ class InteractiveDashboard:
                     // Look up the matching METRIC_REGISTRY entry for normalisation
                     const reg = METRIC_BY_ID[metric.id];
                     for (const sl of metric.sliders) {{
+                        if (!_rangeExists(src.key, sl.sid)) continue;
                         const divId = 'radar_' + sl.sid + '_' + src.key;
-                        const isRT  = sl.sid.startsWith('rt_');
-                        const title = metric.label + ' — ' + sl.label
+                        const metricTitle = sl.displayMetricLabel || metric.label;
+                        const title = metricTitle + ' — ' + sl.label
                               + ' <span style="font-size:0.78em;color:#a08840;">(' + src.label + ')</span>';
                         radarDefs.push({{ divId, reg, sl, useControl: src.useControl, title }});
                     }}
                 }}
+            }}
+
+            if (radarDefs.length === 0) {{
+                container.innerHTML = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No radar can be drawn for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+                return;
             }}
 
             // Pair into rows of 2
@@ -2722,27 +3179,29 @@ class InteractiveDashboard:
                 const fill    = pal ? pal.fill : 'rgba(64,158,128,0.25)';
                 const tickCol = pal ? pal.tick : '#5a4200';
 
-                // The reliability dict key is directly: sl.sid + '_mean'
-                // e.g. sl.sid='rt_icc' → key='rt_icc_mean', sl.sid='accbin_cv' → 'accbin_cv_mean'
-                const reliabilityKey = d.sl.sid + '_mean';
+                // Try the new bare key first (`rt_icc`), then the legacy
+                // `_mean` suffix (`rt_icc_mean`).  This keeps old JSONs
+                // working while picking up the post-pingouin schema.
+                const _firstAvailable = (m) => _valueFromMetricObject(m, d.sl);
+                const _hasAny = (rel) => Object.values(rel).some(
+                    m => _firstAvailable(m) !== null
+                );
                 const vals = filteredProjects.map(p => {{
                     const taskRel    = p.reliability_metrics || {{}};
                     const controlRel = p.control_reliability || {{}};
                     let dict;
                     if (d.useControl) {{
-                        const hasCtrl = Object.values(controlRel).some(
-                            m => m[reliabilityKey] !== null && m[reliabilityKey] !== undefined
-                        );
-                        dict = hasCtrl ? controlRel : taskRel;
+                        dict = _hasAny(controlRel) ? controlRel : taskRel;
                     }} else {{
                         dict = taskRel;
                     }}
                     const rawVals = Object.values(dict)
-                        .map(m => m[reliabilityKey])
+                        .map(_firstAvailable)
                         .filter(v => v !== null && v !== undefined);
-                    if (rawVals.length === 0) return 0;
+                    if (rawVals.length === 0) return null;
                     const mean = rawVals.reduce((a,b) => a+b, 0) / rawVals.length;
-                    return d.reg.normalise(mean);
+                    const normalise = d.sl.normalise || d.reg.normalise;
+                    return normalise(mean);
                 }});
 
                 _plotRadar(d.divId, _buildRadarTrace(vals, projectNames, colour, fill), tickCol);

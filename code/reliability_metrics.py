@@ -198,13 +198,15 @@ METRIC_REGISTRY: List[Dict] = [
         "normalise":   "effect_size",
     },
     {
-        "id":          "cv",
-        "label":       "Within-session CV",
-        "description": "Within-session trial-level coefficient of variation. "
-                       "Inverted on the radar — higher = lower noise. "
-                       "Suppressed for binary outcomes (deterministic given the mean).",
-        "radar_label": "{tt} {label} Trial CV",
-        "normalise":   "cv",
+        "id":             "cv",
+        "label":          "Within-session CV",
+        "description":    "Within-session trial-level coefficient of variation for continuous outcomes. "
+                          "Inverted on the radar — higher = lower noise. "
+                          "Not computed for binary accuracy (Bernoulli CV is a deterministic "
+                          "re-expression of the mean and conveys no independent information).",
+        "radar_label":    "{tt} {label} Trial CV",
+        "normalise":      "cv",
+        "skip_for_binary": True,   # never show CV spoke / slider for binary outcomes
     },
 ]
 
@@ -639,7 +641,9 @@ class ReliabilityMetrics:
                           .pipe(lambda s: s[s.ne('') & s.str.lower().ne('n/a')]).nunique() > 1)
 
             stage_s1, stage_s2 = [], []  # stage-level paired vectors for ICC
-            s1_means, s2_means, cv_all = [], [], []  # session-level for Pearson/Cohen/CV
+            # session-level vectors for Pearson/Cohen, plus CV for continuous outcomes.
+            # Binary accuracy: cv_all stays empty (CV not meaningful for 0/1 data).
+            s1_means, s2_means, cv_all = [], [], []
 
             for subject in subjects:
                 subj = dff[dff['subject_id'] == subject]
@@ -654,14 +658,14 @@ class ReliabilityMetrics:
                 s1_means.append(float(v1_all.mean()))
                 s2_means.append(float(v2_all.mean()))
 
-                # CV per session
-                # Skip CV for binary outcomes (ACCBIN etc.): for a 0/1
-                # Bernoulli variable, SD is forced to be √(p(1−p)), so
-                # CV = √((1−p)/p)·100 is a deterministic function of the
-                # mean accuracy and carries no information about measurement
-                # consistency. Leaving cv_all empty here lets downstream code
-                # (build_radar_spokes, normalise_for_radar) drop the spoke
-                # entirely rather than render a misleading low value.
+                # Within-session dispersion / performance display metric.
+                # Continuous outcomes: coefficient of variation (CV).
+                # Binary accuracy: do NOT compute Bernoulli CV. For 0/1 data,
+                # SD is forced to be √(p(1−p)), so CV = √((1−p)/p)·100 is a
+                # deterministic re-expression of the mean accuracy. Instead,
+                # store mean accuracy as a percentage so the dashboard can show
+                # an interpretable Accuracy % slider/card rather than a fake
+                # or missing "Accuracy CV".
                 #
                 # Detection: (a) explicit outcome_id allow-list or (b) the
                 # actual values are a subset of {0, 1}. (b) catches the
@@ -671,6 +675,7 @@ class ReliabilityMetrics:
                 is_binary = (outcome_id in BINARY_OUTCOME_IDS or
                              (len(vals_union) > 0 and vals_union <= {0, 1, 0.0, 1.0}))
                 if not is_binary:
+                    # Continuous outcome: compute within-session CV
                     for v in (v1_all.values, v2_all.values):
                         if len(v) > 1:
                             cv = cls.calculate_cv(v)
@@ -794,7 +799,11 @@ class ReliabilityMetrics:
             except Exception:
                 pass
 
-            # ── CV (within-session trial-level, skipped for binary) ──────────
+            # ── CV / Accuracy % display metric ───────────────────────────────
+            # Continuous outcomes keep trial-level CV.
+            # Binary outcomes: cv_mean stays None (Bernoulli CV is not meaningful).
+            # accuracy_percent_* is intentionally NOT stored — binary accuracy is
+            # represented by the ICC / α metrics on the raw 0/1 data.
             cv_mean = float(np.mean(cv_all)) if cv_all else None
             cv_std  = float(np.std(cv_all))  if cv_all else None
 
@@ -833,7 +842,12 @@ class ReliabilityMetrics:
                 f'{oid}_cronbach_alpha_ci_low':  cron['ci_low'],
                 f'{oid}_cronbach_alpha_ci_high': cron['ci_high'],
                 f'{oid}_cronbach_alpha_n_items': cron['n_items'],
-                # ─── CV (within-session trial-level) ────────────────────────
+                # ─── CV (continuous outcomes only) ──────────────────────────
+                # Binary accuracy: CV is not stored at all — Bernoulli CV is a
+                # deterministic re-expression of the mean (CV = √((1−p)/p)·100)
+                # and carries no independent information.  accuracy_percent_* is
+                # also not stored; binary accuracy is conveyed by the ICC / α
+                # metrics which operate on the 0/1 values directly.
                 f'{oid}_cv_mean':              cv_mean,
                 f'{oid}_cv_std':               cv_std,
                 # ─── Metadata + raw paired vectors ──────────────────────────
@@ -948,16 +962,14 @@ class ReliabilityMetrics:
                     for key, val in metrics.items():
                         if not key.endswith(suffix) or val is None:
                             continue
-                        # Make sure we got the bare key, not e.g. _icc_ci_low
-                        # for the suffix _icc.  Check there's nothing else
-                        # after the matched outcome_id segment.
                         oid = key[: -len(suffix)]
                         if not oid or '_' in oid.rstrip('_'):
-                            # oid should be a single token like 'rt', 'score'
-                            # (lowercase outcome_id).  If it contains '_',
-                            # this is a longer key like 'rt_icc_ci_low'.
                             if oid.count('_') > 0:
                                 continue
+                        # Skip CV spokes for binary accuracy outcomes — CV is
+                        # not meaningful for 0/1 data and is no longer stored.
+                        if reg.get('skip_for_binary') and oid.lower() in BINARY_OUTCOME_IDS:
+                            continue
                         pair_key = (tt, mid, oid)
                         if pair_key in seen_pairs:
                             continue

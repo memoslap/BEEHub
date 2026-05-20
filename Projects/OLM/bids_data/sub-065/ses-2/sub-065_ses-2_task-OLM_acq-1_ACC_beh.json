@@ -1,0 +1,41 @@
+{
+  "TaskName": "OLM",
+  "TaskDescription": "Trial accuracy (correct / incorrect / to late) from the feedback code.",
+  "onset": {
+    "Description": "Stimulus onset in seconds from t0 (first Pulse 30).",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Reaction time in seconds (stimulus onset to first button press).",
+    "Units": "seconds"
+  },
+  "accuracy": {
+    "Description": "Verdict reported by Presentation in the feedback event.",
+    "Levels": {
+      "correct": "Participant's yes/no matched",
+      "incorrect": "Participant's yes/no mismatched",
+      "to late": "No response within 2.5 s"
+    }
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "learning": "Object-location learning trial (Code contains block1..block6).",
+      "control": "Right/left control trial (Code contains crt1/crt2)."
+    }
+  },
+  "learning_stage": {
+    "Description": "Learning stage identifier LS1\u2013LS4."
+  },
+  "stimulus": {
+    "Description": "Filename of the house image presented on the street map (NOT the feedback image)."
+  },
+  "response_port": {
+    "Description": "Presentation port code of the first participant button press. 115 is the scanner trigger and is never used here.",
+    "Levels": {
+      "98": "Button 1 (yes)",
+      "97": "Button 2 (no)",
+      "n/a": "No response within 2.5 s"
+    }
+  }
+}

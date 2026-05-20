@@ -101,13 +101,13 @@
     "control"
   ],
   "sessions": [
-    "4",
-    "3"
+    "2",
+    "1"
   ],
   "data_by_condition": {
-    "learning_ses4": {
+    "learning_ses2": {
       "trial_type": "learning",
-      "session": "4",
+      "session": "2",
       "outcomes": {
         "ACCBIN": {
           "id": "ACCBIN",
@@ -17802,9 +17802,9 @@
       ],
       "n_trials": 4800
     },
-    "learning_ses3": {
+    "learning_ses1": {
       "trial_type": "learning",
-      "session": "3",
+      "session": "1",
       "outcomes": {
         "ACCBIN": {
           "id": "ACCBIN",
@@ -35481,9 +35481,9 @@
       ],
       "n_trials": 4800
     },
-    "control_ses4": {
+    "control_ses2": {
       "trial_type": "control",
-      "session": "4",
+      "session": "2",
       "outcomes": {
         "ACCBIN": {
           "id": "ACCBIN",
@@ -41654,9 +41654,9 @@
       ],
       "n_trials": 1600
     },
-    "control_ses3": {
+    "control_ses1": {
       "trial_type": "control",
-      "session": "3",
+      "session": "1",
       "outcomes": {
         "ACCBIN": {
           "id": "ACCBIN",
@@ -47814,19 +47814,33 @@
   },
   "reliability_metrics": {
     "learning": {
-      "accbin_icc_mean": 0.8663365223701686,
-      "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.8663365223701686,
-      "accbin_icc_max": 0.8663365223701686,
-      "accbin_icc_agreement_mean": 0.8677238955524872,
-      "accbin_icc_agreement_std": 0.0,
-      "accbin_icc_agreement_min": 0.8677238955524872,
-      "accbin_icc_agreement_max": 0.8677238955524872,
+      "accbin_icc": 0.8663365223701691,
+      "accbin_icc_ci_low": 0.8,
+      "accbin_icc_ci_high": 0.91,
+      "accbin_icc_F": 13.96295050424186,
+      "accbin_icc_df1": 79.0,
+      "accbin_icc_df2": 79.0,
+      "accbin_icc_p": 7.814082827197987e-26,
+      "accbin_icc_agreement": 0.8677238955524877,
+      "accbin_icc_agreement_ci_low": 0.8,
+      "accbin_icc_agreement_ci_high": 0.91,
+      "accbin_icc_agreement_F": 13.96295050424186,
+      "accbin_icc_agreement_df1": 79.0,
+      "accbin_icc_agreement_df2": 79.0,
+      "accbin_icc_agreement_p": 7.814082827197987e-26,
       "accbin_icc_n_observations": 80,
-      "accbin_pearson_r_mean": 0.6496221001616186,
-      "accbin_pearson_r_std": 0.0,
-      "accbin_cohens_d_mean": -0.028463645097218028,
-      "accbin_cohens_d_std": 0.0,
+      "accbin_pearson_r": 0.6496221001616186,
+      "accbin_session_shift_d": -0.028463645097218028,
+      "accbin_paradigm_effect_size": 3.922963083578369,
+      "accbin_paradigm_effect_size_ci_low": 2.14,
+      "accbin_paradigm_effect_size_ci_high": 6.86,
+      "accbin_paradigm_effect_size_type": "hedges",
+      "accbin_paradigm_effect_size_contrast": "LS4_vs_LS1",
+      "accbin_paradigm_effect_size_n": 20,
+      "accbin_cronbach_alpha": 0.7182902058940647,
+      "accbin_cronbach_alpha_ci_low": 0.511,
+      "accbin_cronbach_alpha_ci_high": 0.868,
+      "accbin_cronbach_alpha_n_items": 86,
       "accbin_cv_mean": null,
       "accbin_cv_std": null,
       "accbin_n_subjects": 20,
@@ -47897,22 +47911,40 @@
         "076"
       ],
       "session_labels": [
-        "3",
-        "4"
+        "1",
+        "2"
       ],
-      "rt_icc_mean": 0.8563999019066665,
-      "rt_icc_std": 0.0,
-      "rt_icc_min": 0.8563999019066665,
-      "rt_icc_max": 0.8563999019066665,
-      "rt_icc_agreement_mean": 0.8447673413944807,
-      "rt_icc_agreement_std": 0.0,
-      "rt_icc_agreement_min": 0.8447673413944807,
-      "rt_icc_agreement_max": 0.8447673413944807,
+      "accbin_icc_mean": 0.8663365223701691,
+      "accbin_icc_agreement_mean": 0.8677238955524877,
+      "accbin_pearson_r_mean": 0.6496221001616186,
+      "accbin_cohens_d_mean": -0.028463645097218028,
+      "rt_icc": 0.856399901906667,
+      "rt_icc_ci_low": 0.78,
+      "rt_icc_ci_high": 0.91,
+      "rt_icc_F": 12.927567087733463,
+      "rt_icc_df1": 79.0,
+      "rt_icc_df2": 79.0,
+      "rt_icc_p": 1.0870646451665577e-24,
+      "rt_icc_agreement": 0.8447673413944811,
+      "rt_icc_agreement_ci_low": 0.76,
+      "rt_icc_agreement_ci_high": 0.9,
+      "rt_icc_agreement_F": 12.927567087733463,
+      "rt_icc_agreement_df1": 79.0,
+      "rt_icc_agreement_df2": 79.0,
+      "rt_icc_agreement_p": 1.0870646451665577e-24,
       "rt_icc_n_observations": 80,
-      "rt_pearson_r_mean": 0.888272169062859,
-      "rt_pearson_r_std": 0.0,
-      "rt_cohens_d_mean": 0.40844802568795063,
-      "rt_cohens_d_std": 0.0,
+      "rt_pearson_r": 0.888272169062859,
+      "rt_session_shift_d": 0.40844802568795063,
+      "rt_paradigm_effect_size": -1.6509202011055597,
+      "rt_paradigm_effect_size_ci_low": -2.52,
+      "rt_paradigm_effect_size_ci_high": -0.85,
+      "rt_paradigm_effect_size_type": "hedges",
+      "rt_paradigm_effect_size_contrast": "LS4_vs_LS1",
+      "rt_paradigm_effect_size_n": 20,
+      "rt_cronbach_alpha": 0.9464997320512509,
+      "rt_cronbach_alpha_ci_low": 0.907,
+      "rt_cronbach_alpha_ci_high": 0.975,
+      "rt_cronbach_alpha_n_items": 100,
       "rt_cv_mean": 25.145756794440544,
       "rt_cv_std": 2.714301658809595,
       "rt_n_subjects": 20,
@@ -47981,24 +48013,42 @@
         "065",
         "075",
         "076"
-      ]
+      ],
+      "rt_icc_mean": 0.856399901906667,
+      "rt_icc_agreement_mean": 0.8447673413944811,
+      "rt_pearson_r_mean": 0.888272169062859,
+      "rt_cohens_d_mean": 0.40844802568795063
     }
   },
   "control_reliability": {
     "control": {
-      "accbin_icc_mean": 0.6424310329164521,
-      "accbin_icc_std": 0.0,
-      "accbin_icc_min": 0.6424310329164521,
-      "accbin_icc_max": 0.6424310329164521,
-      "accbin_icc_agreement_mean": 0.6446956574588992,
-      "accbin_icc_agreement_std": 0.0,
-      "accbin_icc_agreement_min": 0.6446956574588992,
-      "accbin_icc_agreement_max": 0.6446956574588992,
+      "accbin_icc": 0.6424310329164521,
+      "accbin_icc_ci_low": 0.49,
+      "accbin_icc_ci_high": 0.75,
+      "accbin_icc_F": 4.593326558265581,
+      "accbin_icc_df1": 79.0,
+      "accbin_icc_df2": 79.0,
+      "accbin_icc_p": 5.070171212507859e-11,
+      "accbin_icc_agreement": 0.6446956574588992,
+      "accbin_icc_agreement_ci_low": 0.5,
+      "accbin_icc_agreement_ci_high": 0.76,
+      "accbin_icc_agreement_F": 4.593326558265581,
+      "accbin_icc_agreement_df1": 79.0,
+      "accbin_icc_agreement_df2": 79.0,
+      "accbin_icc_agreement_p": 5.070171212507859e-11,
       "accbin_icc_n_observations": 80,
-      "accbin_pearson_r_mean": 0.7929791079870095,
-      "accbin_pearson_r_std": 0.0,
-      "accbin_cohens_d_mean": -0.08018590919757045,
-      "accbin_cohens_d_std": 0.0,
+      "accbin_pearson_r": 0.7929791079870095,
+      "accbin_session_shift_d": -0.08018590919757045,
+      "accbin_paradigm_effect_size": 0.6740412569211749,
+      "accbin_paradigm_effect_size_ci_low": 0.36,
+      "accbin_paradigm_effect_size_ci_high": 1.04,
+      "accbin_paradigm_effect_size_type": "hedges",
+      "accbin_paradigm_effect_size_contrast": "LS4_vs_LS1",
+      "accbin_paradigm_effect_size_n": 20,
+      "accbin_cronbach_alpha": 0.8929327634003308,
+      "accbin_cronbach_alpha_ci_low": 0.814,
+      "accbin_cronbach_alpha_ci_high": 0.95,
+      "accbin_cronbach_alpha_n_items": 68,
       "accbin_cv_mean": null,
       "accbin_cv_std": null,
       "accbin_n_subjects": 20,
@@ -48069,22 +48119,40 @@
         "076"
       ],
       "session_labels": [
-        "3",
-        "4"
+        "1",
+        "2"
       ],
-      "rt_icc_mean": 0.6169828186635505,
-      "rt_icc_std": 0.0,
-      "rt_icc_min": 0.6169828186635505,
-      "rt_icc_max": 0.6169828186635505,
-      "rt_icc_agreement_mean": 0.6085468219072867,
-      "rt_icc_agreement_std": 0.0,
-      "rt_icc_agreement_min": 0.6085468219072867,
-      "rt_icc_agreement_max": 0.6085468219072867,
+      "accbin_icc_mean": 0.6424310329164521,
+      "accbin_icc_agreement_mean": 0.6446956574588992,
+      "accbin_pearson_r_mean": 0.7929791079870095,
+      "accbin_cohens_d_mean": -0.08018590919757045,
+      "rt_icc": 0.6169828186635511,
+      "rt_icc_ci_low": 0.46,
+      "rt_icc_ci_high": 0.74,
+      "rt_icc_F": 4.221697870109814,
+      "rt_icc_df1": 79.0,
+      "rt_icc_df2": 79.0,
+      "rt_icc_p": 4.2963585551088755e-10,
+      "rt_icc_agreement": 0.6085468219072868,
+      "rt_icc_agreement_ci_low": 0.45,
+      "rt_icc_agreement_ci_high": 0.73,
+      "rt_icc_agreement_F": 4.221697870109814,
+      "rt_icc_agreement_df1": 79.0,
+      "rt_icc_agreement_df2": 79.0,
+      "rt_icc_agreement_p": 4.2963585551088755e-10,
       "rt_icc_n_observations": 80,
-      "rt_pearson_r_mean": 0.6725685636028039,
-      "rt_pearson_r_std": 0.0,
-      "rt_cohens_d_mean": 0.2612354309739877,
-      "rt_cohens_d_std": 0.0,
+      "rt_pearson_r": 0.6725685636028039,
+      "rt_session_shift_d": 0.2612354309739877,
+      "rt_paradigm_effect_size": -0.6463150655667574,
+      "rt_paradigm_effect_size_ci_low": -0.97,
+      "rt_paradigm_effect_size_ci_high": -0.3,
+      "rt_paradigm_effect_size_type": "hedges",
+      "rt_paradigm_effect_size_contrast": "LS4_vs_LS1",
+      "rt_paradigm_effect_size_n": 20,
+      "rt_cronbach_alpha": 0.9545683997959761,
+      "rt_cronbach_alpha_ci_low": 0.921,
+      "rt_cronbach_alpha_ci_high": 0.979,
+      "rt_cronbach_alpha_n_items": 78,
       "rt_cv_mean": 33.5691671075012,
       "rt_cv_std": 6.025800884323847,
       "rt_n_subjects": 20,
@@ -48153,7 +48221,11 @@
         "065",
         "075",
         "076"
-      ]
+      ],
+      "rt_icc_mean": 0.6169828186635511,
+      "rt_icc_agreement_mean": 0.6085468219072868,
+      "rt_pearson_r_mean": 0.6725685636028039,
+      "rt_cohens_d_mean": 0.2612354309739877
     }
   },
   "learning_stage_data": {
@@ -48288,19 +48360,32 @@
       "label": "Accuracy",
       "axis_label": "Accuracy (%)",
       "is_binary": true,
-      "display_priority": 1
+      "display_priority": 1,
+      "requires_correct_filter": false,
+      "paradigm_contrast": null
     },
     {
       "id": "RT",
       "label": "Reaction Time",
       "axis_label": "RT (ms)",
       "is_binary": false,
-      "display_priority": 2
+      "display_priority": 2,
+      "requires_correct_filter": true,
+      "paradigm_contrast": null
     }
   ],
   "primary_icc_key": "accbin_icc_agreement_mean",
   "column_names": {
     "rt_column": "response_time_ms",
     "acc_column": "accuracy_binary"
+  },
+  "_schema_version": "beehub_reliability_v2_pingouin",
+  "_provenance": {
+    "pingouin_version": "0.6.1",
+    "pingouin_used": true,
+    "numpy_version": "2.4.2",
+    "pandas_version": "3.0.0",
+    "scipy_version": "1.17.0",
+    "python_version": "3.14.3"
   }
 }

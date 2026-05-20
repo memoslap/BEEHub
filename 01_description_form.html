@@ -843,6 +843,19 @@
             (e.g. <code>score</code>). Standard RT/ACC outcomes are used automatically if
             you leave this section empty.
           </p>
+
+          <div class="section-divider" style="margin-top:24px"><span>What gets computed for each outcome</span></div>
+          <p style="font-size:0.85em;color:var(--ink-light);margin-top:10px;line-height:1.7;">
+            For every declared outcome the pipeline computes, per trial type:
+            <strong>ICC(C,1)</strong> and <strong>ICC(A,1)</strong> with analytical 95 % CIs and F-test
+            (via <code>pingouin.intraclass_corr</code>);
+            <strong>Cronbach's α / KR-20</strong> across trials with 95 % CI;
+            <strong>Hedges' g</strong> for the paradigm's main contrast with bootstrap 95 % CI;
+            <strong>Pearson r</strong>, <strong>session-shift d</strong>, and <strong>within-session CV</strong>.
+            All numbers land in <code>{PROJECT}_data.json</code> and feed the dashboard.
+            Pin the contrast for Hedges' g in the field below — leave blank to use the
+            paradigm's last-vs-first-stage contrast as default.
+          </p>
         </div>
 
         <div class="step-panel" id="panel-6">
@@ -1216,16 +1229,29 @@ function buildJSON() {
   if (Object.keys(timing).length) obj.timing = timing;
   const validOutcomes = state.outcome_measures.filter(o => o.id.trim() && o.suffix.trim() && o.column.trim());
   if (validOutcomes.length > 0) {
-    obj.outcome_measures = validOutcomes.map((o, idx) => ({
-      id:               o.id.trim().toUpperCase(),
-      suffix:           o.suffix.trim(),
-      column:           o.column.trim(),
-      label:            o.label.trim() || o.id.trim(),
-      axis_label:       o.axis_label.trim() || o.column.trim(),
-      higher_is_better: o.higher_is_better,
-      is_binary:        o.is_binary,
-      display_priority: o.display_priority || (idx + 1),
-    }));
+    obj.outcome_measures = validOutcomes.map((o, idx) => {
+      const entry = {
+        id:               o.id.trim().toUpperCase(),
+        suffix:           o.suffix.trim(),
+        column:           o.column.trim(),
+        label:            o.label.trim() || o.id.trim(),
+        axis_label:       o.axis_label.trim() || o.column.trim(),
+        higher_is_better: o.higher_is_better,
+        is_binary:        o.is_binary,
+        // New canonical name for correct-trial filtering. Also emitted as
+        // `is_primary` below so the current pipeline (which reads
+        // `is_primary`) keeps working until that rename lands.
+        requires_correct_filter: !!o.requires_correct_filter,
+        is_primary:              !!o.requires_correct_filter,
+        is_helper:               !!o.is_helper,
+        display_priority: o.display_priority || (idx + 1),
+      };
+      // Only include paradigm_contrast when set — leave the field absent
+      // otherwise so the pipeline applies its last_vs_first_stage default.
+      const contrast = (o.paradigm_contrast || '').trim();
+      if (contrast) entry.paradigm_contrast = contrast;
+      return entry;
+    });
   }
   const ns = document.getElementById('f_n_sessions').value;
   if (ns) obj.n_sessions = Number(ns);
@@ -1241,6 +1267,9 @@ function addOutcome() {
   state.outcome_measures.push({
     id: '', suffix: '', column: '', label: '', axis_label: '',
     higher_is_better: true, is_binary: false,
+    requires_correct_filter: false,   // triggers correct-trial filtering for this outcome
+    is_helper: false,                  // true = loaded but not plotted (used for filtering only)
+    paradigm_contrast: '',             // optional: e.g. "LS4_vs_LS1" or "incongruent_vs_congruent"
     display_priority: nextPriority,
   });
   renderOutcomeList();
@@ -1306,18 +1335,49 @@ function renderOutcomeList() {
             onchange="state.outcome_measures[${i}].is_binary=this.checked;updatePreview()">
           Binary (0/1) values
         </label>
-      </div>
-      <div class="field" style="grid-column: 1 / -1;">
-        <label style="font-size:0.85em;color:var(--ink-mid);">
-          Display Priority
-          <span style="font-weight:400;color:var(--ink-light);margin-left:6px;">
-            (1 = most important — shown as primary ICC in dashboard card)
-          </span>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"
+               title="When checked, only trials where the paired ACCBIN value is 1 are used for this outcome's reliability calculations. Set this on the RT outcome of an accuracy-paired paradigm.">
+          <input type="checkbox" ${om.requires_correct_filter?'checked':''} style="width:15px;height:15px;"
+            onchange="state.outcome_measures[${i}].requires_correct_filter=this.checked;updatePreview()">
+          Requires correct-trial filter
         </label>
-        <input type="number" min="1" max="99" value="${om.display_priority||i+1}"
-          style="width:80px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
-                 background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
-          oninput="state.outcome_measures[${i}].display_priority=parseInt(this.value)||${i+1};updatePreview()">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"
+               title="When checked, this outcome is loaded but not plotted. Use this for outcomes (like ACC, the trichotomous accuracy) that only feed downstream computations (like ACCBIN-based correct-trial filtering) but should not appear as their own panel in the dashboard.">
+          <input type="checkbox" ${om.is_helper?'checked':''} style="width:15px;height:15px;"
+            onchange="state.outcome_measures[${i}].is_helper=this.checked;updatePreview()">
+          Helper outcome (load but don't plot)
+        </label>
+      </div>
+      <div class="field" style="grid-column: 1 / -1; display:flex; gap:14px; align-items:flex-end;">
+        <div style="flex:0 0 110px;">
+          <label style="font-size:0.85em;color:var(--ink-mid);">
+            Display Priority
+          </label>
+          <input type="number" min="1" max="99" value="${om.display_priority||i+1}"
+            style="width:90px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                   background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+            oninput="state.outcome_measures[${i}].display_priority=parseInt(this.value)||${i+1};updatePreview()">
+          <div style="font-size:0.75em;color:var(--ink-light);margin-top:3px;line-height:1.4;">
+            1 = primary ICC in dashboard
+          </div>
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:0.85em;color:var(--ink-mid);">
+            Paradigm contrast for Hedges' g
+            <span style="font-weight:400;color:var(--ink-light);margin-left:6px;">
+              (optional — e.g. <code>LS4_vs_LS1</code>, <code>incongruent_vs_congruent</code>, <code>2back_vs_0back</code>)
+            </span>
+          </label>
+          <input type="text" value="${om.paradigm_contrast||''}" placeholder="leave blank for last_vs_first_stage default"
+            style="width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                   background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+            oninput="state.outcome_measures[${i}].paradigm_contrast=this.value;updatePreview()">
+          <div style="font-size:0.75em;color:var(--ink-light);margin-top:3px;line-height:1.4;">
+            Hedges' g is computed within session 1 on this contrast. Format:
+            <code>levelA_vs_levelB</code>. Levels must match values found in
+            the paradigm's grouping column (e.g. <code>learning_stage</code>).
+          </div>
+        </div>
       </div>`;
     list.appendChild(card);
   });
