@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MT — Mouse-Tracking Go/No-Go — Paradigma-Demo</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #ffffff 100%);
+        background-attachment: fixed;
+        color: #2a1a0a;
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: linear-gradient(135deg,
+            rgba(210, 195, 175, 0.90) 0%,
+            rgba(235, 225, 210, 0.95) 25%,
+            rgba(252, 248, 242, 0.98) 50%,
+            rgba(235, 225, 210, 0.95) 75%,
+            rgba(210, 195, 175, 0.90) 100%
+        );
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow:
+            0 10px 40px rgba(160, 120, 60, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.85),
+            inset 0 -1px 0 rgba(160, 110, 50, 0.15);
+        border: 1px solid rgba(190, 150, 80, 0.30);
+        position: relative;
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg,
+            #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+            #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%
+        );
+        opacity: 0.85;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────── */
+    .project-code {
+        background: linear-gradient(135deg,
+            #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+            #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 3em;
+        font-weight: 300;
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+        padding-bottom: 15px;
+        border-bottom: 4px solid;
+        border-image: linear-gradient(90deg,
+            transparent 0%, rgba(160, 120, 60, 0.3) 10%,
+            rgba(212, 160, 32, 0.6) 50%,
+            rgba(160, 120, 60, 0.3) 90%, transparent 100%
+        ) 1;
+    }
+    .project-full-name {
+        color: #7a5030; font-size: 1.3em; font-style: italic;
+        font-weight: 300; margin-bottom: 4px;
+    }
+    .page-subtitle {
+        color: #9a6a40; font-size: 1.05em; font-weight: 300; margin-bottom: 30px;
+    }
+    .source-note {
+        background: rgba(255, 248, 235, 0.60);
+        border: 1px solid rgba(190, 150, 80, 0.28);
+        border-left: 4px solid #d4a020;
+        border-radius: 10px;
+        padding: 14px 18px; margin-bottom: 30px;
+        font-size: 0.9em; color: #6b4520; line-height: 1.6;
+    }
+    code {
+        font-family: 'Courier New', monospace;
+        background: rgba(190, 150, 80, 0.14);
+        padding: 1px 6px; border-radius: 4px; font-size: 0.92em; color: #6b3a10;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    .demo-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } .container { padding: 28px 20px; } }
+
+    /* ── Stage: reproduces the PsychoPy window ──────────────────── */
+    .stage-frame {
+        background: linear-gradient(135deg,
+            rgba(225, 210, 185, 0.80) 0%, rgba(242, 232, 214, 0.88) 50%,
+            rgba(225, 210, 185, 0.80) 100%);
+        border: 1px solid rgba(190, 150, 80, 0.28);
+        border-radius: 14px; padding: 14px;
+        box-shadow: 0 3px 12px rgba(160, 110, 50, 0.10);
+    }
+    #stage {
+        position: relative; width: 100%; aspect-ratio: 1536 / 864;
+        background: #7f7f7f;     /* PsychoPy color=(0,0,0) in rgb space = mid grey */
+        border-radius: 8px; overflow: hidden; cursor: crosshair; user-select: none;
+        box-shadow: inset 0 2px 10px rgba(0,0,0,0.22);
+    }
+    .box { position: absolute; border: 1px solid #000; }
+    #startBox { background: #0000ff; }        /* fillColor [-1,-1,1] = blue */
+    #startBox.done { background: #000; }      /* black once the hold completes */
+    /* fillColor='white' ALWAYS — never recoloured by trial type, which would
+       cue the participant before the digit is read. */
+    #respBox { background: #fff; display: none; }
+    #digit { position: absolute; display: none; color: #000;
+             font-family: Arial, sans-serif; line-height: 1;
+             transform: translate(-50%, -50%); }
+    #fixation { position: absolute; color: #fff; font-family: Arial, sans-serif;
+                transform: translate(-50%, -50%); }
+    #corridor { position: absolute; display: none;
+                border-left: 1px dashed rgba(0,0,0,.30);
+                border-right: 1px dashed rgba(0,0,0,.30); }
+    #threshLine { position: absolute; display: none;
+                  border-top: 1px dashed rgba(0,0,0,.48); }
+    #trace { position: absolute; inset: 0; pointer-events: none; }
+    #banner {
+        position: absolute; inset: 0; display: flex; align-items: center;
+        justify-content: center; text-align: center; padding: 6% 10%;
+        background: rgba(252, 248, 242, 0.96); color: #3a2010; font-size: 0.95em;
+        line-height: 1.65;
+    }
+    #banner.hide { display: none; }
+    #banner strong { color: #6b3a10; }
+
+    /* ── Cards ──────────────────────────────────────────────────── */
+    .card {
+        background: linear-gradient(135deg,
+            rgba(225, 210, 185, 0.80) 0%, rgba(242, 232, 214, 0.88) 50%,
+            rgba(225, 210, 185, 0.80) 100%);
+        border: 1px solid rgba(190, 150, 80, 0.28);
+        border-radius: 12px; padding: 18px 20px; margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(160, 110, 50, 0.10);
+    }
+    .card h2 {
+        display: flex; align-items: center; gap: 9px;
+        font-size: 0.78em; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 0.09em; color: #9a6a40;
+        margin-bottom: 14px; padding-bottom: 10px;
+        border-bottom: 1px solid rgba(212, 160, 32, 0.30);
+    }
+    .row {
+        display: flex; justify-content: space-between; gap: 12px;
+        padding: 5px 0; font-size: 0.88em;
+        border-bottom: 1px solid rgba(190, 150, 80, 0.16);
+    }
+    .row:last-child { border-bottom: none; }
+    .row span:first-child { color: #7a5030; }
+    .row span:last-child { color: #3a2010; font-weight: 500;
+                           font-variant-numeric: tabular-nums; }
+
+    .phase {
+        display: inline-block; padding: 4px 11px; border-radius: 14px;
+        font-size: 0.78em; margin: 0 4px 6px 0;
+        background: rgba(190, 150, 80, 0.16); color: #8a6035;
+        border: 1px solid rgba(190, 150, 80, 0.22); transition: all 0.18s;
+    }
+    .phase.active {
+        background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+        color: #fff8eb; border-color: transparent;
+        box-shadow: 0 2px 8px rgba(160, 110, 50, 0.28);
+    }
+    .hint { font-size: 0.86em; color: #7a5030; margin-top: 10px; font-style: italic; }
+
+    .ok   { color: #4a7c30; font-weight: 600; }
+    .bad  { color: #9e3a1e; font-weight: 600; }
+    .warn { color: #9e7a1e; font-weight: 600; }
+
+    button {
+        background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+        color: #fff8eb; border: none; border-radius: 8px;
+        padding: 10px 22px; font-size: 0.95em; font-family: inherit;
+        font-weight: 500; cursor: pointer; transition: all 0.18s;
+        box-shadow: 0 2px 8px rgba(160, 110, 50, 0.25);
+    }
+    button:hover { transform: translateY(-1px);
+                   box-shadow: 0 4px 14px rgba(160, 110, 50, 0.35); }
+    button.ghost {
+        background: rgba(190, 150, 80, 0.14); color: #8a6035;
+        border: 1px solid rgba(190, 150, 80, 0.30); box-shadow: none;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.84em; }
+    th, td { text-align: left; padding: 5px 7px;
+             border-bottom: 1px solid rgba(190, 150, 80, 0.16); }
+    th { color: #9a6a40; font-weight: 600; text-transform: uppercase;
+         letter-spacing: 0.04em; font-size: 0.92em; }
+    td.n { text-align: right; font-variant-numeric: tabular-nums; }
+    .summary { font-size: 0.86em; color: #6b4520; margin-top: 12px;
+               padding-top: 10px; border-top: 1px solid rgba(212, 160, 32, 0.30); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="project-code">MT</div>
+  <div class="project-full-name">Mouse Tracking Go/No-Go Study</div>
+  <div class="page-subtitle">Paradigma-Demo — interaktive Rekonstruktion</div>
+
+  <div class="source-note">
+    <strong>Quelle:</strong> <code>paradigm/psychopy/go_nogo_dm.py</code>. Jede
+    Geometrie, jedes Timing und jede Bewertungsregel unten stammt aus dieser Datei;
+    die Kommentare im Quelltext nennen die jeweilige Zeile. Diese Demo wird mit der
+    <strong>echten Maus</strong> gesteuert — kein Klick-durch-Ablauf. Der dynamische
+    Start (Ziffer erscheint erst beim Überqueren der Schwelle bei y&nbsp;=&nbsp;−300)
+    ist das Kernmerkmal des Paradigmas und hier vollständig umgesetzt.
+  </div>
+
+  <div class="demo-grid">
+    <div class="stage-frame">
+      <div id="stage">
+        <div id="corridor"></div>
+        <div id="threshLine"></div>
+        <canvas id="trace"></canvas>
+        <div id="fixation">+</div>
+        <div class="box" id="startBox"></div>
+        <div class="box" id="respBox"></div>
+        <div id="digit"></div>
+        <div id="banner">
+          <div>
+            <p style="margin:0 0 16px"><strong>Mouse-Tracking Go/No-Go</strong></p>
+            <p style="margin:0 0 12px">
+              Bewegen Sie die Maus in das <strong>blaue Feld</strong> unten und halten
+              Sie sie dort für 500&nbsp;ms. Bewegen Sie den Cursor dann
+              <strong>nach oben</strong>. Sobald Sie die gestrichelte Linie überqueren,
+              erscheint eine Ziffer.</p>
+            <p style="margin:0 0 18px">
+              <strong>Go (2, 3, 4, 6, 7, 8):</strong> in die weiße Box klicken.<br>
+              <strong>No-Go (1, 9):</strong> die Bewegung anhalten, nicht klicken.</p>
+            <button onclick="startDemo()">Demo starten</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2><span>◆</span> Phase</h2>
+        <div id="phases">
+          <span class="phase" data-p="fixation">fixation 500 ms</span>
+          <span class="phase" data-p="hold">start_hold 500 ms</span>
+          <span class="phase" data-p="threshold">threshold</span>
+          <span class="phase" data-p="stimulus">stimulus 1500 ms</span>
+          <span class="phase" data-p="iti">ITI</span>
+        </div>
+        <p class="hint" id="hint">Bereit.</p>
+      </div>
+
+      <div class="card">
+        <h2><span>◆</span> Live-Status</h2>
+        <div class="row"><span>Trial</span><span id="sTrial">–</span></div>
+        <div class="row"><span>Typ / Ziffer</span><span id="sType">–</span></div>
+        <div class="row"><span>Cursor (PsychoPy px)</span><span id="sPos">–</span></div>
+        <div class="row"><span>Halte-Timer</span><span id="sHold">–</span></div>
+        <div class="row"><span>Im Korridor (|x| ≤ 150)</span><span id="sCorr">–</span></div>
+        <div class="row"><span>Stillstand (15 Samples)</span><span id="sStill">–</span></div>
+        <div class="row"><span>Stillstandsdauer</span><span id="sStillDur">–</span></div>
+        <div class="row"><span>Verstrichen</span><span id="sElapsed">–</span></div>
+      </div>
+
+      <div class="card">
+        <h2><span>◆</span> Ergebnisse</h2>
+        <table>
+          <thead><tr><th>#</th><th>Typ</th><th>Ergebnis</th><th class="n">RT</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <p class="summary" id="summary">Noch keine Durchgänge.</p>
+        <p style="margin-top:14px">
+          <button class="ghost" onclick="location.reload()">Zurücksetzen</button></p>
+      </div>
+
+      <div class="card">
+        <h2><span>◆</span> Parameter (go_nogo_dm.py)</h2>
+        <div class="row"><span>start_box</span><span>100×100 @ (0, −400)</span></div>
+        <div class="row"><span>response_box</span><span>100×100 @ (200, 300), weiß</span></div>
+        <div class="row"><span>threshold_y</span><span>−300 (start + 100)</span></div>
+        <div class="row"><span>corridor_width</span><span>300 px</span></div>
+        <div class="row"><span>hold_duration</span><span>0.5 s</span></div>
+        <div class="row"><span>max_response_time</span><span>1.5 s</span></div>
+        <div class="row"><span>Stillstand</span><span>15 Samples, &lt; 5 px</span></div>
+        <div class="row"><span>Stillstand nötig</span><span>0.5 s</span></div>
+        <div class="row"><span>ITI</span><span>choice[0.5 … 1.0], 6 Stufen</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+"use strict";
+/* ══════════════════════════════════════════════════════════════════════════
+   Parameters — each traceable to go_nogo_dm.py, same values as MT_short.py.
+   ══════════════════════════════════════════════════════════════════════════ */
+const W = 1536, H = 864;                 // 409
+const BOX = 100, HALF = BOX / 2;         // 448
+const START = {x: 0, y: -400};           // 449
+const RESP  = {x: 200, y: 300};          // 474
+const THRESHOLD_Y     = START.y + 100;   // 1594  -> -300
+const CORRIDOR_HALF   = 300 / 2;         // 1595
+const HOLD_DUR        = 500;             // 1339
+const FIXATION_DUR    = 500;             // 1410
+const MAX_WAIT_MOVE   = 5000;            // 1601
+const STIM_DEADLINE   = 1500;            // 1878
+const STILL_WINDOW_N  = 15;              // 2052
+const STILL_MAX_PX    = 5;               // 2056
+const STILL_REQUIRED  = 500;             // 2064
+const ITI_CHOICES     = [500,600,700,800,900,1000];   // 513
+const GO_DIGITS   = [2,3,4,6,7,8];
+const NOGO_DIGITS = [1,9];
+
+/* Demo block: 12 trials at the real 80/20 ratio, no two no-go adjacent. */
+const N_TRIALS = 12;
+
+/* ── Coordinate mapping: PsychoPy (centre origin, y up) -> CSS (top-left, y down) */
+const stage = document.getElementById('stage');
+function sx(){ return stage.clientWidth / W; }
+function toCSS(p){ const s = sx(); return {l:(W/2 + p.x)*s, t:(H/2 - p.y)*s}; }
+function toPsych(clientX, clientY){
+  const r = stage.getBoundingClientRect(), s = sx();
+  return {x:(clientX - r.left)/s - W/2, y: H/2 - (clientY - r.top)/s};
+}
+function placeBox(el, c){
+  const s = sx(), p = toCSS({x:c.x - HALF, y:c.y + HALF});
+  el.style.left = p.l+'px'; el.style.top = p.t+'px';
+  el.style.width = (BOX*s)+'px'; el.style.height = (BOX*s)+'px';
+}
+function layout(){
+  const s = sx();
+  placeBox(document.getElementById('startBox'), START);
+  placeBox(document.getElementById('respBox'),  RESP);
+  const d = document.getElementById('digit'), dp = toCSS(RESP);
+  d.style.left = dp.l+'px'; d.style.top = dp.t+'px'; d.style.fontSize = (72*s)+'px';
+  const f = document.getElementById('fixation'), fp = toCSS({x:0,y:0});
+  f.style.left = fp.l+'px'; f.style.top = fp.t+'px'; f.style.fontSize = (40*s)+'px';
+  const c = document.getElementById('corridor');
+  const cl = toCSS({x:-CORRIDOR_HALF, y:0});
+  c.style.left = cl.l+'px'; c.style.top = '0px';
+  c.style.width = (2*CORRIDOR_HALF*s)+'px'; c.style.height = '100%';
+  const t = document.getElementById('threshLine'), tp = toCSS({x:0,y:THRESHOLD_Y});
+  t.style.left = '0px'; t.style.top = tp.t+'px'; t.style.width = '100%';
+  const cv = document.getElementById('trace');
+  cv.width = stage.clientWidth; cv.height = stage.clientHeight;
+}
+window.addEventListener('resize', layout);
+
+/* ── Geometry helpers — identical semantics to MT_short.py ── */
+function inRect(p, c){ return Math.abs(p.x-c.x) <= HALF && Math.abs(p.y-c.y) <= HALF; }
+function windowIsStill(buf){
+  if (buf.length < STILL_WINDOW_N) return false;
+  const a = buf[0];
+  let mx = 0;
+  for (const p of buf) mx = Math.max(mx, Math.hypot(p.x-a.x, p.y-a.y));
+  return mx < STILL_MAX_PX;                       // 2053-2056
+}
+
+/* ── State ── */
+let mouse = {x:0, y:-432}, mouseDown = false;
+let phase = 'idle', trials = [], ti = 0, results = [];
+let raf = null, phaseStart = 0;
+let holdInside = false, holdStart = 0;
+let movementInitiated = false;
+let stillBuf = [], stillDur = 0, movementContinued = false, lastFrame = 0;
+let traj = [];
+
+stage.addEventListener('mousemove', e => { mouse = toPsych(e.clientX, e.clientY); });
+stage.addEventListener('mousedown', e => { if (e.button === 0) mouseDown = true; });
+stage.addEventListener('mouseup',   e => { if (e.button === 0) mouseDown = false; });
+
+const $ = id => document.getElementById(id);
+function setPhase(p, hint){
+  phase = p;
+  document.querySelectorAll('.phase').forEach(el =>
+    el.classList.toggle('active', el.dataset.p === p));
+  $('hint').textContent = hint || '—';
+}
+function show(id, on){ $(id).style.display = on ? 'block' : 'none'; }
+
+/* ── Trial list: 80/20, no two no-go adjacent (preprint transition rule) ── */
+function buildTrials(n){
+  const nNogo = Math.round(n * 0.2), list = [];
+  for (let i=0;i<n-nNogo;i++)
+    list.push({type:'go',   digit: GO_DIGITS[i % GO_DIGITS.length]});
+  for (let i=0;i<nNogo;i++)
+    list.push({type:'nogo', digit: NOGO_DIGITS[i % NOGO_DIGITS.length]});
+  for (let a=0;a<1000;a++){
+    for (let i=list.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1)); [list[i],list[j]]=[list[j],list[i]];
+    }
+    let ok = true;
+    for (let i=1;i<list.length;i++)
+      if (list[i].type==='nogo' && list[i-1].type==='nogo'){ ok=false; break; }
+    if (ok) return list;
+  }
+  return list;
+}
+
+function startDemo(){
+  stop();                                   // cancel any loop or timer still pending
+  trials = buildTrials(N_TRIALS); ti = 0; results = [];
+  $('tbody').innerHTML = ''; $('summary').textContent = '—';
+  $('banner').classList.add('hide');
+  layout();
+  nextTrial();
+}
+function nextTrial(){
+  if (ti >= trials.length) return finish();
+  $('sTrial').textContent = `${ti+1} / ${trials.length}`;
+  $('sType').textContent = '—';
+  runFixation();
+}
+
+/* ── Phase 1: fixation, 500 ms (1410) ── */
+function runFixation(){
+  setPhase('fixation', 'Fixationskreuz');
+  show('startBox', false); show('respBox', false); show('digit', false);
+  show('corridor', false); show('threshLine', false);
+  $('fixation').style.display = 'block';
+  clearTrace();
+  after(FIXATION_DUR, runHold);
+}
+
+/* ── Phase 2: start_hold. Timer resets on entry AND whenever the cursor
+   leaves the box (1500-1512). The box is blue, turning black on completion. ── */
+function runHold(){
+  setPhase('hold', 'Maus ins blaue Feld bewegen und 500 ms halten');
+  const sb = $('startBox');
+  sb.classList.remove('done'); show('startBox', true);
+  holdInside = false; holdStart = 0;
+  phaseStart = performance.now();
+  loop(function holdFrame(now){
+    const inside = inRect(mouse, START);
+    if (inside){
+      if (!holdInside){ holdInside = true; holdStart = now; }
+      const held = now - holdStart;
+      $('sHold').textContent = (held/1000).toFixed(2)+' s';
+      if (held >= HOLD_DUR){
+        sb.classList.add('done');                 // 1508: fillColor -> black
+        stop(); return runThreshold();
+      }
+    } else {
+      holdInside = false;                          // left the box: hold is void
+      $('sHold').textContent = '0.00 s (außerhalb)';
+    }
+    updateReadout();
+  });
+}
+
+/* ── Phase 3: threshold. The white response box is on screen but EMPTY. The
+   digit appears only when the cursor crosses threshold_y INSIDE the corridor,
+   having first moved above the start box (1718-1721). ── */
+function runThreshold(){
+  setPhase('threshold', 'Nach oben bewegen — die Ziffer erscheint an der Linie');
+  show('respBox', true); show('corridor', true); show('threshLine', true);
+  $('fixation').style.display = 'none';
+  movementInitiated = false;
+  phaseStart = performance.now();
+  loop(function thrFrame(now){
+    if (mouse.y > START.y) movementInitiated = true;
+    const inCorridor = Math.abs(mouse.x - START.x) <= CORRIDOR_HALF;
+    $('sCorr').textContent = inCorridor ? 'ja' : 'nein';
+    if (movementInitiated && inCorridor && mouse.y >= THRESHOLD_Y){
+      stop(); return runStimulus();
+    }
+    if (now - phaseStart >= MAX_WAIT_MOVE && !movementInitiated){
+      stop();
+      record('timeout', null);                     // 1601
+      return runITI();
+    }
+    updateReadout();
+  });
+}
+
+/* ── Phase 4: stimulus, 1500 ms deadline. Go = left click inside the RECTANGLE.
+   No-go = 500 ms of sustained stillness over a 15-sample window. ── */
+function runStimulus(){
+  const tr = trials[ti];
+  setPhase('stimulus', tr.type === 'go'
+    ? 'Go — in die weiße Box klicken'
+    : 'No-Go — anhalten, nicht klicken');
+  $('sType').textContent = `${tr.type} / ${tr.digit}`;
+  const d = $('digit'); d.textContent = tr.digit; show('digit', true);
+  show('corridor', false); show('threshLine', false);
+
+  stillBuf = []; stillDur = 0; movementContinued = false; traj = [];
+  phaseStart = performance.now(); lastFrame = phaseStart;
+
+  loop(function stimFrame(now){
+    const t = now - phaseStart;
+    const dt = now - lastFrame; lastFrame = now;
+    traj.push({x:mouse.x, y:mouse.y, t:t});
+    drawTrace();
+
+    // Any left click inside the box ends the trial. On a no-go trial that is
+    // by definition an error (2038-2041).
+    if (mouseDown && inRect(mouse, RESP)){
+      stop();
+      record(tr.type === 'go' ? 'correct' : 'commission error', t);
+      return runITI();
+    }
+
+    stillBuf.push({x:mouse.x, y:mouse.y});
+    if (stillBuf.length > STILL_WINDOW_N) stillBuf.shift();
+    const still = windowIsStill(stillBuf);
+    $('sStill').textContent = still ? 'still' : 'in Bewegung';
+    if (still){
+      stillDur += dt;
+      if (stillDur >= STILL_REQUIRED && tr.type === 'nogo'){
+        stop(); record('correct', t); return runITI();
+      }
+    } else { stillDur = 0; movementContinued = true; }
+    $('sStillDur').textContent = (stillDur/1000).toFixed(2)+' s';
+    $('sElapsed').textContent  = (t/1000).toFixed(2)+' s';
+
+    if (t >= STIM_DEADLINE){
+      stop();
+      if (tr.type === 'nogo' && !movementContinued) record('correct', STIM_DEADLINE);
+      else if (tr.type === 'nogo')                  record('kein Stopp', STIM_DEADLINE);
+      else                                          record('miss', STIM_DEADLINE);
+      return runITI();
+    }
+    updateReadout();
+  });
+}
+
+/* ── Phase 5: ITI. Blank screen, cursor hidden, six discrete steps (513). ── */
+function runITI(){
+  stop();                                   // belt and braces: no loop may survive here
+  setPhase('iti', 'Inter-Trial-Intervall');
+  const dur = ITI_CHOICES[Math.floor(Math.random()*ITI_CHOICES.length)];
+  show('startBox', false); show('respBox', false); show('digit', false);
+  show('corridor', false); show('threshLine', false);
+  $('fixation').style.display = 'none';
+  stage.style.cursor = 'none';                     // cursor hidden during the ITI
+  clearTrace();
+  after(dur, () => { stage.style.cursor = 'crosshair'; ti++; nextTrial(); });
+}
+
+/* ── Bookkeeping ── */
+function record(outcome, rt){
+  const tr = trials[ti];
+  results.push({n:ti+1, type:tr.type, outcome, rt});
+  const cls = outcome === 'correct' ? 'ok' : (outcome === 'timeout' ? 'warn' : 'bad');
+  $('tbody').insertAdjacentHTML('beforeend',
+    `<tr><td>${ti+1}</td><td>${tr.type}</td><td class="${cls}">${outcome}</td>
+     <td class="n">${rt === null ? '–' : Math.round(rt)+' ms'}</td></tr>`);
+}
+function finish(){
+  setPhase('idle', 'Fertig');
+  const go = results.filter(r=>r.type==='go'), ng = results.filter(r=>r.type==='nogo');
+  const acc = a => a.length ? Math.round(100*a.filter(r=>r.outcome==='correct').length/a.length) : 0;
+  const rts = go.filter(r=>r.outcome==='correct'&&r.rt!=null).map(r=>r.rt);
+  const mean = rts.length ? Math.round(rts.reduce((s,v)=>s+v,0)/rts.length) : '–';
+  $('summary').innerHTML =
+    `Go ${acc(go)} % richtig (n=${go.length}) · No-Go ${acc(ng)} % richtig (n=${ng.length})
+     · mittlere Go-RT ${mean} ms`;
+  $('banner').classList.remove('hide');
+  $('banner').innerHTML =
+    `<div><p style="margin:0 0 12px"><strong>Demo abgeschlossen</strong></p>
+     <p style="margin:0 0 14px;font-size:.92em">Go ${acc(go)} % · No-Go ${acc(ng)} % ·
+     Go-RT ${mean} ms</p><button onclick="startDemo()">Nochmal</button></div>`;
+}
+function updateReadout(){
+  $('sPos').textContent = `${Math.round(mouse.x)}, ${Math.round(mouse.y)}`;
+}
+
+/* ── Trajectory trace ── */
+function clearTrace(){
+  const cv = $('trace'), g = cv.getContext('2d');
+  g.clearRect(0,0,cv.width,cv.height);
+}
+function drawTrace(){
+  const cv = $('trace'), g = cv.getContext('2d');
+  g.clearRect(0,0,cv.width,cv.height);
+  if (traj.length < 2) return;
+  g.strokeStyle = 'rgba(20,24,33,.55)'; g.lineWidth = 2; g.beginPath();
+  traj.forEach((p,i) => { const c = toCSS(p); i ? g.lineTo(c.l,c.t) : g.moveTo(c.l,c.t); });
+  g.stroke();
+}
+
+/* ── rAF driver ── */
+/* A generation token, not just cancelAnimationFrame.
+   The previous version cancelled the frame but then unconditionally re-armed it:
+   `fn(now)` could call stop(), yet control returned to step(), which immediately
+   scheduled another frame. Loops therefore never ended, stacked across phases,
+   and each stale loop recorded its own result — one trial produced dozens of rows.
+   Now every scheduled callback carries the generation it was created in and
+   refuses to run, or to reschedule, once that generation is superseded. */
+let gen = 0, timer = null;
+
+function loop(fn){
+  stop();
+  const myGen = ++gen;
+  const step = now => {
+    if (myGen !== gen) return;              // superseded before this frame ran
+    fn(now);
+    if (myGen !== gen) return;              // fn ended the phase — do NOT re-arm
+    raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+}
+
+function stop(){
+  gen++;                                    // invalidate anything still pending
+  if (raf) cancelAnimationFrame(raf);
+  raf = null;
+  if (timer) clearTimeout(timer);
+  timer = null;
+}
+
+/* Generation-checked setTimeout, so a stale phase transition cannot fire either. */
+function after(ms, fn){
+  const myGen = gen;
+  timer = setTimeout(() => { if (myGen === gen) fn(); }, ms);
+}
+
+layout();
+</script></body>
+</html>

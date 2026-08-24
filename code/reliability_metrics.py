@@ -152,7 +152,7 @@ METRIC_REGISTRY: List[Dict] = [
         "description": "Intraclass Correlation — two-way mixed, consistency, single measures ICC(C,1). "
                        "Computed at the learning-stage level (subject × stage means). "
                        "Reported with 95% CI and F-test.",
-        "radar_label": "{tt} {label} ICC(C)",
+        "radar_label": "{tt} {label} ICC(3,1)",
         "normalise":   "icc",
     },
     {
@@ -161,7 +161,7 @@ METRIC_REGISTRY: List[Dict] = [
         "description": "Intraclass Correlation — two-way mixed, absolute agreement, single measures ICC(A,1). "
                        "Penalises systematic session shifts. Computed at the learning-stage level. "
                        "Reported with 95% CI and F-test.",
-        "radar_label": "{tt} {label} ICC(A)",
+        "radar_label": "{tt} {label} ICC(2,1)",
         "normalise":   "icc",
     },
     {
@@ -528,6 +528,245 @@ class ReliabilityMetrics:
             return np.nan
         return (np.std(data, ddof=1) / mean) * 100
 
+    # ── Condition-axis helpers (multi-condition paradigms, e.g. FLOW) ─────────
+    #
+    # The default pipeline treats every non-control ``trial_type`` as an
+    # independent "task" cell and reports one ICC per cell.  Paradigms whose
+    # scientific signal lives in a *contrast between conditions* (Flow vs
+    # Boredom) or in a *composite of conditions* (flow index = -B + 2F - O)
+    # have no home in that model.  The two methods below add that home without
+    # touching the existing per-cell behaviour.
+
+    @staticmethod
+    def resolve_contrast_levels(
+        contrast: Optional[str],
+        available_levels: List[str],
+    ) -> Optional[Tuple[str, str]]:
+        """Resolve a ``"A_vs_B"`` contrast string against a set of labels.
+
+        Matches either a full label (``"FLOW_F"``) or a case-insensitive
+        suffix/token (``"flow"`` matches ``"FLOW_F"``).  Returns
+        ``(level_a, level_b)`` as the *actual* labels present, or ``None`` when
+        either side cannot be resolved unambiguously.
+
+        This is what lets ``paradigm_contrast="flow_vs_boredom"`` work when the
+        conditions live in the ``trial_type`` / ``condition`` column rather than
+        in ``learning_stage``.
+        """
+        if not contrast or '_vs_' not in contrast:
+            return None
+        a_tok, b_tok = (s.strip() for s in contrast.split('_vs_', 1))
+        levels = [str(l) for l in available_levels]
+        # suffix after the last '_' — for FLOW_B/FLOW_O/FLOW_F this is B/O/F
+        suffix = {l: l.rsplit('_', 1)[-1] for l in levels}
+        all_suffix_single = levels and all(len(s) == 1 for s in suffix.values())
+
+        def _uniq(cands: List[str]) -> Optional[str]:
+            return cands[0] if len(cands) == 1 else None
+
+        def _match(tok: str) -> Optional[str]:
+            t = tok.lower()
+            # 1) exact (case-insensitive) full-label match
+            hit = _uniq([l for l in levels if l.lower() == t])
+            if hit:
+                return hit
+            # 2) token equals the label suffix, e.g. 'f' vs 'FLOW_F'
+            hit = _uniq([l for l in levels if suffix[l].lower() == t])
+            if hit:
+                return hit
+            # 3) token's initial equals a single-char suffix, e.g.
+            #    'flow'->'f' == 'F' in FLOW_F.  Only when every label uses a
+            #    single-character suffix (the B/O/F condition-code pattern) so
+            #    this heuristic cannot misfire on multi-letter stage labels.
+            if all_suffix_single and t:
+                hit = _uniq([l for l in levels if suffix[l].lower() == t[0]])
+                if hit:
+                    return hit
+            # 4) token uniquely contained in exactly one label
+            hit = _uniq([l for l in levels if t in l.lower()])
+            if hit:
+                return hit
+            return None
+
+        a, b = _match(a_tok), _match(b_tok)
+        if a is None or b is None or a == b:
+            return None
+        return (a, b)
+
+    @classmethod
+    def compute_condition_contrast(
+        cls,
+        df: pd.DataFrame,
+        column: str,
+        level_a: str,
+        level_b: str,
+        session,
+        level_col: str = 'trial_type',
+    ) -> Dict:
+        """Within-session Hedges' g between two *conditions* (paired by subject).
+
+        Unlike the stage-based path inside ``compute_for_outcome``, this reads
+        the condition labels from ``level_col`` (default ``trial_type``) so it
+        works for paradigms whose contrast is across conditions rather than
+        across learning stages.  Computed on a single session (``session``) so
+        it measures paradigm sensitivity uncontaminated by retest effects.
+        """
+        empty = {
+            'effect_size': np.nan, 'ci_low': np.nan, 'ci_high': np.nan,
+            'eftype': 'hedges', 'paired': True, 'n': 0,
+            'mean_a': np.nan, 'mean_b': np.nan, 'mean_diff': np.nan,
+            'contrast': f'{level_a}_vs_{level_b}',
+        }
+        if df.empty or level_col not in df.columns or 'session' not in df.columns:
+            return empty
+        d = df[df['session'] == session]
+        if d.empty or 'subject_id' not in d.columns:
+            return empty
+        a_vals, b_vals = [], []
+        for subj in d['subject_id'].unique():
+            sd = d[d['subject_id'] == subj]
+            va = pd.to_numeric(sd[sd[level_col].astype(str) == str(level_a)][column],
+                               errors='coerce').dropna()
+            vb = pd.to_numeric(sd[sd[level_col].astype(str) == str(level_b)][column],
+                               errors='coerce').dropna()
+            if len(va) and len(vb):
+                a_vals.append(float(va.mean()))
+                b_vals.append(float(vb.mean()))
+        if len(a_vals) < 3:
+            return empty
+        res = cls.calculate_paradigm_effect_size(a_vals, b_vals)
+        res['contrast'] = f'{level_a}_vs_{level_b}'
+        return res
+
+    @classmethod
+    def compute_composite_index_reliability(
+        cls,
+        df: pd.DataFrame,
+        weights: Dict[str, float],
+        value_columns: List[str],
+        level_col: str = 'condition',
+        outcome_id: str = 'composite',
+    ) -> Dict:
+        """Test-retest reliability of a *cross-condition composite* score.
+
+        Designed for scores such as the FLOW subjective flow index,
+        ``(-B + 2F - O)`` summed across the three Likert items.  For each
+        (subject, session) it forms one composite value:
+
+            composite = Sum_conditions  weight[condition] * mean(value_columns)
+
+        then computes ICC(C,1), ICC(A,1), Pearson r, and session-shift d on the
+        paired subject-level composites across the first two sessions.
+
+        Parameters
+        ----------
+        df : DataFrame
+            Long block/trial frame containing ``subject_id``, ``session``,
+            ``level_col`` and every column in ``value_columns``.
+        weights : {condition_label: weight}
+            e.g. ``{"B": -1, "F": 2, "O": -1}``.  Condition labels are matched
+            case-insensitively against ``level_col``.
+        value_columns : list of str
+            Columns averaged (then summed) to form the per-condition score --
+            e.g. the three Likert item columns.  A single column is fine.
+        level_col : str
+            Column holding the condition label (default ``condition``).
+
+        Returns a flat dict keyed like the per-outcome dicts
+        (``{oid}_icc``, ``{oid}_icc_agreement``, ``{oid}_pearson_r``,
+        ``{oid}_session_shift_d`` ...) so it merges into ``reliability_metrics``
+        with no special-casing downstream.
+        """
+        oid = outcome_id.lower()
+        nan_out = {
+            f'{oid}_icc': np.nan, f'{oid}_icc_ci_low': np.nan, f'{oid}_icc_ci_high': np.nan,
+            f'{oid}_icc_agreement': np.nan,
+            f'{oid}_icc_agreement_ci_low': np.nan, f'{oid}_icc_agreement_ci_high': np.nan,
+            f'{oid}_pearson_r': np.nan, f'{oid}_session_shift_d': np.nan,
+            f'{oid}_n_subjects': 0, f'{oid}_s1_means': [], f'{oid}_s2_means': [],
+            f'{oid}_subjects': [], f'{oid}_is_composite': True,
+            f'{oid}_composite_weights': dict(weights),
+            # legacy aliases
+            f'{oid}_icc_mean': np.nan, f'{oid}_icc_agreement_mean': np.nan,
+            f'{oid}_pearson_r_mean': np.nan, f'{oid}_cohens_d_mean': np.nan,
+        }
+        need = {'subject_id', 'session', level_col}
+        if df.empty or not need.issubset(df.columns):
+            return nan_out
+        cols_present = [c for c in value_columns if c in df.columns]
+        if not cols_present:
+            return nan_out
+
+        # lower-cased weight lookup
+        wmap = {str(k).lower(): float(v) for k, v in weights.items()}
+        sessions = sorted(df['session'].unique())
+        if len(sessions) < 2:
+            return nan_out
+        s1, s2 = sessions[0], sessions[1]
+
+        def _subject_session_composite(sd: pd.DataFrame) -> Optional[float]:
+            total, seen = 0.0, 0
+            for cond_label, w in wmap.items():
+                rows = sd[sd[level_col].astype(str).str.lower() == cond_label]
+                if rows.empty:
+                    continue
+                # per-condition score = mean over value columns of their means
+                per_col = []
+                for c in cols_present:
+                    vals = pd.to_numeric(rows[c], errors='coerce').dropna()
+                    if len(vals):
+                        per_col.append(float(vals.mean()))
+                if per_col:
+                    total += w * float(np.mean(per_col))
+                    seen += 1
+            # require every weighted condition to be present
+            return total if seen == len(wmap) else None
+
+        subjects, v1, v2 = [], [], []
+        for subj in df['subject_id'].unique():
+            sd1 = df[(df['subject_id'] == subj) & (df['session'] == s1)]
+            sd2 = df[(df['subject_id'] == subj) & (df['session'] == s2)]
+            c1 = _subject_session_composite(sd1) if not sd1.empty else None
+            c2 = _subject_session_composite(sd2) if not sd2.empty else None
+            if c1 is not None and c2 is not None:
+                subjects.append(subj)
+                v1.append(c1)
+                v2.append(c2)
+
+        if len(subjects) < 3:
+            out = dict(nan_out)
+            out[f'{oid}_n_subjects'] = len(subjects)
+            out[f'{oid}_s1_means'] = v1
+            out[f'{oid}_s2_means'] = v2
+            out[f'{oid}_subjects'] = subjects
+            return out
+
+        a1, a2 = np.array(v1), np.array(v2)
+        icc_c = cls.calculate_icc(a1, a2)
+        icc_a = cls.calculate_icc_agreement(a1, a2)
+        pear  = cls.calculate_pearson_r(a1, a2)
+        shift = cls.calculate_cohens_d_paired(a1, a2)
+        return {
+            f'{oid}_icc': icc_c['icc'],
+            f'{oid}_icc_ci_low': icc_c['ci_low'], f'{oid}_icc_ci_high': icc_c['ci_high'],
+            f'{oid}_icc_F': icc_c['F'], f'{oid}_icc_p': icc_c['p'],
+            f'{oid}_icc_agreement': icc_a['icc'],
+            f'{oid}_icc_agreement_ci_low': icc_a['ci_low'],
+            f'{oid}_icc_agreement_ci_high': icc_a['ci_high'],
+            f'{oid}_icc_agreement_F': icc_a['F'], f'{oid}_icc_agreement_p': icc_a['p'],
+            f'{oid}_pearson_r': pear,
+            f'{oid}_session_shift_d': shift,
+            f'{oid}_n_subjects': len(subjects),
+            f'{oid}_s1_means': v1, f'{oid}_s2_means': v2, f'{oid}_subjects': subjects,
+            f'{oid}_is_composite': True, f'{oid}_composite_weights': dict(weights),
+            'session_labels': [str(s1), str(s2)],
+            # legacy aliases so existing dashboard key-matching still finds it
+            f'{oid}_icc_mean': icc_c['icc'],
+            f'{oid}_icc_agreement_mean': icc_a['icc'],
+            f'{oid}_pearson_r_mean': pear,
+            f'{oid}_cohens_d_mean': shift,
+        }
+
     # ── Normalisation ────────────────────────────────────────────────────────
 
     @staticmethod
@@ -777,6 +1016,28 @@ class ReliabilityMetrics:
                         paradigm_es = cls.calculate_paradigm_effect_size(a, b)
                         paradigm_es['contrast'] = f'{last_st}_vs_{first_st}'
 
+            # ── Condition-axis fallback for the paradigm contrast ────────────
+            # When there is no learning_stage axis (or the requested contrast
+            # levels are not stages) but the contrast names two *conditions*
+            # present in the trial_type column — e.g. paradigm_contrast=
+            # "flow_vs_boredom" over FLOW_F / FLOW_B — compute Hedges' g across
+            # those conditions on the full (unfiltered-by-tt) frame.  This is
+            # the same value for every trial-type cell, so it is only computed
+            # once and reused.  Without this, multi-condition paradigms report
+            # no paradigm effect size at all.
+            if (np.isnan(paradigm_es.get('effect_size', np.nan))
+                    and paradigm_contrast and '_vs_' in paradigm_contrast
+                    and 'trial_type' in df.columns):
+                levels = df['trial_type'].dropna().astype(str).unique().tolist()
+                resolved = cls.resolve_contrast_levels(paradigm_contrast, levels)
+                if resolved is not None:
+                    lvl_a, lvl_b = resolved
+                    cc = cls.compute_condition_contrast(
+                        df, column, lvl_a, lvl_b, sessions[0],
+                        level_col='trial_type')
+                    if not np.isnan(cc.get('effect_size', np.nan)):
+                        paradigm_es = cc
+
             # ── Internal consistency: Cronbach's α on session-1 trials ───────
             # Builds a (subject × trial-index) wide matrix from session 1.
             # For binary outcomes this is KR-20.  Uses pingouin's
@@ -918,6 +1179,8 @@ class ReliabilityMetrics:
         rel_dict: Dict,
         selected_metric_ids: Optional[List[str]] = None,
         outcome_labels: Optional[Dict[str, str]] = None,
+        outcome_ids: Optional[List[str]] = None,
+        show_trial_type: bool = True,
     ) -> Tuple[List[str], List[float]]:
         """Return *(categories, values)* for a Plotly scatterpolar trace.
 
@@ -930,6 +1193,16 @@ class ReliabilityMetrics:
         outcome_labels:
             Mapping outcome_id.lower() → human label (e.g. ``{'rt': 'RT',
             'score': 'Score'}``).  Used in spoke labels.
+        outcome_ids:
+            The outcome IDs actually declared by the project (lower-cased).
+
+            Strongly recommended.  Metric keys are ``f'{outcome_id}{suffix}'``,
+            so recovering the outcome id from a key means splitting on a
+            delimiter that also occurs *inside* ids.  The legacy fallback below
+            guesses, and to stay safe it discards any id containing an
+            underscore — which silently drops every spoke for outcomes named
+            e.g. ``FlowIndex_Likert``, leaving an empty radar with no error.
+            Passing the ids removes the guesswork entirely.
         """
         ids_to_show = selected_metric_ids if selected_metric_ids else ALL_METRIC_IDS
         olabels = outcome_labels or {}
@@ -952,33 +1225,56 @@ class ReliabilityMetrics:
         values:     List[float] = []
         seen_pairs = set()  # avoid duplicate spokes when both new+legacy keys present
 
+        known_ids = [str(o).lower() for o in (outcome_ids or [])]
+
+        def _label(reg, tt, human):
+            # With a single trial type the prefix names a condition that does
+            # not exist (see the violin/banner suppression) — drop it.
+            lbl = reg['radar_label'].format(tt=(tt if show_trial_type else ''),
+                                            label=human)
+            return ' '.join(lbl.split())
+
+        def _add(tt, mid, oid, val, reg):
+            if val is None:
+                return
+            if reg.get('skip_for_binary') and oid.lower() in BINARY_OUTCOME_IDS:
+                return
+            pair_key = (tt, mid, oid)
+            if pair_key in seen_pairs:
+                return
+            norm = cls.normalise_for_radar(mid, val)
+            if norm is None:
+                return
+            human = olabels.get(oid, oid.upper())
+            categories.append(_label(reg, tt, human))
+            values.append(norm)
+            seen_pairs.add(pair_key)
+
         for tt, metrics in rel_dict.items():
             for mid in ids_to_show:
                 reg = METRIC_BY_ID.get(mid)
                 if reg is None:
                     continue
                 suffixes = suffix_map.get(mid, [f'_{mid}_mean'])
+
+                if known_ids:
+                    # Exact lookup — no parsing, so underscores in outcome ids
+                    # (FlowIndex_Likert, rt_congruent, …) are handled correctly.
+                    for oid in known_ids:
+                        for suffix in suffixes:
+                            if f'{oid}{suffix}' in metrics:
+                                _add(tt, mid, oid, metrics[f'{oid}{suffix}'], reg)
+                                break
+                    continue
+
+                # ── Legacy fallback: infer the id from the key (guesses) ──────
                 for suffix in suffixes:
                     for key, val in metrics.items():
                         if not key.endswith(suffix) or val is None:
                             continue
                         oid = key[: -len(suffix)]
-                        if not oid or '_' in oid.rstrip('_'):
-                            if oid.count('_') > 0:
-                                continue
-                        # Skip CV spokes for binary accuracy outcomes — CV is
-                        # not meaningful for 0/1 data and is no longer stored.
-                        if reg.get('skip_for_binary') and oid.lower() in BINARY_OUTCOME_IDS:
+                        if not oid or oid.count('_') > 0:
                             continue
-                        pair_key = (tt, mid, oid)
-                        if pair_key in seen_pairs:
-                            continue
-                        human = olabels.get(oid, oid.upper())
-                        norm = cls.normalise_for_radar(mid, val)
-                        if norm is not None:
-                            label = reg['radar_label'].format(tt=tt, label=human)
-                            categories.append(label)
-                            values.append(norm)
-                            seen_pairs.add(pair_key)
+                        _add(tt, mid, oid, val, reg)
 
         return categories, values

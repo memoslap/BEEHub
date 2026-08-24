@@ -1116,10 +1116,29 @@ class InteractiveDashboard:
                 return stem   # e.g. "OLMM_short_version_german"
         return None
 
+    def check_demo(self, project_dir: Path) -> str | None:
+        """Return the demo HTML path RELATIVE to project_dir, or None."""
+        n = project_dir.name
+        short_dir = Path("paradigm") / "psychopy" / f"{n}_paradigm_short"
+        candidates = [
+            short_dir / f"{n}_demo.html",
+            short_dir / f"{n}_short_demo.html",
+            short_dir / "demo.html",
+            Path("paradigm") / "psychopy" / f"{n}_demo.html",
+            Path("paradigm") / f"{n}_demo.html",
+        ]
+        for rel in candidates:
+            if (project_dir / rel).exists():
+                return rel.as_posix()
+        return None
+
     # ── HTML generator ────────────────────────────────────────────────────
 
-    def generate_test_paradigm_launcher(self, project_data: Dict) -> str:
+    def generate_test_paradigm_launcher(self, project_data: Dict,
+                                        project_dir: Path | None = None) -> str:
         pn       = project_data.get("project_name", "Unknown")
+        if project_dir is None:
+            project_dir = self.base_path / "Projects" / pn
         proj_dir = self.base_path / "Projects" / pn
 
         # Load rich description JSON; fall back to project_info from data.json
@@ -1238,13 +1257,16 @@ class InteractiveDashboard:
                 f'<div class="detail-grid">{"".join(detail_cells)}</div>')
 
         # ── Interactive Demo ─────────────────────────────────────────────
-        demo_section = _section("Interactive Demo", f"""
+        demo_rel = self.check_demo(project_dir)
+        demo_section = ""
+        if demo_rel:
+            demo_section = _section("Interactive Demo", f"""
             <div class="demo-box">
                 <strong>Try it now:</strong> Experience a browser-based demo version
                 of this paradigm with reduced trials and timing.
             </div>
             <div class="btn-container">
-                <a href="paradigm/psychopy/{pn}_paradigm_short/{pn}_demo.html"
+                <a href="{demo_rel}"
                    class="btn btn-demo" target="_blank">
                     Launch Interactive Demo
                 </a>
@@ -1432,7 +1454,7 @@ class InteractiveDashboard:
         for project in self.all_projects:
             pn = project.get("project_name")
             project_dir = self.base_path / "Projects" / pn
-            html = self.generate_test_paradigm_launcher(project)
+            html = self.generate_test_paradigm_launcher(project, project_dir)
             out  = project_dir / f"{pn}_paradigm.html"
             with open(out, "w", encoding="utf-8") as f:
                 f.write(html)

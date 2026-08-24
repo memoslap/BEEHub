@@ -1,0 +1,34 @@
+{
+  "Name": "MT stopping metrics",
+  "BIDSVersion": "1.10.0",
+  "DatasetType": "derivative",
+  "GeneratedBy": [
+    {
+      "Name": "convert_MT.py",
+      "Description": "Trial-level stopping metrics ported from 1__compute_stopping.R.",
+      "Parameters": {
+        "BOX_CONFIG": {
+          "x_min": 150.0,
+          "x_max": 250.0,
+          "y_min": 250.0,
+          "y_max": 350.0,
+          "include_boundary": false
+        },
+        "NOGO_CONFIG": {
+          "v_thresh": 10.0,
+          "min_still_sec": 0.15,
+          "post_still_sec": 0.25,
+          "deadline_sec": 1.5,
+          "dist_thresh_no_move": 5.0,
+          "post_still_criterion": 0.9
+        },
+        "post_window": "trial"
+      }
+    }
+  ],
+  "SourceDatasets": [
+    {
+      "URL": "../../bids_data"
+    }
+  ]
+}

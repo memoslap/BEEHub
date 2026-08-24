@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PARADIGM_TITLE}} — Interactive Demo</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 1 — SHARED BEEHub AESTHETIC.  DO NOT EDIT.
+   Identical in every BEEHub demo. Editing here makes this paradigm look
+   different from the others, which defeats the purpose of a shared house style.
+   ═══════════════════════════════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #ffffff 100%);
+    background-attachment: fixed;
+    color: #2a1a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.container {
+    max-width: 880px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        rgba(210,195,175,0.90) 0%, rgba(235,225,210,0.95) 25%,
+        rgba(252,248,242,0.98) 50%, rgba(235,225,210,0.95) 75%,
+        rgba(210,195,175,0.90) 100%);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow: 0 10px 40px rgba(160,120,60,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.85),
+                inset 0 -1px 0 rgba(160,110,50,0.15);
+    border: 1px solid rgba(190,150,80,0.30);
+    position: relative;
+    overflow: hidden;
+}
+.container::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg,
+        #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+        #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%);
+    opacity: 0.85;
+}
+/* ── Screens ───────────────────────────────────────────────── */
+.screen { display:none; }
+.screen.active { display:block; }
+/* ── Typography ────────────────────────────────────────────── */
+.gold-title {
+    background: linear-gradient(135deg,
+        #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+        #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.4em; font-weight:300; letter-spacing:-0.5px; margin-bottom:6px;
+}
+.section-h2 {
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #b8b0be 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size:1.6em; font-weight:400;
+    border-left:5px solid #d4a020; padding-left:14px; margin-bottom:22px;
+}
+.subtitle {
+    color:#7a5030; font-size:1.1em; font-weight:300;
+    margin-bottom:26px; padding-bottom:20px;
+    border-bottom:2px solid rgba(190,150,80,0.25);
+}
+/* ── Info boxes ─────────────────────────────────────────────── */
+.info-box {
+    background: linear-gradient(135deg,
+        rgba(245,236,220,0.90) 0%, rgba(255,250,240,0.95) 50%,
+        rgba(245,236,220,0.90) 100%);
+    border:1px solid rgba(190,150,80,0.25); border-radius:12px;
+    padding:20px 24px; margin-bottom:18px;
+    line-height:1.75; color:#3a2010; font-size:0.97em;
+    position:relative; overflow:hidden;
+}
+.info-box::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg,
+        #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%);
+    opacity:0.7;
+}
+.info-box-label {
+    font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; margin-bottom:8px;
+}
+/* ── Key legend ─────────────────────────────────────────────── */
+.key-legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:14px; }
+.key-item { display:flex; align-items:center; gap:9px; font-size:0.95em; color:#5a3010; }
+.key-badge {
+    background: linear-gradient(135deg, #c07838 0%, #e8c048 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    padding:5px 11px; border-radius:7px;
+    box-shadow:0 2px 6px rgba(160,110,40,0.30);
+    min-width:36px; text-align:center; white-space:nowrap;
+}
+/* ── Instruction steps ──────────────────────────────────────── */
+.instr-steps { margin-bottom:22px; }
+.instr-step {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:11px; padding:14px 18px;
+    background:rgba(220,205,180,0.55);
+    border-radius:10px; border-left:4px solid #c07838;
+}
+.instr-num {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; box-shadow:0 2px 6px rgba(160,110,40,0.25);
+}
+.instr-text { color:#3a2010; line-height:1.65; font-size:0.95em; }
+.instr-text strong { color:#7a3a10; }
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:22px; }
+.btn {
+    padding:14px 30px; border:none; border-radius:12px;
+    font-size:1.05em; font-weight:600; cursor:pointer;
+    transition:all 0.25s ease; text-decoration:none;
+    display:inline-block; text-align:center;
+}
+.btn-primary {
+    background:linear-gradient(135deg, #e8c048 0%, #d4a020 40%, #c07838 100%);
+    color:#2a1a0a; flex:1; min-width:200px;
+    box-shadow:0 4px 18px rgba(212,160,32,0.40),
+               inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-primary:hover {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 50%, #e8c048 100%);
+    transform:translateY(-2px);
+    box-shadow:0 7px 24px rgba(212,160,32,0.55), inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-secondary {
+    background:linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color:#2a1a0a; flex:0 0 auto; min-width:160px;
+    box-shadow:0 4px 14px rgba(180,150,180,0.30), inset 0 1px 0 rgba(255,255,255,0.40);
+}
+.btn-secondary:hover {
+    background:linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+    transform:translateY(-2px);
+}
+.btn-back-link {
+    display:inline-block; margin-top:18px;
+    color:#8a4a10; text-decoration:none; font-size:0.92em;
+    padding:8px 16px; border:1px solid rgba(190,150,80,0.40);
+    border-radius:8px; background:rgba(255,248,235,0.60);
+    transition:all 0.25s;
+}
+.btn-back-link:hover {
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    color:#fff8ee; border-color:#d4a020;
+}
+/* ── Trial header ───────────────────────────────────────────── */
+.trial-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px; padding-bottom:12px;
+    border-bottom:1px solid rgba(190,150,80,0.25);
+}
+.stage-label {
+    font-size:0.80em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.trial-count { color:#9a6a40; font-size:0.86em; }
+.progress-wrap {
+    width:140px; height:5px;
+    background:rgba(190,150,80,0.20); border-radius:3px; overflow:hidden;
+}
+.progress-fill {
+    height:100%;
+    background:linear-gradient(90deg, #c07838 0%, #e8c048 100%);
+    border-radius:3px; transition:width 0.35s ease;
+}
+/* ── Dark stimulus window ───────────────────────────────────── */
+.stimulus-area {
+    background:#100c04;
+    border-radius:16px;
+    padding:16px 16px 14px;
+    margin-bottom:18px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:360px;
+    box-shadow:inset 0 2px 14px rgba(0,0,0,0.50),
+               0 4px 20px rgba(60,30,0,0.22);
+    border:1px solid rgba(100,65,10,0.35);
+    position:relative; overflow:hidden;
+}
+.stimulus-area::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,
+        transparent 0%, rgba(212,160,32,0.35) 30%,
+        rgba(232,192,72,0.55) 50%, rgba(212,160,32,0.35) 70%, transparent 100%);
+}
+/* ── ESC exit overlay ─────────────────────────────────────── */
+#esc-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 12, 4, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+#esc-overlay.visible {
+    display: flex;
+    animation: escFadeIn 0.18s ease;
+}
+@keyframes escFadeIn {
+    from { opacity: 0; }
+to   { opacity: 1; }
+.esc-card {
+    background: linear-gradient(145deg,
+        rgba(252,248,242,0.98) 0%,
+        rgba(240,230,210,0.97) 100%
+    );
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 18px;
+    padding: 36px 42px 30px;
+    max-width: 380px;
+    width: 90%;
+    box-shadow:
+        0 24px 60px rgba(100,60,10,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.esc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, #9e5c1e, #d4a020, #e8c048, #d4a020, #9e5c1e);
+    opacity: 0.9;
+}
+.esc-icon {
+    font-size: 2.2em;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+.esc-title {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #5a3010;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+.esc-msg {
+    font-size: 0.88em;
+    color: #8a6040;
+    line-height: 1.6;
+    margin-bottom: 26px;
+}
+.esc-key-hint {
+    display: inline-block;
+    background: rgba(160,110,50,0.12);
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 0.82em;
+    font-family: monospace;
+    color: #7a5030;
+    margin: 0 2px;
+}
+.esc-btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.esc-btn-leave {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #9e5c1e 0%, #c07838 50%, #d4a020 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(192,120,56,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+.esc-btn-leave:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192,120,56,0.50);
+}
+.esc-btn-resume {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color: #2a1a0a;
+    box-shadow: 0 4px 12px rgba(180,150,180,0.25);
+}
+.esc-btn-resume:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+}
+#feedback-line {
+    color:#e8d8b0; font-size:1.1em; font-weight:400;
+    margin-bottom:12px; text-align:center;
+    min-height:1.4em; display:none;
+    text-shadow:0 1px 8px rgba(0,0,0,0.60);
+}
+#feedback-line.correct  { color:#6be08a; }
+#feedback-line.incorrect { color:#e07a6b; }
+#feedback-line.toolate  { color:#e0c06b; }
+#feedback-line.question { color:#c8d8e8; }
+#fixation {
+    color:#e8c048; font-size:4em; font-weight:200;
+    display:none; user-select:none;
+    text-shadow:0 0 20px rgba(232,192,72,0.50);
+}
+/* ── Response buttons ───────────────────────────────────────── */
+.keyboard-hint {
+    text-align:center; font-size:0.80em; color:#9a7050; margin-bottom:8px;
+}
+.response-area { display:flex; gap:16px; justify-content:center; margin-bottom:16px; }
+.resp-btn {
+    flex:1; max-width:260px; padding:15px 10px;
+    border:2px solid rgba(190,150,80,0.35); border-radius:12px;
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 50%,
+        rgba(220,200,170,0.80) 100%);
+    color:#3a2010; font-size:1.0em; font-weight:600; cursor:pointer;
+    transition:all 0.18s ease;
+    box-shadow:0 3px 12px rgba(160,110,50,0.15),
+               inset 0 1px 0 rgba(255,255,255,0.65);
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.resp-btn .key-hint { font-size:0.70em; font-weight:400; color:#9a6a40; }
+.resp-btn:hover:not(:disabled) {
+    border-color:rgba(212,160,32,0.55);
+    background:linear-gradient(135deg,
+        rgba(232,192,72,0.25) 0%, rgba(248,232,200,0.90) 50%,
+        rgba(232,192,72,0.25) 100%);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(160,110,50,0.28), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+.resp-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.resp-btn.pressed {
+    background:linear-gradient(135deg, #d4a020 0%, #e8c048 100%);
+    color:#1a0c00; border-color:#d4a020;
+}
+/* ── Results ────────────────────────────────────────────────── */
+.result-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:16px; margin-bottom:22px;
+}
+.result-card {
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 100%);
+    border:1px solid rgba(190,150,80,0.28);
+    border-radius:12px; padding:18px 12px; text-align:center;
+    box-shadow:0 3px 12px rgba(160,110,50,0.12),
+               inset 0 1px 0 rgba(255,255,255,0.60);
+}
+.result-val {
+    font-size:2.2em; font-weight:600;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.result-lbl { font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a6a40; margin-top:4px; }
+/* stage divider badge */
+.stage-badge {
+    text-align:center; margin:16px 0 8px;
+    font-size:0.78em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a7050;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 2 — PARADIGM-SPECIFIC STYLES.  ADD YOURS HERE.
+   Only what this paradigm genuinely needs that the shared layer lacks:
+   stimulus sizing, a response widget, a custom display element.
+   Reuse the shared vocabulary wherever possible:
+     .container .card .gold-title .btn .btn-primary .btn-secondary .btn-row
+     .info-box .instr-steps .instr-step .key-legend .key-badge
+     .progress-wrap .progress-fill .stat-grid .stat-box .screen
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+{{PARADIGM_STYLES}}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     LAYER 1 — SHELL.  DO NOT EDIT.
+     Header, progress bar, escape overlay and results panel are identical
+     across demos. Your screens live in the PARADIGM SCREENS block below.
+     ════════════════════════════════════════════════════════════════════════ -->
+<div class="container">
+  <div class="progress-wrap"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ══ LAYER 2 — PARADIGM SCREENS. REPLACE THE INNER CONTENT. ══
+       Keep one <div class="screen" id="screen-NAME"> per screen and keep using
+       the shared classes so the look stays consistent.
+       Every demo is expected to have at least: welcome, instructions, task,
+       results. Add paradigm-specific screens between them as needed. -->
+
+  {{PARADIGM_SCREENS}}
+
+  <!-- ══ END PARADIGM SCREENS ══ -->
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 1 — SHELL API.  DO NOT EDIT.
+   Your paradigm logic calls these; they own navigation, progress and results
+   so every demo behaves the same way.
+   ═══════════════════════════════════════════════════════════════════════════ */
+let __trials = [];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setProgress(frac) {
+  const p = document.getElementById('progress');
+  if (p) p.style.width = Math.max(0, Math.min(1, frac)) * 100 + '%';
+}
+
+function recordTrial(obj) { __trials.push(obj); }
+function getTrials()      { return __trials; }
+function resetTrials()    { __trials = []; }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/** Render summary stats into #screen-results. Pass {label: value} pairs. */
+function showResults(stats) {
+  const box = document.getElementById('results-stats');
+  if (box) box.innerHTML = Object.entries(stats).map(([k, v]) =>
+    `<div class="stat-box"><div class="stat-value">${v}</div>` +
+    `<div class="stat-label">${k}</div></div>`).join('');
+  showScreen('results');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 3 — PARADIGM CONFIG.  EDIT THESE VALUES.
+   Everything that differs between runs of THIS paradigm: timings, stimuli,
+   counts, labels. Keep it declarative — no logic here.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+{{PARADIGM_CONFIG}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 2 — PARADIGM LOGIC.  WRITE THIS.
+   The trial loop for THIS paradigm. Use the shell API above for navigation,
+   progress and results — do not reimplement them, and do not restyle anything.
+
+   Contract:
+     - call setProgress() as the run advances
+     - call recordTrial({...}) once per trial
+     - end by calling showResults({...})
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+{{PARADIGM_LOGIC}}
+
+</script>
+</body>
+</html>

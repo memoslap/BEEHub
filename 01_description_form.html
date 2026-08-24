@@ -843,6 +843,16 @@
             (e.g. <code>score</code>). Standard RT/ACC outcomes are used automatically if
             you leave this section empty.
           </p>
+          <p style="font-size:0.85em;color:var(--ink-light);margin-top:10px;line-height:1.7;">
+            <strong>Role</strong> is how projects are compared across paradigms. Mark one outcome
+            <code>primary</code> and (optionally) one <code>secondary</code>; the dashboard then
+            compares primary-vs-primary and secondary-vs-secondary <em>across projects</em>, so a
+            flow index and an accuracy can share the same radar even though their units differ.
+            Reliability is unit-free, which is what makes this valid. If you declare no roles,
+            <code>display_priority</code> order is used as a fallback. Set <strong>Global</strong>
+            off for a paradigm-specific measure so it stays out of the raw-outcome sliders while
+            remaining first-class in the role comparison.
+          </p>
 
           <div class="section-divider" style="margin-top:24px"><span>What gets computed for each outcome</span></div>
           <p style="font-size:0.85em;color:var(--ink-light);margin-top:10px;line-height:1.7;">
@@ -1246,6 +1256,31 @@ function buildJSON() {
         is_helper:               !!o.is_helper,
         display_priority: o.display_priority || (idx + 1),
       };
+      // Role in THIS project's hierarchy. Drives the dashboard's role-level
+      // comparison (primary-vs-primary across paradigms). Only emit when set;
+      // if no outcome declares a role, the dashboard falls back to
+      // display_priority order.
+      const role = (o.role || '').trim().toLowerCase();
+      if (role === 'primary' || role === 'secondary') entry.role = role;
+      // Comparable across paradigms in raw units? Default true. Set false for a
+      // paradigm-specific measure (a flow index, a d-prime) so it stays out of
+      // the cross-project raw-outcome sliders while remaining first-class in the
+      // role comparison.
+      if (o.is_global === false) entry.is_global = false;
+      // One violin point = one trial (default) or one subject. Use 'subject'
+      // whenever rows are not independent observations of the plotted quantity
+      // (internal-consistency items, parcels, replicates of a session composite).
+      const pu = (o.plot_unit || '').trim().toLowerCase();
+      if (pu === 'trial' || pu === 'subject') entry.plot_unit = pu;
+      // Optional fixed y-axis for bounded scores.
+      const amin = (o.axis_range_min ?? '').toString().trim();
+      const amax = (o.axis_range_max ?? '').toString().trim();
+      if (amin !== '' && amax !== '' && !isNaN(+amin) && !isNaN(+amax)) {
+        entry.axis_range = [Number(amin), Number(amax)];
+      }
+      // Optional horizontal reference line (e.g. 0 = neutral, 0.5 = chance).
+      const refl = (o.reference_line ?? '').toString().trim();
+      if (refl !== '' && !isNaN(+refl)) entry.reference_line = Number(refl);
       // Only include paradigm_contrast when set — leave the field absent
       // otherwise so the pipeline applies its last_vs_first_stage default.
       const contrast = (o.paradigm_contrast || '').trim();
@@ -1270,6 +1305,11 @@ function addOutcome() {
     requires_correct_filter: false,   // triggers correct-trial filtering for this outcome
     is_helper: false,                  // true = loaded but not plotted (used for filtering only)
     paradigm_contrast: '',             // optional: e.g. "LS4_vs_LS1" or "incongruent_vs_congruent"
+    role: '',                          // '', 'primary' or 'secondary' — this project's hierarchy
+    is_global: true,                   // false = paradigm-specific, kept off cross-project outcome sliders
+    plot_unit: '',                     // '', 'trial' or 'subject' (one point = trial vs one point = subject)
+    axis_range_min: '', axis_range_max: '',   // optional fixed y-axis for bounded scores
+    reference_line: '',                // optional horizontal marker (e.g. 0 = neutral, 0.5 = chance)
     display_priority: nextPriority,
   });
   renderOutcomeList();
@@ -1309,6 +1349,21 @@ function renderOutcomeList() {
         <input type="text" value="${om.suffix}" placeholder="e.g. _SCORE_beh.tsv"
           oninput="state.outcome_measures[${i}].suffix=this.value;updatePreview()">
       </div>
+      <div class="field" style="grid-column: 1 / -1;">
+        <label title="Each project declares its own hierarchy. The dashboard compares primary-vs-primary and secondary-vs-secondary ACROSS paradigms — so a flow index and an accuracy can sit on the same radar. At most one primary and one secondary per project; leave others as 'none'. If no outcome declares a role, display priority is used as a fallback.">
+          Role in this project&rsquo;s hierarchy
+          <span style="font-weight:400;color:var(--ink-light);margin-left:6px;">
+            drives the cross-paradigm comparison
+          </span>
+        </label>
+        <select style="width:220px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                       background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+          onchange="state.outcome_measures[${i}].role=this.value;updatePreview()">
+          <option value="" ${!om.role?'selected':''}>none</option>
+          <option value="primary" ${om.role==='primary'?'selected':''}>primary</option>
+          <option value="secondary" ${om.role==='secondary'?'selected':''}>secondary</option>
+        </select>
+      </div>
       <div class="field">
         <label>Column name <span style="color:#c07838">*</span></label>
         <input type="text" value="${om.column}" placeholder="e.g. score"
@@ -1347,6 +1402,12 @@ function renderOutcomeList() {
             onchange="state.outcome_measures[${i}].is_helper=this.checked;updatePreview()">
           Helper outcome (load but don't plot)
         </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"
+               title="Comparable across paradigms in raw units (RT, accuracy)? Leave checked for generic measures. UNCHECK for a paradigm-specific measure (a flow index, a d-prime) — it then stays out of the dashboard's raw-outcome sliders, but is still fully compared in the role view via its primary/secondary role below.">
+          <input type="checkbox" ${om.is_global!==false?'checked':''} style="width:15px;height:15px;"
+            onchange="state.outcome_measures[${i}].is_global=this.checked;updatePreview()">
+          Global (comparable across paradigms)
+        </label>
       </div>
       <div class="field" style="grid-column: 1 / -1; display:flex; gap:14px; align-items:flex-end;">
         <div style="flex:0 0 110px;">
@@ -1358,7 +1419,7 @@ function renderOutcomeList() {
                    background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
             oninput="state.outcome_measures[${i}].display_priority=parseInt(this.value)||${i+1};updatePreview()">
           <div style="font-size:0.75em;color:var(--ink-light);margin-top:3px;line-height:1.4;">
-            1 = primary ICC in dashboard
+            plot order &amp; role fallback
           </div>
         </div>
         <div style="flex:1;">
@@ -1374,16 +1435,73 @@ function renderOutcomeList() {
             oninput="state.outcome_measures[${i}].paradigm_contrast=this.value;updatePreview()">
           <div style="font-size:0.75em;color:var(--ink-light);margin-top:3px;line-height:1.4;">
             Hedges' g is computed within session 1 on this contrast. Format:
-            <code>levelA_vs_levelB</code>. Levels must match values found in
-            the paradigm's grouping column (e.g. <code>learning_stage</code>).
+            <code>levelA_vs_levelB</code>. Levels match values in the paradigm's
+            grouping column (<code>learning_stage</code>) OR its condition column
+            (e.g. <code>flow_vs_boredom</code>).
           </div>
+        </div>
+      </div>
+      <div class="field" style="grid-column: 1 / -1; display:flex; gap:14px; align-items:flex-end; flex-wrap:wrap;
+                                border-top:1px dashed var(--border); padding-top:12px; margin-top:2px;">
+        <div style="flex:0 0 180px;">
+          <label style="font-size:0.85em;color:var(--ink-mid);"
+                 title="What ONE point in the violin represents. 'trial' (default) plots every row; 'subject' collapses rows to one mean per participant. Use 'subject' when rows are NOT independent observations — internal-consistency items, trial parcels, or replicates of a session-level composite. Binary outcomes already default to per-subject.">
+            Plot unit
+          </label>
+          <select style="width:170px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                         background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+            onchange="state.outcome_measures[${i}].plot_unit=this.value;updatePreview()">
+            <option value="" ${!om.plot_unit?'selected':''}>auto (trial; binary&rarr;subject)</option>
+            <option value="trial" ${om.plot_unit==='trial'?'selected':''}>trial (one point = trial)</option>
+            <option value="subject" ${om.plot_unit==='subject'?'selected':''}>subject (one point = subject)</option>
+          </select>
+        </div>
+        <div style="flex:0 0 auto;">
+          <label style="font-size:0.85em;color:var(--ink-mid);"
+                 title="Optional fixed y-axis for bounded scores (e.g. a flow index bounded at -36..36). Leave both blank to auto-scale.">
+            Fixed y-axis (min / max)
+          </label>
+          <div style="display:flex;gap:6px;">
+            <input type="number" value="${om.axis_range_min ?? ''}" placeholder="min"
+              style="width:80px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                     background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+              oninput="state.outcome_measures[${i}].axis_range_min=this.value;updatePreview()">
+            <input type="number" value="${om.axis_range_max ?? ''}" placeholder="max"
+              style="width:80px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                     background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+              oninput="state.outcome_measures[${i}].axis_range_max=this.value;updatePreview()">
+          </div>
+        </div>
+        <div style="flex:0 0 130px;">
+          <label style="font-size:0.85em;color:var(--ink-mid);"
+                 title="Optional horizontal reference line, e.g. 0 for a neutral point on a difference score, or 0.5 for chance accuracy. Leave blank for none.">
+            Reference line
+          </label>
+          <input type="number" value="${om.reference_line ?? ''}" placeholder="e.g. 0"
+            style="width:110px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);
+                   background:rgba(255,252,246,0.95);color:var(--ink);font-size:0.95em;"
+            oninput="state.outcome_measures[${i}].reference_line=this.value;updatePreview()">
         </div>
       </div>`;
     list.appendChild(card);
   });
-}
 
-// ── JSON syntax highlight ──────────────────────────────────────────────────
+  // Warn on duplicate roles — the pipeline honours only the FIRST outcome for
+  // each role, so two "primary" entries would silently drop one.
+  ['primary', 'secondary'].forEach(r => {
+    const claimants = state.outcome_measures.filter(o => (o.role || '') === r);
+    if (claimants.length > 1) {
+      const warn = document.createElement('div');
+      warn.style.cssText = 'grid-column:1/-1;font-size:0.82em;color:#b23b3b;' +
+        'background:rgba(178,59,59,0.08);border:1px solid rgba(178,59,59,0.3);' +
+        'border-radius:8px;padding:8px 12px;';
+      warn.innerHTML = '&#9888; ' + claimants.length + ' outcomes are marked <b>' + r +
+        '</b> (' + claimants.map(o => o.id || '?').join(', ') + '). Only one ' + r +
+        ' is used per project — set the others to a different role.';
+      list.appendChild(warn);
+    }
+  });
+}
 function highlight(json) {
   return json
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')

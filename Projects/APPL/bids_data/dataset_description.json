@@ -1,16 +1,15 @@
 {
   "Name": "APPL Behavioral Dataset",
   "BIDSVersion": "1.6.0",
-  "DatasetType": "raw",
+  "DatasetType": "derivative",
   "Authors": [
-    "Behavioral_Exp_Hub Contributors"
+    "MemoSlap Lab"
   ],
   "GeneratedBy": [
     {
-      "Name": "Behavioral_Exp_Hub Conversion Pipeline",
-      "Version": "3.0",
-      "Description": "Produces one TSV per outcome measure (RT / ACC / ACCBIN) with JSON sidecars.",
-      "CodeURL": "https://github.com/yourusername/BEHub"
+      "Name": "BEEHub APPL Derivation Pipeline",
+      "Version": "0.1",
+      "Description": "Produces ACC, ACCBIN, and RT outcome files from APPL task events with JSON sidecars."
     }
   ]
 }

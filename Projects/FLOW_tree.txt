@@ -1,0 +1,544 @@
+FLOW
+├── bids_data
+│   ├── dataset_description.json
+│   ├── participants.json
+│   ├── participants.tsv
+│   ├── README.md
+│   ├── sub-003
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-003_ses-01_session.json
+│   │   │       ├── sub-003_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-003_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-003_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-003_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-003_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-003_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-003_ses-02_session.json
+│   │           ├── sub-003_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-003_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-003_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-003_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-003_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-003_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-004
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-004_ses-01_session.json
+│   │   │       ├── sub-004_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-004_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-004_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-004_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-004_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-004_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-004_ses-02_session.json
+│   │           ├── sub-004_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-004_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-004_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-004_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-004_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-004_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-005
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-005_ses-01_session.json
+│   │   │       ├── sub-005_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-005_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-005_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-005_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-005_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-005_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-005_ses-02_session.json
+│   │           ├── sub-005_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-005_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-005_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-005_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-006
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-006_ses-01_session.json
+│   │   │       ├── sub-006_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-006_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-006_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-006_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-006_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-006_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-006_ses-02_session.json
+│   │           ├── sub-006_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-006_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-006_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-006_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-006_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-006_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-007
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-007_ses-01_session.json
+│   │   │       ├── sub-007_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-007_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-007_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-007_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-007_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-007_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-007_ses-02_session.json
+│   │           ├── sub-007_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-007_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-007_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-007_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-007_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-007_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-008
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-008_ses-01_session.json
+│   │   │       ├── sub-008_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-008_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-008_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-008_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-008_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-008_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-008_ses-02_session.json
+│   │           ├── sub-008_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-008_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-008_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-008_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-008_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-008_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-009
+│   │   └── ses-01
+│   │       └── beh
+│   │           ├── sub-009_ses-01_session.json
+│   │           ├── sub-009_ses-01_task-FLOW_run-01_events.json
+│   │           ├── sub-009_ses-01_task-FLOW_run-01_events.tsv
+│   │           ├── sub-009_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-009_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-009_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-009_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-010
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-010_ses-01_session.json
+│   │   │       ├── sub-010_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-010_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-010_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-010_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-010_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-010_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-010_ses-02_session.json
+│   │           ├── sub-010_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-010_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-010_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-010_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-010_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-010_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-011
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-011_ses-01_session.json
+│   │   │       ├── sub-011_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-011_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-011_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-011_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-011_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-011_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-011_ses-02_session.json
+│   │           ├── sub-011_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-011_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-011_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-011_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-011_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-011_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-012
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-012_ses-01_session.json
+│   │   │       ├── sub-012_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-012_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-012_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-012_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-012_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-012_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-012_ses-02_session.json
+│   │           ├── sub-012_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-012_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-012_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-012_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-012_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-012_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-013
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-013_ses-01_session.json
+│   │   │       ├── sub-013_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-013_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-013_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-013_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-013_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-013_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-013_ses-02_session.json
+│   │           ├── sub-013_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-013_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-013_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-013_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-013_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-013_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-014
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-014_ses-01_session.json
+│   │   │       ├── sub-014_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-014_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-014_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-014_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-014_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-014_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-014_ses-02_session.json
+│   │           ├── sub-014_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-014_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-014_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-014_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-014_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-014_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-015
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-015_ses-01_session.json
+│   │   │       ├── sub-015_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-015_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-015_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-015_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-015_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-015_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-015_ses-02_session.json
+│   │           ├── sub-015_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-015_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-015_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-015_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-015_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-015_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-016
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-016_ses-01_session.json
+│   │   │       ├── sub-016_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-016_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-016_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-016_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-016_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-016_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-016_ses-02_session.json
+│   │           ├── sub-016_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-016_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-016_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-016_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-016_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-016_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-017
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-017_ses-01_session.json
+│   │   │       ├── sub-017_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-017_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-017_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-017_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-017_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-017_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-017_ses-02_session.json
+│   │           ├── sub-017_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-017_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-017_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-017_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-017_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-017_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-018
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-018_ses-01_session.json
+│   │   │       ├── sub-018_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-018_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-018_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-018_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-018_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-018_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-018_ses-02_session.json
+│   │           ├── sub-018_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-018_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-018_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-018_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-018_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-018_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-019
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-019_ses-01_session.json
+│   │   │       ├── sub-019_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-019_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-019_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-019_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-019_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-019_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-019_ses-02_session.json
+│   │           ├── sub-019_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-019_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-019_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-019_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-019_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-019_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-020
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-020_ses-01_session.json
+│   │   │       ├── sub-020_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-020_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-020_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-020_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-020_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-020_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-020_ses-02_session.json
+│   │           ├── sub-020_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-020_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-020_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-020_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-020_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-020_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-021
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-021_ses-01_session.json
+│   │   │       ├── sub-021_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-021_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-021_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-021_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-021_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-021_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-021_ses-02_session.json
+│   │           ├── sub-021_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-021_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-021_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-021_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-021_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-021_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-022
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-022_ses-01_session.json
+│   │   │       ├── sub-022_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-022_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-022_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-022_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-022_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-022_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-022_ses-02_session.json
+│   │           ├── sub-022_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-022_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-022_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-022_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-022_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-022_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-023
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-023_ses-01_session.json
+│   │   │       ├── sub-023_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-023_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-023_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-023_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-023_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-023_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-023_ses-02_session.json
+│   │           ├── sub-023_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-023_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-023_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-023_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-023_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-023_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-024
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-024_ses-01_session.json
+│   │   │       ├── sub-024_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-024_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-024_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-024_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-024_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-024_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-024_ses-02_session.json
+│   │           ├── sub-024_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-024_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-024_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-024_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-024_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-024_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-025
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-025_ses-01_session.json
+│   │   │       ├── sub-025_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-025_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-025_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-025_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-025_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-025_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-025_ses-02_session.json
+│   │           ├── sub-025_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-025_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-025_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-025_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-025_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-025_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-026
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-026_ses-01_session.json
+│   │   │       ├── sub-026_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-026_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-026_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-026_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-026_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-026_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-026_ses-02_session.json
+│   │           ├── sub-026_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-026_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-026_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-026_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-026_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-026_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-027
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-027_ses-01_session.json
+│   │   │       ├── sub-027_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-027_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-027_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-027_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-027_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-027_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-027_ses-02_session.json
+│   │           ├── sub-027_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-027_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-027_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-027_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-027_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-027_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-028
+│   │   ├── ses-01
+│   │   │   └── beh
+│   │   │       ├── sub-028_ses-01_session.json
+│   │   │       ├── sub-028_ses-01_task-FLOW_run-01_events.json
+│   │   │       ├── sub-028_ses-01_task-FLOW_run-01_events.tsv
+│   │   │       ├── sub-028_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │   │       ├── sub-028_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │   │       ├── sub-028_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │   │       └── sub-028_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   │   └── ses-02
+│   │       └── beh
+│   │           ├── sub-028_ses-02_session.json
+│   │           ├── sub-028_ses-02_task-FLOW_run-01_events.json
+│   │           ├── sub-028_ses-02_task-FLOW_run-01_events.tsv
+│   │           ├── sub-028_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-028_ses-02_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-028_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-028_ses-02_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-029
+│   │   └── ses-01
+│   │       └── beh
+│   │           ├── sub-029_ses-01_session.json
+│   │           ├── sub-029_ses-01_task-FLOW_run-01_events.json
+│   │           ├── sub-029_ses-01_task-FLOW_run-01_events.tsv
+│   │           ├── sub-029_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-029_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-029_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-029_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   ├── sub-030
+│   │   └── ses-01
+│   │       └── beh
+│   │           ├── sub-030_ses-01_session.json
+│   │           ├── sub-030_ses-01_task-FLOW_run-01_events.json
+│   │           ├── sub-030_ses-01_task-FLOW_run-01_events.tsv
+│   │           ├── sub-030_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│   │           ├── sub-030_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│   │           ├── sub-030_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│   │           └── sub-030_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+│   └── sub-101
+│       └── ses-01
+│           └── beh
+│               ├── sub-101_ses-01_session.json
+│               ├── sub-101_ses-01_task-FLOW_run-01_events.json
+│               ├── sub-101_ses-01_task-FLOW_run-01_events.tsv
+│               ├── sub-101_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.json
+│               ├── sub-101_ses-01_task-FLOW_run-01_FlowIndex_Likert_beh.tsv
+│               ├── sub-101_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.json
+│               └── sub-101_ses-01_task-FLOW_run-01_FlowIndex_Task_beh.tsv
+├── FLOW_data.json
+├── FLOW_description.json
+├── FLOW_overview.html
+├── FLOW_paradigm.html
+├── literature
+│   ├── Katahira_2018_EEG.pdf
+│   ├── Ulrich_2016_SCAN.pdf
+│   ├── Ulrich_2018_ExpBrainRes_tDCS.pdf
+│   ├── Ulrich_2022_FrontHumNeurosci_insula.pdf
+│   └── Ulrich_2022_NeuroImageReports_replication.pdf
+└── paradigm
+    ├── psychopy
+    │   ├── data
+    │   ├── FLOW_paradigm.psyexp
+    │   ├── FLOW_paradigm.py
+    │   ├── FLOW_paradigm_short
+    │   │   ├── FLOW_demo.html
+    │   │   └── FLOW_paradigm_short.py
+    │   └── __pycache__
+    │       └── FLOW_paradigm_psychoPy.cpython-311.pyc
+    └── pygame
+        ├── FLOW_paradigm_pygame.py
+        └── README_pygame.md
+
+145 directories, 396 files

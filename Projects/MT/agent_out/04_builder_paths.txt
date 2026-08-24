@@ -1,0 +1,14 @@
+Builder script for <CODE>_data.json files:
+
+  code/01_multi_project_overview.py
+    - Method: save_project_json(project_name, report)
+      Writes: Projects/<CODE>/CODE_data.json
+      Line: 2653
+
+    - Method: save_json_reports(all_reports)
+      Writes: all_projects_data.json
+      Line: 1679
+
+This is the only file in the repository that writes *_data.json
+(02_generate_paradigm.py, 03_generate_dashboard_*.py and their
+.old/ variants only READ _data.json files).

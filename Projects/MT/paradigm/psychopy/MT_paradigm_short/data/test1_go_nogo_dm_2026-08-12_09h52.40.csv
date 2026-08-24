@@ -1,0 +1,1 @@
+﻿block_number,block_type,is_practice,trials_count,trial_number,digit,trial_type,correct_response,mouse_resp.x,mouse_resp.y,mouse_resp.leftButton,mouse_resp.midButton,mouse_resp.rightButton,mouse_resp.time,click_pos_x,click_pos_y,iti_duration,hold_complete,threshold_crossed,timeout_occurred,response_made,movement_continued,movement_stopped,correct,rt,participant,session,date

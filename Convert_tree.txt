@@ -1,0 +1,74 @@
+Convert
+└── MouseTracking Data
+    ├── 1. compute_stopping.R
+    ├── 2. ER_RT.R
+    ├── 3. Kinematics.R
+    ├── go_nogo_compiledData.csv
+    ├── Mahesan et al. 2026 - bioRxiv.pdf
+    ├── Program_final_german
+    │   ├── block_sequence.xlsx
+    │   ├── go_nogo_dm.py
+    │   ├── go_nogo_prac.xlsx
+    │   ├── go_nogo.xlsx
+    │   ├── go_only.xlsx
+    │   ├── gopractice.xlsx
+    │   ├── hover_up_click_007b_review_lastrun.py
+    │   ├── hover_up_click_007b_review.psyexp
+    │   ├── Instructions (1).pptx
+    │   ├── readme.md
+    │   ├── Slide7.PNG
+    │   └── Slide8.PNG
+    ├── Raw Data
+    │   ├── 10a_go_nogo_dm_2025-05-05_10h59.26.576.csv
+    │   ├── 10b_go_nogo_dm_2025-05-14_14h28.49.892.csv
+    │   ├── 11a_go_nogo_dm_2025-05-05_15h04.22.916.csv
+    │   ├── 11b_go_nogo_dm_2025-05-12_10h30.42.666.csv
+    │   ├── 12a_go_nogo_dm_2025-05-05_17h07.14.960.csv
+    │   ├── 12b_go_nogo_dm_2025-05-14_16h31.40.550.csv
+    │   ├── 13a_go_nogo_dm_2025-05-07_10h11.53.760.csv
+    │   ├── 13b_go_nogo_dm_2025-05-15_10h02.31.661.csv
+    │   ├── 14a_go_nogo_dm_2025-05-08_10h08.04.029.csv
+    │   ├── 14b_go_nogo_dm_2025-05-19_13h54.00.209.csv
+    │   ├── 15a_go_nogo_dm_2025-05-08_13h16.07.660.csv
+    │   ├── 15b_go_nogo_dm_2025-05-15_11h06.58.416.csv
+    │   ├── 16a_go_nogo_dm_2025-05-08_14h09.10.963.csv
+    │   ├── 16b_go_nogo_dm_2025-05-15_13h58.28.050.csv
+    │   ├── 17a_go_nogo_dm_2025-05-08_16h06.48.747.csv
+    │   ├── 17b_go_nogo_dm_2025-05-15_14h55.23.958.csv
+    │   ├── 18a_go_nogo_dm_2025-05-09_12h10.29.775.csv
+    │   ├── 18b_go_nogo_dm_2025-05-23_09h09.59.955.csv
+    │   ├── 19a_go_nogo_dm_2025-05-09_12h57.02.829.csv
+    │   ├── 19b_go_nogo_dm_2025-05-23_12h05.02.071.csv
+    │   ├── 1a_go_nogo_dm_2025-04-30_11h24.50.998.csv
+    │   ├── 1b_go_nogo_dm_2025-05-16_15h08.06.371.csv
+    │   ├── 20a_go_nogo_dm_2025-05-12_15h08.15.944.csv
+    │   ├── 20b_go_nogo_dm_2025-05-22_15h07.32.101.csv
+    │   ├── 21a_go_nogo_dm_2025-05-12_17h04.56.114.csv
+    │   ├── 21b_go_nogo_dm_2025-05-19_11h58.27.098.csv
+    │   ├── 22a_go_nogo_dm_2025-05-14_10h59.12.016.csv
+    │   ├── 22b_go_nogo_dm_2025-05-26_09h00.31.758.csv
+    │   ├── 23a_go_nogo_dm_2025-05-14_15h42.16.532.csv
+    │   ├── 23b_go_nogo_dm_2025-05-22_16h12.08.418.csv
+    │   ├── 24a_go_nogo_dm_2025-05-15_12h15.07.497.csv
+    │   ├── 24b_go_nogo_dm_2025-05-22_12h03.17.178.csv
+    │   ├── 25a_go_nogo_dm_2025-05-16_09h04.08.233.csv
+    │   ├── 25b_go_nogo_dm_2025-05-26_11h48.41.612.csv
+    │   ├── 26a_go_nogo_dm_2025-05-16_12h06.49.709.csv
+    │   ├── 26b_go_nogo_dm_2025-05-26_13h01.21.617.csv
+    │   ├── 2a_go_nogo_dm_2025-04-30_13h08.21.622.csv
+    │   ├── 3a_go_nogo_dm_2025-04-30_15h10.07.957.csv
+    │   ├── 3b_go_nogo_dm_2025-05-09_10h08.35.144.csv
+    │   ├── 4a_go_nogo_dm_2025-04-30_17h14.47.665.csv
+    │   ├── 5a_go_nogo_dm_2025-05-02_11h11.19.108.csv
+    │   ├── 5b_go_nogo_dm_2025-05-14_09h03.55.358.csv
+    │   ├── 6a_go_nogo_dm_2025-05-02_13h09.41.284.csv
+    │   ├── 6b_go_nogo_dm_2025-05-12_13h54.04.138.csv
+    │   ├── 7a_go_nogo_dm_2025-05-02_15h05.52.221.csv
+    │   ├── 7b_go_nogo_dm_2025-05-12_11h50.21.922.csv
+    │   ├── 8a_go_nogo_dm_2025-05-02_17h09.16.491.csv
+    │   ├── 8b_go_nogo_dm_2025-05-09_11h08.07.388.csv
+    │   ├── 9a_go_nogo_dm_2025-05-05_09h04.40.012.csv
+    │   └── 9b_go_nogo_dm_2025-05-15_15h55.25.144.csv
+    └── README_MT.md
+
+3 directories, 68 files

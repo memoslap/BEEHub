@@ -1,0 +1,618 @@
+# BEEHub Conversion Manifest — OLM SET_short
+# Pass 1 — Inventory (NO code)
+# generated: 2026-07-21T14:40:00Z
+
+paradigm: OLM_SET_short
+source:
+  exp: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Locato10_fMRT.exp
+  scenarios:
+    - sce/00_Instr_1.sce          # 7 white-bg instruction pages, button 1=continue, button 2=final
+    - sce/01_Prac.sce             # (obsolete — not referenced; 01_Prac_old.sce also exists)
+    - sce/02_Instr_2.sce          # 1 white-bg instruction page, button 2=continue
+    - sce/03_learning.sce         # main experiment: interleaved learning + control blocks, feedback
+    - sce/04_AFC.sce              # forced-choice test, no shuffle, 2-button (1/2)
+    - sce/04_Instr_3.sce          # 4 white-bg instruction pages
+    - sce/05_AFC.sce              # forced-choice test, shuffled, 2-button (1/2), .jpg filter
+  stimuli_root: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli
+  generated: 2026-07-21T14:40:00Z
+
+display:
+  background_rgb: [255, 255, 255]   # instruction screens (00_Instr_1, 02_Instr_2, 04_Instr_3)
+  background_rgb_dark: [0, 0, 0]    # experiment screens (01_Prac, 03_learning, 04/05_AFC)
+  units: pix
+  instr_img_size: [1280, 720]       # full-screen instruction images
+
+response:
+  keys: ['left', 'right']           # Keyboard in PsychoPy: left=correct/yes (code 1), right=wrong/no (code 2)
+  quit_key: escape
+  timeout_ms: null                  # trials use trial_duration=forever; waits for response
+  # Original hardware: Presentation ResponseGrips (port codes 'a'=97, 'b'=98) in scanner;
+  # mapped to codes 1,2 in the paradigm. PsychoPy uses keyboard instead.
+  # Accuracy: code 1 on "_k_" file = correct; code 2 on "_i_" file = correct.
+
+# ────────────────────────────────────────────────────────────────────────────────────────
+# BLOCK STRUCTURE — derived from 03_learning.sce begin_pcl
+#
+# The PCL builds 5 pairs of up/down houses from the allPicsA10_short directory:
+#   10 _k_ files (correct-position images) + 20 _i_ files (wrong-position foils)
+#   => 10 house-image pairs.
+#
+# Then it interleaves up/down: ups[5] + downs[5] => 10 items in picPairs.
+#
+# Items are split into:
+#   blk1: picPairs[1..5]  (first 5 houses: h16, h17, h103, h104, h105)
+#   blk2: picPairs[6..10] (last 5 houses: h1, h4, h8, h113, h115)
+#   ctrl1: random selection from picPairs — 5 houses × 4 reps = 20 trials per rep
+#
+# Each block has 4 repetitions (LS1..LS4), with a per-repetition shuffle via shuffleItems()
+# that prevents consecutive same-house presentations.
+#
+# Block order array: {"learning-1", "learning-2", "control-1"}
+# Shuffled with constraints: first block NOT control, no two adjacent blocks same type.
+# Only 3 block types in short version (vs 6 in full SET_A).
+#
+# Per-block trial count:
+#   blk1: 5 pairs => each pair produces correct+foils => 10 trials × 4 reps = 40 trials
+#   blk2: same => 40 trials
+#   ctrl1: 5 houses × 4 reps = 20 trials
+#
+# Total learning phase: 3 blocks × interleaved = 40 + 40 + 20 = 100 trials
+# ────────────────────────────────────────────────────────────────────────────────────────
+
+blocks:
+  - name: instruction_part1
+    type: instruction
+    n_trials: 7                         # 7 pages (Anw1..Anw7), button-terminated
+    randomize: false
+
+  - name: instruction_part2
+    type: instruction
+    n_trials: 1                         # 1 page (Anw1), button-terminated
+    randomize: false
+
+  - name: learning-1
+    type: learning
+    n_trials: 40                        # 5 house pairs × 2 (correct+foils) × 4 reps
+    unique_stimuli: 10                  # 5 correct (_k_) + 5 foils (_i_) shown per rep
+    randomize: true                     # items shuffled per rep, no consecutive same house
+    stages: 4                           # LS1..LS4
+    has_feedback: true
+
+  - name: learning-2
+    type: learning
+    n_trials: 40                        # 5 house pairs × 2 × 4 reps
+    unique_stimuli: 10
+    randomize: true
+    stages: 4
+    has_feedback: true
+
+  - name: control-1
+    type: control
+    n_trials: 20                        # 5 houses × 4 reps
+    unique_stimuli: 5
+    randomize: true                     # ctrl1.shuffle() each rep
+    stages: 4
+    has_feedback: true
+    question: "Is the house on the right side?"
+    # Single screen: image + question, 2500 ms.
+    # mainTrial presentation is commented out in PCL — deliberate; only FeedTrial runs.
+
+  - name: intro_hello
+    type: instruction
+    n_trials: 1                         # brief "Das Experiment beginnt gleich..." flash
+    duration_ms: 100
+    randomize: false
+
+  - name: bye_screen
+    type: instruction
+    n_trials: 1                         # bubbles/bye.png, shown after last block
+    duration_ms: null                   # button-terminated
+    randomize: false
+
+  - name: learning_test (AFC)
+    type: AFC
+    n_trials: 10                        # 10 AFC images (3-position test)
+    unique_stimuli: 10
+    randomize: false                    # 04_AFC: shuffle=0; 05_AFC: shuffle=1
+    stages: 1
+    has_feedback: false
+    keys: ['1', '2', '3']
+    note: "Use 05_AFC.sce (shuffled, .jpg filter). Image size 1324×1087."
+
+events:
+  - id: fixation
+    kind: text
+    text: "+"
+    color: white
+    duration_ms: 4500                   # inter-block fixation
+    size_px: 100
+    pos: [0, 0]
+
+  - id: stimulus
+    kind: bitmap
+    duration_ms: 2500
+    pos: [0, -70]
+    size_px: [1024, 787]
+
+  - id: response_learning
+    kind: response
+    duration_ms: 2500                   # response window within stimulus duration
+    collect: true
+    note: trial runs to end even if response given early
+
+  - id: feedback_learning
+    kind: feedback
+    duration_ms: 2000
+    image: correct_image                # feedback shows the _k_ (correct-position) image
+    text: dynamic
+    # "Richtig, die korrekte Position ist:"  (correct)
+    # "Falsch, die korrekte Position ist:"   (incorrect)
+    # "Zu spat, die korrekte Position ist:"  (timeout)
+    text_size_px: 65
+    text_pos: [0, 400]
+
+  - id: stimulus_extra
+    kind: bitmap
+    duration_ms: dynamic                # deltaTime = 2500 - (resTime - lastStim.time())
+    pos: [0, -70]
+    note: extra display only for correct-but-late responses in learning trials
+
+  - id: feedback_control
+    kind: image_with_question           # single screen: image + question text
+    duration_ms: 2500
+    text: dynamic
+    # "Ist das Haus auf der rechten Seite?" + correctness answer
+    # "Richtig, das Haus ist auf der rechten Seite:"
+    # "Richtig, das Haus ist nicht auf der rechten Seite:"
+    # "Falsch, das Haus ist auf der rechten Seite:"
+    # "Falsch, das Haus ist nicht auf der rechten Seite:"
+    # "Zu spat, das Haus ist auf der rechten Seite:"
+    # "Zu spat, das Haus ist nicht auf der rechten Seite:"
+    text_size_px: 65
+    text_pos: [0, 400]
+
+  - id: instruction_page
+    kind: bitmap
+    duration_ms: null                   # forever — button-terminated
+    size_px: [1280, 720]
+
+  - id: block_intro_fixation
+    kind: text
+    text: "+"
+    duration_ms: 4500
+    repeats: 3                          # 3 × 4500 ms fixation before block info screen
+
+  - id: block_intro_screen
+    kind: bitmap
+    asset: bubbles/learning.png or bubbles/control.png
+    duration_ms: 4500
+    size_px: [600, 398]
+
+  - id: bye_screen
+    kind: bitmap
+    asset: bubbles/bye.png
+    duration_ms: 4500
+    size_px: [600, 398]
+    note: shown only after last block (masterIndex==8, line 485-498 in 03_learning.sce)
+
+  - id: hello_flash
+    kind: text
+    text: "Das Experiment\nbeginnt gleich.\nSind Sie bereit?"
+    duration_ms: 100
+
+stimuli:
+  # --- Learning: allPicsA10_short (10 _k_ + 20 _i_ = 30 files) ---
+  # Each _k_ file is the correct-position image; paired _i_ files (same house) are foils.
+  # Naming convention: h{house}_p{position}_{k|i}_{up|down}[{qN}]_{side}.jpg
+  #   house: h1, h4, h8, h16, h17, h103, h104, h105, h113, h115
+  #   position: p2, p6, p7, p10, p11, p12, p16, p17, p20, p22, p28, p31, p32, p33, p35,
+  #             p37, p39, p41, p43, p47, p49, p52, p53, p54, p61, p63, p65
+  #   stim_type: k (correct) or i (wrong/foil)
+  #   direction: up or down
+  #   side: left, right
+
+  - ref: allPicsA10_short/h16_p11_k_up_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h16_p11_k_up_q4_left.jpg
+    exists: true
+    house: h16
+    pair: k
+
+  - ref: allPicsA10_short/h16_p12_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h16_p12_i_up_right.jpg
+    exists: true
+    house: h16
+    pair: i
+
+  - ref: allPicsA10_short/h16_p2_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h16_p2_i_up_left.jpg
+    exists: true
+    house: h16
+    pair: i
+
+  - ref: allPicsA10_short/h17_p33_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h17_p33_i_up_left.jpg
+    exists: true
+    house: h17
+    pair: i
+
+  - ref: allPicsA10_short/h17_p41_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h17_p41_i_up_left.jpg
+    exists: true
+    house: h17
+    pair: i
+
+  - ref: allPicsA10_short/h17_p49_k_up_q3_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h17_p49_k_up_q3_left.jpg
+    exists: true
+    house: h17
+    pair: k
+
+  - ref: allPicsA10_short/h103_p16_k_down_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h103_p16_k_down_q3_right.jpg
+    exists: true
+    house: h103
+    pair: k
+
+  - ref: allPicsA10_short/h103_p17_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h103_p17_i_down_right.jpg
+    exists: true
+    house: h103
+    pair: i
+
+  - ref: allPicsA10_short/h103_p22_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h103_p22_i_down_right.jpg
+    exists: true
+    house: h103
+    pair: i
+
+  - ref: allPicsA10_short/h104_p35_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h104_p35_i_down_left.jpg
+    exists: true
+    house: h104
+    pair: i
+
+  - ref: allPicsA10_short/h104_p52_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h104_p52_k_down_q1_left.jpg
+    exists: true
+    house: h104
+    pair: k
+
+  - ref: allPicsA10_short/h104_p63_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h104_p63_i_down_left.jpg
+    exists: true
+    house: h104
+    pair: i
+
+  - ref: allPicsA10_short/h105_p17_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h105_p17_i_down_right.jpg
+    exists: true
+    house: h105
+    pair: i
+
+  - ref: allPicsA10_short/h105_p47_k_down_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h105_p47_k_down_q3_right.jpg
+    exists: true
+    house: h105
+    pair: k
+
+  - ref: allPicsA10_short/h105_p65_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h105_p65_i_down_right.jpg
+    exists: true
+    house: h105
+    pair: i
+
+  - ref: allPicsA10_short/h113_p20_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h113_p20_i_down_left.jpg
+    exists: true
+    house: h113
+    pair: i
+
+  - ref: allPicsA10_short/h113_p28_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h113_p28_i_down_left.jpg
+    exists: true
+    house: h113
+    pair: i
+
+  - ref: allPicsA10_short/h113_p53_k_down_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h113_p53_k_down_q4_left.jpg
+    exists: true
+    house: h113
+    pair: k
+
+  - ref: allPicsA10_short/h115_p38_k_down_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h115_p38_k_down_q2_right.jpg
+    exists: true
+    house: h115
+    pair: k
+
+  - ref: allPicsA10_short/h115_p39_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h115_p39_i_down_right.jpg
+    exists: true
+    house: h115
+    pair: i
+
+  - ref: allPicsA10_short/h115_p61_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h115_p61_i_down_right.jpg
+    exists: true
+    house: h115
+    pair: i
+
+  - ref: allPicsA10_short/h1_p37_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h1_p37_i_up_right.jpg
+    exists: true
+    house: h1
+    pair: i
+
+  - ref: allPicsA10_short/h1_p43_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h1_p43_i_up_right.jpg
+    exists: true
+    house: h1
+    pair: i
+
+  - ref: allPicsA10_short/h1_p54_k_up_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h1_p54_k_up_q3_right.jpg
+    exists: true
+    house: h1
+    pair: k
+
+  - ref: allPicsA10_short/h4_p31_k_up_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h4_p31_k_up_q4_left.jpg
+    exists: true
+    house: h4
+    pair: k
+
+  - ref: allPicsA10_short/h4_p32_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h4_p32_i_up_left.jpg
+    exists: true
+    house: h4
+    pair: i
+
+  - ref: allPicsA10_short/h4_p61_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h4_p61_i_up_left.jpg
+    exists: true
+    house: h4
+    pair: i
+
+  - ref: allPicsA10_short/h8_p10_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h8_p10_i_up_left.jpg
+    exists: true
+    house: h8
+    pair: i
+
+  - ref: allPicsA10_short/h8_p6_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h8_p6_i_up_left.jpg
+    exists: true
+    house: h8
+    pair: i
+
+  - ref: allPicsA10_short/h8_p7_k_up_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/allPicsA10_short/h8_p7_k_up_q1_left.jpg
+    exists: true
+    house: h8
+    pair: k
+
+  # --- Control stimuli: same pool as learning (allPicsA10_short) ---
+  # The PCL selects 5 houses randomly via random_numbers[] and builds ctrl1 from those.
+  # ctrl1 uses the same _k_ and _i_ files; side labels (left/right) are parsed from filename.
+
+  # --- AFC test images (10 files) ---
+  - ref: AFC/h103p16_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h103p16_2.jpg
+    exists: true
+    note: "AFC images are 3-position composite images (1224×987 in 04_AFC, 1324×1087 in 05_AFC)"
+
+  - ref: AFC/h104p52_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h104p52_2.jpg
+    exists: true
+
+  - ref: AFC/h105p47_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h105p47_2.jpg
+    exists: true
+
+  - ref: AFC/h113p53_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h113p53_3.jpg
+    exists: true
+
+  - ref: AFC/h115p38_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h115p38_1.jpg
+    exists: true
+
+  - ref: AFC/h16p11_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h16p11_3.jpg
+    exists: true
+
+  - ref: AFC/h17p49_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h17p49_2.jpg
+    exists: true
+
+  - ref: AFC/h1p54_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h1p54_2.jpg
+    exists: true
+
+  - ref: AFC/h4p31_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h4p31_1.jpg
+    exists: true
+
+  - ref: AFC/h8p7_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/AFC/h8p7_2.jpg
+    exists: true
+
+  # --- Bubble / info images (3 files) ---
+  - ref: bubbles/bye.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/bubbles/bye.png
+    exists: true
+    size_px: [600, 398]
+
+  - ref: bubbles/control.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/bubbles/control.png
+    exists: true
+    size_px: [600, 398]
+
+  - ref: bubbles/learning.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Stimuli/bubbles/learning.png
+    exists: true
+    size_px: [600, 398]
+
+  # --- Instruction slides (12 Folie*.JPG in Instr/instr/ directory) ---
+  - ref: Instr/instr/Folie1.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie1.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie2.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie2.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie3.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie3.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie4.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie4.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie5.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie5.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie6.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie6.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie7.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie7.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie8.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie8.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie9.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie9.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie10.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie10.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie11.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie11.JPG
+    exists: true
+    size_px: [1280, 720]
+
+  - ref: Instr/instr/Folie12.JPG
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm_short/SET_short/Instr/instr/Folie12.JPG
+    exists: true
+    size_px: [1280, 720]
+
+unresolved:
+  # The PCL uses Windows absolute paths for stimulus directories — these are the
+  # paths from the source, NOT found on disk at those locations. They map to:
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_short/Stimuli/allPicsA10_short"
+    # 03_learning.sce line 177 → maps to Stimuli/allPicsA10_short (relative to paradigm dir)
+
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_short/Stimuli/AFC"
+    # 04_AFC.sce line 54 and 05_AFC.sce line 54 → maps to Stimuli/AFC (relative to paradigm dir)
+
+  - "C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/Version_A/Stimuli/prac"
+    # 01_Prac.sce line 186 → NOT USED in SET_short (01_Prac.sce is not referenced in exp)
+
+  # No instr_*.jpg files exist — replaced by Folie*.JPG exports from Instructions.pptx.
+  # The sce files reference instr_11.jpg through instr_17.jpg (00_Instr_1.sce),
+  # instr_21.jpg (02_Instr_2.sce), instr_31.jpg through instr_34.jpg (04_Instr_3.sce).
+  # These map to Folie1.JPG..Folie12.JPG in the local Instr/instr/ directory.
+  # For the PsychoPy conversion we use Folie*.JPG and map the instruction text
+  # from the PCL comments or the Instructions.pptx slides.
+
+open_questions:
+  - id: instr_mapping
+    status: open
+    question: |
+      The sce files reference instr_*.jpg files (instr_11..17, instr_21, instr_31..34)
+      that do NOT exist in the Stimuli tree. Instead, Folie*.JPG exports from
+      Instructions.pptx exist in the Instr/instr/ directory. What is the mapping
+      between the instr_NN.jpg references and the Folie*.JPG files?
+      The sce files use the instr_NN filenames in bitmap declarations — the generated
+      PsychoPy needs the Folie*.JPG equivalents.
+    answer: |
+      Assumption: instr_11..17 → Folie1..7 (instruction part 1), instr_21 → Folie8
+      (instruction part 2), instr_31..34 → Folie9..12 (instruction part 3).
+      The Folie numbering matches the slide order in the PowerPoint. This mapping
+      should be confirmed with the study author or by inspecting the slide content.
+    applies_to: instruction screens
+
+  - id: practice_phase
+    status: open
+    question: |
+      The .exp file references 01_Prac.sce, but the probe report says it is not actually
+      invoked in the scenario chain (not listed in the sce section of the exp).
+      Does the short paradigm include a practice phase, or only the instruction phases
+      (00_Instr_1 -> 02_Instr_2 -> 03_learning -> 04/05_AFC -> 04_Instr_3)?
+    answer: |
+      Likely: the practice phase was removed for the short version. The sce files
+      01_Prac.sce and 01_Prac_old.sce still exist but are NOT referenced.
+      The scenario chain for the short version is:
+        00_Instr_1 → 02_Instr_2 → 03_learning → 04/05_AFC → 04_Instr_3
+    manifest_action: skip practice phase; include only the referenced scenarios.
+
+  - id: block_order_randomization
+    status: open
+    question: |
+      The PCL shuffles order[] = {"learning-1","learning-2","control-1"} at runtime
+      with constraints. For the generated experiment, should we also randomize at
+      runtime with the same constraints, or use a fixed order?
+    answer: |
+      Preserve runtime randomisation with the same two constraints:
+        (1) first block NOT control
+        (2) no two adjacent blocks same type
+      Seed from participant ID for reproducibility.
+    manifest_action: |
+      blocks: {randomize: true, seed_from: participant_id,
+               constraints: [first_block_not_control, no_adjacent_same_type]}
+
+  - id: AFC_scenario
+    status: open
+    question: |
+      Which AFC scenario is used? 04_AFC (shuffle=0, jpg_filter=0, size 1224×987)
+      or 05_AFC (shuffle=1, jpg_filter=1, size 1324×1087)?
+    answer: |
+      Recommend 05_AFC (shuffled, .jpg filter bug fix). This is the more robust variant
+      and the .jpg filter prevents non-image files from being loaded as stimuli.
+      The image size difference (1224×987 vs 1324×1087) should be confirmed.
+    manifest_action: Use 05_AFC.sce with image size 1324×1087.
+
+# ────────────────────────────────────────────────────────────────────────────────────────
+# SUMMARY
+# ────────────────────────────────────────────────────────────────────────────────────────
+# Blocks: 5 (instruction_part1, instruction_part2, learning-1, learning-2, control-1)
+#   + intro_hello (brief flash before blocks start)
+#   + bye_screen (shown after last block)
+#   + AFC test (separate phase after instructions_part2)
+#
+# Total trials:
+#   instruction_part1: 7 pages (button-terminated, no data logged per page)
+#   instruction_part2: 1 page
+#   learning-1: 40 trials (5 pairs × 2 × 4 reps)
+#   learning-2: 40 trials (same structure)
+#   control-1: 20 trials (5 houses × 4 reps)
+#   intro_hello: 1 flash (100 ms, not logged)
+#   bye_screen: 1 page (button-terminated)
+#   AFC test: 10 trials (keys 1/2/3)
+#
+# Total data-logged trials: 40 + 40 + 20 + 10 = 110
+#
+# Stimuli: 30 learning + 10 AFC + 3 bubbles + 12 instruction slides = 55 total files
+#   All verified to exist on disk: true
+#
+# Unresolved: 3 Windows absolute paths (mapped to local relative paths)
+# Open questions: 4 (instr_mapping, practice_phase, block_order_randomization, AFC_scenario)
+# ────────────────────────────────────────────────────────────────────────────────────────

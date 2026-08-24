@@ -1,0 +1,2092 @@
+presentation
+├── OLM_paradigm
+│   ├── SET_A
+│   │   ├── Instructions.pptx
+│   │   ├── Locato30_VersionA_fMRI.exp
+│   │   ├── results
+│   │   │   ├── 123456789-03_learning.log
+│   │   │   ├── fMRI_pilot_p1_001-03_learning.log
+│   │   │   ├── phantom_p1_pilot-03_learning.log
+│   │   │   ├── PlastMem-001_ses1_A-03_learning.log
+│   │   │   ├── PlastMem_002_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-005_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-007_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-008_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-009_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-010_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-011_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-012_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-014_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-015_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-016_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-018_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-019_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-021_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-022_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-023_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-024_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-027_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-028_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-029_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-030_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-032_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-032_ses2_A_fehlstart-03_learning.log
+│   │   │   ├── PlastMem-033_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-034_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-035_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-037_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-038_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-039_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-040_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-041_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-042_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-044_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-045_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-047_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-049_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-050_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-051_ses1_A-03_learning.log
+│   │   │   ├── PlastMem-053_ses2_A-03_learning.log
+│   │   │   ├── PlastMem-054_ses2_A-03_learning.log
+│   │   │   ├── sub1103_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1104_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1107p1_s3_task1-03_learning.log
+│   │   │   ├── sub1109_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1111_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1115_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1116_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1117_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1121_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1124_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1125_p1_s3_set1-03_learning.log
+│   │   │   ├── sub1126_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1127_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1127_p1_s4_task-03_learning.log
+│   │   │   ├── sub1128_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1129_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1130_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1131_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1133_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1134_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1136_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1137_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1138_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1140_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1141_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1144_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1145_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1147_p1_s3_set1-03_learning.log
+│   │   │   ├── sub1148_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1150_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1152_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1153_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1154_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1155_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1156_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1159_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1161_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1163_p1_s3(2)-03_learning.log
+│   │   │   ├── sub1165_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1166_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1168_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1169_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1171_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1173_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1174_p1_s3_task1-03_learning.log
+│   │   │   ├── sub-1176_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1177_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1179_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1180_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1182_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1183_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1184_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1186_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1187_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1188_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1191_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1191_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1192_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1193_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1195_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1196_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1197_p1_s4_task1 -03_learning.log
+│   │   │   ├── sub1199_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1200_p1_s4_task1-03_learning.log
+│   │   │   ├── sub1201_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1202_p1_s3_task1-03_learning.log
+│   │   │   ├── sub3184_p3_s4_task1-03_learning.log
+│   │   │   └── test-03_learning.log
+│   │   ├── sce
+│   │   │   ├── 00_Instr_1.sce
+│   │   │   ├── 01_Prac_old.sce
+│   │   │   ├── 01_Prac.sce
+│   │   │   ├── 02_Instr_2.sce
+│   │   │   ├── 03_learning.sce
+│   │   │   ├── 04_AFC.sce
+│   │   │   ├── 04_Instr_3.sce
+│   │   │   └── 05_AFC.sce
+│   │   └── Stimuli
+│   │       ├── AFC
+│   │       │   ├── h101p49_2.jpg
+│   │       │   ├── h102p40_2.jpg
+│   │       │   ├── h20p53_1.jpg
+│   │       │   ├── h24p40_1.jpg
+│   │       │   ├── h26p20_3.jpg
+│   │       │   ├── h27p8_2.jpg
+│   │       │   ├── h30p14_3.jpg
+│   │       │   ├── h34p41_3.jpg
+│   │       │   ├── h38p37_3.jpg
+│   │       │   ├── h44p18_3.jpg
+│   │       │   ├── h50p45_2.jpg
+│   │       │   ├── h51p24_1.jpg
+│   │       │   ├── h54p3_3.jpg
+│   │       │   ├── h55p24_3.jpg
+│   │       │   ├── h56p13_1.jpg
+│   │       │   ├── h57p36_1.jpg
+│   │       │   ├── h58p6_1.jpg
+│   │       │   ├── h60p49_1.jpg
+│   │       │   ├── h61p5_3.jpg
+│   │       │   ├── h69p34_1.jpg
+│   │       │   ├── h74p16_3.jpg
+│   │       │   ├── h75p37_1.jpg
+│   │       │   ├── h76p29_3.jpg
+│   │       │   ├── h77p42_2.jpg
+│   │       │   ├── h80p30_2.jpg
+│   │       │   ├── h84p8_3.jpg
+│   │       │   ├── h88p35_1.jpg
+│   │       │   ├── h93p27_3.jpg
+│   │       │   ├── h95p32_1.jpg
+│   │       │   ├── h97p23_3.jpg
+│   │       │   └── Thumbs.db
+│   │       ├── bubbles
+│   │       │   ├── bye.png
+│   │       │   ├── control.png
+│   │       │   └── learning.png
+│   │       ├── control
+│   │       │   ├── block1
+│   │       │   │   ├── h20_p53_k_up_right.jpg
+│   │       │   │   ├── h24_p39_i_up_left.jpg
+│   │       │   │   ├── h26_p14_i_up_right.jpg
+│   │       │   │   ├── h27_p7_i_up_left.jpg
+│   │       │   │   ├── h30_p56_i_up_right.jpg
+│   │       │   │   ├── h38_p29_i_up_right.jpg
+│   │       │   │   ├── h50_p37_i_up_right.jpg
+│   │       │   │   ├── h55_p26_i_down_right.jpg
+│   │       │   │   ├── h57_p45_k_down_left.jpg
+│   │       │   │   ├── h74_p26_k_up_left.jpg
+│   │       │   │   ├── h75_p62_i_down_left.jpg
+│   │       │   │   ├── h76_p26_i_down_left.jpg
+│   │       │   │   ├── h88_p36_i_down_left.jpg
+│   │       │   │   ├── h95_p38_i_down_right.jpg
+│   │       │   │   └── Thumbs.db
+│   │       │   └── block2
+│   │       │       ├── h101_p40_i_down_left.jpg
+│   │       │       ├── h102_p49_i_down_right.jpg
+│   │       │       ├── h34_p49_i_up_left.jpg
+│   │       │       ├── h44_p18_k_up_left.jpg
+│   │       │       ├── h51_p29_i_up_right.jpg
+│   │       │       ├── h56_p14_i_up_right.jpg
+│   │       │       ├── h57_p37_i_down_left.jpg
+│   │       │       ├── h61_p55_i_up_right.jpg
+│   │       │       ├── h69_p27_i_down_left.jpg
+│   │       │       ├── h74_p16_i_up_left.jpg
+│   │       │       ├── h77_p41_i_down_right.jpg
+│   │       │       ├── h84_p8_k_down_q3_right.jpg
+│   │       │       ├── h88_p35_k_down_left.jpg
+│   │       │       ├── h97_p60_i_down_right.jpg
+│   │       │       └── Thumbs.db
+│   │       ├── learning
+│   │       │   ├── block1
+│   │       │   │   ├── h24_p33_i_up_left.jpg
+│   │       │   │   ├── h24_p39_i_up_left.jpg
+│   │       │   │   ├── h24_p40_k_up_q4_left.jpg
+│   │       │   │   ├── h24_p41_i_up_left.jpg
+│   │       │   │   ├── h26_p14_i_up_right.jpg
+│   │       │   │   ├── h26_p20_k_up_q2_right.jpg
+│   │       │   │   ├── h26_p24_i_up_right.jpg
+│   │       │   │   ├── h26_p57_i_up_right.jpg
+│   │       │   │   ├── h27_p6_i_up_left.jpg
+│   │       │   │   ├── h27_p7_i_up_left.jpg
+│   │       │   │   ├── h27_p8_k_up_q1_left.jpg
+│   │       │   │   ├── h27_p9_i_up_left.jpg
+│   │       │   │   ├── h30_p13_i_up_right.jpg
+│   │       │   │   ├── h30_p14_k_up_q2_right.jpg
+│   │       │   │   ├── h30_p56_i_up_right.jpg
+│   │       │   │   ├── h30_p62_i_up_right.jpg
+│   │       │   │   ├── h34_p40_i_up_left.jpg
+│   │       │   │   ├── h34_p41_k_up_q4_left.jpg
+│   │       │   │   ├── h34_p42_i_up_right.jpg
+│   │       │   │   ├── h34_p49_i_up_left.jpg
+│   │       │   │   ├── h38_p29_i_up_right.jpg
+│   │       │   │   ├── h38_p36_i_up_right.jpg
+│   │       │   │   ├── h38_p37_k_up_q3_right.jpg
+│   │       │   │   ├── h38_p54_i_up_right.jpg
+│   │       │   │   ├── h44_p12_i_up_left.jpg
+│   │       │   │   ├── h44_p18_k_up_q1_right.jpg
+│   │       │   │   ├── h44_p19_i_up_right.jpg
+│   │       │   │   └── h44_p23_i_up_q1_right.jpg
+│   │       │   ├── block2
+│   │       │   │   ├── h50_p29_i_up_right.jpg
+│   │       │   │   ├── h50_p37_i_up_right.jpg
+│   │       │   │   ├── h50_p45_k_up_q3_right.jpg
+│   │       │   │   ├── h50_p54_i_up_right.jpg
+│   │       │   │   ├── h51_p20_i_up_right.jpg
+│   │       │   │   ├── h51_p21_i_up_right.jpg
+│   │       │   │   ├── h51_p24_k_up_q3_right.jpg
+│   │       │   │   ├── h51_p29_i_up_right.jpg
+│   │       │   │   ├── h54_p12_i_up_right.jpg
+│   │       │   │   ├── h54_p3_k_up_q2_right.jpg
+│   │       │   │   ├── h54_p46_i_up_left.jpg
+│   │       │   │   ├── h54_p4_i_up_right.jpg
+│   │       │   │   ├── h55_p16_i_down_right.jpg
+│   │       │   │   ├── h55_p22_k_down_q4_right.jpg
+│   │       │   │   ├── h55_p26_i_down_right.jpg
+│   │       │   │   ├── h55_p65_i_down_right.jpg
+│   │       │   │   ├── h56_p12_i_up_right.jpg
+│   │       │   │   ├── h56_p13_k_up_q2_right.jpg
+│   │       │   │   ├── h56_p14_i_up_right.jpg
+│   │       │   │   ├── h56_p19_i_up_right.jpg
+│   │       │   │   ├── h57_p35_i_down_left.jpg
+│   │       │   │   ├── h57_p36_k_down_q1_left.jpg
+│   │       │   │   ├── h57_p37_i_down_left.jpg
+│   │       │   │   ├── h57_p54_i_down_left.jpg
+│   │       │   │   ├── h58_p1_i_down_right.jpg
+│   │       │   │   ├── h58_p6_k_down_q3_right.jpg
+│   │       │   │   ├── h58_p8_i_down_right.jpg
+│   │       │   │   └── h58_p9_i_down_right.jpg
+│   │       │   ├── block3
+│   │       │   │   ├── h60_p33_i_up_left.jpg
+│   │       │   │   ├── h60_p40_i_up_left.jpg
+│   │       │   │   ├── h60_p41_i_up_left.jpg
+│   │       │   │   ├── h60_p49_k_up_q4_left.jpg
+│   │       │   │   ├── h61_p48_i_up_right.jpg
+│   │       │   │   ├── h61_p55_i_up_right.jpg
+│   │       │   │   ├── h61_p56_i_up_right.jpg
+│   │       │   │   ├── h61_p5_k_up_q2_right.jpg
+│   │       │   │   ├── h69_p27_i_down_left.jpg
+│   │       │   │   ├── h69_p33_i_down_right.jpg
+│   │       │   │   ├── h69_p34_k_down_q1_left.jpg
+│   │       │   │   ├── h69_p51_i_down_right.jpg
+│   │       │   │   ├── h74_p16_k_up_q1_left.jpg
+│   │       │   │   ├── h74_p22_i_up_left.jpg
+│   │       │   │   ├── h74_p25_i_up_left.jpg
+│   │       │   │   ├── h74_p7_i_up_left.jpg
+│   │       │   │   ├── h75_p29_i_down_left.jpg
+│   │       │   │   ├── h75_p36_i_down_left.jpg
+│   │       │   │   ├── h75_p37_k_down_q1_left.jpg
+│   │       │   │   ├── h75_p54_i_down_left.jpg
+│   │       │   │   ├── h76_p24_i_down_left.jpg
+│   │       │   │   ├── h76_p29_k_down_q1_left.jpg
+│   │       │   │   ├── h76_p37_i_down_left.jpg
+│   │       │   │   ├── h76_p57_i_down_left.jpg
+│   │       │   │   ├── h77_p41_i_down_right.jpg
+│   │       │   │   ├── h77_p42_k_down_left.jpg
+│   │       │   │   ├── h77_p52_i_down_left.jpg
+│   │       │   │   └── h77_p63_i_down_right.jpg
+│   │       │   ├── block4
+│   │       │   │   ├── h101_p32_i_down_right.jpg
+│   │       │   │   ├── h101_p33_i_down_right.jpg
+│   │       │   │   ├── h101_p40_i_down_right.jpg
+│   │       │   │   ├── h101_p49_k_down_q2_right.jpg
+│   │       │   │   ├── h80_p25_i_down_right.jpg
+│   │       │   │   ├── h80_p30_k_down_q2_right.jpg
+│   │       │   │   ├── h80_p50_i_down_right.jpg
+│   │       │   │   ├── h80_p61_i_down_right.jpg
+│   │       │   │   ├── h84_p6_i_down_right.jpg
+│   │       │   │   ├── h84_p7_i_down_right.jpg
+│   │       │   │   ├── h84_p8_k_down_q3_right.jpg
+│   │       │   │   ├── h84_p9_i_down_right.jpg
+│   │       │   │   ├── h88_p35_k_down_q1_left.jpg
+│   │       │   │   ├── h88_p36_i_down_left.jpg
+│   │       │   │   ├── h88_p43_i_down_left.jpg
+│   │       │   │   ├── h88_p58_i_down_left.jpg
+│   │       │   │   ├── h93_p27_k_down_q1_left.jpg
+│   │       │   │   ├── h93_p34_i_down_right.jpg
+│   │       │   │   ├── h93_p51_i_down_right.jpg
+│   │       │   │   ├── h93_p59_i_down_left.jpg
+│   │       │   │   ├── h95_p26_i_down_right.jpg
+│   │       │   │   ├── h95_p31_i_down_right.jpg
+│   │       │   │   ├── h95_p32_k_down_q2_right.jpg
+│   │       │   │   ├── h95_p60_i_down_right.jpg
+│   │       │   │   ├── h97_p17_i_down_right.jpg
+│   │       │   │   ├── h97_p23_k_down_q2_right.jpg
+│   │       │   │   ├── h97_p60_i_down_right.jpg
+│   │       │   │   └── h97_p65_i_down_right.jpg
+│   │       │   └── desktop.ini
+│   │       ├── Map_65pos.png
+│   │       └── Repeated houses- balanced.xlsx
+│   ├── SET_B
+│   │   ├── Instructions.pptx
+│   │   ├── Locato30_VersionB_fMRI.exp
+│   │   ├── results
+│   │   │   ├── 001-03_learning-20240516-193745-XIDIG.log
+│   │   │   ├── 002-03_learning-20240517-091200-IRLLB.log
+│   │   │   ├── 003-03_learning-20240517-103125-FPQBI.log
+│   │   │   ├── 004-03_learning-20240517-111524-AMWQC.log
+│   │   │   ├── 005-03_learning-20240517-130204-TOXKA.log
+│   │   │   ├── 006-03_learning-20240614-133120-WDGSL.log
+│   │   │   ├── 007-03_learning-20240618-143015-IOQNT.log
+│   │   │   ├── 008-03_learning-20240620-142129-FRMAS.log
+│   │   │   ├── 1234567890ß-03_learning.log
+│   │   │   ├── asdfasdgsdag-03_learning-20240605-153018-MXAIB.log
+│   │   │   ├── ghghgkgk-03_learning-20240607-111022-LNKUN.log
+│   │   │   ├── kajöfojpoajfdö-03_learning-20240605-113426-IKJIM.log
+│   │   │   ├── mohamed-03_learning-20240605-163818-NGQXN.log
+│   │   │   ├── mohamed-03_learning-20240606-174004-QWQPS.log
+│   │   │   ├── phantom_test_B-03_learning.log
+│   │   │   ├── PlastMem-001_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-002_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-002_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-005_ses2_setB-03_learning.log
+│   │   │   ├── PlastMem-007_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-008_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-009_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-010_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-011_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-012_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-013_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-013_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-014_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-015_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-016_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-018_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-019_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-021_Ses2_B-03_learning.log
+│   │   │   ├── PlastMem-022_Ses1_B-03_learning.log
+│   │   │   ├── PlastMem-023_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-024_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-026_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-026_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-027_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-028_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-029_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-030_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-032_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-033_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-034_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-035_ses1_B-03_learning.log
+│   │   │   ├── PlastMem036_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-037_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-038_ses1_B.log
+│   │   │   ├── PlastMem-039_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-040_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-041_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-042_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-044_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-045_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-047_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-049_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-050_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-051_ses2_B-03_learning.log
+│   │   │   ├── PlastMem-053_ses1_B-03_learning.log
+│   │   │   ├── PlastMem-054_ses1_B-03_learning.log
+│   │   │   ├── sub-1103_p1_s4_set2-03_learning.log
+│   │   │   ├── sub1104_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1107_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1109_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1109_p1_s3_task2_secondtime-03_learning.log
+│   │   │   ├── sub1111_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1112_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1112_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1113_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1115_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1116_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1117_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1121_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1124_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1125_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1126_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1128_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1129_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1130_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1131_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1133_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1134_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1136_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1137_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1138_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1140_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1140_p1_s3_task2_2-03_learning.log
+│   │   │   ├── sub1141_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1144_p1_s4_trask2-03_learning.log
+│   │   │   ├── sub1145_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1147_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1148_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1150_p1_s4_task2-03_learning.log
+│   │   │   ├── sub-1152_p1_s4_set2-03_learning.log
+│   │   │   ├── sub1153_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1154_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1155_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1156_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1159_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1161_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1163_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1165_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1166_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1168_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1169_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1171_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1173_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1174_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1176_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1177_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1179_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1180_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1181_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1182_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1183_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1184_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1186_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1187_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1188_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1192_ses4_task2-03_learning.log
+│   │   │   ├── sub1193_p1_s3_task1-03_learning.log
+│   │   │   ├── sub1194_s3_task2 -03_learning.log
+│   │   │   ├── sub1195_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1196_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1197_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1200_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1201_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1202_p1_s4_task2-03_learning.log
+│   │   │   ├── sub1203_p1_s3_task2-03_learning.log
+│   │   │   ├── sub1204_p1_s3_task2-03_learning.log
+│   │   │   ├── test-03_learning-20240516-185701-DYLLB.log
+│   │   │   ├── test-03_learning.log
+│   │   │   └── xcvncnfhj-03_learning-20240605-151123-ZLQJD.log
+│   │   ├── sce
+│   │   │   ├── 00_Instr_1.sce
+│   │   │   ├── 01_Prac_old.sce
+│   │   │   ├── 01_Prac.sce
+│   │   │   ├── 02_Instr_2.sce
+│   │   │   ├── 03_learning.sce
+│   │   │   ├── 04_AFC.sce
+│   │   │   ├── 04_Instr_3.sce
+│   │   │   └── 05_AFC.sce
+│   │   └── Stimuli
+│   │       ├── AFC
+│   │       │   ├── h101p49_2.jpg
+│   │       │   ├── h102p40_2.jpg
+│   │       │   ├── h20p53_1.jpg
+│   │       │   ├── h24p40_1.jpg
+│   │       │   ├── h26p20_3.jpg
+│   │       │   ├── h27p8_2.jpg
+│   │       │   ├── h30p14_3.jpg
+│   │       │   ├── h34p41_3.jpg
+│   │       │   ├── h38p37_3.jpg
+│   │       │   ├── h44p18_3.jpg
+│   │       │   ├── h50p45_2.jpg
+│   │       │   ├── h51p24_1.jpg
+│   │       │   ├── h54p3_3.jpg
+│   │       │   ├── h55p24_3.jpg
+│   │       │   ├── h56p13_1.jpg
+│   │       │   ├── h57p36_1.jpg
+│   │       │   ├── h58p6_1.jpg
+│   │       │   ├── h60p49_1.jpg
+│   │       │   ├── h61p5_3.jpg
+│   │       │   ├── h69p34_1.jpg
+│   │       │   ├── h74p16_3.jpg
+│   │       │   ├── h75p37_1.jpg
+│   │       │   ├── h76p29_3.jpg
+│   │       │   ├── h77p42_2.jpg
+│   │       │   ├── h80p30_2.jpg
+│   │       │   ├── h84p8_3.jpg
+│   │       │   ├── h88p35_1.jpg
+│   │       │   ├── h93p27_3.jpg
+│   │       │   ├── h95p32_1.jpg
+│   │       │   ├── h97p23_3.jpg
+│   │       │   └── Thumbs.db
+│   │       ├── bubbles
+│   │       │   ├── bye.png
+│   │       │   ├── control.png
+│   │       │   └── learning.png
+│   │       ├── control
+│   │       │   ├── block1
+│   │       │   │   ├── h111_p10_i_up_left.jpg
+│   │       │   │   ├── h114_p36_i_up_right.jpg
+│   │       │   │   ├── h116_p57_i_up_right.jpg
+│   │       │   │   ├── h117_p6_i_up_left.jpg
+│   │       │   │   ├── h20_p53_k_up_right.jpg
+│   │       │   │   ├── h24_p39_i_up_left.jpg
+│   │       │   │   ├── h26_p14_i_up_right.jpg
+│   │       │   │   ├── h27_p7_i_up_left.jpg
+│   │       │   │   ├── h28_p46_k_down_left.jpg
+│   │       │   │   ├── h30_p56_i_up_right.jpg
+│   │       │   │   ├── h32_p61_i_down_right.jpg
+│   │       │   │   ├── h35_p38_i_down_right.jpg
+│   │       │   │   ├── h38_p29_i_up_right.jpg
+│   │       │   │   ├── h42_p5_k_down_left.jpg
+│   │       │   │   ├── h48_p40_i_down_right.jpg
+│   │       │   │   ├── h50_p37_i_up_right.jpg
+│   │       │   │   ├── h53_p32_i_down_right.jpg
+│   │       │   │   ├── h55_p26_i_down_right.jpg
+│   │       │   │   ├── h57_p45_k_down_left.jpg
+│   │       │   │   ├── h74_p26_k_up_left.jpg
+│   │       │   │   ├── h75_p62_i_down_left.jpg
+│   │       │   │   ├── h76_p26_i_down_left.jpg
+│   │       │   │   ├── h87_p8_i_up_left.jpg
+│   │       │   │   ├── h88_p36_i_down_left.jpg
+│   │       │   │   ├── h89_p31_i_up_left.jpg
+│   │       │   │   ├── h94_p1_i_up_left.jpg
+│   │       │   │   ├── h95_p38_i_down_right.jpg
+│   │       │   │   ├── h98_p62_i_up_right.jpg
+│   │       │   │   └── Thumbs.db
+│   │       │   └── block2
+│   │       │       ├── h101_p40_i_down_left.jpg
+│   │       │       ├── h102_p49_i_down_right.jpg
+│   │       │       ├── h107_p63_i_up_right.jpg
+│   │       │       ├── h108_p34_i_up_right.jpg
+│   │       │       ├── h109_p23_i_up_left.jpg
+│   │       │       ├── h12_p4_k_down_left.jpg
+│   │       │       ├── h18_p6_i_down_right.jpg
+│   │       │       ├── h22_p21_k_down_left.jpg
+│   │       │       ├── h25_p48_i_down_left.jpg
+│   │       │       ├── h33_p11_k_down_right.jpg
+│   │       │       ├── h34_p49_i_up_left.jpg
+│   │       │       ├── h36_p12_k_down_left.jpg
+│   │       │       ├── h44_p18_k_up_left.jpg
+│   │       │       ├── h46_p23_i_down_right.jpg
+│   │       │       ├── h48_p41_k_down_right.jpg
+│   │       │       ├── h51_p29_i_up_right.jpg
+│   │       │       ├── h53_p32_i_down_right.jpg
+│   │       │       ├── h56_p14_i_up_right.jpg
+│   │       │       ├── h57_p37_i_down_left.jpg
+│   │       │       ├── h61_p55_i_up_right.jpg
+│   │       │       ├── h69_p27_i_down_left.jpg
+│   │       │       ├── h74_p16_i_up_left.jpg
+│   │       │       ├── h77_p41_i_down_right.jpg
+│   │       │       ├── h84_p8_k_down_q3_right.jpg
+│   │       │       ├── h85_p10_i_up_left.jpg
+│   │       │       ├── h88_p35_k_down_left.jpg
+│   │       │       ├── h94_p3_i_up_left.jpg
+│   │       │       ├── h97_p60_i_down_right.jpg
+│   │       │       └── Thumbs.db
+│   │       ├── learning
+│   │       │   ├── block1
+│   │       │   │   ├── h111_p10_i_up_left.jpg
+│   │       │   │   ├── h111_p17_i_up_left.jpg
+│   │       │   │   ├── h111_p47_k_up_left.jpg
+│   │       │   │   ├── h111_p65_i_up_left.jpg
+│   │       │   │   ├── h114_p28_i_up_right.jpg
+│   │       │   │   ├── h114_p35_k_up_right.jpg
+│   │       │   │   ├── h114_p36_i_up_right.jpg
+│   │       │   │   ├── h114_p58_i_up_right.jpg
+│   │       │   │   ├── h116_p28_k_up_right.jpg
+│   │       │   │   ├── h116_p53_i_up_right.jpg
+│   │       │   │   ├── h116_p57_i_up_right.jpg
+│   │       │   │   ├── h116_p59_i_up_right.jpg
+│   │       │   │   ├── h117_p10_i_up_left.jpg
+│   │       │   │   ├── h117_p6_i_up_left.jpg
+│   │       │   │   ├── h117_p8_i_up_left.jpg
+│   │       │   │   ├── h117_p9_k_up_left.jpg
+│   │       │   │   ├── h24_p33_i_up_left.jpg
+│   │       │   │   ├── h24_p39_i_up_left.jpg
+│   │       │   │   ├── h24_p40_k_up_q4_left.jpg
+│   │       │   │   ├── h24_p41_i_up_left.jpg
+│   │       │   │   ├── h26_p14_i_up_right.jpg
+│   │       │   │   ├── h26_p20_k_up_q2_right.jpg
+│   │       │   │   ├── h26_p24_i_up_right.jpg
+│   │       │   │   ├── h26_p57_i_up_right.jpg
+│   │       │   │   ├── h27_p6_i_up_left.jpg
+│   │       │   │   ├── h27_p7_i_up_left.jpg
+│   │       │   │   ├── h27_p8_k_up_q1_left.jpg
+│   │       │   │   ├── h27_p9_i_up_left.jpg
+│   │       │   │   ├── h28_p11_i_down_right.jpg
+│   │       │   │   ├── h28_p2_i_down_right.jpg
+│   │       │   │   ├── h28_p3_i_down_left.jpg
+│   │       │   │   ├── h28_p46_k_down_right.jpg
+│   │       │   │   ├── h29_p2_i_down_right.jpg
+│   │       │   │   ├── h29_p3_k_down_left.jpg
+│   │       │   │   ├── h29_p46_i_down_right.jpg
+│   │       │   │   ├── h29_p4_i_down_left.jpg
+│   │       │   │   ├── h30_p13_i_up_right.jpg
+│   │       │   │   ├── h30_p14_k_up_q2_right.jpg
+│   │       │   │   ├── h30_p56_i_up_right.jpg
+│   │       │   │   ├── h30_p62_i_up_right.jpg
+│   │       │   │   ├── h32_p31_k_down_right.jpg
+│   │       │   │   ├── h32_p32_i_down_right.jpg
+│   │       │   │   ├── h32_p50_i_down_right.jpg
+│   │       │   │   ├── h32_p61_i_down_right.jpg
+│   │       │   │   ├── h34_p40_i_up_left.jpg
+│   │       │   │   ├── h34_p41_k_up_q4_left.jpg
+│   │       │   │   ├── h34_p42_i_up_right.jpg
+│   │       │   │   ├── h34_p49_i_up_left.jpg
+│   │       │   │   ├── h38_p29_i_up_right.jpg
+│   │       │   │   ├── h38_p36_i_up_right.jpg
+│   │       │   │   ├── h38_p37_k_up_q3_right.jpg
+│   │       │   │   ├── h38_p54_i_up_right.jpg
+│   │       │   │   ├── h44_p12_i_up_left.jpg
+│   │       │   │   ├── h44_p18_k_up_q1_right.jpg
+│   │       │   │   ├── h44_p19_i_up_right.jpg
+│   │       │   │   └── h44_p23_i_up_q1_right.jpg
+│   │       │   ├── block2
+│   │       │   │   ├── h46_p12_i_down_left.jpg
+│   │       │   │   ├── h46_p18_k_down_left.jpg
+│   │       │   │   ├── h46_p19_i_down_left.jpg
+│   │       │   │   ├── h46_p23_i_down_left.jpg
+│   │       │   │   ├── h48_p40_i_down_right.jpg
+│   │       │   │   ├── h48_p41_k_down_right.jpg
+│   │       │   │   ├── h48_p42_i_down_left.jpg
+│   │       │   │   ├── h48_p49_i_down_right.jpg
+│   │       │   │   ├── h50_p29_i_up_right.jpg
+│   │       │   │   ├── h50_p37_i_up_right.jpg
+│   │       │   │   ├── h50_p45_k_up_q3_right.jpg
+│   │       │   │   ├── h50_p54_i_up_right.jpg
+│   │       │   │   ├── h51_p20_i_up_right.jpg
+│   │       │   │   ├── h51_p21_i_up_right.jpg
+│   │       │   │   ├── h51_p24_k_up_q3_right.jpg
+│   │       │   │   ├── h51_p29_i_up_right.jpg
+│   │       │   │   ├── h53_p32_i_down_right.jpg
+│   │       │   │   ├── h53_p33_k_down_right.jpg
+│   │       │   │   ├── h53_p34_i_down_left.jpg
+│   │       │   │   ├── h53_p64_i_down_right.jpg
+│   │       │   │   ├── h54_p12_i_up_right.jpg
+│   │       │   │   ├── h54_p3_k_up_q2_right.jpg
+│   │       │   │   ├── h54_p46_i_up_left.jpg
+│   │       │   │   ├── h54_p4_i_up_right.jpg
+│   │       │   │   ├── h55_p16_i_down_right.jpg
+│   │       │   │   ├── h55_p22_k_down_q4_right.jpg
+│   │       │   │   ├── h55_p26_i_down_right.jpg
+│   │       │   │   ├── h55_p65_i_down_right.jpg
+│   │       │   │   ├── h56_p12_i_up_right.jpg
+│   │       │   │   ├── h56_p13_k_up_q2_right.jpg
+│   │       │   │   ├── h56_p14_i_up_right.jpg
+│   │       │   │   ├── h56_p19_i_up_right.jpg
+│   │       │   │   ├── h57_p35_i_down_left.jpg
+│   │       │   │   ├── h57_p36_k_down_q1_left.jpg
+│   │       │   │   ├── h57_p37_i_down_left.jpg
+│   │       │   │   ├── h57_p54_i_down_left.jpg
+│   │       │   │   ├── h58_p1_i_down_right.jpg
+│   │       │   │   ├── h58_p6_k_down_q3_right.jpg
+│   │       │   │   ├── h58_p8_i_down_right.jpg
+│   │       │   │   ├── h58_p9_i_down_right.jpg
+│   │       │   │   ├── h87_p10_i_up_left.jpg
+│   │       │   │   ├── h87_p6_i_up_left.jpg
+│   │       │   │   ├── h87_p8_i_up_left.jpg
+│   │       │   │   ├── h87_p9_k_up_left.jpg
+│   │       │   │   ├── h89_p31_i_up_left.jpg
+│   │       │   │   ├── h89_p38_i_up_left.jpg
+│   │       │   │   ├── h89_p39_k_up_left.jpg
+│   │       │   │   ├── h89_p50_i_up_left.jpg
+│   │       │   │   ├── h94_p1_i_up_left.jpg
+│   │       │   │   ├── h94_p2_k_up_left.jpg
+│   │       │   │   ├── h94_p3_i_up_left.jpg
+│   │       │   │   ├── h94_p46_i_up_left.jpg
+│   │       │   │   ├── h98_p13_i_up_right.jpg
+│   │       │   │   ├── h98_p18_i_up_right.jpg
+│   │       │   │   ├── h98_p19_k_up_right.jpg
+│   │       │   │   └── h98_p62_i_up_right.jpg
+│   │       │   ├── block3
+│   │       │   │   ├── h33_p10_i_down_right.jpg
+│   │       │   │   ├── h33_p11_k_down_right.jpg
+│   │       │   │   ├── h33_p12_i_down_right.jpg
+│   │       │   │   ├── h33_p17_i_down_right.jpg
+│   │       │   │   ├── h35_p31_i_down_right.jpg
+│   │       │   │   ├── h35_p38_i_down_right.jpg
+│   │       │   │   ├── h35_p50_k_down_right.jpg
+│   │       │   │   ├── h35_p61_i_down_right.jpg
+│   │       │   │   ├── h36_p11_i_down_left.jpg
+│   │       │   │   ├── h36_p12_k_down_left.jpg
+│   │       │   │   ├── h36_p13_i_down_left.jpg
+│   │       │   │   ├── h36_p18_i_down_left.jpg
+│   │       │   │   ├── h42_p48_i_down_left.jpg
+│   │       │   │   ├── h42_p55_i_down_left.jpg
+│   │       │   │   ├── h42_p56_i_down_left.jpg
+│   │       │   │   ├── h42_p5_k_down_left.jpg
+│   │       │   │   ├── h60_p33_i_up_left.jpg
+│   │       │   │   ├── h60_p40_i_up_left.jpg
+│   │       │   │   ├── h60_p41_i_up_left.jpg
+│   │       │   │   ├── h60_p49_k_up_q4_left.jpg
+│   │       │   │   ├── h61_p48_i_up_right.jpg
+│   │       │   │   ├── h61_p55_i_up_right.jpg
+│   │       │   │   ├── h61_p56_i_up_right.jpg
+│   │       │   │   ├── h61_p5_k_up_q2_right.jpg
+│   │       │   │   ├── h69_p27_i_down_left.jpg
+│   │       │   │   ├── h69_p33_i_down_right.jpg
+│   │       │   │   ├── h69_p34_k_down_q1_left.jpg
+│   │       │   │   ├── h69_p51_i_down_right.jpg
+│   │       │   │   ├── h74_p16_k_up_q1_left.jpg
+│   │       │   │   ├── h74_p22_i_up_left.jpg
+│   │       │   │   ├── h74_p25_i_up_left.jpg
+│   │       │   │   ├── h74_p7_i_up_left.jpg
+│   │       │   │   ├── h75_p29_i_down_left.jpg
+│   │       │   │   ├── h75_p36_i_down_left.jpg
+│   │       │   │   ├── h75_p37_k_down_q1_left.jpg
+│   │       │   │   ├── h75_p54_i_down_left.jpg
+│   │       │   │   ├── h76_p24_i_down_left.jpg
+│   │       │   │   ├── h76_p29_k_down_q1_left.jpg
+│   │       │   │   ├── h76_p37_i_down_left.jpg
+│   │       │   │   ├── h76_p57_i_down_left.jpg
+│   │       │   │   ├── h77_p41_i_down_right.jpg
+│   │       │   │   ├── h77_p42_k_down_left.jpg
+│   │       │   │   ├── h77_p52_i_down_left.jpg
+│   │       │   │   ├── h77_p63_i_down_right.jpg
+│   │       │   │   ├── h82_p15_i_up_right.jpg
+│   │       │   │   ├── h82_p20_i_up_right.jpg
+│   │       │   │   ├── h82_p21_k_up_right.jpg
+│   │       │   │   ├── h82_p24_i_up_right.jpg
+│   │       │   │   ├── h83_p24_i_up_right.jpg
+│   │       │   │   ├── h83_p29_k_up_right.jpg
+│   │       │   │   ├── h83_p37_i_up_right.jpg
+│   │       │   │   ├── h83_p57_i_up_right.jpg
+│   │       │   │   ├── h85_p10_i_up_left.jpg
+│   │       │   │   ├── h85_p11_k_up_left.jpg
+│   │       │   │   ├── h85_p12_i_up_left.jpg
+│   │       │   │   └── h85_p17_i_up_left.jpg
+│   │       │   ├── block4
+│   │       │   │   ├── h101_p32_i_down_right.jpg
+│   │       │   │   ├── h101_p33_i_down_right.jpg
+│   │       │   │   ├── h101_p40_i_down_right.jpg
+│   │       │   │   ├── h101_p49_k_down_q2_right.jpg
+│   │       │   │   ├── h107_p41_i_up_left.jpg
+│   │       │   │   ├── h107_p42_k_up_right.jpg
+│   │       │   │   ├── h107_p43_i_up_right.jpg
+│   │       │   │   ├── h107_p63_i_up_right.jpg
+│   │       │   │   ├── h108_p27_k_up_right.jpg
+│   │       │   │   ├── h108_p34_i_up_right.jpg
+│   │       │   │   ├── h108_p51_i_up_left.jpg
+│   │       │   │   ├── h108_p52_i_up_right.jpg
+│   │       │   │   ├── h109_p23_i_up_left.jpg
+│   │       │   │   ├── h109_p27_i_up_right.jpg
+│   │       │   │   ├── h109_p51_k_up_left.jpg
+│   │       │   │   ├── h109_p64_i_up_left.jpg
+│   │       │   │   ├── h12_p13_i_down_left.jpg
+│   │       │   │   ├── h12_p3_i_down_left.jpg
+│   │       │   │   ├── h12_p48_i_down_left.jpg
+│   │       │   │   ├── h12_p4_k_down_left.jpg
+│   │       │   │   ├── h18_p16_i_down_right.jpg
+│   │       │   │   ├── h18_p6_i_down_right.jpg
+│   │       │   │   ├── h18_p7_k_down_right.jpg
+│   │       │   │   ├── h18_p8_i_down_right.jpg
+│   │       │   │   ├── h22_p15_i_down_left.jpg
+│   │       │   │   ├── h22_p20_i_down_left.jpg
+│   │       │   │   ├── h22_p21_k_down_left.jpg
+│   │       │   │   ├── h22_p24_i_down_left.jpg
+│   │       │   │   ├── h25_p13_i_down_left.jpg
+│   │       │   │   ├── h25_p14_k_down_left.jpg
+│   │       │   │   ├── h25_p48_i_down_left.jpg
+│   │       │   │   ├── h25_p56_i_down_left.jpg
+│   │       │   │   ├── h80_p25_i_down_right.jpg
+│   │       │   │   ├── h80_p30_k_down_q2_right.jpg
+│   │       │   │   ├── h80_p50_i_down_right.jpg
+│   │       │   │   ├── h80_p61_i_down_right.jpg
+│   │       │   │   ├── h84_p6_i_down_right.jpg
+│   │       │   │   ├── h84_p7_i_down_right.jpg
+│   │       │   │   ├── h84_p8_k_down_q3_right.jpg
+│   │       │   │   ├── h84_p9_i_down_right.jpg
+│   │       │   │   ├── h88_p35_k_down_q1_left.jpg
+│   │       │   │   ├── h88_p36_i_down_left.jpg
+│   │       │   │   ├── h88_p43_i_down_left.jpg
+│   │       │   │   ├── h88_p58_i_down_left.jpg
+│   │       │   │   ├── h93_p27_k_down_q1_left.jpg
+│   │       │   │   ├── h93_p34_i_down_right.jpg
+│   │       │   │   ├── h93_p51_i_down_right.jpg
+│   │       │   │   ├── h93_p59_i_down_left.jpg
+│   │       │   │   ├── h95_p26_i_down_right.jpg
+│   │       │   │   ├── h95_p31_i_down_right.jpg
+│   │       │   │   ├── h95_p32_k_down_q2_right.jpg
+│   │       │   │   ├── h95_p60_i_down_right.jpg
+│   │       │   │   ├── h97_p17_i_down_right.jpg
+│   │       │   │   ├── h97_p23_k_down_q2_right.jpg
+│   │       │   │   ├── h97_p60_i_down_right.jpg
+│   │       │   │   └── h97_p65_i_down_right.jpg
+│   │       │   └── desktop.ini
+│   │       ├── Map_65pos.png
+│   │       └── Repeated houses- balanced.xlsx
+│   └── Stimuli
+│       ├── allPicsA30
+│       │   ├── h101_p21_i_down.jpg
+│       │   ├── h101_p37_i_down.jpg
+│       │   ├── h101_p49_k_down.jpg
+│       │   ├── h102_p20_i_down.jpg
+│       │   ├── h102_p40_k_down.jpg
+│       │   ├── h102_p43_i_down.jpg
+│       │   ├── h20_p12_i_up.jpg
+│       │   ├── h20_p43_i_up.jpg
+│       │   ├── h20_p53_k_up.jpg
+│       │   ├── h24_p20_i_up.jpg
+│       │   ├── h24_p40_k_up.jpg
+│       │   ├── h24_p48_i_up.jpg
+│       │   ├── h26_p20_k_up.jpg
+│       │   ├── h26_p43_i_up.jpg
+│       │   ├── h26_p48_i_up.jpg
+│       │   ├── h27_p10_i_up.jpg
+│       │   ├── h27_p34_i_up.jpg
+│       │   ├── h27_p8_k_up.jpg
+│       │   ├── h30_p11_i_up.jpg
+│       │   ├── h30_p14_k_up.jpg
+│       │   ├── h30_p47_i_up.jpg
+│       │   ├── h34_p17_i_up.jpg
+│       │   ├── h34_p21_i_up.jpg
+│       │   ├── h34_p41_k_up.jpg
+│       │   ├── h38_p25_i_up.jpg
+│       │   ├── h38_p37_k_up.jpg
+│       │   ├── h38_p47_i_up.jpg
+│       │   ├── h44_p18_k_up.jpg
+│       │   ├── h44_p20_i_up.jpg
+│       │   ├── h44_p49_i_up.jpg
+│       │   ├── h50_p21_i_up.jpg
+│       │   ├── h50_p37_i_up.jpg
+│       │   ├── h50_p45_k_up.jpg
+│       │   ├── h51_p13_i_up.jpg
+│       │   ├── h51_p17_i_up.jpg
+│       │   ├── h51_p24_k_up.jpg
+│       │   ├── h54_p31_i_up.jpg
+│       │   ├── h54_p3_k_up.jpg
+│       │   ├── h54_p47_i_up.jpg
+│       │   ├── h55_p11_i_down.jpg
+│       │   ├── h55_p15_i_down.jpg
+│       │   ├── h55_p24_k_down.jpg
+│       │   ├── h56_p13_k_up.jpg
+│       │   ├── h56_p2_i_up.jpg
+│       │   ├── h56_p49_i_up.jpg
+│       │   ├── h57_p15_i_down.jpg
+│       │   ├── h57_p34_i_down.jpg
+│       │   ├── h57_p36_k_down.jpg
+│       │   ├── h58_p11_i_down.jpg
+│       │   ├── h58_p15_i_down.jpg
+│       │   ├── h58_p6_k_down.jpg
+│       │   ├── h60_p35_i_up.jpg
+│       │   ├── h60_p48_i_up.jpg
+│       │   ├── h60_p49_k_up.jpg
+│       │   ├── h61_p15_i_up.jpg
+│       │   ├── h61_p25_i_up.jpg
+│       │   ├── h61_p5_k_up.jpg
+│       │   ├── h69_p20_i_down.jpg
+│       │   ├── h69_p34_k_down.jpg
+│       │   ├── h69_p47_i_down.jpg
+│       │   ├── h74_p12_i_up.jpg
+│       │   ├── h74_p16_k_up.jpg
+│       │   ├── h74_p48_i_up.jpg
+│       │   ├── h75_p13_i_down.jpg
+│       │   ├── h75_p16_i_down.jpg
+│       │   ├── h75_p37_k_down.jpg
+│       │   ├── h76_p11_i_down.jpg
+│       │   ├── h76_p29_k_down.jpg
+│       │   ├── h76_p49_i_down.jpg
+│       │   ├── h77_p16_i_down.jpg
+│       │   ├── h77_p35_i_down.jpg
+│       │   ├── h77_p42_k_down.jpg
+│       │   ├── h80_p16_i_down.jpg
+│       │   ├── h80_p25_i_down.jpg
+│       │   ├── h80_p30_k_down.jpg
+│       │   ├── h84_p34_i_down.jpg
+│       │   ├── h84_p47_i_down.jpg
+│       │   ├── h84_p8_k_down.jpg
+│       │   ├── h88_p16_i_down.jpg
+│       │   ├── h88_p2_i_down.jpg
+│       │   ├── h88_p35_k_down.jpg
+│       │   ├── h93_p27_k_down.jpg
+│       │   ├── h93_p35_i_down.jpg
+│       │   ├── h93_p48_i_down.jpg
+│       │   ├── h95_p31_i_down.jpg
+│       │   ├── h95_p32_k_down.jpg
+│       │   ├── h95_p37_i_down.jpg
+│       │   ├── h97_p23_k_down.jpg
+│       │   ├── h97_p33_i_down.jpg
+│       │   └── h97_p35_i_down.jpg
+│       ├── allPicsA40
+│       │   ├── h101_p21_i_down.jpg
+│       │   ├── h101_p37_i_down.jpg
+│       │   ├── h101_p49_k_down.jpg
+│       │   ├── h102_p20_i_down.jpg
+│       │   ├── h102_p40_k_down.jpg
+│       │   ├── h102_p43_i_down.jpg
+│       │   ├── h103_p16_k_down.jpg
+│       │   ├── h103_p17_i_down.jpg
+│       │   ├── h103_p2_i_down.jpg
+│       │   ├── h104_p17_i_down.jpg
+│       │   ├── h104_p48_i_down.jpg
+│       │   ├── h104_p52_k_down.jpg
+│       │   ├── h105_p13_i_down.jpg
+│       │   ├── h105_p43_i_down.jpg
+│       │   ├── h105_p47_k_down.jpg
+│       │   ├── h113_p17_i_down.jpg
+│       │   ├── h113_p20_i_down.jpg
+│       │   ├── h113_p53_k_down.jpg
+│       │   ├── h115_p21_i_down.jpg
+│       │   ├── h115_p25_i_down.jpg
+│       │   ├── h115_p38_k_down.jpg
+│       │   ├── h16_p12_i_up.jpg
+│       │   ├── h16_p2_i_up.jpg
+│       │   ├── h16_p32_k_up.jpg
+│       │   ├── h17_p12_i_up.jpg
+│       │   ├── h17_p33_i_up.jpg
+│       │   ├── h17_p44_k_up.jpg
+│       │   ├── h1_p17_i_up.jpg
+│       │   ├── h1_p2_i_up.jpg
+│       │   ├── h1_p54_k_up.jpg
+│       │   ├── h20_p12_i_up.jpg
+│       │   ├── h20_p43_i_up.jpg
+│       │   ├── h20_p53_k_up.jpg
+│       │   ├── h24_p20_i_up.jpg
+│       │   ├── h24_p40_k_up.jpg
+│       │   ├── h24_p48_i_up.jpg
+│       │   ├── h26_p20_k_up.jpg
+│       │   ├── h26_p43_i_up.jpg
+│       │   ├── h26_p48_i_up.jpg
+│       │   ├── h27_p10_i_up.jpg
+│       │   ├── h27_p34_i_up.jpg
+│       │   ├── h27_p8_k_up.jpg
+│       │   ├── h30_p11_i_up.jpg
+│       │   ├── h30_p14_k_up.jpg
+│       │   ├── h30_p47_i_up.jpg
+│       │   ├── h34_p17_i_up.jpg
+│       │   ├── h34_p21_i_up.jpg
+│       │   ├── h34_p41_k_up.jpg
+│       │   ├── h38_p25_i_up.jpg
+│       │   ├── h38_p37_k_up.jpg
+│       │   ├── h38_p47_i_up.jpg
+│       │   ├── h44_p18_k_up.jpg
+│       │   ├── h44_p20_i_up.jpg
+│       │   ├── h44_p49_i_up.jpg
+│       │   ├── h4_p13_i_up.jpg
+│       │   ├── h4_p31_k_up.jpg
+│       │   ├── h4_p33_i_up.jpg
+│       │   ├── h50_p21_i_up.jpg
+│       │   ├── h50_p37_i_up.jpg
+│       │   ├── h50_p45_k_up.jpg
+│       │   ├── h51_p13_i_up.jpg
+│       │   ├── h51_p17_i_up.jpg
+│       │   ├── h51_p24_k_up.jpg
+│       │   ├── h54_p31_i_up.jpg
+│       │   ├── h54_p3_k_up.jpg
+│       │   ├── h54_p47_i_up.jpg
+│       │   ├── h55_p11_i_down.jpg
+│       │   ├── h55_p15_i_down.jpg
+│       │   ├── h55_p24_k_down.jpg
+│       │   ├── h56_p13_k_up.jpg
+│       │   ├── h56_p2_i_up.jpg
+│       │   ├── h56_p49_i_up.jpg
+│       │   ├── h57_p15_i_down.jpg
+│       │   ├── h57_p34_i_down.jpg
+│       │   ├── h57_p36_k_down.jpg
+│       │   ├── h58_p11_i_down.jpg
+│       │   ├── h58_p15_i_down.jpg
+│       │   ├── h58_p6_k_down.jpg
+│       │   ├── h60_p35_i_up.jpg
+│       │   ├── h60_p48_i_up.jpg
+│       │   ├── h60_p49_k_up.jpg
+│       │   ├── h61_p15_i_up.jpg
+│       │   ├── h61_p25_i_up.jpg
+│       │   ├── h61_p5_k_up.jpg
+│       │   ├── h69_p20_i_down.jpg
+│       │   ├── h69_p34_k_down.jpg
+│       │   ├── h69_p47_i_down.jpg
+│       │   ├── h74_p12_i_up.jpg
+│       │   ├── h74_p16_k_up.jpg
+│       │   ├── h74_p48_i_up.jpg
+│       │   ├── h75_p13_i_down.jpg
+│       │   ├── h75_p16_i_down.jpg
+│       │   ├── h75_p37_k_down.jpg
+│       │   ├── h76_p11_i_down.jpg
+│       │   ├── h76_p29_k_down.jpg
+│       │   ├── h76_p49_i_down.jpg
+│       │   ├── h77_p16_i_down.jpg
+│       │   ├── h77_p35_i_down.jpg
+│       │   ├── h77_p42_k_down.jpg
+│       │   ├── h80_p16_i_down.jpg
+│       │   ├── h80_p25_i_down.jpg
+│       │   ├── h80_p30_k_down.jpg
+│       │   ├── h84_p34_i_down.jpg
+│       │   ├── h84_p47_i_down.jpg
+│       │   ├── h84_p8_k_down.jpg
+│       │   ├── h88_p16_i_down.jpg
+│       │   ├── h88_p2_i_down.jpg
+│       │   ├── h88_p35_k_down.jpg
+│       │   ├── h8_p10_i_up.jpg
+│       │   ├── h8_p11_i_up.jpg
+│       │   ├── h8_p7_k_up.jpg
+│       │   ├── h93_p27_k_down.jpg
+│       │   ├── h93_p35_i_down.jpg
+│       │   ├── h93_p48_i_down.jpg
+│       │   ├── h95_p31_i_down.jpg
+│       │   ├── h95_p32_k_down.jpg
+│       │   ├── h95_p37_i_down.jpg
+│       │   ├── h97_p23_k_down.jpg
+│       │   ├── h97_p33_i_down.jpg
+│       │   └── h97_p35_i_down.jpg
+│       ├── allPicsA40_wo
+│       │   ├── h101_p21_i_down.jpg
+│       │   ├── h101_p37_i_down.jpg
+│       │   ├── h101_p49_k_down_q2.jpg
+│       │   ├── h102_p20_i_down.jpg
+│       │   ├── h102_p40_k_down_q2.jpg
+│       │   ├── h102_p43_i_down.jpg
+│       │   ├── h103_p16_k_down_q3.jpg
+│       │   ├── h103_p17_i_down.jpg
+│       │   ├── h103_p2_i_down.jpg
+│       │   ├── h104_p17_i_down.jpg
+│       │   ├── h104_p48_i_down.jpg
+│       │   ├── h104_p52_k_down_q1.jpg
+│       │   ├── h105_p13_i_down.jpg
+│       │   ├── h105_p43_i_down.jpg
+│       │   ├── h105_p47_k_down_q3.jpg
+│       │   ├── h113_p17_i_down.jpg
+│       │   ├── h113_p20_i_down.jpg
+│       │   ├── h113_p53_k_down_q4.jpg
+│       │   ├── h115_p21_i_down.jpg
+│       │   ├── h115_p25_i_down.jpg
+│       │   ├── h115_p38_k_down_q2.jpg
+│       │   ├── h16_p12_i_up.jpg
+│       │   ├── h16_p2_i_up.jpg
+│       │   ├── h16_p32_k_up_q4.jpg
+│       │   ├── h17_p12_i_up.jpg
+│       │   ├── h17_p33_i_up.jpg
+│       │   ├── h17_p44_k_up_q3.jpg
+│       │   ├── h1_p17_i_up.jpg
+│       │   ├── h1_p2_i_up.jpg
+│       │   ├── h1_p54_k_up_q3.jpg
+│       │   ├── h20_p12_i_up.jpg
+│       │   ├── h20_p43_i_up.jpg
+│       │   ├── h20_p53_k_up_q3.jpg
+│       │   ├── h24_p20_i_up.jpg
+│       │   ├── h24_p40_k_up_q4.jpg
+│       │   ├── h24_p48_i_up.jpg
+│       │   ├── h26_p20_k_up_q2.jpg
+│       │   ├── h26_p43_i_up.jpg
+│       │   ├── h26_p48_i_up.jpg
+│       │   ├── h27_p10_i_up.jpg
+│       │   ├── h27_p34_i_up.jpg
+│       │   ├── h27_p8_k_up_q1.jpg
+│       │   ├── h30_p11_i_up.jpg
+│       │   ├── h30_p14_k_up_q2.jpg
+│       │   ├── h30_p47_i_up.jpg
+│       │   ├── h34_p17_i_up.jpg
+│       │   ├── h34_p21_i_up.jpg
+│       │   ├── h34_p41_k_up_q4.jpg
+│       │   ├── h38_p25_i_up.jpg
+│       │   ├── h38_p37_k_up_q3.jpg
+│       │   ├── h38_p47_i_up.jpg
+│       │   ├── h44_p18_k_up_q1.jpg
+│       │   ├── h44_p20_i_up.jpg
+│       │   ├── h44_p49_i_up.jpg
+│       │   ├── h4_p13_i_up.jpg
+│       │   ├── h4_p31_k_up_q4.jpg
+│       │   ├── h4_p33_i_up.jpg
+│       │   ├── h50_p21_i_up.jpg
+│       │   ├── h50_p37_i_up.jpg
+│       │   ├── h50_p45_k_up_q3.jpg
+│       │   ├── h51_p13_i_up.jpg
+│       │   ├── h51_p17_i_up.jpg
+│       │   ├── h51_p24_k_up_q3.jpg
+│       │   ├── h54_p31_i_up.jpg
+│       │   ├── h54_p3_k_up_q2.jpg
+│       │   ├── h54_p47_i_up.jpg
+│       │   ├── h55_p11_i_down.jpg
+│       │   ├── h55_p15_i_down.jpg
+│       │   ├── h55_p24_k_down_q4.jpg
+│       │   ├── h56_p13_k_up_q2.jpg
+│       │   ├── h56_p2_i_up.jpg
+│       │   ├── h56_p49_i_up.jpg
+│       │   ├── h57_p15_i_down.jpg
+│       │   ├── h57_p34_i_down.jpg
+│       │   ├── h57_p36_k_down_q1.jpg
+│       │   ├── h58_p11_i_down.jpg
+│       │   ├── h58_p15_i_down.jpg
+│       │   ├── h58_p6_k_down_q3.jpg
+│       │   ├── h60_p35_i_up.jpg
+│       │   ├── h60_p48_i_up.jpg
+│       │   ├── h60_p49_k_up_q4.jpg
+│       │   ├── h61_p15_i_up.jpg
+│       │   ├── h61_p25_i_up.jpg
+│       │   ├── h61_p5_k_up_q2.jpg
+│       │   ├── h69_p20_i_down.jpg
+│       │   ├── h69_p34_k_down_q1.jpg
+│       │   ├── h69_p47_i_down.jpg
+│       │   ├── h74_p12_i_up.jpg
+│       │   ├── h74_p16_k_up_q1.jpg
+│       │   ├── h74_p48_i_up.jpg
+│       │   ├── h75_p13_i_down.jpg
+│       │   ├── h75_p16_i_down.jpg
+│       │   ├── h75_p37_k_down_q1.jpg
+│       │   ├── h76_p11_i_down.jpg
+│       │   ├── h76_p29_k_down_q1.jpg
+│       │   ├── h76_p49_i_down.jpg
+│       │   ├── h77_p16_i_down.jpg
+│       │   ├── h77_p35_i_down.jpg
+│       │   ├── h77_p42_k_down_q1.jpg
+│       │   ├── h80_p16_i_down.jpg
+│       │   ├── h80_p25_i_down.jpg
+│       │   ├── h80_p30_k_down_q2.jpg
+│       │   ├── h84_p34_i_down.jpg
+│       │   ├── h84_p47_i_down.jpg
+│       │   ├── h84_p8_k_down_q3.jpg
+│       │   ├── h88_p16_i_down.jpg
+│       │   ├── h88_p2_i_down.jpg
+│       │   ├── h88_p35_k_down_q1.jpg
+│       │   ├── h8_p10_i_up.jpg
+│       │   ├── h8_p11_i_up.jpg
+│       │   ├── h8_p7_k_up_q1.jpg
+│       │   ├── h93_p27_k_down_q1.jpg
+│       │   ├── h93_p35_i_down.jpg
+│       │   ├── h93_p48_i_down.jpg
+│       │   ├── h95_p31_i_down.jpg
+│       │   ├── h95_p32_k_down_q2.jpg
+│       │   ├── h95_p37_i_down.jpg
+│       │   ├── h97_p23_k_down_q2.jpg
+│       │   ├── h97_p33_i_down.jpg
+│       │   ├── h97_p35_i_down.jpg
+│       │   └── Thumbs.db
+│       ├── allPicsB30
+│       │   ├── h107_p11_i_up.jpg
+│       │   ├── h107_p25_i_up.jpg
+│       │   ├── h107_p42_k_up.jpg
+│       │   ├── h108_p13_i_up.jpg
+│       │   ├── h108_p15_i_up.jpg
+│       │   ├── h108_p27_k_up.jpg
+│       │   ├── h109_p34_i_up.jpg
+│       │   ├── h109_p35_i_up.jpg
+│       │   ├── h109_p51_k_up.jpg
+│       │   ├── h111_p16_i_up.jpg
+│       │   ├── h111_p37_i_up.jpg
+│       │   ├── h111_p47_k_up.jpg
+│       │   ├── h114_p16_i_up.jpg
+│       │   ├── h114_p33_i_up.jpg
+│       │   ├── h114_p35_k_up.jpg
+│       │   ├── h116_p11_i_up.jpg
+│       │   ├── h116_p21_i_up.jpg
+│       │   ├── h116_p28_k_up.jpg
+│       │   ├── h117_p13_i_up.jpg
+│       │   ├── h117_p31_i_up.jpg
+│       │   ├── h117_p6_k_up.jpg
+│       │   ├── h11_p2_i_down.jpg
+│       │   ├── h11_p43_k_down.jpg
+│       │   ├── h11_p47_i_down.jpg
+│       │   ├── h120_p12_k_up.jpg
+│       │   ├── h120_p21_i_up.jpg
+│       │   ├── h120_p37_i_up.jpg
+│       │   ├── h12_p12_i_down.jpg
+│       │   ├── h12_p37_i_down.jpg
+│       │   ├── h12_p4_k_down.jpg
+│       │   ├── h18_p47_i_down.jpg
+│       │   ├── h18_p49_i_down.jpg
+│       │   ├── h18_p7_k_down.jpg
+│       │   ├── h22_p21_k_down.jpg
+│       │   ├── h22_p33_i_down.jpg
+│       │   ├── h22_p48_i_down.jpg
+│       │   ├── h25_p12_i_down.jpg
+│       │   ├── h25_p14_k_down.jpg
+│       │   ├── h25_p31_i_down.jpg
+│       │   ├── h28_p33_i_down.jpg
+│       │   ├── h28_p37_i_down.jpg
+│       │   ├── h28_p46_k_down.jpg
+│       │   ├── h29_p10_i_down.jpg
+│       │   ├── h29_p3_k_down.jpg
+│       │   ├── h29_p49_i_down.jpg
+│       │   ├── h32_p10_i_down.jpg
+│       │   ├── h32_p13_i_down.jpg
+│       │   ├── h32_p31_k_down.jpg
+│       │   ├── h33_p11_k_down.jpg
+│       │   ├── h33_p15_i_down.jpg
+│       │   ├── h33_p33_i_down.jpg
+│       │   ├── h35_p31_i_down.jpg
+│       │   ├── h35_p43_i_down.jpg
+│       │   ├── h35_p50_k_down.jpg
+│       │   ├── h36_p11_i_down.jpg
+│       │   ├── h36_p12_k_down.jpg
+│       │   ├── h36_p25_i_down.jpg
+│       │   ├── h42_p10_i_down.jpg
+│       │   ├── h42_p34_i_down.jpg
+│       │   ├── h42_p5_k_down.jpg
+│       │   ├── h46_p18_k_down.jpg
+│       │   ├── h46_p34_i_down.jpg
+│       │   ├── h46_p43_i_down.jpg
+│       │   ├── h48_p13_i_down.jpg
+│       │   ├── h48_p17_i_down.jpg
+│       │   ├── h48_p41_k_down.jpg
+│       │   ├── h53_p25_i_down.jpg
+│       │   ├── h53_p33_k_down.jpg
+│       │   ├── h53_p35_i_down.jpg
+│       │   ├── h82_p10_i_up.jpg
+│       │   ├── h82_p21_k_up.jpg
+│       │   ├── h82_p37_i_up.jpg
+│       │   ├── h83_p29_k_up.jpg
+│       │   ├── h83_p34_i_up.jpg
+│       │   ├── h83_p49_i_up.jpg
+│       │   ├── h85_p11_k_up.jpg
+│       │   ├── h85_p16_i_up.jpg
+│       │   ├── h85_p43_i_up.jpg
+│       │   ├── h87_p10_i_up.jpg
+│       │   ├── h87_p34_i_up.jpg
+│       │   ├── h87_p9_k_up.jpg
+│       │   ├── h89_p17_i_up.jpg
+│       │   ├── h89_p2_i_up.jpg
+│       │   ├── h89_p39_k_up.jpg
+│       │   ├── h94_p2_k_up.jpg
+│       │   ├── h94_p31_i_up.jpg
+│       │   ├── h94_p33_i_up.jpg
+│       │   ├── h98_p19_k_up.jpg
+│       │   ├── h98_p20_i_up.jpg
+│       │   └── h98_p47_i_up.jpg
+│       ├── allPicsB40
+│       │   ├── h107_p11_i_up.jpg
+│       │   ├── h107_p25_i_up.jpg
+│       │   ├── h107_p42_k_up.jpg
+│       │   ├── h108_p13_i_up.jpg
+│       │   ├── h108_p15_i_up.jpg
+│       │   ├── h108_p27_k_up.jpg
+│       │   ├── h109_p34_i_up.jpg
+│       │   ├── h109_p35_i_up.jpg
+│       │   ├── h109_p51_k_up.jpg
+│       │   ├── h10_p10_k_down.jpg
+│       │   ├── h10_p20_i_down.jpg
+│       │   ├── h10_p21_i_down.jpg
+│       │   ├── h111_p16_i_up.jpg
+│       │   ├── h111_p37_i_up.jpg
+│       │   ├── h111_p47_k_up.jpg
+│       │   ├── h114_p16_i_up.jpg
+│       │   ├── h114_p33_i_up.jpg
+│       │   ├── h114_p35_k_up.jpg
+│       │   ├── h116_p11_i_up.jpg
+│       │   ├── h116_p21_i_up.jpg
+│       │   ├── h116_p28_k_up.jpg
+│       │   ├── h117_p13_i_up.jpg
+│       │   ├── h117_p31_i_up.jpg
+│       │   ├── h117_p6_k_up.jpg
+│       │   ├── h11_p2_i_down.jpg
+│       │   ├── h11_p43_k_down.jpg
+│       │   ├── h11_p47_i_down.jpg
+│       │   ├── h120_p12_k_up.jpg
+│       │   ├── h120_p21_i_up.jpg
+│       │   ├── h120_p37_i_up.jpg
+│       │   ├── h121_p16_i_up.jpg
+│       │   ├── h121_p34_k_up.jpg
+│       │   ├── h121_p35_i_up.jpg
+│       │   ├── h122_p15_i_up.jpg
+│       │   ├── h122_p25_i_up.jpg
+│       │   ├── h122_p33_k_up.jpg
+│       │   ├── h123_p15_k_up.jpg
+│       │   ├── h123_p20_i_up.jpg
+│       │   ├── h123_p43_i_up.jpg
+│       │   ├── h124_p15_i_up.jpg
+│       │   ├── h124_p26_k_up.jpg
+│       │   ├── h124_p35_i_up.jpg
+│       │   ├── h126_p30_k_up.jpg
+│       │   ├── h126_p31_i_up.jpg
+│       │   ├── h126_p49_i_up.jpg
+│       │   ├── h12_p12_i_down.jpg
+│       │   ├── h12_p37_i_down.jpg
+│       │   ├── h12_p4_k_down.jpg
+│       │   ├── h18_p47_i_down.jpg
+│       │   ├── h18_p49_i_down.jpg
+│       │   ├── h18_p7_k_down.jpg
+│       │   ├── h22_p21_k_down.jpg
+│       │   ├── h22_p33_i_down.jpg
+│       │   ├── h22_p48_i_down.jpg
+│       │   ├── h25_p12_i_down.jpg
+│       │   ├── h25_p14_k_down.jpg
+│       │   ├── h25_p31_i_down.jpg
+│       │   ├── h28_p33_i_down.jpg
+│       │   ├── h28_p37_i_down.jpg
+│       │   ├── h28_p46_k_down.jpg
+│       │   ├── h29_p10_i_down.jpg
+│       │   ├── h29_p3_k_down.jpg
+│       │   ├── h29_p49_i_down.jpg
+│       │   ├── h2_p12_i_down.jpg
+│       │   ├── h2_p13_k_down.jpg
+│       │   ├── h2_p49_i_down.jpg
+│       │   ├── h32_p10_i_down.jpg
+│       │   ├── h32_p13_i_down.jpg
+│       │   ├── h32_p31_k_down.jpg
+│       │   ├── h33_p11_k_down.jpg
+│       │   ├── h33_p15_i_down.jpg
+│       │   ├── h33_p33_i_down.jpg
+│       │   ├── h35_p31_i_down.jpg
+│       │   ├── h35_p43_i_down.jpg
+│       │   ├── h35_p50_k_down.jpg
+│       │   ├── h36_p11_i_down.jpg
+│       │   ├── h36_p12_k_down.jpg
+│       │   ├── h36_p25_i_down.jpg
+│       │   ├── h3_p20_k_down.jpg
+│       │   ├── h3_p2_i_down.jpg
+│       │   ├── h3_p31_i_down.jpg
+│       │   ├── h42_p10_i_down.jpg
+│       │   ├── h42_p34_i_down.jpg
+│       │   ├── h42_p5_k_down.jpg
+│       │   ├── h46_p18_k_down.jpg
+│       │   ├── h46_p34_i_down.jpg
+│       │   ├── h46_p43_i_down.jpg
+│       │   ├── h48_p13_i_down.jpg
+│       │   ├── h48_p17_i_down.jpg
+│       │   ├── h48_p41_k_down.jpg
+│       │   ├── h53_p25_i_down.jpg
+│       │   ├── h53_p33_k_down.jpg
+│       │   ├── h53_p35_i_down.jpg
+│       │   ├── h5_p10_i_down.jpg
+│       │   ├── h5_p21_i_down.jpg
+│       │   ├── h5_p28_k_down.jpg
+│       │   ├── h82_p10_i_up.jpg
+│       │   ├── h82_p21_k_up.jpg
+│       │   ├── h82_p37_i_up.jpg
+│       │   ├── h83_p29_k_up.jpg
+│       │   ├── h83_p34_i_up.jpg
+│       │   ├── h83_p49_i_up.jpg
+│       │   ├── h85_p11_k_up.jpg
+│       │   ├── h85_p16_i_up.jpg
+│       │   ├── h85_p43_i_up.jpg
+│       │   ├── h87_p10_i_up.jpg
+│       │   ├── h87_p34_i_up.jpg
+│       │   ├── h87_p9_k_up.jpg
+│       │   ├── h89_p17_i_up.jpg
+│       │   ├── h89_p2_i_up.jpg
+│       │   ├── h89_p39_k_up.jpg
+│       │   ├── h94_p2_k_up.jpg
+│       │   ├── h94_p31_i_up.jpg
+│       │   ├── h94_p33_i_up.jpg
+│       │   ├── h98_p19_k_up.jpg
+│       │   ├── h98_p20_i_up.jpg
+│       │   ├── h98_p47_i_up.jpg
+│       │   ├── h9_p12_i_down.jpg
+│       │   ├── h9_p15_k_down.jpg
+│       │   └── h9_p48_i_down.jpg
+│       ├── allPicsB40_wo
+│       │   ├── h107_p11_i_up.jpg
+│       │   ├── h107_p25_i_up.jpg
+│       │   ├── h107_p42_k_up_q3.jpg
+│       │   ├── h108_p13_i_up.jpg
+│       │   ├── h108_p15_i_up.jpg
+│       │   ├── h108_p27_k_up_q3.jpg
+│       │   ├── h109_p34_i_up.jpg
+│       │   ├── h109_p35_i_up.jpg
+│       │   ├── h109_p51_k_up_q3.jpg
+│       │   ├── h10_p10_k_down_q3.jpg
+│       │   ├── h10_p20_i_down.jpg
+│       │   ├── h10_p21_i_down.jpg
+│       │   ├── h111_p16_i_up.jpg
+│       │   ├── h111_p37_i_up.jpg
+│       │   ├── h111_p47_k_up_q1.jpg
+│       │   ├── h114_p16_i_up.jpg
+│       │   ├── h114_p33_i_up.jpg
+│       │   ├── h114_p35_k_up_q3.jpg
+│       │   ├── h116_p11_i_up.jpg
+│       │   ├── h116_p21_i_up.jpg
+│       │   ├── h116_p28_k_up_q3.jpg
+│       │   ├── h117_p13_i_up.jpg
+│       │   ├── h117_p31_i_up.jpg
+│       │   ├── h117_p6_k_up_q1.jpg
+│       │   ├── h11_p2_i_down.jpg
+│       │   ├── h11_p43_k_down_q1.jpg
+│       │   ├── h11_p47_i_down.jpg
+│       │   ├── h120_p12_k_up_q1.jpg
+│       │   ├── h120_p21_i_up.jpg
+│       │   ├── h120_p37_i_up.jpg
+│       │   ├── h121_p16_i_up.jpg
+│       │   ├── h121_p34_k_up_q3.jpg
+│       │   ├── h121_p35_i_up.jpg
+│       │   ├── h122_p15_i_up.jpg
+│       │   ├── h122_p25_i_up.jpg
+│       │   ├── h122_p33_k_up.jpg
+│       │   ├── h123_p15_k_up_q2.jpg
+│       │   ├── h123_p20_i_up.jpg
+│       │   ├── h123_p43_i_up.jpg
+│       │   ├── h124_p15_i_up.jpg
+│       │   ├── h124_p26_k_up_q4.jpg
+│       │   ├── h124_p35_i_up.jpg
+│       │   ├── h126_p30_k_up_q4.jpg
+│       │   ├── h126_p31_i_up.jpg
+│       │   ├── h126_p49_i_up.jpg
+│       │   ├── h12_p12_i_down.jpg
+│       │   ├── h12_p37_i_down.jpg
+│       │   ├── h12_p4_k_down_q4.jpg
+│       │   ├── h18_p47_i_down.jpg
+│       │   ├── h18_p49_i_down.jpg
+│       │   ├── h18_p7_k_down_q3.jpg
+│       │   ├── h22_p21_k_down_q4.jpg
+│       │   ├── h22_p33_i_down.jpg
+│       │   ├── h22_p48_i_down.jpg
+│       │   ├── h25_p12_i_down.jpg
+│       │   ├── h25_p14_k_down_q4.jpg
+│       │   ├── h25_p31_i_down.jpg
+│       │   ├── h28_p33_i_down.jpg
+│       │   ├── h28_p37_i_down.jpg
+│       │   ├── h28_p46_k_down_q3.jpg
+│       │   ├── h29_p10_i_down.jpg
+│       │   ├── h29_p3_k_down_q3.jpg
+│       │   ├── h29_p49_i_down.jpg
+│       │   ├── h2_p12_i_down.jpg
+│       │   ├── h2_p13_k_down_q4.jpg
+│       │   ├── h2_p49_i_down.jpg
+│       │   ├── h32_p10_i_down.jpg
+│       │   ├── h32_p13_i_down.jpg
+│       │   ├── h32_p31_k_down_q2.jpg
+│       │   ├── h33_p11_k_down_q3.jpg
+│       │   ├── h33_p15_i_down.jpg
+│       │   ├── h33_p33_i_down.jpg
+│       │   ├── h35_p31_i_down.jpg
+│       │   ├── h35_p43_i_down.jpg
+│       │   ├── h35_p50_k_down_q2.jpg
+│       │   ├── h36_p11_i_down.jpg
+│       │   ├── h36_p12_k_down_q3.jpg
+│       │   ├── h36_p25_i_down.jpg
+│       │   ├── h3_p20_k_down_q4.jpg
+│       │   ├── h3_p2_i_down.jpg
+│       │   ├── h3_p31_i_down.jpg
+│       │   ├── h42_p10_i_down.jpg
+│       │   ├── h42_p34_i_down.jpg
+│       │   ├── h42_p5_k_down_q4.jpg
+│       │   ├── h46_p18_k_down_q3.jpg
+│       │   ├── h46_p34_i_down.jpg
+│       │   ├── h46_p43_i_down.jpg
+│       │   ├── h48_p13_i_down.jpg
+│       │   ├── h48_p17_i_down.jpg
+│       │   ├── h48_p41_k_down_q2.jpg
+│       │   ├── h53_p25_i_down.jpg
+│       │   ├── h53_p33_k_down_q2.jpg
+│       │   ├── h53_p35_i_down.jpg
+│       │   ├── h5_p10_i_down.jpg
+│       │   ├── h5_p21_i_down.jpg
+│       │   ├── h5_p28_k_down_q1.jpg
+│       │   ├── h82_p10_i_up.jpg
+│       │   ├── h82_p21_k_up_q2.jpg
+│       │   ├── h82_p37_i_up.jpg
+│       │   ├── h83_p29_k_up_q3.jpg
+│       │   ├── h83_p34_i_up.jpg
+│       │   ├── h83_p49_i_up.jpg
+│       │   ├── h85_p11_k_up.jpg
+│       │   ├── h85_p16_i_up.jpg
+│       │   ├── h85_p43_i_up.jpg
+│       │   ├── h87_p10_i_up.jpg
+│       │   ├── h87_p34_i_up.jpg
+│       │   ├── h87_p9_k_up_q1.jpg
+│       │   ├── h89_p17_i_up.jpg
+│       │   ├── h89_p2_i_up.jpg
+│       │   ├── h89_p39_k_up_q4.jpg
+│       │   ├── h94_p2_k_up_q1.jpg
+│       │   ├── h94_p31_i_up.jpg
+│       │   ├── h94_p33_i_up.jpg
+│       │   ├── h98_p19_k_up_q2.jpg
+│       │   ├── h98_p20_i_up.jpg
+│       │   ├── h98_p47_i_up.jpg
+│       │   ├── h9_p12_i_down.jpg
+│       │   ├── h9_p15_k_down_q4.jpg
+│       │   ├── h9_p48_i_down.jpg
+│       │   └── Thumbs.db
+│       ├── allPics_down
+│       │   ├── h101_p21_i_down.jpg
+│       │   ├── h101_p37_i_down.jpg
+│       │   ├── h101_p49_k_down.jpg
+│       │   ├── h102_p20_i_down.jpg
+│       │   ├── h102_p40_k_down.jpg
+│       │   ├── h102_p43_i_down.jpg
+│       │   ├── h103_p16_k_down.jpg
+│       │   ├── h103_p17_i_down.jpg
+│       │   ├── h103_p2_i_down.jpg
+│       │   ├── h104_p17_i_down.jpg
+│       │   ├── h104_p48_i_down.jpg
+│       │   ├── h104_p52_k_down.jpg
+│       │   ├── h105_p13_i_down.jpg
+│       │   ├── h105_p43_i_down.jpg
+│       │   ├── h105_p47_k_down.jpg
+│       │   ├── h10_p10_k_down.jpg
+│       │   ├── h10_p20_i_down.jpg
+│       │   ├── h10_p21_i_down.jpg
+│       │   ├── h113_p17_i_down.jpg
+│       │   ├── h113_p20_i_down.jpg
+│       │   ├── h113_p53_k_down.jpg
+│       │   ├── h115_p21_i_down.jpg
+│       │   ├── h115_p25_i_down.jpg
+│       │   ├── h115_p38_k_down.jpg
+│       │   ├── h11_p2_i_down.jpg
+│       │   ├── h11_p43_k_down.jpg
+│       │   ├── h11_p47_i_down.jpg
+│       │   ├── h12_p12_i_down.jpg
+│       │   ├── h12_p37_i_down.jpg
+│       │   ├── h12_p4_k_down.jpg
+│       │   ├── h18_p47_i_down.jpg
+│       │   ├── h18_p49_i_down.jpg
+│       │   ├── h18_p7_k_down.jpg
+│       │   ├── h22_p21_k_down.jpg
+│       │   ├── h22_p33_i_down.jpg
+│       │   ├── h22_p48_i_down.jpg
+│       │   ├── h25_p12_i_down.jpg
+│       │   ├── h25_p14_k_down.jpg
+│       │   ├── h25_p31_i_down.jpg
+│       │   ├── h28_p33_i_down.jpg
+│       │   ├── h28_p37_i_down.jpg
+│       │   ├── h28_p46_k_down.jpg
+│       │   ├── h29_p10_i_down.jpg
+│       │   ├── h29_p3_k_down.jpg
+│       │   ├── h29_p49_i_down.jpg
+│       │   ├── h2_p12_i_down.jpg
+│       │   ├── h2_p13_k_down.jpg
+│       │   ├── h2_p49_i_down.jpg
+│       │   ├── h32_p10_i_down.jpg
+│       │   ├── h32_p13_i_down.jpg
+│       │   ├── h32_p31_k_down.jpg
+│       │   ├── h33_p11_k_down.jpg
+│       │   ├── h33_p15_i_down.jpg
+│       │   ├── h33_p33_i_down.jpg
+│       │   ├── h35_p31_i_down.jpg
+│       │   ├── h35_p43_i_down.jpg
+│       │   ├── h35_p50_k_down.jpg
+│       │   ├── h36_p11_i_down.jpg
+│       │   ├── h36_p12_k_down.jpg
+│       │   ├── h36_p25_i_down.jpg
+│       │   ├── h3_p20_k_down.jpg
+│       │   ├── h3_p2_i_down.jpg
+│       │   ├── h3_p31_i_down.jpg
+│       │   ├── h42_p10_i_down.jpg
+│       │   ├── h42_p34_i_down.jpg
+│       │   ├── h42_p5_k_down.jpg
+│       │   ├── h46_p18_k_down.jpg
+│       │   ├── h46_p34_i_down.jpg
+│       │   ├── h46_p43_i_down.jpg
+│       │   ├── h48_p13_i_down.jpg
+│       │   ├── h48_p17_i_down.jpg
+│       │   ├── h48_p41_k_down.jpg
+│       │   ├── h53_p25_i_down.jpg
+│       │   ├── h53_p33_k_down.jpg
+│       │   ├── h53_p35_i_down.jpg
+│       │   ├── h55_p11_i_down.jpg
+│       │   ├── h55_p15_i_down.jpg
+│       │   ├── h55_p24_k_down.jpg
+│       │   ├── h57_p15_i_down.jpg
+│       │   ├── h57_p34_i_down.jpg
+│       │   ├── h57_p36_k_down.jpg
+│       │   ├── h58_p11_i_down.jpg
+│       │   ├── h58_p15_i_down.jpg
+│       │   ├── h58_p6_k_down.jpg
+│       │   ├── h5_p10_i_down.jpg
+│       │   ├── h5_p21_i_down.jpg
+│       │   ├── h5_p28_k_down.jpg
+│       │   ├── h69_p20_i_down.jpg
+│       │   ├── h69_p34_k_down.jpg
+│       │   ├── h69_p47_i_down.jpg
+│       │   ├── h75_p13_i_down.jpg
+│       │   ├── h75_p16_i_down.jpg
+│       │   ├── h75_p37_k_down.jpg
+│       │   ├── h76_p11_i_down.jpg
+│       │   ├── h76_p29_k_down.jpg
+│       │   ├── h76_p49_i_down.jpg
+│       │   ├── h77_p16_i_down.jpg
+│       │   ├── h77_p35_i_down.jpg
+│       │   ├── h77_p42_k_down.jpg
+│       │   ├── h80_p16_i_down.jpg
+│       │   ├── h80_p25_i_down.jpg
+│       │   ├── h80_p30_k_down.jpg
+│       │   ├── h84_p34_i_down.jpg
+│       │   ├── h84_p47_i_down.jpg
+│       │   ├── h84_p8_k_down.jpg
+│       │   ├── h88_p16_i_down.jpg
+│       │   ├── h88_p2_i_down.jpg
+│       │   ├── h88_p35_k_down.jpg
+│       │   ├── h93_p27_k_down.jpg
+│       │   ├── h93_p35_i_down.jpg
+│       │   ├── h93_p48_i_down.jpg
+│       │   ├── h95_p31_i_down.jpg
+│       │   ├── h95_p32_k_down.jpg
+│       │   ├── h95_p37_i_down.jpg
+│       │   ├── h97_p23_k_down.jpg
+│       │   ├── h97_p33_i_down.jpg
+│       │   ├── h97_p35_i_down.jpg
+│       │   ├── h9_p12_i_down.jpg
+│       │   ├── h9_p15_k_down.jpg
+│       │   └── h9_p48_i_down.jpg
+│       └── allPics_up
+│           ├── h107_p11_i_up.jpg
+│           ├── h107_p25_i_up.jpg
+│           ├── h107_p42_k_up.jpg
+│           ├── h108_p13_i_up.jpg
+│           ├── h108_p15_i_up.jpg
+│           ├── h108_p27_k_up.jpg
+│           ├── h109_p34_i_up.jpg
+│           ├── h109_p35_i_up.jpg
+│           ├── h109_p51_k_up.jpg
+│           ├── h111_p16_i_up.jpg
+│           ├── h111_p37_i_up.jpg
+│           ├── h111_p47_k_up.jpg
+│           ├── h114_p16_i_up.jpg
+│           ├── h114_p33_i_up.jpg
+│           ├── h114_p35_k_up.jpg
+│           ├── h116_p11_i_up.jpg
+│           ├── h116_p21_i_up.jpg
+│           ├── h116_p28_k_up.jpg
+│           ├── h117_p13_i_up.jpg
+│           ├── h117_p31_i_up.jpg
+│           ├── h117_p6_k_up.jpg
+│           ├── h120_p12_k_up.jpg
+│           ├── h120_p21_i_up.jpg
+│           ├── h120_p37_i_up.jpg
+│           ├── h121_p16_i_up.jpg
+│           ├── h121_p34_k_up.jpg
+│           ├── h121_p35_i_up.jpg
+│           ├── h122_p15_i_up.jpg
+│           ├── h122_p25_i_up.jpg
+│           ├── h122_p33_k_up.jpg
+│           ├── h123_p15_k_up.jpg
+│           ├── h123_p20_i_up.jpg
+│           ├── h123_p43_i_up.jpg
+│           ├── h124_p15_i_up.jpg
+│           ├── h124_p26_k_up.jpg
+│           ├── h124_p35_i_up.jpg
+│           ├── h126_p30_k_up.jpg
+│           ├── h126_p31_i_up.jpg
+│           ├── h126_p49_i_up.jpg
+│           ├── h16_p12_i_up.jpg
+│           ├── h16_p2_i_up.jpg
+│           ├── h16_p32_k_up.jpg
+│           ├── h17_p12_i_up.jpg
+│           ├── h17_p33_i_up.jpg
+│           ├── h17_p44_k_up.jpg
+│           ├── h1_p17_i_up.jpg
+│           ├── h1_p2_i_up.jpg
+│           ├── h1_p54_k_up.jpg
+│           ├── h20_p12_i_up.jpg
+│           ├── h20_p43_i_up.jpg
+│           ├── h20_p53_k_up.jpg
+│           ├── h24_p20_i_up.jpg
+│           ├── h24_p40_k_up.jpg
+│           ├── h24_p48_i_up.jpg
+│           ├── h26_p20_k_up.jpg
+│           ├── h26_p43_i_up.jpg
+│           ├── h26_p48_i_up.jpg
+│           ├── h27_p10_i_up.jpg
+│           ├── h27_p34_i_up.jpg
+│           ├── h27_p8_k_up.jpg
+│           ├── h30_p11_i_up.jpg
+│           ├── h30_p14_k_up.jpg
+│           ├── h30_p47_i_up.jpg
+│           ├── h34_p17_i_up.jpg
+│           ├── h34_p21_i_up.jpg
+│           ├── h34_p41_k_up.jpg
+│           ├── h38_p25_i_up.jpg
+│           ├── h38_p37_k_up.jpg
+│           ├── h38_p47_i_up.jpg
+│           ├── h44_p18_k_up.jpg
+│           ├── h44_p20_i_up.jpg
+│           ├── h44_p49_i_up.jpg
+│           ├── h4_p13_i_up.jpg
+│           ├── h4_p31_k_up.jpg
+│           ├── h4_p33_i_up.jpg
+│           ├── h50_p21_i_up.jpg
+│           ├── h50_p37_i_up.jpg
+│           ├── h50_p45_k_up.jpg
+│           ├── h51_p13_i_up.jpg
+│           ├── h51_p17_i_up.jpg
+│           ├── h51_p24_k_up.jpg
+│           ├── h54_p31_i_up.jpg
+│           ├── h54_p3_k_up.jpg
+│           ├── h54_p47_i_up.jpg
+│           ├── h56_p13_k_up.jpg
+│           ├── h56_p2_i_up.jpg
+│           ├── h56_p49_i_up.jpg
+│           ├── h60_p35_i_up.jpg
+│           ├── h60_p48_i_up.jpg
+│           ├── h60_p49_k_up.jpg
+│           ├── h61_p15_i_up.jpg
+│           ├── h61_p25_i_up.jpg
+│           ├── h61_p5_k_up.jpg
+│           ├── h74_p12_i_up.jpg
+│           ├── h74_p16_k_up.jpg
+│           ├── h74_p48_i_up.jpg
+│           ├── h82_p10_i_up.jpg
+│           ├── h82_p21_k_up.jpg
+│           ├── h82_p37_i_up.jpg
+│           ├── h83_p29_k_up.jpg
+│           ├── h83_p34_i_up.jpg
+│           ├── h83_p49_i_up.jpg
+│           ├── h85_p11_k_up.jpg
+│           ├── h85_p16_i_up.jpg
+│           ├── h85_p43_i_up.jpg
+│           ├── h87_p10_i_up.jpg
+│           ├── h87_p34_i_up.jpg
+│           ├── h87_p9_k_up.jpg
+│           ├── h89_p17_i_up.jpg
+│           ├── h89_p2_i_up.jpg
+│           ├── h89_p39_k_up.jpg
+│           ├── h8_p10_i_up.jpg
+│           ├── h8_p11_i_up.jpg
+│           ├── h8_p7_k_up.jpg
+│           ├── h94_p2_k_up.jpg
+│           ├── h94_p31_i_up.jpg
+│           ├── h94_p33_i_up.jpg
+│           ├── h98_p19_k_up.jpg
+│           ├── h98_p20_i_up.jpg
+│           └── h98_p47_i_up.jpg
+└── OLM_paradigm_short
+    ├── SET_short
+    │   ├── Instr
+    │   │   ├── ~$instr.pptx
+    │   │   ├── AFC.pptx
+    │   │   ├── instr
+    │   │   │   ├── Folie10.JPG
+    │   │   │   ├── Folie11.JPG
+    │   │   │   ├── Folie12.JPG
+    │   │   │   ├── Folie1.JPG
+    │   │   │   ├── Folie2.JPG
+    │   │   │   ├── Folie3.JPG
+    │   │   │   ├── Folie4.JPG
+    │   │   │   ├── Folie5.JPG
+    │   │   │   ├── Folie6.JPG
+    │   │   │   ├── Folie7.JPG
+    │   │   │   ├── Folie8.JPG
+    │   │   │   ├── Folie9.JPG
+    │   │   │   └── Thumbs.db
+    │   │   ├── instr.pptx
+    │   │   └── Thumbs.db
+    │   ├── Instructions.pptx
+    │   ├── Locato10_fMRT.exp
+    │   ├── sce
+    │   │   ├── 00_Instr_1.sce
+    │   │   ├── 01_Prac.sce
+    │   │   ├── 02_Instr_2.sce
+    │   │   ├── 03_learning.sce
+    │   │   ├── 04_AFC.sce
+    │   │   ├── 04_Instr_3.sce
+    │   │   └── 05_AFC.sce
+    │   └── Stimuli
+    │       ├── AFC
+    │       │   ├── h103p16_2.jpg
+    │       │   ├── h104p52_2.jpg
+    │       │   ├── h105p47_2.jpg
+    │       │   ├── h113p53_3.jpg
+    │       │   ├── h115p38_1.jpg
+    │       │   ├── h16p11_3.jpg
+    │       │   ├── h17p49_2.jpg
+    │       │   ├── h1p54_2.jpg
+    │       │   ├── h4p31_1.jpg
+    │       │   └── h8p7_2.jpg
+    │       ├── allPicsA10_short
+    │       │   ├── h103_p16_k_down_q3_right.jpg
+    │       │   ├── h103_p17_i_down_right.jpg
+    │       │   ├── h103_p22_i_down_right.jpg
+    │       │   ├── h104_p35_i_down_left.jpg
+    │       │   ├── h104_p52_k_down_q1_left.jpg
+    │       │   ├── h104_p63_i_down_left.jpg
+    │       │   ├── h105_p17_i_down_right.jpg
+    │       │   ├── h105_p47_k_down_q3_right.jpg
+    │       │   ├── h105_p65_i_down_right.jpg
+    │       │   ├── h113_p20_i_down_left.jpg
+    │       │   ├── h113_p28_i_down_left.jpg
+    │       │   ├── h113_p53_k_down_q4_left.jpg
+    │       │   ├── h115_p38_k_down_q2_right.jpg
+    │       │   ├── h115_p39_i_down_right.jpg
+    │       │   ├── h115_p61_i_down_right.jpg
+    │       │   ├── h16_p11_k_up_q4_left.jpg
+    │       │   ├── h16_p12_i_up_right.jpg
+    │       │   ├── h16_p2_i_up_left.jpg
+    │       │   ├── h17_p33_i_up_left.jpg
+    │       │   ├── h17_p41_i_up_left.jpg
+    │       │   ├── h17_p49_k_up_q3_left.jpg
+    │       │   ├── h1_p37_i_up_right.jpg
+    │       │   ├── h1_p43_i_up_right.jpg
+    │       │   ├── h1_p54_k_up_q3_right.jpg
+    │       │   ├── h4_p31_k_up_q4_left.jpg
+    │       │   ├── h4_p32_i_up_left.jpg
+    │       │   ├── h4_p61_i_up_left.jpg
+    │       │   ├── h8_p10_i_up_left.jpg
+    │       │   ├── h8_p6_i_up_left.jpg
+    │       │   ├── h8_p7_k_up_q1_left.jpg
+    │       │   └── Thumbs.db
+    │       └── bubbles
+    │           ├── bye.png
+    │           ├── control.png
+    │           ├── learning.png
+    │           └── Thumbs.db
+    └── Stimuli
+        ├── allPicsA10_short
+        │   ├── h103_p16_k_down_q3.jpg
+        │   ├── h103_p17_i_down.jpg
+        │   ├── h103_p2_i_down.jpg
+        │   ├── h104_p17_i_down.jpg
+        │   ├── h104_p48_i_down.jpg
+        │   ├── h104_p52_k_down_q1.jpg
+        │   ├── h105_p13_i_down.jpg
+        │   ├── h105_p43_i_down.jpg
+        │   ├── h105_p47_k_down_q3.jpg
+        │   ├── h113_p17_i_down.jpg
+        │   ├── h113_p20_i_down.jpg
+        │   ├── h113_p53_k_down_q4.jpg
+        │   ├── h115_p21_i_down.jpg
+        │   ├── h115_p25_i_down.jpg
+        │   ├── h115_p38_k_down_q2.jpg
+        │   ├── h16_p12_i_up.jpg
+        │   ├── h16_p2_i_up.jpg
+        │   ├── h16_p32_k_up_q4.jpg
+        │   ├── h17_p12_i_up.jpg
+        │   ├── h17_p33_i_up.jpg
+        │   ├── h17_p44_k_up_q3.jpg
+        │   ├── h1_p17_i_up.jpg
+        │   ├── h1_p2_i_up.jpg
+        │   ├── h1_p54_k_up_q3.jpg
+        │   ├── h4_p13_i_up.jpg
+        │   ├── h4_p31_k_up_q4.jpg
+        │   ├── h4_p33_i_up.jpg
+        │   ├── h8_p10_i_up.jpg
+        │   ├── h8_p11_i_up.jpg
+        │   └── h8_p7_k_up_q1.jpg
+        ├── allPicsB10_short
+        │   ├── h10_p10_k_down_q3.jpg
+        │   ├── h10_p20_i_down.jpg
+        │   ├── h10_p21_i_down.jpg
+        │   ├── h121_p16_i_up.jpg
+        │   ├── h121_p34_k_up_q3.jpg
+        │   ├── h121_p35_i_up.jpg
+        │   ├── h122_p15_i_up.jpg
+        │   ├── h122_p25_i_up.jpg
+        │   ├── h122_p33_k_up.jpg
+        │   ├── h123_p15_k_up_q2.jpg
+        │   ├── h123_p20_i_up.jpg
+        │   ├── h123_p43_i_up.jpg
+        │   ├── h124_p15_i_up.jpg
+        │   ├── h124_p26_k_up_q4.jpg
+        │   ├── h124_p35_i_up.jpg
+        │   ├── h126_p30_k_up_q4.jpg
+        │   ├── h126_p31_i_up.jpg
+        │   ├── h126_p49_i_up.jpg
+        │   ├── h2_p12_i_down.jpg
+        │   ├── h2_p13_k_down_q4.jpg
+        │   ├── h2_p49_i_down.jpg
+        │   ├── h3_p20_k_down_q4.jpg
+        │   ├── h3_p2_i_down.jpg
+        │   ├── h3_p31_i_down.jpg
+        │   ├── h5_p10_i_down.jpg
+        │   ├── h5_p21_i_down.jpg
+        │   ├── h5_p28_k_down_q1.jpg
+        │   ├── h9_p12_i_down.jpg
+        │   ├── h9_p15_k_down_q4.jpg
+        │   └── h9_p48_i_down.jpg
+        ├── allPics_down
+        │   ├── h101_p21_i_down.jpg
+        │   ├── h101_p37_i_down.jpg
+        │   ├── h101_p49_k_down.jpg
+        │   ├── h102_p20_i_down.jpg
+        │   ├── h102_p40_k_down.jpg
+        │   ├── h102_p43_i_down.jpg
+        │   ├── h103_p16_k_down.jpg
+        │   ├── h103_p17_i_down.jpg
+        │   ├── h103_p2_i_down.jpg
+        │   ├── h104_p17_i_down.jpg
+        │   ├── h104_p48_i_down.jpg
+        │   ├── h104_p52_k_down.jpg
+        │   ├── h105_p13_i_down.jpg
+        │   ├── h105_p43_i_down.jpg
+        │   ├── h105_p47_k_down.jpg
+        │   ├── h10_p10_k_down.jpg
+        │   ├── h10_p20_i_down.jpg
+        │   ├── h10_p21_i_down.jpg
+        │   ├── h113_p17_i_down.jpg
+        │   ├── h113_p20_i_down.jpg
+        │   ├── h113_p53_k_down.jpg
+        │   ├── h115_p21_i_down.jpg
+        │   ├── h115_p25_i_down.jpg
+        │   ├── h115_p38_k_down.jpg
+        │   ├── h11_p2_i_down.jpg
+        │   ├── h11_p43_k_down.jpg
+        │   ├── h11_p47_i_down.jpg
+        │   ├── h12_p12_i_down.jpg
+        │   ├── h12_p37_i_down.jpg
+        │   ├── h12_p4_k_down.jpg
+        │   ├── h18_p47_i_down.jpg
+        │   ├── h18_p49_i_down.jpg
+        │   ├── h18_p7_k_down.jpg
+        │   ├── h22_p21_k_down.jpg
+        │   ├── h22_p33_i_down.jpg
+        │   ├── h22_p48_i_down.jpg
+        │   ├── h25_p12_i_down.jpg
+        │   ├── h25_p14_k_down.jpg
+        │   ├── h25_p31_i_down.jpg
+        │   ├── h28_p33_i_down.jpg
+        │   ├── h28_p37_i_down.jpg
+        │   ├── h28_p46_k_down.jpg
+        │   ├── h29_p10_i_down.jpg
+        │   ├── h29_p3_k_down.jpg
+        │   ├── h29_p49_i_down.jpg
+        │   ├── h2_p12_i_down.jpg
+        │   ├── h2_p13_k_down.jpg
+        │   ├── h2_p49_i_down.jpg
+        │   ├── h32_p10_i_down.jpg
+        │   ├── h32_p13_i_down.jpg
+        │   ├── h32_p31_k_down.jpg
+        │   ├── h33_p11_k_down.jpg
+        │   ├── h33_p15_i_down.jpg
+        │   ├── h33_p33_i_down.jpg
+        │   ├── h35_p31_i_down.jpg
+        │   ├── h35_p43_i_down.jpg
+        │   ├── h35_p50_k_down.jpg
+        │   ├── h36_p11_i_down.jpg
+        │   ├── h36_p12_k_down.jpg
+        │   ├── h36_p25_i_down.jpg
+        │   ├── h3_p20_k_down.jpg
+        │   ├── h3_p2_i_down.jpg
+        │   ├── h3_p31_i_down.jpg
+        │   ├── h42_p10_i_down.jpg
+        │   ├── h42_p34_i_down.jpg
+        │   ├── h42_p5_k_down.jpg
+        │   ├── h46_p18_k_down.jpg
+        │   ├── h46_p34_i_down.jpg
+        │   ├── h46_p43_i_down.jpg
+        │   ├── h48_p13_i_down.jpg
+        │   ├── h48_p17_i_down.jpg
+        │   ├── h48_p41_k_down.jpg
+        │   ├── h53_p25_i_down.jpg
+        │   ├── h53_p33_k_down.jpg
+        │   ├── h53_p35_i_down.jpg
+        │   ├── h55_p11_i_down.jpg
+        │   ├── h55_p15_i_down.jpg
+        │   ├── h55_p24_k_down.jpg
+        │   ├── h57_p15_i_down.jpg
+        │   ├── h57_p34_i_down.jpg
+        │   ├── h57_p36_k_down.jpg
+        │   ├── h58_p11_i_down.jpg
+        │   ├── h58_p15_i_down.jpg
+        │   ├── h58_p6_k_down.jpg
+        │   ├── h5_p10_i_down.jpg
+        │   ├── h5_p21_i_down.jpg
+        │   ├── h5_p28_k_down.jpg
+        │   ├── h69_p20_i_down.jpg
+        │   ├── h69_p34_k_down.jpg
+        │   ├── h69_p47_i_down.jpg
+        │   ├── h75_p13_i_down.jpg
+        │   ├── h75_p16_i_down.jpg
+        │   ├── h75_p37_k_down.jpg
+        │   ├── h76_p11_i_down.jpg
+        │   ├── h76_p29_k_down.jpg
+        │   ├── h76_p49_i_down.jpg
+        │   ├── h77_p16_i_down.jpg
+        │   ├── h77_p35_i_down.jpg
+        │   ├── h77_p42_k_down.jpg
+        │   ├── h80_p16_i_down.jpg
+        │   ├── h80_p25_i_down.jpg
+        │   ├── h80_p30_k_down.jpg
+        │   ├── h84_p34_i_down.jpg
+        │   ├── h84_p47_i_down.jpg
+        │   ├── h84_p8_k_down.jpg
+        │   ├── h88_p16_i_down.jpg
+        │   ├── h88_p2_i_down.jpg
+        │   ├── h88_p35_k_down.jpg
+        │   ├── h93_p27_k_down.jpg
+        │   ├── h93_p35_i_down.jpg
+        │   ├── h93_p48_i_down.jpg
+        │   ├── h95_p31_i_down.jpg
+        │   ├── h95_p32_k_down.jpg
+        │   ├── h95_p37_i_down.jpg
+        │   ├── h97_p23_k_down.jpg
+        │   ├── h97_p33_i_down.jpg
+        │   ├── h97_p35_i_down.jpg
+        │   ├── h9_p12_i_down.jpg
+        │   ├── h9_p15_k_down.jpg
+        │   └── h9_p48_i_down.jpg
+        └── allPics_up
+            ├── h107_p11_i_up.jpg
+            ├── h107_p25_i_up.jpg
+            ├── h107_p42_k_up.jpg
+            ├── h108_p13_i_up.jpg
+            ├── h108_p15_i_up.jpg
+            ├── h108_p27_k_up.jpg
+            ├── h109_p34_i_up.jpg
+            ├── h109_p35_i_up.jpg
+            ├── h109_p51_k_up.jpg
+            ├── h111_p16_i_up.jpg
+            ├── h111_p37_i_up.jpg
+            ├── h111_p47_k_up.jpg
+            ├── h114_p16_i_up.jpg
+            ├── h114_p33_i_up.jpg
+            ├── h114_p35_k_up.jpg
+            ├── h116_p11_i_up.jpg
+            ├── h116_p21_i_up.jpg
+            ├── h116_p28_k_up.jpg
+            ├── h117_p13_i_up.jpg
+            ├── h117_p31_i_up.jpg
+            ├── h117_p6_k_up.jpg
+            ├── h120_p12_k_up.jpg
+            ├── h120_p21_i_up.jpg
+            ├── h120_p37_i_up.jpg
+            ├── h121_p16_i_up.jpg
+            ├── h121_p34_k_up.jpg
+            ├── h121_p35_i_up.jpg
+            ├── h122_p15_i_up.jpg
+            ├── h122_p25_i_up.jpg
+            ├── h122_p33_k_up.jpg
+            ├── h123_p15_k_up.jpg
+            ├── h123_p20_i_up.jpg
+            ├── h123_p43_i_up.jpg
+            ├── h124_p15_i_up.jpg
+            ├── h124_p26_k_up.jpg
+            ├── h124_p35_i_up.jpg
+            ├── h126_p30_k_up.jpg
+            ├── h126_p31_i_up.jpg
+            ├── h126_p49_i_up.jpg
+            ├── h16_p12_i_up.jpg
+            ├── h16_p2_i_up.jpg
+            ├── h16_p32_k_up.jpg
+            ├── h17_p12_i_up.jpg
+            ├── h17_p33_i_up.jpg
+            ├── h17_p44_k_up.jpg
+            ├── h1_p17_i_up.jpg
+            ├── h1_p2_i_up.jpg
+            ├── h1_p54_k_up.jpg
+            ├── h20_p12_i_up.jpg
+            ├── h20_p43_i_up.jpg
+            ├── h20_p53_k_up.jpg
+            ├── h24_p20_i_up.jpg
+            ├── h24_p40_k_up.jpg
+            ├── h24_p48_i_up.jpg
+            ├── h26_p20_k_up.jpg
+            ├── h26_p43_i_up.jpg
+            ├── h26_p48_i_up.jpg
+            ├── h27_p10_i_up.jpg
+            ├── h27_p34_i_up.jpg
+            ├── h27_p8_k_up.jpg
+            ├── h30_p11_i_up.jpg
+            ├── h30_p14_k_up.jpg
+            ├── h30_p47_i_up.jpg
+            ├── h34_p17_i_up.jpg
+            ├── h34_p21_i_up.jpg
+            ├── h34_p41_k_up.jpg
+            ├── h38_p25_i_up.jpg
+            ├── h38_p37_k_up.jpg
+            ├── h38_p47_i_up.jpg
+            ├── h44_p18_k_up.jpg
+            ├── h44_p20_i_up.jpg
+            ├── h44_p49_i_up.jpg
+            ├── h4_p13_i_up.jpg
+            ├── h4_p31_k_up.jpg
+            ├── h4_p33_i_up.jpg
+            ├── h50_p21_i_up.jpg
+            ├── h50_p37_i_up.jpg
+            ├── h50_p45_k_up.jpg
+            ├── h51_p13_i_up.jpg
+            ├── h51_p17_i_up.jpg
+            ├── h51_p24_k_up.jpg
+            ├── h54_p31_i_up.jpg
+            ├── h54_p3_k_up.jpg
+            ├── h54_p47_i_up.jpg
+            ├── h56_p13_k_up.jpg
+            ├── h56_p2_i_up.jpg
+            ├── h56_p49_i_up.jpg
+            ├── h60_p35_i_up.jpg
+            ├── h60_p48_i_up.jpg
+            ├── h60_p49_k_up.jpg
+            ├── h61_p15_i_up.jpg
+            ├── h61_p25_i_up.jpg
+            ├── h61_p5_k_up.jpg
+            ├── h74_p12_i_up.jpg
+            ├── h74_p16_k_up.jpg
+            ├── h74_p48_i_up.jpg
+            ├── h82_p10_i_up.jpg
+            ├── h82_p21_k_up.jpg
+            ├── h82_p37_i_up.jpg
+            ├── h83_p29_k_up.jpg
+            ├── h83_p34_i_up.jpg
+            ├── h83_p49_i_up.jpg
+            ├── h85_p11_k_up.jpg
+            ├── h85_p16_i_up.jpg
+            ├── h85_p43_i_up.jpg
+            ├── h87_p10_i_up.jpg
+            ├── h87_p34_i_up.jpg
+            ├── h87_p9_k_up.jpg
+            ├── h89_p17_i_up.jpg
+            ├── h89_p2_i_up.jpg
+            ├── h89_p39_k_up.jpg
+            ├── h8_p10_i_up.jpg
+            ├── h8_p11_i_up.jpg
+            ├── h8_p7_k_up.jpg
+            ├── h94_p2_k_up.jpg
+            ├── h94_p31_i_up.jpg
+            ├── h94_p33_i_up.jpg
+            ├── h98_p19_k_up.jpg
+            ├── h98_p20_i_up.jpg
+            └── h98_p47_i_up.jpg
+
+52 directories, 2037 files

@@ -1,0 +1,19 @@
+{
+  "Name": "FLOW Behavioral Dataset",
+  "BIDSVersion": "1.6.0",
+  "DatasetType": "derivative",
+  "Authors": [
+    "MemoSlap Lab"
+  ],
+  "ReferencesAndLinks": [
+    "https://doi.org/10.1016/j.neuroimage.2013.09.074",
+    "https://doi.org/10.1093/scan/nsz007"
+  ],
+  "GeneratedBy": [
+    {
+      "Name": "BEEHub FLOW Derivation Pipeline",
+      "Version": "0.1",
+      "Description": "Derives FlowIndex_Task and FlowIndex_Likert outcomes from FLOW task events.tsv using difficulty_level contrast (-B + 2F - O)."
+    }
+  ]
+}

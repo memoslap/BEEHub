@@ -1,0 +1,23 @@
+{
+  "Name": "MT kinematics",
+  "BIDSVersion": "1.10.0",
+  "DatasetType": "derivative",
+  "GeneratedBy": [
+    {
+      "Name": "convert_MT.py stage 3",
+      "Description": "Time-weighted trajectory kinematics ported from 3__Kinematics.R.",
+      "Parameters": {
+        "kin_epoch_tail_sec": 0.15,
+        "epoch_source": "derivatives/stopping"
+      }
+    }
+  ],
+  "SourceDatasets": [
+    {
+      "URL": "../../bids_data"
+    },
+    {
+      "URL": "../stopping"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+================================================================================
+Compiled CSV Summary: go_nogo_compiledData.csv
+================================================================================
+
+FILE SIZE
+  Total lines (incl. header): 23041
+  Data rows:                  23040
+
+HEADER (14 columns)
+  block_number, trials_count, digit, trial_type, correct_response,
+  mouse_resp.x, mouse_resp.y, mouse_resp.leftButton, mouse_resp.midButton,
+  mouse_resp.rightButton, mouse_resp.time, click_pos_x, click_pos_y,
+  iti_duration, participant
+  (Note: header has a leading BOM/U+FEFF before "block_number")
+
+DISTINCT block_number VALUES
+  4, 5, 7, 8, 10, 11, 13, 14  (8 distinct blocks)
+
+DISTINCT trial_type VALUES
+  go   : 18432 rows
+  nogo :  4608 rows
+  Total: 23040 rows
+
+  Ratio go:nogo = 4:1 (expected for a standard go/nogo design)
+
+PARTICIPANTS
+  6 distinct participants: 0.5, 0.6, 0.7, 0.8, 0.9, 1
+
+  Per-participant row counts:
+    0.5 : 3885
+    0.6 : 3777
+    0.7 : 3802
+    0.8 : 3927
+    0.9 : 3893
+    1   : 3756
+
+  Total participant-block pairs: 48
+  Average rows per participant: ~3840 (range 3756–3927)
+
+BLOCK STRUCTURE
+  Each participant has 8 blocks → 6 × 8 = 48 pairs
+  Rows per participant-block pair range from 433 to 524
+  Most pairs: 460–500 trials (not a clean 60-trial design)
+  Variation across participants/pairs suggests non-uniform block sizes
+  (possibly due to interleaved go/nogo proportions or trial-level filtering)
+
+PRE-FILTERING CHECK: MIXED BLOCKS
+  Every (participant, block) pair contains BOTH go AND nogo trials.
+  Pure blocks (one type only): 0 of 48.
+
+  Conclusion: YES — the data is pre-filtered to mixed blocks only.
+  No participant-block combination consists solely of go or solely of nogo trials.
+
+================================================================================

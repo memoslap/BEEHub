@@ -1,0 +1,206 @@
+Total sessions: 50
+Sessions with exactly 15 blocks: 50
+Sessions deviating from reference pattern: 50
+
+DEVIATING SESSIONS:
+============================================================
+sub-001 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-001 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-002 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-003 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-003 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-004 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-005 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-005 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-006 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-006 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-007 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-007 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-008 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-008 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-009 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-009 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-010 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-010 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-011 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-011 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-012 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-012 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-013 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-013 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-014 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-014 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-015 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-015 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-016 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-016 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-017 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-017 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-018 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-018 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-019 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-019 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-020 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-020 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-021 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-021 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-022 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-022 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-023 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-023 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-024 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-024 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-025 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-025 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-026 ses-01: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+
+sub-026 ses-02: 2 deviation(s)
+  - block 2: expected go-only, but 4 nogo trials
+  - block 3: expected 60 go/nogo, got 18 total
+

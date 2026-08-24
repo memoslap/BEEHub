@@ -1,0 +1,99 @@
+{
+  "Description": "Trial-level go/no-go stopping metrics, one row per source trial.",
+  "Sources": [
+    "bids_data/sub-*/ses-*/beh/*_task-gonogo_beh.tsv"
+  ],
+  "trial_index": {
+    "Description": "Join key. Matches trial_index in the source TSV."
+  },
+  "trial_type": {
+    "Description": "Copied from the source for convenience."
+  },
+  "block_number": {
+    "Description": "Copied from the source."
+  },
+  "block_type": {
+    "Description": "Copied from the source. Filter to 'go_nogo' to reproduce the published analysis."
+  },
+  "is_practice": {
+    "Description": "Copied from the source."
+  },
+  "n_left_clicks": {
+    "Description": "Number of left-button press ONSETS (0->1)."
+  },
+  "go_first_left_inside": {
+    "Description": "First left click fell inside the target box.",
+    "Levels": {
+      "0": "outside or no click",
+      "1": "inside"
+    }
+  },
+  "go_first_left_rt": {
+    "Description": "Time of the first left-click onset, from trial onset.",
+    "Units": "seconds"
+  },
+  "parse_failed_time": {
+    "Description": "mouse_resp.time could not be parsed."
+  },
+  "parse_failed_xy": {
+    "Description": "mouse_resp.x or .y could not be parsed."
+  },
+  "parse_failed_buttons": {
+    "Description": "A button channel could not be parsed."
+  },
+  "mismatched_lengths": {
+    "Description": "Parsed channels differ in length by more than one sample."
+  },
+  "any_rb_nonzero": {
+    "Description": "Right button pressed at any point."
+  },
+  "any_mb_nonzero": {
+    "Description": "Middle button pressed at any point."
+  },
+  "any_click": {
+    "Description": "Any button pressed. n/a when parsing failed, so a corrupt trial cannot score as a correct withhold."
+  },
+  "any_left": {
+    "Description": "Left button pressed at any point."
+  },
+  "any_right": {
+    "Description": "Right button pressed at any point."
+  },
+  "nogo_stop_time": {
+    "Description": "Stopping latency. 0 means no movement was initiated. n/a when no stop was detected.",
+    "Units": "seconds"
+  },
+  "nogo_stopped": {
+    "Description": "A sustained stop was detected and validated."
+  },
+  "nogo_outcome": {
+    "Description": "Categorical stopping outcome.",
+    "Levels": {
+      "no_movement_full_duration": "Never moved; trial ran to the deadline.",
+      "no_movement_early": "Never moved; trial ended early.",
+      "stopped_early": "Moved, then stopped before the deadline.",
+      "stopped_near_deadline": "Moved, then stopped near the deadline.",
+      "no_stop_early": "Moved and did not stop; ended early.",
+      "no_stop_timeout": "Moved and did not stop; ran to the deadline.",
+      "too_short_or_bad_time": "Fewer than 3 timestamps.",
+      "too_short_after_peak": "Too few samples after peak velocity.",
+      "missing_xy": "Fewer than 3 valid coordinate pairs.",
+      "bad_sampling_rate": "Median sample interval not positive and finite.",
+      "velocity_all_na": "No finite velocity could be computed."
+    }
+  },
+  "nogo_parse_failed": {
+    "Description": "Stopping or button parsing failed for this trial."
+  },
+  "rt_combined": {
+    "Description": "Go: first-inside-click latency. No-go: stop latency, 0 if never moved. n/a otherwise.",
+    "Units": "seconds"
+  },
+  "accuracy": {
+    "Description": "Recomputed trial accuracy. n/a when parsing failed.",
+    "Levels": {
+      "0": "incorrect",
+      "1": "correct"
+    }
+  }
+}

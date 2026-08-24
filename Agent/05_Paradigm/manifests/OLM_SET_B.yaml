@@ -1,0 +1,877 @@
+paradigm: OLM_SET_B
+source:
+  exp: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_B/Locato30_VersionB_fMRI.exp
+  scenarios:
+    - sce/00_Instr_1.sce       # 7 instruction slides (instr_11–17.jpg), white bg
+    - sce/01_Prac.sce           # practice: 20 trials (10 pairs × 2 reps), feedback
+    - sce/02_Instr_2.sce        # 1 instruction slide (instr_21.jpg), white bg
+    - sce/03_learning.sce       # 4 learning blocks + 2 control blocks, randomized order
+    - sce/04_Instr_3.sce        # 4 instruction slides (instr_31–34.jpg), white bg
+    - sce/04_AFC.sce            # AFC: unshuffled, jpg_filter=0, 1624x1187
+    - sce/05_AFC.sce            # AFC: shuffled, jpg_filter=1, 1324x1087
+  stimuli_root: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_B/Stimuli
+  generated: 2026-07-21T12:40:00Z
+  log_dir: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_B/results
+  log_count: 134                 # 46 for this SET, 134 total
+
+display:
+  background_rgb: [0, 0, 0]       # learning/practice/AFC
+  background_rgb_instr: [255, 255, 255]  # instruction screens
+  stimulus_size_px: [1024, 787]   # house stimuli
+  info_bubble_size_px: [600, 398] # bubbles/
+  afc_size_px: [1324, 1087]       # 05_AFC (filtered variant preferred)
+  instr_size_px: [1280, 720]      # instruction bitmap slides
+  font_size_px: 100               # fixation text
+  font_size_feedback: 65          # feedback text in 03_learning.sce
+  font_size_feedback_prac: 70     # feedback text in 01_Prac.sce
+  units: pix
+
+response:
+  keys_learning: ['left', 'right']  # button 1 = left, button 2 = right
+  keys_afc: ['1', '2', '3']        # 3-button forced choice
+  quit_key: escape                 # Q in exp; Escape in PsychoPy
+  timeout_ms: 2500                 # stimulus window (learning + practice)
+  timeout_ms_control: 2500         # stimulus window in control trials
+  timeout_ms_afc: null             # AFC waits indefinitely
+  notes: >
+    Port input → response code from real run:
+    1792 = scanner pulse (ASCII 115='s'), 177 = Response 1 (98='b'),
+    169 = Response 2 (97='a'). Preserve these semantics; write internal code to CSV.
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Block structure (from sce/03_learning.sce, lines 401–436)
+# PCL shuffles this array with constraints:
+#   1. First block must NOT be "control"
+#   2. No two adjacent blocks may have the same type
+# The two control blocks are randomly assigned "control-1" and "control-2".
+# Measured run order: block1 block2 block3 crt1 block4 crt2
+# ───────────────────────────────────────────────────────────────────────────────
+blocks:
+  - name: learning-1
+    type: learning
+    block_dir: learning/block1
+    n_unique_stimuli: 28           # 7 _k_ + 21 _i_ = 28 images per block
+    n_reps: 4                      # 4 learning stages (LS1–LS4)
+    n_trials: 112                  # 28 × 4
+    randomize: true
+    description: |
+      Each of 28 images shown once per stage across 4 stages.
+      Trial: house 2500 ms → first_response → feedback 2000 ms showing correct position.
+      Inter-trial: mri_pulse counter increments.
+      Inter-block: 3×4500 ms fixation + 1×4500 ms info bubble (bubbles/learning.png).
+
+  - name: learning-2
+    type: learning
+    block_dir: learning/block2
+    n_unique_stimuli: 28
+    n_reps: 4
+    n_trials: 112
+    randomize: true
+
+  - name: learning-3
+    type: learning
+    block_dir: learning/block3
+    n_unique_stimuli: 28
+    n_reps: 4
+    n_trials: 112
+    randomize: true
+
+  - name: learning-4
+    type: learning
+    block_dir: learning/block4
+    n_unique_stimuli: 28
+    n_reps: 4
+    n_trials: 112
+    randomize: true
+
+  - name: control-1
+    type: control
+    block_dir: control/block1
+    n_unique_stimuli: 14
+    n_reps: 4
+    n_trials: 56
+    randomize: true
+    question: "Ist das Haus auf der rechten Seite?"  # German: Is the house on the right side?
+
+  - name: control-2
+    type: control
+    block_dir: control/block2
+    n_unique_stimuli: 14
+    n_reps: 4
+    n_trials: 56
+    randomize: true
+    question: "Ist das Haus auf der linken Seite?"   # German: Is the house on the left side?
+
+  - name: practice
+    type: practice
+    source_dir: Stimuli/prac                           # DOES NOT EXIST
+    fallback_dir: learning/block1                      # fallback if prac/ missing
+    n_unique_stimuli: 20                               # 10 pairs × 2 images
+    n_reps: 2
+    n_trials: 40                                       # 10 pairs × 2 images × 2 reps
+    randomize: true
+    description: |
+      Loads house-image pairs from prac/. Each pair: k (correct-pos) and i (incorrect-pos).
+      Trial: house 2500 ms → first_response → feedback 2000 ms showing correct position.
+      2 full passes through the shuffled pair list.
+
+  - name: AFC
+    type: AFC
+    block_dir: AFC
+    n_unique_stimuli: 30
+    n_reps: 1
+    n_trials: 30
+    randomize: true                                    # shuffled in 05_AFC.sce
+    description: |
+      Three-button forced-choice: press 1, 2, or 3 to identify which of 3 houses.
+      Full-screen composite images. 05_AFC preferred (jpg_filter=1, shuffled).
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Events per trial type (durations in ms, as written in .sce)
+# ───────────────────────────────────────────────────────────────────────────────
+
+events_learning:
+  - id: house_stimulus
+    kind: bitmap
+    asset: presPic
+    duration_ms: 2500
+    collect: true                                      # key + RT during this window
+    port_code: 30                                      # pulse_code from 03_learning.sce
+  - id: feedback
+    kind: bitmap + text
+    asset: presPicFB                                   # correct-position image
+    text_field: FeedText                               # "Richtig/Falsch/Zu spät ..."
+    duration_ms: 2000
+    port_code: 30
+
+events_control:
+  - id: image_question
+    kind: bitmap + text
+    asset: presPicFB                                   # shows image + question text
+    duration_ms: null                                  # waits for response
+    collect: true
+  - id: feedback
+    kind: bitmap + text
+    asset: presPicFB                                   # same image
+    text_field: FeedText                               # "Richtig/Falsch/Zu spät ..." + answer
+    duration_ms: 2000                                  # 2500 if no response in trial
+
+events_afc:
+  - id: composite
+    kind: bitmap
+    asset: presPic
+    duration_ms: null                                  # waits for 3-button response
+    collect: true
+    width_px: 1324
+    height_px: 1087
+
+events_fixation:
+  - id: inter_block_fixation
+    kind: text
+    text: "+"
+    duration_ms: 4500
+    port_code: 30
+
+events_block_intro:
+  - id: fixation_series
+    kind: text
+    text: "+"
+    duration_ms: 4500
+    repetitions: 3
+  - id: bubble_screen
+    kind: bitmap
+    asset: bubbles/learning.png or bubbles/control.png
+    duration_ms: 4500
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Instructions (slides — advance by button press)
+# ───────────────────────────────────────────────────────────────────────────────
+instructions:
+  part1:
+    source: sce/00_Instr_1.sce
+    n_slides: 7
+    images:
+      - instr_11.jpg   # code: Anw1, terminator button: 1
+      - instr_12.jpg   # code: Anw2, terminator button: 1
+      - instr_13.jpg   # code: Anw3, terminator button: 1
+      - instr_14.jpg   # code: Anw4, terminator button: 1
+      - instr_15.jpg   # code: Anw5, terminator button: 1
+      - instr_16.jpg   # code: Anw6, terminator button: 1
+      - instr_17.jpg   # code: Anw7, terminator button: 2 (final)
+    background: white
+    verify_exists: false
+    note: >
+      instr_*.jpg not in SET_B Stimuli. Instructions.pptx present at
+      SET_B/Instructions.pptx. The short paradigm has Folie*.JPG exports
+      under Instr/instr/ (36 files, 1280x720, full-screen). Consider copying
+      the relevant Folie*.JPG set into psychopy Stimuli/instr/.
+
+  part2:
+    source: sce/02_Instr_2.sce
+    n_slides: 1
+    images:
+      - instr_21.jpg   # code: Anw1, terminator button: 2 (final)
+    background: white
+    verify_exists: false
+
+  part3:
+    source: sce/04_Instr_3.sce
+    n_slides: 4
+    images:
+      - instr_31.jpg   # code: Anw1, terminator button: 1
+      - instr_32.jpg   # code: Anw2, terminator button: 1
+      - instr_33.jpg   # code: Anw3, terminator button: 1
+      - instr_34.jpg   # code: Anw4, terminator button: 2 (final)
+    background: white
+    verify_exists: false
+
+  end_screen:
+    text: "Das Experiment beginnt gleich.\n\nZu Erinnerung:\n   Ja = Zeigefinger\n   Nein = Daumen"
+    duration_ms: 100                                   # IntroTrial.set_duration(100) in 03_learning.sce
+    source: sce/03_learning.sce                        # lines 520–527
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Stimuli inventory — every asset referenced, verified on disk
+# ───────────────────────────────────────────────────────────────────────────────
+stimuli:
+  # ── bubbles (shared info screens) ──
+  - ref: bubbles/learning.png
+    path: Stimuli/bubbles/learning.png
+    exists: true
+  - ref: bubbles/control.png
+    path: Stimuli/bubbles/control.png
+    exists: true
+  - ref: bubbles/bye.png
+    path: Stimuli/bubbles/bye.png
+    exists: true
+
+  # ── Map (not used in trial flow but present) ──
+  - ref: Map_65pos.png
+    path: Stimuli/Map_65pos.png
+    exists: true
+
+  # ── Learning block1 (28 images) ──
+  - ref: learning/block1/h111_p10_i_up_left.jpg
+    path: Stimuli/learning/block1/h111_p10_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h111_p17_i_up_left.jpg
+    path: Stimuli/learning/block1/h111_p17_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h111_p47_k_up_left.jpg
+    path: Stimuli/learning/block1/h111_p47_k_up_left.jpg
+    exists: true
+  - ref: learning/block1/h111_p65_i_up_left.jpg
+    path: Stimuli/learning/block1/h111_p65_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h114_p28_i_up_right.jpg
+    path: Stimuli/learning/block1/h114_p28_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h114_p35_k_up_right.jpg
+    path: Stimuli/learning/block1/h114_p35_k_up_right.jpg
+    exists: true
+  - ref: learning/block1/h114_p36_i_up_right.jpg
+    path: Stimuli/learning/block1/h114_p36_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h114_p58_i_up_right.jpg
+    path: Stimuli/learning/block1/h114_p58_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h116_p28_k_up_right.jpg
+    path: Stimuli/learning/block1/h116_p28_k_up_right.jpg
+    exists: true
+  - ref: learning/block1/h116_p53_i_up_right.jpg
+    path: Stimuli/learning/block1/h116_p53_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h116_p57_i_up_right.jpg
+    path: Stimuli/learning/block1/h116_p57_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h116_p59_i_up_right.jpg
+    path: Stimuli/learning/block1/h116_p59_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h117_p10_i_up_left.jpg
+    path: Stimuli/learning/block1/h117_p10_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h117_p6_i_up_left.jpg
+    path: Stimuli/learning/block1/h117_p6_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h117_p8_i_up_left.jpg
+    path: Stimuli/learning/block1/h117_p8_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h117_p9_k_up_left.jpg
+    path: Stimuli/learning/block1/h117_p9_k_up_left.jpg
+    exists: true
+  - ref: learning/block1/h28_p11_i_down_right.jpg
+    path: Stimuli/learning/block1/h28_p11_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h28_p2_i_down_right.jpg
+    path: Stimuli/learning/block1/h28_p2_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h28_p3_i_down_left.jpg
+    path: Stimuli/learning/block1/h28_p3_i_down_left.jpg
+    exists: true
+  - ref: learning/block1/h28_p46_k_down_right.jpg
+    path: Stimuli/learning/block1/h28_p46_k_down_right.jpg
+    exists: true
+  - ref: learning/block1/h29_p2_i_down_right.jpg
+    path: Stimuli/learning/block1/h29_p2_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h29_p3_k_down_left.jpg
+    path: Stimuli/learning/block1/h29_p3_k_down_left.jpg
+    exists: true
+  - ref: learning/block1/h29_p46_i_down_right.jpg
+    path: Stimuli/learning/block1/h29_p46_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h29_p4_i_down_left.jpg
+    path: Stimuli/learning/block1/h29_p4_i_down_left.jpg
+    exists: true
+  - ref: learning/block1/h32_p31_k_down_right.jpg
+    path: Stimuli/learning/block1/h32_p31_k_down_right.jpg
+    exists: true
+  - ref: learning/block1/h32_p32_i_down_right.jpg
+    path: Stimuli/learning/block1/h32_p32_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h32_p50_i_down_right.jpg
+    path: Stimuli/learning/block1/h32_p50_i_down_right.jpg
+    exists: true
+  - ref: learning/block1/h32_p61_i_down_right.jpg
+    path: Stimuli/learning/block1/h32_p61_i_down_right.jpg
+    exists: true
+
+  # ── Learning block2 (28 images) ──
+  - ref: learning/block2/h46_p12_i_down_left.jpg
+    path: Stimuli/learning/block2/h46_p12_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h46_p18_k_down_left.jpg
+    path: Stimuli/learning/block2/h46_p18_k_down_left.jpg
+    exists: true
+  - ref: learning/block2/h46_p19_i_down_left.jpg
+    path: Stimuli/learning/block2/h46_p19_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h46_p23_i_down_left.jpg
+    path: Stimuli/learning/block2/h46_p23_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h48_p40_i_down_right.jpg
+    path: Stimuli/learning/block2/h48_p40_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h48_p41_k_down_right.jpg
+    path: Stimuli/learning/block2/h48_p41_k_down_right.jpg
+    exists: true
+  - ref: learning/block2/h48_p42_i_down_left.jpg
+    path: Stimuli/learning/block2/h48_p42_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h48_p49_i_down_right.jpg
+    path: Stimuli/learning/block2/h48_p49_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h53_p32_i_down_right.jpg
+    path: Stimuli/learning/block2/h53_p32_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h53_p33_k_down_right.jpg
+    path: Stimuli/learning/block2/h53_p33_k_down_right.jpg
+    exists: true
+  - ref: learning/block2/h53_p34_i_down_left.jpg
+    path: Stimuli/learning/block2/h53_p34_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h53_p64_i_down_right.jpg
+    path: Stimuli/learning/block2/h53_p64_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h87_p10_i_up_left.jpg
+    path: Stimuli/learning/block2/h87_p10_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h87_p6_i_up_left.jpg
+    path: Stimuli/learning/block2/h87_p6_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h87_p8_i_up_left.jpg
+    path: Stimuli/learning/block2/h87_p8_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h87_p9_k_up_left.jpg
+    path: Stimuli/learning/block2/h87_p9_k_up_left.jpg
+    exists: true
+  - ref: learning/block2/h89_p31_i_up_left.jpg
+    path: Stimuli/learning/block2/h89_p31_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h89_p38_i_up_left.jpg
+    path: Stimuli/learning/block2/h89_p38_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h89_p39_k_up_left.jpg
+    path: Stimuli/learning/block2/h89_p39_k_up_left.jpg
+    exists: true
+  - ref: learning/block2/h89_p50_i_up_left.jpg
+    path: Stimuli/learning/block2/h89_p50_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h94_p1_i_up_left.jpg
+    path: Stimuli/learning/block2/h94_p1_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h94_p2_k_up_left.jpg
+    path: Stimuli/learning/block2/h94_p2_k_up_left.jpg
+    exists: true
+  - ref: learning/block2/h94_p3_i_up_left.jpg
+    path: Stimuli/learning/block2/h94_p3_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h94_p46_i_up_left.jpg
+    path: Stimuli/learning/block2/h94_p46_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h98_p13_i_up_right.jpg
+    path: Stimuli/learning/block2/h98_p13_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h98_p18_i_up_right.jpg
+    path: Stimuli/learning/block2/h98_p18_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h98_p19_k_up_right.jpg
+    path: Stimuli/learning/block2/h98_p19_k_up_right.jpg
+    exists: true
+  - ref: learning/block2/h98_p62_i_up_right.jpg
+    path: Stimuli/learning/block2/h98_p62_i_up_right.jpg
+    exists: true
+
+  # ── Learning block3 (28 images) ──
+  - ref: learning/block3/h33_p10_i_down_right.jpg
+    path: Stimuli/learning/block3/h33_p10_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h33_p11_k_down_right.jpg
+    path: Stimuli/learning/block3/h33_p11_k_down_right.jpg
+    exists: true
+  - ref: learning/block3/h33_p12_i_down_right.jpg
+    path: Stimuli/learning/block3/h33_p12_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h33_p17_i_down_right.jpg
+    path: Stimuli/learning/block3/h33_p17_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h35_p31_i_down_right.jpg
+    path: Stimuli/learning/block3/h35_p31_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h35_p38_i_down_right.jpg
+    path: Stimuli/learning/block3/h35_p38_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h35_p50_k_down_right.jpg
+    path: Stimuli/learning/block3/h35_p50_k_down_right.jpg
+    exists: true
+  - ref: learning/block3/h35_p61_i_down_right.jpg
+    path: Stimuli/learning/block3/h35_p61_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h36_p11_i_down_left.jpg
+    path: Stimuli/learning/block3/h36_p11_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h36_p12_k_down_left.jpg
+    path: Stimuli/learning/block3/h36_p12_k_down_left.jpg
+    exists: true
+  - ref: learning/block3/h36_p13_i_down_left.jpg
+    path: Stimuli/learning/block3/h36_p13_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h36_p18_i_down_left.jpg
+    path: Stimuli/learning/block3/h36_p18_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h42_p48_i_down_left.jpg
+    path: Stimuli/learning/block3/h42_p48_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h42_p55_i_down_left.jpg
+    path: Stimuli/learning/block3/h42_p55_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h42_p56_i_down_left.jpg
+    path: Stimuli/learning/block3/h42_p56_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h42_p5_k_down_left.jpg
+    path: Stimuli/learning/block3/h42_p5_k_down_left.jpg
+    exists: true
+  - ref: learning/block3/h82_p15_i_up_right.jpg
+    path: Stimuli/learning/block3/h82_p15_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h82_p20_i_up_right.jpg
+    path: Stimuli/learning/block3/h82_p20_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h82_p21_k_up_right.jpg
+    path: Stimuli/learning/block3/h82_p21_k_up_right.jpg
+    exists: true
+  - ref: learning/block3/h82_p24_i_up_right.jpg
+    path: Stimuli/learning/block3/h82_p24_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h83_p24_i_up_right.jpg
+    path: Stimuli/learning/block3/h83_p24_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h83_p29_k_up_right.jpg
+    path: Stimuli/learning/block3/h83_p29_k_up_right.jpg
+    exists: true
+  - ref: learning/block3/h83_p37_i_up_right.jpg
+    path: Stimuli/learning/block3/h83_p37_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h83_p57_i_up_right.jpg
+    path: Stimuli/learning/block3/h83_p57_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h85_p10_i_up_left.jpg
+    path: Stimuli/learning/block3/h85_p10_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h85_p11_k_up_left.jpg
+    path: Stimuli/learning/block3/h85_p11_k_up_left.jpg
+    exists: true
+  - ref: learning/block3/h85_p12_i_up_left.jpg
+    path: Stimuli/learning/block3/h85_p12_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h85_p17_i_up_left.jpg
+    path: Stimuli/learning/block3/h85_p17_i_up_left.jpg
+    exists: true
+
+  # ── Learning block4 (28 images) ──
+  - ref: learning/block4/h107_p41_i_up_left.jpg
+    path: Stimuli/learning/block4/h107_p41_i_up_left.jpg
+    exists: true
+  - ref: learning/block4/h107_p42_k_up_right.jpg
+    path: Stimuli/learning/block4/h107_p42_k_up_right.jpg
+    exists: true
+  - ref: learning/block4/h107_p43_i_up_right.jpg
+    path: Stimuli/learning/block4/h107_p43_i_up_right.jpg
+    exists: true
+  - ref: learning/block4/h107_p63_i_up_right.jpg
+    path: Stimuli/learning/block4/h107_p63_i_up_right.jpg
+    exists: true
+  - ref: learning/block4/h108_p27_k_up_right.jpg
+    path: Stimuli/learning/block4/h108_p27_k_up_right.jpg
+    exists: true
+  - ref: learning/block4/h108_p34_i_up_right.jpg
+    path: Stimuli/learning/block4/h108_p34_i_up_right.jpg
+    exists: true
+  - ref: learning/block4/h108_p51_i_up_left.jpg
+    path: Stimuli/learning/block4/h108_p51_i_up_left.jpg
+    exists: true
+  - ref: learning/block4/h108_p52_i_up_right.jpg
+    path: Stimuli/learning/block4/h108_p52_i_up_right.jpg
+    exists: true
+  - ref: learning/block4/h109_p23_i_up_left.jpg
+    path: Stimuli/learning/block4/h109_p23_i_up_left.jpg
+    exists: true
+  - ref: learning/block4/h109_p27_i_up_right.jpg
+    path: Stimuli/learning/block4/h109_p27_i_up_right.jpg
+    exists: true
+  - ref: learning/block4/h109_p51_k_up_left.jpg
+    path: Stimuli/learning/block4/h109_p51_k_up_left.jpg
+    exists: true
+  - ref: learning/block4/h109_p64_i_up_left.jpg
+    path: Stimuli/learning/block4/h109_p64_i_up_left.jpg
+    exists: true
+  - ref: learning/block4/h12_p13_i_down_left.jpg
+    path: Stimuli/learning/block4/h12_p13_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h12_p3_i_down_left.jpg
+    path: Stimuli/learning/block4/h12_p3_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h12_p48_i_down_left.jpg
+    path: Stimuli/learning/block4/h12_p48_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h12_p4_k_down_left.jpg
+    path: Stimuli/learning/block4/h12_p4_k_down_left.jpg
+    exists: true
+  - ref: learning/block4/h18_p16_i_down_right.jpg
+    path: Stimuli/learning/block4/h18_p16_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h18_p6_i_down_right.jpg
+    path: Stimuli/learning/block4/h18_p6_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h18_p7_k_down_right.jpg
+    path: Stimuli/learning/block4/h18_p7_k_down_right.jpg
+    exists: true
+  - ref: learning/block4/h18_p8_i_down_right.jpg
+    path: Stimuli/learning/block4/h18_p8_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h22_p15_i_down_left.jpg
+    path: Stimuli/learning/block4/h22_p15_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h22_p20_i_down_left.jpg
+    path: Stimuli/learning/block4/h22_p20_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h22_p21_k_down_left.jpg
+    path: Stimuli/learning/block4/h22_p21_k_down_left.jpg
+    exists: true
+  - ref: learning/block4/h22_p24_i_down_left.jpg
+    path: Stimuli/learning/block4/h22_p24_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h25_p13_i_down_left.jpg
+    path: Stimuli/learning/block4/h25_p13_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h25_p14_k_down_left.jpg
+    path: Stimuli/learning/block4/h25_p14_k_down_left.jpg
+    exists: true
+  - ref: learning/block4/h25_p48_i_down_left.jpg
+    path: Stimuli/learning/block4/h25_p48_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h25_p56_i_down_left.jpg
+    path: Stimuli/learning/block4/h25_p56_i_down_left.jpg
+    exists: true
+
+  # ── Control block1 (14 images) ──
+  - ref: control/block1/h111_p10_i_up_left.jpg
+    path: Stimuli/control/block1/h111_p10_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h114_p36_i_up_right.jpg
+    path: Stimuli/control/block1/h114_p36_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h116_p57_i_up_right.jpg
+    path: Stimuli/control/block1/h116_p57_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h117_p6_i_up_left.jpg
+    path: Stimuli/control/block1/h117_p6_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h28_p46_k_down_left.jpg
+    path: Stimuli/control/block1/h28_p46_k_down_left.jpg
+    exists: true
+  - ref: control/block1/h32_p61_i_down_right.jpg
+    path: Stimuli/control/block1/h32_p61_i_down_right.jpg
+    exists: true
+  - ref: control/block1/h35_p38_i_down_right.jpg
+    path: Stimuli/control/block1/h35_p38_i_down_right.jpg
+    exists: true
+  - ref: control/block1/h42_p5_k_down_left.jpg
+    path: Stimuli/control/block1/h42_p5_k_down_left.jpg
+    exists: true
+  - ref: control/block1/h48_p40_i_down_right.jpg
+    path: Stimuli/control/block1/h48_p40_i_down_right.jpg
+    exists: true
+  - ref: control/block1/h53_p32_i_down_right.jpg
+    path: Stimuli/control/block1/h53_p32_i_down_right.jpg
+    exists: true
+  - ref: control/block1/h87_p8_i_up_left.jpg
+    path: Stimuli/control/block1/h87_p8_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h89_p31_i_up_left.jpg
+    path: Stimuli/control/block1/h89_p31_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h94_p1_i_up_left.jpg
+    path: Stimuli/control/block1/h94_p1_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h98_p62_i_up_right.jpg
+    path: Stimuli/control/block1/h98_p62_i_up_right.jpg
+    exists: true
+
+  # ── Control block2 (14 images) ──
+  - ref: control/block2/h107_p63_i_up_right.jpg
+    path: Stimuli/control/block2/h107_p63_i_up_right.jpg
+    exists: true
+  - ref: control/block2/h108_p34_i_up_right.jpg
+    path: Stimuli/control/block2/h108_p34_i_up_right.jpg
+    exists: true
+  - ref: control/block2/h109_p23_i_up_left.jpg
+    path: Stimuli/control/block2/h109_p23_i_up_left.jpg
+    exists: true
+  - ref: control/block2/h12_p4_k_down_left.jpg
+    path: Stimuli/control/block2/h12_p4_k_down_left.jpg
+    exists: true
+  - ref: control/block2/h18_p6_i_down_right.jpg
+    path: Stimuli/control/block2/h18_p6_i_down_right.jpg
+    exists: true
+  - ref: control/block2/h22_p21_k_down_left.jpg
+    path: Stimuli/control/block2/h22_p21_k_down_left.jpg
+    exists: true
+  - ref: control/block2/h25_p48_i_down_left.jpg
+    path: Stimuli/control/block2/h25_p48_i_down_left.jpg
+    exists: true
+  - ref: control/block2/h33_p11_k_down_right.jpg
+    path: Stimuli/control/block2/h33_p11_k_down_right.jpg
+    exists: true
+  - ref: control/block2/h36_p12_k_down_left.jpg
+    path: Stimuli/control/block2/h36_p12_k_down_left.jpg
+    exists: true
+  - ref: control/block2/h46_p23_i_down_right.jpg
+    path: Stimuli/control/block2/h46_p23_i_down_right.jpg
+    exists: true
+  - ref: control/block2/h48_p41_k_down_right.jpg
+    path: Stimuli/control/block2/h48_p41_k_down_right.jpg
+    exists: true
+  - ref: control/block2/h53_p32_i_down_right.jpg
+    path: Stimuli/control/block2/h53_p32_i_down_right.jpg
+    exists: true
+  - ref: control/block2/h85_p10_i_up_left.jpg
+    path: Stimuli/control/block2/h85_p10_i_up_left.jpg
+    exists: true
+  - ref: control/block2/h94_p3_i_up_left.jpg
+    path: Stimuli/control/block2/h94_p3_i_up_left.jpg
+    exists: true
+
+  # ── AFC composites (30 images) ──
+  - ref: AFC/h101p49_2.jpg
+    path: Stimuli/AFC/h101p49_2.jpg
+    exists: true
+  - ref: AFC/h102p40_2.jpg
+    path: Stimuli/AFC/h102p40_2.jpg
+    exists: true
+  - ref: AFC/h20p53_1.jpg
+    path: Stimuli/AFC/h20p53_1.jpg
+    exists: true
+  - ref: AFC/h24p40_1.jpg
+    path: Stimuli/AFC/h24p40_1.jpg
+    exists: true
+  - ref: AFC/h26p20_3.jpg
+    path: Stimuli/AFC/h26p20_3.jpg
+    exists: true
+  - ref: AFC/h27p8_2.jpg
+    path: Stimuli/AFC/h27p8_2.jpg
+    exists: true
+  - ref: AFC/h30p14_3.jpg
+    path: Stimuli/AFC/h30p14_3.jpg
+    exists: true
+  - ref: AFC/h34p41_3.jpg
+    path: Stimuli/AFC/h34p41_3.jpg
+    exists: true
+  - ref: AFC/h38p37_3.jpg
+    path: Stimuli/AFC/h38p37_3.jpg
+    exists: true
+  - ref: AFC/h44p18_3.jpg
+    path: Stimuli/AFC/h44p18_3.jpg
+    exists: true
+  - ref: AFC/h50p45_2.jpg
+    path: Stimuli/AFC/h50p45_2.jpg
+    exists: true
+  - ref: AFC/h51p24_1.jpg
+    path: Stimuli/AFC/h51p24_1.jpg
+    exists: true
+  - ref: AFC/h54p3_3.jpg
+    path: Stimuli/AFC/h54p3_3.jpg
+    exists: true
+  - ref: AFC/h55p24_3.jpg
+    path: Stimuli/AFC/h55p24_3.jpg
+    exists: true
+  - ref: AFC/h56p13_1.jpg
+    path: Stimuli/AFC/h56p13_1.jpg
+    exists: true
+  - ref: AFC/h57p36_1.jpg
+    path: Stimuli/AFC/h57p36_1.jpg
+    exists: true
+  - ref: AFC/h58p6_1.jpg
+    path: Stimuli/AFC/h58p6_1.jpg
+    exists: true
+  - ref: AFC/h60p49_1.jpg
+    path: Stimuli/AFC/h60p49_1.jpg
+    exists: true
+  - ref: AFC/h61p5_3.jpg
+    path: Stimuli/AFC/h61p5_3.jpg
+    exists: true
+  - ref: AFC/h69p34_1.jpg
+    path: Stimuli/AFC/h69p34_1.jpg
+    exists: true
+  - ref: AFC/h74p16_3.jpg
+    path: Stimuli/AFC/h74p16_3.jpg
+    exists: true
+  - ref: AFC/h75p37_1.jpg
+    path: Stimuli/AFC/h75p37_1.jpg
+    exists: true
+  - ref: AFC/h76p29_3.jpg
+    path: Stimuli/AFC/h76p29_3.jpg
+    exists: true
+  - ref: AFC/h77p42_2.jpg
+    path: Stimuli/AFC/h77p42_2.jpg
+    exists: true
+  - ref: AFC/h80p30_2.jpg
+    path: Stimuli/AFC/h80p30_2.jpg
+    exists: true
+  - ref: AFC/h84p8_3.jpg
+    path: Stimuli/AFC/h84p8_3.jpg
+    exists: true
+  - ref: AFC/h88p35_1.jpg
+    path: Stimuli/AFC/h88p35_1.jpg
+    exists: true
+  - ref: AFC/h93p27_3.jpg
+    path: Stimuli/AFC/h93p27_3.jpg
+    exists: true
+  - ref: AFC/h95p32_1.jpg
+    path: Stimuli/AFC/h95p32_1.jpg
+    exists: true
+  - ref: AFC/h97p23_3.jpg
+    path: Stimuli/AFC/h97p23_3.jpg
+    exists: true
+
+  # ── Practice images (prac/ dir — NOT present) ──
+  - ref: prac/<any>.jpg
+    path: "C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/Version_A/Stimuli/prac/"
+    exists: false
+    notes: "prac/ not found in SET_B/Stimuli or anywhere in the repo"
+
+  # ── Instruction images (NOT present in SET_B) ──
+  - ref: instr_11.jpg
+    path: "Not found in SET_B/Stimuli/ or SET_B root"
+    exists: false
+    notes: "00_Instr_1.sce references instr_11.jpg through instr_17.jpg"
+  - ref: instr_12.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_13.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_14.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_15.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_16.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_17.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_21.jpg
+    path: "Not found"
+    exists: false
+    notes: "02_Instr_2.sce"
+  - ref: instr_31.jpg
+    path: "Not found"
+    exists: false
+    notes: "04_Instr_3.sce"
+  - ref: instr_32.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_33.jpg
+    path: "Not found"
+    exists: false
+  - ref: instr_34.jpg
+    path: "Not found"
+    exists: false
+
+unresolved:
+  - ref: prac/ images
+    path: "C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/Version_A/Stimuli/prac/"
+    exists: false
+    notes: "prac/ directory does not exist under SET_B/Stimuli or anywhere in the repo. Practice block cannot run without these images."
+  - ref: instr_*.jpg (12 files)
+    path: "Not in SET_B/Stimuli/ or SET_B root"
+    exists: false
+    notes: "00_Instr_1.sce (7 files), 02_Instr_2.sce (1 file), 04_Instr_3.sce (4 files). Instructions.pptx present at SET_B/Instructions.pptx. The short paradigm has Folie*.JPG exports under Instr/instr/ (1280x720) that may be the source for these."
+
+open_questions:
+  - Q1: Practice images (prac/) not found anywhere.
+        The PCL in 01_Prac.sce loads from absolute Windows paths to prac/.
+        Are these images available from the original Presentation setup?
+        They are needed for the practice block to run.
+
+  - Q2: Instruction images (instr_11.jpg – instr_34.jpg) not found in SET_B.
+        Instructions.pptx is present at SET_B/Instructions.pptx.
+        The short paradigm (OLM_paradigm_short) has Folie*.JPG exports under
+        Instr/instr/ — are these the same slides exported from the PPTX?
+        If so, the generated script can copy Folie*.JPG into Stimuli/instr/
+        as the psychopy output does for SET_A.
+
+  - Q3: fMRI timing — use nominal PCL durations or empirical log medians?
+        The probe found 1792 scanner pulses in run logs; the original was
+        pulse-locked with variable empirical durations. For standalone use,
+        nominal PCL values (2500 ms stimulus, 2000 ms feedback) are recommended.
+        Confirm this choice.
+
+  - Q4: Control block overlap with learning images.
+        The probe reports that 5 of 28 learning/block1 images and 3 of 28
+        learning/block2 images also appear in control/block1. This means
+        participants see learning stimuli again during control. Check whether
+        the original Presentation folders overlap; if they do not, the folders
+        were mis-assembled. Escalate to the study author.
+
+  - Q5: _quarantine/ directory — 76 images in _quarantine/learning/ and
+        _quarantine/control/ are present on disk but NOT referenced in the
+        current SET_B PCL (which resolves to learning/block1..4/ and
+        control/block1..2/ without _quarantine/ prefix). Are these retired
+        images or alternate versions that should be included in the conversion?
+
+summary:
+  total_stimuli_in_manifest: 189
+  stimuli_on_disk: 177             # 112 learning + 28 control + 30 AFC + 3 bubbles + 1 Map + 3 partial overlap
+  stimuli_missing: 12              # instr_*.jpg files (12)
+  prac_images_missing: true        # entire prac/ directory absent
+  blocks: 8
+    learning: 4                    # 112 trials each = 448 total
+    control: 2                     # 56 trials each = 112 total
+    practice: 1                    # 40 trials (blocked without prac/)
+    AFC: 1                         # 30 trials
+  unresolved_count: 13             # 12 instruction images + prac/
+  open_questions_count: 5

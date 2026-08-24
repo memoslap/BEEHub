@@ -1,0 +1,2679 @@
+#!/usr/bin/env python3
+"""
+Multi-Project Overview Dashboard
+Creates comprehensive graphical overview with violin plots, scatter plots, and radar charts
+"""
+
+import os
+import json
+import pandas as pd
+import numpy as np
+from pathlib import Path
+from typing import Dict, List, Tuple
+import warnings
+import sys
+warnings.filterwarnings('ignore')
+
+# ── Reliability metrics — all calculations live in reliability_metrics.py ────
+# Import from the same directory as this script so it works regardless of the
+# current working directory.
+try:
+    import importlib.util as _ilu
+    _rm_candidates = [
+        Path(__file__).resolve().parent / "reliability_metrics.py",
+        Path(__file__).resolve().parent.parent / "reliability_metrics.py",
+    ]
+    _rm_mod = None
+    for _c in _rm_candidates:
+        if _c.exists():
+            _spec = _ilu.spec_from_file_location("reliability_metrics", _c)
+            _rm_mod = _ilu.module_from_spec(_spec)
+            _spec.loader.exec_module(_rm_mod)
+            break
+    if _rm_mod is None:
+        raise ImportError("reliability_metrics.py not found next to this script.")
+    from reliability_metrics import (  # type: ignore  # noqa: E402
+        ReliabilityMetrics,
+        split_trial_types,
+        ALL_METRIC_IDS,
+        DEFAULT_OUTCOMES,
+        ACCBIN_ID,
+        DEFAULT_DISPLAY_PRIORITY,
+        get_metrics_provenance as _provenance,
+    )
+except ImportError:
+    from reliability_metrics import (ReliabilityMetrics, split_trial_types,
+                                     ALL_METRIC_IDS, DEFAULT_OUTCOMES, ACCBIN_ID,
+                                     DEFAULT_DISPLAY_PRIORITY,
+                                     get_metrics_provenance as _provenance)
+
+class ProjectOverviewGenerator:
+    """Generates comprehensive overview dashboard for all projects"""
+    
+    def __init__(self, base_path: str):
+        self.base_path = Path(base_path)
+
+    ROLES = ('primary', 'secondary')
+
+    @classmethod
+    def _resolve_roles(cls, outcomes: List[Dict]) -> Dict[str, str]:
+        """Map {'primary': <outcome_id>, 'secondary': <outcome_id>}.
+
+        A project declares its hierarchy in ``<project>_description.json`` by
+        putting ``"role": "primary"`` / ``"role": "secondary"`` on the relevant
+        entries of ``outcome_measures``.
+
+        If it declares nothing, ``display_priority`` is used as the implicit
+        hierarchy (highest priority -> primary, next -> secondary). That means
+        every existing project participates immediately, with no migration, and
+        can still override later by declaring roles explicitly.
+
+        Returns only the roles that could actually be filled — a project with a
+        single outcome gets a primary and no secondary, and the dashboard simply
+        shows nothing for it on the secondary view rather than inventing one.
+        """
+        roles: Dict[str, str] = {}
+        taken: set = set()
+
+        # 1. explicit declaration wins
+        for o in outcomes:
+            r = str(o.get('role', '')).strip().lower()
+            if r in cls.ROLES and r not in roles:
+                roles[r] = o['id']
+                taken.add(o['id'])
+
+        # 2. fill the gaps from display_priority
+        ordered = sorted(outcomes,
+                         key=lambda o: o.get('display_priority', DEFAULT_DISPLAY_PRIORITY))
+        pool = [o['id'] for o in ordered if o['id'] not in taken]
+        for r in cls.ROLES:
+            if r not in roles and pool:
+                roles[r] = pool.pop(0)
+
+        return roles
+
+    def _resolve_outcomes(self, project_name: str) -> List[Dict]:
+        """Return the outcome list for a project.
+
+        Priority:
+        1. ``outcome_measures`` declared in ``<project>_description.json``
+        2. ``DEFAULT_OUTCOMES`` from reliability_metrics (RT / ACC / ACCBIN)
+
+        Each entry must have at minimum:
+            id, suffix, column, label, axis_label, higher_is_better
+
+        Optional flags (default False):
+            is_primary  – this outcome's ACCBIN sibling filters correct trials
+            is_binary   – values are 0/1 → displayed as percentages
+        """
+        desc = self.load_description(project_name)
+        custom = desc.get('outcome_measures')
+        if custom and isinstance(custom, list) and len(custom) > 0:
+            for rank, om in enumerate(custom, start=1):
+                om.setdefault('higher_is_better', True)
+                om.setdefault('is_primary', False)
+                om.setdefault('is_binary', False)
+                om.setdefault('is_helper', False)   # True = used for filtering only, not plotted
+                om.setdefault('display_priority', rank)
+            return custom
+        return DEFAULT_OUTCOMES
+
+    def load_description(self, project_name: str) -> Dict:
+        """Load project description from <project>/<project>_description.json.
+
+        Returns a dict with at minimum the keys used by the HTML templates
+        (full_name, short_description, modality, cognitive_domain, task_type,
+        difficulty). Additional rich fields (long_description, background,
+        procedure, trial_structure, keywords, design, timing, software) are
+        included when present and rendered in the paradigm info panel.
+
+        Falls back gracefully to minimal defaults if the file is absent or
+        unparseable — the rest of the pipeline continues normally.
+        """
+        desc_path = (self.base_path / "Projects" / project_name
+                     / f"{project_name}_description.json")
+        defaults = {
+            'full_name':          project_name,
+            'short_description':  'Behavioral task',
+            'modality':           'unknown',
+            'cognitive_domain':   'unknown',
+            'task_type':          'unknown',
+            'language':           'unknown',
+        }
+        if not desc_path.exists():
+            return defaults
+        try:
+            with open(desc_path, encoding='utf-8') as fh:
+                data = json.load(fh)
+            # Ensure all required keys are present
+            for k, v in defaults.items():
+                data.setdefault(k, v)
+            # Legacy compat: 'description' field used in older JSON → map to short_description
+            if 'description' in data and 'short_description' not in data:
+                data['short_description'] = data['description']
+            return data
+        except Exception as e:
+            print(f"  Warning: could not load {desc_path.name}: {e}")
+            return defaults
+    
+    def _build_paradigm_panel(self, proj_info: Dict) -> str:
+        """Return an HTML <div class='paradigm-panel'> for the overview/dashboard.
+
+        Shows: badge row (dashboard filter order), short description, background,
+        typical outcome.
+        Detailed sections (procedure, trial structure, design, timing, software,
+        keywords) are intentionally omitted here — they live in the paradigm HTML
+        generated by 02_generate_paradigm.py.
+        """
+        short           = proj_info.get('short_description') or proj_info.get('description', '')
+        bg              = proj_info.get('background', '')
+        typical_outcome = proj_info.get('typical_outcome', '')
+        domain          = proj_info.get('cognitive_domain', '')
+        task_type       = proj_info.get('task_type', '')
+        modality        = proj_info.get('modality', '')
+        language        = proj_info.get('language', '')
+        rec_modality    = proj_info.get('experimental_context', '')
+        n_sessions      = proj_info.get('n_sessions', '')
+
+        # ── Badge row — matches dashboard filter order exactly:
+        #    Cognitive Domain → Task Type → Modality → Language → Experimental Context
+        badge_values = []
+        for v in [domain, task_type, modality, language, rec_modality]:
+            if v and v != 'unknown':
+                badge_values.append(v)
+        if n_sessions:
+            badge_values.append(f'{n_sessions} sessions')
+        badges_html = ''.join(
+            f'<span class="char-badge">{v}</span>'
+            for v in badge_values
+        )
+
+        # ── Description ──────────────────────────────────────────────────
+        desc_html = f'<p class="paradigm-text">{short}</p>' if short else ''
+
+        # ── Background ───────────────────────────────────────────────────
+        bg_html = ''
+        if bg:
+            bg_html = f'''
+            <div class="paradigm-panel-grid" style="margin-top:14px;">
+                <div class="paradigm-full">
+                    <div class="paradigm-section-title">Background</div>
+                    <p class="paradigm-text">{bg}</p>
+                </div>
+            </div>'''
+
+        # ── Typical Outcome ───────────────────────────────────────────────
+        typical_html = ''
+        if typical_outcome:
+            typical_html = f'''
+            <div class="paradigm-panel-grid" style="margin-top:14px;">
+                <div class="paradigm-full">
+                    <div class="paradigm-section-title">Typical Outcome</div>
+                    <p class="paradigm-text">{typical_outcome}</p>
+                </div>
+            </div>'''
+
+        return f'''<div class="paradigm-panel">
+            <div class="char-badges">{badges_html}</div>
+            {desc_html}
+            {bg_html}
+            {typical_html}
+        </div>'''
+
+    def find_projects(self) -> List[str]:
+        """Find all project folders"""
+        projects_path = self.base_path / "Projects"
+        if not projects_path.exists():
+            return []
+        
+        project_folders = [d.name for d in projects_path.iterdir() if d.is_dir()]
+        print(f"Found projects: {project_folders}")
+        return project_folders
+    
+    def load_outcome_data(self, project_name: str, outcome) -> pd.DataFrame:
+        """Load all TSV files for one outcome measure.
+
+        *outcome* may be:
+        - a dict entry from ``_resolve_outcomes`` (preferred), or
+        - a legacy string key ``'RT'`` / ``'ACC'`` / ``'ACCBIN'`` (kept for
+          backward-compatibility — maps to DEFAULT_OUTCOMES).
+
+        Scans flat bids_data/ and the BIDS sub-*/ses-*/ hierarchy.
+        """
+        # ── Legacy string key support ────────────────────────────────────────
+        if isinstance(outcome, str):
+            _legacy = {o['id']: o for o in DEFAULT_OUTCOMES}
+            outcome = _legacy.get(outcome, {'id': outcome,
+                                            'suffix': f'_{outcome}_beh.tsv',
+                                            'column': outcome.lower()})
+
+        bids_path = self.base_path / "Projects" / project_name / "bids_data"
+        if not bids_path.exists():
+            return pd.DataFrame()
+
+        suffix   = outcome['suffix']
+        all_data = []
+
+        # Recursive: covers bids_data/*.tsv, sub-XX/ses-Y/*.tsv AND the
+        # BIDS-standard sub-XX/ses-Y/beh/*.tsv modality folder. The two
+        # hard-coded depths silently found ZERO files for any dataset written
+        # by a standards-compliant BIDS builder. Suffix matching stays exact,
+        # so `_ACC_beh.tsv` still cannot match `_ACCBIN_beh.tsv`.
+        for f in sorted(bids_path.rglob(f"*{suffix}")):
+            if not f.is_file():
+                continue
+            df = self._load_outcome_file(f)
+            if not df.empty:
+                all_data.append(df)
+
+        return pd.concat(all_data, ignore_index=True) if all_data else pd.DataFrame()
+
+    def _load_outcome_file(self, filepath: Path) -> pd.DataFrame:
+        """Load a single outcome TSV and attach subject_id / session from the filename."""
+        file_info = {}
+        for part in filepath.name.split('_'):
+            if '-' in part:
+                key, value = part.split('-', 1)
+                file_info[key] = value
+        try:
+            df = pd.read_csv(filepath, sep='\t')
+            df['subject_id'] = file_info.get('sub', 'unknown')
+            df['session']    = file_info.get('ses', 'unknown')
+            return df
+        except Exception:
+            return pd.DataFrame()
+
+    def load_participants_data(self, project_name: str) -> pd.DataFrame:
+        """Load participants.tsv file"""
+        proj_dir = self.base_path / "Projects" / project_name
+        # BIDS puts participants.tsv at the DATASET root, which here is
+        # bids_data/. Check both so either convention works.
+        candidates = [proj_dir / "participants.tsv",
+                      proj_dir / "bids_data" / "participants.tsv"]
+        participants_file = next((c for c in candidates if c.exists()), None)
+        if participants_file is None:
+            return pd.DataFrame()
+
+        df = pd.read_csv(participants_file, sep='\t')
+        if 'participant_id' in df.columns:
+            df = df[df['participant_id'] != 'n/a'].copy()
+        if 'age' in df.columns:
+            df['age'] = pd.to_numeric(df['age'], errors='coerce')
+        else:
+            df['age'] = np.nan
+        if 'sex' not in df.columns:
+            df['sex'] = 'n/a'
+        return df
+    
+    # ── Metric calculations — delegated to ReliabilityMetrics ────────────────
+    # These thin wrappers keep backward-compatibility for any external code
+    # that calls generator.calculate_icc(...) etc. directly.
+
+    def calculate_icc(self, data1: np.ndarray, data2: np.ndarray) -> float:
+        return ReliabilityMetrics.calculate_icc(data1, data2)
+    
+    def analyze_project(self, project_name: str) -> Dict:
+        """Comprehensive analysis of a project.
+
+        Works with any set of outcome measures — either the standard RT/ACC
+        pair or custom outcomes declared in the project's _description.json
+        under the ``outcome_measures`` key.
+        """
+        print(f"\nAnalyzing project: {project_name}")
+
+        # ── Resolve outcomes for this project ────────────────────────────────
+        outcomes    = self._resolve_outcomes(project_name)
+        # Separate the binary-accuracy outcome used for correct-trial filtering
+        accbin_out  = next((o for o in outcomes if o.get('is_binary') or
+                            o['id'] == ACCBIN_ID), None)
+        # Primary outcomes to visualise and compute reliability for
+        # (everything except a pure binary helper like ACCBIN)
+        vis_outcomes = [o for o in outcomes if not o.get('is_helper', False)]
+
+        # ── Load data ────────────────────────────────────────────────────────
+        participants = self.load_participants_data(project_name)
+        loaded: Dict[str, pd.DataFrame] = {}
+        for om in outcomes:
+            loaded[om['id']] = self.load_outcome_data(project_name, om)
+
+        accbin_data = loaded.get(ACCBIN_ID, pd.DataFrame())
+        if accbin_out and accbin_out['id'] != ACCBIN_ID:
+            accbin_data = loaded.get(accbin_out['id'], pd.DataFrame())
+
+        # Correct-trial filtering is written against the internal name
+        # `accuracy_binary`, but outcome_measures declares the real column name
+        # (FLOW uses `is_correct`). Ignoring the declaration raised
+        # `KeyError: ['accuracy_binary'] not in index` for any project not using
+        # that literal name. Alias the declared column onto the internal one.
+        if accbin_out and not accbin_data.empty:
+            declared = accbin_out.get('column', 'accuracy_binary')
+            if declared != 'accuracy_binary':
+                if declared in accbin_data.columns:
+                    accbin_data = accbin_data.copy()
+                    accbin_data['accuracy_binary'] = pd.to_numeric(
+                        accbin_data[declared], errors='coerce')
+                else:
+                    print(f"  ⚠ {project_name}: binary-accuracy column '{declared}' "
+                          f"not found — correct-trial filtering disabled")
+                    accbin_data = pd.DataFrame()
+
+        # At least one visualisable outcome must be present
+        if participants.empty or all(loaded[o['id']].empty for o in vis_outcomes):
+            print(f"  No valid data for {project_name}")
+            return None
+
+        # ── Get project description ───────────────────────────────────────────
+        proj_desc = self.load_description(project_name)
+
+        # ── Demographics ─────────────────────────────────────────────────────
+        demographics = {
+            'n_participants': len(participants),
+            'age_mean': float(participants['age'].mean()) if not participants['age'].isna().all() else None,
+            'age_std':  float(participants['age'].std())  if not participants['age'].isna().all() else None,
+            'age_min':  float(participants['age'].min())  if not participants['age'].isna().all() else None,
+            'age_max':  float(participants['age'].max())  if not participants['age'].isna().all() else None,
+            'sex_distribution': participants['sex'].value_counts().to_dict()
+        }
+
+        # ── Trial types / sessions from first non-empty outcome ───────────────
+        ref_df = next((loaded[o['id']] for o in vis_outcomes
+                       if not loaded[o['id']].empty), pd.DataFrame())
+        trial_types = (ref_df['trial_type'].unique().tolist()
+                       if 'trial_type' in ref_df.columns else [])
+        sessions    = (ref_df['session'].unique().tolist()
+                       if 'session'    in ref_df.columns else [])
+
+        # ── Correct-trial filtering for primary outcomes ──────────────────────
+        corrected: Dict[str, pd.DataFrame] = {}
+        for om in vis_outcomes:
+            df_om = loaded[om['id']]
+            if df_om.empty:
+                corrected[om['id']] = df_om
+                continue
+            needs_filter = om.get('requires_correct_filter',
+                                   om.get('is_primary', False))
+            if needs_filter and not accbin_data.empty:
+                def _add_idx(df):
+                    df = df.copy()
+                    df['_trial_idx'] = df.groupby(['subject_id', 'session']).cumcount()
+                    return df
+                om_idx  = _add_idx(df_om)
+                acc_idx = _add_idx(accbin_data)
+                acc_key = acc_idx[['subject_id', 'session', '_trial_idx',
+                                   'accuracy_binary']].copy()
+                acc_key['accuracy_binary'] = pd.to_numeric(
+                    acc_key['accuracy_binary'], errors='coerce')
+                merged = om_idx.merge(acc_key, on=['subject_id', 'session', '_trial_idx'],
+                                      how='left', suffixes=('', '_acc'))
+                corrected[om['id']] = merged[merged['accuracy_binary'] == 1].drop(
+                    columns=['_trial_idx', 'accuracy_binary'], errors='ignore')
+            else:
+                corrected[om['id']] = df_om
+
+        # ── data_by_condition — generic over all visual outcomes ──────────────
+        data_by_condition = {}
+        for trial_type in trial_types if trial_types else ['all']:
+            for session in sessions if sessions else ['all']:
+                key = f"{trial_type}_ses{session}"
+                entry: Dict = {
+                    'trial_type': trial_type,
+                    'session':    session,
+                    'outcomes':   {},
+                    # Legacy keys for backward-compatible HTML templates:
+                    'rt_values':             [],  'rt_mean':  None,
+                    'rt_std':                None, 'rt_median': None,
+                    'acc_values':            [],  'acc_mean': None,
+                    'acc_std':               None,
+                    'subject_acc_percentages': [],
+                    'n_trials':              0,
+                }
+                for om in vis_outcomes:
+                    df_src = corrected.get(om['id'], pd.DataFrame())
+                    if df_src.empty:
+                        continue
+                    dff = df_src.copy()
+                    if trial_types:
+                        dff = dff[dff['trial_type'] == trial_type]
+                    if sessions:
+                        dff = dff[dff['session'] == session]
+                    col  = om['column']
+                    vals = (pd.to_numeric(dff[col], errors='coerce').dropna().tolist()
+                            if col in dff.columns else [])
+                    subj_pct = []
+                    if om.get('is_binary', False) and 'subject_id' in dff.columns:
+                        for subj in dff['subject_id'].unique():
+                            sv = pd.to_numeric(
+                                dff[dff['subject_id'] == subj][col],
+                                errors='coerce').dropna().values
+                            if len(sv) > 0:
+                                subj_pct.append(float(np.mean(sv) * 100))
+                    entry['outcomes'][om['id']] = {
+                        'id':               om['id'],
+                        'label':            om['label'],
+                        'axis_label':       om['axis_label'],
+                        'column':           col,
+                        'is_binary':        om.get('is_binary', False),
+                        'higher_is_better': om.get('higher_is_better', True),
+                        'values':           vals,
+                        'mean':             float(np.mean(vals))   if vals else None,
+                        'std':              float(np.std(vals))    if vals else None,
+                        'median':           float(np.median(vals)) if vals else None,
+                        'subject_pct':      subj_pct,
+                    }
+                    # Legacy compat
+                    if om['id'] == 'RT':
+                        entry['rt_values'] = vals
+                        entry['rt_mean']   = entry['outcomes']['RT']['mean']
+                        entry['rt_std']    = entry['outcomes']['RT']['std']
+                        entry['rt_median'] = entry['outcomes']['RT']['median']
+                    if om['id'] == 'ACCBIN':
+                        entry['acc_values']              = vals
+                        entry['acc_mean']                = entry['outcomes']['ACCBIN']['mean']
+                        entry['acc_std']                 = entry['outcomes']['ACCBIN']['std']
+                        entry['subject_acc_percentages'] = subj_pct
+                entry['n_trials'] = max(
+                    (len(entry['outcomes'][o['id']]['values'])
+                     for o in vis_outcomes if o['id'] in entry['outcomes']),
+                    default=0)
+                data_by_condition[key] = entry
+
+        # ── Reliability — computed per outcome, then merged ───────────────────
+        task_trial_types, control_trial_types = split_trial_types(trial_types)
+
+        def _compute_rel(tt_list):
+            # If the project HAS trial types but this list is empty (e.g. a
+            # paradigm with no control conditions at all, like FLOW), return
+            # nothing. Otherwise compute_for_outcome falls back to a synthetic
+            # 'all' cell and the control dict ends up a byte-for-byte DUPLICATE
+            # of the task dict — which then makes the paradigm look like it has
+            # control data when it does not.
+            if trial_types and not tt_list:
+                return {}
+            out_rels = []
+            for om in vis_outcomes:
+                df_om = loaded[om['id']]
+                if df_om.empty:
+                    continue
+                # Accept the new name `requires_correct_filter` from the
+                # description form, falling back to legacy `is_primary`.
+                needs_filter = om.get('requires_correct_filter',
+                                       om.get('is_primary', False))
+                rel = ReliabilityMetrics.compute_for_outcome(
+                    df_om, om['column'], om['id'], tt_list,
+                    accbin_df=accbin_data if needs_filter else None,
+                    filter_correct=needs_filter,
+                    paradigm_contrast=om.get('paradigm_contrast'),
+                )
+                out_rels.append(rel)
+            return ReliabilityMetrics.merge_outcome_reliabilities(out_rels)
+
+        reliability         = _compute_rel(task_trial_types)
+        control_reliability = _compute_rel(control_trial_types)
+
+        # ── ROLE LAYER: each project declares its own outcome hierarchy ───────
+        #
+        # THE problem this solves: the dashboard's radar/sliders were keyed on
+        # OUTCOME IDs ('rt', 'accbin'). That only looked general because most
+        # projects happen to name their outcomes the same way — it is a naming
+        # coincidence, not an abstraction. A paradigm whose headline measure is
+        # a flow index, a d-prime, or a distance error simply falls out.
+        #
+        # The fix is to make ROLE a first-class metric namespace. Every project
+        # says which of ITS outcomes is primary and which is secondary; here we
+        # mirror that outcome's metrics under `primary_*` / `secondary_*` keys.
+        #
+        # Because the aliases have exactly the same SHAPE as the outcome keys
+        # (`primary_icc_agreement` looks like `rt_icc_agreement`), every existing
+        # consumer downstream — the radar, the sliders, the filters,
+        # _perProjectMean — keeps working with no change at all. Only the list of
+        # prefixes it iterates over changes. That is the whole trick.
+        role_of = self._resolve_roles(vis_outcomes)
+
+        def _alias_roles(rel: Dict) -> Dict:
+            for cell in rel.values():
+                for role, oid in role_of.items():
+                    src = f'{oid.lower()}_'
+                    for k, v in list(cell.items()):
+                        if not k.startswith(src):
+                            continue
+                        # Scalars only. The per-subject arrays (s1_means,
+                        # subjects, ...) would double the JSON for no gain —
+                        # every downstream consumer of these keys skips
+                        # non-scalars anyway.
+                        if isinstance(v, (list, dict)):
+                            continue
+                        cell[f'{role}_{k[len(src):]}'] = v
+            return rel
+
+        reliability         = _alias_roles(reliability)
+        control_reliability = _alias_roles(control_reliability)
+
+        by_id = {o['id']: o for o in vis_outcomes}
+        role_map = {
+            role: {
+                'outcome_id':       oid,
+                'label':            by_id.get(oid, {}).get('label', oid),
+                'axis_label':       by_id.get(oid, {}).get('axis_label'),
+                'is_binary':        by_id.get(oid, {}).get('is_binary', False),
+                'higher_is_better': by_id.get(oid, {}).get('higher_is_better', True),
+                'declared':         bool(by_id.get(oid, {}).get('role')),
+            }
+            for role, oid in role_of.items()
+        }
+
+        # Outcome metadata stored in report for use by JS templates
+        outcome_meta = [
+            {
+                'id':                      o['id'],
+                'label':                   o['label'],
+                'axis_label':              o['axis_label'],
+                'is_binary':               o.get('is_binary', False),
+                'display_priority':        o.get('display_priority', DEFAULT_DISPLAY_PRIORITY),
+                'requires_correct_filter': o.get('requires_correct_filter',
+                                                  o.get('is_primary', False)),
+                'paradigm_contrast':       o.get('paradigm_contrast'),
+                # Which role this outcome plays in THIS project's hierarchy.
+                'role':                    next((r for r, oid in role_of.items()
+                                                 if oid == o['id']), None),
+                # Comparable across paradigms in raw units? (RT/accuracy yes,
+                # a paradigm-specific index no.) Only used by the optional
+                # legacy "compare by outcome" view — the role view needs no such
+                # flag, because role is meaningful for every paradigm.
+                'is_global':               o.get('is_global', True),
+            }
+            for o in vis_outcomes
+        ]
+        # ── Learning-stage breakdown (individual project view only) ──────────
+        # Detect whether a learning_stage column exists in the RT or ACC data.
+        # If so, compute mean RT and mean accuracy per stage × trial_type so the
+        # project HTML can show progression charts.  This data is intentionally
+        # NOT passed to the radar / reliability metrics.
+        # ── Learning-stage breakdown ─────────────────────────────────────────
+        # Use the first non-empty visual outcome as the reference for stage
+        # detection; compute per-stage means for ALL visual outcomes.
+        learning_stage_data = {}
+        stage_col = 'learning_stage'
+        ref_ls = ref_df   # first non-empty outcome DataFrame, determined above
+
+        def _has_real_stages(df: pd.DataFrame) -> bool:
+            if df.empty or stage_col not in df.columns:
+                return False
+            valid = (df[stage_col].dropna().astype(str).str.strip()
+                     .pipe(lambda s: s[s.ne('') & s.str.lower().ne('n/a')]))
+            return len(valid) > 0
+
+        has_stages = _has_real_stages(ref_ls)
+
+        if has_stages:
+            raw_stages = ref_ls[stage_col].dropna().astype(str).str.strip()
+            raw_stages = raw_stages[raw_stages.ne('') & raw_stages.str.lower().ne('n/a')]
+            all_stages = sorted(raw_stages.unique().tolist(), key=lambda s: str(s))
+
+            for tt in trial_types if trial_types else ['all']:
+                # Build per-stage stats for each visual outcome
+                stage_outcomes: Dict[str, Dict] = {}
+                for om in vis_outcomes:
+                    df_om = loaded[om['id']]
+                    if df_om.empty or stage_col not in df_om.columns:
+                        continue
+                    col = om['column']
+                    scale = 100 if om.get('is_binary', False) else 1
+                    means, sems = [], []
+                    for stage in all_stages:
+                        dfs = df_om.copy()
+                        if trial_types:
+                            dfs = dfs[dfs['trial_type'] == tt]
+                        dfs = dfs[dfs[stage_col].astype(str).str.strip() == stage]
+                        vals = pd.to_numeric(dfs[col], errors='coerce').dropna() if col in dfs else pd.Series([], dtype=float)
+                        means.append(float(vals.mean() * scale) if len(vals) else None)
+                        sems.append(float(vals.sem()  * scale) if len(vals) > 1 else None)
+                    stage_outcomes[om['id']] = {'means': means, 'sems': sems}
+
+                if not stage_outcomes:
+                    continue
+
+                # Legacy keys for backward-compatible HTML (RT + ACC)
+                rt_om  = next((o for o in vis_outcomes if o['id'] == 'RT'), None)
+                acc_om = next((o for o in vis_outcomes if o.get('is_binary')), None)
+                learning_stage_data[tt] = {
+                    'stages':       all_stages,
+                    'outcomes':     stage_outcomes,
+                    # Legacy:
+                    'rt_means':     stage_outcomes.get('RT', {}).get('means', [None]*len(all_stages)),
+                    'rt_sems':      stage_outcomes.get('RT', {}).get('sems',  [None]*len(all_stages)),
+                    'acc_means':    stage_outcomes.get('ACCBIN', {}).get('means', [None]*len(all_stages)),
+                    'acc_sems':     stage_outcomes.get('ACCBIN', {}).get('sems',  [None]*len(all_stages)),
+                }
+
+        # ── Pick the primary ICC key for the dashboard card ─────────────────
+        # Select the ICC key of the highest-priority outcome that actually has
+        # data in the reliability dict.  Fallback chain: ACCBIN → RT → first
+        # outcome with any ICC value.
+        def _pick_primary_icc_key(meta: list, rel: dict) -> str:
+            # Try each outcome in priority order, preferring absolute agreement
+            sorted_meta = sorted(meta, key=lambda o: o.get('display_priority', DEFAULT_DISPLAY_PRIORITY))
+            for om in sorted_meta:
+                # Prefer absolute agreement, fall back to consistency
+                for suffix in ('_icc_agreement_mean', '_icc_mean'):
+                    key = f"{om['id'].lower()}{suffix}"
+                    if any(m.get(key) is not None for m in rel.values()):
+                        return key
+            # Fallback: return the first icc key that has actual data
+            for m in rel.values():
+                for k, v in m.items():
+                    if ('_icc_' in k and k.endswith('_mean') and v is not None):
+                        return k
+            return None
+
+        # Compile report
+        report = {
+            'project_name':            project_name,
+            'project_info':            proj_desc,
+            'demographics':            demographics,
+            'trial_types':             trial_types if trial_types else ['all'],
+            'sessions':                sessions    if sessions    else ['all'],
+            'data_by_condition':       data_by_condition,
+            'reliability_metrics':     reliability,
+            'control_reliability':     control_reliability,
+            'role_map':                role_map,
+            'learning_stage_data':     learning_stage_data,
+            'outcome_measures':        outcome_meta,
+            'primary_icc_key':         _pick_primary_icc_key(outcome_meta, reliability),
+            'column_names': {
+                'rt_column':  next((o['column'] for o in vis_outcomes
+                                    if o['id'] == 'RT'), None),
+                'acc_column': next((o['column'] for o in outcomes
+                                    if o.get('is_binary')), None),
+            },
+            # ── Provenance — record which library produced the metrics ─────
+            '_schema_version': 'beehub_reliability_v2_pingouin',
+            '_provenance':     _provenance(),
+        }
+        
+        return report
+    
+    def calculate_cohens_d(self, data1: np.ndarray, data2: np.ndarray) -> float:
+        return ReliabilityMetrics.calculate_cohens_d(data1, data2)
+
+    def calculate_pearson_r(self, data1: np.ndarray, data2: np.ndarray) -> float:
+        return ReliabilityMetrics.calculate_pearson_r(data1, data2)
+
+    def calculate_cv(self, data: np.ndarray) -> float:
+        return ReliabilityMetrics.calculate_cv(data)
+    
+    def _calculate_reliability(self, rt_data: pd.DataFrame, accbin_data: pd.DataFrame,
+                               trial_types: List[str]) -> Dict:
+        """Delegate to ReliabilityMetrics.compute_reliability_dict.
+
+        Keeping this thin wrapper preserves the existing call-sites in
+        analyse_project() unchanged.
+        """
+        return ReliabilityMetrics.compute_reliability_dict(rt_data, accbin_data, trial_types)
+
+    
+    def generate_dashboard_html(self, all_reports: List[Dict]) -> str:
+        """Generate comprehensive dashboard HTML"""
+        
+        html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Project Overview Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
+            color: #d4b44a;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, rgba(28, 26, 16, 0.97) 0%, rgba(38, 35, 20, 0.98) 50%, rgba(44, 40, 22, 0.99) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 10px 40px rgba(201, 162, 39, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 180, 74, 0.35);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #2c2c2c 0%,
+                #c9a227 15%,
+                #3d3d3d 30%,
+                #d4b44a 50%,
+                #3d3d3d 70%,
+                #c9a227 85%,
+                #2c2c2c 100%
+            );
+            opacity: 0.8;
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, 
+                #1a1a1a 0%,
+                #3d3d3d 15%,
+                #2c2c2c 30%,
+                #c9a227 50%,
+                #2c2c2c 70%,
+                #3d3d3d 85%,
+                #1a1a1a 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+        
+        .subtitle {
+            color: #d4b44a;
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+        
+        .project-section {
+            background: linear-gradient(135deg, #131108 0%, #1c1a0d 50%, #131108 100%);
+            margin-bottom: 50px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(212, 180, 74, 0.35);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgba(201, 162, 39, 0.4);
+        }
+        
+        .project-title-section {
+            flex: 1;
+        }
+        
+        .project-name {
+            background: linear-gradient(135deg, 
+                #e5c158 0%,
+                #f0d060 30%,
+                #c9a227 50%,
+                #f0d060 70%,
+                #e5c158 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .project-full-name {
+            color: #a08840;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        
+        .project-description {
+            color: #8a7040;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        .project-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric-box {
+            background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #454545;
+        }
+        
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #f0d060;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.85em;
+            color: #a08840;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .chart-container {
+            background: linear-gradient(135deg, rgba(20, 18, 12, 0.98) 0%, rgba(28, 25, 15, 0.99) 50%, rgba(20, 18, 12, 0.98) 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(201, 162, 39, 0.08);
+        }
+        
+        .chart-title {
+            color: #d4b44a;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(201, 162, 39, 0.35);
+        }
+        
+        .radar-container {
+            grid-column: 1 / -1;
+            max-width: 100%;
+            min-height: 950px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .full-width-container {
+            grid-column: 1 / -1;
+        }
+        
+        .metric-info {
+            background: linear-gradient(135deg, rgba(20, 18, 12, 0.98) 0%, rgba(28, 25, 15, 0.99) 50%, rgba(20, 18, 12, 0.98) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border: 1px solid rgba(212, 180, 74, 0.35);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(201, 162, 39, 0.08);
+        }
+        
+        .metric-info h3 {
+            color: #c9a227;
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid rgba(201, 162, 39, 0.45);
+            letter-spacing: 1px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #1c1a0e 0%, #141208 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #c9a227;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        .metric-name {
+            color: #f0d060;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .metric-icon {
+            font-size: 1.3em;
+        }
+        
+        .metric-desc {
+            color: #c8a860;
+            font-size: 1em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .metric-what {
+            color: #c8b080;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #141008;
+            border-radius: 6px;
+            border-left: 3px solid rgba(201, 162, 39, 0.6);
+        }
+        
+        .metric-what strong {
+            color: #c9a227;
+        }
+        
+        .metric-formula {
+            background: #0a0900;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #c9a227;
+            margin-top: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.3);
+            line-height: 1.8;
+        }
+        
+        .metric-formula .formula-line {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .metric-formula .formula-main {
+            color: #f0d060;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+        
+        .metric-formula .formula-range {
+            color: #ffa726;
+            margin-top: 8px;
+            display: block;
+        }
+        
+        .bullet-points {
+            margin: 10px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .bullet-points li {
+            padding: 6px 0 6px 25px;
+            position: relative;
+            color: #b89a50;
+            line-height: 1.6;
+        }
+        
+        .bullet-points li:before {
+            content: "▸";
+            position: absolute;
+            left: 5px;
+            color: #f0d060;
+            font-weight: bold;
+        }
+        
+        .characteristics {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .char-badge {
+            background: linear-gradient(135deg, rgba(40, 36, 18, 0.96) 0%, rgba(35, 30, 14, 0.95) 100%);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88em;
+            border: 1px solid rgba(201, 162, 39, 0.50);
+            color: #8a6800;
+            font-weight: 500;
+        }
+
+        .char-badge.modality { border-color: #2c2c2c; color: #2c2c2c; }
+        .char-badge.domain { border-color: #c9a227; color: #c9a227; }
+        .char-badge.difficulty { border-color: #ffa726; color: #ffa726; }
+
+        /* ── Paradigm info panel (dashboard card) ── */
+        .paradigm-panel {
+            background: linear-gradient(135deg, rgba(22, 20, 12, 0.97) 0%, rgba(30, 28, 15, 0.98) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.40);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 10px;
+        }
+        .paradigm-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 28px;
+            margin-top: 12px;
+        }
+        .paradigm-section-title {
+            color: #c9a227;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+        }
+        .paradigm-text { color: #b89a50; font-size: 0.92em; line-height: 1.6; }
+        .paradigm-full { grid-column: 1 / -1; }
+        .keyword-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+        .keyword-chip {
+            background: rgba(201, 162, 39, 0.10);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 10px;
+            padding: 2px 9px;
+            font-size: 0.80em;
+            color: #d4b44a;
+        }
+        .timing-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .timing-item {
+            background: rgba(30, 28, 14, 0.90);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.82em;
+            color: #b89a50;
+        }
+        .timing-item span { font-weight: 600; color: #f0d060; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 MULTI-PROJECT OVERVIEW</h1>
+        <p class="subtitle">Comprehensive Behavioral Data Analysis Dashboard</p>
+    </div>
+"""
+        
+        # Generate section for each project
+        for report in all_reports:
+            html += self._generate_project_section(report)
+        
+        html += """
+</body>
+</html>"""
+        
+        return html
+    
+    def _generate_project_section(self, report: Dict) -> str:
+        """Generate HTML section for a single project"""
+        
+        proj_name = report['project_name']
+        proj_info = report['project_info']
+        demo = report['demographics']
+        data_by_cond = report['data_by_condition']
+        reliability = report['reliability_metrics']
+        
+        paradigm_panel_html = self._build_paradigm_panel(proj_info)
+
+        html = f"""
+    <div class="project-section">
+        <div class="project-header">
+            <div class="project-title-section">
+                <div class="project-name">{proj_name}</div>
+                <div class="project-full-name">{proj_info['full_name']}</div>
+                {paradigm_panel_html}
+            </div>
+        </div>
+        
+        <div class="project-metrics">
+            <div class="metric-box">
+                <div class="metric-value">{demo['n_participants']}</div>
+                <div class="metric-label">Participants</div>
+            </div>
+"""
+        
+        if demo['age_mean']:
+            html += f"""
+            <div class="metric-box">
+                <div class="metric-value">{demo['age_mean']:.1f}</div>
+                <div class="metric-label">Mean Age</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value">{demo['age_std']:.1f}</div>
+                <div class="metric-label">Age SD</div>
+            </div>
+"""
+        
+        # Add sex distribution
+        for sex, count in demo['sex_distribution'].items():
+            html += f"""
+            <div class="metric-box">
+                <div class="metric-value">{count}</div>
+                <div class="metric-label">{sex.capitalize()}</div>
+            </div>
+"""
+        
+        html += """
+        </div>
+        
+        <div class="charts-grid">
+"""
+        
+        # ── Violin + Scatter divs — only for outcomes that have actual data ───
+        outcome_meta_local = report.get('outcome_measures') or [
+            {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+            {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+        ]
+        # Determine which outcomes have at least one non-empty value in data_by_condition
+        def _outcome_has_data(om_id, is_bin, dbc):
+            for cond in dbc.values():
+                odata = cond.get('outcomes', {}).get(om_id)
+                if odata is not None:
+                    vals = odata.get('subject_pct', []) if is_bin else odata.get('values', [])
+                    if vals:
+                        return True
+                # Legacy fallback check
+                if om_id == 'RT' and cond.get('rt_values'):
+                    return True
+                if om_id in ('ACCBIN', 'ACC') and cond.get('subject_acc_percentages'):
+                    return True
+            return False
+
+        active_outcomes = [
+            om for om in outcome_meta_local
+            if _outcome_has_data(om['id'], om.get('is_binary', False), data_by_cond)
+        ]
+
+        for om in active_outcomes:
+            om_id  = om['id'].lower()
+            om_lbl = om['label']
+            html += f"""
+            <div class="chart-container">
+                <div class="chart-title">{om_lbl} Distribution</div>
+                <div id="{proj_name}_{om_id}_violin"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">{om_lbl} Test-Retest (mean per subject)</div>
+                <div id="{proj_name}_{om_id}_scatter"></div>
+            </div>
+"""
+        # Learning-stage progression charts — above radar
+        if report.get('learning_stage_data'):
+            html += f"""
+            <div class="chart-container">
+                <div class="chart-title">RT Progression across Learning Stages</div>
+                <div id="{proj_name}_stage_rt"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Accuracy Progression across Learning Stages</div>
+                <div id="{proj_name}_stage_acc"></div>
+            </div>
+"""
+
+        # Radar Chart for reliability — full width, below stage charts
+        if reliability:
+            html += f"""
+            <div class="chart-container full-width-container">
+                <div class="chart-title">📡 Reliability Metrics Radar</div>
+                <div id="{proj_name}_radar"></div>
+            </div>
+"""
+        
+        html += """
+        </div>
+    </div>
+    
+    <script>
+"""
+        
+        # Generate plots
+        html += self._generate_plots_js(proj_name, data_by_cond, reliability,
+                                        report['trial_types'],
+                                        report.get('learning_stage_data', {}),
+                                        report.get('control_reliability', {}),
+                                        outcome_meta=active_outcomes)
+        
+        html += """
+    </script>
+"""
+        
+        return html
+    
+    def _generate_plots_js(self, proj_name: str, data_by_cond: Dict,
+                          reliability: Dict, trial_types: List[str],
+                          learning_stage_data: Dict = None,
+                          control_reliability: Dict = None,
+                          outcome_meta: List[Dict] = None) -> str:
+        """Generate JavaScript for all plots.
+
+        outcome_meta: list of outcome dicts from the report (id, label,
+        axis_label, is_binary).  When None, falls back to legacy RT/ACC.
+        """
+        js = ""
+        if control_reliability is None:
+            control_reliability = {}
+        if outcome_meta is None:
+            # Legacy fallback
+            outcome_meta = [
+                {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+                {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+            ]
+        
+        # Color mapping — gold/bronze/amber palette for dark background
+        colors = {
+            'learning':    '#c9a227',
+            'control':     '#e5c158',
+            'encoding':    '#d4b44a',
+            'retrieval':   '#f0d060',
+            'study':       '#b8962e',
+            'test':        '#ffa726',
+            'generate':    '#e8c040',
+            'repeat':      '#cd9b2a',
+            'navigation':  '#f5d070',
+            'pointing':    '#c9a227',
+            '2back':       '#f0d060',
+            '0back':       '#b8962e',
+            'regulate':    '#e0b830',
+            'observe':     '#d4a820',
+            'incongruent': '#ffc040',
+            'congruent':   '#c9a227',
+            'all':         '#f0d060',
+        }
+        # Gold fill palette — semi-transparent versions for violin bodies
+        fills = {
+            'learning':    'rgba(201,162,39,0.22)',
+            'control':     'rgba(229,193,88,0.22)',
+            'encoding':    'rgba(212,180,74,0.22)',
+            'retrieval':   'rgba(240,208,96,0.22)',
+            'study':       'rgba(184,150,46,0.22)',
+            'test':        'rgba(255,167,38,0.22)',
+            'generate':    'rgba(232,192,64,0.22)',
+            'repeat':      'rgba(205,155,42,0.22)',
+            'navigation':  'rgba(245,208,112,0.22)',
+            'pointing':    'rgba(201,162,39,0.22)',
+            '2back':       'rgba(240,208,96,0.22)',
+            '0back':       'rgba(184,150,46,0.22)',
+            'regulate':    'rgba(224,184,48,0.22)',
+            'observe':     'rgba(212,168,32,0.22)',
+            'incongruent': 'rgba(255,192,64,0.22)',
+            'congruent':   'rgba(201,162,39,0.22)',
+            'all':         'rgba(240,208,96,0.22)',
+        }
+        
+        # ── Violin plots — one per visual outcome ────────────────────────────
+        for om in outcome_meta:
+            om_id    = om['id']
+            is_bin   = om.get('is_binary', False)
+            ax_label = om['axis_label']
+            div_id   = f"{proj_name}_{om_id.lower()}_violin"
+
+            traces = []
+            all_vals = []
+            for key, data in data_by_cond.items():
+                odata = data.get('outcomes', {}).get(om_id)
+                if odata is None:
+                    # Legacy fallback
+                    if om_id == 'RT':
+                        vals = data.get('rt_values', [])
+                    elif om_id in ('ACCBIN', 'ACC'):
+                        vals = data.get('subject_acc_percentages', [])
+                    else:
+                        continue
+                else:
+                    vals = odata['subject_pct'] if is_bin else odata['values']
+
+                if not vals:
+                    continue
+                all_vals.extend(vals)
+                trial_type = data['trial_type']
+                session    = data['session']
+                color      = colors.get(trial_type, '#f0d060')
+                fill_color = fills.get(trial_type, 'rgba(240,208,96,0.22)')
+                lbl        = f"{trial_type} (ses-{session})" if session != 'all' else trial_type
+                trace = {
+                    'y': vals, 'type': 'violin', 'name': lbl,
+                    'box': {'visible': True, 'fillcolor': color, 'line': {'color': color}},
+                    'meanline': {'visible': True, 'color': '#ffffff', 'width': 2},
+                    'fillcolor': fill_color,
+                    'opacity': 0.9,
+                    'marker': {'color': color, 'size': 4, 'opacity': 0.7,
+                               'line': {'color': '#1a1a1a', 'width': 0.5}},
+                    'line': {'color': color, 'width': 2},
+                    'points': 'all', 'jitter': 0.35, 'pointpos': 0,
+                }
+                if is_bin:
+                    trace.update({
+                        'spanmode': 'hard', 'bandwidth': 4,
+                        'points': 'all', 'jitter': 0.3, 'pointpos': 0,
+                        'marker': {'color': color, 'size': 5, 'opacity': 0.7,
+                                   'line': {'color': '#1a1a1a', 'width': 0.5}},
+                        'fillcolor': fill_color,
+                    })
+                traces.append(trace)
+
+            if not traces:
+                continue
+
+            if is_bin:
+                y_min = max(0,   min(all_vals) - 8) if all_vals else 0
+                y_max = min(105, max(all_vals) + 8) if all_vals else 105
+                range_str = f"[{y_min}, {y_max}]"
+            else:
+                if all_vals:
+                    q1  = float(np.percentile(all_vals, 25))
+                    q3  = float(np.percentile(all_vals, 75))
+                    iqr = q3 - q1
+                    y_min = max(0, q1 - 2.5 * iqr)
+                    y_max = q3 + 2.5 * iqr
+                else:
+                    y_min, y_max = 0, 2000
+                range_str = f"[{y_min:.0f}, {y_max:.0f}]"
+
+            js += f"""
+        var traces_{om_id} = {json.dumps(traces)};
+        var layout_{om_id} = {{
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {{color: '#d4b44a', size: 12}},
+            height: 420,
+            yaxis: {{
+                title: '{ax_label}',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {{color: '#d4b44a'}},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {{color: '#d4b44a', size: 14}},
+                range: {range_str}
+            }},
+            xaxis: {{gridcolor: "rgba(201, 162, 39, 0.25)", tickfont: {{color: '#d4b44a'}}, tickcolor: 'rgba(201, 162, 39, 0.5)'}},
+            showlegend: true,
+            legend: {{bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {{color: '#d4b44a'}},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1}},
+            violingap: 0.3, violinmode: 'group',
+            margin: {{l: 60, r: 30, t: 30, b: 50}}
+        }};
+        Plotly.newPlot('{div_id}', traces_{om_id}, layout_{om_id}, {{responsive: true}});
+"""
+
+        # ── Test-Retest Scatter — one plot per visual outcome ───────────────
+        all_rel = {**reliability, **control_reliability}
+        for om in outcome_meta:
+            om_id    = om['id'].lower()
+            ax_label = om['axis_label']
+            div_id   = f"{proj_name}_{om_id}_scatter"
+            scatter_data = []
+            all_scatter  = []
+            for trial_type, metrics in all_rel.items():
+                s1       = metrics.get(f'{om_id}_s1_means', [])
+                s2       = metrics.get(f'{om_id}_s2_means', [])
+                subj_ids = metrics.get(f'{om_id}_subjects', [])
+                ses_lbl  = metrics.get('session_labels', ['ses-1', 'ses-2'])
+                if not s1 or not s2:
+                    continue
+                color   = colors.get(trial_type, '#f0d060')
+                all_scatter.extend(s1 + s2)
+                # New schema (post-pingouin): bare ICC keys + CI bounds
+                # Fall back to legacy *_mean keys when working with old JSON
+                icc_val   = metrics.get(f'{om_id}_icc',          metrics.get(f'{om_id}_icc_mean'))
+                icc_a_val = metrics.get(f'{om_id}_icc_agreement', metrics.get(f'{om_id}_icc_agreement_mean'))
+                icc_clo   = metrics.get(f'{om_id}_icc_ci_low')
+                icc_chi   = metrics.get(f'{om_id}_icc_ci_high')
+                icc_aclo  = metrics.get(f'{om_id}_icc_agreement_ci_low')
+                icc_achi  = metrics.get(f'{om_id}_icc_agreement_ci_high')
+
+                def _fmt_icc(point, lo, hi):
+                    if point is None:
+                        return None
+                    s = f'{point:.2f}'
+                    if lo is not None and hi is not None:
+                        s += f' [{lo:.2f}, {hi:.2f}]'
+                    return s
+
+                icc_parts = []
+                a_str = _fmt_icc(icc_a_val, icc_aclo, icc_achi)
+                c_str = _fmt_icc(icc_val,   icc_clo,  icc_chi)
+                if a_str is not None:
+                    icc_parts.append(f'ICC(A)={a_str}')
+                if c_str is not None:
+                    icc_parts.append(f'ICC(C)={c_str}')
+                icc_str = '  ' + '  '.join(icc_parts) if icc_parts else ''
+                dec     = 1 if om.get('is_binary') else 0
+                hover   = [f'sub-{sid}<br>{ses_lbl[0]}: {x:.{dec}f}<br>{ses_lbl[1]}: {y:.{dec}f}'
+                           for sid, x, y in zip(subj_ids, s1, s2)]
+                scatter_data.append({
+                    'x': s1, 'y': s2, 'mode': 'markers',
+                    'name': f'{trial_type}{icc_str}', 'text': hover,
+                    'hovertemplate': '%{text}<extra></extra>',
+                    'marker': {'size': 10, 'color': color, 'opacity': 0.85,
+                               'line': {'width': 1, 'color': '#1a1a1a'}},
+                })
+
+            if scatter_data and all_scatter:
+                ax_min = max(0, min(all_scatter) * 0.92)
+                ax_max = max(all_scatter) * 1.08
+                ses_lbl = list(reliability.values())[0].get('session_labels', ['ses-1', 'ses-2']) if reliability else ['ses-1', 'ses-2']
+                scatter_data.append({
+                    'x': [ax_min, ax_max], 'y': [ax_min, ax_max],
+                    'mode': 'lines', 'name': 'Identity (perfect retest)',
+                    'line': {'color': 'rgba(201, 162, 39, 0.3)', 'width': 1.5, 'dash': 'dash'},
+                    'hoverinfo': 'skip',
+                })
+                js += f"""
+        var scatter_{om_id} = {json.dumps(scatter_data)};
+        var scatterLayout_{om_id} = {{
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {{color: '#d4b44a', size: 12}},
+            xaxis: {{
+                title: '{ax_label} — {ses_lbl[0]}',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {{color: '#d4b44a'}},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {{color: '#d4b44a', size: 13}},
+                range: [{ax_min:.1f}, {ax_max:.1f}]
+            }},
+            yaxis: {{
+                title: '{ax_label} — {ses_lbl[1]}',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {{color: '#d4b44a'}},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {{color: '#d4b44a', size: 13}},
+                range: [{ax_min:.1f}, {ax_max:.1f}],
+                zeroline: false
+            }},
+            showlegend: true,
+            legend: {{bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {{color: '#d4b44a'}},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1}},
+            hovermode: 'closest',
+            margin: {{l: 70, r: 30, t: 30, b: 60}}
+        }};
+        Plotly.newPlot('{div_id}', scatter_{om_id}, scatterLayout_{om_id}, {{responsive: true}});
+"""
+
+        # ── Radar helper — delegates to ReliabilityMetrics.build_radar_spokes ──
+        def _build_radar_js(rel_dict, div_id, color='#c9a227', fill='rgba(201, 162, 39, 0.18)',
+                            selected_metrics=None):
+            categories, values = ReliabilityMetrics.build_radar_spokes(rel_dict, selected_metrics)
+            if not categories:
+                return ''
+            categories.append(categories[0])
+            values.append(values[0])
+            radar_data = [{
+                'type': 'scatterpolar',
+                'r': values,
+                'theta': categories,
+                'fill': 'toself',
+                'fillcolor': fill,
+                'line': {'color': color, 'width': 3},
+                'marker': {'color': color, 'size': 10}
+            }]
+            return f"""
+        var radarData_{div_id} = {json.dumps(radar_data)};
+        var radarLayout_{div_id} = {{
+            polar: {{
+                bgcolor: 'rgba(15, 25, 20, 0.97)',
+                radialaxis: {{
+                    visible: true,
+                    range: [0, 1],
+                    gridcolor: "rgba(212, 180, 74, 0.25)",
+                    linecolor: "rgba(212, 180, 74, 0.35)",
+                    tickfont: {{color: 'rgba(212, 180, 74, 0.85)', size: 12}},
+                    tickcolor: "rgba(201, 162, 39, 0.5)"
+                }},
+                angularaxis: {{
+                    gridcolor: "rgba(45, 134, 89, 0.35)",
+                    linecolor: "rgba(212, 180, 74, 0.35)",
+                    tickfont: {{color: 'rgba(200, 230, 215, 0.9)', size: 13}}
+                }}
+            }},
+            plot_bgcolor: "rgba(15, 25, 20, 0.97)",
+            paper_bgcolor: "rgba(15, 25, 20, 0.97)",
+            font: {{color: 'rgba(212, 180, 74, 0.95)', size: 14}},
+            showlegend: false,
+            height: 800,
+            width: 1200,
+            margin: {{l: 140, r: 140, t: 100, b: 100}}
+        }};
+        Plotly.newPlot('{div_id}', radarData_{div_id}, radarLayout_{div_id}, {{responsive: true}});
+"""
+
+        # Task radar
+        if reliability:
+            js += _build_radar_js(reliability, f'{proj_name}_radar_task')
+
+        # Control / rest radar — different colour so it is visually distinct
+        if control_reliability:
+            js += _build_radar_js(control_reliability, f'{proj_name}_radar_control',
+                                  color='#ffa726', fill='rgba(255, 167, 38, 0.15)')
+        
+        # ── Learning-stage progression plots (individual project view only) ──
+        if learning_stage_data:
+            # Use proj_name prefix when available (dashboard mode), else bare ids
+            rt_div  = f"{proj_name}_stage_rt"  if proj_name else "stage_rt"
+            acc_div = f"{proj_name}_stage_acc" if proj_name else "stage_acc"
+
+            stage_colors = [
+                '#c9a227', '#f0d060', '#e5c158', '#ffa726',
+                '#b8962e', '#d4b44a', '#ffc040', '#e8c040'
+            ]
+
+            rt_stage_traces  = []
+            acc_stage_traces = []
+
+            for idx, (tt, stage_info) in enumerate(learning_stage_data.items()):
+                color = stage_colors[idx % len(stage_colors)]
+                stages = stage_info['stages']
+
+                # RT trace
+                rt_y    = [v if v is not None else 'null' for v in stage_info['rt_means']]
+                rt_err  = [v if v is not None else 0       for v in stage_info['rt_sems']]
+                if any(v != 'null' for v in rt_y):
+                    rt_stage_traces.append({
+                        'x': stages,
+                        'y': stage_info['rt_means'],
+                        'error_y': {'type': 'data', 'array': rt_err, 'visible': True,
+                                    'color': color, 'thickness': 1.5, 'width': 4},
+                        'mode': 'lines+markers',
+                        'name': tt,
+                        'line':   {'color': color, 'width': 2.5},
+                        'marker': {'color': color, 'size': 8},
+                    })
+
+                # ACC trace
+                acc_y   = [v if v is not None else 'null' for v in stage_info['acc_means']]
+                acc_err = [v if v is not None else 0       for v in stage_info['acc_sems']]
+                if any(v != 'null' for v in acc_y):
+                    acc_stage_traces.append({
+                        'x': stages,
+                        'y': stage_info['acc_means'],
+                        'error_y': {'type': 'data', 'array': acc_err, 'visible': True,
+                                    'color': color, 'thickness': 1.5, 'width': 4},
+                        'mode': 'lines+markers',
+                        'name': tt,
+                        'line':   {'color': color, 'width': 2.5},
+                        'marker': {'color': color, 'size': 8},
+                    })
+
+            shared_layout = {
+                'plot_bgcolor':  'rgba(15, 13, 7, 0.97)',
+                'paper_bgcolor': 'rgba(10, 9, 5, 0.95)',
+                'font': {'color': '#d4b44a', 'size': 12},
+                'xaxis': {'title': 'Learning Stage',
+                          'gridcolor': 'rgba(201, 162, 39, 0.25)',
+                          'tickfont': {'color': '#d4b44a'},
+                          'tickcolor': 'rgba(201, 162, 39, 0.5)',
+                          'titlefont': {'color': '#d4b44a', 'size': 14}},
+                'showlegend': True,
+                'legend': {'bgcolor': 'rgba(20, 18, 10, 0.97)',
+                           'font': {'color': '#d4b44a'},
+                           'bordercolor': 'rgba(201, 162, 39, 0.45)', 'borderwidth': 1},
+                'margin': {'l': 70, 'r': 30, 't': 30, 'b': 60},
+            }
+
+            if rt_stage_traces:
+                all_rt_stage = [v for t in rt_stage_traces for v in t['y'] if v is not None]
+                rt_y_pad = (max(all_rt_stage) - min(all_rt_stage)) * 0.12 if all_rt_stage else 100
+                rt_stage_y_min = max(0, min(all_rt_stage) - rt_y_pad) if all_rt_stage else 0
+                rt_stage_y_max = (max(all_rt_stage) + rt_y_pad)       if all_rt_stage else 2000
+                rt_layout = dict(shared_layout)
+                rt_layout['yaxis'] = {'title': 'Mean RT (ms)',
+                                      'gridcolor': 'rgba(201, 162, 39, 0.25)',
+                                      'tickfont': {'color': '#d4b44a'},
+                                      'tickcolor': 'rgba(201, 162, 39, 0.5)',
+                                      'range': [rt_stage_y_min, rt_stage_y_max],
+                                      'titlefont': {'color': '#d4b44a', 'size': 14}}
+                js += f"""
+        var stageRtTraces = {json.dumps(rt_stage_traces)};
+        var stageRtLayout = {json.dumps(rt_layout)};
+        Plotly.newPlot('{rt_div}', stageRtTraces, stageRtLayout, {{responsive: true}});
+"""
+
+            if acc_stage_traces:
+                acc_layout = dict(shared_layout)
+                acc_layout['yaxis'] = {'title': 'Mean Accuracy (%)',
+                                       'gridcolor': 'rgba(201, 162, 39, 0.25)',
+                                       'tickfont': {'color': '#d4b44a'},
+                                       'tickcolor': 'rgba(201, 162, 39, 0.5)',
+                                       'range': [0, 100],
+                                       'titlefont': {'color': '#d4b44a', 'size': 14}}
+                js += f"""
+        var stageAccTraces = {json.dumps(acc_stage_traces)};
+        var stageAccLayout = {json.dumps(acc_layout)};
+        Plotly.newPlot('{acc_div}', stageAccTraces, stageAccLayout, {{responsive: true}});
+"""
+
+        return js
+    
+    def save_dashboard(self, html_content: str, output_path: str = None):
+        """Save dashboard HTML"""
+        if output_path is None:
+            output_path = self.base_path / "multi_project_overview.html"
+        else:
+            output_path = Path(output_path)
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"\nDashboard saved: {output_path}")
+        return output_path
+    
+    def save_json_reports(self, all_reports: List[Dict]):
+        """Save all reports as JSON"""
+        output_path = self.base_path / "all_projects_data.json"
+        
+        with open(output_path, 'w') as f:
+            json.dump(all_reports, f, indent=2)
+        
+        print(f"JSON data saved: {output_path}")
+        return output_path
+    
+    def run(self):
+        """Run complete analysis - generate individual project reports"""
+        print("=" * 70)
+        print("Generating Individual Project Reports")
+        print("=" * 70)
+        
+        projects = self.find_projects()
+        
+        for project in projects:
+            report = self.analyze_project(project)
+            if report:
+                # Generate individual HTML
+                html = self.generate_project_html(report)
+                self.save_project_html(project, html)
+                
+                # Save individual JSON
+                self.save_project_json(project, report)
+        
+        print(f"\n✅ Reports generated for {len(projects)} projects!")
+        print("=" * 70)
+    
+    def load_bibliography(self, project_name: str) -> list:
+        """Load bibliography.json from the project folder.
+
+        Supports two formats:
+          v2  (recommended) — top-level 'publications' key containing an array of
+              self-contained publication objects, each with an optional 'key_findings'
+              sub-object.  Schema marker: '_schema': 'bibliography_json_v2'.
+
+          v1  (legacy) — flat dict with 'citation_1', 'citation_2', … sibling keys.
+              'key_findings' is a separate top-level key; its 'reliability' block is
+              merged into the first citation found so ICC values are not lost.
+
+        Returns a list of citation dicts (empty when file absent or unparseable).
+        """
+        bib_path = self.base_path / "Projects" / project_name / "bibliography.json"
+        if not bib_path.exists():
+            return []
+        try:
+            with open(bib_path, encoding="utf-8") as f:
+                raw = json.load(f)
+        except Exception as e:
+            print(f"  Could not read bibliography for {project_name}: {e}")
+            return []
+
+        # ── v2 format ────────────────────────────────────────────────────────
+        if "publications" in raw and isinstance(raw["publications"], list):
+            return [p for p in raw["publications"] if isinstance(p, dict)]
+
+        # ── v1 legacy format ─────────────────────────────────────────────────
+        citations = []
+        for key, value in raw.items():
+            if key.startswith("citation_") and isinstance(value, dict):
+                citations.append(value)
+
+        # Merge top-level key_findings.reliability into the first citation so
+        # ICC values are surfaced in the card even in the old layout.
+        if citations and "key_findings" in raw:
+            kf = raw["key_findings"]
+            if isinstance(kf, dict) and "reliability" in kf:
+                citations[0].setdefault("key_findings", {})["reliability"] = kf["reliability"]
+
+        return citations
+
+    def generate_project_html(self, report: Dict) -> str:
+        """Generate HTML for a single project"""
+        
+        proj_name = report['project_name']
+        proj_info = report['project_info']
+        demo = report['demographics']
+        data_by_cond = report['data_by_condition']
+        reliability = report['reliability_metrics']
+        control_reliability = report.get('control_reliability', {})
+
+        age_str = f"{demo['age_mean']:.1f} ± {demo['age_std']:.1f}" if demo['age_mean'] else "N/A"
+        sex_counts = demo['sex_distribution']
+        male_count = sex_counts.get('male', 0)
+        female_count = sex_counts.get('female', 0)
+        sex_str = f"{male_count}/{female_count}"
+
+        # Load optional bibliography
+        bibliography = self.load_bibliography(proj_name)
+        
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{proj_name} - Project Report</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
+            color: #d4b44a;
+            padding: 20px;
+        }}
+
+        .container {{ max-width: 1600px; margin: 0 auto; }}
+
+        .header {{
+            background: linear-gradient(135deg,
+                rgba(28, 26, 16, 0.97) 0%,
+                rgba(40, 37, 22, 0.98) 35%,
+                rgba(50, 46, 26, 0.99) 60%,
+                rgba(36, 33, 19, 0.98) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.65),
+                0 2px 8px rgba(201, 162, 39, 0.10),
+                inset 0 1px 0 rgba(255,255,255,0.95),
+                inset 0 -1px 0 rgba(201, 162, 39, 0.12);
+            border: 1px solid rgba(201, 162, 39, 0.40);
+            position: relative;
+        }}
+
+        .header::before {{
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #c9a227 20%, #f0d060 40%,
+                #e5c158 50%, #f0d060 60%, #c9a227 80%, #1a1a1a 100%);
+        }}
+
+        /* subtle metallic sheen overlay */
+        .header::after {{
+            content: '';
+            position: absolute;
+            top: 0; left: -60%; right: 0; bottom: 0;
+            background: linear-gradient(105deg,
+                transparent 40%,
+                rgba(255,255,255,0.22) 50%,
+                transparent 60%);
+            pointer-events: none;
+        }}
+
+        .project-name {{
+            background: linear-gradient(135deg,
+                #1a1a1a 0%, #2c2c2c 25%, #d4b44a 45%,
+                #c9a227 55%, #d4b44a 70%, #2c2c2c 85%, #1a1a1a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }}
+
+        .project-full-name {{
+            color: #a08840;
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            font-style: italic;
+        }}
+
+        .project-description {{
+            color: #a08840;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }}
+
+        .char-badges {{ display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }}
+        .char-badge {{
+            background: linear-gradient(135deg,
+                rgba(40, 36, 18, 0.96) 0%, rgba(35, 30, 14, 0.95) 100%);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88em;
+            border: 1px solid rgba(201, 162, 39, 0.50);
+            color: #8a6800;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(201, 162, 39, 0.15),
+                        inset 0 1px 0 rgba(255,255,255,0.8);
+        }}
+
+        /* ── Paradigm info panel ─────────────────────────────────────── */
+        .paradigm-panel {{
+            background: linear-gradient(135deg,
+                rgba(22, 20, 12, 0.97) 0%, rgba(30, 28, 15, 0.98) 50%, rgba(22, 20, 12, 0.97) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.30);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(201, 162, 39, 0.08),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }}
+
+        .paradigm-panel-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 36px;
+            margin-top: 16px;
+        }}
+
+        .paradigm-section-title {{
+            color: #c9a227;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.30);
+        }}
+
+        .paradigm-text {{
+            color: #b89a50;
+            font-size: 0.96em;
+            line-height: 1.65;
+        }}
+
+        .paradigm-full {{
+            grid-column: 1 / -1;
+        }}
+
+        .keyword-list {{
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;
+        }}
+
+        .keyword-chip {{
+            background: rgba(201, 162, 39, 0.10);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 0.82em;
+            color: #d4b44a;
+        }}
+
+        .timing-grid {{
+            display: flex; gap: 16px; flex-wrap: wrap;
+        }}
+
+        .timing-item {{
+            background: rgba(30, 28, 14, 0.90);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.85em;
+            color: #b89a50;
+        }}
+
+        .timing-item span {{
+            font-weight: 600;
+            color: #f0d060;
+        }}
+
+        .metrics-row {{
+            display: flex; gap: 30px; margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(201, 162, 39, 0.45);
+        }}
+        .metric-item {{ font-size: 1.05em; }}
+        .metric-label {{ color: #a08840; font-size: 0.9em; margin-right: 6px; }}
+        .metric-value {{
+            background: linear-gradient(135deg, #f0d060 0%, #c9a227 50%, #e5c158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }}
+
+        .charts-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }}
+
+        .chart-container {{
+            background: linear-gradient(135deg, rgba(20, 18, 12, 0.98) 0%, rgba(28, 25, 15, 0.99) 50%, rgba(20, 18, 12, 0.98) 100%);
+            padding: 25px; border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(201, 162, 39, 0.10);
+        }}
+
+        .chart-title {{
+            color: #c9a227; font-size: 1.3em; font-weight: 600;
+            margin-bottom: 15px; padding-bottom: 10px;
+            border-bottom: 2px solid rgba(201, 162, 39, 0.45);
+        }}
+
+        .full-width-container {{ grid-column: 1 / -1; }}
+
+        .radar-container {{
+            grid-column: 1 / -1;
+            width: 100%;
+        }}
+
+        /* ── Reliability explanation panel ─────────────────────────── */
+        .reliability-panel {{
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(12,11,6,0.98) 0%, rgba(20,18,10,0.99) 50%, rgba(12,11,6,0.98) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(201, 162, 39, 0.30);
+            box-shadow:
+                0 12px 40px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(201, 162, 39, 0.20),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }}
+
+        .reliability-panel::before {{
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #2c2c2c 20%, #c9a227 40%,
+                #3d3d3d 60%, #c9a227 80%, #2c2c2c 100%);
+        }}
+
+        .reliability-panel-header {{
+            padding: 32px 40px 24px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+        }}
+
+        .reliability-panel-title {{
+            background: linear-gradient(135deg,
+                #c9a227 0%, #2c2c2c 30%, #3d3d3d 60%, #c9a227 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }}
+
+        .reliability-panel-subtitle {{
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.9em;
+            margin-top: 6px;
+            font-style: italic;
+        }}
+
+        .metric-cards-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            padding: 32px 40px 40px;
+        }}
+
+        .metric-card {{
+            background: linear-gradient(160deg,
+                rgba(30,50,40,0.8) 0%,
+                rgba(20,38,30,0.9) 50%,
+                rgba(15,28,22,0.95) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-left: 3px solid #c9a227;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }}
+
+        .metric-card:hover {{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-left-color: #c9a227;
+        }}
+
+        .metric-card-header {{
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
+        }}
+
+        .metric-card-name {{
+            color: #f0d060;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }}
+
+        .metric-card-tagline {{
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.85em;
+            margin-top: 4px;
+            font-style: italic;
+        }}
+
+        .metric-card-body {{ padding: 16px 22px 20px; }}
+
+        .metric-card-points {{
+            list-style: none;
+            margin-bottom: 16px;
+        }}
+
+        .metric-card-points li {{
+            color: rgba(212, 190, 130, 0.9);
+            font-size: 0.9em;
+            line-height: 1.7;
+            padding-left: 16px;
+            position: relative;
+        }}
+
+        .metric-card-points li::before {{
+            content: '›';
+            position: absolute; left: 0;
+            color: #f0d060;
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }}
+
+        .formula-box {{
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(201, 162, 39, 0.45);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-family: 'Courier New', monospace;
+        }}
+
+        .formula-main {{
+            color: #f0d060;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }}
+
+        .formula-sub {{
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.78em;
+            display: block;
+            line-height: 1.6;
+        }}
+
+        .formula-range {{
+            color: #ffa726;
+            font-size: 0.82em;
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+        }}
+
+        .btn-container {{
+            display: flex;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }}
+
+        .btn-secondary {{
+            padding: 18px 35px;
+            border: 1px solid rgba(201, 162, 39, 0.50);
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                rgba(15,25,20,0.97) 0%,
+                rgba(30,50,40,0.95) 50%,
+                rgba(20,35,28,0.97) 100%
+            );
+            color: #f0d060;
+            min-width: 200px;
+            box-shadow:
+                0 4px 16px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(201, 162, 39, 0.20),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        }}
+
+        .btn-secondary:hover {{
+            background: linear-gradient(135deg,
+                rgba(20,35,28,0.98) 0%,
+                rgba(45,80,60,0.95) 50%,
+                rgba(30,50,40,0.98) 100%
+            );
+            border-color: #f0d060;
+            color: #f5e090;
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 24px rgba(201, 162, 39, 0.35),
+                inset 0 1px 0 rgba(201, 162, 39, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        }}
+
+        .btn-top-dashboard {{
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }}
+
+        .btn-top-dashboard:hover {{
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }}
+
+        /* ── Publications box ── */
+        .publications-box {{
+            background: linear-gradient(135deg,
+                rgba(20, 18, 10, 0.97) 0%,
+                rgba(28, 26, 14, 0.98) 35%,
+                rgba(32, 30, 16, 0.99) 60%,
+                rgba(22, 20, 12, 0.97) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.40);
+            border-radius: 15px;
+            padding: 30px 38px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(0, 0, 0, 0.55),
+                0 2px 6px rgba(201, 162, 39, 0.12),
+                inset 0 1px 0 rgba(201, 162, 39, 0.10),
+                inset 0 -1px 0 rgba(201, 162, 39, 0.08);
+        }}
+
+        .publications-box::before {{
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #c9a227 20%, #f0d060 40%,
+                #e5c158 50%, #f0d060 60%, #c9a227 80%, #1a1a1a 100%);
+        }}
+
+        /* metallic sheen */
+        .publications-box::after {{
+            content: '';
+            position: absolute;
+            top: 0; left: -60%; right: 0; bottom: 0;
+            background: linear-gradient(105deg,
+                transparent 40%,
+                rgba(255,255,255,0.18) 50%,
+                transparent 60%);
+            pointer-events: none;
+        }}
+
+        .publications-title {{
+            background: linear-gradient(135deg,
+                #c9a227 0%, #f0d060 30%, #e5c158 55%, #f0d060 75%, #c9a227 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3em;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+        }}
+
+        .pub-list {{
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }}
+
+        .pub-card {{
+            background: linear-gradient(135deg,
+                rgba(28, 26, 14, 0.98) 0%,
+                rgba(36, 33, 17, 0.99) 50%,
+                rgba(28, 26, 14, 0.98) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45),
+                        inset 0 1px 0 rgba(201, 162, 39, 0.08);
+        }}
+
+        .pub-card:hover {{
+            border-color: rgba(201, 162, 39, 0.55);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(201, 162, 39, 0.12);
+        }}
+
+        .pub-number {{
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2c2c2c 0%, #d4b44a 50%, #c9a227 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }}
+
+        .pub-content {{
+            flex: 1;
+            min-width: 0;
+        }}
+
+        .pub-title {{
+            color: #d4b44a;
+            font-size: 0.97em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }}
+
+        .pub-title a {{
+            color: inherit;
+            text-decoration: none;
+        }}
+
+        .pub-title a:hover {{
+            color: #f0d060;
+            text-decoration: underline;
+        }}
+
+        .pub-authors {{
+            color: #a08840;
+            font-size: 0.86em;
+            margin-bottom: 9px;
+            line-height: 1.5;
+        }}
+
+        .pub-meta {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }}
+
+        .pub-badge {{
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 500;
+            border: 1px solid;
+        }}
+
+        .pub-badge.journal {{
+            color: #c9a227;
+            border-color: rgba(201, 162, 39, 0.40);
+            background: linear-gradient(135deg,
+                rgba(30, 28, 14, 0.95) 0%,
+                rgba(40, 36, 16, 0.95) 100%);
+        }}
+
+        .pub-badge.year {{
+            color: #d4b44a;
+            border-color: rgba(201, 162, 39, 0.35);
+            background: linear-gradient(135deg,
+                rgba(28, 26, 12, 0.95) 0%,
+                rgba(38, 34, 14, 0.95) 100%);
+        }}
+
+        .pub-badge.doi {{
+            color: #b89a50;
+            border-color: rgba(201, 162, 39, 0.30);
+            background: linear-gradient(135deg,
+                rgba(25, 23, 10, 0.95) 0%,
+                rgba(35, 32, 13, 0.95) 100%);
+            text-decoration: none;
+        }}
+
+        a.pub-badge.doi:hover {{
+            color: #f0d060;
+            text-decoration: underline;
+        }}
+
+        .pub-badge.oa {{
+            color: #f0d060;
+            border-color: rgba(240, 208, 96, 0.35);
+            background: linear-gradient(135deg,
+                rgba(30, 26, 8, 0.95) 0%,
+                rgba(44, 38, 10, 0.95) 100%);
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
+            <div class="project-name">{proj_name}</div>
+            <div class="project-full-name">{proj_info['full_name']}</div>
+            {self._build_paradigm_panel(proj_info)}
+            <div class="metrics-row">
+                <div class="metric-item">
+                    <span class="metric-label">Participants:</span>
+                    <span class="metric-value">{demo['n_participants']}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Age:</span>
+                    <span class="metric-value">{age_str} years</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Male / Female:</span>
+                    <span class="metric-value">{sex_str}</span>
+                </div>
+            </div>
+        </div>
+"""
+
+        # ── Publications box (only rendered when bibliography.json exists) ──
+        if bibliography:
+            def _fmt_authors(authors: list) -> str:
+                """Return 'First Author et al.' for 4+ authors, else join all."""
+                if not authors:
+                    return "Unknown authors"
+                if len(authors) <= 3:
+                    return ", ".join(authors)
+                return f"{authors[0]} et al."
+
+            pub_cards_html = ""
+            # Sort newest-first, entries without a year go last
+            sorted_pubs = sorted(bibliography, key=lambda p: p.get("year") or 0, reverse=True)
+            for idx, pub in enumerate(sorted_pubs, start=1):
+                title   = pub.get("title", "Untitled")
+                authors = _fmt_authors(pub.get("authors", []))
+                journal = pub.get("journal", "")
+                year    = pub.get("year", "")
+                volume  = pub.get("volume", "")
+                pages   = pub.get("pages", "")
+                doi     = pub.get("doi", "")
+                oa      = pub.get("open_access", False)
+
+                # Journal + volume/pages string
+                journal_str = journal
+                if volume:
+                    journal_str += f", {volume}"
+                if pages:
+                    journal_str += f":{pages}"
+
+                # DOI link
+                doi_url = pub.get("url", f"https://doi.org/{doi}" if doi else "")
+                if doi_url:
+                    doi_html = f'<a class="pub-badge doi" href="{doi_url}" target="_blank" rel="noopener">DOI: {doi}</a>'
+                elif doi:
+                    doi_html = f'<span class="pub-badge doi">DOI: {doi}</span>'
+                else:
+                    doi_html = ""
+
+                oa_html = '<span class="pub-badge oa">Open Access</span>' if oa else ""
+
+                title_html = (
+                    f'<a href="{doi_url}" target="_blank" rel="noopener">{title}</a>'
+                    if doi_url else title
+                )
+
+                pub_cards_html += f"""
+                    <div class="pub-card">
+                        <div class="pub-number">{idx}</div>
+                        <div class="pub-content">
+                            <div class="pub-title">{title_html}</div>
+                            <div class="pub-authors">{authors}</div>
+                            <div class="pub-meta">
+                                {"" if not journal_str else f'<span class="pub-badge journal">{journal_str}</span>'}
+                                {"" if not year else f'<span class="pub-badge year">{year}</span>'}
+                                {doi_html}
+                                {oa_html}
+                            </div>
+                        </div>
+                    </div>"""
+
+            html += f"""
+        <div class="publications-box">
+            <div class="publications-title">Related Publications</div>
+            <div class="pub-list">{pub_cards_html}
+            </div>
+        </div>
+"""
+
+        html += """
+        <div class="charts-grid">
+"""
+
+        # ── Per-outcome plots — only for outcomes with actual data ─────────
+        om_meta_divs = report.get('outcome_measures') or [
+            {'id': 'RT',     'label': 'Reaction Time', 'axis_label': 'RT (ms)',      'is_binary': False},
+            {'id': 'ACCBIN', 'label': 'Accuracy',      'axis_label': 'Accuracy (%)', 'is_binary': True},
+        ]
+        def _has_data(om_id, is_bin, dbc):
+            for cond in dbc.values():
+                odata = cond.get('outcomes', {}).get(om_id)
+                if odata is not None:
+                    chk = odata.get('subject_pct', []) if is_bin else odata.get('values', [])
+                    if chk:
+                        return True
+                if om_id == 'RT' and cond.get('rt_values'):
+                    return True
+                if om_id in ('ACCBIN', 'ACC') and cond.get('subject_acc_percentages'):
+                    return True
+            return False
+
+        active_om = [o for o in om_meta_divs
+                     if _has_data(o['id'], o.get('is_binary', False), data_by_cond)]
+
+        for om in active_om:
+            oid  = om['id'].lower()
+            olbl = om['label']
+
+            # ── Build per-trial-type stats banner (F, p, α, paradigm ES) ──
+            banner_rows = []
+            for tt, m in (reliability or {}).items():
+                bits = []
+                def _n(v):
+                    try:
+                        f = float(v)
+                    except (TypeError, ValueError):
+                        return None
+                    return None if f != f else f          # NaN -> None
+                F   = _n(m.get(f'{oid}_icc_F')   or m.get(f'{oid}_icc_agreement_F'))
+                df1 = _n(m.get(f'{oid}_icc_df1') or m.get(f'{oid}_icc_agreement_df1'))
+                df2 = _n(m.get(f'{oid}_icc_df2') or m.get(f'{oid}_icc_agreement_df2'))
+                p   = _n(m.get(f'{oid}_icc_p')   or m.get(f'{oid}_icc_agreement_p'))
+                if F is not None and df1 is not None and df2 is not None:
+                    p_str = (f'p={p:.3f}' if (p is not None and p >= 1e-3)
+                             else (f'p={p:.1e}' if p is not None else ''))
+                    bits.append(f'F({int(df1)},{int(df2)})={F:.2f} {p_str}'.strip())
+                pes  = m.get(f'{oid}_paradigm_effect_size')
+                pesc = m.get(f'{oid}_paradigm_effect_size_contrast')
+                pesl = m.get(f'{oid}_paradigm_effect_size_ci_low')
+                pesh = m.get(f'{oid}_paradigm_effect_size_ci_high')
+                if pes is not None and not (isinstance(pes, float) and np.isnan(pes)):
+                    pes_str = f'g={pes:.2f}'
+                    if pesl is not None and pesh is not None and not np.isnan(pesl):
+                        pes_str += f' [{pesl:.2f}, {pesh:.2f}]'
+                    if pesc:
+                        pes_str += f' ({pesc})'
+                    bits.append(pes_str)
+                alpha = m.get(f'{oid}_cronbach_alpha')
+                a_n   = m.get(f'{oid}_cronbach_alpha_n_items')
+                if alpha is not None and not (isinstance(alpha, float) and np.isnan(alpha)):
+                    bits.append(f'α={alpha:.2f}' + (f' ({a_n} items)' if a_n else ''))
+                if bits:
+                    banner_rows.append(
+                        f'<span style="color:#c9a227; font-weight:600;">{tt}</span>'
+                        f'<span style="color:#a08840;"> · </span>'
+                        f'<span style="color:#c8b080;">{" · ".join(bits)}</span>'
+                    )
+            stats_banner = ''
+            if banner_rows:
+                stats_banner = (
+                    '<div class="stats-banner" style="font-size:0.78em; color:#a08840; '
+                    'padding:8px 14px; margin:-8px 0 12px 0; '
+                    'background:rgba(20,18,10,0.6); '
+                    'border-left:2px solid rgba(201,162,39,0.4); '
+                    'border-radius:4px; line-height:1.7;">'
+                    + '<br>'.join(banner_rows) +
+                    '</div>'
+                )
+
+            html += f"""
+            <div class="chart-container">
+                <div class="chart-title">{olbl} Distribution</div>
+                <div id="{proj_name}_{oid}_violin"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">{olbl} Test-Retest (mean per subject)</div>
+                {stats_banner}
+                <div id="{proj_name}_{oid}_scatter"></div>
+            </div>
+"""
+
+        # ── Learning-stage progression (full-width, before radar) ─────────
+        if report.get('learning_stage_data'):
+            html += f"""
+            <div class="chart-container">
+                <div class="chart-title">RT Progression across Learning Stages</div>
+                <div id="{proj_name}_stage_rt"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Accuracy Progression across Learning Stages</div>
+                <div id="{proj_name}_stage_acc"></div>
+            </div>
+"""
+
+        # ── Reliability radars (full-width) ──────────────────────────────
+        if reliability:
+            html += f"""
+            <div class="chart-container full-width-container">
+                <div class="chart-title">Reliability Metrics Radar — Task Conditions</div>
+                <div id="{proj_name}_radar_task"></div>
+            </div>
+"""
+        if control_reliability:
+            html += f"""
+            <div class="chart-container full-width-container">
+                <div class="chart-title">Reliability Metrics Radar — Control / Rest Conditions</div>
+                <div id="{proj_name}_radar_control"></div>
+            </div>
+"""
+
+        # ── Reliability explanation panel removed — now lives in the main dashboard ──
+
+        html += """
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="btn-container">
+            <a href="../../dashboard.html" class="btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+"""
+        html += self._generate_plots_js(proj_name, data_by_cond, reliability,
+                                        report['trial_types'],
+                                        report.get('learning_stage_data', {}),
+                                        control_reliability,
+                                        outcome_meta=active_om)
+        html += """
+    </script>
+</body>
+</html>"""
+        return html
+    
+    def save_project_html(self, project_name: str, html_content: str):
+        """Save project HTML report"""
+        output_path = self.base_path / "Projects" / project_name / f"{project_name}_overview.html"
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"  Saved HTML: {output_path}")
+        return output_path
+    
+    def save_project_json(self, project_name: str, report: Dict):
+        """Save project JSON report"""
+        output_path = self.base_path / "Projects" / project_name / f"{project_name}_data.json"
+        
+        with open(output_path, 'w') as f:
+            json.dump(report, f, indent=2)
+        
+        print(f"  Saved JSON: {output_path}")
+        return output_path
+
+
+def main():
+
+    _SCRIPT_DIR = Path(__file__).resolve().parent          # → .../BEEHub/code/
+    _DEFAULT_BASE = _SCRIPT_DIR.parent                    # → .../BEEHub/
+    
+    if len(sys.argv) > 1:
+        base_path = sys.argv[1]
+        print(base_path)
+    else:
+        base_path = str(_DEFAULT_BASE)
+        
+    
+    generator = ProjectOverviewGenerator(base_path)
+    generator.run()
+
+
+if __name__ == "__main__":
+    main()

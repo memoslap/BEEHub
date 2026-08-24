@@ -256,7 +256,6 @@ class InteractiveDashboard:
             ('_pearson_r_mean',         'pearson_r'),
             ('_pearson_r',              'pearson_r'),
             ('_cohens_d_mean',          'cohens_d'),
-            ('_accuracy_percent_mean',  'accuracy_percent'),
             ('_icc_mean',               'icc'),
             ('_icc',                    'icc'),
             ('_cv_mean',                'cv'),
@@ -285,28 +284,6 @@ class InteractiveDashboard:
             p = (prefix or '').lower()
             return p in {'acc', 'accbin', 'accuracy', 'accuracy_binary'}
 
-        def _derive_accuracy_percent(metrics_dict: dict, prefix: str) -> Optional[float]:
-            """Return mean accuracy (%) from new scalar keys or legacy s1/s2 arrays."""
-            scalar = metrics_dict.get(f'{prefix}_accuracy_percent_mean')
-            if scalar is not None and not isinstance(scalar, (list, dict, str, bool)):
-                try:
-                    val = float(scalar)
-                    if val == val:  # not NaN
-                        return val
-                except Exception:
-                    pass
-            vals = []
-            for key in (f'{prefix}_s1_means', f'{prefix}_s2_means'):
-                arr = metrics_dict.get(key)
-                if isinstance(arr, list):
-                    vals.extend([float(x) for x in arr if x is not None])
-            if not vals:
-                return None
-            # Treat only bounded 0/1-like outcome means as binary accuracy.
-            if all(0.0 <= x <= 1.0 for x in vals):
-                return float(np.mean(vals) * 100.0)
-            return None
-
         def _collect(metrics_dict: dict, raw: dict):
             for k, v in metrics_dict.items():
                 # Only collect numeric scalars — skip lists/dicts/strings
@@ -319,22 +296,6 @@ class InteractiveDashboard:
                     continue
                 short_key, _short = cls
                 raw.setdefault(short_key, []).append(float(v))
-
-            # Legacy JSONs may not contain *_accuracy_percent_mean yet. Derive
-            # it from the paired session means so binary accuracy can appear as
-            # Accuracy % instead of an empty/misleading Accuracy CV slider.
-            prefixes = set()
-            for k in metrics_dict.keys():
-                if k.endswith('_s1_means'):
-                    prefixes.add(k[:-len('_s1_means')])
-                elif k.endswith('_accuracy_percent_mean'):
-                    prefixes.add(k[:-len('_accuracy_percent_mean')])
-            for prefix in prefixes:
-                if not _is_binary_accuracy_prefix(prefix):
-                    continue
-                pct = _derive_accuracy_percent(metrics_dict, prefix)
-                if pct is not None:
-                    raw.setdefault(f'{prefix}_accuracy_percent', []).append(pct)
 
         for project in self.all_projects:
             demo = project.get('demographics', {})
@@ -371,8 +332,6 @@ class InteractiveDashboard:
                 vals = raw.get(short, [])
                 if short.endswith('_cv'):
                     lo, hi = _rng_cv(vals)
-                elif short.endswith('_accuracy_percent'):
-                    lo, hi = _rng_cv(vals)  # percentage scale, 0–100
                 elif short.endswith('_cohens_d') or short.endswith('_session_shift_d'):
                     lo, hi = _rng_d(vals)
                 elif short.endswith('_paradigm_effect_size'):
@@ -2038,15 +1997,25 @@ class InteractiveDashboard:
                             <option value="cv">Within-session CV</option>
                         </select>
                     </div>
-                    <div style="display:flex; flex-direction:column; gap:4px;">
+                    <div id="dataSourceGroup" style="display:flex; flex-direction:column; gap:4px;">
                         <span style="font-size:0.78em; color:#a08840; text-transform:uppercase; letter-spacing:0.4px;">Data Source</span>
                         <div style="display:flex; gap:8px; align-items:center; padding-top:2px;">
                             <label class="radio-pill"><input type="radio" name="radarSource" value="task" checked onchange="onSelectionChange()"> Task only</label>
-                            <label class="radio-pill"><input type="radio" name="radarSource" value="control" onchange="onSelectionChange()"> Control only</label>
-                            <label class="radio-pill"><input type="radio" name="radarSource" value="both" onchange="onSelectionChange()"> Both (separate)</label>
+                            <label id="radarSourceControlPill" class="radio-pill"><input type="radio" name="radarSource" value="control" onchange="onSelectionChange()"> Control only</label>
+                            <label id="radarSourceBothPill" class="radio-pill"><input type="radio" name="radarSource" value="both" onchange="onSelectionChange()"> Both (separate)</label>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span style="font-size:0.78em; color:#a08840; text-transform:uppercase; letter-spacing:0.4px;">Compare By</span>
+                        <div style="display:flex; gap:8px; align-items:center; padding-top:2px;">
+                            <label class="radio-pill" title="Each project's own primary/secondary outcome. Works for every paradigm.">
+                                <input type="radio" name="cmpKeying" value="role" checked onchange="onSelectionChange()"> Role (primary / secondary)</label>
+                            <label class="radio-pill" title="Raw outcome names. Only valid where the construct is genuinely the same across projects.">
+                                <input type="radio" name="cmpKeying" value="outcome" onchange="onSelectionChange()"> Outcome (RT / Accuracy)</label>
                         </div>
                     </div>
                 </div>
+                <div id="roleMappingNote" style="font-size:0.78em;color:#a08840;margin-top:10px;"></div>
             </div>
 
             <!-- ── 2. Metric range sliders ── -->
@@ -2548,44 +2517,108 @@ class InteractiveDashboard:
                keysTpl: ['{{p}}_cohens_d_mean',        '{{p}}_session_shift_d'],
                hidden: true }},
         ];
-        function _getOutcomePrefixes() {{
+        // ── ROLE vs OUTCOME keying ───────────────────────────────────────────
+        //
+        // The radar/sliders used to be keyed on OUTCOME IDs ('rt', 'accbin'),
+        // discovered from DATA_RANGES. That is not a generalisation — it only
+        // worked because most projects happen to NAME their outcomes the same
+        // way. A paradigm whose headline measure is a flow index, a d-prime or
+        // a distance error simply had no place on the radar.
+        //
+        // Default is now ROLE keying: every project declares which of ITS
+        // outcomes is primary and which is secondary, and the project layer
+        // mirrors that outcome's metrics under primary_* / secondary_* keys.
+        // So the dashboard compares primary-to-primary, whatever each project
+        // actually measures.
+        //
+        // 'outcome' mode is kept for the narrower like-for-like question
+        // ("RT reliability in STROOP vs NBACK"), which is only valid when the
+        // constructs genuinely match. It is a secondary view, not the default.
+        const ROLE_PREFIXES = ['primary', 'secondary'];
+
+        function _compareMode() {{
+            const el = document.querySelector('input[name="cmpKeying"]:checked');
+            return el ? el.value : 'role';
+        }}
+        function _rolePrefixesPresent() {{
+            const present = new Set();
+            Object.keys(DATA_RANGES).forEach(k => {{
+                const m = k.match(/^task_(.+?)_icc_min$/);
+                if (m && ROLE_PREFIXES.includes(m[1])) present.add(m[1]);
+            }});
+            return ROLE_PREFIXES.filter(r => present.has(r));
+        }}
+        function _outcomePrefixesPresent() {{
+            // Paradigm-specific outcomes (is_global=false) are excluded from the
+            // OUTCOME view — comparing 'FlowIndex_Likert α' against 'RT α' in raw
+            // outcome space is meaningless. They are still fully compared, but in
+            // the ROLE view, where that comparison is well defined.
+            const specific = new Set();
+            (typeof allProjects !== 'undefined' ? allProjects : []).forEach(p => {{
+                (p.outcome_measures || []).forEach(om => {{
+                    if (om.is_global === false) specific.add((om.id || '').toLowerCase());
+                }});
+            }});
             const prefixes = new Set();
             Object.keys(DATA_RANGES).forEach(k => {{
                 const m = k.match(/^task_(.+?)_icc_min$/);
-                if (m) prefixes.add(m[1]);
+                if (m && !ROLE_PREFIXES.includes(m[1]) && !specific.has(m[1])) prefixes.add(m[1]);
             }});
-            if (prefixes.size === 0) ['rt', 'acc'].forEach(p => prefixes.add(p));
             return [...prefixes];
         }}
+        function _getOutcomePrefixes() {{
+            if (_compareMode() === 'role') {{
+                const roles = _rolePrefixesPresent();
+                if (roles.length) return roles;
+            }}
+            const outs = _outcomePrefixesPresent();
+            if (outs.length) return outs;
+            return ['rt', 'acc'];
+        }}
         function _humanLabel(oid) {{
-            const MAP = {{ rt:'RT', acc:'Accuracy', accbin:'Accuracy',
+            const MAP = {{ primary:'Primary outcome', secondary:'Secondary outcome',
+                           rt:'RT', acc:'Accuracy', accbin:'Accuracy',
                            score:'Score', dist:'Distance', freq:'Frequency' }};
             return MAP[oid] || oid.toUpperCase();
         }}
+        /** For a role prefix: "OLM=Accuracy · STROOP=Accuracy · FLOW=Flow Index — Likert". */
+        function _roleMapping(prefix) {{
+            if (!ROLE_PREFIXES.includes(prefix)) return '';
+            const parts = [];
+            (typeof filteredProjects !== 'undefined' ? filteredProjects : []).forEach(p => {{
+                const rm = (p.role_map || {{}})[prefix];
+                if (rm) parts.push(p.project_name + '=' + (rm.label || rm.outcome_id));
+            }});
+            return parts.join(' · ');
+        }}
         function _isBinaryAccuracyPrefix(oid) {{
             const p = (oid || '').toLowerCase();
+            if (ROLE_PREFIXES.includes(p)) {{
+                // A role is "binary" only if EVERY project filling that role uses a
+                // binary outcome; otherwise CV is meaningful for at least one of them.
+                const projs = (typeof allProjects !== 'undefined' ? allProjects : []);
+                const rms = projs.map(pr => (pr.role_map || {{}})[p]).filter(Boolean);
+                return rms.length > 0 && rms.every(rm => rm.is_binary === true);
+            }}
             return ['acc', 'accbin', 'accuracy', 'accuracy_binary'].includes(p);
         }}
         function _meanNumeric(values) {{
             const nums = (values || []).filter(v => v !== null && v !== undefined && !Number.isNaN(Number(v))).map(Number);
             return nums.length ? nums.reduce((a,b) => a+b, 0) / nums.length : null;
         }}
-        function _accuracyPercentFromMetrics(metrics, prefix) {{
-            const direct = metrics[prefix + '_accuracy_percent_mean'];
-            if (direct !== null && direct !== undefined && !Number.isNaN(Number(direct))) return Number(direct);
+        function _collectCv(reliabilityDict, oid) {{
+            // Return an array of CV values for the given outcome prefix from one project's reliability dict.
+            // Only populated for continuous outcomes — binary accuracy has no CV stored.
+            const cvKey = oid + '_cv_mean';
             const vals = [];
-            [prefix + '_s1_means', prefix + '_s2_means'].forEach(k => {{
-                const arr = metrics[k];
-                if (Array.isArray(arr)) arr.forEach(v => {{ if (v !== null && v !== undefined) vals.push(Number(v)); }});
-            }});
-            if (!vals.length || !vals.every(v => v >= 0 && v <= 1)) return null;
-            return _meanNumeric(vals) * 100;
+            for (const metrics of Object.values(reliabilityDict || {{}})) {{
+                const v = metrics[cvKey];
+                if (v !== null && v !== undefined) vals.push(Number(v));
+            }}
+            return vals;
         }}
         function _valueFromMetricObject(metrics, spec) {{
             if (!metrics) return null;
-            if (spec.valueKind === 'accuracy_percent') {{
-                return _accuracyPercentFromMetrics(metrics, spec.prefix);
-            }}
             for (const k of (spec.keys || [])) {{
                 const v = metrics[k];
                 if (v !== null && v !== undefined && !Array.isArray(v) && typeof v !== 'object') return Number(v);
@@ -2605,28 +2638,22 @@ class InteractiveDashboard:
               .filter(ms => !ms.hidden)
               .map(ms => ({{
                 id: ms.metricId, label: ms.label,
-                sliders: prefixes.map(p => {{
-                    if (ms.metricId === 'cv' && _isBinaryAccuracyPrefix(p)) {{
-                        return {{
-                            sid:      p + '_accuracy_percent',
-                            label:    _humanLabel(p) + ' (%)',
-                            keys:     [p + '_accuracy_percent_mean'],
-                            valueKind:'accuracy_percent',
-                            prefix:   p,
-                            step:     0.5,
-                            decimals: 1,
-                            displayMetricLabel: 'Accuracy percentage',
-                            normalise: v => Math.max(0, Math.min(1, v / 100)),
-                        }};
-                    }}
-                    return {{
+                sliders: prefixes
+                    .filter(p => {{
+                        // CV metric is only meaningful for continuous outcomes.
+                        // Skip entirely for binary accuracy prefixes.
+                        if (ms.metricId === 'cv' && _isBinaryAccuracyPrefix(p)) return false;
+                        return true;
+                    }})
+                    .map(p => ({{
                         sid:      p + ms.suffix,
+                        prefix:   p,
                         label:    _humanLabel(p) + ' ' + ms.label,
                         keys:     ms.keysTpl.map(t => t.replace('{{p}}', p)),
                         step:     ms.step,
                         decimals: ms.decimals,
-                    }};
-                }}).filter(sl => _sliderHasAnyRange(sl.sid)),
+                    }}))
+                    .filter(sl => _sliderHasAnyRange(sl.sid)),
             }}))
               .filter(metric => metric.sliders.length > 0);
         }}
@@ -2902,44 +2929,18 @@ class InteractiveDashboard:
                     ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
                     : '';
 
-                // Dashboard variability/performance card.
-                // Continuous primary outcomes use CV. Binary accuracy uses mean
-                // Accuracy % instead of accbin_cv_mean, because binary CV is a
-                // deterministic function of the accuracy mean.
-                const _collectCv = (oid) => {{
-                    const cvKey = oid + '_cv_mean';
-                    const vals = [];
-                    for (const metrics of Object.values(reliability)) {{
-                        const v = metrics[cvKey];
-                        if (v !== null && v !== undefined) vals.push(Number(v));
-                    }}
-                    return vals;
-                }};
-                const _collectAccuracyPct = (oid) => {{
-                    const vals = [];
-                    for (const metrics of Object.values(reliability)) {{
-                        const pct = _accuracyPercentFromMetrics(metrics, oid);
-                        if (pct !== null && pct !== undefined) vals.push(Number(pct));
-                    }}
-                    return vals;
-                }};
-                let cardValue = 'N/A';
-                let cardLabel = primaryLabel + ' CV';
-                let cardTitle = 'Mean within-subject CV for continuous outcomes; binary accuracy is displayed as Accuracy %';
-                if (_isBinaryAccuracyPrefix(primaryId)) {{
-                    const accVals = _collectAccuracyPct(primaryId);
-                    if (accVals.length > 0) {{
-                        cardValue = (accVals.reduce((a,b) => a+b) / accVals.length).toFixed(2);
-                        cardLabel = primaryLabel + ' %';
-                    }}
-                }} else {{
-                    let allCvs = _collectCv(primaryId);
+                // Dashboard variability card — only for continuous primary outcomes.
+                // Binary accuracy: no CV card (Bernoulli CV is not meaningful).
+                // The ICC card above already reflects accuracy reliability fully.
+                let cardHtml = '';
+                if (!_isBinaryAccuracyPrefix(primaryId)) {{
+                    let allCvs = _collectCv(reliability, primaryId);
                     let cvOutcomeLabel = primaryLabel;
                     if (allCvs.length === 0) {{
                         for (const om of outcomeMeasures) {{
                             const oid = (om.id || '').toLowerCase();
                             if (!oid || oid === primaryId || _isBinaryAccuracyPrefix(oid)) continue;
-                            const vals = _collectCv(oid);
+                            const vals = _collectCv(reliability, oid);
                             if (vals.length > 0) {{
                                 allCvs = vals;
                                 cvOutcomeLabel = om.label || oid.toUpperCase();
@@ -2948,8 +2949,12 @@ class InteractiveDashboard:
                         }}
                     }}
                     if (allCvs.length > 0) {{
-                        cardValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
-                        cardLabel = cvOutcomeLabel + ' CV';
+                        const cvValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
+                        cardHtml = `
+                            <div class="stat-item" title="Mean within-subject CV for task trials">
+                                <div class="stat-value">${{cvValue}}%</div>
+                                <div class="stat-label">${{cvOutcomeLabel}} CV<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
+                            </div>`;
                     }}
                 }}
                 
@@ -2977,10 +2982,7 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
                                 <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
-                            <div class="stat-item" title="${{cardTitle}}">
-                                <div class="stat-value">${{cardValue !== 'N/A' ? cardValue + '%' : 'N/A'}}</div>
-                                <div class="stat-label">${{cardLabel}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
-                            </div>
+                            ${{cardHtml}}
                         </div>
                         <div class="project-actions">
                             <a href="Projects/${{project.project_name}}/${{project.project_name}}_overview.html" class="project-link">View Details</a>
@@ -3001,7 +3003,6 @@ class InteractiveDashboard:
             cohens_d:               v => Math.max(0, Math.min(1, 1 - Math.min(Math.abs(v), 2) / 2)),  // legacy alias
             paradigm_effect_size:   v => Math.max(0, Math.min(1, Math.abs(v) / 1.5)),  // |g|/1.5, capped
             cv:                     v => Math.max(0, Math.min(1, 1 - v / 50)),
-            accuracy_percent:       v => Math.max(0, Math.min(1, v / 100)),
         }};
         function _buildMetricRegistry() {{
             const prefixes = _getOutcomePrefixes();
@@ -3103,6 +3104,58 @@ class InteractiveDashboard:
         }};
 
         /** Called when radar metric or source changes — rebuild sliders then re-filter and re-chart. */
+        /** Does ONE project carry real (non-empty, numeric) control-condition data? */
+        function _projectHasControl(p) {{
+            const ctrl = (p && p.control_reliability) || {{}};
+            return Object.values(ctrl).some(cell =>
+                cell && Object.values(cell).some(v =>
+                    v !== null && v !== undefined &&
+                    !Array.isArray(v) && typeof v !== 'object' &&
+                    !(typeof v === 'number' && Number.isNaN(v))
+                ));
+        }}
+
+        /**
+         * The Task/Control/Both switch is meaningful only when EVERY currently
+         * filtered project has control data. If even one lacks it (e.g. FLOW,
+         * which has no control conditions), a "Control" or "Both" view would be
+         * comparing radars built from different underlying sets — some projects
+         * silently falling back to their task data — which is misleading. So the
+         * rule is ALL, not ANY: the switch appears only when the whole filtered
+         * set is control-bearing.
+         */
+        function _filteredHaveControl() {{
+            const src = (typeof filteredProjects !== 'undefined' ? filteredProjects : []);
+            return src.length > 0 && src.every(_projectHasControl);
+        }}
+
+        /**
+         * Show the Task / Control / Both switch ONLY when at least one filtered
+         * project has real control data. When none does (e.g. FLOW alone), the
+         * whole switch is hidden and the radar silently uses task data — there
+         * is no task/control distinction to offer, so offering it would mislead.
+         * If a now-hidden option was selected, fall back to 'task'.
+         */
+        function updateDataSourceAvailability() {{
+            const group    = document.getElementById('dataSourceGroup');
+            const ctrlPill = document.getElementById('radarSourceControlPill');
+            const bothPill = document.getElementById('radarSourceBothPill');
+            if (!group) return;
+
+            const haveControl = _filteredHaveControl();
+            group.style.display = haveControl ? '' : 'none';
+            if (ctrlPill) ctrlPill.style.display = haveControl ? '' : 'none';
+            if (bothPill) bothPill.style.display = haveControl ? '' : 'none';
+
+            if (!haveControl) {{
+                const cur = document.querySelector('input[name="radarSource"]:checked');
+                if (cur && cur.value !== 'task') {{
+                    const taskRadio = document.querySelector('input[name="radarSource"][value="task"]');
+                    if (taskRadio) taskRadio.checked = true;
+                }}
+            }}
+        }}
+
         function onSelectionChange() {{
             rebuildSliders();
             applyFilters();   // applyFilters calls updateCharts internally
@@ -3115,6 +3168,31 @@ class InteractiveDashboard:
          * For a single metric: 2 radars (RT + Acc) or 4 (both).
          */
         function updateCharts() {{
+            // Adapt the Task/Control/Both switch to the FILTERED set. Runs here
+            // because filteredProjects is only assigned during applyFilters(),
+            // which calls this — so this is the first point the current
+            // selection is known, and it also covers the initial page load.
+            updateDataSourceAvailability();
+            // Header note: what "primary"/"secondary" resolve to in each project.
+            const noteEl = document.getElementById('roleMappingNote');
+            if (noteEl) {{
+                if (_compareMode() === 'role') {{
+                    const bits = ROLE_PREFIXES
+                        .map(r => {{ const m = _roleMapping(r);
+                                     return m ? '<b>' + _humanLabel(r) + ':</b> ' + m : ''; }})
+                        .filter(Boolean);
+                    noteEl.innerHTML = bits.length
+                        ? bits.join('<br>')
+                          + '<br><span style="color:#8a7332;">Each project defines its own hierarchy; '
+                          + 'the radars compare role-to-role, so paradigms measuring different things '
+                          + 'in different units remain comparable.</span>'
+                        : '';
+                }} else {{
+                    noteEl.innerHTML = '<span style="color:#8a7332;">Raw-outcome view: only valid where the '
+                        + 'construct is genuinely the same across projects. Paradigm-specific outcomes are '
+                        + 'omitted here — switch to Role to include them.</span>';
+                }}
+            }}
             const selectedMetric = document.getElementById('radarMetricFilter').value;
             const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
             const isBoth         = selectedSource === 'both';
@@ -3144,15 +3222,23 @@ class InteractiveDashboard:
                         if (!_rangeExists(src.key, sl.sid)) continue;
                         const divId = 'radar_' + sl.sid + '_' + src.key;
                         const metricTitle = sl.displayMetricLabel || metric.label;
+                        // Naming the role is not enough — the reader must be able to
+                        // see WHICH outcome each project contributed, or the radar is
+                        // uninterpretable ("primary ICC" of what, exactly?).
+                        const mapping = _roleMapping(sl.prefix || '');
+                        const mapHtml = mapping
+                            ? '<div style="font-size:0.72em;color:#a08840;font-weight:400;margin-top:2px;">' + mapping + '</div>'
+                            : '';
                         const title = metricTitle + ' — ' + sl.label
-                              + ' <span style="font-size:0.78em;color:#a08840;">(' + src.label + ')</span>';
+                              + ' <span style="font-size:0.78em;color:#a08840;">(' + src.label + ')</span>'
+                              + mapHtml;
                         radarDefs.push({{ divId, reg, sl, useControl: src.useControl, title }});
                     }}
                 }}
             }}
 
             if (radarDefs.length === 0) {{
-                container.innerHTML = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No radar can be drawn for this metric/source combination. Binary accuracy is displayed as Accuracy % rather than CV.</div>';
+                container.innerHTML = '<div style="color:#a08840;font-size:0.9em;padding:10px 0;">No radar can be drawn for this metric/source combination. CV is only available for continuous outcomes.</div>';
                 return;
             }}
 

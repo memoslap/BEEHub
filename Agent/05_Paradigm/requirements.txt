@@ -1,0 +1,28 @@
+# BEEHub converter — pip deps for tooling and (optionally) the generated experiments.
+#
+# SOURCE OF TRUTH FOR THE ENVIRONMENT IS Agent/psychopy.yml (conda/mamba), NOT this file.
+# PsychoPy on Linux is installed via conda-forge in the `psychopy` env because the pip build
+# pulls system libraries (wxPython/pyglet) that don't install cleanly. Rebuild with:
+#     mamba env create -f Agent/psychopy.yml     # or: mamba env update -f Agent/psychopy.yml
+#
+# The `claude` CLI is installed separately (native installer:
+#   curl -fsSL https://claude.ai/install.sh | bash) and is NOT a pip package.
+# The `anthropic` / `langchain-anthropic` SDKs are intentionally OMITTED: AppHubAI is
+# OpenAI-compatible and the pipeline talks to the model only through the `claude` CLI.
+#
+# Keep this file only for pure-Python tooling that isn't already in psychopy.yml. If psychopy.yml
+# already provides psychopy/pygame, you do NOT need to pip-install them here.
+
+# --- experiment runtimes (prefer conda-forge via psychopy.yml; listed here only as a fallback) ---
+# psychopy>=2024.1.0        # install via conda-forge, not pip, if possible
+# pygame>=2.5.0
+
+# --- config / data ---
+pyyaml>=6.0
+
+# --- dev / quality tooling ---
+pytest>=8.0.0
+black>=24.0.0
+
+# --- optional: uncomment when you move to template-based generation (plan §1) ---
+# jinja2>=3.1.0

@@ -1,0 +1,138 @@
+================================================================================
+Per-Block Structure & Trial Counts: go_nogo_compiledData.csv
+================================================================================
+
+OVERVIEW
+  6 participants × 8 blocks each = 48 participant-block pairs
+  23 040 total rows
+  Block numbers: 4, 5, 7, 8, 10, 11, 13, 14 (gaps: 1, 2, 3, 6, 9, 12, 15)
+    → Only even-numbered blocks from 4–14, skipping 6 and 9.
+      Likely indicates blocks 1–3 and 6, 9 were either practice / exclusion
+      blocks not included in this compiled file, or are used in other
+      tasks/projects.
+
+BLOCK LABELS vs. SEQUENCE
+  Block numbers are not sequential 1–8. They are labelled 4, 5, 7, 8,
+  10, 11, 13, 14 — suggesting each block may be a "run" within a larger
+  experimental session with gaps (possibly for breaks, other tasks, or
+  stimulus presentation structure).  Whether these correspond to a
+  known design (e.g., 8 runs interleaved with other stimuli) is a
+  question for the experimental protocol.
+
+TRIAL_COUNT COLUMN
+  Column "trials_count" = 60 for every single row across all 48 blocks.
+  Actual row counts per block range 433–524.
+  → trials_count does NOT reflect the number of data rows in the block.
+    Likely denotes the number of trials per trial_type level in the
+    original design (60 go + 60 nogo = 120 design trials per block),
+    but the compiled file contains many rows per trial — likely
+    fixation / fixation cross / stimulus presentation / ITI samples
+    captured at a high sampling rate (e.g., mouse position logged
+    continuously).
+
+GO / NOGO SPLIT
+  Global ratio: go = 18 432 (80%), nogo = 4 608 (20%)
+  This matches the standard 4:1 go/nogo proportion.
+
+  Per-block nogo proportions (48 blocks):
+    Minimum: 17.4% (participant 1, block 11)
+    Maximum: 23.2% (participant 0.7, block 10)
+    Median:  ~19.8%
+
+  All blocks are close to the expected 20% nogo rate (range 17.4–23.2%).
+  No block deviates substantially — suggests consistent stimulus design.
+
+  Correct_response mapping:
+    go trials   → correct_response = "click"
+    nogo trials → correct_response = "none"
+    (1:1 correspondence confirmed in all blocks)
+
+PER-PARTICIPANT BLOCK TABLE
+  Participant  Block  Total    Go   Nogo  Nogo%
+  ---------------------------------------------
+           0.5      4    511   404    107 20.9%
+           0.5      5    515   396    119 23.1%
+           0.5      7    500   389    111 22.2%
+           0.5      8    433   338     95 21.9%
+           0.5     10    477   392     85 17.8%
+           0.5     11    481   385     96 20.0%
+           0.5     13    482   389     93 19.3%
+           0.5     14    486   400     86 17.7%
+           0.6      4    460   366     94 20.4%
+           0.6      5    459   374     85 18.5%
+           0.6      7    507   397    110 21.7%
+           0.6      8    500   405     95 19.0%
+           0.6     10    442   353     89 20.1%
+           0.6     11    459   369     90 19.6%
+           0.6     13    487   394     93 19.1%
+           0.6     14    463   359    104 22.5%
+           0.7      4    443   361     82 18.5%
+           0.7      5    463   379     84 18.1%
+           0.7      7    438   359     79 18.0%
+           0.7      8    482   388     94 19.5%
+           0.7     10    465   357    108 23.2%
+           0.7     11    524   410    114 21.8%
+           0.7     13    486   386    100 20.6%
+           0.7     14    501   408     93 18.6%
+           0.8      4    477   384     93 19.5%
+           0.8      5    486   394     92 18.9%
+           0.8      7    460   377     83 18.0%
+           0.8      8    523   419    104 19.9%
+           0.8     10    513   414     99 19.3%
+           0.8     11    506   400    106 20.9%
+           0.8     13    471   376     95 20.2%
+           0.8     14    491   390    101 20.6%
+           0.9      4    506   400    106 20.9%
+           0.9      5    508   401    107 21.1%
+           0.9      7    493   398     95 19.3%
+           0.9      8    453   367     86 19.0%
+           0.9     10    497   404     93 18.7%
+           0.9     11    468   375     93 19.9%
+           0.9     13    496   399     97 19.6%
+           0.9     14    472   387     85 18.0%
+             1      4    483   389     94 19.5%
+             1      5    449   360     89 19.8%
+             1      7    482   384     98 20.3%
+             1      8    489   387    102 20.9%
+             1     10    486   384    102 21.0%
+             1     11    442   365     77 17.4%
+             1     13    458   360     98 21.4%
+             1     14    467   360    107 22.9%
+
+GO/NAGO ROW COUNTS PER BLOCK (approx.)
+  Go rows per block: 338–419  (median ~387)
+  Nogo rows per block: 77–119  (median ~95)
+  The 4:1 go:nogo ratio is preserved locally in every block.
+
+DIGIT STIMULI
+  Distinct digit values: 1, 2, 3, 4, 6, 7, 8, 9  (8 values)
+  Digits 5 and 0 are absent — may be reserved for a go/nogo assignment
+  (e.g., 5 = go, non-5 = nogo) and filtered out, or not used in this
+  task.  This is a question for the experimental design.
+
+ROWS PER TRIAL — HIGH SAMPLING RATE
+  Expected design trials per block: ~468 (go) + ~117 (nogo) = ~585
+  Actual rows per block: 433–524, averaging ~480.
+
+  However, the trials_count column = 60 for ALL rows.
+  This is inconsistent with actual row counts (no match: 48/48 mismatches).
+
+  Two likely interpretations:
+    A) Each "trial" generates one row → trials_count = 60 is wrong /
+       refers to something else (e.g., number of digit presentations
+       of a specific type).
+    B) Each trial generates multiple rows (e.g., mouse cursor sampled
+       at each frame), and trials_count = 60 is the number of
+       "target" trials of one type.
+
+  The ratio of actual_rows / 60 ranges 7.2–8.7, suggesting ~7–9 rows
+  per "trial_count" unit.  This could be per-digit presentations
+  (8 digits × ~6 = 48 trials → not matching), or it could indicate
+  that each trial is logged at multiple timepoints.
+
+  RECOMMENDATION: inspect a few rows from one block to see whether
+  mouse_resp.x/y/time vary within the same trial_type/correct_response
+  (indicating repeated sampling) or are constant (indicating one row
+  per trial).  See Prompt 3 for that investigation.
+
+================================================================================

@@ -1,0 +1,137 @@
+================================================================================
+BIDS Data Files Summary — FLOW
+================================================================================
+
+================================================================================
+FLOW
+================================================================================
+File: Projects/FLOW/bids_data/
+
+participants.tsv: 6 cols (participant_id, sex, age, bdi_total, fks_mean, fam_mean),
+                  29 rows (all 29 participants have data)
+
+Participants: 29 unique participants
+Sessions: 2 (ses-01, ses-02)
+  - sub-003 through sub-028 (26 participants): both ses-01 and ses-02
+  - sub-009: ses-01 only
+  - sub-029: ses-01 only
+  - sub-030: ses-01 only
+  - sub-101: ses-01 only
+Total sub-ses with data: 54 (53 complete, 1 partial)
+
+FILE TYPES:
+  sub-XXX_ses-YY_task-FLOW_run-01_events.tsv           (13 cols)
+  sub-XXX_ses-YY_task-FLOW_run-01_FlowIndex_Task_beh.tsv (4 cols)
+  sub-XXX_ses-YY_task-FLOW_run-01_FlowIndex_Likert_beh.tsv (4 cols)
+  (Each TSV has a .json sidecar with metadata)
+
+================================================================================
+EVENTS.TSV (raw trial-level data)
+================================================================================
+Header (13 cols):
+  onset, duration, trial_type, condition, block, trial,
+  difficulty_level, expression, correct_answer, user_answer,
+  response_time_ms, is_correct, is_timeout
+
+Total rows per session: 110–151 (mean ~134)
+  - trial_type: FLOW_B (base), FLOW_F (flow-inducing), FLOW_O (other)
+  - condition: B, F, O (matching trial_type)
+  - FLOW_B trials: most numerous (~76/session)
+  - FLOW_F trials: ~32/session
+  - FLOW_O trials: ~26/session
+  - is_correct: 1 (correct) and 0 (incorrect)
+  - response_time_ms: 608–18,023 ms (mean ~7,614 ms)
+
+================================================================================
+FLOWINDEX_TASK (derived, session-level)
+================================================================================
+Header (4 cols):
+  trial_type, replicate, parcel, task_flow_index
+
+Rows: 3 per session (one per replicate/parcel)
+trial_type: all_conditions (single level)
+
+task_flow_index:
+  - Computed as: -mean(B) + 2*mean(F) - mean(O) per replicate
+  - Source measure: difficulty_level
+  - Range across samples: ~-0.22 to ~1.33
+  - One row per replicate; their mean = session-level value
+
+JSON sidecar includes:
+  - Formula, weights (B=-1, F=2, O=-1), source measure
+  - Per-session condition means (B, F, O)
+  - SessionValue (the mean of the 3 replicate values)
+
+================================================================================
+FLOWINDEX_LIKERT (derived, item-level)
+================================================================================
+Header (4 cols):
+  trial_type, replicate, item, flow_index
+
+Rows: 9 per session (3 replicates × 3 items: q1_love_again, q2_well_matched, q3_thrilled)
+trial_type: all_conditions (single level)
+
+flow_index:
+  - Range across samples: -12 to +6
+  - Items: q1_love_again, q2_well_matched, q3_thrilled
+  - One row per replicate-item combination
+
+================================================================================
+COMPLETENESS
+================================================================================
+Total sub-ses: 54
+Complete (all 3 file types): 53
+Incomplete: 1
+  - sub-005/ses-02: has events.tsv + FlowIndex_Task, MISSING FlowIndex_Likert
+
+All other participants have complete data.
+
+================================================================================
+FLOW vs APPL/OLM — STRUCTURAL COMPARISON
+================================================================================
+
+  Field              FLOW                  APPL/OLM
+  ─────────────────  ──────────────────    ──────────────────
+  participants.tsv   29 rows, 6 cols       20-21 rows, 3 cols
+  sessions           ses-01, ses-02        APPL: ses-03/04
+                                                     OLM: ses-01/02
+  sub-ses in data    29 × ~2 = 54          20 × 2 = 40 (each)
+  file types         events/FlowIndex_*    ACC/ACCBIN/RT
+  completeness       53/54 complete        all present
+
+  Column structure:
+    events.tsv: 13 cols (raw trial data with RT, accuracy, difficulty)
+    FlowIndex_Task: 4 cols (session composite)
+    FlowIndex_Likert: 4 cols (item-level)
+    APPL/OLM: 6-8 cols per outcome (ACC/ACCBIN/RT)
+
+  Key differences:
+    - FLOW has NO learning/control split (single "all_conditions")
+    - FLOW has NO raw RT/acc outcome columns (uses derived FlowIndex)
+    - FLOW events.tsv contains raw trial-level data (13 cols)
+    - FLOW outcomes are derived flow indices, not accuracy/RT
+    - FLOW uses difficulty_level as source measure for task_flow_index
+    - FLOW has extra columns: bdi_total, fks_mean, fam_mean in participants.tsv
+    - FLOW has JSON sidecars for every derived file (APPL/OLM do not)
+    - FLOW trial_type: FLOW_B/F/O (task conditions) vs learning/control
+    - FLOW is_global=false (APPL/OLM is_global=true)
+
+  Common:
+    - Same BIDS-derivatives naming convention
+    - Same onset/duration/trial_type columns
+    - Same _schema_version and _provenance in _data.json
+
+================================================================================
+CONCLUSION
+================================================================================
+
+FLOW has a fundamentally different data structure from APPL/OLM:
+- 29 participants, ~54 sessions (mostly 2 per participant)
+- Raw trial data in events.tsv (13 cols, ~134 trials/session)
+- Derived outcomes: FlowIndex_Task (3 rows/session, composite) and
+  FlowIndex_Likert (9 rows/session, per-item)
+- FlowIndex computed from difficulty_level using formula: -B + 2F - O
+- Single "all_conditions" trial_type (no learning/control split)
+- One incomplete session: sub-005/ses-02 (missing FlowIndex_Likert)
+- Extra clinical measures in participants.tsv (bdi_total, fks_mean, fam_mean)
+- JSON sidecars provide formula/weight metadata for each derived outcome

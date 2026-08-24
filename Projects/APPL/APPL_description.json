@@ -59,9 +59,10 @@
       "axis_label": "Accuracy (%)",
       "higher_is_better": true,
       "is_binary": true,
-      "is_primary": false,
       "is_helper": false,
-      "display_priority": 1
+      "display_priority": 1,
+      "is_global": true,
+      "role": "primary"
     },
     {
       "id": "RT",
@@ -71,9 +72,10 @@
       "axis_label": "RT (ms)",
       "higher_is_better": false,
       "is_binary": false,
-      "is_primary": true,
       "is_helper": false,
-      "display_priority": 2
+      "display_priority": 2,
+      "is_global": true,
+      "role": "secondary"
     }
   ]
 }

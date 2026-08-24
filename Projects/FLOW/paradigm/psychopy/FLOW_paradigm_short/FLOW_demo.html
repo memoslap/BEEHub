@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLOW — Interactive Demo</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 1 — SHARED BEEHub AESTHETIC.  DO NOT EDIT.
+   Identical in every BEEHub demo. Editing here makes this paradigm look
+   different from the others, which defeats the purpose of a shared house style.
+   ═══════════════════════════════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #ffffff 100%);
+    background-attachment: fixed;
+    color: #2a1a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.container {
+    max-width: 880px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        rgba(210,195,175,0.90) 0%, rgba(235,225,210,0.95) 25%,
+        rgba(252,248,242,0.98) 50%, rgba(235,225,210,0.95) 75%,
+        rgba(210,195,175,0.90) 100%);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow: 0 10px 40px rgba(160,120,60,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.85),
+                inset 0 -1px 0 rgba(160,110,50,0.15);
+    border: 1px solid rgba(190,150,80,0.30);
+    position: relative;
+    overflow: hidden;
+}
+.container::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg,
+        #6b3a10 0%, #9e5c1e 12%, #c07838 25%, #d4a020 40%,
+        #e8c048 50%, #d4a020 60%, #b8b0be 75%, #c4a0b4 88%, #6b3a10 100%);
+    opacity: 0.85;
+}
+/* ── Screens ───────────────────────────────────────────────── */
+.screen { display:none; }
+.screen.active { display:block; }
+/* ── Typography ────────────────────────────────────────────── */
+.gold-title {
+    background: linear-gradient(135deg,
+        #6b3a10 0%, #9e5c1e 15%, #c07838 30%,
+        #d4a020 50%, #b8b0be 70%, #c4a0b4 85%, #9e5c1e 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.4em; font-weight:300; letter-spacing:-0.5px; margin-bottom:6px;
+}
+.section-h2 {
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 50%, #b8b0be 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size:1.6em; font-weight:400;
+    border-left:5px solid #d4a020; padding-left:14px; margin-bottom:22px;
+}
+.subtitle {
+    color:#7a5030; font-size:1.1em; font-weight:300;
+    margin-bottom:26px; padding-bottom:20px;
+    border-bottom:2px solid rgba(190,150,80,0.25);
+}
+/* ── Info boxes ─────────────────────────────────────────────── */
+.info-box {
+    background: linear-gradient(135deg,
+        rgba(245,236,220,0.90) 0%, rgba(255,250,240,0.95) 50%,
+        rgba(245,236,220,0.90) 100%);
+    border:1px solid rgba(190,150,80,0.25); border-radius:12px;
+    padding:20px 24px; margin-bottom:18px;
+    line-height:1.75; color:#3a2010; font-size:0.97em;
+    position:relative; overflow:hidden;
+}
+.info-box::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg,
+        #9e5c1e 0%, #d4a020 30%, #e8c048 50%, #d4a020 70%, #c4a0b4 100%);
+    opacity:0.7;
+}
+.info-box-label {
+    font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background: linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; margin-bottom:8px;
+}
+/* ── Key legend ─────────────────────────────────────────────── */
+.key-legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:14px; }
+.key-item { display:flex; align-items:center; gap:9px; font-size:0.95em; color:#5a3010; }
+.key-badge {
+    background: linear-gradient(135deg, #c07838 0%, #e8c048 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    padding:5px 11px; border-radius:7px;
+    box-shadow:0 2px 6px rgba(160,110,40,0.30);
+    min-width:36px; text-align:center; white-space:nowrap;
+}
+/* ── Instruction steps ──────────────────────────────────────── */
+.instr-steps { margin-bottom:22px; }
+.instr-step {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:11px; padding:14px 18px;
+    background:rgba(220,205,180,0.55);
+    border-radius:10px; border-left:4px solid #c07838;
+}
+.instr-num {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 100%);
+    color:#2a1a0a; font-weight:700; font-size:0.88em;
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; box-shadow:0 2px 6px rgba(160,110,40,0.25);
+}
+.instr-text { color:#3a2010; line-height:1.65; font-size:0.95em; }
+.instr-text strong { color:#7a3a10; }
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:22px; }
+.btn {
+    padding:14px 30px; border:none; border-radius:12px;
+    font-size:1.05em; font-weight:600; cursor:pointer;
+    transition:all 0.25s ease; text-decoration:none;
+    display:inline-block; text-align:center;
+}
+.btn-primary {
+    background:linear-gradient(135deg, #e8c048 0%, #d4a020 40%, #c07838 100%);
+    color:#2a1a0a; flex:1; min-width:200px;
+    box-shadow:0 4px 18px rgba(212,160,32,0.40),
+               inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-primary:hover {
+    background:linear-gradient(135deg, #c07838 0%, #d4a020 50%, #e8c048 100%);
+    transform:translateY(-2px);
+    box-shadow:0 7px 24px rgba(212,160,32,0.55), inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.btn-secondary {
+    background:linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color:#2a1a0a; flex:0 0 auto; min-width:160px;
+    box-shadow:0 4px 14px rgba(180,150,180,0.30), inset 0 1px 0 rgba(255,255,255,0.40);
+}
+.btn-secondary:hover {
+    background:linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+    transform:translateY(-2px);
+}
+.btn-back-link {
+    display:inline-block; margin-top:18px;
+    color:#8a4a10; text-decoration:none; font-size:0.92em;
+    padding:8px 16px; border:1px solid rgba(190,150,80,0.40);
+    border-radius:8px; background:rgba(255,248,235,0.60);
+    transition:all 0.25s;
+}
+.btn-back-link:hover {
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    color:#fff8ee; border-color:#d4a020;
+}
+/* ── Trial header ───────────────────────────────────────────── */
+.trial-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px; padding-bottom:12px;
+    border-bottom:1px solid rgba(190,150,80,0.25);
+}
+.stage-label {
+    font-size:0.80em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.trial-count { color:#9a6a40; font-size:0.86em; }
+.progress-wrap {
+    width:140px; height:5px;
+    background:rgba(190,150,80,0.20); border-radius:3px; overflow:hidden;
+}
+.progress-fill {
+    height:100%;
+    background:linear-gradient(90deg, #c07838 0%, #e8c048 100%);
+    border-radius:3px; transition:width 0.35s ease;
+}
+/* ── Dark stimulus window ───────────────────────────────────── */
+.stimulus-area {
+    background:#100c04;
+    border-radius:16px;
+    padding:16px 16px 14px;
+    margin-bottom:18px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:360px;
+    box-shadow:inset 0 2px 14px rgba(0,0,0,0.50),
+               0 4px 20px rgba(60,30,0,0.22);
+    border:1px solid rgba(100,65,10,0.35);
+    position:relative; overflow:hidden;
+}
+.stimulus-area::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,
+        transparent 0%, rgba(212,160,32,0.35) 30%,
+        rgba(232,192,72,0.55) 50%, rgba(212,160,32,0.35) 70%, transparent 100%);
+}
+/* ── ESC exit overlay ─────────────────────────────────────── */
+#esc-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 12, 4, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+#esc-overlay.visible {
+    display: flex;
+    animation: escFadeIn 0.18s ease;
+}
+@keyframes escFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.esc-card {
+    background: linear-gradient(145deg,
+        rgba(252,248,242,0.98) 0%,
+        rgba(240,230,210,0.97) 100%
+    );
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 18px;
+    padding: 36px 42px 30px;
+    max-width: 380px;
+    width: 90%;
+    box-shadow:
+        0 24px 60px rgba(100,60,10,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.esc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, #9e5c1e, #d4a020, #e8c048, #d4a020, #9e5c1e);
+    opacity: 0.9;
+}
+.esc-icon {
+    font-size: 2.2em;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+.esc-title {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #5a3010;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+.esc-msg {
+    font-size: 0.88em;
+    color: #8a6040;
+    line-height: 1.6;
+    margin-bottom: 26px;
+}
+.esc-key-hint {
+    display: inline-block;
+    background: rgba(160,110,50,0.12);
+    border: 1px solid rgba(190,150,80,0.35);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 0.82em;
+    font-family: monospace;
+    color: #7a5030;
+    margin: 0 2px;
+}
+.esc-btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.esc-btn-leave {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #9e5c1e 0%, #c07838 50%, #d4a020 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(192,120,56,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+.esc-btn-leave:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192,120,56,0.50);
+}
+.esc-btn-resume {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    background: linear-gradient(135deg, #b8b0be 0%, #c8c0c8 40%, #c4a0b4 100%);
+    color: #2a1a0a;
+    box-shadow: 0 4px 12px rgba(180,150,180,0.25);
+}
+.esc-btn-resume:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #c4a0b4 0%, #c8c0c8 50%, #b8b0be 100%);
+}
+#feedback-line {
+    color:#e8d8b0; font-size:1.1em; font-weight:400;
+    margin-bottom:12px; text-align:center;
+    min-height:1.4em; display:none;
+    text-shadow:0 1px 8px rgba(0,0,0,0.60);
+}
+#feedback-line.correct  { color:#6be08a; }
+#feedback-line.incorrect { color:#e07a6b; }
+#feedback-line.toolate  { color:#e0c06b; }
+#feedback-line.question { color:#c8d8e8; }
+#fixation {
+    color:#e8c048; font-size:4em; font-weight:200;
+    display:none; user-select:none;
+    text-shadow:0 0 20px rgba(232,192,72,0.50);
+}
+/* ── Response buttons ───────────────────────────────────────── */
+.keyboard-hint {
+    text-align:center; font-size:0.80em; color:#9a7050; margin-bottom:8px;
+}
+.response-area { display:flex; gap:16px; justify-content:center; margin-bottom:16px; }
+.resp-btn {
+    flex:1; max-width:260px; padding:15px 10px;
+    border:2px solid rgba(190,150,80,0.35); border-radius:12px;
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 50%,
+        rgba(220,200,170,0.80) 100%);
+    color:#3a2010; font-size:1.0em; font-weight:600; cursor:pointer;
+    transition:all 0.18s ease;
+    box-shadow:0 3px 12px rgba(160,110,50,0.15),
+               inset 0 1px 0 rgba(255,255,255,0.65);
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.resp-btn .key-hint { font-size:0.70em; font-weight:400; color:#9a6a40; }
+.resp-btn:hover:not(:disabled) {
+    border-color:rgba(212,160,32,0.55);
+    background:linear-gradient(135deg,
+        rgba(232,192,72,0.25) 0%, rgba(248,232,200,0.90) 50%,
+        rgba(232,192,72,0.25) 100%);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(160,110,50,0.28), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+.resp-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.resp-btn.pressed {
+    background:linear-gradient(135deg, #d4a020 0%, #e8c048 100%);
+    color:#1a0c00; border-color:#d4a020;
+}
+/* ── Results ────────────────────────────────────────────────── */
+.result-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:16px; margin-bottom:22px;
+}
+.result-card {
+    background:linear-gradient(135deg,
+        rgba(220,200,170,0.80) 0%, rgba(240,228,208,0.88) 100%);
+    border:1px solid rgba(190,150,80,0.28);
+    border-radius:12px; padding:18px 12px; text-align:center;
+    box-shadow:0 3px 12px rgba(160,110,50,0.12),
+               inset 0 1px 0 rgba(255,255,255,0.60);
+}
+.result-val {
+    font-size:2.2em; font-weight:600;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.result-lbl { font-size:0.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a6a40; margin-top:4px; }
+/* stage divider badge */
+.stage-badge {
+    text-align:center; margin:16px 0 8px;
+    font-size:0.78em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a7050;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 2 — PARADIGM-SPECIFIC STYLES.  ADD YOURS HERE.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* FLOW — math expression in dark stimulus area */
+#expr-display {
+    font-size: 4.2em; font-weight: 700; letter-spacing: .04em;
+    text-align: center; margin: 26px 0 10px; color: #e8dcc0;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 12px rgba(212,160,32,0.30);
+}
+
+/* FLOW — answer box */
+#answer-box {
+    width: 340px; margin: 0 auto 14px; padding: 10px 16px;
+    font-size: 2.0em; text-align: left; border: 2px solid #7a4a12;
+    border-radius: 10px; background: #fffdf7; min-height: 1.4em;
+    font-variant-numeric: tabular-nums; color: #1a0c00;
+}
+#answer-box .cursor { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* FLOW — numpad */
+.numpad { display: grid; grid-template-columns: repeat(3, 84px);
+          gap: 10px; justify-content: center; margin: 6px auto 4px; }
+.numpad .np {
+    height: 66px; font-size: 1.5em; font-weight: 600; cursor: pointer;
+    border: 2px solid #7a4a12; border-radius: 10px; color: #4a2708;
+    background: linear-gradient(180deg,#fffaf0 0%,#f2e2c6 100%);
+    transition: transform .06s, box-shadow .12s;
+}
+.numpad .np:hover  { box-shadow: 0 3px 10px rgba(122,74,18,.28); }
+.numpad .np:active,
+.numpad .np.pressed { transform: translateY(2px); background: #e8d3ac; }
+
+/* FLOW — condition badge */
+.cond-badge {
+    display:inline-block; padding:6px 16px; border-radius:20px;
+    font-weight:700; font-size:.95em; letter-spacing:.03em;
+}
+.cond-B { background:#dbeafe; color:#1e3a8a; }
+.cond-F { background:#dcfce7; color:#14532d; }
+.cond-O { background:#fee2e2; color:#7f1d1d; }
+
+/* FLOW — Likert tiles */
+.likert-q { font-size:1.15em; margin:18px 0 10px; color:#3a2008; line-height:1.5; }
+.likert-row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+.likert-row .lk {
+    width:60px; min-height:60px; font-size:.95em; cursor:pointer;
+    border:2px solid #7a4a12; border-radius:9px; color:#4a2708;
+    background:linear-gradient(180deg,#fffaf0 0%,#f2e2c6 100%);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:4px; font-weight:600;
+}
+.likert-row .lk.sel { background:#3355c8; color:#fff; border-color:#22307a; }
+.likert-row .lk:first-child { font-size:.60em; line-height:1.05; }
+.likert-row .lk:last-child  { font-size:.60em; line-height:1.05; }
+
+/* stat-box used by shell showResults */
+.stat-box {
+    display:flex; flex-direction:column; align-items:center;
+    padding:8px;
+}
+.stat-value {
+    font-size:1.8em; font-weight:600;
+    background:linear-gradient(135deg, #9e5c1e 0%, #d4a020 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.stat-label { font-size:.72em; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:#9a6a40; margin-top:4px; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     LAYER 1 — SHELL.  DO NOT EDIT.
+     ════════════════════════════════════════════════════════════════════════ -->
+<div class="container">
+  <div class="progress-wrap"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ══ PARADIGM SCREENS ══ -->
+
+  <div class="screen active" id="screen-welcome">
+    <h1 class="gold-title">FLOW</h1>
+    <p class="subtitle">Flow &amp; mental arithmetic — interactive demo</p>
+
+    <div class="info-box">
+      <div class="info-box-label">What this is</div>
+      A shortened, browsable version of the FLOW paradigm. You solve addition
+      problems whose difficulty adapts to your performance. Blocks alternate
+      between three conditions: <strong>boredom</strong> (too easy),
+      <strong>flow</strong> (matched), and <strong>overload</strong> (too hard).
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('instructions')">Continue</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-instructions">
+    <h2 class="section-h">How it works</h2>
+    <div class="instr-steps">
+      <div class="instr-step"><span class="instr-num">1</span>
+        <span class="instr-text">An addition problem appears. Work it out mentally.</span></div>
+      <div class="instr-step"><span class="instr-num">2</span>
+        <span class="instr-text">Type your answer with the on-screen numpad or your keyboard.</span></div>
+      <div class="instr-step"><span class="instr-num">3</span>
+        <span class="instr-text">Press <strong>Enter</strong> to submit. Difficulty adapts as you go.</span></div>
+      <div class="instr-step"><span class="instr-num">4</span>
+        <span class="instr-text">After each block you rate how the task felt on a 7-point scale.</span></div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-label">Three conditions</div>
+      <strong>Boredom (B):</strong> Always the simplest task — one small number added
+      to a value in the 100s, e.g. <code>104 + 7</code>. Difficulty never changes.<br><br>
+      <strong>Flow (F):</strong> Matched to your current skill level and adapts within the
+      block — two correct in a row makes it harder, two wrong makes it easier.<br><br>
+      <strong>Overload (O):</strong> Three levels above your skill level, so it stays
+      deliberately too hard. It can ease slightly after repeated errors but never drops
+      to your comfortable level.
+    </div>
+    <div class="key-legend">
+      <div class="key-item"><span class="key-badge">0–9</span> enter digits</div>
+      <div class="key-item"><span class="key-badge">Enter</span> submit</div>
+      <div class="key-item"><span class="key-badge">Back</span> delete</div>
+      <div class="key-item"><span class="key-badge">Esc</span> exit</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startRun()">Start Demo</button>
+      <button class="btn btn-secondary" onclick="showScreen('welcome')">← Back</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-task">
+    <div class="trial-header">
+      <span id="block-badge" class="cond-badge cond-F">Flow</span>
+      <span class="trial-count" id="trial-count">Block 1 / 6</span>
+      <span id="countdown">30s</span>
+    </div>
+    <div class="stimulus-area">
+      <div id="expr-display">— + —</div>
+    </div>
+    <div id="answer-box"><span id="answer-text"></span><span class="cursor">|</span></div>
+    <div id="feedback-line">&nbsp;</div>
+    <div class="numpad" id="numpad"></div>
+  </div>
+
+  <div class="screen" id="screen-likert">
+    <h2 class="section-h">How did that block feel?</h2>
+    <div id="likert-body"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="likert-next" onclick="submitLikert()">Continue</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-break">
+    <h2 class="section-h">Short break</h2>
+    <div class="info-box">
+      <span id="break-countdown">Next block in 4 s…</span>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-results">
+    <h1 class="gold-title">Demo complete</h1>
+    <div class="result-grid" id="results-stats"></div>
+    <div class="info-box">
+      <div class="info-box-label">Note</div>
+      This demo runs 6 short blocks (30 s each). The full paradigm uses 12 blocks of
+      170 s, preceded by a 3-min familiarisation and a 5-min skill-evaluation phase.
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="location.reload()">Run again</button>
+      <a href="../../../FLOW_paradigm.html" class="btn btn-secondary">← Back to Paradigm</a>
+    </div>
+  </div>
+
+  <!-- ══ END PARADIGM SCREENS ══ -->
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 1 — SHELL API.  DO NOT EDIT.
+   ═══════════════════════════════════════════════════════════════════════════ */
+let __trials = [];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setProgress(frac) {
+  const p = document.getElementById('progress');
+  if (p) p.style.width = Math.max(0, Math.min(1, frac)) * 100 + '%';
+}
+
+function recordTrial(obj) { __trials.push(obj); }
+function getTrials()      { return __trials; }
+function resetTrials()    { __trials = []; }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/** Render summary stats into #screen-results. Pass {label: value} pairs. */
+function showResults(stats) {
+  const box = document.getElementById('results-stats');
+  if (box) box.innerHTML = Object.entries(stats).map(([k, v]) =>
+    `<div class="stat-box"><div class="stat-value">${v}</div>` +
+    `<div class="stat-label">${k}</div></div>`).join('');
+  showScreen('results');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 3 — PARADIGM CONFIG.  EDIT THESE VALUES.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+// 6 blocks — each condition exactly twice, no adjacent duplicates.
+// One of two counterbalanced sequences chosen at random.
+const BLOCK_SEQUENCE = ['B', 'F', 'O', 'B', 'F', 'O'];
+const COND_NAMES     = { B: 'Boredom', F: 'Flow', O: 'Overload' };
+
+// Demo timings: 30 s blocks → ~3 min total + breaks + Likert
+const BLOCK_SECONDS   = 30;
+const BREAK_SECONDS   = 4;   // break between trials
+const TASK_TIMEOUT_S  = 18;  // per-trial timeout (unchanged)
+
+// Difficulty levels: number and range of addends per level.
+// Formula from create_task_at_level:
+//   level 1: anchor(100-109) + one 1-digit(1-9)        → 2 addends
+//   level 2: anchor(100-109) + one 2-digit(10-99)      → 2 addends
+//   level 3: anchor + one 2-digit + one 1-digit         → 3 addends
+//   level 4: anchor + two 2-digit                       → 3 addends
+//   level 5: anchor + two 2-digit + one 1-digit         → 4 addends
+//   level 6: anchor + three 2-digit                     → 4 addends
+//   level 7: anchor + three 2-digit + one 1-digit       → 5 addends
+const LEVELS = [
+  null,
+  // two = how many 2-digit addends (10–99); one = how many 1-digit addends (1–9).
+  // Every task also has the anchor (100–109). Total addends = 1 + two + one.
+  { two: 0, one: 1 },   // L1  2 addends   e.g. 104 + 7
+  { two: 1, one: 0 },   // L2  2 addends   e.g. 104 + 37
+  { two: 1, one: 1 },   // L3  3 addends   e.g. 104 + 37 + 6
+  { two: 2, one: 0 },   // L4  3 addends
+  { two: 2, one: 1 },   // L5  4 addends
+  { two: 3, one: 0 },   // L6  4 addends
+  { two: 3, one: 1 },   // L7  5 addends
+];
+
+// Starting level (no skill-evaluation in demo; hardcoded at 3)
+const START_LEVEL = 3;
+
+// Condition model — mirrors the three task generators in the full paradigm
+// (create_boredom_task / create_flow_task / create_overload_task):
+//
+//   BOREDOM   fixed at level 1, never adapts. Always "1xx + x".
+//   FLOW      tracks the participant's skill level and adapts within the block.
+//   OVERLOAD  skill level + OVERLOAD_SHIFT, clamped to the top level.
+//
+// Only FLOW blocks update the persistent skill level. Boredom must not drag it
+// down and overload must not inflate it — otherwise the conditions bleed into
+// each other across blocks.
+const BOREDOM_LEVEL  = 1;
+const OVERLOAD_SHIFT = 3;
+
+// Likert (German — matches full paradigm exactly)
+const LIKERT_QUESTIONS = [
+  "I would gladly solve calculations like these again",
+  "I feel optimally challenged",
+  "I was enthusiastic",
+];
+const LIKERT_LABELS = [
+  "Strongly\ndisagree", "2", "3", "4", "5", "6",
+  "Strongly\nagree",
+];
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYER 2 — PARADIGM LOGIC.  WRITE THIS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+let blockIdx     = 0;
+let level        = START_LEVEL;
+let answer       = '';
+let current      = null;
+let blockTimer   = null;
+let blockEndsAt  = 0;
+let trialStart   = 0;
+let consCorrect  = 0;
+let consIncorrect= 0;
+let skillLevel   = START_LEVEL;   // persists across blocks; only FLOW updates it
+let likertBuf    = [];
+let totalTrials  = 0;
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+// Build a task at the *current* global level (already shifted by startBlock).
+function makeTask() {
+  const lv = clamp(level, 1, LEVELS.length - 1);
+  const spec = LEVELS[lv];
+  const anchor = 100 + Math.floor(Math.random() * 10);  // 100–109
+  const parts  = [anchor];
+  for (let i = 0; i < spec.two; i++) parts.push(10 + Math.floor(Math.random() * 90));
+  for (let i = 0; i < spec.one; i++) parts.push(1  + Math.floor(Math.random() * 9));
+  // shuffle in-place
+  for (let i = parts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [parts[i], parts[j]] = [parts[j], parts[i]];
+  }
+  return { parts, text: parts.join(' + '), sum: parts.reduce((a, b) => a + b, 0) };
+}
+
+function renderTask() {
+  document.getElementById('expr-display').textContent = current.text;
+  document.getElementById('answer-text').textContent  = answer;
+  const fb = document.getElementById('feedback-line');
+  fb.style.display = 'none';
+}
+
+function buildNumpad() {
+  const pad = document.getElementById('numpad');
+  const keys = ['7','8','9','4','5','6','1','2','3','0','←','⏎'];
+  pad.innerHTML = keys.map(k =>
+    `<button class="np" data-k="${k}">${k === '←' ? '←' : k === '⏎' ? '⏎' : k}</button>`).join('');
+  pad.querySelectorAll('.np').forEach(b =>
+    b.onclick = () => press(b.dataset.k));
+}
+
+function press(k) {
+  if (k === '←')      answer = answer.slice(0, -1);
+  else if (k === '⏎') return submit();
+  else if (answer.length < 6) answer += k;
+  document.getElementById('answer-text').textContent = answer;
+}
+
+function submit() {
+  if (answer === '') return;
+  const entered   = parseInt(answer, 10);
+  const correct   = entered === current.sum;
+  const rt        = Date.now() - trialStart;
+  const cond      = BLOCK_SEQUENCE[blockIdx];
+
+  // Adaptive difficulty (only for F and O; B is always level 1)
+  if (cond !== 'B') {
+    if (correct) {
+      consCorrect++;
+      consIncorrect = 0;
+      if (consCorrect >= 2) {
+        level = clamp(level + 1, 1, LEVELS.length - 1);
+        if (cond === 'F') skillLevel = level;      // only flow updates skill
+        consCorrect = 0;
+      }
+    } else {
+      consIncorrect++;
+      consCorrect = 0;
+      if (consIncorrect >= 2) {
+        const floor = cond === 'O' ? clamp(skillLevel + OVERLOAD_SHIFT, 1, LEVELS.length - 1) : 1;
+        level = clamp(level - 1, floor, LEVELS.length - 1);
+        if (cond === 'F') skillLevel = level;      // only flow updates skill
+        consIncorrect = 0;
+      }
+    }
+  }
+
+  recordTrial({
+    block: blockIdx + 1,
+    cond: cond,
+    expr: current.text,
+    given: answer,
+    correct: correct,
+    rt_ms: Math.round(rt)
+  });
+  totalTrials++;
+
+  // Feedback
+  const fb = document.getElementById('feedback-line');
+  if (correct) {
+    fb.textContent = '✓ Correct';
+    fb.className   = 'correct';
+  } else {
+    fb.textContent = '✗ Answer: ' + current.sum;
+    fb.className   = 'incorrect';
+  }
+  fb.style.display = 'block';
+  answer = '';
+
+  // Next trial
+  setTimeout(() => {
+    if (Date.now() < blockEndsAt) {
+      current = makeTask();
+      renderTask();
+      trialStart = Date.now();
+    }
+  }, 400);
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('screen-task').classList.contains('active')) return;
+  if (/^[0-9]$/.test(e.key)) { press(e.key); e.preventDefault(); }
+  else if (e.key === 'Backspace')  { e.preventDefault(); press('←'); }
+  else if (e.key === 'Enter')      { e.preventDefault(); press('⏎'); }
+});
+
+function startRun() {
+  blockIdx    = 0;
+  level       = START_LEVEL;
+  consCorrect = 0;
+  consIncorrect = 0;
+  totalTrials = 0;
+  resetTrials();
+  buildNumpad();
+  startBlock();
+}
+
+function startBlock() {
+  const cond = BLOCK_SEQUENCE[blockIdx];
+  const badge = document.getElementById('block-badge');
+  badge.textContent = COND_NAMES[cond];
+  badge.className   = 'cond-badge cond-' + cond;
+  document.getElementById('trial-count').textContent =
+    'Block ' + (blockIdx + 1) + ' / ' + BLOCK_SEQUENCE.length;
+
+  // Reset adaptive counters per block; set starting level for this condition
+  consCorrect   = 0;
+  consIncorrect = 0;
+  // Per-condition working level. skillLevel persists across blocks; only FLOW updates it.
+  if      (cond === 'B') level = BOREDOM_LEVEL;
+  else if (cond === 'O') level = clamp(skillLevel + OVERLOAD_SHIFT, 1, LEVELS.length - 1);
+  else                   level = clamp(skillLevel, 1, LEVELS.length - 1);
+
+  answer   = '';
+  current  = makeTask();
+  renderTask();
+  showScreen('task');
+
+  blockEndsAt = Date.now() + BLOCK_SECONDS * 1000;
+  clearInterval(blockTimer);
+  trialStart = Date.now();
+  blockTimer = setInterval(() => {
+    const left = Math.max(0, Math.ceil((blockEndsAt - Date.now()) / 1000));
+    document.getElementById('countdown').textContent = left + 's';
+    setProgress((blockIdx + 1 - left / BLOCK_SECONDS) / BLOCK_SEQUENCE.length);
+    if (left <= 0) { clearInterval(blockTimer); startLikert(); }
+  }, 200);
+}
+
+function startLikert() { likertBuf = []; renderLikert(); showScreen('likert'); }
+
+function renderLikert() {
+  document.getElementById('likert-body').innerHTML = LIKERT_QUESTIONS.map((q, qi) =>
+    '<div class="likert-q">' + q + '</div>' +
+    '<div class="likert-row" data-q="' + qi + '">' +
+    LIKERT_LABELS.map((l, li) =>
+      '<button class="lk" data-v="' + (li + 1) + '">' +
+      l.replace(/\n/g, '<br>') + '</button>'
+    ).join('') + '</div>').join('');
+  document.querySelectorAll('.likert-row').forEach(row =>
+    row.querySelectorAll('.lk').forEach(b => b.onclick = () => {
+      row.querySelectorAll('.lk').forEach(x => x.classList.remove('sel'));
+      b.classList.add('sel');
+      likertBuf[row.dataset.q] = parseInt(b.dataset.v, 10);
+    }));
+}
+
+function submitLikert() {
+  recordTrial({ block: blockIdx + 1, cond: BLOCK_SEQUENCE[blockIdx], likert: likertBuf.slice() });
+  blockIdx++;
+  if (blockIdx >= BLOCK_SEQUENCE.length) return finish();
+  // Break screen with countdown
+  showScreen('break');
+  let t = BREAK_SECONDS;
+  document.getElementById('break-countdown').textContent = 'Next block in ' + t + ' s…';
+  const iv = setInterval(() => {
+    t -= 1;
+    document.getElementById('break-countdown').textContent = 'Next block in ' + t + ' s…';
+    if (t <= 0) { clearInterval(iv); startBlock(); }
+  }, 1000);
+}
+
+function finish() {
+  setProgress(1);
+  const tr = getTrials().filter(t => t.correct !== undefined);
+  const n  = tr.length;
+  const acc = n ? Math.round(100 * tr.filter(t => t.correct).length / n) : 0;
+  const byCond = {};
+  tr.forEach(t => { (byCond[t.cond] = byCond[t.cond] || []).push(t); });
+
+  const stats = { 'Problems solved': n, 'Accuracy': acc + '%',
+                  'Final level': level, 'Blocks': BLOCK_SEQUENCE.length };
+  Object.keys(COND_NAMES).forEach(c => {
+    const a = byCond[c] || [];
+    stats[COND_NAMES[c] + ' acc.'] =
+      a.length ? Math.round(100 * a.filter(Boolean).length / a.length) + '%' : '—';
+  });
+  showResults(stats);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ESC EXIT OVERLAY
+   ═══════════════════════════════════════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('esc-overlay');
+    if (overlay.classList.contains('visible')) overlay.classList.remove('visible');
+    else overlay.classList.add('visible');
+  }
+});
+
+</script>
+
+<!-- ── ESC exit overlay ── -->
+<div id="esc-overlay" role="dialog" aria-modal="true" aria-label="Exit demo"
+     onclick="if(event.target===this) this.classList.remove('visible')">
+  <div class="esc-card">
+    <div class="esc-icon">🚪</div>
+    <div class="esc-title">Leave the demo?</div>
+    <div class="esc-msg">
+      Your current progress will not be saved.<br>
+      Press <span class="esc-key-hint">Esc</span> again or click <em>Continue</em> to keep going.
+    </div>
+    <div class="esc-btn-row">
+      <a href="../../../FLOW_paradigm.html" class="esc-btn-leave">Leave Demo</a>
+      <button class="esc-btn-resume" onclick="document.getElementById('esc-overlay').classList.remove('visible')">Continue</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

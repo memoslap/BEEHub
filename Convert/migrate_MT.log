@@ -1,0 +1,5 @@
+=== migrate_MT.sh ===
+2026-07-28 16:40:58 Mode: APPLY
+2026-07-28 16:40:58 Source: /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Convert/MouseTracking Data
+2026-07-28 16:40:58 Target: /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT
+2026-07-28 16:40:58 ERROR: Source directory not found: /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Convert/MouseTracking Data

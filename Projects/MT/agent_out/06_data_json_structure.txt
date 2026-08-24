@@ -1,0 +1,82 @@
+================================================================================
+_Data.json Structure Check — APPL, OLM, FLOW
+================================================================================
+
+All three files share an identical top-level schema (15 keys):
+  project_name, project_info, demographics, trial_types, sessions,
+  data_by_condition, reliability_metrics, control_reliability,
+  role_map, learning_stage_data, outcome_measures,
+  primary_icc_key, column_names, _schema_version, _provenance
+
+All use _schema_version "beehub_reliability_v2_pingouin" with the same
+provenance (pingouin 0.6.1, numpy 2.4.2, pandas 3.0.0, scipy 1.17.0,
+python 3.14.3).
+
+================================================================================
+STRUCTURAL DIFFERENCES
+================================================================================
+
+1. project_info keys
+   APPL & OLM: 22 keys — include "typical_outcome"
+   FLOW:       22 keys — include "main_metrics" (different key)
+
+2. Demographics
+   APPL: n=20, age=26.1, female=11, male=9
+   OLM:  n=21, age=25.0, male=11, female=10
+   FLOW: n=29, age=22.3, female=16, male=11, not_specified=1, other=1
+         (FLOW has non-binary sex categories; APPL/OLM do not)
+
+3. Trial types & sessions
+   APPL: trial_types=[learning, control], sessions=[03, 04]
+   OLM:  trial_types=[learning, control], sessions=[01, 02]
+   FLOW: trial_types=[all_conditions],    sessions=[01, 02]
+
+4. data_by_condition
+   APPL: 4 entries — learning_ses03/04, control_ses03/04
+   OLM:  4 entries — learning_ses01/02, control_ses01/02
+   FLOW: 2 entries — all_conditions_ses01/02
+
+   APPL & OLM each have 2 outcomes (ACCBIN, RT) per condition-session.
+   FLOW has 2 outcomes (FlowIndex_Likert, FlowIndex_Task) per session.
+
+   ACCBIN = binary accuracy (mean ~0.88 APPL, ~0.83 OLM).
+   RT     = reaction time in ms (~9400 APPL, ~1100 OLM).
+   Flow   = composite index from Likert items (-36…+36).
+
+5. reliability_metrics
+   APPL & OLM keyed by "learning" only (control has no ICC).
+   FLOW keyed by "all_conditions".
+
+   ICC values:
+     APPL: primary(ACCBIN)=0.91, secondary(RT)=0.88
+     OLM:  primary(ACCBIN)=0.87, secondary(RT)=0.86
+     FLOW: primary(FlowIndex_Likert)=0.74, secondary(FlowIndex_Task)=0.80
+
+6. role_map — all three have "declared": false
+   APPL & OLM: primary=ACCBIN, secondary=RT
+   FLOW:       primary=FlowIndex_Likert, secondary=FlowIndex_Task
+
+7. outcome_measures — is_global
+   APPL & OLM: both outcomes is_global=true
+   FLOW:       both outcomes is_global=false
+
+8. column_names
+   APPL & OLM: rt_column='response_time_ms', acc_column='accuracy_binary'
+   FLOW:       rt_column=None, acc_column=None (no raw RT/acc columns;
+               uses computed FlowIndex outcomes)
+
+9. control_reliability & learning_stage_data
+   All three: empty dicts {}
+
+================================================================================
+CONCLUSION
+================================================================================
+
+The schema is consistent across all three projects. APPL and OLM are
+structurally identical (same trial structure, outcomes, column names,
+global flags). FLOW differs in:
+  - No learning/control split (single "all_conditions" condition)
+  - No raw RT/acc columns (uses derived FlowIndex outcomes)
+  - is_global=false on all outcomes
+  - Includes main_metrics in project_info
+  - Non-binary sex categories in demographics

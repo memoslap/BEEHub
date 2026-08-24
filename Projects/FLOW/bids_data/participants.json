@@ -1,0 +1,34 @@
+{
+  "participant_id": {
+    "Description": "BIDS participant identifier"
+  },
+  "sex": {
+    "Description": "Self-reported sex, mapped from the German questionnaire field 'geschlecht'.",
+    "Levels": {
+      "male": "männlich",
+      "female": "weiblich",
+      "other": "divers / non-binary",
+      "not_specified": "Participant was asked and declined to answer ('keine Angabe'). Distinct from n/a, which means the value is missing or was never collected.",
+      "n/a": "Missing / not collected / unrecognised value"
+    }
+  },
+  "age": {
+    "Description": "Age at the demographics assessment. n/a if declined ('keine Angabe') or missing.",
+    "Units": "years"
+  },
+  "bdi_total": {
+    "Description": "Beck Depression Inventory II total score.",
+    "MinValue": 0,
+    "MaxValue": 63
+  },
+  "fks_mean": {
+    "Description": "Flow-Kurzskala (dispositional, Rheinberg et al. 2003) mean item score.",
+    "MinValue": 1,
+    "MaxValue": 7
+  },
+  "fam_mean": {
+    "Description": "FAM Freude subscale (Rheinberg et al. 2001, adapted) mean item score.",
+    "MinValue": 1,
+    "MaxValue": 7
+  }
+}

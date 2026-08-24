@@ -1,0 +1,30 @@
+================================================================================
+R Reference File — MISSING
+================================================================================
+
+go_nogo_scored_final.xlsx / go_nogo_scored_final.csv NOT FOUND in repository.
+
+The R script at Projects/MT/code/1. compute_stopping.R hardcodes the output path:
+
+  output_path <- "C:/1_DevuMahesan_Data/1. Ongoing_Work/3. MouseTracking/
+    04a Analysis_manuscript/Experiment_analysis_30.01.2026/go_nogo_scored_final.csv"
+
+This is a local Windows path on the PI's machine (Devu Mahesan). The output
+file was never committed to the repository.
+
+Search performed:
+  - Recursively searched all files matching *scored*, *stopping*, *xlsx*,
+    *csv* across the entire repo and Convert/ directory.
+  - No output files from the R pipeline exist anywhere in the repository.
+  - The derivatives/ directory does not exist on disk.
+
+Implication:
+  The Python port (convert_MT.py stage 2) cannot be validated against the R
+  original at this time. The R output must be obtained from the PI (Devu
+  Mahesan) to perform the trial-by-trial comparison of accuracy and
+  rt_combined values recommended in MT_description.json.
+
+  Until then, the port is unvalidated per the note in MT_description.json:
+  "the port is not yet validated against the R original — run both on the
+  same input and compare accuracy and rt_combined trial by trial before
+  relying on it."

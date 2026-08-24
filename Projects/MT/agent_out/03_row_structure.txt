@@ -1,0 +1,97 @@
+================================================================================
+Row-Level Structure: per-trial or per-frame?
+================================================================================
+
+CONCLUSION: Each CSV row = ONE TRIAL, NOT one frame/sample.
+The arrays inside each row = high-frequency mouse trajectory samples
+collected during that single trial.
+
+================================================================================
+EVIDENCE
+================================================================================
+
+1. ARRAY LENGTHS VARY BY TRIAL TYPE (go vs nogo)
+   ───────────────────────────────────────────────
+   go trials:  median 32 samples, mode 32-33, range 10–100
+   nogo trials: median 92 samples, mode 92, range 13–100
+
+   → nogo trials have ~3× more samples than go trials.
+   → This matches the expected behaviour: on go trials the participant
+     clicks and the trial ends; on nogo trials they hold the cursor
+     still for the full trial duration, generating many samples.
+
+2. SAMPLE RATE IS ~60 Hz (16.7 ms) FOR BOTH TYPES
+   ───────────────────────────────────────────────
+   Inter-sample delta (median):
+     go:  0.016660 s
+     nogo: 0.016656 s
+
+   → Nearly identical rates → same sampling device (mouse at ~60 Hz).
+   → 10 000+ unique delta values → timestamps are wall-clock (not
+     frame-locked), confirming a real-time input stream.
+
+3. TRIAL DURATION DIFFERS BY TYPE
+   ─────────────────────────────────
+   go trials:  median 0.595 s  (range 0.326–1.512 s)
+   nogo trials: median 1.094 s (range 0.410–1.513 s)
+
+   → nogo trials last ~1.8× longer → cursor stays on screen longer.
+   → Array length = floor(duration × 60 Hz).  Consistent.
+
+4. click_pos_x/y = CURSOR POSITION AT BUTTON-PRESS TIME
+   ───────────────────────────────────────────────────────
+   For go trials: position at the index where leftButton first = 1
+   matches click_pos_x/y in 96.5% of cases (±2 px).
+
+   → click_pos is NOT the final cursor position (mouse keeps moving
+     after click). It records the position at the moment of press.
+
+   For nogo trials: click_pos_x/y is empty → no button press → no
+   click position.  (98 go trials also have empty click_pos → likely
+   misses: go trial but no click recorded.)
+
+5. leftButton PATTERN CONFIRMS ONE BUTTON PRESS PER GO TRIAL
+   ──────────────────────────────────────────────────────────
+   go trials:  1575/1601 have leftButton[-1] == 1 (press at end)
+               26/1601 have leftButton[-1] == 0 (missed press)
+   nogo trials: 391/400 have leftButton[-1] == 0 (no press)
+                9/400 have leftButton[-1] == 1 (commission error)
+
+   → Each go trial has exactly one button press (the last sample).
+   → 9 nogo trials had an erroneous button press (commission errors).
+
+6. DIGIT → TRIAL_TYPE MAPPING (GO/NOGO ASSIGNMENT)
+   ─────────────────────────────────────────────────
+   go  = digits {2, 3, 4, 6, 7, 8}
+   nogo = digits {1, 9}
+
+   Digits 5 and 0 never appear — they were likely reserved as the
+   go/nogo assignment digits and never presented, or they were
+   filtered out during compilation.
+
+   No cross-contamination: every go trial uses only go-digits and
+   every nogo trial uses only nogo-digits.
+
+7. ITI DURATION
+   ─────────────
+   Column 13 (iti_duration) is constant within each participant-block.
+   Likely the inter-trial interval for that block (fixed delay between
+   trials).
+
+================================================================================
+DATA MODEL
+================================================================================
+
+Each row represents ONE experimental trial:
+
+  trial_type (go|nogo) ──► stimulus digit presented
+  mouse_resp.x/y ────────► cursor trajectory (x,y) at ~60 Hz
+  leftButton ────────────► 0 = no press, 1 = press (final element)
+  time ──────────────────► seconds from stimulus onset for each sample
+  click_pos_x/y ─────────► integer cursor position at click time (go only)
+  iti_duration ──────────► inter-trial interval for this block
+
+Arrays inside the row are NOT rows themselves.  Each row is already
+at the trial level.
+
+================================================================================

@@ -53,6 +53,45 @@ class ProjectOverviewGenerator:
     def __init__(self, base_path: str):
         self.base_path = Path(base_path)
 
+    ROLES = ('primary', 'secondary')
+
+    @classmethod
+    def _resolve_roles(cls, outcomes: List[Dict]) -> Dict[str, str]:
+        """Map {'primary': <outcome_id>, 'secondary': <outcome_id>}.
+
+        A project declares its hierarchy in ``<project>_description.json`` by
+        putting ``"role": "primary"`` / ``"role": "secondary"`` on the relevant
+        entries of ``outcome_measures``.
+
+        If it declares nothing, ``display_priority`` is used as the implicit
+        hierarchy (highest priority -> primary, next -> secondary). That means
+        every existing project participates immediately, with no migration, and
+        can still override later by declaring roles explicitly.
+
+        Returns only the roles that could actually be filled — a project with a
+        single outcome gets a primary and no secondary, and the dashboard simply
+        shows nothing for it on the secondary view rather than inventing one.
+        """
+        roles: Dict[str, str] = {}
+        taken: set = set()
+
+        # 1. explicit declaration wins
+        for o in outcomes:
+            r = str(o.get('role', '')).strip().lower()
+            if r in cls.ROLES and r not in roles:
+                roles[r] = o['id']
+                taken.add(o['id'])
+
+        # 2. fill the gaps from display_priority
+        ordered = sorted(outcomes,
+                         key=lambda o: o.get('display_priority', DEFAULT_DISPLAY_PRIORITY))
+        pool = [o['id'] for o in ordered if o['id'] not in taken]
+        for r in cls.ROLES:
+            if r not in roles and pool:
+                roles[r] = pool.pop(0)
+
+        return roles
+
     def _resolve_outcomes(self, project_name: str) -> List[Dict]:
         """Return the outcome list for a project.
 
@@ -215,21 +254,17 @@ class ProjectOverviewGenerator:
         suffix   = outcome['suffix']
         all_data = []
 
-        for f in bids_path.glob(f"*{suffix}"):
+        # Recursive: covers bids_data/*.tsv, sub-XX/ses-Y/*.tsv AND the
+        # BIDS-standard sub-XX/ses-Y/beh/*.tsv modality folder. The two
+        # hard-coded depths silently found ZERO files for any dataset written
+        # by a standards-compliant BIDS builder. Suffix matching stays exact,
+        # so `_ACC_beh.tsv` still cannot match `_ACCBIN_beh.tsv`.
+        for f in sorted(bids_path.rglob(f"*{suffix}")):
+            if not f.is_file():
+                continue
             df = self._load_outcome_file(f)
             if not df.empty:
                 all_data.append(df)
-
-        for subject_dir in bids_path.glob("sub-*"):
-            if not subject_dir.is_dir():
-                continue
-            for session_dir in subject_dir.glob("ses-*"):
-                if not session_dir.is_dir():
-                    continue
-                for f in session_dir.glob(f"*{suffix}"):
-                    df = self._load_outcome_file(f)
-                    if not df.empty:
-                        all_data.append(df)
 
         return pd.concat(all_data, ignore_index=True) if all_data else pd.DataFrame()
 
@@ -250,15 +285,24 @@ class ProjectOverviewGenerator:
 
     def load_participants_data(self, project_name: str) -> pd.DataFrame:
         """Load participants.tsv file"""
-        participants_file = self.base_path / "Projects" / project_name / "participants.tsv"
-        
-        if not participants_file.exists():
+        proj_dir = self.base_path / "Projects" / project_name
+        # BIDS puts participants.tsv at the DATASET root, which here is
+        # bids_data/. Check both so either convention works.
+        candidates = [proj_dir / "participants.tsv",
+                      proj_dir / "bids_data" / "participants.tsv"]
+        participants_file = next((c for c in candidates if c.exists()), None)
+        if participants_file is None:
             return pd.DataFrame()
-        
+
         df = pd.read_csv(participants_file, sep='\t')
-        df = df[df['participant_id'] != 'n/a'].copy()
-        df['age'] = pd.to_numeric(df['age'], errors='coerce')
-        
+        if 'participant_id' in df.columns:
+            df = df[df['participant_id'] != 'n/a'].copy()
+        if 'age' in df.columns:
+            df['age'] = pd.to_numeric(df['age'], errors='coerce')
+        else:
+            df['age'] = np.nan
+        if 'sex' not in df.columns:
+            df['sex'] = 'n/a'
         return df
     
     # ── Metric calculations — delegated to ReliabilityMetrics ────────────────
@@ -295,6 +339,23 @@ class ProjectOverviewGenerator:
         accbin_data = loaded.get(ACCBIN_ID, pd.DataFrame())
         if accbin_out and accbin_out['id'] != ACCBIN_ID:
             accbin_data = loaded.get(accbin_out['id'], pd.DataFrame())
+
+        # Correct-trial filtering is written against the internal name
+        # `accuracy_binary`, but outcome_measures declares the real column name
+        # (FLOW uses `is_correct`). Ignoring the declaration raised
+        # `KeyError: ['accuracy_binary'] not in index` for any project not using
+        # that literal name. Alias the declared column onto the internal one.
+        if accbin_out and not accbin_data.empty:
+            declared = accbin_out.get('column', 'accuracy_binary')
+            if declared != 'accuracy_binary':
+                if declared in accbin_data.columns:
+                    accbin_data = accbin_data.copy()
+                    accbin_data['accuracy_binary'] = pd.to_numeric(
+                        accbin_data[declared], errors='coerce')
+                else:
+                    print(f"  ⚠ {project_name}: binary-accuracy column '{declared}' "
+                          f"not found — correct-trial filtering disabled")
+                    accbin_data = pd.DataFrame()
 
         # At least one visualisable outcome must be present
         if participants.empty or all(loaded[o['id']].empty for o in vis_outcomes):
@@ -441,6 +502,57 @@ class ProjectOverviewGenerator:
         reliability         = _compute_rel(task_trial_types)
         control_reliability = _compute_rel(control_trial_types)
 
+        # ── ROLE LAYER: each project declares its own outcome hierarchy ───────
+        #
+        # THE problem this solves: the dashboard's radar/sliders were keyed on
+        # OUTCOME IDs ('rt', 'accbin'). That only looked general because most
+        # projects happen to name their outcomes the same way — it is a naming
+        # coincidence, not an abstraction. A paradigm whose headline measure is
+        # a flow index, a d-prime, or a distance error simply falls out.
+        #
+        # The fix is to make ROLE a first-class metric namespace. Every project
+        # says which of ITS outcomes is primary and which is secondary; here we
+        # mirror that outcome's metrics under `primary_*` / `secondary_*` keys.
+        #
+        # Because the aliases have exactly the same SHAPE as the outcome keys
+        # (`primary_icc_agreement` looks like `rt_icc_agreement`), every existing
+        # consumer downstream — the radar, the sliders, the filters,
+        # _perProjectMean — keeps working with no change at all. Only the list of
+        # prefixes it iterates over changes. That is the whole trick.
+        role_of = self._resolve_roles(vis_outcomes)
+
+        def _alias_roles(rel: Dict) -> Dict:
+            for cell in rel.values():
+                for role, oid in role_of.items():
+                    src = f'{oid.lower()}_'
+                    for k, v in list(cell.items()):
+                        if not k.startswith(src):
+                            continue
+                        # Scalars only. The per-subject arrays (s1_means,
+                        # subjects, ...) would double the JSON for no gain —
+                        # every downstream consumer of these keys skips
+                        # non-scalars anyway.
+                        if isinstance(v, (list, dict)):
+                            continue
+                        cell[f'{role}_{k[len(src):]}'] = v
+            return rel
+
+        reliability         = _alias_roles(reliability)
+        control_reliability = _alias_roles(control_reliability)
+
+        by_id = {o['id']: o for o in vis_outcomes}
+        role_map = {
+            role: {
+                'outcome_id':       oid,
+                'label':            by_id.get(oid, {}).get('label', oid),
+                'axis_label':       by_id.get(oid, {}).get('axis_label'),
+                'is_binary':        by_id.get(oid, {}).get('is_binary', False),
+                'higher_is_better': by_id.get(oid, {}).get('higher_is_better', True),
+                'declared':         bool(by_id.get(oid, {}).get('role')),
+            }
+            for role, oid in role_of.items()
+        }
+
         # Outcome metadata stored in report for use by JS templates
         outcome_meta = [
             {
@@ -452,6 +564,14 @@ class ProjectOverviewGenerator:
                 'requires_correct_filter': o.get('requires_correct_filter',
                                                   o.get('is_primary', False)),
                 'paradigm_contrast':       o.get('paradigm_contrast'),
+                # Which role this outcome plays in THIS project's hierarchy.
+                'role':                    next((r for r, oid in role_of.items()
+                                                 if oid == o['id']), None),
+                # Comparable across paradigms in raw units? (RT/accuracy yes,
+                # a paradigm-specific index no.) Only used by the optional
+                # legacy "compare by outcome" view — the role view needs no such
+                # flag, because role is meaningful for every paradigm.
+                'is_global':               o.get('is_global', True),
             }
             for o in vis_outcomes
         ]
@@ -547,6 +667,7 @@ class ProjectOverviewGenerator:
             'data_by_condition':       data_by_condition,
             'reliability_metrics':     reliability,
             'control_reliability':     control_reliability,
+            'role_map':                role_map,
             'learning_stage_data':     learning_stage_data,
             'outcome_measures':        outcome_meta,
             'primary_icc_key':         _pick_primary_icc_key(outcome_meta, reliability),

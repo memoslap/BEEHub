@@ -1,0 +1,132 @@
+================================================================================
+BIDS Data Files Summary — APPL and OLM
+================================================================================
+
+================================================================================
+APPL
+================================================================================
+File: Projects/APPL/bids_data/
+
+participants.tsv: 3 cols (participant_id, sex, age), 20 rows
+
+Sub-participants: 20 unique participants
+Sessions: 2 (ses-03, ses-04)
+Total outcome files: 120 (20 subs × 2 ses × 3 outcomes)
+Completeness: ALL sub-ses have all 3 outcome files (ACC, ACCBIN, RT)
+
+FILE TYPES:
+  sub-XXX_ses-YY_task-APPL_run-ZZ_ACC_beh.tsv        (8 cols)
+  sub-XXX_ses-YY_task-APPL_run-ZZ_ACCBIN_beh.tsv     (7 cols)
+  sub-XXX_ses-YY_task-APPL_run-ZZ_RT_beh.tsv         (8 cols)
+
+APPL ACC (8 cols):
+  Header: onset, duration, accuracy, trial_type, learning_stage,
+          stimulus, coherence, signal_detection_theory
+  Total rows: 12 800
+  accuracy: correct=11 452, incorrect=1 152, n/a=196
+  trial_type: learning=9 600, control=3 200
+
+APPL ACCBIN (7 cols):
+  Header: onset, duration, accuracy_binary, trial_type, learning_stage,
+          stimulus, coherence
+  Total rows: 12 800
+  accuracy_binary: 1=11 452, 0=1 152, n/a=196
+  trial_type: learning=9 600, control=3 200
+
+APPL RT (8 cols):
+  Header: onset, duration, response_time_ms, trial_type, learning_stage,
+          stimulus, coherence, response_port
+  Total rows: 12 800
+  response_time_ms: n/a=196, 6 807–11 046 ms (continuous float, ~9 000 ms mean)
+  trial_type: learning=9 600, control=3 200
+
+NOTE: 196 rows per outcome file have "n/a" — these match the n/a rows in
+      accuracy/accuracy_binary, suggesting trials with no response.
+      learning_stage values: LS1–LS4 (learning stages)
+      stimulus: picture filenames (e.g., PICTURE_202.jpg)
+      coherence: present (continuous value)
+
+================================================================================
+OLM
+================================================================================
+File: Projects/OLM/bids_data/
+
+participants.tsv: 3 cols (participant_id, sex, age), 21 rows
+
+Participants: 21 unique, 20 with data (20 sub-ses × 2 ses × 3 outcomes)
+Sessions: 2 (ses-01, ses-02)
+Total outcome files: 120 (20 subs × 2 ses × 3 outcomes)
+Completeness: ALL sub-ses have all 3 outcome files (ACC, ACCBIN, RT)
+
+FILE TYPES:
+  sub-XXX_ses-YY_task-OLM_run-ZZ_ACC_beh.tsv        (7 cols)
+  sub-XXX_ses-YY_task-OLM_run-ZZ_ACCBIN_beh.tsv     (6 cols)
+  sub-XXX_ses-YY_task-OLM_run-ZZ_RT_beh.tsv         (7 cols)
+
+OLM ACC (7 cols):
+  Header: onset, duration, accuracy, trial_type, learning_stage,
+          stimulus, coherence
+  Total rows: 12 800
+  accuracy: correct, incorrect, n/a (values truncated in output)
+  trial_type: learning, control
+  stimulus: image filenames (e.g., h84_p47_i_down_right.jpg)
+  learning_stage: LS1–LS4
+
+OLM ACCBIN (6 cols):
+  Header: onset, duration, accuracy_binary, trial_type, learning_stage,
+          stimulus, coherence
+  Total rows: 12 800
+  accuracy_binary: 1 (correct), 0 (incorrect), n/a
+
+OLM RT (7 cols):
+  Header: onset, duration, response_time_ms, trial_type, learning_stage,
+          stimulus, coherence
+  Total rows: 12 800
+  response_time_ms: continuous float, ~1 000–1 200 ms range
+  trial_type: learning, control
+
+================================================================================
+APPL vs OLM — STRUCTURAL COMPARISON
+================================================================================
+
+  Field              APPL                  OLM
+  ─────────────────  ──────────────────    ──────────────────
+  participants.tsv   20 rows               21 rows
+  sessions           ses-03, ses-04        ses-01, ses-02
+  sub-ses in data    20 × 2 = 40           20 × 2 = 40
+  file types         ACC/ACCBIN/RT         ACC/ACCBIN/RT
+  completeness       all present           all present
+
+  ACC header cols:    8 (APPL has extra: signal_detection_theory)
+  ACCBIN header cols: 7 (APPL has extra: coherence)
+  RT header cols:     8 (APPL has extra: response_port)
+
+  ACCBIN header cols: 7 (APPL has extra: coherence)
+  ACCBIN header cols: 6 (OLM has NO coherence column)
+  RT header cols:     8 (APPL has extra: response_port)
+
+  Common columns:     onset, duration, trial_type, learning_stage,
+                      stimulus (both), coherence (APPL only)
+  APPL-only:          signal_detection_theory (ACC), response_port (RT)
+  OLM stimulus:       hXX_pYY_iZZ_XX.jpg (object-location pair format)
+  APPL stimulus:      PICTURE_XXX.jpg (single picture format)
+
+  Both use:
+    - trial_type: learning, control
+    - learning_stage: LS1–LS4
+    - Same file naming convention (BIDS-derivatives style)
+    - Same column layout for onset/duration/trial_type/learning_stage/stimulus
+    - n/a for missing accuracy/response_time
+
+================================================================================
+CONCLUSION
+================================================================================
+
+Both APPL and OLM have identical BIDS derivative structure:
+- 3 outcome files per sub-ses (ACC, ACCBIN, RT)
+- All files complete (no missing outcomes)
+- Same core columns (onset, duration, trial_type, learning_stage, stimulus)
+- APPL has extra metadata columns (signal_detection_theory, response_port)
+- APPL's ACCBIN has coherence; OLM's ACCBIN does not
+- OLM has 21 participants listed in participants.tsv but only 20 with data
+- Both use learning_stage LS1–LS4 and trial_type learning/control

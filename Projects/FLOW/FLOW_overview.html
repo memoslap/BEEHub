@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW - Project Report</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #111111 100%);
+            color: #d4b44a;
+            padding: 20px;
+        }
+
+        .container { max-width: 1600px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg,
+                rgba(28, 26, 16, 0.97) 0%,
+                rgba(40, 37, 22, 0.98) 35%,
+                rgba(50, 46, 26, 0.99) 60%,
+                rgba(36, 33, 19, 0.98) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.65),
+                0 2px 8px rgba(201, 162, 39, 0.10),
+                inset 0 1px 0 rgba(255,255,255,0.95),
+                inset 0 -1px 0 rgba(201, 162, 39, 0.12);
+            border: 1px solid rgba(201, 162, 39, 0.40);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #c9a227 20%, #f0d060 40%,
+                #e5c158 50%, #f0d060 60%, #c9a227 80%, #1a1a1a 100%);
+        }
+
+        /* subtle metallic sheen overlay */
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%; right: 0; bottom: 0;
+            background: linear-gradient(105deg,
+                transparent 40%,
+                rgba(255,255,255,0.22) 50%,
+                transparent 60%);
+            pointer-events: none;
+        }
+
+        .project-name {
+            background: linear-gradient(135deg,
+                #1a1a1a 0%, #2c2c2c 25%, #d4b44a 45%,
+                #c9a227 55%, #d4b44a 70%, #2c2c2c 85%, #1a1a1a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .project-full-name {
+            color: #a08840;
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .project-description {
+            color: #a08840;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .char-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+        .char-badge {
+            background: linear-gradient(135deg,
+                rgba(40, 36, 18, 0.96) 0%, rgba(35, 30, 14, 0.95) 100%);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88em;
+            border: 1px solid rgba(201, 162, 39, 0.50);
+            color: #8a6800;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(201, 162, 39, 0.15),
+                        inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        /* ── Paradigm info panel ─────────────────────────────────────── */
+        .paradigm-panel {
+            background: linear-gradient(135deg,
+                rgba(22, 20, 12, 0.97) 0%, rgba(30, 28, 15, 0.98) 50%, rgba(22, 20, 12, 0.97) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.30);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(201, 162, 39, 0.08),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .paradigm-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 36px;
+            margin-top: 16px;
+        }
+
+        .paradigm-section-title {
+            color: #c9a227;
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.30);
+        }
+
+        .paradigm-text {
+            color: #b89a50;
+            font-size: 0.96em;
+            line-height: 1.65;
+        }
+
+        .paradigm-full {
+            grid-column: 1 / -1;
+        }
+
+        .keyword-list {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;
+        }
+
+        .keyword-chip {
+            background: rgba(201, 162, 39, 0.10);
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 0.82em;
+            color: #d4b44a;
+        }
+
+        .timing-grid {
+            display: flex; gap: 16px; flex-wrap: wrap;
+        }
+
+        .timing-item {
+            background: rgba(30, 28, 14, 0.90);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.85em;
+            color: #b89a50;
+        }
+
+        .timing-item span {
+            font-weight: 600;
+            color: #f0d060;
+        }
+
+        .metrics-row {
+            display: flex; gap: 30px; margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(201, 162, 39, 0.45);
+        }
+        .metric-item { font-size: 1.05em; }
+        .metric-label { color: #a08840; font-size: 0.9em; margin-right: 6px; }
+        .metric-value {
+            background: linear-gradient(135deg, #f0d060 0%, #c9a227 50%, #e5c158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, rgba(20, 18, 12, 0.98) 0%, rgba(28, 25, 15, 0.99) 50%, rgba(20, 18, 12, 0.98) 100%);
+            padding: 25px; border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(201, 162, 39, 0.10);
+        }
+
+        .chart-title {
+            color: #c9a227; font-size: 1.3em; font-weight: 600;
+            margin-bottom: 15px; padding-bottom: 10px;
+            border-bottom: 2px solid rgba(201, 162, 39, 0.45);
+        }
+
+        .full-width-container { grid-column: 1 / -1; }
+
+        .radar-container {
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+
+        /* ── Reliability explanation panel ─────────────────────────── */
+        .reliability-panel {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(12,11,6,0.98) 0%, rgba(20,18,10,0.99) 50%, rgba(12,11,6,0.98) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(201, 162, 39, 0.30);
+            box-shadow:
+                0 12px 40px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(201, 162, 39, 0.20),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reliability-panel::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #2c2c2c 20%, #c9a227 40%,
+                #3d3d3d 60%, #c9a227 80%, #2c2c2c 100%);
+        }
+
+        .reliability-panel-header {
+            padding: 32px 40px 24px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+        }
+
+        .reliability-panel-title {
+            background: linear-gradient(135deg,
+                #c9a227 0%, #2c2c2c 30%, #3d3d3d 60%, #c9a227 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .reliability-panel-subtitle {
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.9em;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .metric-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            padding: 32px 40px 40px;
+        }
+
+        .metric-card {
+            background: linear-gradient(160deg,
+                rgba(30,50,40,0.8) 0%,
+                rgba(20,38,30,0.9) 50%,
+                rgba(15,28,22,0.95) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 162, 39, 0.35);
+            border-left: 3px solid #c9a227;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-left-color: #c9a227;
+        }
+
+        .metric-card-header {
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
+        }
+
+        .metric-card-name {
+            color: #f0d060;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-card-tagline {
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.85em;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .metric-card-body { padding: 16px 22px 20px; }
+
+        .metric-card-points {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .metric-card-points li {
+            color: rgba(212, 190, 130, 0.9);
+            font-size: 0.9em;
+            line-height: 1.7;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .metric-card-points li::before {
+            content: '›';
+            position: absolute; left: 0;
+            color: #f0d060;
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+
+        .formula-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(201, 162, 39, 0.45);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula-main {
+            color: #f0d060;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .formula-sub {
+            color: rgba(201, 162, 39, 0.75);
+            font-size: 0.78em;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .formula-range {
+            color: #ffa726;
+            font-size: 0.82em;
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+        }
+
+        .btn-container {
+            display: flex;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .btn-secondary {
+            padding: 18px 35px;
+            border: 1px solid rgba(201, 162, 39, 0.50);
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                rgba(15,25,20,0.97) 0%,
+                rgba(30,50,40,0.95) 50%,
+                rgba(20,35,28,0.97) 100%
+            );
+            color: #f0d060;
+            min-width: 200px;
+            box-shadow:
+                0 4px 16px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(201, 162, 39, 0.20),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg,
+                rgba(20,35,28,0.98) 0%,
+                rgba(45,80,60,0.95) 50%,
+                rgba(30,50,40,0.98) 100%
+            );
+            border-color: #f0d060;
+            color: #f5e090;
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 24px rgba(201, 162, 39, 0.35),
+                inset 0 1px 0 rgba(201, 162, 39, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-top-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            padding: 10px 22px;
+            border: 1px solid rgba(201, 162, 39, 0.6);
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: linear-gradient(135deg,
+                #c9a227 0%,
+                #e5c158 50%,
+                #c9a227 100%
+            );
+            color: #1a1a1a;
+            box-shadow:
+                0 3px 12px rgba(201, 162, 39, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            letter-spacing: 0.2px;
+            z-index: 10;
+        }
+
+        .btn-top-dashboard:hover {
+            background: linear-gradient(135deg,
+                #f0d060 0%,
+                #e5c158 50%,
+                #d4b44a 100%
+            );
+            border-color: #f0d060;
+            color: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(201, 162, 39, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.40);
+        }
+
+        /* ── Publications box ── */
+        .publications-box {
+            background: linear-gradient(135deg,
+                rgba(20, 18, 10, 0.97) 0%,
+                rgba(28, 26, 14, 0.98) 35%,
+                rgba(32, 30, 16, 0.99) 60%,
+                rgba(22, 20, 12, 0.97) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.40);
+            border-radius: 15px;
+            padding: 30px 38px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 24px rgba(0, 0, 0, 0.55),
+                0 2px 6px rgba(201, 162, 39, 0.12),
+                inset 0 1px 0 rgba(201, 162, 39, 0.10),
+                inset 0 -1px 0 rgba(201, 162, 39, 0.08);
+        }
+
+        .publications-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                #1a1a1a 0%, #c9a227 20%, #f0d060 40%,
+                #e5c158 50%, #f0d060 60%, #c9a227 80%, #1a1a1a 100%);
+        }
+
+        /* metallic sheen */
+        .publications-box::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%; right: 0; bottom: 0;
+            background: linear-gradient(105deg,
+                transparent 40%,
+                rgba(255,255,255,0.18) 50%,
+                transparent 60%);
+            pointer-events: none;
+        }
+
+        .publications-title {
+            background: linear-gradient(135deg,
+                #c9a227 0%, #f0d060 30%, #e5c158 55%, #f0d060 75%, #c9a227 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3em;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+        }
+
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .pub-card {
+            background: linear-gradient(135deg,
+                rgba(28, 26, 14, 0.98) 0%,
+                rgba(36, 33, 17, 0.99) 50%,
+                rgba(28, 26, 14, 0.98) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.25);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45),
+                        inset 0 1px 0 rgba(201, 162, 39, 0.08);
+        }
+
+        .pub-card:hover {
+            border-color: rgba(201, 162, 39, 0.55);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(201, 162, 39, 0.12);
+        }
+
+        .pub-number {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2c2c2c 0%, #d4b44a 50%, #c9a227 100%);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .pub-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pub-title {
+            color: #d4b44a;
+            font-size: 0.97em;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .pub-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .pub-title a:hover {
+            color: #f0d060;
+            text-decoration: underline;
+        }
+
+        .pub-authors {
+            color: #a08840;
+            font-size: 0.86em;
+            margin-bottom: 9px;
+            line-height: 1.5;
+        }
+
+        .pub-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pub-badge {
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .pub-badge.journal {
+            color: #c9a227;
+            border-color: rgba(201, 162, 39, 0.40);
+            background: linear-gradient(135deg,
+                rgba(30, 28, 14, 0.95) 0%,
+                rgba(40, 36, 16, 0.95) 100%);
+        }
+
+        .pub-badge.year {
+            color: #d4b44a;
+            border-color: rgba(201, 162, 39, 0.35);
+            background: linear-gradient(135deg,
+                rgba(28, 26, 12, 0.95) 0%,
+                rgba(38, 34, 14, 0.95) 100%);
+        }
+
+        .pub-badge.doi {
+            color: #b89a50;
+            border-color: rgba(201, 162, 39, 0.30);
+            background: linear-gradient(135deg,
+                rgba(25, 23, 10, 0.95) 0%,
+                rgba(35, 32, 13, 0.95) 100%);
+            text-decoration: none;
+        }
+
+        a.pub-badge.doi:hover {
+            color: #f0d060;
+            text-decoration: underline;
+        }
+
+        .pub-badge.oa {
+            color: #f0d060;
+            border-color: rgba(240, 208, 96, 0.35);
+            background: linear-gradient(135deg,
+                rgba(30, 26, 8, 0.95) 0%,
+                rgba(44, 38, 10, 0.95) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../../dashboard.html" class="btn-top-dashboard">&#8617; Dashboard</a>
+            <div class="project-name">FLOW</div>
+            <div class="project-full-name">Mental Arithmetic Flow Paradigm</div>
+            <div class="paradigm-panel">
+            <div class="char-badges"><span class="char-badge">cognitive control</span><span class="char-badge">adaptive mental arithmetic with skill-demand matching</span><span class="char-badge">visual</span><span class="char-badge">german</span><span class="char-badge">behavioral</span><span class="char-badge">2 sessions</span></div>
+            <p class="paradigm-text">A mental arithmetic block-design paradigm that experimentally induces flow by continuously matching task difficulty to individual skill, contrasted against boredom and overload control conditions.</p>
+            
+            <div class="paradigm-panel-grid" style="margin-top:14px;">
+                <div class="paradigm-full">
+                    <div class="paradigm-section-title">Background</div>
+                    <p class="paradigm-text">Flow (Csikszentmihalyi, 1975, 1990, 2000) is the autotelic subjective state that emerges when an individual's skill is matched to the demands of a goal-directed activity with clear and immediate feedback. It is characterised by intense yet effortless concentration, reduced self-referential processing, a sense of control, and intrinsic reward. Despite its theoretical prominence, flow has historically been hard to operationalise in laboratory settings because it requires (a) continuous online adjustment of task difficulty, (b) minimal motor confounds for neuroimaging, and (c) clear goal structure with immediate (implicit) feedback. Ulrich et al. (2014, NeuroImage) introduced the present mental arithmetic paradigm to satisfy all three requirements and reported, with pCASL perfusion fMRI, that flow is associated with increased rCBF in left inferior frontal gyrus and basal ganglia, and decreased rCBF in medial prefrontal cortex, amygdala, and angular gyri — a 'multiple-demand engagement / default-mode disengagement' signature. Ulrich, Keller & Grön (2016b, Social Cognitive and Affective Neuroscience) replicated and extended these findings with a BOLD block design (30 s blocks), demonstrating a bilateral inverted-U pattern across the multiple-demand network (anterior insula, IFG, pre-SMA, IPL/SPL, thalamus, basal ganglia, midbrain) and a U-pattern in the default-mode network (MPFC, PCC, lateral temporoparietal cortex, hippocampus, amygdala), with concurrent increases in electrodermal activity during flow. Katahira et al. (2018, Frontiers in Psychology) adopted the same paradigm for EEG and showed that flow is characterised by increased frontal theta (cognitive control, immersion) and moderate frontocentral alpha (working-memory load not excessive). Ulrich et al. (2018, Experimental Brain Research) used the paradigm with tDCS over the MPFC and demonstrated baseline-dependent modulation of subjective flow and right-amygdala downregulation. Ulrich et al. (2022, NeuroImage: Reports) reported decisive Bayesian replication evidence (BF > 300) for both invU and U signatures in an independent sample of N = 41; Ulrich, Niemann & Grön (2022, Frontiers in Human Neuroscience) used task-based functional connectivity to show that the right anterior insula serves as a salience-network hub coupling with the central-executive network and decoupling from the ventral striatum during flow. References: Csikszentmihalyi (1975, 1990, 2000); Ulrich et al. (2014) NeuroImage 86:194-202; Ulrich et al. (2016b) SCAN 11:496-507; Katahira et al. (2018) Front Psychol 9:300; Ulrich et al. (2018) Exp Brain Res 236:3223-3237; Ulrich et al. (2022a) NeuroImage Reports 2:100139; Ulrich et al. (2022b) Front Hum Neurosci 16:1067968.</p>
+                </div>
+            </div>
+            
+        </div>
+            <div class="metrics-row">
+                <div class="metric-item">
+                    <span class="metric-label">Participants:</span>
+                    <span class="metric-value">29</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Age:</span>
+                    <span class="metric-value">22.3 ± 2.5 years</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Male / Female:</span>
+                    <span class="metric-value">11/16</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+
+            <div class="chart-container">
+                <div class="chart-title">Flow Index (Likert) Distribution</div>
+                <div id="FLOW_flowindex_likert_violin"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Flow Index (Likert) Test-Retest (mean per subject)</div>
+                <div class="stats-banner" style="font-size:0.78em; color:#a08840; padding:8px 14px; margin:-8px 0 12px 0; background:rgba(20,18,10,0.6); border-left:2px solid rgba(201,162,39,0.4); border-radius:4px; line-height:1.7;"><span style="color:#c9a227; font-weight:600;">all_conditions</span><span style="color:#a08840;"> · </span><span style="color:#c8b080;">F(23,23)=6.80 p=1.0e-05 · α=0.94 (9 items)</span></div>
+                <div id="FLOW_flowindex_likert_scatter"></div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Flow Index (Task) Distribution</div>
+                <div id="FLOW_flowindex_task_violin"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Flow Index (Task) Test-Retest (mean per subject)</div>
+                <div class="stats-banner" style="font-size:0.78em; color:#a08840; padding:8px 14px; margin:-8px 0 12px 0; background:rgba(20,18,10,0.6); border-left:2px solid rgba(201,162,39,0.4); border-radius:4px; line-height:1.7;"><span style="color:#c9a227; font-weight:600;">all_conditions</span><span style="color:#a08840;"> · </span><span style="color:#c8b080;">F(24,24)=8.83 p=5.7e-07 · α=0.88 (3 items)</span></div>
+                <div id="FLOW_flowindex_task_scatter"></div>
+            </div>
+
+            <div class="chart-container full-width-container">
+                <div class="chart-title">Reliability Metrics Radar — Task Conditions</div>
+                <div id="FLOW_radar_task"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="btn-container">
+            <a href="../../dashboard.html" class="btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+
+        var traces_FlowIndex_Likert = [{"y": [12.0, 15.0, 15.0, 21.0, 21.0, 21.0, 18.0, 15.0, 12.0, -9.0, 3.0, -12.0, 0.0, 3.0, -3.0, -9.0, -6.0, -12.0, 0.0, 21.0, -3.0, 9.0, 15.0, 6.0, 12.0, 15.0, 0.0, 3.0, 3.0, 0.0, -3.0, 6.0, 0.0, -3.0, -3.0, -12.0, 6.0, 21.0, 6.0, -6.0, 3.0, 0.0, -9.0, -9.0, -12.0, 9.0, 21.0, 9.0, 15.0, 36.0, 9.0, 6.0, 24.0, 12.0, 0.0, 12.0, 0.0, 0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 18.0, 30.0, 24.0, 21.0, 24.0, 18.0, 27.0, 30.0, 24.0, -3.0, 21.0, 6.0, -6.0, 12.0, -3.0, 3.0, 15.0, 0.0, 0.0, 9.0, 6.0, 0.0, 12.0, 3.0, 0.0, 3.0, -6.0, -3.0, 3.0, 6.0, 3.0, 12.0, 3.0, 6.0, 9.0, 3.0, -6.0, -3.0, -3.0, -6.0, -3.0, 3.0, -6.0, 6.0, -3.0, -9.0, 6.0, 0.0, -3.0, 12.0, 0.0, -6.0, 9.0, -6.0, 0.0, 9.0, 3.0, 9.0, 6.0, -3.0, 12.0, 12.0, 15.0, 21.0, 30.0, 18.0, 27.0, 27.0, 27.0, 30.0, 33.0, 27.0, -3.0, 0.0, 0.0, 3.0, 15.0, 6.0, -3.0, 9.0, 3.0, 15.0, 21.0, 21.0, 24.0, 27.0, 18.0, 6.0, 24.0, 3.0, 0.0, 9.0, 6.0, 0.0, 18.0, -6.0, -6.0, 15.0, -6.0, 6.0, 15.0, 12.0, 12.0, 18.0, 6.0, 12.0, 15.0, 15.0, 0.0, 24.0, 9.0, 3.0, 24.0, 3.0, 3.0, 24.0, 3.0, -15.0, -15.0, -3.0, 3.0, -3.0, -3.0, 6.0, 6.0, 15.0, 18.0, 24.0, 24.0, 30.0, 24.0, 21.0, 3.0, 12.0, 12.0, -12.0, 12.0, 3.0, -21.0, -6.0, -9.0, -18.0, -9.0, -12.0, -15.0, 3.0, 6.0, 6.0, 9.0, 6.0, 0.0, 3.0, 0.0, 0.0, -9.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, 0.0, 12.0, 12.0, 18.0, 18.0, 15.0, 18.0, 27.0, 27.0, 21.0, 24.0, 33.0, -3.0, 24.0, 33.0, 0.0, 30.0, 36.0, 0.0, -3.0, 18.0, 0.0, 0.0, 18.0, 0.0, 0.0, 18.0, 0.0, 3.0, 9.0, 0.0, 0.0, 15.0, 0.0, 0.0, 9.0, 0.0], "type": "violin", "name": "all_conditions (ses-01)", "box": {"visible": true, "fillcolor": "#f0d060", "line": {"color": "#f0d060"}}, "meanline": {"visible": true, "color": "#ffffff", "width": 2}, "fillcolor": "rgba(240,208,96,0.22)", "opacity": 0.9, "marker": {"color": "#f0d060", "size": 4, "opacity": 0.7, "line": {"color": "#1a1a1a", "width": 0.5}}, "line": {"color": "#f0d060", "width": 2}, "points": "all", "jitter": 0.35, "pointpos": 0}, {"y": [15.0, 21.0, 12.0, 18.0, 24.0, 15.0, 3.0, 24.0, 15.0, 0.0, 3.0, -3.0, 0.0, -3.0, -3.0, 21.0, 6.0, 15.0, 0.0, 3.0, -6.0, -12.0, 3.0, -9.0, -12.0, -3.0, -6.0, -3.0, 12.0, 0.0, 15.0, 18.0, 6.0, 9.0, 21.0, 0.0, 3.0, 24.0, 6.0, 6.0, 15.0, 0.0, 6.0, 12.0, 12.0, 18.0, 30.0, 18.0, 24.0, 30.0, 24.0, 18.0, 24.0, 12.0, 0.0, 12.0, -3.0, -3.0, -3.0, -3.0, 6.0, 12.0, 0.0, 6.0, 9.0, 3.0, 9.0, 15.0, 12.0, 3.0, 18.0, 6.0, 6.0, 15.0, 3.0, 15.0, 6.0, 3.0, 12.0, 12.0, 9.0, 0.0, 0.0, 3.0, 3.0, 3.0, 12.0, 3.0, 3.0, 0.0, 9.0, 21.0, 12.0, 9.0, 15.0, 3.0, 12.0, 21.0, 3.0, -3.0, 3.0, 6.0, 0.0, 3.0, -3.0, 0.0, 0.0, -3.0, 24.0, 27.0, 18.0, 21.0, 15.0, 18.0, 21.0, 15.0, 12.0, -3.0, 0.0, -6.0, 0.0, 3.0, -3.0, -3.0, -3.0, -3.0, 12.0, 18.0, 9.0, 12.0, 15.0, 9.0, 12.0, 21.0, 18.0, 0.0, 3.0, -3.0, 0.0, 3.0, -3.0, 0.0, 9.0, -3.0, 3.0, 9.0, 0.0, 3.0, -3.0, 3.0, 9.0, 3.0, 0.0, 6.0, 24.0, 6.0, 6.0, 27.0, 6.0, 3.0, 24.0, 6.0, 6.0, 0.0, 9.0, 6.0, 6.0, 9.0, 6.0, 0.0, 9.0, 15.0, 18.0, 18.0, 6.0, 12.0, 3.0, 6.0, 12.0, -3.0, -9.0, 3.0, -9.0, -15.0, -6.0, -6.0, 0.0, 12.0, 6.0, 0.0, 0.0, 6.0, 0.0, -3.0, 0.0, -3.0, -9.0, 0.0, -6.0, 21.0, -3.0, -3.0, 12.0, -6.0, -3.0, 9.0, 0.0, 21.0, 24.0, 12.0, 21.0, 18.0, 18.0, 12.0, 18.0, 12.0], "type": "violin", "name": "all_conditions (ses-02)", "box": {"visible": true, "fillcolor": "#f0d060", "line": {"color": "#f0d060"}}, "meanline": {"visible": true, "color": "#ffffff", "width": 2}, "fillcolor": "rgba(240,208,96,0.22)", "opacity": 0.9, "marker": {"color": "#f0d060", "size": 4, "opacity": 0.7, "line": {"color": "#1a1a1a", "width": 0.5}}, "line": {"color": "#f0d060", "width": 2}, "points": "all", "jitter": 0.35, "pointpos": 0}];
+        var layout_FlowIndex_Likert = {
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {color: '#d4b44a', size: 12},
+            height: 420,
+            yaxis: {
+                title: 'Flow index (−36 … +36; 0 = no preference)',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 14},
+                range: [0, 52]
+            },
+            xaxis: {gridcolor: "rgba(201, 162, 39, 0.25)", tickfont: {color: '#d4b44a'}, tickcolor: 'rgba(201, 162, 39, 0.5)'},
+            showlegend: true,
+            legend: {bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {color: '#d4b44a'},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1},
+            violingap: 0.3, violinmode: 'group',
+            margin: {l: 60, r: 30, t: 30, b: 50}
+        };
+        Plotly.newPlot('FLOW_flowindex_likert_violin', traces_FlowIndex_Likert, layout_FlowIndex_Likert, {responsive: true});
+
+        var traces_FlowIndex_Task = [{"y": [7.272727272727273, 8.0, 5.422222222222221, 0.7777777777777786, 1.0, 2.1111111111111107, 3.888888888888889, 4.199999999999999, 1.4000000000000004, 1.333333333333334, -0.2222222222222223, 1.0, 4.0, 1.1999999999999993, 2.1111111111111107, -0.6363636363636367, 0.7777777777777786, 0.8000000000000007, 1.1999999999999993, 3.4444444444444446, 3.4444444444444446, 4.666666666666668, 4.666666666666668, 3.555555555555556, 1.8000000000000007, 2.8000000000000007, 2.4000000000000004, 3.0, 1.2222222222222214, 2.0, 1.0, 4.199999999999999, 4.6, 0.4000000000000003, 1.0, -1.5, 0.4000000000000003, 2.2888888888888896, 1.4000000000000004, 2.3000000000000007, 0.1666666666666678, 3.7777777777777786, 3.8000000000000007, 5.0, 4.199999999999999, 2.8888888888888893, 5.199999999999999, 6.274999999999999, 3.0, 3.2888888888888896, 1.7272727272727266, 0.4000000000000003, 0.166666666666666, 0.2727272727272734, 7.045454545454547, 6.600000000000001, 7.4, 0.2222222222222214, 0.0, -0.2000000000000001, 1.4444444444444446, 1.4444444444444446, 1.9090909090909085, 3.0, 0.8000000000000007, 0.2666666666666657, 1.8909090909090915, 0.0727272727272723, -0.2769230769230768, 4.066666666666666, 4.550000000000001, 4.977777777777778, 2.878787878787878, 2.8666666666666663, -0.3636363636363633, 1.1999999999999993, 0.7777777777777777, 1.4000000000000004, 1.666666666666666, 1.1999999999999993, 1.0, 0.1111111111111107, -1.2222222222222223, 1.0, 2.6363636363636367, 0.2727272727272734, 1.6060606060606073], "type": "violin", "name": "all_conditions (ses-01)", "box": {"visible": true, "fillcolor": "#f0d060", "line": {"color": "#f0d060"}}, "meanline": {"visible": true, "color": "#ffffff", "width": 2}, "fillcolor": "rgba(240,208,96,0.22)", "opacity": 0.9, "marker": {"color": "#f0d060", "size": 4, "opacity": 0.7, "line": {"color": "#1a1a1a", "width": 0.5}}, "line": {"color": "#f0d060", "width": 2}, "points": "all", "jitter": 0.35, "pointpos": 0}, {"y": [7.666666666666666, 8.222222222222221, 7.600000000000001, 2.4000000000000004, 3.888888888888889, 2.7777777777777786, 3.555555555555556, 4.4, 3.666666666666666, 1.363636363636363, 0.5999999999999996, 1.1818181818181817, 2.666666666666666, 1.0, 2.6, -0.8000000000000007, 3.177777777777779, 3.666666666666666, 4.800000000000001, 6.444444444444443, 6.666666666666668, 0.8888888888888893, 1.333333333333334, 2.25, 0.8000000000000007, 0.4000000000000003, 1.0, 4.0, 6.0, 4.050505050505052, 2.4000000000000004, 2.6363636363636367, 1.363636363636363, 1.0, 1.0, 1.2222222222222214, 4.75, 4.15, 3.050505050505052, 0.979797979797981, 3.8686868686868703, 4.377777777777778, 5.800000000000001, 5.416666666666668, 5.444444444444443, 3.6, 3.888888888888889, 5.0, 2.646464646464647, 3.8, 2.722222222222223, 6.818181818181818, 6.0, 4.333333333333332, 1.1999999999999993, -0.1730769230769233, 0.0505050505050501, 2.0, 0.4000000000000003, 1.1111111111111107, 1.1999999999999993, 1.1111111111111107, -0.2222222222222214, -0.833333333333333, 0.9090909090909084, 2.727272727272726, 5.777777777777779, 6.097222222222221, 3.9499999999999993, 4.399999999999999, 5.75, 4.0, 2.7777777777777786, 3.5500000000000007, 3.222222222222221], "type": "violin", "name": "all_conditions (ses-02)", "box": {"visible": true, "fillcolor": "#f0d060", "line": {"color": "#f0d060"}}, "meanline": {"visible": true, "color": "#ffffff", "width": 2}, "fillcolor": "rgba(240,208,96,0.22)", "opacity": 0.9, "marker": {"color": "#f0d060", "size": 4, "opacity": 0.7, "line": {"color": "#1a1a1a", "width": 0.5}}, "line": {"color": "#f0d060", "width": 2}, "points": "all", "jitter": 0.35, "pointpos": 0}];
+        var layout_FlowIndex_Task = {
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {color: '#d4b44a', size: 12},
+            height: 420,
+            yaxis: {
+                title: 'Difficulty contrast (−B + 2F − O)',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 14},
+                range: [0, 12]
+            },
+            xaxis: {gridcolor: "rgba(201, 162, 39, 0.25)", tickfont: {color: '#d4b44a'}, tickcolor: 'rgba(201, 162, 39, 0.5)'},
+            showlegend: true,
+            legend: {bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {color: '#d4b44a'},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1},
+            violingap: 0.3, violinmode: 'group',
+            margin: {l: 60, r: 30, t: 30, b: 50}
+        };
+        Plotly.newPlot('FLOW_flowindex_task_violin', traces_FlowIndex_Task, layout_FlowIndex_Task, {responsive: true});
+
+        var scatter_flowindex_likert = [{"x": [16.666666666666668, -5.0, -1.0, 0.0, 15.666666666666666, 24.0, 5.0, 3.0, 4.666666666666667, -2.3333333333333335, 0.3333333333333333, 7.0, 26.666666666666668, 3.3333333333333335, 17.666666666666668, 3.3333333333333335, 12.333333333333334, 10.333333333333334, -1.0, 18.666666666666668, -8.0, 2.0, -0.3333333333333333, 18.666666666666668], "y": [16.333333333333332, 4.0, -4.666666666666667, 8.666666666666666, 9.333333333333334, 22.0, 2.0, 9.0, 9.0, 3.0, 11.666666666666666, 0.3333333333333333, 19.0, -2.0, 14.0, 0.6666666666666666, 3.0, 12.0, 5.666666666666667, 9.666666666666666, -2.6666666666666665, -1.0, 2.3333333333333335, 17.333333333333332], "mode": "markers", "name": "all_conditions  ICC(2,1)=0.75 [0.50, 0.88]  ICC(3,1)=0.74 [0.49, 0.88]", "text": ["sub-003<br>01: 17<br>02: 16", "sub-004<br>01: -5<br>02: 4", "sub-006<br>01: -1<br>02: -5", "sub-007<br>01: 0<br>02: 9", "sub-008<br>01: 16<br>02: 9", "sub-010<br>01: 24<br>02: 22", "sub-011<br>01: 5<br>02: 2", "sub-012<br>01: 3<br>02: 9", "sub-013<br>01: 5<br>02: 9", "sub-014<br>01: -2<br>02: 3", "sub-015<br>01: 0<br>02: 12", "sub-016<br>01: 7<br>02: 0", "sub-017<br>01: 27<br>02: 19", "sub-018<br>01: 3<br>02: -2", "sub-019<br>01: 18<br>02: 14", "sub-020<br>01: 3<br>02: 1", "sub-021<br>01: 12<br>02: 3", "sub-022<br>01: 10<br>02: 12", "sub-023<br>01: -1<br>02: 6", "sub-024<br>01: 19<br>02: 10", "sub-025<br>01: -8<br>02: -3", "sub-026<br>01: 2<br>02: -1", "sub-027<br>01: -0<br>02: 2", "sub-028<br>01: 19<br>02: 17"], "hovertemplate": "%{text}<extra></extra>", "marker": {"size": 10, "color": "#f0d060", "opacity": 0.85, "line": {"width": 1, "color": "#1a1a1a"}}}, {"x": [0, 28.800000000000004], "y": [0, 28.800000000000004], "mode": "lines", "name": "Identity (perfect retest)", "line": {"color": "rgba(201, 162, 39, 0.3)", "width": 1.5, "dash": "dash"}, "hoverinfo": "skip"}];
+        var scatterLayout_flowindex_likert = {
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {color: '#d4b44a', size: 12},
+            xaxis: {
+                title: 'Flow index (−36 … +36; 0 = no preference) — 01',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 13},
+                range: [0.0, 28.8]
+            },
+            yaxis: {
+                title: 'Flow index (−36 … +36; 0 = no preference) — 02',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 13},
+                range: [0.0, 28.8],
+                zeroline: false
+            },
+            showlegend: true,
+            legend: {bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {color: '#d4b44a'},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1},
+            hovermode: 'closest',
+            margin: {l: 70, r: 30, t: 30, b: 60}
+        };
+        Plotly.newPlot('FLOW_flowindex_likert_scatter', scatter_flowindex_likert, scatterLayout_flowindex_likert, {responsive: true});
+
+        var scatter_flowindex_task = [{"x": [6.898316498316498, 1.2962962962962965, 3.162962962962963, 0.7037037037037038, 2.4370370370370367, 0.3138047138047142, 4.296296296296297, 2.333333333333334, 2.074074074074074, 3.266666666666666, -0.033333333333333215, 1.3629629629629634, 2.0814814814814824, 4.333333333333333, 4.787962962962962, 2.6720538720538722, 0.2797979797979799, 7.015151515151516, 0.007407407407407103, 1.5993265993265993, 1.3555555555555554, 0.5622377622377623, 4.531481481481482, 1.7939393939393937, 1.1259259259259258], "y": [7.829629629629629, 3.0222222222222226, 3.874074074074074, 1.0484848484848481, 2.0888888888888886, 2.0148148148148146, 5.970370370370371, 1.4907407407407411, 0.7333333333333337, 4.683501683501684, 2.1333333333333333, 1.0740740740740737, 3.983501683501684, 3.0754208754208765, 5.553703703703704, 4.162962962962963, 3.0562289562289564, 5.717171717171716, 0.3591427091427087, 1.1703703703703703, 0.6962962962962962, 0.9343434343434338, 5.2749999999999995, 4.716666666666666, 3.1833333333333336], "mode": "markers", "name": "all_conditions  ICC(2,1)=0.76 [0.46, 0.89]  ICC(3,1)=0.80 [0.59, 0.90]", "text": ["sub-003<br>01: 7<br>02: 8", "sub-004<br>01: 1<br>02: 3", "sub-005<br>01: 3<br>02: 4", "sub-006<br>01: 1<br>02: 1", "sub-007<br>01: 2<br>02: 2", "sub-008<br>01: 0<br>02: 2", "sub-010<br>01: 4<br>02: 6", "sub-011<br>01: 2<br>02: 1", "sub-012<br>01: 2<br>02: 1", "sub-013<br>01: 3<br>02: 5", "sub-014<br>01: -0<br>02: 2", "sub-015<br>01: 1<br>02: 1", "sub-016<br>01: 2<br>02: 4", "sub-017<br>01: 4<br>02: 3", "sub-018<br>01: 5<br>02: 6", "sub-019<br>01: 3<br>02: 4", "sub-020<br>01: 0<br>02: 3", "sub-021<br>01: 7<br>02: 6", "sub-022<br>01: 0<br>02: 0", "sub-023<br>01: 2<br>02: 1", "sub-024<br>01: 1<br>02: 1", "sub-025<br>01: 1<br>02: 1", "sub-026<br>01: 5<br>02: 5", "sub-027<br>01: 2<br>02: 5", "sub-028<br>01: 1<br>02: 3"], "hovertemplate": "%{text}<extra></extra>", "marker": {"size": 10, "color": "#f0d060", "opacity": 0.85, "line": {"width": 1, "color": "#1a1a1a"}}}, {"x": [0, 8.456], "y": [0, 8.456], "mode": "lines", "name": "Identity (perfect retest)", "line": {"color": "rgba(201, 162, 39, 0.3)", "width": 1.5, "dash": "dash"}, "hoverinfo": "skip"}];
+        var scatterLayout_flowindex_task = {
+            plot_bgcolor: "rgba(15, 13, 7, 0.97)",
+            paper_bgcolor: "rgba(10, 9, 5, 0.95)",
+            font: {color: '#d4b44a', size: 12},
+            xaxis: {
+                title: 'Difficulty contrast (−B + 2F − O) — 01',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 13},
+                range: [0.0, 8.5]
+            },
+            yaxis: {
+                title: 'Difficulty contrast (−B + 2F − O) — 02',
+                gridcolor: "rgba(201, 162, 39, 0.25)",
+                tickfont: {color: '#d4b44a'},
+                tickcolor: 'rgba(201, 162, 39, 0.5)',
+                titlefont: {color: '#d4b44a', size: 13},
+                range: [0.0, 8.5],
+                zeroline: false
+            },
+            showlegend: true,
+            legend: {bgcolor: "rgba(20, 18, 10, 0.97)",
+                      font: {color: '#d4b44a'},
+                      bordercolor: "rgba(201, 162, 39, 0.45)", borderwidth: 1},
+            hovermode: 'closest',
+            margin: {l: 70, r: 30, t: 30, b: 60}
+        };
+        Plotly.newPlot('FLOW_flowindex_task_scatter', scatter_flowindex_task, scatterLayout_flowindex_task, {responsive: true});
+
+        var radarData_FLOW_radar_task = [{"type": "scatterpolar", "r": [0.7437142053571807, 0.7964425829091287, 0.751659211469737, 0.7555207506296326, 0.7693727847259494, 0.7965922959958764, 0.9427273921921435, 0.883925603882984, 0.9897066514475898, 0.7233748804611555, 0.0, 0.3629428282164525, 0.7437142053571807], "theta": ["all_conditions PRIMARY ICC(3,1)", "all_conditions SECONDARY ICC(3,1)", "all_conditions PRIMARY ICC(2,1)", "all_conditions SECONDARY ICC(2,1)", "all_conditions PRIMARY Pearson r", "all_conditions SECONDARY Pearson r", "all_conditions PRIMARY \u03b1", "all_conditions SECONDARY \u03b1", "all_conditions PRIMARY Session stability", "all_conditions SECONDARY Session stability", "all_conditions PRIMARY Trial CV", "all_conditions SECONDARY Trial CV", "all_conditions PRIMARY ICC(3,1)"], "fill": "toself", "fillcolor": "rgba(201, 162, 39, 0.18)", "line": {"color": "#c9a227", "width": 3}, "marker": {"color": "#c9a227", "size": 10}}];
+        var radarLayout_FLOW_radar_task = {
+            polar: {
+                bgcolor: 'rgba(15, 25, 20, 0.97)',
+                radialaxis: {
+                    visible: true,
+                    range: [0, 1],
+                    gridcolor: "rgba(212, 180, 74, 0.25)",
+                    linecolor: "rgba(212, 180, 74, 0.35)",
+                    tickfont: {color: 'rgba(212, 180, 74, 0.85)', size: 12},
+                    tickcolor: "rgba(201, 162, 39, 0.5)"
+                },
+                angularaxis: {
+                    gridcolor: "rgba(45, 134, 89, 0.35)",
+                    linecolor: "rgba(212, 180, 74, 0.35)",
+                    tickfont: {color: 'rgba(200, 230, 215, 0.9)', size: 13}
+                }
+            },
+            plot_bgcolor: "rgba(15, 25, 20, 0.97)",
+            paper_bgcolor: "rgba(15, 25, 20, 0.97)",
+            font: {color: 'rgba(212, 180, 74, 0.95)', size: 14},
+            showlegend: false,
+            height: 800,
+            width: 1200,
+            margin: {l: 140, r: 140, t: 100, b: 100}
+        };
+        Plotly.newPlot('FLOW_radar_task', radarData_FLOW_radar_task, radarLayout_FLOW_radar_task, {responsive: true});
+
+    </script>
+</body>
+</html>

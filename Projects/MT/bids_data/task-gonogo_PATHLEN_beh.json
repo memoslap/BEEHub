@@ -1,0 +1,25 @@
+{
+  "TaskName": "gonogo",
+  "Description": "Per-trial path_length for the analysed subset (block_type == 'go_nogo', the eight mixed blocks). Values are NOT outlier-trimmed.",
+  "Sources": [
+    "derivatives/stopping",
+    "derivatives/kinematics"
+  ],
+  "trial_index": {
+    "Description": "Join key to the source _beh.tsv."
+  },
+  "trial_type": {
+    "Description": "Trial condition.",
+    "Levels": {
+      "go": "Go trial",
+      "nogo": "No-go trial"
+    }
+  },
+  "block_number": {
+    "Description": "Block index within the session."
+  },
+  "path_length": {
+    "Description": "Cursor distance travelled over the analysis epoch. Correct trials only.",
+    "Units": "pixels"
+  }
+}

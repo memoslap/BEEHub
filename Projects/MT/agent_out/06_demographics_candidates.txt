@@ -1,0 +1,131 @@
+================================================================================
+Demographics Candidates Check — MT Project
+================================================================================
+
+================================================================================
+PARADIGM XLSX FILES (Projects/MT/paradigm/psychopy/)
+================================================================================
+
+FILE: gopractice.xlsx
+  Size: 9,003 bytes
+  Sheet 'Sheet1': 19 rows x 3 cols
+    Header: ['digit', 'trial_type', 'correct_response']
+    Row 2: ['1', 'go', 'click']
+    Row 3: ['2', 'go', 'click']
+  Purpose: Condition table for go-practice block (all go trials)
+  Demographics: NONE — stimulus condition table only
+
+FILE: go_nogo_prac.xlsx
+  Size: 9,241 bytes
+  Sheet 'Sheet1': 19 rows x 3 cols
+    Header: ['digit', 'trial_type', 'correct_response']
+    Row 2: ['1', 'nogo', 'none']
+    Row 3: ['2', 'go', 'click']
+  Purpose: Condition table for go/no-go practice block
+  Demographics: NONE — stimulus condition table only
+
+FILE: block_sequence.xlsx
+  Size: 9,409 bytes
+  Sheet 'Sheet1': 16 rows x 5 cols
+    Header: ['block_type', 'block_number', 'trials_count', 'is_practice', 'trials_file']
+    Row 2: ['go_only', '1', '18', '1', 'go_only.xlsx']
+    Row 3: ['go_nogo_prac', '2', '18', '1', 'go_nogo_prac.xlsx']
+  Purpose: Block sequence definition (16 rows = 15 blocks + header)
+  Demographics: NONE — block order table only
+
+FILE: go_nogo.xlsx
+  Size: 9,884 bytes
+  Sheet 'Sheet1': 61 rows x 3 cols
+    Header: ['digit', 'trial_type', 'correct_response']
+    Row 2: ['1', 'nogo', 'none']
+    Row 3: ['2', 'go', 'click']
+  Purpose: Condition table for main go/no-go blocks (60 trials)
+  Demographics: NONE — stimulus condition table only
+
+FILE: go_only.xlsx
+  Size: 9,127 bytes
+  Sheet 'Sheet1': 19 rows x 3 cols
+    Header: ['digit', 'trial_type', 'correct_response']
+    Row 2: ['2', 'go', 'click']
+    Row 3: ['3', 'go', 'click']
+  Purpose: Condition table for go-only blocks
+  Demographics: NONE — stimulus condition table only
+
+================================================================================
+SOURCE DATA COLUMNS (from 1a_go_nogo_dm_...csv header)
+================================================================================
+
+The last 4 columns of the source CSV are:
+  participant, session, date, expName
+
+These appear on every row (including welcome/instruction rows) and encode:
+  - participant: raw participant ID from filename (e.g., "001", "012")
+  - session: session letter (e.g., "a", "b")
+  - date: acquisition date (e.g., "2025-04-30")
+  - expName: experiment name ("go_nogo_dm")
+
+These are SESSION-level metadata, NOT demographics. No age, sex, handedness,
+or screening info is recorded in the source data.
+
+================================================================================
+MT_description.json
+================================================================================
+
+Contains: full study name, design, procedure, paradigm details, known quirks,
+provenance table. NO participant demographics (age, sex, handedness, dates,
+exclusion list) recorded here. Session dates are derived from source filenames.
+
+================================================================================
+bids_data/participants.tsv
+================================================================================
+
+DOES NOT EXIST for MT project. APPL, OLM, and FLOW all have participants.tsv
+files, but MT does not. This means no structured participant metadata file exists.
+
+================================================================================
+CONVERT/ DIRECTORY
+================================================================================
+
+Contains only migration artefacts:
+  - clean_MT.py / clean_MT (copy).py (conversion scripts)
+  - diff_headers.py
+  - migrate_MT.sh / migrate_MT.log
+  - MT_migration_plan.md
+No participant/demographics data files.
+
+================================================================================
+OTHER PROJECTS (checked for cross-reference)
+================================================================================
+
+APPL participants.tsv: 3 cols (participant_id, sex, age), 20 rows
+OLM participants.tsv: 3 cols (participant_id, sex, age), 21 rows
+FLOW participants.tsv: 6 cols (participant_id, sex, age, bdi_total, fks_mean, fam_mean), 29 rows
+MT participants.tsv: DOES NOT EXIST
+
+================================================================================
+CONCLUSION
+================================================================================
+
+NO per-participant demographics file exists for the MT project.
+
+What exists:
+  - Source CSVs contain 4 session-level metadata columns: participant, session,
+    date, expName. These identify which participant/session/date a session
+    belongs to, but carry no demographic info.
+  - 5 xlsx files in paradigm/psychopy/ are all condition/block tables (stimulus
+    lists and block sequence). None contain participant or demographic data.
+  - No participants.tsv, no Excel demo sheet, no SPSS savefile, no screening
+    form, no handedness questionnaire, no Edinburgh Handedness Inventory file.
+  - MT_description.json has no demographics.
+  - Convert/ directory has no data files.
+
+Missing (not found anywhere in repo):
+  - Age / sex / gender distribution
+  - Handedness / Edinburgh Handedness Inventory
+  - Screening questionnaire results
+  - Session dates (beyond the filename-derived date in source CSVs)
+  - Exclusion list (beyond "participants 2 and 4 incomplete, ses-01 only")
+  - Recruitment information
+
+These must be obtained from the PI or external sources. The MT project has
+no structured demographic data recorded in the repository.

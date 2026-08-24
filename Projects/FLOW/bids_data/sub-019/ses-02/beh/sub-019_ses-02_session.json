@@ -1,0 +1,8 @@
+{
+  "AcquisitionDateTime": "20260601_124711",
+  "RunCount": 1,
+  "SourceCSVs": {
+    "task": "sub-019_task_20260601_124711.csv",
+    "likert": "sub-019_likert_20260601_124711.csv"
+  }
+}

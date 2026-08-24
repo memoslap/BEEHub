@@ -1,0 +1,89 @@
+MT Project TSV Validation Error List
+=====================================
+Generated: 2026-08-06
+Files checked: 48
+Total errors: 48
+Total warnings: 0
+
+SUMMARY
+-------
+All 48 TSV files have the same systematic issue: empty/mostly-empty rows.
+No other error types found (no column structure errors, no JSON parse errors,
+no numeric type errors, no invalid categorical values).
+
+ERROR DETAILS
+-------------
+
+Error Type: Empty/mostly-empty rows
+Count: 48 files affected (all files)
+Pattern: Rows [2, 3, 4, 5, 612] are empty or contain only a single column
+         (the participant ID, e.g., "1a", "3a")
+
+Affected files (all 48):
+  - sub-001/ses-01/beh/sub-001_ses-01_task-gonogo_beh.tsv
+  - sub-001/ses-02/beh/sub-001_ses-02_task-gonogo_beh.tsv
+  - sub-003/ses-01/beh/sub-003_ses-01_task-gonogo_beh.tsv
+  - sub-003/ses-02/beh/sub-003_ses-02_task-gonogo_beh.tsv
+  - sub-005/ses-01/beh/sub-005_ses-01_task-gonogo_beh.tsv
+  - sub-005/ses-02/beh/sub-005_ses-02_task-gonogo_beh.tsv
+  - sub-006/ses-01/beh/sub-006_ses-01_task-gonogo_beh.tsv
+  - sub-006/ses-02/beh/sub-006_ses-02_task-gonogo_beh.tsv
+  - sub-007/ses-01/beh/sub-007_ses-01_task-gonogo_beh.tsv
+  - sub-007/ses-02/beh/sub-007_ses-02_task-gonogo_beh.tsv
+  - sub-008/ses-01/beh/sub-008_ses-01_task-gonogo_beh.tsv
+  - sub-008/ses-02/beh/sub-008_ses-02_task-gonogo_beh.tsv
+  - sub-009/ses-01/beh/sub-009_ses-01_task-gonogo_beh.tsv
+  - sub-009/ses-02/beh/sub-009_ses-02_task-gonogo_beh.tsv
+  - sub-010/ses-01/beh/sub-010_ses-01_task-gonogo_beh.tsv
+  - sub-010/ses-02/beh/sub-010_ses-02_task-gonogo_beh.tsv
+  - sub-011/ses-01/beh/sub-011_ses-01_task-gonogo_beh.tsv
+  - sub-011/ses-02/beh/sub-011_ses-02_task-gonogo_beh.tsv
+  - sub-012/ses-01/beh/sub-012_ses-01_task-gonogo_beh.tsv
+  - sub-012/ses-02/beh/sub-012_ses-02_task-gonogo_beh.tsv
+  - sub-013/ses-01/beh/sub-013_ses-01_task-gonogo_beh.tsv
+  - sub-013/ses-02/beh/sub-013_ses-02_task-gonogo_beh.tsv
+  - sub-014/ses-01/beh/sub-014_ses-01_task-gonogo_beh.tsv
+  - sub-014/ses-02/beh/sub-014_ses-02_task-gonogo_beh.tsv
+  - sub-015/ses-01/beh/sub-015_ses-01_task-gonogo_beh.tsv
+  - sub-015/ses-02/beh/sub-015_ses-02_task-gonogo_beh.tsv
+  - sub-016/ses-01/beh/sub-016_ses-01_task-gonogo_beh.tsv
+  - sub-016/ses-02/beh/sub-016_ses-02_task-gonogo_beh.tsv
+  - sub-017/ses-01/beh/sub-017_ses-01_task-gonogo_beh.tsv
+  - sub-017/ses-02/beh/sub-017_ses-02_task-gonogo_beh.tsv
+  - sub-018/ses-01/beh/sub-018_ses-01_task-gonogo_beh.tsv
+  - sub-018/ses-02/beh/sub-018_ses-02_task-gonogo_beh.tsv
+  - sub-019/ses-01/beh/sub-019_ses-01_task-gonogo_beh.tsv
+  - sub-019/ses-02/beh/sub-019_ses-02_task-gonogo_beh.tsv
+  - sub-020/ses-01/beh/sub-020_ses-01_task-gonogo_beh.tsv
+  - sub-020/ses-02/beh/sub-020_ses-02_task-gonogo_beh.tsv
+  - sub-021/ses-01/beh/sub-021_ses-01_task-gonogo_beh.tsv
+  - sub-021/ses-02/beh/sub-021_ses-02_task-gonogo_beh.tsv
+  - sub-022/ses-01/beh/sub-022_ses-01_task-gonogo_beh.tsv
+  - sub-022/ses-02/beh/sub-022_ses-02_task-gonogo_beh.tsv
+  - sub-023/ses-01/beh/sub-023_ses-01_task-gonogo_beh.tsv
+  - sub-023/ses-02/beh/sub-023_ses-02_task-gonogo_beh.tsv
+  - sub-024/ses-01/beh/sub-024_ses-01_task-gonogo_beh.tsv
+  - sub-024/ses-02/beh/sub-024_ses-02_task-gonogo_beh.tsv
+  - sub-025/ses-01/beh/sub-025_ses-01_task-gonogo_beh.tsv
+  - sub-025/ses-02/beh/sub-025_ses-02_task-gonogo_beh.tsv
+  - sub-026/ses-01/beh/sub-026_ses-01_task-gonogo_beh.tsv
+  - sub-026/ses-02/beh/sub-026_ses-02_task-gonogo_beh.tsv
+
+DESCRIPTION OF ISSUES
+---------------------
+
+1. Rows 2-5: These rows contain only a single value (the participant ID, e.g.,
+   "1a", "3a") in the first column. They have 1 column instead of the expected 15.
+   These appear to be junk rows that should be removed.
+
+2. Row 612: This is a trailing empty line at the end of each file.
+
+VALIDATION PASSED FOR
+---------------------
+- Header column names: All match the JSON sidecar (task-gonogo_beh.json)
+- Column order: All files have correct column order
+- Column count: All data rows (6-611) have 15 columns
+- trial_type values: All are "go" or "nogo"
+- correct_response values: All are "click" or "none"
+- mouse_resp.x/y/time: All are valid JSON arrays
+- Numeric columns: All values are numeric where expected

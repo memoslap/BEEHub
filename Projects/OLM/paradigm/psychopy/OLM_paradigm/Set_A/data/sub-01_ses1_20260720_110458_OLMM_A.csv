@@ -1,0 +1,12 @@
+participant,session,set,phase,block,rep,trial,stimulus,stim_type,direction,side,response_key,correct,rt,onset_time
+sub-01,1,A,learning-1,1,1,1,h30_p13_i_up_right.jpg,i,up,right,left,incorrect,1.2805,8.0277
+sub-01,1,A,learning-1,1,1,2,h26_p20_k_up_q2_right.jpg,k,up,right,right,incorrect,1.4798,12.8603
+sub-01,1,A,learning-1,1,1,3,h34_p49_i_up_left.jpg,i,up,left,,timeout,,17.6224
+sub-01,1,A,learning-1,1,1,4,h26_p14_i_up_right.jpg,i,up,right,right,correct,0.8505,22.4016
+sub-01,1,A,learning-1,1,1,5,h30_p62_i_up_right.jpg,i,up,right,right,correct,1.2,27.1722
+sub-01,1,A,learning-1,1,1,6,h24_p39_i_up_left.jpg,i,up,left,left,incorrect,0.9412,31.943
+sub-01,1,A,learning-1,1,1,7,h27_p7_i_up_left.jpg,i,up,left,left,incorrect,1.0632,36.701
+sub-01,1,A,learning-1,1,1,8,h44_p23_i_up_q1_right.jpg,i,up,right,right,correct,1.1846,41.4677
+sub-01,1,A,learning-1,1,1,9,h34_p40_i_up_left.jpg,i,up,left,left,incorrect,1.2265,46.2258
+sub-01,1,A,learning-1,1,1,10,h26_p24_i_up_right.jpg,i,up,right,left,incorrect,1.9719,50.9923
+sub-01,1,A,learning-1,1,1,11,h24_p41_i_up_left.jpg,i,up,left,right,correct,0.6586,55.7536

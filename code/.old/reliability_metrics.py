@@ -198,14 +198,15 @@ METRIC_REGISTRY: List[Dict] = [
         "normalise":   "effect_size",
     },
     {
-        "id":          "cv",
-        "label":       "Within-session CV",
-        "description": "Within-session trial-level coefficient of variation for continuous outcomes. "
-                       "Inverted on the radar — higher = lower noise. "
-                       "For binary accuracy, the pipeline stores mean accuracy percentage "
-                       "instead of a Bernoulli CV because binary CV is deterministic given the mean.",
-        "radar_label": "{tt} {label} Trial CV",
-        "normalise":   "cv",
+        "id":             "cv",
+        "label":          "Within-session CV",
+        "description":    "Within-session trial-level coefficient of variation for continuous outcomes. "
+                          "Inverted on the radar — higher = lower noise. "
+                          "Not computed for binary accuracy (Bernoulli CV is a deterministic "
+                          "re-expression of the mean and conveys no independent information).",
+        "radar_label":    "{tt} {label} Trial CV",
+        "normalise":      "cv",
+        "skip_for_binary": True,   # never show CV spoke / slider for binary outcomes
     },
 ]
 
@@ -560,6 +561,7 @@ class ReliabilityMetrics:
         accbin_df: Optional[pd.DataFrame] = None,
         filter_correct: bool = False,
         paradigm_contrast: Optional[str] = None,
+        accbin_column: Optional[str] = None,
     ) -> Dict:
         """Compute all reliability metrics for *one* outcome across trial types.
 
@@ -603,18 +605,30 @@ class ReliabilityMetrics:
                 else:
                     ab = accbin_df.copy()
 
+                # Resolve the binary-accuracy column name.  Prefer the
+                # explicitly passed name; fall back to auto-detection so
+                # legacy callers that don't pass accbin_column still work.
+                _ab_col = accbin_column
+                if _ab_col is None:
+                    for _candidate in ('accuracy_binary', 'is_correct'):
+                        if _candidate in ab.columns:
+                            _ab_col = _candidate
+                            break
+                if _ab_col is None:
+                    _ab_col = 'accuracy_binary'  # final fallback
+
                 def _idx(d):
                     d = d.copy()
                     d['_tidx'] = d.groupby(['subject_id', 'session']).cumcount()
                     return d
 
                 dff_i = _idx(dff)
-                ab_i  = _idx(ab)[['subject_id', 'session', '_tidx', 'accuracy_binary']].copy()
-                ab_i['accuracy_binary'] = pd.to_numeric(ab_i['accuracy_binary'], errors='coerce')
+                ab_i  = _idx(ab)[['subject_id', 'session', '_tidx', _ab_col]].copy()
+                ab_i[_ab_col] = pd.to_numeric(ab_i[_ab_col], errors='coerce')
                 merged = dff_i.merge(ab_i, on=['subject_id', 'session', '_tidx'],
                                      how='left', suffixes=('', '_ab'))
-                dff = merged[merged['accuracy_binary'] == 1].drop(
-                    columns=['_tidx', 'accuracy_binary'], errors='ignore')
+                dff = merged[merged[_ab_col] == 1].drop(
+                    columns=['_tidx', _ab_col], errors='ignore')
 
             # ── Sessions ─────────────────────────────────────────────────────
             if dff.empty or 'session' not in dff.columns:
@@ -640,10 +654,9 @@ class ReliabilityMetrics:
                           .pipe(lambda s: s[s.ne('') & s.str.lower().ne('n/a')]).nunique() > 1)
 
             stage_s1, stage_s2 = [], []  # stage-level paired vectors for ICC
-            # session-level vectors for Pearson/Cohen, plus display metrics.
-            # cv_all is filled only for continuous outcomes. For binary accuracy,
-            # accuracy_pct_all stores the interpretable percentage correct.
-            s1_means, s2_means, cv_all, accuracy_pct_all = [], [], [], []
+            # session-level vectors for Pearson/Cohen, plus CV for continuous outcomes.
+            # Binary accuracy: cv_all stays empty (CV not meaningful for 0/1 data).
+            s1_means, s2_means, cv_all = [], [], []
 
             for subject in subjects:
                 subj = dff[dff['subject_id'] == subject]
@@ -674,11 +687,8 @@ class ReliabilityMetrics:
                 vals_union = set(v1_all.unique()) | set(v2_all.unique())
                 is_binary = (outcome_id in BINARY_OUTCOME_IDS or
                              (len(vals_union) > 0 and vals_union <= {0, 1, 0.0, 1.0}))
-                if is_binary:
-                    for v in (v1_all.values, v2_all.values):
-                        if len(v) > 0:
-                            accuracy_pct_all.append(float(np.mean(v) * 100.0))
-                else:
+                if not is_binary:
+                    # Continuous outcome: compute within-session CV
                     for v in (v1_all.values, v2_all.values):
                         if len(v) > 1:
                             cv = cls.calculate_cv(v)
@@ -803,12 +813,12 @@ class ReliabilityMetrics:
                 pass
 
             # ── CV / Accuracy % display metric ───────────────────────────────
-            # Continuous outcomes keep trial-level CV. Binary outcomes keep
-            # Accuracy % instead; cv_mean remains None for binary accuracy.
+            # Continuous outcomes keep trial-level CV.
+            # Binary outcomes: cv_mean stays None (Bernoulli CV is not meaningful).
+            # accuracy_percent_* is intentionally NOT stored — binary accuracy is
+            # represented by the ICC / α metrics on the raw 0/1 data.
             cv_mean = float(np.mean(cv_all)) if cv_all else None
             cv_std  = float(np.std(cv_all))  if cv_all else None
-            accuracy_percent_mean = float(np.mean(accuracy_pct_all)) if accuracy_pct_all else None
-            accuracy_percent_std  = float(np.std(accuracy_pct_all))  if accuracy_pct_all else None
 
             reliability[trial_type] = {
                 # ─── ICC consistency, ICC(C,1) ─────────────────────────────
@@ -845,13 +855,14 @@ class ReliabilityMetrics:
                 f'{oid}_cronbach_alpha_ci_low':  cron['ci_low'],
                 f'{oid}_cronbach_alpha_ci_high': cron['ci_high'],
                 f'{oid}_cronbach_alpha_n_items': cron['n_items'],
-                # ─── CV / Accuracy % display metric ─────────────────────────
-                # CV is only populated for continuous outcomes. For binary
-                # accuracy outcomes, use accuracy_percent_* for dashboard display.
+                # ─── CV (continuous outcomes only) ──────────────────────────
+                # Binary accuracy: CV is not stored at all — Bernoulli CV is a
+                # deterministic re-expression of the mean (CV = √((1−p)/p)·100)
+                # and carries no independent information.  accuracy_percent_* is
+                # also not stored; binary accuracy is conveyed by the ICC / α
+                # metrics which operate on the 0/1 values directly.
                 f'{oid}_cv_mean':              cv_mean,
                 f'{oid}_cv_std':               cv_std,
-                f'{oid}_accuracy_percent_mean': accuracy_percent_mean,
-                f'{oid}_accuracy_percent_std':  accuracy_percent_std,
                 # ─── Metadata + raw paired vectors ──────────────────────────
                 f'{oid}_n_subjects':           len(subjects),
                 f'{oid}_s1_means':             s1_means,
@@ -964,16 +975,14 @@ class ReliabilityMetrics:
                     for key, val in metrics.items():
                         if not key.endswith(suffix) or val is None:
                             continue
-                        # Make sure we got the bare key, not e.g. _icc_ci_low
-                        # for the suffix _icc.  Check there's nothing else
-                        # after the matched outcome_id segment.
                         oid = key[: -len(suffix)]
                         if not oid or '_' in oid.rstrip('_'):
-                            # oid should be a single token like 'rt', 'score'
-                            # (lowercase outcome_id).  If it contains '_',
-                            # this is a longer key like 'rt_icc_ci_low'.
                             if oid.count('_') > 0:
                                 continue
+                        # Skip CV spokes for binary accuracy outcomes — CV is
+                        # not meaningful for 0/1 data and is no longer stored.
+                        if reg.get('skip_for_binary') and oid.lower() in BINARY_OUTCOME_IDS:
+                            continue
                         pair_key = (tt, mid, oid)
                         if pair_key in seen_pairs:
                             continue

@@ -1,0 +1,49 @@
+{
+  "TaskName": "FLOW",
+  "TaskDescription": "Mental-arithmetic flow paradigm. Boredom (B), Flow (F) and Overload (O) blocks differing only in difficulty; the Flow condition tracks the participant's skill via an adaptive staircase.",
+  "onset": {
+    "Description": "Trial onset, seconds from first trial of the session.",
+    "Units": "seconds"
+  },
+  "duration": {
+    "Description": "Response time for the trial.",
+    "Units": "seconds"
+  },
+  "trial_type": {
+    "Description": "Condition label, prefixed with the task name.",
+    "Levels": {
+      "FLOW_B": "Boredom",
+      "FLOW_F": "Flow",
+      "FLOW_O": "Overload"
+    }
+  },
+  "condition": {
+    "Description": "Raw condition code.",
+    "Levels": {
+      "B": "Boredom",
+      "F": "Flow",
+      "O": "Overload"
+    }
+  },
+  "difficulty_level": {
+    "Description": "Arithmetic difficulty level of the trial."
+  },
+  "response_time_ms": {
+    "Description": "Response time.",
+    "Units": "milliseconds"
+  },
+  "is_correct": {
+    "Description": "Trial correct.",
+    "Levels": {
+      "0": "incorrect",
+      "1": "correct"
+    }
+  },
+  "is_timeout": {
+    "Description": "Trial timed out (scored incorrect).",
+    "Levels": {
+      "0": "responded",
+      "1": "timeout"
+    }
+  }
+}

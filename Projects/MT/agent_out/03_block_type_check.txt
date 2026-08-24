@@ -1,0 +1,213 @@
+
+======================================================================
+FILE: 1a_go_nogo_dm_2025-04-30_11h24.50.998.csv
+======================================================================
+
+--- block_type ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo'                                     480 <<< ON REAL TRIALS
+    'go_only'                                     108 <<< ON REAL TRIALS
+    'go_nogo_prac'                                 18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo'                                     480
+    'go_only'                                     108
+    'go_nogo_prac'                                 18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- is_practice ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    '0'                                           570 <<< ON REAL TRIALS
+    '1'                                            36 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '0'                                           570
+    '1'                                            36
+
+  Values on EMPTY trial_type rows: NONE
+
+--- trials_file ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo.xlsx'                                480 <<< ON REAL TRIALS
+    'go_only.xlsx'                                108 <<< ON REAL TRIALS
+    'go_nogo_prac.xlsx'                            18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo.xlsx'                                480
+    'go_only.xlsx'                                108
+    'go_nogo_prac.xlsx'                            18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- session ---
+  Total rows: 611
+  Non-empty on any row:      610  (99.8%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 4
+
+  Distinct values (any row):
+    '001'                                         610 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '001'                                         606
+
+  Values on EMPTY trial_type rows (welcome/instruction/end):
+    '001'                                           4
+
+======================================================================
+FILE: 11a_go_nogo_dm_2025-05-05_15h04.22.916.csv
+======================================================================
+
+--- block_type ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo'                                     480 <<< ON REAL TRIALS
+    'go_only'                                     108 <<< ON REAL TRIALS
+    'go_nogo_prac'                                 18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo'                                     480
+    'go_only'                                     108
+    'go_nogo_prac'                                 18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- is_practice ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    '0'                                           570 <<< ON REAL TRIALS
+    '1'                                            36 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '0'                                           570
+    '1'                                            36
+
+  Values on EMPTY trial_type rows: NONE
+
+--- trials_file ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo.xlsx'                                480 <<< ON REAL TRIALS
+    'go_only.xlsx'                                108 <<< ON REAL TRIALS
+    'go_nogo_prac.xlsx'                            18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo.xlsx'                                480
+    'go_only.xlsx'                                108
+    'go_nogo_prac.xlsx'                            18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- session ---
+  Total rows: 611
+  Non-empty on any row:      610  (99.8%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 4
+
+  Distinct values (any row):
+    '001'                                         610 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '001'                                         606
+
+  Values on EMPTY trial_type rows (welcome/instruction/end):
+    '001'                                           4
+
+======================================================================
+FILE: 26b_go_nogo_dm_2025-05-26_13h01.21.617.csv
+======================================================================
+
+--- block_type ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo'                                     480 <<< ON REAL TRIALS
+    'go_only'                                     108 <<< ON REAL TRIALS
+    'go_nogo_prac'                                 18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo'                                     480
+    'go_only'                                     108
+    'go_nogo_prac'                                 18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- is_practice ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    '0'                                           570 <<< ON REAL TRIALS
+    '1'                                            36 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '0'                                           570
+    '1'                                            36
+
+  Values on EMPTY trial_type rows: NONE
+
+--- trials_file ---
+  Total rows: 611
+  Non-empty on any row:      606  (99.2%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 0
+
+  Distinct values (any row):
+    'go_nogo.xlsx'                                480 <<< ON REAL TRIALS
+    'go_only.xlsx'                                108 <<< ON REAL TRIALS
+    'go_nogo_prac.xlsx'                            18 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    'go_nogo.xlsx'                                480
+    'go_only.xlsx'                                108
+    'go_nogo_prac.xlsx'                            18
+
+  Values on EMPTY trial_type rows: NONE
+
+--- session ---
+  Total rows: 611
+  Non-empty on any row:      610  (99.8%)
+  Non-empty where trial_type is set:   606
+  Non-empty where trial_type is EMPTY: 4
+
+  Distinct values (any row):
+    '001'                                         610 <<< ON REAL TRIALS
+
+  Values on REAL trials (trial_type non-empty):
+    '001'                                         606
+
+  Values on EMPTY trial_type rows (welcome/instruction/end):
+    '001'                                           4

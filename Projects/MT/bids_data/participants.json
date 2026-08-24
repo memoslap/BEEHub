@@ -1,0 +1,38 @@
+{
+  "participant_id": {
+    "Description": "Unique participant identifier, formatted as sub-XXX where XXX is the zero-padded subject number from the raw data files."
+  },
+  "age": {
+    "Description": "Age in years, obtained from the demographics questionnaire."
+  },
+  "sex": {
+    "Description": "Self-reported gender, mapped to BIDS convention: M = Male, F = Female, D = Diverse / other.",
+    "Levels": {
+      "M": "Male",
+      "F": "Female",
+      "D": "Diverse / other"
+    }
+  },
+  "n_sessions": {
+    "Description": "Number of sessions completed by the participant (1 or 2)."
+  },
+  "session_interval_days": {
+    "Description": "Number of days between the ses-01 and ses-02 acquisition dates, parsed from raw filenames. n/a for participants with only one session.",
+    "Units": "days"
+  },
+  "analysis_excluded": {
+    "Description": "Whether the participant was excluded from the published analysis (1 = excluded, 0 = included).",
+    "Levels": {
+      "0": "Included in analysis",
+      "1": "Excluded from analysis"
+    }
+  },
+  "exclusion_reason": {
+    "Description": "Reason for exclusion from the published analysis. n/a = included (not excluded).",
+    "Levels": {
+      "n/a": "Not excluded",
+      "no_second_session": "Participant only completed ses-01, no ses-02 data available",
+      "low_go_accuracy_ses01": "Participant had low go-trial accuracy in session 1; hard-coded as subject_id != 25 in R analysis scripts"
+    }
+  }
+}

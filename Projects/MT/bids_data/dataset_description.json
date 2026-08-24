@@ -1,0 +1,16 @@
+{
+  "Name": "Mouse Tracking Go/No-Go Study",
+  "BIDSVersion": "1.10.0",
+  "DatasetType": "raw",
+  "Authors": [
+    "Devu Mahesan",
+    "Komal Sharma",
+    "Maike Katharina Weinerth",
+    "Suman Dhaka",
+    "Marcus Meinzer",
+    "Rico Fischer"
+  ],
+  "ReferencesAndLinks": [
+    "https://doi.org/10.64898/2026.05.06.722889"
+  ]
+}

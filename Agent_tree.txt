@@ -1,0 +1,31 @@
+Agent/
+├── 01_Create_Description
+│   └── CLAUDE.md
+├── 02_Renaming_Restructure
+│   └── CLAUDE.md
+├── 03_Paradigm
+│   ├── AGENT_IMPLEMENTATION_PLAN.md
+│   ├── check_runs.sh
+│   ├── CLAUDE.md
+│   ├── CONVERSION_WORKFLOW.md
+│   ├── HOUSE_STYLE.md
+│   ├── ir.py
+│   ├── lint_style.sh
+│   ├── make_prompts.sh
+│   ├── manifests
+│   │   ├── OLM_SET_A.yaml
+│   │   └── OLM_SET_B.yaml
+│   ├── probes
+│   │   └── OLM_SET_B_probe.md
+│   ├── probe.sh
+│   ├── psychopy.yml
+│   ├── requirements.txt
+│   ├── target.env
+│   └── template
+│       ├── paradigm_demo.html
+│       └── paradigm_template.py
+├── 04_Check_structure
+│   └── CLAUDE.md
+└── README.md
+
+7 directories, 21 files

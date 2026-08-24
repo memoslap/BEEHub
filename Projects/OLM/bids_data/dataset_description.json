@@ -1,16 +1,18 @@
 {
-  "Name": "OLMM Behavioral Dataset",
+  "Name": "OLM Behavioral Dataset",
   "BIDSVersion": "1.6.0",
-  "DatasetType": "raw",
+  "DatasetType": "derivative",
   "Authors": [
-    "Behavioral_Exp_Hub Contributors"
+    "MemoSlap Lab"
+  ],
+  "ReferencesAndLinks": [
+    "https://doi.org/10.1002/brb3.70658"
   ],
   "GeneratedBy": [
     {
-      "Name": "Behavioral_Exp_Hub Conversion Pipeline",
-      "Version": "3.0",
-      "Description": "Produces one TSV per outcome measure (RT / ACC / ACCBIN) with JSON sidecars.",
-      "CodeURL": "https://github.com/yourusername/BEHub"
+      "Name": "BEEHub OLM Derivation Pipeline",
+      "Version": "0.1",
+      "Description": "Produces ACC, ACCBIN, and RT outcome files from OLM task events with JSON sidecars."
     }
   ]
 }

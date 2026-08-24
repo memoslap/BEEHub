@@ -1,0 +1,129 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "beehub/poolside/Laguna-S-2.1-NVFP4",
+  "provider": {
+    "beehub": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "AppHubAI (Uni Greifswald)",
+      "options": {
+        "baseURL": "https://apphubai.wolke.uni-greifswald.de/v1",
+        "apiKey": "2712muFEWRcsqHuKgv5FF1teVb0K65D7"
+      },
+      "models": {
+        "poolside/Laguna-S-2.1-NVFP4": {
+          "name": "Laguna S 2.1 (agentic coding tier)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_XL": {
+          "name": "Qwen3.6 35B-A3B (general/reasoning tier)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "bartowski/deepreinforce-ai_Ornith-1.0-35B-GGUF:Q4_K_M": {
+          "name": "Ornith 1.0 35B (fast tier)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "unsloth/gemma-4-31B-it-qat-GGUF:UD-Q4_K_XL": {
+          "name": "Gemma 4 31B (alternate)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "edit": {
+      "*": "deny",
+      "Projects/**": "allow",
+      "Convert/**": "allow",
+      "Agent/notes/*.md": "allow",
+      "Agent/05_Paradigm/probes/*.md": "allow",
+      "Agent/05_Paradigm/manifests/*.yaml": "allow",
+      "Agent/*/CLAUDE.md": "deny",
+      "Agent/notes/_TEMPLATE.md": "deny",
+      "*.sh": "deny",
+      "Agent/tools/**": "deny",
+      "opencode.json": "deny",
+      ".git/**": "deny"
+    },
+    "external_directory": {
+      "*": "deny"
+    },
+    "bash": {
+      "*": "ask",
+      "ls *": "allow",
+      "find *": "allow",
+      "grep *": "allow",
+      "rg *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow",
+      "file *": "allow",
+      "du *": "allow",
+      "stat *": "allow",
+      "./Agent/tools/*": "allow",
+      "./Agent/notes/project_notes.sh *": "allow",
+      "./Agent/00_Intake_agent/check_intake.sh*": "allow",
+      "./Agent/05_Paradigm/probe.sh*": "allow",
+      "./Agent/05_Paradigm/check_runs.sh *": "allow",
+      "./Agent/05_Paradigm/lint_style.sh *": "allow",
+      "python3 -m json.tool *": "allow",
+      "python3 -m py_compile *": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "rm *": "deny",
+      "rmdir *": "deny",
+      "mv /*": "deny",
+      "cp /*": "deny",
+      "sudo *": "deny",
+      "chmod -R *": "deny",
+      "chown *": "deny",
+      "curl *": "deny",
+      "wget *": "deny",
+      "ssh *": "deny",
+      "scp *": "deny",
+      "git push*": "deny",
+      "git reset --hard*": "deny",
+      "git clean*": "deny",
+      "dd *": "deny",
+      "mkfs*": "deny",
+      "> /*": "deny",
+      "cat *.log": "deny",
+      "cat *.sce": "deny",
+      "cat *.csv": "deny",
+      "cat *.tsv": "deny"
+    },
+    "webfetch": "deny",
+    "websearch": "deny"
+  },
+  "agent": {
+    "check": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "./Agent/tools/*": "allow",
+          "find *": "allow",
+          "grep *": "allow"
+        }
+      }
+    },
+    "plan": {
+      "permission": {
+        "edit": "deny",
+        "bash": "ask"
+      }
+    }
+  }
+}

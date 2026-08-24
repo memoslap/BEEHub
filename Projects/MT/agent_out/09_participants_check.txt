@@ -1,0 +1,38 @@
+=== participants.tsv verification ===
+
+Row count: 26 (expected 26)
+Participants with n_sessions=2: 24 (expected 24)
+Participants with n_sessions=1: 2 (sub-002, sub-004)
+
+session_interval_days statistics (n=24):
+  Mean: 9.6 days
+  Range: 7 – 16 days
+  Min: 7 days  (sub-008, sub-011, sub-015, sub-016, sub-017, sub-021, sub-024)
+  Max: 16 days (sub-001)
+
+=== ses-01 dates for excluded single-session participants ===
+
+sub-002: ses-01 date = 2025-04-30 (raw filename: 2a_go_nogo_dm_2025-04-30_13h08.21.622.csv)
+         No b-file exists (2b_go_nogo_dm_*.csv not found in sourcedata/raw/)
+         -> analysis_excluded=1, exclusion_reason=no_second_session
+
+sub-004: ses-01 date = 2025-04-30 (raw filename: 4a_go_nogo_dm_2025-04-30_17h14.47.665.csv)
+         No b-file exists (4b_go_nogo_dm_*.csv not found in sourcedata/raw/)
+         -> analysis_excluded=1, exclusion_reason=no_second_session
+
+=== Directory-to-row consistency ===
+
+sub-* directories under bids_data: 26
+Data rows in participants.tsv:     26
+Every directory has exactly one matching row: YES
+Every row has a matching directory:   YES
+Diff between directory list and TSV subject IDs: empty (perfect match)
+
+=== Excluded participants ===
+
+sub-002: analysis_excluded=1, reason=no_second_session
+sub-004: analysis_excluded=1, reason=no_second_session
+sub-025: analysis_excluded=1, reason=low_go_accuracy_ses01
+         (ses-01=2025-05-16, ses-02=2025-05-26, interval=10 days)
+
+All participants remain in the dataset (none deleted).

@@ -1,0 +1,114 @@
+{
+  "full_name": "Mental Arithmetic Flow Paradigm",
+  "short_description": "A mental arithmetic block-design paradigm that experimentally induces flow by continuously matching task difficulty to individual skill, contrasted against boredom and overload control conditions.",
+  "long_description": "The Mental Arithmetic Flow Paradigm operationalises Csikszentmihalyi's psychological construct of flow as a balance between task demands and individual skill. Participants mentally sum a series of integers and enter the three-digit result on an on-screen keyboard. Three task conditions differing only in difficulty are administered in counterbalanced block sequences: (i) Boredom — addition of a single-digit number to a number between 100 and 109 (sum always 101-110); (ii) Flow — dynamic adjustment of difficulty to the participant's individual skill level, estimated in a pre-experiment calibration phase; difficulty increases by one level after two consecutive correct trials and decreases by one level after two consecutive incorrect trials; (iii) Overload — initial difficulty set three levels above the Flow starting level, with adjustment rules that do not allow difficulty to drop below the starting level. No trial-by-trial feedback is given to avoid motivational confounds from positive/negative reinforcement ratios. After each task block, three Likert-scaled items (1-7) assess the subjective experience of flow ('I would love to solve math calculations of that kind again', 'Task demands were well matched to my ability', 'I was thrilled'). A composite flow index is derived as (-B + 2F - O) summed across the three items. The paradigm reliably elicits an inverted U-shaped pattern (Flow > Boredom = Overload) on the flow index, on electrodermal activity, and on multiple BOLD-fMRI activation maps (anterior insula, dorsolateral prefrontal cortex, parietal cortex), and a complementary U-shaped pattern (Flow < Boredom = Overload) in default-mode regions (medial prefrontal cortex, amygdala, posterior cingulate cortex).",
+  "background": "Flow (Csikszentmihalyi, 1975, 1990, 2000) is the autotelic subjective state that emerges when an individual's skill is matched to the demands of a goal-directed activity with clear and immediate feedback. It is characterised by intense yet effortless concentration, reduced self-referential processing, a sense of control, and intrinsic reward. Despite its theoretical prominence, flow has historically been hard to operationalise in laboratory settings because it requires (a) continuous online adjustment of task difficulty, (b) minimal motor confounds for neuroimaging, and (c) clear goal structure with immediate (implicit) feedback. Ulrich et al. (2014, NeuroImage) introduced the present mental arithmetic paradigm to satisfy all three requirements and reported, with pCASL perfusion fMRI, that flow is associated with increased rCBF in left inferior frontal gyrus and basal ganglia, and decreased rCBF in medial prefrontal cortex, amygdala, and angular gyri — a 'multiple-demand engagement / default-mode disengagement' signature. Ulrich, Keller & Grön (2016b, Social Cognitive and Affective Neuroscience) replicated and extended these findings with a BOLD block design (30 s blocks), demonstrating a bilateral inverted-U pattern across the multiple-demand network (anterior insula, IFG, pre-SMA, IPL/SPL, thalamus, basal ganglia, midbrain) and a U-pattern in the default-mode network (MPFC, PCC, lateral temporoparietal cortex, hippocampus, amygdala), with concurrent increases in electrodermal activity during flow. Katahira et al. (2018, Frontiers in Psychology) adopted the same paradigm for EEG and showed that flow is characterised by increased frontal theta (cognitive control, immersion) and moderate frontocentral alpha (working-memory load not excessive). Ulrich et al. (2018, Experimental Brain Research) used the paradigm with tDCS over the MPFC and demonstrated baseline-dependent modulation of subjective flow and right-amygdala downregulation. Ulrich et al. (2022, NeuroImage: Reports) reported decisive Bayesian replication evidence (BF > 300) for both invU and U signatures in an independent sample of N = 41; Ulrich, Niemann & Grön (2022, Frontiers in Human Neuroscience) used task-based functional connectivity to show that the right anterior insula serves as a salience-network hub coupling with the central-executive network and decoupling from the ventral striatum during flow. References: Csikszentmihalyi (1975, 1990, 2000); Ulrich et al. (2014) NeuroImage 86:194-202; Ulrich et al. (2016b) SCAN 11:496-507; Katahira et al. (2018) Front Psychol 9:300; Ulrich et al. (2018) Exp Brain Res 236:3223-3237; Ulrich et al. (2022a) NeuroImage Reports 2:100139; Ulrich et al. (2022b) Front Hum Neurosci 16:1067968.",
+  "procedure": "Each session begins with a preparation phase outside data collection: (1) a 3-minute familiarisation block using the Boredom-difficulty arithmetic to acquaint the participant with the response device; (2) a 4-5 minute skill-evaluation block using the Flow-adaptive algorithm starting at level 1 — the average difficulty over the last 25% of trials defines the participant's individual starting level. The main experiment then comprises 12 task blocks (170 s each in the original behavioural protocol; 30 s each in the BOLD-block-design variant) separated by 11 rest periods (20 s in behavioural / 30 s in fMRI). Block sequence is one of two counterbalanced orders: B-F-O-B-F-B-O-F-O-F-B-O or B-O-F-B-O-B-F-O-F-O-B-F. After each task block, three 7-point Likert items assessing subjective flow are presented. Total main-experiment duration is approximately 30 minutes for the behavioural protocol.",
+  "trial_structure": "Boredom trial: a math expression of the form 'A + B' is presented (A ∈ [100, 109], B ∈ [1, 9], sum ≤ 110); participant mentally computes the sum and enters the three-digit result digit-by-digit on the on-screen keyboard, then submits with the 'E' key. Flow trial: the starting expression matches the participant's calibrated skill level; after two consecutive correct submissions the next expression gains one difficulty level (either the last single-digit summand becomes two-digit, or an additional one-digit summand is appended); after two consecutive incorrect submissions the difficulty decreases by one level using the reverse rules. Overload trial: identical to Flow trial mechanics but the starting level is three levels above the participant's calibrated level and difficulty is not permitted to fall below this starting level. Trial timeout is 18 s in the behavioural variant and 10 s in the fMRI variant; on timeout the trial is recorded as incorrect. A short fixation/break (1-4 s) with the placeholder string 'xxx + x' separates trials. No explicit accuracy feedback is provided in any condition.",
+  "design": "Within-subjects, repeated-measures. Two task sessions per participant separated by 7-14 days (test-retest design). Three conditions (Boredom, Flow, Overload) presented in 12 counterbalanced blocks per session. Two block-order sequences counterbalanced across participants.",
+  "modality": "visual",
+  "cognitive_domain": "cognitive control",
+  "task_type": "adaptive mental arithmetic with skill-demand matching",
+  "language": "german",
+  "experimental_context": "behavioral",
+  "software_original": "PsychoPy",
+  "language_original": "german",
+  "implementations": [
+    {
+      "software": "PsychoPy",
+      "type": "original",
+      "languages_available": [
+        "german"
+      ],
+      "folder": "paradigm/psychopy"
+    },
+    {
+      "software": "pygame",
+      "type": "compatible",
+      "languages_available": [
+        "german"
+      ],
+      "folder": "paradigm/pygame"
+    }
+  ],
+  "keywords": [
+    "flow",
+    "mental arithmetic",
+    "skill-demand balance",
+    "intrinsic motivation",
+    "boredom",
+    "overload",
+    "adaptive difficulty",
+    "Csikszentmihalyi",
+    "electrodermal activity",
+    "default-mode network",
+    "multiple-demand network",
+    "salience"
+  ],
+  "response_device": "on-screen keyboard operated by MR-compatible trackball (original Ulrich et al. variant); standard keyboard / numpad (pygame port)",
+  "timing": {
+    "block_duration_behavioral_s": 170,
+    "block_duration_fmri_s": 30,
+    "rest_duration_behavioral_s": 20,
+    "rest_duration_fmri_s": 30,
+    "task_timeout_behavioral_s": 18,
+    "task_timeout_fmri_s": 10,
+    "inter_trial_break_s": [
+      1,
+      4
+    ],
+    "n_blocks_per_session": 12,
+    "n_blocks_per_condition": 4,
+    "n_rest_blocks": 11,
+    "familiarization_duration_s": 180,
+    "skill_evaluation_duration_s": 300,
+    "likert_scale_range": [
+      1,
+      7
+    ],
+    "n_likert_items_per_block": 3,
+    "session_duration_minutes": 30
+  },
+  "outcome_measures": [
+    {
+      "id": "FlowIndex_Likert",
+      "suffix": "_FlowIndex_Likert_beh.tsv",
+      "column": "flow_index",
+      "label": "Flow Index (Likert)",
+      "axis_label": "Flow index (−36 … +36; 0 = no preference)",
+      "higher_is_better": true,
+      "is_binary": false,
+      "requires_correct_filter": false,
+      "is_helper": false,
+      "display_priority": 1,
+      "is_global": false,
+      "axis_range": [
+        -36,
+        36
+      ],
+      "reference_line": 0,
+      "plot_unit": "subject",
+      "description": "Subjective flow index: the contrast (-1*Boredom + 2*Flow - 1*Overload) applied to three 7-point Likert items administered after every block.",
+      "role": "primary"
+    },
+    {
+      "id": "FlowIndex_Task",
+      "suffix": "_FlowIndex_Task_beh.tsv",
+      "column": "task_flow_index",
+      "label": "Flow Index (Task)",
+      "axis_label": "Difficulty contrast (−B + 2F − O)",
+      "higher_is_better": true,
+      "is_binary": false,
+      "requires_correct_filter": false,
+      "is_helper": false,
+      "display_priority": 2,
+      "is_global": false,
+      "plot_unit": "subject",
+      "reference_line": 0,
+      "description": "Objective flow index: the same contrast applied to achieved arithmetic difficulty rather than to subjective ratings.",
+      "role": "secondary"
+    }
+  ],
+  "n_sessions": 2,
+  "software": "PsychoPy"
+}

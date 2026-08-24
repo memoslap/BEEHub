@@ -1,0 +1,996 @@
+# BEEHub Conversion Manifest — OLM SET_A
+# Pass 1 — Inventory (NO code)
+# generated: 2026-07-20
+
+paradigm: OLM_SET_A
+source:
+  exp: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Locato30_VersionA_fMRI.exp
+  scenarios:
+    - sce/00_Instr_1.sce          # 7 instruction pages, white bg, button 2=next
+    - sce/01_Prac.sce             # practice with feedback (obsolete 01_Prac_old.sce also exists)
+    - sce/02_Instr_2.sce          # 1 instruction page, black bg, 3-button response
+    - sce/03_learning.sce         # main experiment: 4 learning + 2 control blocks, interleaved
+    - sce/04_Instr_3.sce          # 4 instruction pages, white bg
+    - sce/04_AFC.sce              # forced-choice test, no shuffle, 3-button
+    - sce/05_AFC.sce              # forced-choice test, shuffled, 3-button, .jpg filter
+  stimuli_root: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli
+  generated: 2026-07-20T00:00:00Z
+
+display:
+  background_rgb: [0, 0, 0]     # experiment screens (01_Prac, 03_learning, 02_Instr_2, AFC)
+  units: pix
+  # Instruction screens (00_Instr_1, 04_Instr_3) use [255, 255, 255] (white) — handled per-sce
+
+response:
+  keys: ['left', 'right']       # Keyboard in PsychoPy: left=correct/yes (code 1), right=wrong/no (code 2)
+  quit_key: escape               # Presentation quit key Q replaced by PsychoPy convention
+  timeout_ms: null               # trials use trial_duration=forever; waits for response
+  # Original hardware: Presentation ResponseGrips (port codes 'a'=97, 'b'=98) in scanner;
+  # mapped to codes 1,2 in the paradigm. PsychoPy uses keyboard instead.
+  # Accuracy: code 1 on "_k_" file = correct; code 2 on "_i_" file = correct.
+
+blocks:
+  - name: practice
+    type: practice
+    n_trials: 40               # 20 unique images, each shown twice (2 reshuffled loops)
+    unique_stimuli: 20           # 10 key images × 2 positions per key
+    randomize: true              # reshuffled between the 2 loops
+    stages: 1
+    has_feedback: true
+    # 01_Prac.sce: one_Ten[20][2] filled identically (cols 1&2 same), outer loop l=1..2
+    # => 2 × 20 = 40 presentations. one_Ten.shuffle() called each iteration.
+
+  - name: learning-1
+    type: learning
+    n_trials: 56               # 14 items × 4 repetitions (LS1–LS4)
+    unique_stimuli: 28           # 7 key images + 21 paired positions
+    randomize: true              # items shuffled by shuffleItems() — no consecutive same house number
+    stages: 4                    # LS1–LS4 — same 14 items shown 4× with different position labels
+    has_feedback: true
+    source_images: learning/block1
+
+  - name: learning-2
+    type: learning
+    n_trials: 56
+    unique_stimuli: 28
+    randomize: true
+    stages: 4
+    has_feedback: true
+    source_images: learning/block2
+
+  - name: learning-3
+    type: learning
+    n_trials: 56
+    unique_stimuli: 28
+    randomize: true
+    stages: 4
+    has_feedback: true
+    source_images: learning/block3
+
+  - name: learning-4
+    type: learning
+    n_trials: 56
+    unique_stimuli: 21           # ONLY 21 images exist; 7 key (_k_) files are MISSING
+    randomize: true
+    stages: 4
+    has_feedback: true
+    source_images: learning/block4
+
+  - name: control-1
+    type: control
+    n_trials: 56               # 14 images × 4 repetitions
+    unique_stimuli: 14
+    randomize: true              # ctrl1.shuffle() each repetition
+    stages: 4
+    has_feedback: true
+    source_images: control/block1
+    question: "Ist das Haus auf der rechten Seite?" (Is the house on the right side?)
+    # Each control trial = ONE screen (image + question) for 2500 ms.
+    # mainTrial presentation is commented out in the PCL — deliberate.
+
+  - name: control-2
+    type: control
+    n_trials: 56               # 14 images × 4 repetitions
+    unique_stimuli: 14
+    randomize: true              # ctrl2.shuffle() each repetition
+    stages: 4
+    has_feedback: true
+    source_images: control/block2
+    question: "Ist das Haus auf der linken Seite?" (Is the house on the left side?)
+    # Same single-screen structure as control-1.
+
+events:
+  - id: fixation
+    kind: text
+    text: "+"
+    color: white
+    duration_ms: 4500            # scan_period locked; presented between trials/blocks
+    size_px: 100
+    pos: [0, 0]
+
+  - id: stimulus
+    kind: bitmap
+    duration_ms: 2500
+    pos: [0, -70]
+    size_px: [1024, 787]         # as defined in 01_Prac/03_learning bitmap declarations
+
+  - id: feedback_learning
+    kind: feedback
+    duration_ms: 2000
+    image: correct_image           # feedback shows the "correct" (key/_k_) image
+    text: dynamic                  # "Richtig, die korrekte Position ist:" or
+                                   # "Falsch, die korrekte Position ist:" or
+                                   # "Zu spat, die korrekte Position ist:"
+    text_size_px: 65
+    text_pos: [0, 400]
+
+  - id: stimulus_extra
+    kind: bitmap
+    duration_ms: dynamic           # deltaTime = 2500 - (resTime - lastStim.time()) for late correct responses
+    pos: [0, -70]
+    note: extra display time only for correct-but-late responses in learning trials
+
+  - id: feedback_control
+    kind: image_with_question      # single screen: image + question text, NOT separate stimulus + feedback
+    duration_ms: 2500              # fixed; the commented-out mainTrial that would have provided a separate stimulus phase is intentional
+    text: dynamic                  # "Ist das Haus auf der rechten/seiten Seite?" + correctness text
+    text_size_px: 65
+    text_pos: [0, 400]
+
+  - id: instruction_page
+    kind: bitmap
+    duration_ms: null            # forever — button-terminated
+    size_px: [1280, 720]
+
+  - id: block_intro_fixation
+    kind: text
+    text: "+"
+    duration_ms: 4500
+    repeats: 3                   # 3 × 4500 ms fixation before block info screen
+
+  - id: block_intro_screen
+    kind: bitmap
+    asset: bubbles/learning.png or bubbles/control.png
+    duration_ms: 4500
+    size_px: [600, 398]
+
+  - id: bye_screen
+    kind: bitmap
+    asset: bubbles/bye.png
+    duration_ms: 4500
+    size_px: [600, 398]
+    note: shown only after last block (masterIndex==8, line 541)
+
+  - id: intro_hello
+    kind: text
+    text: "Das Experiment\nbeginnt gleich.\n\n Zu Erinnerung: \n   Ja = Zeigefinger\n Nein = Daumen"
+    duration_ms: 100             # brief flash (line 525)
+
+stimuli:
+  # --- learning/block1 (28 files: 7 key + 21 paired) ---
+  - ref: learning/block1/h24_p33_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h24_p33_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h24_p39_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h24_p39_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h24_p40_k_up_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h24_p40_k_up_q4_left.jpg
+    exists: true
+  - ref: learning/block1/h24_p41_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h24_p41_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h26_p14_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h26_p14_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h26_p20_k_up_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h26_p20_k_up_q2_right.jpg
+    exists: true
+  - ref: learning/block1/h26_p24_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h26_p24_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h26_p57_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h26_p57_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h27_p6_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h27_p6_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h27_p7_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h27_p7_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h27_p8_k_up_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h27_p8_k_up_q1_left.jpg
+    exists: true
+  - ref: learning/block1/h27_p9_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h27_p9_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h30_p13_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h30_p13_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h30_p14_k_up_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h30_p14_k_up_q2_right.jpg
+    exists: true
+  - ref: learning/block1/h30_p56_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h30_p56_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h30_p62_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h30_p62_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h34_p40_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h34_p40_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h34_p41_k_up_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h34_p41_k_up_q4_left.jpg
+    exists: true
+  - ref: learning/block1/h34_p42_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h34_p42_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h34_p49_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h34_p49_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h38_p29_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h38_p29_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h38_p36_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h38_p36_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h38_p37_k_up_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h38_p37_k_up_q3_right.jpg
+    exists: true
+  - ref: learning/block1/h38_p54_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h38_p54_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h44_p12_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h44_p12_i_up_left.jpg
+    exists: true
+  - ref: learning/block1/h44_p18_k_up_q1_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h44_p18_k_up_q1_right.jpg
+    exists: true
+  - ref: learning/block1/h44_p19_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h44_p19_i_up_right.jpg
+    exists: true
+  - ref: learning/block1/h44_p23_i_up_q1_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block1/h44_p23_i_up_q1_right.jpg
+    exists: true
+
+  # --- learning/block2 (28 files) ---
+  - ref: learning/block2/h50_p29_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h50_p29_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h50_p37_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h50_p37_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h50_p45_k_up_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h50_p45_k_up_q3_right.jpg
+    exists: true
+  - ref: learning/block2/h50_p54_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h50_p54_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h51_p20_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h51_p20_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h51_p21_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h51_p21_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h51_p24_k_up_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h51_p24_k_up_q3_right.jpg
+    exists: true
+  - ref: learning/block2/h51_p29_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h51_p29_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h54_p12_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h54_p12_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h54_p3_k_up_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h54_p3_k_up_q2_right.jpg
+    exists: true
+  - ref: learning/block2/h54_p46_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h54_p46_i_up_left.jpg
+    exists: true
+  - ref: learning/block2/h54_p4_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h54_p4_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h55_p16_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h55_p16_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h55_p22_k_down_q4_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h55_p22_k_down_q4_right.jpg
+    exists: true
+  - ref: learning/block2/h55_p26_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h55_p26_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h55_p65_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h55_p65_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h56_p12_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h56_p12_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h56_p13_k_up_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h56_p13_k_up_q2_right.jpg
+    exists: true
+  - ref: learning/block2/h56_p14_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h56_p14_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h56_p19_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h56_p19_i_up_right.jpg
+    exists: true
+  - ref: learning/block2/h57_p35_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h57_p35_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h57_p36_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h57_p36_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block2/h57_p37_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h57_p37_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h57_p54_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h57_p54_i_down_left.jpg
+    exists: true
+  - ref: learning/block2/h58_p1_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h58_p1_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h58_p6_k_down_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h58_p6_k_down_q3_right.jpg
+    exists: true
+  - ref: learning/block2/h58_p8_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h58_p8_i_down_right.jpg
+    exists: true
+  - ref: learning/block2/h58_p9_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block2/h58_p9_i_down_right.jpg
+    exists: true
+
+  # --- learning/block3 (28 files) ---
+  - ref: learning/block3/h60_p33_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h60_p33_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h60_p40_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h60_p40_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h60_p41_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h60_p41_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h60_p49_k_up_q4_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h60_p49_k_up_q4_left.jpg
+    exists: true
+  - ref: learning/block3/h61_p48_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h61_p48_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h61_p55_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h61_p55_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h61_p56_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h61_p56_i_up_right.jpg
+    exists: true
+  - ref: learning/block3/h61_p5_k_up_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h61_p5_k_up_q2_right.jpg
+    exists: true
+  - ref: learning/block3/h69_p27_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h69_p27_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h69_p33_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h69_p33_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h69_p34_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h69_p34_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block3/h69_p51_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h69_p51_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h74_p16_k_up_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h74_p16_k_up_q1_left.jpg
+    exists: true
+  - ref: learning/block3/h74_p22_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h74_p22_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h74_p25_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h74_p25_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h74_p7_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h74_p7_i_up_left.jpg
+    exists: true
+  - ref: learning/block3/h75_p29_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h75_p29_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h75_p36_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h75_p36_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h75_p37_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h75_p37_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block3/h75_p54_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h75_p54_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h76_p24_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h76_p24_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h76_p29_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h76_p29_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block3/h76_p37_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h76_p37_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h76_p57_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h76_p57_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h77_p41_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h77_p41_i_down_right.jpg
+    exists: true
+  - ref: learning/block3/h77_p42_k_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h77_p42_k_down_left.jpg
+    exists: true
+  - ref: learning/block3/h77_p52_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h77_p52_i_down_left.jpg
+    exists: true
+  - ref: learning/block3/h77_p63_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block3/h77_p63_i_down_right.jpg
+    exists: true
+
+  # --- learning/block4 (21 files — only 21 jpg files found, not 28) ---
+  # NOTE: only 21 .jpg files exist in learning/block4 (not 28 like other blocks)
+  # This is a potential problem — the PCL code expects 14 house pairs (7×4=28 images)
+  - ref: learning/block4/h101_p32_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h101_p32_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h101_p33_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h101_p33_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h101_p40_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h101_p40_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h101_p49_k_down_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h101_p49_k_down_q2_right.jpg
+    exists: true
+  - ref: learning/block4/h80_p25_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h80_p25_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h80_p30_k_down_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h80_p30_k_down_q2_right.jpg
+    exists: true
+  - ref: learning/block4/h80_p50_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h80_p50_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h80_p61_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h80_p61_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h84_p6_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h84_p6_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h84_p7_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h84_p7_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h84_p8_k_down_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h84_p8_k_down_q3_right.jpg
+    exists: true
+  - ref: learning/block4/h84_p9_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h84_p9_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h88_p35_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h88_p35_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block4/h88_p36_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h88_p36_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h88_p43_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h88_p43_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h88_p58_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h88_p58_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h93_p27_k_down_q1_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h93_p27_k_down_q1_left.jpg
+    exists: true
+  - ref: learning/block4/h93_p34_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h93_p34_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h93_p51_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h93_p51_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h93_p59_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h93_p59_i_down_left.jpg
+    exists: true
+  - ref: learning/block4/h95_p26_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h95_p26_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h95_p31_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h95_p31_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h95_p32_k_down_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h95_p32_k_down_q2_right.jpg
+    exists: true
+  - ref: learning/block4/h95_p60_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h95_p60_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h97_p17_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h97_p17_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h97_p23_k_down_q2_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h97_p23_k_down_q2_right.jpg
+    exists: true
+  - ref: learning/block4/h97_p60_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h97_p60_i_down_right.jpg
+    exists: true
+  - ref: learning/block4/h97_p65_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/block4/h97_p65_i_down_right.jpg
+    exists: true
+
+  # --- control/block1 (14 files) ---
+  - ref: control/block1/h20_p53_k_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h20_p53_k_up_right.jpg
+    exists: true
+  - ref: control/block1/h24_p39_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h24_p39_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h26_p14_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h26_p14_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h27_p7_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h27_p7_i_up_left.jpg
+    exists: true
+  - ref: control/block1/h30_p56_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h30_p56_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h38_p29_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h38_p29_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h50_p37_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h50_p37_i_up_right.jpg
+    exists: true
+  - ref: control/block1/h55_p26_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h55_p26_i_down_right.jpg
+    exists: true
+  - ref: control/block1/h57_p45_k_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h57_p45_k_down_left.jpg
+    exists: true
+  - ref: control/block1/h74_p26_k_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h74_p26_k_up_left.jpg
+    exists: true
+  - ref: control/block1/h75_p62_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h75_p62_i_down_left.jpg
+    exists: true
+  - ref: control/block1/h76_p26_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h76_p26_i_down_left.jpg
+    exists: true
+  - ref: control/block1/h88_p36_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h88_p36_i_down_left.jpg
+    exists: true
+  - ref: control/block1/h95_p38_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/h95_p38_i_down_right.jpg
+    exists: true
+
+  # --- control/block2 (14 files) ---
+  - ref: control/block2/h101_p40_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h101_p40_i_down_left.jpg
+    exists: true
+  - ref: control/block2/h102_p49_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h102_p49_i_down_right.jpg
+    exists: true
+  - ref: control/block2/h34_p49_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h34_p49_i_up_left.jpg
+    exists: true
+  - ref: control/block2/h44_p18_k_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h44_p18_k_up_left.jpg
+    exists: true
+  - ref: control/block2/h51_p29_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h51_p29_i_up_right.jpg
+    exists: true
+  - ref: control/block2/h56_p14_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h56_p14_i_up_right.jpg
+    exists: true
+  - ref: control/block2/h57_p37_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h57_p37_i_down_left.jpg
+    exists: true
+  - ref: control/block2/h61_p55_i_up_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h61_p55_i_up_right.jpg
+    exists: true
+  - ref: control/block2/h69_p27_i_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h69_p27_i_down_left.jpg
+    exists: true
+  - ref: control/block2/h74_p16_i_up_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h74_p16_i_up_left.jpg
+    exists: true
+  - ref: control/block2/h77_p41_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h77_p41_i_down_right.jpg
+    exists: true
+  - ref: control/block2/h84_p8_k_down_q3_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h84_p8_k_down_q3_right.jpg
+    exists: true
+  - ref: control/block2/h88_p35_k_down_left.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h88_p35_k_down_left.jpg
+    exists: true
+  - ref: control/block2/h97_p60_i_down_right.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/h97_p60_i_down_right.jpg
+    exists: true
+
+  # --- AFC test images (30 files) ---
+  - ref: AFC/h101p49_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h101p49_2.jpg
+    exists: true
+  - ref: AFC/h102p40_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h102p40_2.jpg
+    exists: true
+  - ref: AFC/h20p53_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h20p53_1.jpg
+    exists: true
+  - ref: AFC/h24p40_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h24p40_1.jpg
+    exists: true
+  - ref: AFC/h26p20_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h26p20_3.jpg
+    exists: true
+  - ref: AFC/h27p8_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h27p8_2.jpg
+    exists: true
+  - ref: AFC/h30p14_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h30p14_3.jpg
+    exists: true
+  - ref: AFC/h34p41_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h34p41_3.jpg
+    exists: true
+  - ref: AFC/h38p37_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h38p37_3.jpg
+    exists: true
+  - ref: AFC/h44p18_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h44p18_3.jpg
+    exists: true
+  - ref: AFC/h50p45_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h50p45_2.jpg
+    exists: true
+  - ref: AFC/h51p24_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h51p24_1.jpg
+    exists: true
+  - ref: AFC/h54p3_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h54p3_3.jpg
+    exists: true
+  - ref: AFC/h55p24_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h55p24_3.jpg
+    exists: true
+  - ref: AFC/h56p13_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h56p13_1.jpg
+    exists: true
+  - ref: AFC/h57p36_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h57p36_1.jpg
+    exists: true
+  - ref: AFC/h58p6_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h58p6_1.jpg
+    exists: true
+  - ref: AFC/h60p49_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h60p49_1.jpg
+    exists: true
+  - ref: AFC/h61p5_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h61p5_3.jpg
+    exists: true
+  - ref: AFC/h69p34_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h69p34_1.jpg
+    exists: true
+  - ref: AFC/h74p16_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h74p16_3.jpg
+    exists: true
+  - ref: AFC/h75p37_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h75p37_1.jpg
+    exists: true
+  - ref: AFC/h76p29_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h76p29_3.jpg
+    exists: true
+  - ref: AFC/h77p42_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h77p42_2.jpg
+    exists: true
+  - ref: AFC/h80p30_2.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h80p30_2.jpg
+    exists: true
+  - ref: AFC/h84p8_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h84p8_3.jpg
+    exists: true
+  - ref: AFC/h88p35_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h88p35_1.jpg
+    exists: true
+  - ref: AFC/h93p27_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h93p27_3.jpg
+    exists: true
+  - ref: AFC/h95p32_1.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h95p32_1.jpg
+    exists: true
+  - ref: AFC/h97p23_3.jpg
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/h97p23_3.jpg
+    exists: true
+
+  # --- bubble/info images (3 files) ---
+  - ref: bubbles/bye.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/bubbles/bye.png
+    exists: true
+    size_px: [600, 398]
+  - ref: bubbles/control.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/bubbles/control.png
+    exists: true
+    size_px: [600, 398]
+  - ref: bubbles/learning.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/bubbles/learning.png
+    exists: true
+    size_px: [600, 398]
+
+  # --- loose files ---
+  - ref: Map_65pos.png
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/Map_65pos.png
+    exists: true
+    note: referenced in 00_Instr_1? No — not directly referenced in any sce. May be for a different SET.
+  - ref: Repeated houses- balanced.xlsx
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/Repeated houses- balanced.xlsx
+    exists: true
+    note: metadata file; not used by Presentation at runtime.
+  - ref: learning/desktop.ini
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/learning/desktop.ini
+    exists: true
+    note: Windows metadata; not a stimulus.
+  - ref: control/block1/Thumbs.db
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block1/Thumbs.db
+    exists: true
+    note: Windows thumbnail cache; not a stimulus.
+  - ref: control/block2/Thumbs.db
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/control/block2/Thumbs.db
+    exists: true
+    note: Windows thumbnail cache; not a stimulus.
+  - ref: AFC/Thumbs.db
+    path: Projects/OLM/paradigm/presentation/OLM_paradigm/SET_A/Stimuli/AFC/Thumbs.db
+    exists: true
+    note: Windows thumbnail cache; not a stimulus.
+
+unresolved:
+  # Instruction images referenced in sce files but NOT found in Stimuli/ tree:
+  - instr_11.jpg              # 00_Instr_1.sce line 17
+  - instr_12.jpg              # 00_Instr_1.sce line 18
+  - instr_13.jpg              # 00_Instr_1.sce line 19
+  - instr_14.jpg              # 00_Instr_1.sce line 20
+  - instr_15.jpg              # 00_Instr_1.sce line 21
+  - instr_16.jpg              # 00_Instr_1.sce line 22
+  - instr_17.jpg              # 00_Instr_1.sce line 23
+  - instr_21.jpg              # 00_Instr_1.sce line 17
+  - instr_31.jpg              # 04_Instr_3.sce line 17
+  - instr_32.jpg              # 04_Instr_3.sce line 18
+  - instr_33.jpg              # 04_Instr_3.sce line 19
+  - instr_34.jpg              # 04_Instr_3.sce line 20
+  # Practice sce uses Windows path — no local filenames to check:
+  - "C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/Version_A/Stimuli/prac"  # 01_Prac.sce line 186
+  # 03_learning.sce uses Windows paths for stimuli directories:
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/learning/block1"  # 03_learning.sce line 188
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/learning/block2"  # 03_learning.sce line 189
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/learning/block3"  # 03_learning.sce line 190
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/learning/block4"  # 03_learning.sce line 191
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/control/block1"    # 03_learning.sce line 193
+  - "C:/Users/fMRI/Desktop/Presentation_Paradigmen/AG_Floeel_P1/Locato_fMRT_last/SET_A/Stimuli/control/block2"    # 03_learning.sce line 194
+  # 04_AFC.sce uses Windows path:
+  - "D:/DATA/LOCATO Versionen/FoGru_fMRI_Version_HGW/Locato40_2ver/Version_A/Stimuli/AFC"  # 04_AFC.sce line 54
+  # 05_AFC.sce uses Windows path:
+  - "C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/Version_A/Stimuli/AFC"  # 05_AFC.sce line 54
+
+open_questions:
+  - id:block_order
+  status_ resolved
+  question:|
+    Block order: 03_learning.sce defines `order[] = {"learning-1","learning-2","learning-3","learning-4","control","control"}`
+    which is shuffled (with constraint: no two adjacent blocks same type, first block not control).
+    The resulting order is non-deterministic at conversion time. For the generated experiment,
+    a fixed seed or explicit order should be chosen. What order should be used?
+    answer: |
+      Preserve per-participant randomisation, matching the original. Shuffle at runtime with the
+      same two constraints, seeded from the participant ID so a session is reproducible.
+    applies_to: blocks
+
+  - id: practice_trial_count
+    status: resolved
+    confidence: high
+    source_of_truth: 01_Prac.sce (read directly)
+    question: 20 or 40 practice trials?
+    answer: |
+      40 trials — 20 unique images, each presented twice.
+      Derivation: one_Ten is declared [20][2]. The fill loop runs i=1..10 (picPairs.count()=10)
+      and writes TWO rows per iteration (one, one+1), so all 20 rows are filled.
+      The outer loop `loop l = 1 until l > 2` runs twice, and the inner loop runs
+      one_Ten.count() = 20. So 2 x 20 = 40 presentations.
+    correction_to_earlier_reading: |
+      The earlier note speculated that "each loop shows a different image from the pair"
+      because of the one_Ten[i][l] indexing. That is WRONG. Columns 1 and 2 are filled
+      IDENTICALLY:
+          one_Ten[one][1]   = picPairs[i][1]      one_Ten[one][2]   = picPairs[i][1]
+          one_Ten[one+1][1] = picPairs[i][2]      one_Ten[one+1][2] = picPairs[i][2]
+      So one_Ten[i][1] == one_Ten[i][2] for every i, and the value of l does not change
+      which image is shown. The only difference between the two passes is the reshuffle
+      (one_Ten.shuffle() is called at the top of each l iteration).
+    manifest_action: |
+      practice: n_trials: 40, n_unique: 20, repetitions: 2, reshuffle_between_repetitions: true
+ 
+  - id: block4_missing_stimuli
+    status: resolved
+    confidence: high
+    priority: CRITICAL
+    source_of_truth: PlastMem-005 log (real run)
+    question: block4 has 21 .jpg files instead of 28 — missing or intentional?
+    answer: |
+      MISSING. The real run used 28 unique stimuli in block4, exactly like blocks 1-3
+      (verified: unique stimulus count per block = 28 / 28 / 28 / 28).
+      The 28 split as 7 "_k_" files + 21 "_i_" files.
+      Your repo has 21 files = exactly the count of "_i_" files, so the 7 missing files are
+      almost certainly ALL the "_k_" (key/correct-position) images.
+      These are the images shown on the feedback screen, so the paradigm cannot run correctly
+      without them.
+    verify: |
+      ls Projects/OLM/.../Stimuli/learning/block4/*_k_*.jpg | wc -l    # expect 0 if hypothesis holds
+    the_7_missing_files:
+      - h24_p40_k_up_q4_left.jpg
+      - h26_p20_k_up_q2_right.jpg
+      - h27_p8_k_up_q1_left.jpg
+      - h30_p14_k_up_q2_right.jpg
+      - h34_p41_k_up_q4_left.jpg
+      - h38_p37_k_up_q3_right.jpg
+      - h44_p18_k_up_q1_right.jpg
+    manifest_action: |
+      DO NOT convert SET_A until these are recovered — otherwise the deficit is baked in.
+      Record them under unresolved: until they are restored from backup or the original machine.
+ 
+  - id: comment_30_to_28
+    status: resolved
+    confidence: high
+    source_of_truth: 03_learning.sce lines 112-116 + log
+    question: Is "# Change 30 -> 28" already applied, or is a parameter still 30?
+    answer: |
+      Already applied; the comment is a historical note. The arrays immediately below it are
+      declared picPairsBLK1..4[7][4] = 7 x 4 = 28. The only other occurrences of "30" in the
+      file are pulse_code = 30 (scanner trigger code, unrelated) and resTime = +3000 (ms).
+      The log confirms 28 unique stimuli per learning block.
+    manifest_action: no action
+ 
+  - id: control_block_structure
+    status: resolved
+    confidence: high
+    source_of_truth: 03_learning.sce lines ~1112-1145
+    question: Do control blocks really have no separate stimulus presentation?
+    answer: |
+      Correct, and it is DELIBERATE, not an oversight. In the control branch the stimulus
+      presentation lines are explicitly commented out:
+          #presPic.set_draw_mode(1);
+          #presPic.load();
+          ####mainTrial.set_mri_pulse(pulse);
+          #mainTrial.set_duration(2500);
+          #mainTrial.present();
+      What actually runs is only the feedback trial, carrying BOTH the image and the question:
+          FeedTrial.set_duration(2500);
+          FeedText.set_caption("Ist das Haus auf der rechten Seite?", true);
+          presPicFB.set_filename(ctrl1[i][l]);
+          FeedTrial.present();
+      So a control trial = ONE screen (image + question) for 2500 ms.
+      The systematic commenting-out indicates an intentional edit. Worth a one-line confirmation
+      from the study author, but the code is unambiguous.
+    manifest_action: |
+      control trial = single event, kind: image_with_question, duration_ms: 2500
+ 
+  - id: control_feedback_timing
+    status: resolved
+    confidence: high
+    source_of_truth: same as control_block_structure
+    question: Is 2500 ms the image+question presentation, or is there a hidden stimulus phase?
+    answer: |
+      2500 ms IS the image-with-question presentation. There is no hidden stimulus phase —
+      the phase that would have provided it is the commented-out mainTrial above.
+      Same mechanism as control_block_structure; the two questions are one issue.
+ 
+  - id: response_device
+    status: resolved
+    confidence: high
+    priority: HIGH
+    source_of_truth: PlastMem-005 log (port/response pairs)
+    question: ResponseGrips or keyboard? Which button means what?
+    answer: |
+      The original ran in the SCANNER with Presentation ResponseGrips. The log shows an exact,
+      unambiguous mapping (counts from the real run):
+          Port Input 98  -> Response 1    (192 occurrences)
+          Port Input 97  -> Response 2    (142 occurrences)
+          Port Input 115 -> Pulse 30      (1792 occurrences — scanner trigger, not a response)
+      ASCII 97 = 'a', 98 = 'b' (the two grip buttons). Semantics from the 01_Prac.sce header
+      comment: code 1 = left arrow = "richtig" (correct/yes); code 2 = right arrow = "falsch".
+      FOR THE PSYCHOPY CONVERSION: use the keyboard (no scanner, no grips). Preserve the
+      SEMANTICS, not the hardware codes:
+          'left'  -> internal code 1 -> "richtig"/yes/correct
+          'right' -> internal code 2 -> "falsch"/no/incorrect
+      Write the internal code (1/2) to the CSV as well as the key name, so accuracy scoring
+      matches the original analysis pipeline.
+    manifest_action: |
+      response: {keys: [left, right], mapping: {left: 1, right: 2}, quit_key: escape}
+ 
+  - id: which_afc_scenario
+    status: resolved_provisionally
+    confidence: medium          # NOT settled — neither uploaded log covers the AFC phase
+    source_of_truth: diff of 04_AFC.sce vs 05_AFC.sce
+    question: Which AFC scenario is used?
+    answer: |
+      Use 05_AFC.sce. Evidence (circumstantial but consistent):
+        - 05 adds afcPics.shuffle() — randomised AFC order, methodologically preferable and
+          consistent with randomisation everywhere else in this paradigm.
+        - 05 adds a .jpg filter (if afcPics[i].find(".jpg") != 0) — a bug fix; without it,
+          non-image directory entries would be treated as stimuli.
+        - Stimulus paths: 05 points at C:/Users/malinowskir/Desktop/Agnes/Locato40_AB_ver2/...,
+          the SAME generation as 01_Prac.sce. 04 points at an older, different machine
+          (D:/DATA/LOCATO Versionen/FoGru_fMRI_Version_HGW/...).
+        - Image size differs: 04 = 1624x1187, 05 = 1324x1087.
+      CAVEAT: both uploaded logs are 03_learning runs, so neither shows the AFC phase. This is
+      an inference from the code, not from a recorded run.
+    how_to_settle: |
+      Find an AFC-phase log in Ergebnisse/ and check whether AFC order varies between two
+      participants (varies => shuffling => 05). Also check which image size matches the
+      displayed stimuli.
+ 
+  - id: prac_old_obsolete
+    status: resolved
+    confidence: high
+    source_of_truth: grep across all .sce
+    question: Is 01_Prac_old.sce obsolete?
+    answer: |
+      Yes. Not referenced by any scenario (grep "Prac_old" across all .sce returns nothing).
+      Exclude it from conversion. Do not delete the file — just don't convert it.
+ 
+  - id: block_order
+    status: resolved
+    confidence: high
+    source_of_truth: 03_learning.sce line 401-424 + log
+    question: Fixed order or runtime shuffle?
+    answer: |
+      RUNTIME SHUFFLE — keep it. The source defines
+        order[] = {"learning-1","learning-2","learning-3","learning-4","control","control"}
+      shuffled with the constraints (first block not control; no two adjacent identical),
+      then the two control blocks are assigned control-1/control-2 in shuffled order.
+      A fixed order would change the study design, not just the implementation.
+      The order actually run in PlastMem-005 was:
+        block1 -> block2 -> block3 -> control-1 -> block4 -> control-2
+      which satisfies both constraints — confirming the shuffle-with-constraints logic.
+      Implement: shuffle at runtime with the same two constraints, seed from participant ID
+      for reproducibility, and LOG the realised order to the CSV.
+    manifest_action: |
+      blocks: {randomize: true, seed_from: participant_id,
+               constraints: [first_block_not_control, no_adjacent_same_type]}
+ 
+  - id: scenario_chain_order
+    status: partially_resolved
+    confidence: medium
+    source_of_truth: log (within-scenario only)
+    question: What is the full scenario chain?
+    answer: |
+      WITHIN 03_learning the order is established (see block_order above):
+        block1 -> block2 -> block3 -> control-1 -> block4 -> control-2
+      Each learning block ran 14 trials x 4 repetitions (LS1-LS4) = 56 trials;
+      each control block likewise 56 (crt1-l and crt2-r, 56 each).
+      Total learning phase = 6 blocks x 56 = 336 trials.
+      ACROSS scenarios the chain is NOT established by these logs — both uploaded logs cover
+      only 03_learning. The assumed chain (00_Instr_1 -> 01_Prac -> 02_Instr_2 -> 03_learning
+      -> AFC -> 04_Instr_3) remains plausible but unverified.
+    how_to_settle: |
+      List Ergebnisse/ and sort logs by timestamp — if each scenario wrote its own log, the
+      true chain falls out. Otherwise ask whoever ran the sessions; it may be manual ordering.
+ 
+  - id: fmri_emulation
+    status: resolved_with_caveat
+    confidence: high
+    priority: HIGH
+    source_of_truth: log (1792 real scanner pulses) + 03_learning.sce
+    question: Should the generated experiment be standalone, without fMRI pulse emulation?
+    answer: |
+      YES, standalone — but this is NOT a trivial removal, and it is the single most important
+      timing decision in the conversion.
+      The original was genuinely pulse-locked: the log contains 1792 real scanner pulses
+      (Port Input 115 -> Pulse 30), and trials call mainTrial.set_mri_pulse(pulse), meaning
+      each trial WAITED for its scanner pulse rather than free-running.
+      Consequence: logged stimulus durations are variable, not fixed. Measured from the real run
+      (log units 0.1 ms):
+        learning stimulus events : ~1000-1300 ms (clusters around 1000-1283)
+        "extra Pic Time" events  : ~1330-1630 ms
+        feedback (correct/incorrect): ~2100 ms  (code sets 2000; overshoot is pulse quantisation)
+      So you CANNOT simply copy set_duration() values and call it faithful — the realised timing
+      came from the interaction of those values with scan_period.
+    decision_needed_from_study_owner: |
+      Choose ONE and record it:
+        (a) Use the nominal set_duration() values from the PCL (2500 / 2000 ms etc.) — simple,
+            and what a standalone behavioural version would normally do.
+        (b) Use the empirical median durations from the logs — closer to what participants
+            actually experienced in the scanner.
+      Recommend (a) for a standalone behavioural version, and state the choice explicitly in the
+      provenance header. Do NOT mix the two.
+    manifest_action: |
+      Remove all pulse waiting. Ensure every duration in events: is an absolute ms value.
+      Note in the provenance header that fMRI synchronisation was intentionally removed and
+      which timing convention (a/b) was used.

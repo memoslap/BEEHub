@@ -1,0 +1,63 @@
+{
+  "TaskName": "FLOW",
+  "MeasurementToolMetadata": {
+    "Description": "Subjective flow index derived from three 7-point Likert items administered after every task block. Each condition (B/F/O) is presented 3 times per session, so the contrast is computed 3 times (once per ordinal replicate)."
+  },
+  "trial_type": {
+    "Description": "Single level: these are session-level composites collapsed across the B/F/O conditions, not per-condition values.",
+    "Levels": {
+      "all_conditions": "Session composite across conditions"
+    }
+  },
+  "replicate": {
+    "Description": "Ordinal replicate of the B/F/O cycle within the session (1 = first occurrence of each condition, etc.)."
+  },
+  "item": {
+    "Description": "Likert item the row's contrast was computed from ('all_items' when rows are replicate totals)."
+  },
+  "flow_index": {
+    "Description": "Subjective flow index. Contrast (-1*Boredom + 2*Flow - 1*Overload) applied to the Likert responses. Rows are the internal-consistency items; their MEAN is the session flow index.",
+    "Formula": "mean_over_rows(...) == mean_r( sum_i ( -B[r][i] + 2*F[r][i] - O[r][i] ) )",
+    "AlphaBasis": "item-replicate",
+    "NumberOfItems": 9,
+    "SessionFlowIndex": 15.666667,
+    "Items": [
+      "q1_love_again",
+      "q2_well_matched",
+      "q3_thrilled"
+    ],
+    "ItemRange": [
+      1,
+      7
+    ],
+    "Weights": {
+      "B": -1.0,
+      "F": 2.0,
+      "O": -1.0
+    },
+    "Bounds": [
+      -36.0,
+      36.0
+    ],
+    "NeutralValue": 0.0,
+    "Units": "arbitrary (Likert composite)",
+    "Interpretation": "Higher = more flow in the Flow condition relative to Boredom and Overload. 0 = no preference. Negative = Flow rated no better than the control conditions.",
+    "ConditionItemMeans": {
+      "B": {
+        "q1_love_again": 5.0,
+        "q2_well_matched": 1.3333,
+        "q3_thrilled": 4.0
+      },
+      "F": {
+        "q1_love_again": 5.3333,
+        "q2_well_matched": 6.0,
+        "q3_thrilled": 5.0
+      },
+      "O": {
+        "q1_love_again": 2.3333,
+        "q2_well_matched": 1.6667,
+        "q3_thrilled": 2.6667
+      }
+    }
+  }
+}

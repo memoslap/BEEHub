@@ -1,0 +1,147 @@
+paradigm: FLOW
+source: Projects/FLOW/paradigm/psychopy/FLOW_paradigm.py
+window: (1400, 1050) black bg, fullscr=False, allowGUI=True
+
+conditions:
+  B: Langeweile (boredom)
+  F: Flow (optimal challenge)
+  O: Überlastung (overload)
+
+task_generation:
+  boredom:
+    description: Simple 2-addend addition
+    addends: [base (100-109), addend (1-9)]
+    count: 2 addends total
+    difficulty_level: fixed (always level 1)
+  flow:
+    description: Adaptive difficulty addition
+    addends: anchor (100-109) + even-level extra 2-digit addends + odd-level extra 1-digit addends
+    difficulty_mapping: |
+      level 1: anchor + one 1-digit (1-9)
+      level 2: anchor + one 2-digit (10-99)
+      level 3: anchor + one 2-digit + one 1-digit
+      level 4: anchor + two 2-digit
+      level 5: anchor + two 2-digit + one 1-digit
+      level N: anchor + (N//2) two-digit addends + ((N-1)//2) one-digit addends (odd N)
+                   or anchor + (N//2) two-digit + (N//2 - 1) one-digit (even N)
+      Simplified: extra_two = N // 2, extra_one = (N - 1) // 2 if N odd, N // 2 - 1 if N even
+  overload:
+    description: Same arithmetic as flow, but starting level is +3
+    addends: same formula as flow (create_task_at_level)
+    difficulty_mapping: same as flow
+
+adaptive_difficulty:
+  applicable_conditions: [F, O]
+  boredom: difficulty never changes (fixed at level 1)
+  rule: |
+    After each trial:
+    - If correct: cons_correct += 1, cons_incorrect = 0
+      When cons_correct >= 2 (two correct in a row): level += 1, reset counters
+    - If incorrect: cons_incorrect += 1, cons_correct = 0
+      When cons_incorrect >= 2 (two incorrect in a row): level -= 1
+      For boredom blocks: level never changes (not applicable)
+      For overload (O): floor is starting_level (not 1)
+      For flow (F): floor is 1
+    - Level floor: max(min_level, level - 1) where min_level = starting_level for O, 1 for F
+  practice_block: same rule (but floor is always 1)
+
+block_sequence:
+  count: 12 task blocks + 11 rest periods (20s between blocks) + 12 Likert sessions
+  randomization: one of two fixed sequences chosen at random each run
+  sequence_A: [B, F, O, B, F, B, O, F, O, F, B, O]
+  sequence_B: [B, O, F, B, O, B, F, O, F, O, B, F]
+  block_duration: 170 seconds each
+  per_block_timing:
+    fixation: none (goes straight to expression)
+    task_timeout: 18 seconds per trial
+    break_between_trials: 4 seconds (show placeholder expression)
+    rest_between_blocks: 20 seconds (fixation cross + "Pause" countdown)
+
+block_starting_levels:
+  boredom (B): always level 1
+  flow (F): starting_level (from skill evaluation or dialog input)
+  overload (O): starting_level + 3
+
+timing:
+  block_duration: 170.0 s
+  task_timeout: 18.0 s
+  break_duration: 4.0 s
+  rest_duration: 20.0 s
+  familiarization: 180 s (boredom/warm-up only, no adaptive difficulty)
+  skill_evaluation: 300 s (flow, adaptive difficulty, used to calibrate starting_level)
+
+response_method:
+  input: numpad on screen (also physical keyboard digits, backspace, return/kp_enter)
+  numpad_layout:
+    - 7 8 9
+    - 4 5 6
+    - 1 2 3
+    - del 0 enter
+  keys:
+    digit keys (0-9): append digit to input
+    backspace: delete last digit
+    return / kp_enter: submit answer
+    escape: interrupt experiment, save data, quit
+  scoring: compare int(user_input) to correct answer
+  timeout: returns None (not correct), is_timeout=True
+
+likert:
+  count: 3 questions per block (after every main block)
+  scale: 7-point tile buttons (keyboard 1-7 also work)
+  confirmed with: Bestätigen button or Enter key
+  delay after confirm: 0.4 s flash
+
+  questions:
+    - key: q1_love_again
+      text: "Ich würde solche mathematischen Berechnungen nur zu gern noch einmal lösen"
+      labels:
+        1: "Stimme ich überhaupt nicht zu"
+        2: "2"
+        3: "3"
+        4: "4"
+        5: "5"
+        6: "6"
+        7: "Stimme ich voll zu"
+    - key: q2_well_matched
+      text: "Ich fühle mich optimal beansprucht"
+      labels: [same 1-7 scale as above]
+    - key: q3_thrilled
+      text: "Ich war begeistert"
+      labels: [same 1-7 scale as above]
+
+phases:
+  1. Familiarization (optional, default=True)
+     - 3-minute boredom warm-up (180s, no difficulty change)
+     - Instruction screen before
+  2. Skill Evaluation (optional, default=True)
+     - 5-minute flow block (300s, adaptive difficulty)
+     - Instruction screen before
+     - Calibrates starting_level from last quarter of achieved levels
+     - Shows result screen before continuing
+  3. Main Experiment (optional, default=True)
+     - Instruction screen
+     - 12 blocks: run_block → run_likert per block
+     - 20s rest between blocks (not before block 1)
+     - Random sequence choice
+  4. Completion
+     - Instruction screen with thanks
+     - Save data (task CSV + likert CSV)
+     - Quit
+
+data_output:
+  directory: data/ (relative to script)
+  files:
+    - participant_id_task_YYYYMMDD_HHMMSS.csv (per-run task results)
+    - participant_id_likert_YYYYMMDD_HHMMSS.csv (per-run likert responses)
+  task_csv_columns:
+    - participant_id, block, condition, difficulty_level, expression,
+      correct_answer, user_answer, is_correct, is_timeout,
+      response_time_ms, timestamp
+  likert_csv_columns:
+    - participant_id, block, condition, q1_love_again, q2_well_matched,
+      q3_thrilled, timestamp
+
+open_questions:
+  - The data file naming uses DATA_SUFFIX = "FLOW_math" but the CSV filenames use only participant_id (not DATA_SUFFIX). Is this intentional, or should filenames include "FLOW_math"?
+  - The BIDS data in bids_data/ uses task-FLOW and FlowIndex_Task / FlowIndex_Likert filenames, which don't match the DATA_SUFFIX "FLOW_math". Are these from a different run of the experiment (e.g., the pygame version)?
+  - For overload blocks, is the +3 starting level intentional to induce frustration/overload, or should it be higher?

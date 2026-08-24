@@ -1,0 +1,30 @@
+{
+  "TaskName": "FLOW",
+  "trial_type": {
+    "Description": "Single level: session composite across conditions.",
+    "Levels": {
+      "all_conditions": "Session composite across conditions"
+    }
+  },
+  "replicate": {
+    "Description": "Ordinal replicate of the B/F/O cycle within the session."
+  },
+  "task_flow_index": {
+    "Description": "Behavioural flow contrast: -B + 2F - O applied to the block-level mean of 'difficulty_level'. One row per replicate; their mean is the session value.",
+    "Formula": "-mean(B) + 2*mean(F) - mean(O), per replicate",
+    "SourceMeasure": "difficulty_level",
+    "RestrictedToCorrectTrials": false,
+    "Weights": {
+      "B": -1.0,
+      "F": 2.0,
+      "O": -1.0
+    },
+    "NumberOfItems": 3,
+    "SessionValue": 0.007407,
+    "ConditionMeans": {
+      "B": 1.0,
+      "F": 4.0,
+      "O": 7.0
+    }
+  }
+}
