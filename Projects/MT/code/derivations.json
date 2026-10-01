@@ -1,0 +1,10 @@
+[
+  {
+    "name": "scored",
+    "script": "code/1. compute_stopping.R",
+    "input": "bids_data",
+    "output": "derivatives/scored",
+    "params": "code/scored_params.json",
+    "output_glob": "sub-*/ses-*/beh/*_desc-scored_beh.tsv"
+  }
+]

@@ -1,33 +1,33 @@
-# Clear environment (for interactive use only - remove for pipeline)
-rm(list = ls())
-cat("\014")
-if (!is.null(dev.list())) dev.off()
-
 # ==============================================================================
 # 1. SETUP & CONFIGURATION
 # ==============================================================================
 
-# Load required packages
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(
-  readxl,      # Read Excel files
-  dplyr,       # Data manipulation
-  tidyr,       # Data tidying
-  jsonlite,    # Parse JSON arrays
-  writexl,     # Write Excel files
-  stringr,     # String manipulation
-  ggplot2,     # Plotting
-  purrr        # Functional programming
-)
+# Load required packages (no runtime install; env is expected to be provisioned)
+suppressPackageStartupMessages({
+  library(dplyr)      # Data manipulation
+  library(tidyr)      # Data tidying
+  library(jsonlite)   # Parse JSON arrays (params)
+  library(stringr)    # String manipulation
+  library(ggplot2)    # QC plots (supplementary)
+  library(purrr)      # Functional programming
+})
+# readxl / writexl are not needed: input is now BIDS TSV, not Excel.
 
 # --------------------------------------------------
-# File paths (MODIFY THESE FOR YOUR SYSTEM)
+# File paths (BEEHub derivation contract)
+# Called as: Rscript <this file> --input <dir> --output <dir> [--params <json>]
+# --input  : BIDS dataset with sub-*/ses-*/beh/*_task-gonogo_beh.tsv
+# --output : directory for the scored derivative (sub-*/ses-*/beh/...)
 # --------------------------------------------------
-data_path   <- "C:/1_DevuMahesan_Data/1. Ongoing_Work/3. MouseTracking/04a Analysis_manuscript/Experiment_analysis_30.01.2026/go_nogo_s.xlsx"
-output_path <- "C:/1_DevuMahesan_Data/1. Ongoing_Work/3. MouseTracking/04a Analysis_manuscript/Experiment_analysis_30.01.2026/go_nogo_scored_final.csv"
+args   <- commandArgs(trailingOnly = TRUE)
+input  <- args[which(args == "--input")  + 1]
+output <- args[which(args == "--output") + 1]
+i      <- which(args == "--params")
+params <- if (length(i)) jsonlite::fromJSON(args[i + 1]) else list()
 
 # --------------------------------------------------
 # Experimental parameters
+# Delivered defaults; overridden by matching keys in --params
 # --------------------------------------------------
 
 # Target box coordinates (PsychoPy: pos=(200,300), size=(100,100))
@@ -49,6 +49,18 @@ NOGO_CONFIG <- list(
   dist_thresh_no_move = 5,     # Max displacement (pixels) to classify as "no movement"
   post_still_criterion = 0.9   # Proportion of post-stop samples that must be below v_thresh
 )
+
+# Apply --params overrides (delivered values above are the defaults)
+# Only override keys that already exist in the config list (no new keys added).
+for (blk in c("BOX_CONFIG", "NOGO_CONFIG")) {
+  if (blk %in% names(params)) {
+    for (k in intersect(names(params[[blk]]), names(get(blk)))) {
+      cur <- get(blk)
+      cur[[k]] <- params[[blk]][[k]]
+      assign(blk, cur)
+    }
+  }
+}
 
 # ==============================================================================
 # 2. UTILITY FUNCTIONS
@@ -533,157 +545,133 @@ cat("===========================================================================
 cat("ULTIMATE Go/NoGo ACCURACY & RT RECALCULATION\n")
 cat("==============================================================================\n\n")
 
-cat("Loading data...\n")
-dat_raw <- read_excel(data_path)
-
-cat("Original data dimensions:", nrow(dat_raw), "rows ×", ncol(dat_raw), "columns\n")
-
 # --------------------------------------------------
-# Extract session information from participant IDs
+# Discover BIDS input files and process each independently
 # --------------------------------------------------
-# CRITICAL: Participant IDs encode session: "10a" = subject 10, session 1
-#                                           "10b" = subject 10, session 2
-# The existing 'session' column may be incorrect or incomplete
 
-cat("\nExtracting session information from participant IDs...\n")
+input_files <- list.files(
+  input, pattern = "_task-gonogo_beh\\.tsv$", full.names = TRUE, recursive = TRUE
+)
+cat("Found", length(input_files), "BIDS data files\n")
 
-dat_raw <- dat_raw %>%
-  mutate(
-    # Extract numeric subject ID (remove "a" or "b" suffix)
-    subject_id = as.integer(str_replace(participant, "[ab]$", "")),
-    
-    # Extract session from suffix: 'a' = Session 1, 'b' = Session 2
-    session_actual = case_when(
-      str_detect(participant, "a$") ~ 1L,
-      str_detect(participant, "b$") ~ 2L,
-      TRUE ~ NA_integer_
+# Helper: process a single BIDS TSV and return scored tibble
+process_one_file <- function(fpath) {
+  dat <- read.delim(fpath, sep = "\t", stringsAsFactors = FALSE, na.strings = c("n/a", ""))
+  n_in <- nrow(dat)
+
+  # Extract session from participant suffix (e.g. "10a" -> subject 10, session 1)
+  dat <- dat %>%
+    mutate(
+      subject_id = as.integer(str_replace(participant, "[ab]$", "")),
+      session_actual = case_when(
+        str_detect(participant, "a$") ~ 1L,
+        str_detect(participant, "b$") ~ 2L,
+        TRUE ~ NA_integer_
+      )
     )
-  )
 
-# Validate session extraction
-if (any(is.na(dat_raw$session_actual))) {
-  warning("Some participants have no session suffix (not 'a' or 'b')!")
-  cat("\nParticipants without session suffix:\n")
-  print(unique(dat_raw$participant[is.na(dat_raw$session_actual)]))
+  # Trial-level metrics (unchanged algorithm)
+  dat <- dat %>%
+    rowwise() %>%
+    mutate(
+      metrics = list({
+        left <- extract_left_clicks(
+          mouse_resp.x, mouse_resp.y, mouse_resp.time,
+          mouse_resp.leftButton, mouse_resp.rightButton, mouse_resp.midButton,
+          box = BOX_CONFIG
+        )
+        click_info <- compute_any_click(
+          mouse_resp.leftButton,
+          mouse_resp.rightButton,
+          mouse_resp.midButton
+        )
+        stop <- compute_nogo_stop(
+          mouse_resp.x,
+          mouse_resp.y,
+          mouse_resp.time,
+          nogo_cfg = NOGO_CONFIG
+        )
+        n_left_clicks <- nrow(left$clicks)
+        first_left_inside <- n_left_clicks > 0 && left$clicks$inside[1]
+        first_left_rt <- if (n_left_clicks > 0) left$clicks$rt[1] else NA_real_
+        tibble(
+          n_left_clicks = n_left_clicks,
+          go_first_left_inside = first_left_inside,
+          go_first_left_rt = first_left_rt,
+          parse_failed_time = left$qc$parse_failed_time,
+          parse_failed_xy = left$qc$parse_failed_xy,
+          parse_failed_buttons = left$qc$parse_failed_buttons,
+          any_rb_nonzero = left$qc$any_rb_nonzero,
+          any_mb_nonzero = left$qc$any_mb_nonzero,
+          any_click = click_info$any_click,
+          any_left = click_info$any_left,
+          any_right = click_info$any_right,
+          nogo_stop_time = stop$stop_time,
+          nogo_stopped = stop$stopped,
+          nogo_outcome = stop$outcome,
+          nogo_parse_failed = stop$parse_failed | click_info$parse_failed_buttons
+        )
+      })
+    ) %>%
+    ungroup() %>%
+    unnest(metrics)
+
+  # RT and accuracy (unchanged algorithm)
+  dat <- dat %>%
+    mutate(
+      rt_combined = case_when(
+        trial_type == "go" & go_first_left_inside ~ go_first_left_rt,
+        trial_type == "nogo" & nogo_stopped & !is.na(any_click) & !any_click &
+          nogo_outcome %in% c("no_movement_full_duration", "no_movement_early") ~ 0,
+        trial_type == "nogo" & nogo_stopped & !is.na(any_click) & !any_click ~ nogo_stop_time,
+        TRUE ~ NA_real_
+      ),
+      accuracy = case_when(
+        trial_type == "go" ~ case_when(
+          parse_failed_time | parse_failed_xy | parse_failed_buttons ~ NA_integer_,
+          TRUE ~ as.integer(
+            go_first_left_inside &
+              n_left_clicks == 1 &
+              !any_rb_nonzero &
+              !any_mb_nonzero
+          )
+        ),
+        trial_type == "nogo" ~ case_when(
+          nogo_parse_failed ~ NA_integer_,
+          is.na(any_click)  ~ NA_integer_,
+          TRUE ~ as.integer(nogo_stopped & !any_click)
+        ),
+        TRUE ~ NA_integer_
+      )
+    )
+
+  # Write BIDS output: sub-XXX/ses-XX/beh/sub-XXX_ses-XX_task-gonogo_desc-scored_beh.tsv
+  # Derive sub/ses from the input file path
+  m <- regmatches(fpath, regexpr("sub-[0-9]+/ses-[0-9]+", fpath))
+  sub_id <- sub("/ses-.*", "", m)
+  ses_id <- sub(".*ses-", "ses-", m)
+  out_rel <- file.path(sub_id, ses_id, "beh",
+                       paste0(sub_id, "_", ses_id, "_task-gonogo_desc-scored_beh.tsv"))
+  out_path <- file.path(output, out_rel)
+  dir.create(dirname(out_path), recursive = TRUE, showWarnings = FALSE)
+
+  # Write TSV (BIDS: NA as empty, no row names)
+  write.table(dat, out_path, sep = "\t", row.names = FALSE, col.names = TRUE,
+              quote = FALSE, na = "")
+
+  cat(sprintf("  %s -> %s (%d trials)\n", basename(fpath), out_rel, nrow(dat)))
+  invisible(dat)
 }
 
-cat("\nSession extraction summary:\n")
-session_summary <- dat_raw %>%
-  count(session_actual, trial_type) %>%
-  pivot_wider(names_from = trial_type, values_from = n, values_fill = 0)
-print(session_summary)
-
-# --------------------------------------------------
-# Apply trial-level metrics
-# --------------------------------------------------
-
-cat("\nProcessing trial-level metrics...\n")
-cat("This may take 3-5 minutes for", nrow(dat_raw), "trials...\n")
-
+# Process all files
 start_time <- Sys.time()
-
-dat_scored <- dat_raw %>%
-  rowwise() %>%
-  mutate(
-    metrics = list({
-      
-      # Extract left-button clicks with positions
-      left <- extract_left_clicks(
-        mouse_resp.x, mouse_resp.y, mouse_resp.time,
-        mouse_resp.leftButton, mouse_resp.rightButton, mouse_resp.midButton,
-        box = BOX_CONFIG
-      )
-      
-      # Detect any clicks (for NoGo trials)
-      click_info <- compute_any_click(
-        mouse_resp.leftButton, 
-        mouse_resp.rightButton, 
-        mouse_resp.midButton
-      )
-      
-      # Detect stopping (for NoGo trials)
-      stop <- compute_nogo_stop(
-        mouse_resp.x, 
-        mouse_resp.y, 
-        mouse_resp.time, 
-        nogo_cfg = NOGO_CONFIG
-      )
-      
-      # Summarize click information
-      n_left_clicks <- nrow(left$clicks)
-      first_left_inside <- n_left_clicks > 0 && left$clicks$inside[1]
-      first_left_rt <- if (n_left_clicks > 0) left$clicks$rt[1] else NA_real_
-      
-      # Combine all metrics
-      tibble(
-        # Click counts and properties
-        n_left_clicks = n_left_clicks,
-        go_first_left_inside = first_left_inside,
-        go_first_left_rt = first_left_rt,
-        
-        # QC flags from click extraction
-        parse_failed_time = left$qc$parse_failed_time,
-        parse_failed_xy = left$qc$parse_failed_xy,
-        parse_failed_buttons = left$qc$parse_failed_buttons,
-        any_rb_nonzero = left$qc$any_rb_nonzero,
-        any_mb_nonzero = left$qc$any_mb_nonzero,
-        
-        # NoGo click detection
-        any_click = click_info$any_click,
-        any_left = click_info$any_left,
-        any_right = click_info$any_right,
-        
-        # NoGo stopping detection
-        nogo_stop_time = stop$stop_time,
-        nogo_stopped = stop$stopped,
-        nogo_outcome = stop$outcome,
-        nogo_parse_failed = stop$parse_failed | click_info$parse_failed_buttons
-      )
-    })
-  ) %>%
-  ungroup() %>%
-  unnest(metrics)
-
+all_scored <- lapply(input_files, process_one_file)
 end_time <- Sys.time()
-cat("Processing completed in", 
-    round(difftime(end_time, start_time, units = "mins"), 2), 
-    "minutes\n")
+cat(sprintf("Processed %d files in %.1f minutes\n", length(input_files),
+            round(difftime(end_time, start_time, units = "mins"), 1)))
 
-# --------------------------------------------------
-# Compute combined RT and accuracy
-# --------------------------------------------------
-
-cat("\nComputing RT and accuracy metrics...\n")
-
-dat_scored <- dat_scored %>%
-  mutate(
-    rt_combined = case_when(
-      trial_type == "go" & go_first_left_inside ~ go_first_left_rt,
-      trial_type == "nogo" & nogo_stopped & !is.na(any_click) & !any_click &
-        nogo_outcome %in% c("no_movement_full_duration", "no_movement_early") ~ 0,
-      
-      trial_type == "nogo" & nogo_stopped & !is.na(any_click) & !any_click ~ nogo_stop_time,
-      TRUE ~ NA_real_
-    ),
-    accuracy = case_when(
-      trial_type == "go" ~ case_when(
-        parse_failed_time | parse_failed_xy | parse_failed_buttons ~ NA_integer_,
-        TRUE ~ as.integer(
-          go_first_left_inside &
-            n_left_clicks == 1 &
-            !any_rb_nonzero &
-            !any_mb_nonzero
-        )
-      ),
-      trial_type == "nogo" ~ case_when(
-        nogo_parse_failed ~ NA_integer_,
-        is.na(any_click)  ~ NA_integer_,
-        TRUE ~ as.integer(nogo_stopped & !any_click)
-      ),
-      TRUE ~ NA_integer_
-    )
-  )  # <-- THIS was missing
-
+# Bind all for QC summary
+dat_scored <- bind_rows(all_scored)
 
 # ==============================================================================
 # 5. QUALITY CONTROL & VALIDATION
@@ -906,111 +894,89 @@ cat("END OF QC REPORT\n")
 cat("================================================================================\n\n")
 
 # ==============================================================================
-# 6. OUTPUT GENERATION
+# 6. OUTPUT SUMMARY
 # ==============================================================================
 
-cat("Exporting results...\n")
+# BIDS TSV files were written per-input-file by process_one_file().
+# Confirm the full set.
 
-# Create output directory if needed
-output_dir <- dirname(output_path)
-if (!dir.exists(output_dir)) {
-  dir.create(output_dir, recursive = TRUE)
-}
-
-# Export CSV
-write.csv(dat_scored, output_path, row.names = FALSE)
-cat("Saved CSV:", output_path, "\n")
-
-# Export Excel with multiple sheets
-output_xlsx <- sub("\\.csv$", ".xlsx", output_path)
-
-# Create summary sheets for Excel
-summary_sheets <- list(
-  "Overall_Accuracy" = accuracy_summary,
-  "Accuracy_by_Session" = accuracy_by_session,
-  "Accuracy_by_Subject" = accuracy_by_subject,
-  "RT_Summary" = rt_summary,
-  "NoGo_Outcomes" = nogo_outcome_table,
-  "Session_Pairing" = session_pairs,
-  "Go_Click_Patterns" = go_click_patterns
+out_files <- list.files(
+  output,
+  pattern = "_desc-scored_beh\\.tsv$",
+  recursive = TRUE,
+  full.names = TRUE
 )
 
-write_xlsx(
-  c(list("Full_Data" = dat_scored), summary_sheets),
-  output_xlsx
-)
-cat("Saved Excel:", output_xlsx, "\n")
+# --------------------------------------------------
+# 6.1 QC plots (supplementary, non-BIDS)
+# --------------------------------------------------
+# Plots are written to <output>/QC_plots/ alongside the BIDS sub/ses TSVs.
+# They are supplementary artifacts (not part of the desc-scored derivative
+# glob) and are skipped if ggplot2 is unavailable.
 
-# Save QC plots
-qc_plot_dir <- file.path(output_dir, "QC_plots")
-if (!dir.exists(qc_plot_dir)) {
-  dir.create(qc_plot_dir, recursive = TRUE)
-}
+qc_plot_dir <- file.path(output, "QC_plots")
 
-# RT distribution plot
-p_rt <- ggplot(
-  dat_scored %>% filter(!is.na(rt_combined), rt_combined > 0),
-  aes(x = rt_combined, fill = as.factor(session_actual))
-) +
-  geom_histogram(bins = 50, alpha = 0.6, position = "identity") +
-  facet_grid(session_actual ~ trial_type, scales = "free_y") +
-  labs(
-    title = "RT Distributions by Trial Type and Session",
-    x = "Reaction Time (sec)", 
-    y = "Count",
-    fill = "Session"
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  dir.create(qc_plot_dir, recursive = TRUE, showWarnings = FALSE)
+
+  # RT distribution plot
+  p_rt <- ggplot2::ggplot(
+    dat_scored %>% filter(!is.na(rt_combined), rt_combined > 0),
+    ggplot2::aes(x = rt_combined, fill = as.factor(session_actual))
   ) +
-  theme_minimal() +
-  theme(legend.position = "none")
+    ggplot2::geom_histogram(bins = 50, alpha = 0.6, position = "identity") +
+    ggplot2::facet_grid(session_actual ~ trial_type, scales = "free_y") +
+    ggplot2::labs(
+      title = "RT Distributions by Trial Type and Session",
+      x = "Reaction Time (sec)",
+      y = "Count",
+      fill = "Session"
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none")
+  ggplot2::ggsave(
+    file.path(qc_plot_dir, "RT_distributions.png"),
+    p_rt,
+    width = 10, height = 6, dpi = 300
+  )
 
-ggsave(
-  file.path(qc_plot_dir, "RT_distributions.png"), 
-  p_rt, 
-  width = 10, height = 6, dpi = 300
-)
-
-# Accuracy by subject plot
-p_acc <- ggplot(
-  accuracy_by_subject %>%
-    pivot_longer(
-      cols = starts_with("acc_s"),
-      names_to = "condition",
-      values_to = "accuracy"
-    ),
-  aes(x = condition, y = accuracy)
-) +
-  geom_boxplot() +
-  geom_jitter(alpha = 0.3, width = 0.2) +
-  labs(
-    title = "Accuracy Distribution by Session and Trial Type",
-    x = "Condition",
-    y = "Accuracy Rate"
+  # Accuracy by subject plot
+  p_acc <- ggplot2::ggplot(
+    accuracy_by_subject %>%
+      tidyr::pivot_longer(
+        cols = dplyr::starts_with("acc_s"),
+        names_to = "condition",
+        values_to = "accuracy"
+      ),
+    ggplot2::aes(x = condition, y = accuracy)
   ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    ggplot2::geom_boxplot() +
+    ggplot2::geom_jitter(alpha = 0.3, width = 0.2) +
+    ggplot2::labs(
+      title = "Accuracy Distribution by Session and Trial Type",
+      x = "Condition",
+      y = "Accuracy Rate"
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  ggplot2::ggsave(
+    file.path(qc_plot_dir, "Accuracy_by_subject.png"),
+    p_acc,
+    width = 8, height = 6, dpi = 300
+  )
 
-ggsave(
-  file.path(qc_plot_dir, "Accuracy_by_subject.png"),
-  p_acc,
-  width = 8, height = 6, dpi = 300
-)
-
-cat("Saved QC plots to:", qc_plot_dir, "\n")
+  cat("Saved QC plots to:", qc_plot_dir, "\n")
+} else {
+  cat("ggplot2 not available; skipping QC plots\n")
+}
 
 cat("\n")
 cat("================================================================================\n")
 cat("PROCESSING COMPLETE\n")
 cat("================================================================================\n")
 cat("Total trials processed:", nrow(dat_scored), "\n")
-cat("Output files generated:\n")
-cat("  -", output_path, "\n")
-cat("  -", output_xlsx, "\n")
-cat("  - QC plots in", qc_plot_dir, "\n")
+cat("Output BIDS TSV files written:", length(out_files), "\n")
+cat("Output root:", output, "\n")
 cat("\n")
-cat("NEXT STEPS:\n")
-cat("1. Review QC report for data quality issues\n")
-cat("2. Check for subjects with incomplete sessions or low accuracy\n")
-cat("3. Examine RT distributions for outliers\n")
-cat("4. Proceed to Part 2 (Error rate & RT calculation) if QC looks good\n")
 
 

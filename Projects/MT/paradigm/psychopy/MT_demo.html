@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MT Demo — Mouse Tracking Go/No-Go</title>
+<style>
+  /* ================= Base ================= */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8e4e0 0%, #f0ece8 50%, #e8e4e0 100%);
+    user-select: none;
+  }
+  /* ================= Container ================= */
+  #container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 820px;
+    height: 620px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(42, 26, 10, 0.18);
+    overflow: hidden;
+  }
+  /* top border strip (multi-color) */
+  #container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #6b3a10, #9e5c1e, #c07838, #d4a020, #e8c048);
+    z-index: 10;
+  }
+  /* ================= Screens ================= */
+  .screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 40px 48px;
+  }
+  .screen.active {
+    display: block;
+  }
+  .screen-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2a1a0a;
+    margin-bottom: 8px;
+  }
+  .section-h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #6b3a10;
+    margin: 18px 0 10px;
+  }
+  .screen p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #3a2a18;
+    margin-bottom: 10px;
+  }
+  /* ================= Gold title / subtitle ================= */
+  .gold-title {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #6b3a10, #c07838, #d4a020);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 18px;
+    color: #6b3a10;
+    margin-bottom: 18px;
+  }
+  /* ================= Info boxes ================= */
+  .info-box {
+    background: #f7f3ee;
+    border-left: 4px solid #c07838;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #3a2a18;
+  }
+  .info-box strong {
+    color: #6b3a10;
+  }
+  /* ================= Key legend ================= */
+  .key-legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .key-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #3a2a18;
+  }
+  .key-badge {
+    display: inline-block;
+    min-width: 34px;
+    text-align: center;
+    padding: 4px 10px;
+    background: #2a1a0a;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  /* ================= Instruction steps ================= */
+  .instr-steps {
+    list-style: none;
+    margin: 10px 0;
+  }
+  .instr-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 12px 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #3a2a18;
+  }
+  .instr-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9e5c1e, #d4a020);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  /* ================= Buttons ================= */
+  .btn-row {
+    position: absolute;
+    bottom: 26px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  .btn {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #6b3a10, #9e5c1e);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 4px 12px rgba(42, 26, 10, 0.25);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(42, 26, 10, 0.3);
+  }
+  .btn:active {
+    transform: translateY(0);
+  }
+  .btn.secondary {
+    background: linear-gradient(135deg, #3a2a18, #6b3a10);
+  }
+  /* ================= Canvas / task area ================= */
+  #canvas-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #taskCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: none;
+    background: #ffffff;
+  }
+  /* trial progress */
+  #progress-wrap {
+    position: absolute;
+    top: 14px;
+    left: 48px;
+    right: 48px;
+    height: 6px;
+    background: #e8e4e0;
+    border-radius: 3px;
+    z-index: 5;
+  }
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #9e5c1e, #d4a020);
+    border-radius: 3px;
+    transition: width 0.2s ease;
+  }
+  #trial-counter {
+    position: absolute;
+    top: 24px;
+    right: 48px;
+    font-size: 13px;
+    color: #6b3a10;
+    z-index: 5;
+  }
+  /* feedback bubble */
+  #bubble {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 6;
+    pointer-events: none;
+  }
+  #bubble.show { opacity: 1; }
+  #bubble.ok { background: #2e7d32; }
+  #bubble.bad { background: #c62828; }
+  /* ================= ESC overlay ================= */
+  #esc-overlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(20, 12, 6, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+  }
+  #esc-overlay.active {
+    display: flex;
+  }
+  .esc-card {
+    background: linear-gradient(135deg, #ffffff, #f7f3ee);
+    border-radius: 16px;
+    padding: 36px 44px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(42, 26, 10, 0.3);
+    position: relative;
+    overflow: hidden;
+    max-width: 420px;
+  }
+  .esc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 5px;
+    background: linear-gradient(90deg, #6b3a10, #9e5c1e, #c07838, #d4a020, #e8c048);
+  }
+  .esc-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2a1a0a;
+    margin-bottom: 10px;
+  }
+  .esc-msg {
+    font-size: 15px;
+    color: #3a2a18;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .esc-key-hint {
+    font-size: 13px;
+    color: #6b3a10;
+    margin-bottom: 18px;
+  }
+  .esc-btn-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+  }
+  .esc-btn-leave, .esc-btn-resume {
+    padding: 11px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: transform 0.12s ease;
+  }
+  .esc-btn-leave {
+    background: linear-gradient(135deg, #8a1c1c, #c62828);
+    color: #fff;
+  }
+  .esc-btn-resume {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: #fff;
+  }
+  .esc-btn-leave:hover, .esc-btn-resume:hover {
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body>
+<div id="container">
+
+  <!-- ============ WELCOME ============ -->
+  <div id="screen-welcome" class="screen active">
+    <div class="gold-title">MT</div>
+    <div class="subtitle" data-i18n="subtitle">Mouse Tracking Go/No-Go — interactive demo</div>
+    <div class="info-box" data-i18n="about">
+      <strong>About this demo.</strong> You will hold the mouse in a start box, then
+      move toward a target box that shows a digit. <strong>Go digits (2, 3, 4, 6, 7, 8)</strong>:
+      click the target box as fast as you can. <strong>No-Go digits (1, 9)</strong>:
+      do NOT click — stop the movement.
+    </div>
+    <div class="info-box" data-i18n="controls">
+      <strong>Controls</strong>
+      <div class="key-legend">
+        <div class="key-item"><span class="key-badge" data-i18n="mouse">Mouse</span><span data-i18n="mouse_help">move &amp; click</span></div>
+        <div class="key-item"><span class="key-badge">ESC</span><span data-i18n="esc_help">pause</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btn-start" data-i18n="start">Start</button>
+    </div>
+  </div>
+
+  <!-- ============ INSTRUCTIONS ============ -->
+  <div id="screen-instructions" class="screen">
+    <div class="screen-title" data-i18n="instr_title">Instructions</div>
+    <div class="section-h2" data-i18n="howit">How it works</div>
+    <ul class="instr-steps">
+      <li class="instr-step">
+        <span class="instr-num">1</span>
+        <span data-i18n="step1">Hold the mouse in the grey <b>start box</b> at the bottom. Click to begin each trial.</span>
+      </li>
+      <li class="instr-step">
+        <span class="instr-num">2</span>
+        <span data-i18n="step2">A <b>digit</b> appears in the white <b>target box</b> at the top right. Move toward it.</span>
+      </li>
+      <li class="instr-step">
+        <span class="instr-num">3</span>
+        <span data-i18n="step3"><b>Go (2, 3, 4, 6, 7, 8)</b>: click the target box as fast as you can.</span>
+      </li>
+      <li class="instr-step">
+        <span class="instr-num">4</span>
+        <span data-i18n="step4"><b>No-Go (1, 9)</b>: do NOT click — stop the movement and hold still.</span>
+      </li>
+    </ul>
+    <div class="info-box" data-i18n="tip">
+      <strong>Tip.</strong> There are 6 practice trials, then 6 test trials.
+      Your mouse path is tracked to measure how you stop or commit.
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btn-begin" data-i18n="begin">Begin</button>
+    </div>
+  </div>
+
+  <!-- ============ TASK (canvas) ============ -->
+  <div id="screen-task" class="screen">
+    <div id="progress-wrap"><div id="progress-bar"></div></div>
+    <div id="trial-counter">1 / 12</div>
+    <div id="canvas-wrap"><canvas id="taskCanvas"></canvas></div>
+    <div id="bubble"></div>
+  </div>
+
+  <!-- ============ BREAK ============ -->
+  <div id="screen-break" class="screen">
+    <div class="screen-title" data-i18n="break_title">Break</div>
+    <p data-i18n="break_body">You are halfway done.<br>Take a short pause.</p>
+    <div class="btn-row">
+      <button class="btn" id="btn-continue" data-i18n="continue">Continue</button>
+    </div>
+  </div>
+
+  <!-- ============ END ============ -->
+  <div id="screen-end" class="screen">
+    <div class="gold-title" data-i18n="end_title">Done</div>
+    <p data-i18n="end_body">Thank you for participating.</p>
+    <div class="info-box" id="end-summary"></div>
+    <div class="btn-row">
+      <button class="btn" id="btn-restart" data-i18n="restart">Restart</button>
+    </div>
+  </div>
+
+  <!-- ============ ESC OVERLAY ============ -->
+  <div id="esc-overlay">
+    <div class="esc-card">
+      <div class="esc-title" data-i18n="esc_title">Paused</div>
+      <div class="esc-msg" data-i18n="esc_msg">Press ESC to resume, or leave the demo.</div>
+      <div class="esc-key-hint">ESC</div>
+      <div class="esc-btn-row">
+        <button class="esc-btn-leave" id="btn-leave" data-i18n="leave">Leave</button>
+        <button class="esc-btn-resume" id="btn-resume" data-i18n="resume">Resume</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+/* =====================================================================
+ * MT_demo.js — Mouse Tracking Go/No-Go interactive demo
+ * Models the short-version PsychoPy paradigm (MT_short_version.py).
+ * No external assets: everything is drawn on a 2D canvas.
+ * ===================================================================== */
+'use strict';
+
+/* ----------------------------- i18n --------------------------------- */
+const I18N = {
+  en: {
+    subtitle: 'Mouse Tracking Go/No-Go — interactive demo',
+    about: '<strong>About this demo.</strong> You will hold the mouse in a start box, then move toward a target box that shows a digit. <strong>Go digits (2, 3, 4, 6, 7, 8)</strong>: click the target box as fast as you can. <strong>No-Go digits (1, 9)</strong>: do NOT click — stop the movement.',
+    controls: '<strong>Controls</strong>',
+    mouse: 'Mouse', mouse_help: 'move &amp; click', esc_help: 'pause',
+    start: 'Start',
+    instr_title: 'Instructions', howit: 'How it works',
+    step1: 'Hold the mouse in the grey <b>start box</b> at the bottom. Click to begin each trial.',
+    step2: 'A <b>digit</b> appears in the white <b>target box</b> at the top right. Move toward it.',
+    step3: '<b>Go (2, 3, 4, 6, 7, 8)</b>: click the target box as fast as you can.',
+    step4: '<b>No-Go (1, 9)</b>: do NOT click — stop the movement and hold still.',
+    tip: '<strong>Tip.</strong> There are 6 practice trials, then 6 test trials. Your mouse path is tracked to measure how you stop or commit.',
+    begin: 'Begin',
+    break_title: 'Break',
+    break_body: 'You are halfway done.<br>Take a short pause.',
+    continue: 'Continue',
+    end_title: 'Done', end_body: 'Thank you for participating.',
+    restart: 'Restart',
+    esc_title: 'Paused', esc_msg: 'Press ESC to resume, or leave the demo.',
+    leave: 'Leave', resume: 'Resume',
+    hold: 'Hold here, then click',
+    fb_ok_go: 'Correct — click the box',
+    fb_bad_go: 'Too slow — you did not click',
+    fb_ok_nogo_stop: 'Correct — you stopped',
+    fb_ok_nogo_none: 'Correct — you never moved',
+    fb_bad_nogo: 'Incorrect — you should not have clicked',
+    summary: (n, t) => 'You completed ' + t + ' trials: ' + n + ' correct.',
+    leave_note: 'You left the demo.',
+  },
+  de: {
+    subtitle: 'Mausverfolgung Go/No-Go — interaktive Demo',
+    about: '<strong>Über diese Demo.</strong> Sie halten die Maus in einem Startfeld, bewegen sich dann zu einem Zielfeld, in dem eine Zahl erscheint. <strong>Go-Zahlen (2, 3, 4, 6, 7, 8)</strong>: Klicken Sie so schnell wie möglich auf das Zielfeld. <strong>No-Go-Zahlen (1, 9)</strong>: Klicken Sie NICHT — stoppen Sie die Bewegung.',
+    controls: '<strong>Steuerung</strong>',
+    mouse: 'Maus', mouse_help: 'bewegen &amp; klicken', esc_help: 'Pause',
+    start: 'Starten',
+    instr_title: 'Anleitung', howit: 'So funktioniert es',
+    step1: 'Halten Sie die Maus im grauen <b>Startfeld</b> unten. Klicken Sie, um jeden Versuch zu beginnen.',
+    step2: 'Eine <b>Zahl</b> erscheint im weißen <b>Zielfeld</b> oben rechts. Bewegen Sie sich darauf zu.',
+    step3: '<b>Go (2, 3, 4, 6, 7, 8)</b>: Klicken Sie so schnell wie möglich auf das Zielfeld.',
+    step4: '<b>No-Go (1, 9)</b>: Klicken Sie NICHT — stoppen Sie die Bewegung und halten Sie still.',
+    tip: '<strong>Tipp.</strong> Es gibt 6 Übungsversuche und dann 6 Testversuche. Ihr Mauspfad wird erfasst, um zu messen, wie Sie stoppen oder commiten.',
+    begin: 'Beginnen',
+    break_title: 'Pause',
+    break_body: 'Sie sind bei der Hälfte.<br>Machen Sie eine kurze Pause.',
+    continue: 'Weiter',
+    end_title: 'Fertig', end_body: 'Vielen Dank für Ihre Teilnahme.',
+    restart: 'Neu starten',
+    esc_title: 'Pausiert', esc_msg: 'Drücken Sie ESC zum Fortfahren, oder verlassen Sie die Demo.',
+    leave: 'Verlassen', resume: 'Fortfahren',
+    hold: 'Hier halten, dann klicken',
+    fb_ok_go: 'Richtig — klicken Sie auf das Feld',
+    fb_bad_go: 'Zu langsam — Sie haben nicht geklickt',
+    fb_ok_nogo_stop: 'Richtig — Sie haben gestoppt',
+    fb_ok_nogo_none: 'Richtig — Sie haben sich nie bewegt',
+    fb_bad_nogo: 'Falsch — Sie hätten nicht klicken dürfen',
+    summary: (n, t) => 'Sie haben ' + t + ' Versuche absolviert: ' + n + ' richtig.',
+    leave_note: 'Sie haben die Demo verlassen.',
+  }
+};
+
+/* ----------------------------- state -------------------------------- */
+let LANG = 'en';
+const GO_DIGITS   = [2, 3, 4, 6, 7, 8];
+const NOGO_DIGITS = [1, 9];
+
+// Trial geometry (canvas pixels, matches MT window 1280x800 scaled to canvas)
+const BOX_SIZE = 100;
+const START = { x: 0, y: 210 };          // start box center (bottom middle, bottom edge flush)
+const RESPONSE = { x: 310, y: -420 };    // response box center (upper-right, clears right wall by 50px, relative to START)
+const INITIATION_THRESHOLD = 5;
+const MAX_WAIT_TIME = 5.0;               // s
+const MAX_RESPONSE_TIME = 1.5;           // s
+const STOP_STILL_TIME = 0.5;             // s
+const ITI_MIN = 500, ITI_MAX = 1000;     // ms
+const FB_MS = 1200;
+
+let canvas, ctx, W, H;
+let origin = { x: 0, y: 0 };             // screen-space center used as origin
+let startBox = {}, respBox = {};         // computed screen-space boxes
+
+let trials = [];          // full list of {digit, type, phase}
+let trialIdx = 0;
+let phase = 'practice';
+let results = [];         // per-trial rows
+let totalCorrect = 0, totalTrials = 0;
+
+let paused = false;
+let rafId = null;
+let trialOpen = false;   // guard: a trial can be ended exactly once
+
+// per-trial runtime
+let rt = {};
+
+/* --------------------------- helpers -------------------------------- */
+function t(key, ...args) {
+  const s = I18N[LANG][key];
+  return typeof s === 'function' ? s(...args) : s;
+}
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function applyI18n() {
+  const dict = I18N[LANG];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (k in dict) el.innerHTML = dict[k];
+  });
+  document.getElementById('trial-counter').textContent =
+    (trialIdx + 1) + ' / ' + trials.length;
+}
+function setProgress() {
+  const pct = trials.length ? (trialIdx / trials.length) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+function showBubble(text, ok, ms) {
+  const b = document.getElementById('bubble');
+  b.textContent = text;
+  b.className = 'show ' + (ok ? 'ok' : 'bad');
+  setTimeout(() => { b.className = ''; }, ms || FB_MS);
+}
+
+/* --------------------------- trials --------------------------------- */
+function makeTrialList(nGo, nNogo) {
+  // deterministic-ish placement: nogo spaced >= 2 apart, shuffled go digits
+  const total = nGo + nNogo;
+  const goD = GO_DIGITS.slice();
+  const nogoD = [];
+  for (let i = 0; i < nNogo; i++) nogoD.push(NOGO_DIGITS[i % NOGO_DIGITS.length]);
+  // shuffle
+  for (let i = goD.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); [goD[i], goD[j]] = [goD[j], goD[i]];
+  }
+  for (let i = nogoD.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); [nogoD[i], nogoD[j]] = [nogoD[j], nogoD[i]];
+  }
+  const list = new Array(total).fill(null);
+  const nogoIdx = new Set();
+  // pick nogo positions spaced >= 2 apart
+  let attempts = 0;
+  while (nogoIdx.size < nNogo && attempts < 500) {
+    const p = Math.floor(Math.random() * total);
+    let ok = true;
+    for (const q of nogoIdx) if (Math.abs(p - q) < 2) { ok = false; break; }
+    if (ok) nogoIdx.add(p);
+    attempts++;
+  }
+  let gi = 0, ni = 0;
+  for (let i = 0; i < total; i++) {
+    if (nogoIdx.has(i)) list[i] = { digit: nogoD[ni++], type: 'nogo' };
+    else list[i] = { digit: goD[gi++], type: 'go' };
+  }
+  return list;
+}
+function buildAllTrials() {
+  const prac = makeTrialList(3, 3);
+  const test = makeTrialList(3, 3);
+  trials = prac.map(x => ({ ...x, phase: 'practice' }))
+            .concat(test.map(x => ({ ...x, phase: 'test' })));
+}
+
+/* --------------------------- canvas --------------------------------- */
+function sizeCanvas() {
+  const wrap = document.getElementById('canvas-wrap');
+  W = wrap.clientWidth; H = wrap.clientHeight;
+  canvas.width = W * (window.devicePixelRatio || 1);
+  canvas.height = H * (window.devicePixelRatio || 1);
+  ctx = canvas.getContext('2d');
+  ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  // origin at horizontal center, vertical center
+  origin = { x: W / 2, y: H / 2 };
+  // place start box in the bottom middle, response box in the upper-right corner
+  startBox = { x: origin.x + START.x - BOX_SIZE/2, y: origin.y + START.y - BOX_SIZE/2, w: BOX_SIZE, h: BOX_SIZE };
+  respBox   = { x: origin.x + START.x + RESPONSE.x - BOX_SIZE/2, y: origin.y + START.y + RESPONSE.y - BOX_SIZE/2, w: BOX_SIZE, h: BOX_SIZE };
+}
+function inBox(mx, my, b) {
+  return mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h;
+}
+function centerOf(b) { return { x: b.x + b.w/2, y: b.y + b.h/2 }; }
+
+function drawFrame() {
+  ctx.clearRect(0, 0, W, H);
+  // start box (grey)
+  ctx.fillStyle = '#cfcac4';
+  ctx.fillRect(startBox.x, startBox.y, startBox.w, startBox.h);
+  ctx.strokeStyle = '#8a8378';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(startBox.x, startBox.y, startBox.w, startBox.h);
+  // response box (white)
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(respBox.x, respBox.y, respBox.w, respBox.h);
+  ctx.strokeStyle = '#8a8378';
+  ctx.strokeRect(respBox.x, respBox.y, respBox.w, respBox.h);
+  // trajectory
+  if (rt.phase !== 'hold' && rt.trajectory.length) {
+    ctx.strokeStyle = 'rgba(158, 92, 30, 0.65)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const pts = rt.trajectory;
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+  }
+  // digit
+  if (rt.phase === 'stim' && rt.digit != null) {
+    const c = centerOf(respBox);
+    ctx.fillStyle = '#2a1a0a';
+    ctx.font = 'bold 44px -apple-system, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(rt.digit), c.x, c.y);
+  }
+  // hold hint
+  if (rt.phase === 'hold') {
+    const c = centerOf(startBox);
+    ctx.fillStyle = '#6b3a10';
+    ctx.font = '14px -apple-system, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(t('hold'), c.x, c.y - 60);
+  }
+  // mouse cursor dot
+  if (rt.mouse) {
+    ctx.fillStyle = '#2a1a0a';
+    ctx.beginPath();
+    ctx.arc(rt.mouse.x, rt.mouse.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+/* --------------------------- trial engine --------------------------- */
+function startTrial() {
+  const tr = trials[trialIdx];
+  rt = {
+    phase: 'hold',           // hold -> stim -> feedback
+    digit: tr.digit,
+    type: tr.type,
+    start: performance.now(),
+    mouse: null,
+    trajectory: [],
+    lastMove: null,
+    stillStart: null,
+    clicked: false,
+    clickTime: null,
+    stopTime: null,
+    thresholdCrossed: false,
+    movementTime: null,
+  };
+  document.getElementById('trial-counter').textContent =
+    (trialIdx + 1) + ' / ' + trials.length;
+  setProgress();
+  loop();
+}
+function loop() {
+  if (paused) return;
+  drawFrame();
+  rafId = requestAnimationFrame(loop);
+}
+function onMove(e) {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  rt.mouse = { x: mx, y: my };
+  if (rt.phase === 'stim') {
+    rt.trajectory.push({ x: mx, y: my });
+    // For No-Go stop detection: update the anchor (lastMove) only when the
+    // mouse has moved >= 2 px from it. This mirrors the Python logic where
+    // last_move_pos is only refreshed on significant displacement.
+    if (rt.type === 'nogo') {
+      if (rt.lastMove) {
+        const d = Math.hypot(mx - rt.lastMove.x, my - rt.lastMove.y);
+        if (d >= 2) {
+          rt.lastMove = { x: mx, y: my };
+          rt.stillStart = null;
+        }
+      } else {
+        rt.lastMove = { x: mx, y: my };
+      }
+    }
+  }
+}
+function onDown(e) {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  if (rt.phase === 'hold') {
+    if (inBox(mx, my, startBox)) {
+      // release hold -> begin stimulus phase
+      rt.phase = 'stim';
+      rt.start = performance.now();
+      rt.trajectory = [];
+      rt.lastMove = null;
+      rt.stillStart = null;
+    }
+  } else if (rt.phase === 'stim') {
+    const inResp = inBox(mx, my, respBox);
+    rt.clickInResp = inResp;
+    if (rt.type === 'go') {
+      if (inResp) {
+        rt.clicked = true;
+        rt.clickTime = (performance.now() - rt.start) / 1000;
+        endTrial();
+      }
+      // click outside the response box on a Go: ignore (trial continues until timeout)
+    } else {
+      // nogo: any click = failure
+      rt.clicked = true;
+      rt.clickTime = (performance.now() - rt.start) / 1000;
+      endTrial();
+    }
+  }
+}
+function tickTimers() {
+  if (paused || rt.phase !== 'stim' || !trialOpen) return;
+  const now = performance.now();
+  const elapsed = (now - rt.start) / 1000;
+  // No-Go stop detection
+  if (rt.type === 'nogo' && !rt.clicked) {
+    if (rt.stillStart === null && rt.lastMove) {
+      // if mouse has been still, mark still start
+      if (rt.mouse) {
+        const d = Math.hypot(rt.mouse.x - rt.lastMove.x, rt.mouse.y - rt.lastMove.y);
+        if (d < 2) rt.stillStart = now;
+      }
+    }
+    if (rt.stillStart !== null && (now - rt.stillStart) / 1000 >= STOP_STILL_TIME) {
+      rt.stopTime = elapsed;
+      endTrial();
+    }
+  }
+  // timeout for either type
+  if (elapsed >= MAX_RESPONSE_TIME) {
+    if (rt.type === 'go' && !rt.clicked) { rt.stopTime = null; endTrial(); }
+    if (rt.type === 'nogo' && !rt.clicked) { endTrial(); }
+  }
+}
+setInterval(tickTimers, 50);
+
+function endTrial() {
+  if (!trialOpen) return;   // trial already closed (timer fired during feedback)
+  trialOpen = false;
+  if (rafId) cancelAnimationFrame(rafId);
+  const tr = trials[trialIdx];
+  let label, acc;
+  if (tr.type === 'go') {
+    if (rt.clicked && rt.clickInResp !== false) {
+      acc = 1; label = 'correct_go';
+      showBubble(t('fb_ok_go'), true);
+    } else {
+      acc = 0; label = 'failed_go';
+      showBubble(t('fb_bad_go'), false);
+    }
+  } else {
+    if (rt.clicked) { acc = 0; label = 'failed_nogo'; showBubble(t('fb_bad_nogo'), false); }
+    else if (rt.stopTime != null) { acc = 1; label = 'correct_nogo_stopped'; showBubble(t('fb_ok_nogo_stop'), true); }
+    else { acc = 1; label = 'correct_nogo_never_moved'; showBubble(t('fb_ok_nogo_none'), true); }
+  }
+  results.push({
+    trial_num: trialIdx + 1, phase: tr.phase, digit: tr.digit,
+    trial_type: tr.type, accuracy: acc,
+    rt: rt.clicked ? rt.clickTime : (rt.stopTime != null ? rt.stopTime : null),
+    label: label,
+  });
+  totalTrials++;
+  if (acc) totalCorrect++;
+  setTimeout(advance, FB_MS);
+}
+function advance() {
+  trialIdx++;
+  if (trialIdx === 6) {
+    // halfway -> break
+    phase = 'test';
+    showScreen('screen-break');
+  } else if (trialIdx >= trials.length) {
+    trialOpen = false;
+    showEnd();
+  } else {
+    trialOpen = true;
+    startTrial();
+  }
+}
+function showEnd() {
+  document.getElementById('end-summary').innerHTML = t('summary', totalCorrect, totalTrials);
+  showScreen('screen-end');
+}
+
+/* --------------------------- flow ----------------------------------- */
+function startExperiment() {
+  buildAllTrials();
+  trialIdx = 0; phase = 'practice';
+  results = []; totalCorrect = 0; totalTrials = 0;
+  trialOpen = true;
+  applyI18n();
+  showScreen('screen-task');
+  sizeCanvas();
+  startTrial();
+}
+function showBreak() {
+  // called from continue
+  trialIdx = 6;
+  phase = 'test';
+  trialOpen = true;
+  showScreen('screen-task');
+  sizeCanvas();
+  startTrial();
+}
+
+/* --------------------------- ESC pause ------------------------------ */
+function togglePause(force) {
+  paused = (force !== undefined) ? force : !paused;
+  document.getElementById('esc-overlay').classList.toggle('active', paused);
+  if (paused && rafId) cancelAnimationFrame(rafId);
+  if (!paused && document.getElementById('screen-task').classList.contains('active')) loop();
+}
+
+/* --------------------------- wiring --------------------------------- */
+function wire() {
+  canvas = document.getElementById('taskCanvas');
+  ctx = canvas.getContext('2d');
+
+  document.getElementById('btn-start').onclick = () => { showScreen('screen-instructions'); applyI18n(); };
+  document.getElementById('btn-begin').onclick = startExperiment;
+  document.getElementById('btn-continue').onclick = showBreak;
+  document.getElementById('btn-restart').onclick = () => { showScreen('screen-welcome'); applyI18n(); };
+
+  canvas.addEventListener('mousemove', onMove);
+  canvas.addEventListener('mousedown', onDown);
+
+  document.getElementById('btn-leave').onclick = () => {
+    document.getElementById('end-summary').innerHTML = t('leave_note');
+    showScreen('screen-end');
+    togglePause(false);
+  };
+  document.getElementById('btn-resume').onclick = () => togglePause(false);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      // only pause while on the task screen
+      if (document.getElementById('screen-task').classList.contains('active')) togglePause();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (document.getElementById('screen-task').classList.contains('active')) sizeCanvas();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  wire();
+  applyI18n();
+});
+</script>
+</body>
+</html>

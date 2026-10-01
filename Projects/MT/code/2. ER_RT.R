@@ -14,8 +14,12 @@ library(writexl)
 # -----------------------
 # Config
 # -----------------------
-file_path <- "C:/1_DevuMahesan_Data/1. Ongoing_Work/3. MouseTracking/04a Analysis_manuscript/Experiment_analysis_30.01.2026/go_nogo_scored_final.xlsx"
-out_xlsx  <- "C:/1_DevuMahesan_Data/1. Ongoing_Work/3. MouseTracking/04a Analysis_manuscript/Experiment_analysis_30.01.2026/performance_reliability_tables_complete.xlsx"
+# NOTE (BEEHub B2): the scored xlsx this script reads is a compiled
+# intermediate NOT stored in the repo. The path below is relative to
+# this script (code/); supply go_nogo_scored_final.xlsx under code/
+# before running, or edit it. Output is written next to the input.
+file_path <- "go_nogo_scored_final.xlsx"
+out_xlsx  <- "performance_reliability_tables_complete.xlsx"
 
 # -----------------------
 # Helpers

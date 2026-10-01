@@ -44,13 +44,29 @@ it; write `n/a` if it genuinely does not apply.
   The analysis scripts are the authority - reported as `01_compute_stopping.R`
   (stopping behaviour), `02_ER_RT.R` (error rate, reaction time), `03_Kinematics.R`
   (trajectory kinematics).
-  **WARNING: these `.R` files are NOT present in `Convert/MouseTracking Data/`.** The
-  drop contains only data, the PsychoPy program, the preprint and READMEs. Locate the
-  scripts (ask the PI) before deriving `outcome_measures`, or derive them from the
-  compiled file's header plus the preprint's Methods and say so in `_provenance`.
-- Which is **primary** and which **secondary**? **Not yet decided - the PI must choose.**
-  Three candidate DVs exist. The agent must NOT pick: leave `role` unset and record an
-  entry in `_open_questions` naming the candidates.
+  These `.R` files **are present** in the drop root (confirmed by `ls -la` and by the
+  stage-02 dry run, which resolved all three). They are copied to `Projects/MT/code/`
+  by the rename map (rows 4-6). No need to locate them externally.
+- Which is **primary** and which **secondary**? **DECIDED (PI, 2026-09-25).**
+  - **Primary:** `rt_combined` (shortcut `rt`) — Go reaction time, seconds, go trials.
+    `higher_is_better: no` (faster is better). Label "Go RT". Axis "Reaction time (s)".
+  - **Secondary:** `accuracy` (shortcut `acc`) — correct (1) / incorrect (0), binary.
+    `higher_is_better: yes`. Label "Accuracy". Axis "Accuracy (correct = 1)".
+  - **General ICC:** `nogo_stop_time` (shortcut `stop`) — No-Go stopping time, seconds,
+    nogo trials. `higher_is_better: no` (faster is better). Label "Stop time".
+    Axis "Stopping time (s)".
+  All three come from `derivatives/scored/` (the `scored` derivation).
+
+## Derivation
+- Script: `code/compute_stopping.R` (declared in `code/derivations.json`, label `scored`)
+- Input: `bids_data/sub-*/ses-*/beh/*_task-gonogo_beh.tsv` (raw per-trial mouse-tracking samples)
+- Output: `derivatives/scored/sub-*/ses-*/beh/*_task-gonogo_desc-scored_beh.tsv` (50 tables)
+- Parameters (as run): target-box entry threshold and NoGo stopping detection as defined
+  by the delivered script (delivered constants used as `--params` defaults); no exclusions
+  applied beyond the script's own stopping logic.
+- What it computes: per-trial Go/No-Go scoring of raw mouse-tracking samples — target-box
+  entry, NoGo stopping detection, and the resulting RT, stopping time, accuracy, path
+  length, velocity, and acceleration per trial.
 
 ## Paradigm
 - Software the paradigm was built in: PsychoPy (`Program_final_german/`). The
@@ -68,16 +84,18 @@ it; write `n/a` if it genuinely does not apply.
 Free text. Anything irregular a human already knows.
 
 - `Instructions (1).pptx` - space and parentheses in the filename must go, becomes
-  `literature/instructions_de.pptx`.
+  `literature/instructions_de.pptx` (map row updated 2026-09-25).
 - `Mahesan et al. 2026 - bioRxiv.pdf` becomes `literature/Mahesan_2026_biorxiv.pdf`.
   This is the describe agent's main evidence; it must not be left in `Convert/`.
 - Two READMEs exist: `README_MT.md` (drop root) and `Program_final_german/readme.md`.
   They are different files - keep both, don't overwrite one with the other.
 - `__pycache__/` and `*.pyc` are build artefacts - exclude and gitignore.
-- A previous migration attempt left `migrate_MT.sh`, `clean_MT.py`,
-  `MT_migration_plan.md` and `migrate_MT.log` in `Convert/`. They were written against
-  the **old** target layout (no `literature/`, `ses-1` not `ses-01`) and must not be
-  reused - move them aside and regenerate.
+- A previous migration attempt is referenced in the notes (`migrate_MT.sh`,
+  `clean_MT.py`, `MT_migration_plan.md`, `migrate_MT.log`), but **none of these files
+  exist in the drop** (confirmed by `ls -la` on 2026-09-25). No `skip` rows were added
+  for them in the rename map because they have no source path. If they are created
+  later, add `skip` rows with the reason: "written against the old target layout
+  (no `literature/`, `ses-1` not `ses-01`); do not reuse, regenerate fresh".
 - Raw data is ~909 MB across 50 CSVs. Never read one whole.
 
 ---
@@ -91,5 +109,6 @@ Record who said what, so a stale note can be spotted later.
 | `a` to ses-01, `b` to ses-02 | derived from acquisition dates in filenames | 2026-07 |
 | participants 2 and 4 incomplete | file listing; re-verify with `inventory_sessions.sh` | 2026-07 |
 | compiled CSV is column authority | PI | 2026-07 |
-| three candidate DVs / R scripts | PI (scripts not yet located in the drop) | 2026-07 |
+| three candidate DVs / R scripts | PI; scripts confirmed present in drop 2026-09-25 | 2026-07, 2026-09 |
 | task label `gonogo` | PI | 2026-07 |
+| primary=rt, secondary=accuracy, ICC=stop | PI | 2026-09-25 |

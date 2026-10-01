@@ -1,0 +1,12 @@
+{
+  "Name": "scored",
+  "BIDSVersion": "1.10.0",
+  "DatasetType": "derivative",
+  "GeneratedBy": [
+    {
+      "Name": "1. compute_stopping.R",
+      "Version": "1a17c9d65183903d3d89cc6c2050cefd6d49310a",
+      "Description": "Per-trial Go/No-Go scoring of raw mouse-tracking samples: target-box entry, NoGo stopping detection, RT and accuracy."
+    }
+  ]
+}

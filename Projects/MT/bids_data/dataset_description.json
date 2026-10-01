@@ -1,16 +1,17 @@
 {
-  "Name": "Mouse Tracking Go/No-Go Study",
+  "Name": "MT Behavioral Dataset",
   "BIDSVersion": "1.10.0",
   "DatasetType": "raw",
   "Authors": [
-    "Devu Mahesan",
-    "Komal Sharma",
-    "Maike Katharina Weinerth",
-    "Suman Dhaka",
-    "Marcus Meinzer",
-    "Rico Fischer"
+    "Mahesan, D.",
+    "Sharma, K.",
+    "Weinerth, M. K.",
+    "Dhaka, S.",
+    "Meinzer, M.",
+    "Fischer, R."
   ],
   "ReferencesAndLinks": [
     "https://doi.org/10.64898/2026.05.06.722889"
-  ]
+  ],
+  "Description": "Raw behavioural data from a go/no-go mouse-tracking test-retest study. Per-trial mouse trajectory samples and trial events; per-participant, per-session. Two participants (sub-002, sub-004) have session a only."
 }

@@ -1,53 +1,79 @@
 # Project notes — <CODE>
 
-Facts the agents cannot work out for themselves. **Authoritative**: these override the
-generic rules in any agent's CLAUDE.md.
+Authoritative project-specific facts. These **override** the generic rules in
+`AGENTS.md` and in any skill. Every agent reads this file before doing project
+work.
 
-A double question-mark marks an unanswered question. An agent that finds one must **ask
-the human and stop** — it may not answer on its own. Delete a question only by answering
-it; write `n/a` if it genuinely does not apply.
+Replace each `?` with an answer. A line still containing `?` is an **unanswered
+question**: agents must put it to the human and stop rather than guess.
+
+Delete nothing. A question that turns out not to apply gets `n/a` plus a reason,
+so the next person can see it was considered.
 
 ---
 
 ## Identity
-- Project code: `<CODE>`
-- Full study name: ??
-- Task label (BIDS `task-`, alphanumeric, no separators, e.g. `gonogo`): ??
 
-## Sessions
-- How many sessions per participant? ??
-- How does the source encode the session? (filename suffix `a`/`b`, a folder, a column) ??
-- Mapping to BIDS session numbers (e.g. `a` → `ses-01`, `b` → `ses-02`): ??
-- Are any participants known to be incomplete? ?? *(don't guess — the agent must confirm
-  with `inventory_sessions.sh`; this line records what YOU already know)*
+- project_code: `<CODE>`
+- full_name: ?
+- paper: ?                        <!-- filename in literature/ -->
+- source_drop: ?                  <!-- folder name under Convert/ -->
 
-## Data columns
-- Which file is the **column authority** — the one whose header defines the analysed
-  column set? ??
-- Any columns that must be kept or dropped regardless? ??
+## Structure
 
-## Outcome measures
-- Which measures does the analysis actually produce, and where are they defined
-  (script, paper section)? ??
-- Which is **primary** and which **secondary**? ?? *(a human decision — the agent must
-  never pick this)*
-
-## Paradigm
-- Software the paradigm was built in: ??
-- Language(s) of the presented material: ??
-- Anything the agent must NOT touch or rename: ??
+- session_mapping: ?              <!-- e.g. source suffix a -> ses-01, b -> ses-02 -->
+- task_label: ?                   <!-- the <label> in task-<label>, alphanumeric -->
+- n_participants: ?               <!-- from inventory_sessions.sh, never counted by eye -->
+- n_sessions: ?
+- incomplete_subjects: ?          <!-- who, which session missing, and what the paper says -->
+- column_authority: ?             <!-- which file wins when two disagree -->
 
 ## Known quirks
-Free text. Anything irregular a human already knows: duplicated files, renamed
-participants, an aborted session, a folder that looks wrong but is correct.
 
-- ??
+<!-- Anything true of this project only: encoding, a renamed variable, a session
+     recorded out of order, a file that looks like data but is not. One per line. -->
 
----
+- ?
 
-## Provenance
-Record who said what, so a stale note can be spotted later.
+## Paradigm
 
-| Fact | Source | Date |
-|---|---|---|
-| ?? | ?? | ?? |
+- paradigm_source: ?              <!-- psychopy | presentation | other | none -->
+- entry_script: ?
+- reference_implementation: ?     <!-- an existing human-made version to match, or n/a -->
+- convert_or_verify: ?            <!-- convert = generate new; verify = check it runs -->
+
+## Derived outcomes
+
+<!-- Written by 05_data-description AFTER the human chooses. Roles are explicit:
+     exactly one primary, at most one secondary, "undecided" where the PI has not
+     decided. Never inferred from display_priority or column order. -->
+
+- PRIMARY   | column: ? | suffix: ? | higher_is_better: ? | binary: ? | label: ? | axis_label: ?
+- SECONDARY | column: ? | suffix: ? | higher_is_better: ? | binary: ? | label: ? | axis_label: ?
+
+## Derivation
+
+<!-- Written by 05_data-description. Parameters exactly as run — an unrecorded
+     threshold makes every number computed from it uninterpretable. -->
+
+- name: ?
+- script: ?
+- input: ?
+- output: ?
+- output_glob: ?
+- parameters: ?
+- exclusions: ?                   <!-- what is dropped; what a failed parse scores -->
+- description: ?
+
+## Open decisions
+
+<!-- Questions the human has seen and deliberately not answered yet. Each blocks
+     something — say what. -->
+
+- ?
+
+## Log
+
+<!-- One line per stage that ran: date, stage, what it changed. Append only. -->
+
+- ?

@@ -1,15 +1,24 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "beehub/poolside/Laguna-S-2.1-NVFP4",
+  "default_agent": "01_intake",
+  "model": "beehub/unsloth/Qwen3.8-27B-GGUF:Q4_K_M",
+  "small_model": "beehub/ornith-ai/Ornith-1.5-35B-A3B-GGUF:Q4_K_M",
   "provider": {
     "beehub": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "AppHubAI (Uni Greifswald)",
       "options": {
         "baseURL": "https://apphubai.wolke.uni-greifswald.de/v1",
-        "apiKey": "2712muFEWRcsqHuKgv5FF1teVb0K65D7"
+        "apiKey": "{file:/home/niemannf/Documents/Linux/AI_API_Key/API.key}"
       },
       "models": {
+        "unsloth/Qwen3.8-27B-GGUF:Q4_K_M": {
+          "name": "Qwen3.8 27B (general/reasoning tier) - DEFAULT",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
         "poolside/Laguna-S-2.1-NVFP4": {
           "name": "Laguna S 2.1 (agentic coding tier)",
           "limit": {
@@ -17,15 +26,8 @@
             "output": 8192
           }
         },
-        "unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_XL": {
-          "name": "Qwen3.6 35B-A3B (general/reasoning tier)",
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
-        },
-        "bartowski/deepreinforce-ai_Ornith-1.0-35B-GGUF:Q4_K_M": {
-          "name": "Ornith 1.0 35B (fast tier)",
+        "ornith-ai/Ornith-1.5-35B-A3B-GGUF:Q4_K_M": {
+          "name": "Ornith 1.5 35B (fast tier)",
           "limit": {
             "context": 32768,
             "output": 8192
@@ -45,16 +47,18 @@
     "edit": {
       "*": "deny",
       "Projects/**": "allow",
-      "Convert/**": "allow",
-      "Agent/notes/*.md": "allow",
-      "Agent/05_Paradigm/probes/*.md": "allow",
-      "Agent/05_Paradigm/manifests/*.yaml": "allow",
-      "Agent/*/CLAUDE.md": "deny",
-      "Agent/notes/_TEMPLATE.md": "deny",
-      "*.sh": "deny",
+      "Projects/*/sourcedata/**": "deny",
+      "Convert/*/_intake/**": "allow",
+      "tmp/**": "allow",
+      "Agent/notes/**": "allow",
+      ".opencode/**": "deny",
+      "AGENTS.md": "deny",
       "Agent/tools/**": "deny",
+      "Agent_OpenCode/**": "deny",
       "opencode.json": "deny",
-      ".git/**": "deny"
+      "*.sh": "deny",
+      ".git/**": "deny",
+      "Agent/notes/_TEMPLATE.md": "deny"
     },
     "external_directory": {
       "*": "deny"
@@ -71,17 +75,39 @@
       "file *": "allow",
       "du *": "allow",
       "stat *": "allow",
-      "./Agent/tools/*": "allow",
-      "./Agent/notes/project_notes.sh *": "allow",
-      "./Agent/00_Intake_agent/check_intake.sh*": "allow",
-      "./Agent/05_Paradigm/probe.sh*": "allow",
-      "./Agent/05_Paradigm/check_runs.sh *": "allow",
-      "./Agent/05_Paradigm/lint_style.sh *": "allow",
-      "python3 -m json.tool *": "allow",
-      "python3 -m py_compile *": "allow",
+      "diff *": "allow",
+      "sort *": "allow",
+      "uniq *": "allow",
+      "cut *": "allow",
+      "sed -n *": "allow",
+      "awk *": "allow",
       "git status*": "allow",
       "git diff*": "allow",
       "git log*": "allow",
+      "git ls-files*": "allow",
+      "python3 -m json.tool *": "allow",
+      "python3 -m py_compile *": "allow",
+      "bash Agent/tools/check_intake.sh*": "allow",
+      "./inventory_sessions.sh *": "allow",
+      "mkdir -p tmp/*": "allow",
+      "mkdir tmp/*": "allow",
+      "uv run Agent/tools/pdf_for_agent.py *": "allow",
+      "uv run Agent/tools/check_code.py *": "allow",
+      "python3 Agent/tools/suggest_outcomes.py *": "allow",
+      "python3 Agent/tools/apply_rename_map.py *": "allow",
+      "python3 Agent/tools/apply_rename_map.py *--apply*": "ask",
+      "python3 Agent/tools/run_derivation.py *": "ask",
+      "python3 Agent/tools/run_derivation.py *--dry-run*": "allow",
+      "uv run Agent/tools/reproduce_check.py compare *": "allow",
+      "uv run Agent/tools/reproduce_check.py run *": "ask",
+      "python3 Agent/tools/check_paradigm.py *": "allow",
+      "python3 Agent/tools/check_paradigm.py *--launch*": "ask",
+      "cat *.log": "deny",
+      "cat *.sce": "deny",
+      "cat *.csv": "deny",
+      "cat *.tsv": "deny",
+      "cat *.psydat": "deny",
+      "cat *.pdf": "deny",
       "rm *": "deny",
       "rmdir *": "deny",
       "mv /*": "deny",
@@ -96,26 +122,84 @@
       "git push*": "deny",
       "git reset --hard*": "deny",
       "git clean*": "deny",
+      "git rm*": "deny",
       "dd *": "deny",
       "mkfs*": "deny",
       "> /*": "deny",
-      "cat *.log": "deny",
-      "cat *.sce": "deny",
-      "cat *.csv": "deny",
-      "cat *.tsv": "deny"
+      "*-delete*": "deny",
+      "mamba activate*": "deny",
+      "conda activate*": "deny"
     },
     "webfetch": "deny",
     "websearch": "deny"
   },
   "agent": {
-    "check": {
+    "01_intake": {
       "permission": {
-        "edit": "deny",
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Convert/*/_intake/**": "allow",
+          "Agent/notes/*.md": "allow",
+          "Agent/notes/_TEMPLATE.md": "deny"
+        }
+      }
+    },
+    "02_restructure": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Convert/*/_intake/**": "allow",
+          "Projects/**": "allow",
+          "Projects/*/sourcedata/**": "deny"
+        }
+      }
+    },
+    "03_code-check": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Projects/*/agent_out/**": "allow"
+        }
+      }
+    },
+    "04_paper-claims": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Projects/*/code/paper_claims.yaml": "allow",
+          "Projects/*/agent_out/**": "allow"
+        }
+      }
+    },
+    "06_project-description": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Projects/*/*_description.json": "allow",
+          "Projects/*/agent_out/**": "allow"
+        }
+      }
+    },
+    "08_check": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Projects/*/agent_out/**": "allow"
+        },
         "bash": {
           "*": "ask",
-          "./Agent/tools/*": "allow",
+          "ls *": "allow",
           "find *": "allow",
-          "grep *": "allow"
+          "grep *": "allow",
+          "head *": "allow",
+          "python3 Agent/tools/apply_rename_map.py *": "allow",
+          "python3 Agent/tools/apply_rename_map.py *--apply*": "deny"
         }
       }
     },
@@ -123,6 +207,16 @@
       "permission": {
         "edit": "deny",
         "bash": "ask"
+      }
+    },
+    "07_paradigm": {
+      "permission": {
+        "edit": {
+          "*": "deny",
+          "tmp/**": "allow",
+          "Projects/*/paradigm/**": "allow",
+          "Projects/*/agent_out/**": "allow"
+        }
       }
     }
   }

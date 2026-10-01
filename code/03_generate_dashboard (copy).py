@@ -41,6 +41,24 @@ except ImportError:
     ALL_METRIC_IDS = [m["id"] for m in METRIC_REGISTRY]
 
 
+def _nan_to_none(obj):
+    """Recursively replace float NaN with None (JSON-safe).
+
+    The pingouin fallback path in reliability_metrics.py emits NaN for CI bounds
+    / F / p when the real ICC can't be computed. json.dumps would otherwise emit
+    bare `NaN` tokens into the dashboard's allProjects JS literal, which render
+    as the literal text 'nan'. None serializes to `null` and the dashboard JS
+    already treats null/undefined as 'no value'.
+    """
+    if isinstance(obj, float):
+        return None if obj != obj else obj
+    if isinstance(obj, dict):
+        return {k: _nan_to_none(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_nan_to_none(v) for v in obj]
+    return obj
+
+
 class InteractiveDashboard:
     """Generates interactive HTML dashboard with advanced filtering"""
     
@@ -93,7 +111,7 @@ class InteractiveDashboard:
             if canonical.exists():
                 try:
                     with open(canonical) as f:
-                        data = json.load(f)
+                        data = _nan_to_none(json.load(f))
                     print(f"  Loaded (JSON):       {project_name}")
                 except Exception as e:
                     print(f"  Error reading {canonical.name}: {e}")
@@ -103,7 +121,7 @@ class InteractiveDashboard:
                 for jf in sorted(project_dir.glob("*_data.json")):
                     try:
                         with open(jf) as f:
-                            data = json.load(f)
+                            data = _nan_to_none(json.load(f))
                         print(f"  Loaded (JSON alt):   {project_name}  <-  {jf.name}")
                         break
                     except Exception as e:
@@ -117,6 +135,7 @@ class InteractiveDashboard:
                     try:
                         data = _generator.analyze_project(project_name)
                         if data:
+                            data = _nan_to_none(data)
                             print(f"  Loaded (live):       {project_name}")
                         else:
                             data = None
@@ -362,8 +381,8 @@ class InteractiveDashboard:
         
         unique_values = self.extract_unique_values()
         ranges = self.get_data_ranges()
-        projects_json = json.dumps(self.all_projects, indent=2)
-        ranges_json   = json.dumps(ranges)
+        projects_json = json.dumps(self.all_projects, indent=2, allow_nan=False)
+        ranges_json   = json.dumps(ranges, allow_nan=False)
         
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -2642,13 +2661,16 @@ class InteractiveDashboard:
             }}))
               .filter(metric => metric.sliders.length > 0);
         }}
-        const SLIDER_METRICS = _buildSliderMetrics()
+        let SLIDER_METRICS = _buildSliderMetrics()
 
         /**
          * Rebuild the dynamic slider container based on current metric + source selection.
          * All metric × RT/Acc × task/control combinations get their own dual-range slider.
          */
         function rebuildSliders() {{
+            SLIDER_METRICS = _buildSliderMetrics();
+            METRIC_REGISTRY = _buildMetricRegistry();
+            METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]));
             const selectedMetric = document.getElementById('radarMetricFilter').value;
             const selectedSource = document.querySelector('input[name="radarSource"]:checked').value;
             const isBoth = selectedSource === 'both';
@@ -2872,11 +2894,14 @@ class InteractiveDashboard:
                 const outcomeMeasures = (project.outcome_measures || [])
                     .slice()
                     .sort((a, b) => (a.display_priority || 99) - (b.display_priority || 99));
-                const primaryOm   = outcomeMeasures[0] || null;
-                const secondaryOm = outcomeMeasures[1] || null;
-                const primaryId    = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
+                const primaryOm = outcomeMeasures[0] || null;
+                const primaryId = primaryOm ? primaryOm.id.toLowerCase() : 'accbin';
                 const primaryLabel = primaryOm ? primaryOm.label : primaryId.toUpperCase();
 
+                // ICC for highest-priority outcome — prefer agreement, fall back to consistency.
+                // Tries new bare keys first (post-pingouin schema), then falls back to legacy `_mean`.
+                const primaryIccAgrKeys = [primaryId + '_icc_agreement', primaryId + '_icc_agreement_mean'];
+                const primaryIccConKeys = [primaryId + '_icc',           primaryId + '_icc_mean'];
                 const _firstNonNull = (obj, keys) => {{
                     for (const k of keys) {{
                         const v = obj[k];
@@ -2884,95 +2909,62 @@ class InteractiveDashboard:
                     }}
                     return null;
                 }};
-
-                /* Resolve the ICC for ONE outcome id. Extracted so the secondary
-                   outcome is computed exactly like the primary rather than by a
-                   near-copy that can drift. Prefers absolute agreement, ICC(A),
-                   and falls back to consistency, ICC(C); tries the bare
-                   post-pingouin keys before the legacy `_mean` ones. */
-                const _iccFor = (oid) => {{
-                    if (!oid) return null;
-                    const agrKeys = [oid + '_icc_agreement', oid + '_icc_agreement_mean'];
-                    const conKeys = [oid + '_icc',           oid + '_icc_mean'];
-                    let vals = [], agreementSeen = false, lo = null, hi = null;
-                    for (const metrics of Object.values(reliability)) {{
-                        const agr = _firstNonNull(metrics, agrKeys);
-                        const con = _firstNonNull(metrics, conKeys);
-                        const pick = agr || con;
-                        if (!pick) continue;
-                        vals.push(pick.val);
-                        if (agr) agreementSeen = true;
-                        const baseKey = pick.key.endsWith('_mean')
-                            ? pick.key.slice(0, -'_mean'.length) : pick.key;
-                        const l = metrics[baseKey + '_ci_low'], h = metrics[baseKey + '_ci_high'];
-                        if (l !== null && l !== undefined && lo === null) lo = l;
-                        if (h !== null && h !== undefined && hi === null) hi = h;
-                    }}
-                    if (vals.length === 0) return null;
-                    /* One condition -> the stored 95% CI is the CI of THE value shown.
-                       Several conditions (MT: go and nogo) -> the shown value is a
-                       MEAN of ICCs, and the CI of a mean of ICCs is not the mean of
-                       their CIs. Printing one would invent a statistic. Show the span
-                       of the underlying estimates instead, labelled as a range, so the
-                       reader can see what is being averaged rather than nothing. */
-                    let ciText = '', ciTitle = '';
-                    if (vals.length === 1 && lo !== null && hi !== null) {{
-                        ciText = ` <span style="font-size:0.62em;color:#a08840;">[${{lo.toFixed(2)}}, ${{hi.toFixed(2)}}]</span>`;
-                        ciTitle = `95% CI [${{lo.toFixed(2)}}, ${{hi.toFixed(2)}}]`;
-                    }} else if (vals.length > 1) {{
-                        const vlo = Math.min(...vals), vhi = Math.max(...vals);
-                        ciText = ` <span style="font-size:0.62em;color:#a08840;" title="Range of the per-condition ICCs being averaged — not a confidence interval">${{vlo.toFixed(2)}}–${{vhi.toFixed(2)}}</span>`;
-                        ciTitle = `mean of ${{vals.length}} conditions, each ICC in ${{vlo.toFixed(2)}}–${{vhi.toFixed(2)}}`;
-                    }}
-                    return {{
-                        value: (vals.reduce((a,b) => a+b) / vals.length).toFixed(2),
-                        type:  agreementSeen ? 'ICC(A)' : 'ICC(C)',
-                        ciText: ciText,
-                        ciTitle: ciTitle,
-                        nConditions: vals.length
-                    }};
-                }};
-
-                const primaryIcc   = _iccFor(primaryId);
-                const secondaryId  = secondaryOm ? secondaryOm.id.toLowerCase() : null;
-                const secondaryIcc = _iccFor(secondaryId);
-
-                const overallIcc = primaryIcc ? primaryIcc.value : 'N/A';
-                const iccType    = primaryIcc ? primaryIcc.type  : 'ICC(C)';
-                const iccCiText  = primaryIcc ? primaryIcc.ciText : '';
-                /* The secondary stat box is rendered only when a secondary
-                   outcome exists AND its ICC could be computed — a project with
-                   one outcome shows one box rather than an "N/A" placeholder. */
-                const secondaryStatHtml = (secondaryOm && secondaryIcc) ? `
-                            <div class="stat-item" title="Secondary outcome — ${{secondaryIcc.ciTitle || 'stage-level, task trials only'}}">
-                                <div class="stat-value">${{secondaryIcc.value}}${{secondaryIcc.ciText}}</div>
-                                <div class="stat-label">${{secondaryOm.label}} ${{secondaryIcc.type}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
-                            </div>` : '';
+                let primaryIccVals2 = [];
+                let agreementSeen = false;
+                let ciLow = null, ciHigh = null;
+                for (const metrics of Object.values(reliability)) {{
+                    const agr = _firstNonNull(metrics, primaryIccAgrKeys);
+                    const con = _firstNonNull(metrics, primaryIccConKeys);
+                    const pick = agr || con;
+                    if (!pick) continue;
+                    primaryIccVals2.push(pick.val);
+                    if (agr) agreementSeen = true;
+                    // Pull the matching CI bounds if present in new schema
+                    const baseKey = pick.key.endsWith('_mean')
+                        ? pick.key.slice(0, -'_mean'.length)
+                        : pick.key;
+                    const lo = metrics[baseKey + '_ci_low'];
+                    const hi = metrics[baseKey + '_ci_high'];
+                    if (lo !== null && lo !== undefined && ciLow === null) ciLow = lo;
+                    if (hi !== null && hi !== undefined && ciHigh === null) ciHigh = hi;
+                }}
+                const overallIcc = primaryIccVals2.length > 0
+                    ? (primaryIccVals2.reduce((a,b) => a+b) / primaryIccVals2.length).toFixed(2)
+                    : 'N/A';
+                const iccType = (primaryIccVals2.length > 0 && agreementSeen) ? 'ICC(2,1)' : 'ICC(3,1)';
+                const iccCiText = (ciLow !== null && ciHigh !== null && primaryIccVals2.length === 1)
+                    ? ` <span style="font-size:0.62em;color:#a08840;">[${{ciLow.toFixed(2)}}, ${{ciHigh.toFixed(2)}}]</span>`
+                    : '';
 
                 // Dashboard variability card — only for continuous primary outcomes.
                 // Binary accuracy: no CV card (Bernoulli CV is not meaningful).
                 // The ICC card above already reflects accuracy reliability fully.
-                /* The per-card CV box was removed 2026-08.
-
-                   It was never a deliberate feature of the card: its only guard
-                   was `!_isBinaryAccuracyPrefix(primaryId)`, so it appeared for
-                   any project whose primary outcome was not binary accuracy. In
-                   practice that was FLOW alone — APPL, OLM and MT all use ACCBIN
-                   as primary — which made FLOW the only project showing three
-                   stat boxes instead of two.
-
-                   It was also the wrong statistic for that one project. CV =
-                   SD / mean requires a ratio scale with a true zero; FLOW's flow
-                   index is a signed contrast running -36 .. +36 where 0 means
-                   "no preference", so CV diverges as a subject's mean approaches
-                   zero and flips sign below it. FLOW's stored primary_cv_mean is
-                   72.1 with an SD of 441.6 — the SD is six times the mean, which
-                   is the arithmetic reporting its own invalidity.
-
-                   Every card now shows the same two reliability boxes: primary
-                   ICC and secondary ICC. CV remains available in the comparison
-                   plots, where the axis and the outcome are chosen explicitly. */
-
+                let cardHtml = '';
+                if (!_isBinaryAccuracyPrefix(primaryId)) {{
+                    let allCvs = _collectCv(reliability, primaryId);
+                    let cvOutcomeLabel = primaryLabel;
+                    if (allCvs.length === 0) {{
+                        for (const om of outcomeMeasures) {{
+                            const oid = (om.id || '').toLowerCase();
+                            if (!oid || oid === primaryId || _isBinaryAccuracyPrefix(oid)) continue;
+                            const vals = _collectCv(reliability, oid);
+                            if (vals.length > 0) {{
+                                allCvs = vals;
+                                cvOutcomeLabel = om.label || oid.toUpperCase();
+                                break;
+                            }}
+                        }}
+                    }}
+                    if (allCvs.length > 0) {{
+                        const cvValue = (allCvs.reduce((a,b) => a+b) / allCvs.length).toFixed(2);
+                        cardHtml = `
+                            <div class="stat-item" title="Mean within-subject CV for task trials">
+                                <div class="stat-value">${{cvValue}}%</div>
+                                <div class="stat-label">${{cvOutcomeLabel}} CV<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(task only)</span></div>
+                            </div>`;
+                    }}
+                }}
+                
                 return `
                     <div class="project-card">
                         <div class="project-full-name">${{info.full_name || 'No description'}}</div>
@@ -2993,11 +2985,11 @@ class InteractiveDashboard:
                                 <div class="stat-value">${{demo.age_mean ? demo.age_mean.toFixed(1) : 'N/A'}}</div>
                                 <div class="stat-label">Mean Age</div>
                             </div>
-                            <div class="stat-item" title="Primary outcome — ${{primaryIcc ? (primaryIcc.ciTitle || 'stage-level, task trials only') : 'no ICC available'}}">
+                            <div class="stat-item" title="Mean ICC (absolute agreement) for the primary outcome — stage-level, task trials only">
                                 <div class="stat-value">${{overallIcc}}${{iccCiText}}</div>
                                 <div class="stat-label">${{primaryLabel}} ${{iccType}}<br><span style="font-size:0.72em;color:#a08840;font-weight:400;">(stage-level)</span></div>
                             </div>
-                            ${{secondaryStatHtml}}
+                            ${{cardHtml}}
                         </div>
                         <div class="project-actions">
                             <a href="Projects/${{project.project_name}}/${{project.project_name}}_overview.html" class="project-link">View Details</a>
@@ -3029,8 +3021,8 @@ class InteractiveDashboard:
                 _prefixes:  prefixes,
             }}));
         }}
-        const METRIC_REGISTRY = _buildMetricRegistry();
-        const METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]))
+        let METRIC_REGISTRY = _buildMetricRegistry();
+        let METRIC_BY_ID = Object.fromEntries(METRIC_REGISTRY.map(m => [m.id, m]))
 
         // ── Helpers ──────────────────────────────────────────────────────────
 

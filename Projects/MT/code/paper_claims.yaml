@@ -1,0 +1,476 @@
+paper: "Mahesan_2026_mousetracking_gonogo.pdf"
+claims:
+  # ---- Participants ----
+  - id: n_participants
+    text: "Twenty-three healthy young adults completed the task in two sessions separated by approximately one week"
+    page: 2
+    value: 23
+    tolerance: 0
+    unit: "participants"
+
+  # ---- Error rates (3.1, pp. 12-13) ----
+  - id: error_rate_go
+    text: "Participants made more errors in the no-go (12%) as compared to go trial (4%), F(1, 22) = 13.40, p = .001, ηp² = .38."
+    page: 12
+    value: 4
+    tolerance: 0.1
+    unit: "%"
+  - id: error_rate_nogo
+    text: "Participants made more errors in the no-go (12%) as compared to go trial (4%), F(1, 22) = 13.40, p = .001, ηp² = .38."
+    page: 12
+    value: 12
+    tolerance: 0.1
+    unit: "%"
+  - id: error_trialtype_F
+    text: "Participants made more errors in the no-go (12%) as compared to go trial (4%), F(1, 22) = 13.40, p = .001, ηp² = .38."
+    page: 12
+    value: 13.40
+    tolerance: 0.01
+    unit: "F"
+  - id: error_trialtype_p
+    text: "Participants made more errors in the no-go (12%) as compared to go trial (4%), F(1, 22) = 13.40, p = .001, ηp² = .38."
+    page: 12
+    value: 0.001
+    tolerance: 0.0005
+    unit: "p"
+  - id: error_trialtype_eta2
+    text: "Participants made more errors in the no-go (12%) as compared to go trial (4%), F(1, 22) = 13.40, p = .001, ηp² = .38."
+    page: 12
+    value: 0.38
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: error_session_F
+    text: "The main effect of session was not significant, F(1, 22) = 3.63, p = .070, ηp² = .14"
+    page: 12
+    value: 3.63
+    tolerance: 0.01
+    unit: "F"
+  - id: error_session_p
+    text: "The main effect of session was not significant, F(1, 22) = 3.63, p = .070, ηp² = .14"
+    page: 12
+    value: 0.070
+    tolerance: 0.0005
+    unit: "p"
+  - id: error_session_eta2
+    text: "The main effect of session was not significant, F(1, 22) = 3.63, p = .070, ηp² = .14"
+    page: 12
+    value: 0.14
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: error_interaction_F
+    text: "and the session × trial-type interaction was also not significant, F(1, 22) = 0.41, p = .527, ηp² = .02."
+    page: 12
+    value: 0.41
+    tolerance: 0.01
+    unit: "F"
+  - id: error_interaction_p
+    text: "and the session × trial-type interaction was also not significant, F(1, 22) = 0.41, p = .527, ηp² = .02."
+    page: 12
+    value: 0.527
+    tolerance: 0.0005
+    unit: "p"
+  - id: error_interaction_eta2
+    text: "and the session × trial-type interaction was also not significant, F(1, 22) = 0.41, p = .527, ηp² = .02."
+    page: 12
+    value: 0.02
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: icc_error_go
+    text: "The test-retest reliability of go errors between the sessions showed good reliability, ICC = .75, 95% CI [.50, .89], and moderate reliability for no-go error rate, ICC = .59, 95% CI [.25, .81]."
+    page: 13
+    value: 0.75
+    tolerance: 0.01
+    unit: "ICC"
+  - id: icc_error_nogo
+    text: "The test-retest reliability of go errors between the sessions showed good reliability, ICC = .75, 95% CI [.50, .89], and moderate reliability for no-go error rate, ICC = .59, 95% CI [.25, .81]."
+    page: 13
+    value: 0.59
+    tolerance: 0.01
+    unit: "ICC"
+
+  # ---- Reaction time (3.1, pp. 15-16) ----
+  - id: rt_go
+    text: "As expected, go RTs were longer (582 ms) as opposed to no-go stopping time (445 ms)"
+    page: 15
+    value: 582
+    tolerance: 0.5
+    unit: "ms"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: rt_combined
+      stat: mean
+      where: {trial_type: go}
+      scale: 1000
+    note: "rt_combined is in seconds; scale: 1000 -> ms. Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD trimming on correct trials; tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: rt_nogo_stopping
+    text: "As expected, go RTs were longer (582 ms) as opposed to no-go stopping time (445 ms)"
+    page: 15
+    value: 445
+    tolerance: 0.5
+    unit: "ms"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: nogo_stop_time
+      stat: mean
+      scale: 1000
+    note: "nogo_stop_time is in seconds; scale: 1000 -> ms. Paper pools 23 participants (excl. P25) across 2 sessions; tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: rt_trialtype_F
+    text: "A main effect of trial-type was observed, F(1, 22) = 43.45, p < .001, ηp² = .66."
+    page: 15
+    value: 43.45
+    tolerance: 0.01
+    unit: "F"
+  - id: rt_trialtype_p
+    text: "A main effect of trial-type was observed, F(1, 22) = 43.45, p < .001, ηp² = .66."
+    page: 15
+    value: 0.001
+    tolerance: 0.0005
+    unit: "p"
+  - id: rt_trialtype_eta2
+    text: "A main effect of trial-type was observed, F(1, 22) = 43.45, p < .001, ηp² = .66."
+    page: 15
+    value: 0.66
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: rt_session_F
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 2.40
+    tolerance: 0.01
+    unit: "F"
+  - id: rt_session_p
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 0.135
+    tolerance: 0.0005
+    unit: "p"
+  - id: rt_session_eta2
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 0.10
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: rt_interaction_F
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 0.09
+    tolerance: 0.01
+    unit: "F"
+  - id: rt_interaction_p
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 0.762
+    tolerance: 0.0005
+    unit: "p"
+  - id: rt_interaction_eta2
+    text: "neither the session effect, F(1, 22) = 2.40, p = .135, ηp² = .10, nor the interaction, F(1, 22) = 0.09, p = .762, ηp² = .004, reached significance."
+    page: 15
+    value: 0.004
+    tolerance: 0.0005
+    unit: "eta_p_squared"
+  - id: icc_rt_go
+    text: "Go RT showed ICC = .85, 95% CI [.67, .93], and no-go RT showed ICC = .79, 95% CI [.57, .91], both indicating good test-retest stability."
+    page: 15
+    value: 0.85
+    tolerance: 0.01
+    unit: "ICC"
+  - id: icc_rt_nogo
+    text: "Go RT showed ICC = .85, 95% CI [.67, .93], and no-go RT showed ICC = .79, 95% CI [.57, .91], both indicating good test-retest stability."
+    page: 15
+    value: 0.79
+    tolerance: 0.01
+    unit: "ICC"
+
+  # ---- Kinematics: path length (3.2, pp. 17-18) ----
+  - id: outlier_pct_velocity
+    text: "Using this approach, 1.5% of observations were removed for mean velocity, 2.3% for mean acceleration, and 2.4% for path length."
+    page: 17
+    value: 1.5
+    tolerance: 0.05
+    unit: "%"
+  - id: outlier_pct_acceleration
+    text: "Using this approach, 1.5% of observations were removed for mean velocity, 2.3% for mean acceleration, and 2.4% for path length."
+    page: 17
+    value: 2.3
+    tolerance: 0.05
+    unit: "%"
+  - id: outlier_pct_pathlength
+    text: "Using this approach, 1.5% of observations were removed for mean velocity, 2.3% for mean acceleration, and 2.4% for path length."
+    page: 17
+    value: 2.4
+    tolerance: 0.05
+    unit: "%"
+  - id: pathlength_go
+    text: "Go trials produced longer path (598 pixels) than no-go trials (542 pixels)"
+    page: 17
+    value: 598
+    tolerance: 0.5
+    unit: "pixels"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: path_length
+      stat: mean
+      where: {trial_type: go}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (2.4% for path length); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: pathlength_nogo
+    text: "Go trials produced longer path (598 pixels) than no-go trials (542 pixels)"
+    page: 17
+    value: 542
+    tolerance: 0.5
+    unit: "pixels"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: path_length
+      stat: mean
+      where: {trial_type: nogo}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (2.4% for path length); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: pathlength_trialtype_F
+    text: "A main effect of trial-type was observed, F(1, 22) = 32.82, p < .001, ηp² = .60."
+    page: 17
+    value: 32.82
+    tolerance: 0.01
+    unit: "F"
+  - id: pathlength_trialtype_p
+    text: "A main effect of trial-type was observed, F(1, 22) = 32.82, p < .001, ηp² = .60."
+    page: 17
+    value: 0.001
+    tolerance: 0.0005
+    unit: "p"
+  - id: pathlength_trialtype_eta2
+    text: "A main effect of trial-type was observed, F(1, 22) = 32.82, p < .001, ηp² = .60."
+    page: 17
+    value: 0.60
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: pathlength_session_F
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.04
+    tolerance: 0.01
+    unit: "F"
+  - id: pathlength_session_p
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.851
+    tolerance: 0.0005
+    unit: "p"
+  - id: pathlength_session_eta2
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.002
+    tolerance: 0.0005
+    unit: "eta_p_squared"
+  - id: pathlength_interaction_F
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.17
+    tolerance: 0.01
+    unit: "F"
+  - id: pathlength_interaction_p
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.682
+    tolerance: 0.0005
+    unit: "p"
+  - id: pathlength_interaction_eta2
+    text: "Neither the session, F(1, 22) = 0.04, p = .851, ηp²= .002, nor the interaction, F(1, 22) = 0.17, p = .682, ηp² = .008, reached significance."
+    page: 17
+    value: 0.008
+    tolerance: 0.0005
+    unit: "eta_p_squared"
+  - id: icc_pathlength_go
+    text: "Path length demonstrated good test-retest reliability for both go trials, ICC = .78, 95% CI [.55, .90], and no-go trials, ICC = .83, 95% CI [.65, .93]."
+    page: 18
+    value: 0.78
+    tolerance: 0.01
+    unit: "ICC"
+  - id: icc_pathlength_nogo
+    text: "Path length demonstrated good test-retest reliability for both go trials, ICC = .78, 95% CI [.55, .90], and no-go trials, ICC = .83, 95% CI [.65, .93]."
+    page: 18
+    value: 0.83
+    tolerance: 0.01
+    unit: "ICC"
+
+  # ---- Kinematics: mean velocity (pp. 20) ----
+  - id: velocity_go
+    text: "Go trials demonstrated higher mean velocity (1091 px/s) compared to no-go trials (934 px/s)."
+    page: 20
+    value: 1091
+    tolerance: 0.5
+    unit: "px/s"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: avg_velocity
+      stat: mean
+      where: {trial_type: go}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (1.5% for velocity); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: velocity_nogo
+    text: "Go trials demonstrated higher mean velocity (1091 px/s) compared to no-go trials (934 px/s)."
+    page: 20
+    value: 934
+    tolerance: 0.5
+    unit: "px/s"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: avg_velocity
+      stat: mean
+      where: {trial_type: nogo}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (1.5% for velocity); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: velocity_trialtype_F
+    text: "A main effect of trial-type was observed, F(1, 22) = 46.81, p < .001, ηp² = .68."
+    page: 20
+    value: 46.81
+    tolerance: 0.01
+    unit: "F"
+  - id: velocity_trialtype_p
+    text: "A main effect of trial-type was observed, F(1, 22) = 46.81, p < .001, ηp² = .68."
+    page: 20
+    value: 0.001
+    tolerance: 0.0005
+    unit: "p"
+  - id: velocity_trialtype_eta2
+    text: "A main effect of trial-type was observed, F(1, 22) = 46.81, p < .001, ηp² = .68."
+    page: 20
+    value: 0.68
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: velocity_session_F
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.57
+    tolerance: 0.01
+    unit: "F"
+  - id: velocity_session_p
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.459
+    tolerance: 0.0005
+    unit: "p"
+  - id: velocity_session_eta2
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.03
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: velocity_interaction_F
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.03
+    tolerance: 0.01
+    unit: "F"
+  - id: velocity_interaction_p
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.854
+    tolerance: 0.0005
+    unit: "p"
+  - id: velocity_interaction_eta2
+    text: "Neither the session, F(1, 22) = 0.57, p = .459, ηp² = .03, nor the interaction, F(1, 22) = 0.03, p = .854, ηp² = .002, reached significance."
+    page: 20
+    value: 0.002
+    tolerance: 0.0005
+    unit: "eta_p_squared"
+  - id: icc_velocity_go
+    text: "Mean velocity showed good reliability for go trials, ICC = .83, 95% CI [.64, .92], and moderate reliability for no-go trials, ICC = .72, 95% CI [.44, .87]."
+    page: 20
+    value: 0.83
+    tolerance: 0.01
+    unit: "ICC"
+  - id: icc_velocity_nogo
+    text: "Mean velocity showed good reliability for go trials, ICC = .83, 95% CI [.64, .92], and moderate reliability for no-go trials, ICC = .72, 95% CI [.44, .87]."
+    page: 20
+    value: 0.72
+    tolerance: 0.01
+    unit: "ICC"
+
+  # ---- Kinematics: mean acceleration (pp. 21-22) ----
+  - id: acceleration_go
+    text: "Go trials produced higher mean acceleration (25,884 px/s²) than no-go trials (22,264 px/s²)"
+    page: 22
+    value: 25884
+    tolerance: 0.5
+    unit: "px/s^2"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: avg_acceleration
+      stat: mean
+      where: {trial_type: go}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (2.3% for acceleration); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: acceleration_nogo
+    text: "Go trials produced higher mean acceleration (25,884 px/s²) than no-go trials (22,264 px/s²)"
+    page: 22
+    value: 22264
+    tolerance: 0.5
+    unit: "px/s^2"
+    source:
+      file: "sub-*_task-gonogo_desc-scored_beh.tsv"
+      column: avg_acceleration
+      stat: mean
+      where: {trial_type: nogo}
+    note: "Paper pools 23 participants (excl. P25) across 2 sessions with +/-2.5 SD outlier removal (2.3% for acceleration); tool reads the first glob hit (sub-001_ses-01) only. Expect MISMATCH."
+  - id: acceleration_trialtype_F
+    text: "A main effect of trial-type was observed, F(1, 22) = 25.95, p < .001, ηp² = .54."
+    page: 22
+    value: 25.95
+    tolerance: 0.01
+    unit: "F"
+  - id: acceleration_trialtype_p
+    text: "A main effect of trial-type was observed, F(1, 22) = 25.95, p < .001, ηp² = .54."
+    page: 22
+    value: 0.001
+    tolerance: 0.0005
+    unit: "p"
+  - id: acceleration_trialtype_eta2
+    text: "A main effect of trial-type was observed, F(1, 22) = 25.95, p < .001, ηp² = .54."
+    page: 22
+    value: 0.54
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: acceleration_session_F
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 2.81
+    tolerance: 0.01
+    unit: "F"
+  - id: acceleration_session_p
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 0.108
+    tolerance: 0.0005
+    unit: "p"
+  - id: acceleration_session_eta2
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 0.11
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: acceleration_interaction_F
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 0.74
+    tolerance: 0.01
+    unit: "F"
+  - id: acceleration_interaction_p
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 0.398
+    tolerance: 0.0005
+    unit: "p"
+  - id: acceleration_interaction_eta2
+    text: "The session effect was not significant, F(1, 22) = 2.81, p = .108, ηp² = .11, nor was the interaction, F(1, 22) = 0.74, p = .398, ηp² = .03."
+    page: 22
+    value: 0.03
+    tolerance: 0.01
+    unit: "eta_p_squared"
+  - id: icc_acceleration_go
+    text: "Mean acceleration demonstrated good reliability for go trials, ICC = .77, 95% CI [.53, .90] and moderate reliability for no-go trials, ICC = .70, 95% CI [.41, .86]."
+    page: 22
+    value: 0.77
+    tolerance: 0.01
+    unit: "ICC"
+  - id: icc_acceleration_nogo
+    text: "Mean acceleration demonstrated good reliability for go trials, ICC = .77, 95% CI [.53, .90] and moderate reliability for no-go trials, ICC = .70, 95% CI [.41, .86]."
+    page: 22
+    value: 0.70
+    tolerance: 0.01
+    unit: "ICC"

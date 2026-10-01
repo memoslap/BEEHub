@@ -1,0 +1,17 @@
+{
+  "BOX_CONFIG": {
+    "x_min": 150,
+    "x_max": 250,
+    "y_min": 250,
+    "y_max": 350,
+    "include_boundary": false
+  },
+  "NOGO_CONFIG": {
+    "v_thresh": 10,
+    "min_still_sec": 0.15,
+    "post_still_sec": 0.25,
+    "deadline_sec": 1.5,
+    "dist_thresh_no_move": 5,
+    "post_still_criterion": 0.9
+  }
+}

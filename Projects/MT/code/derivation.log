@@ -1,0 +1,139 @@
+
+## 2026-09-25T14:19:48+00:00 scored FAILED (0.2s, 0 files)
+$ Rscript /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/1. compute_stopping.R --input /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/bids_data --output /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/derivatives/scored --params /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/scored_params.json
+! exit 1
+--- stderr (tail)
+Loading required package: pacman
+Error in contrib.url(repos, type) : 
+  trying to use CRAN without setting a mirror
+Calls: install.packages -> startsWith -> contrib.url
+In addition: Warning message:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called ‘pacman’
+Execution halted
+
+
+## 2026-09-25T14:20:16+00:00 scored FAILED (0.9s, 0 files)
+$ Rscript /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/1. compute_stopping.R --input /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/bids_data --output /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/derivatives/scored --params /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/scored_params.json
+! exit 1
+--- stderr (tail)
+Warning messages:
+1: package ‘dplyr’ was built under R version 4.5.3 
+2: package ‘tidyr’ was built under R version 4.5.2 
+3: package ‘stringr’ was built under R version 4.5.2 
+4: package ‘ggplot2’ was built under R version 4.5.3 
+5: package ‘purrr’ was built under R version 4.5.3 
+Error in assign(k, params[[blk]][[k]], envir = cur) : 
+  invalid 'envir' argument
+Execution halted
+
+
+## 2026-09-25T14:20:33+00:00 scored OK (310.5s, 50 files)
+$ Rscript /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/1. compute_stopping.R --input /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/bids_data --output /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/derivatives/scored --params /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/code/scored_params.json
+--- stdout (tail)
+       0         0.943
+2 nogo          5000      4441         559         0         0.888
+3 <NA>           250         0           0       250       NaN    
+
+--- ACCURACY BY SESSION & TRIAL TYPE ---
+# A tibble: 7 × 5
+  session_actual trial_type     n n_correct accuracy_rate
+           <int> <chr>      <int>     <int>         <dbl>
+1              1 go         13156     12223         0.929
+2              1 nogo        2600      2279         0.877
+3              1 <NA>         104         0       NaN    
+4              2 go         12144     11627         0.957
+5              2 nogo        2400      2162         0.901
+6              2 <NA>          96         0       NaN    
+7             NA <NA>          50         0       NaN    
+
+--- ACCURACY BY SUBJECT ---
+# A tibble: 10 × 10
+   subject_id n_trials n_correct acc_s1_go acc_s1_nogo acc_s1_NA acc_s2_go
+        <int>    <int>     <int>     <dbl>       <dbl>     <dbl>     <dbl>
+ 1          1      506       497     0.982       NA           NA    NA    
+ 2          1      100        98    NA            0.98        NA    NA    
+ 3          1        4         0    NA           NA          NaN    NA    
+ 4          1      506       488    NA           NA           NA     0.964
+ 5          1      100        88    NA           NA           NA    NA    
+ 6          2      506       490     0.968       NA           NA    NA    
+ 7          2      100        89    NA            0.89        NA    NA    
+ 8          2        4         0    NA           NA          NaN    NA    
+ 9          3      506       483     0.955       NA           NA    NA    
+10          3      100        92    NA            0.92        NA    NA    
+# ℹ 3 more variables: acc_s2_nogo <dbl>, acc_s2_NA <dbl>, acc_sNA_NA <dbl>
+... (showing first 10 subjects)
+
+WARNING: Subjects with <60% Go accuracy in any session:
+# A tibble: 1 × 8
+# Rowwise: 
+  subject_id acc_s1_go acc_s1_nogo acc_s1_NA acc_s2_go acc_s2_nogo acc_s2_NA
+       <int>     <dbl>       <dbl>     <dbl>     <dbl>       <dbl>     <dbl>
+1         25     0.435          NA        NA        NA          NA        NA
+# ℹ 1 more variable: acc_sNA_NA <dbl>
+
+--- REACTION TIME DISTRIBUTIONS ---
+# A tibble: 4 × 10
+  trial_type session_actual     n mean_rt sd_rt median_rt min_rt max_rt
+  <chr>               <int> <int>   <dbl> <dbl>     <dbl>  <dbl>  <dbl>
+1 go                      1 12229   0.604 0.179     0.576 0.164    1.51
+2 go                      2 11631   0.582 0.150     0.561 0.230    1.50
+3 nogo                    1  2279   0.465 0.148     0.443 0.0573   1.26
+4 nogo                    2  2162   0.443 0.119     0.426 0.127    1.30
+# ℹ 2 more variables: n_below_100ms <int>, n_above_1500ms <int>
+
+WARNING: Detected RTs < 100ms (possible anticipatory responses)
+# A tibble: 2 × 3
+  subject_id trial_type     n
+       <int> <chr>      <int>
+1         22 nogo           2
+2          9 nogo           1
+
+--- SESSION PAIRING CHECK (FOR TEST-RETEST RELIABILITY) ---
+Subjects with both sessions: 24 
+Subjects with only one session: 3 
+
+WARNING: Subjects with incomplete sessions (cannot compute test-retest reliability):
+# A tibble: 3 × 3
+  subject_id sessions_present n_sessions
+       <int> <chr>                 <int>
+1          2 "1"                       1
+2          4 "1"                       1
+3         NA ""                        1
+
+================================================================================
+END OF QC REPORT
+================================================================================
+
+Saved QC plots to: /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/derivatives/scored/QC_plots 
+
+================================================================================
+PROCESSING COMPLETE
+================================================================================
+Total trials processed: 30550 
+Output BIDS TSV files written: 50 
+Output root: /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/derivatives/scored 
+
+
+--- stderr (tail)
+Warning messages:
+1: package ‘dplyr’ was built under R version 4.5.3 
+2: package ‘tidyr’ was built under R version 4.5.2 
+3: package ‘stringr’ was built under R version 4.5.2 
+4: package ‘ggplot2’ was built under R version 4.5.3 
+5: package ‘purrr’ was built under R version 4.5.3 
+Warning message:
+There were 74 warnings in `mutate()`.
+The first warning was:
+ℹ In argument: `min_go_acc = min(c_across(starts_with("acc_s") &
+  ends_with("_go")), na.rm = TRUE)`.
+ℹ In row 2.
+Caused by warning in `min()`:
+! no non-missing arguments to min; returning Inf
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 73 remaining warnings. 
+Warning messages:
+1: Removed 768 rows containing non-finite outside the scale range
+(`stat_boxplot()`). 
+2: Removed 768 rows containing missing values or values outside the scale range
+(`geom_point()`). 
+

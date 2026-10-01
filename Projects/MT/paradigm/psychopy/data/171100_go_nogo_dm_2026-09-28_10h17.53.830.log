@@ -1,0 +1,545 @@
+4.2800 	INFO 	Loaded monitor calibration from ['2026_01_06 15:55']
+4.2958 	WARNING 	User requested fullscreen with size [1280  800], but screen is actually [1920, 1200]. Using actual size
+4.6376 	INFO 	Using renderer 'NVIDIA GeForce GTX 1650/PCIe/SSE2' for graphics
+4.6376 	INFO 	OpenGL version supported by driver is 4..
+4.6408 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x7f26e81eedd0>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x7f26e81ee3d0>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=True, gamma=None, gammaErrorPolicy='raise', infoMsg=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x7f26e43e0590>, multiSample=False, name='window1', numSamples=2, pos=[np.float64(0.0), np.float64(0.0)], screen=0, size=array([1920, 1200]), stencilBits=0, stereo=False, title='PsychoPy', units='pix', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+4.6409 	EXP 	window1: backgroundImage = ''
+4.6409 	EXP 	window1: backgroundFit = 'none'
+4.6723 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+4.6723 	EXP 	window1: recordFrameIntervals = False
+4.8587 	EXP 	window1: recordFrameIntervals = True
+5.0423 	EXP 	Screen (0) actual frame rate measured at 59.95Hz
+5.0423 	EXP 	window1: recordFrameIntervals = False
+6.3862 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3862 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3862 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3862 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3863 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3863 	INFO 	keyboard.Keyboard is using iohub backend.
+6.3863 	EXP 	go_nogo_dm: status = STARTED
+6.4211 	EXP 	Created welcome_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=np.float64(40.0), italic=False, languageStyle='LTR', name='welcome_text', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='pix', win=Window(...), wrapWidth=1500.0)
+6.4348 	EXP 	Created image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=np.False_, flipVert=np.False_, image='Slide7.PNG', interpolate=True, mask=None, maskParams=None, name='image', opacity=1, ori=0.0, pos=array([0., 0.]), size=array([1536.,  864.]), texRes=128.0, units='pix', win=Window(...))
+6.4455 	EXP 	Created image_2 = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=np.False_, flipVert=np.False_, image='Slide8.PNG', interpolate=True, mask=None, maskParams=None, name='image_2', opacity=1, ori=0.0, pos=array([0., 0.]), size=array([1536.,  864.]), texRes=128.0, units='pix', win=Window(...))
+6.4566 	EXP 	Created exp_start_inst = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=np.float64(40.0), italic=False, languageStyle='LTR', name='exp_start_inst', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='pix', win=Window(...), wrapWidth=1500.0)
+6.4588 	EXP 	Created fixation_cross_3 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=np.float64(30.0), italic=False, languageStyle='LTR', name='fixation_cross_3', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='+', units='pix', win=Window(...), wrapWidth=500)
+6.4595 	EXP 	Created start_box = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, draggable=False, fillColor=array([-1., -1.,  1.]), fillColorSpace='rgb', fillRGB=array([-1., -1.,  1.]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=1.0, name='start_box', opacity=1, ori=0.0, pos=array([   0., -400.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+6.4602 	EXP 	Created start_box_2 = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=0.0, draggable=False, fillColor=array([-1, -1, -1]), fillColorSpace='rgb', fillRGB=array([-1, -1, -1]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=1.0, name='start_box_2', opacity=1, ori=0.0, pos=array([   0., -400.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+6.4609 	EXP 	Created response_box = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, draggable=False, fillColor=array([1, 1, 1]), fillColorSpace='rgb', fillRGB=array([1, 1, 1]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=1.0, name='response_box', opacity=1, ori=0.0, pos=array([200., 300.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+6.4616 	EXP 	Created start_box_3 = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, draggable=False, fillColor=array([-1, -1, -1]), fillColorSpace='rgb', fillRGB=array([-1, -1, -1]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=1.0, name='start_box_3', opacity=1, ori=0.0, pos=array([   0., -400.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+6.4622 	EXP 	Created response_box_2 = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-2.0, draggable=False, fillColor=array([1, 1, 1]), fillColorSpace='rgb', fillRGB=array([1, 1, 1]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=1.0, name='response_box_2', opacity=1, ori=0.0, pos=array([200., 300.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+6.4633 	EXP 	Created text_stimulus = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=72.0, italic=False, languageStyle='LTR', name='text_stimulus', opacity=1, ori=0.0, pos=array([200., 300.]), rgb=UNKNOWN, text='', units='pix', win=Window(...), wrapWidth=500)
+6.4658 	EXP 	Created blank = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=np.float64(1.0), italic=False, languageStyle='LTR', name='blank', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='.', units='pix', win=Window(...), wrapWidth=500)
+6.4664 	EXP 	Created block_end_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=np.float64(40.0), italic=False, languageStyle='LTR', name='block_end_text', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='pix', win=Window(...), wrapWidth=1500.0)
+0.0272 	INFO 	Keyboard events cleared
+0.0270 	EXP 	welcome_text: autoDraw = True
+1.1488 	EXP 	Device response: <KeyPress from None: t=1.1390295028686523, value=space, duration=None>
+1.1493 	DATA 	Keypress: space
+1.3156 	EXP 	Device response: <KeyPress from None: t=1.1390295028686523, value=space, duration=0.17560267448425293>
+1.3320 	INFO 	Keyboard events cleared
+1.3319 	EXP 	welcome_text: autoDraw = False
+1.3319 	EXP 	image: autoDraw = True
+9.2029 	EXP 	Device response: <KeyPress from None: t=9.1950204372406, value=space, duration=None>
+9.2032 	DATA 	Keypress: space
+9.3863 	EXP 	Device response: <KeyPress from None: t=9.1950204372406, value=space, duration=0.17573022842407227>
+9.4029 	INFO 	Keyboard events cleared
+9.4028 	EXP 	image: autoDraw = False
+9.4028 	EXP 	image_2: autoDraw = True
+13.0252 	EXP 	Device response: <KeyPress from None: t=13.019105911254883, value=space, duration=None>
+13.0255 	DATA 	Keypress: space
+13.2062 	EXP 	Device response: <KeyPress from None: t=13.019105911254883, value=space, duration=0.1835792064666748>
+13.2228 	INFO 	Keyboard events cleared
+13.2227 	EXP 	image_2: autoDraw = False
+13.2227 	EXP 	exp_start_inst: autoDraw = True
+15.3270 	EXP 	Device response: <KeyPress from None: t=15.323106288909912, value=space, duration=None>
+15.3274 	DATA 	Keypress: space
+15.5271 	EXP 	Device response: <KeyPress from None: t=15.323106288909912, value=space, duration=0.19954919815063477>
+15.5316 	EXP 	Imported block_sequence.xlsx as conditions, 15 conditions, 5 params
+15.5318 	EXP 	New trial (rep=0, index=0): <Trial 0 (0 in rep 0) data={'block_type': 'go_only', 'block_number': 1, 'trials_count': 18, 'is_practice': 1, 'trials_file': 'go_only.xlsx', 'thisN': 0, 'thisTrialN': 0, 'thisRepN': 0}>
+15.5549 	EXP 	Imported /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/paradigm/psychopy/data/temp_go_only_shuffled.xlsx as conditions, 18 conditions, 3 params
+15.5551 	EXP 	New trial (rep=0, index=0): <Trial 0 (0 in rep 0) data={'digit': 2, 'trial_type': 'go', 'correct_response': 'click', 'thisN': 0, 'thisTrialN': 0, 'thisRepN': 0}>
+15.5774 	EXP 	exp_start_inst: autoDraw = False
+15.5774 	EXP 	fixation_cross_3: autoDraw = True
+15.5774 	EXP 	start_box: autoDraw = True
+15.5774 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.5774 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.5966 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.5966 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6108 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6274 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6441 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6608 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6775 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.6942 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7109 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7275 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7442 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7609 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7776 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.7943 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8110 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8276 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8443 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8610 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8777 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.8943 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9110 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9277 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9444 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9611 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9778 	EXP 	start_box: fillColor = [-1, -1, 1]
+15.9944 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0111 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0278 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0445 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0611 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0778 	EXP 	fixation_cross_3: autoDraw = False
+16.0778 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.0945 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1112 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1279 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1446 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1613 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1779 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.1946 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2113 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2279 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2446 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2613 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2780 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.2947 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3114 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3281 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3447 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3614 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3781 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.3947 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4114 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4281 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4448 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4615 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4782 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.4948 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5115 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5282 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5449 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5616 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5782 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.5949 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6116 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6283 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6450 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6617 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6783 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.6950 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7117 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7284 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7451 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7617 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7784 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.7951 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8118 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8285 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8451 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8618 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8785 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.8952 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9119 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9285 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9452 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9619 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9786 	EXP 	start_box: fillColor = [-1, -1, 1]
+16.9953 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0119 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0286 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0453 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0620 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0787 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.0954 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1120 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1287 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1454 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1621 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1787 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.1954 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2121 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2288 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2455 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2622 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2788 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.2955 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3122 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3289 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3455 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3622 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3789 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.3956 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4123 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4289 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4456 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4623 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4790 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.4957 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.5124 	EXP 	start_box: fillColor = [-1, -1, 1]
+17.7464 	DATA 	Mouse: Left button down, pos=(956,198)
+17.8794 	DATA 	Mouse:  Left button up, pos=(956,198)
+18.0295 	EXP 	start_box: fillColor = [-1, -1, -1]
+18.0295 	EXP 	fixation_cross_3: autoDraw = False
+18.0295 	EXP 	start_box: autoDraw = False
+18.0295 	EXP 	start_box_2: autoDraw = True
+18.0295 	EXP 	response_box: autoDraw = True
+18.2994 	EXP 	start_box_2: autoDraw = False
+18.2994 	EXP 	response_box: autoDraw = False
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: text = '2'
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: height = np.float64(72.0)
+18.2994 	EXP 	text_stimulus: text = 2
+18.2994 	EXP 	start_box_3: autoDraw = True
+18.2994 	EXP 	response_box_2: autoDraw = True
+18.2994 	EXP 	text_stimulus: autoDraw = True
+19.3139 	DATA 	Mouse: Left button down, pos=(1175,904)
+19.3306 	EXP 	start_box_3: autoDraw = False
+19.3306 	EXP 	response_box_2: autoDraw = False
+19.3306 	EXP 	text_stimulus: autoDraw = False
+19.3306 	EXP 	blank: autoDraw = True
+19.4307 	DATA 	Mouse:  Left button up, pos=(1175,904)
+19.9311 	EXP 	blank: autoDraw = False
+20.3161 	EXP 	New trial (rep=0, index=1): <Trial 1 (1 in rep 0) data={'digit': 6, 'trial_type': 'go', 'correct_response': 'click', 'thisN': 1, 'thisTrialN': 1, 'thisRepN': 0}>
+20.3314 	EXP 	blank: autoDraw = False
+20.3314 	EXP 	fixation_cross_3: autoDraw = True
+20.3314 	EXP 	start_box: autoDraw = True
+20.3314 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3314 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3481 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3481 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3648 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3814 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.3981 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4148 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4315 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4482 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4649 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4815 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.4982 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5149 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5316 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5483 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5649 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5816 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.5983 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6150 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6317 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6483 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6650 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6817 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.6984 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7151 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7317 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7484 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7651 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7818 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.7985 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8152 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8318 	EXP 	fixation_cross_3: autoDraw = False
+20.8318 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8485 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8652 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8819 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.8986 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9152 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9319 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9486 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9653 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9820 	EXP 	start_box: fillColor = [-1, -1, 1]
+20.9986 	EXP 	start_box: fillColor = [-1, -1, 1]
+21.0153 	EXP 	start_box: fillColor = [-1, -1, 1]
+21.2156 	DATA 	Mouse: Left button down, pos=(970,208)
+21.3156 	DATA 	Mouse:  Left button up, pos=(970,208)
+21.5324 	EXP 	start_box: fillColor = [-1, -1, -1]
+21.5324 	EXP 	fixation_cross_3: autoDraw = False
+21.5324 	EXP 	start_box: autoDraw = False
+21.5324 	EXP 	start_box_2: autoDraw = True
+21.5324 	EXP 	response_box: autoDraw = True
+21.8524 	EXP 	start_box_2: autoDraw = False
+21.8524 	EXP 	response_box: autoDraw = False
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: text = '6'
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: height = np.float64(72.0)
+21.8524 	EXP 	text_stimulus: text = 6
+21.8524 	EXP 	start_box_3: autoDraw = True
+21.8524 	EXP 	response_box_2: autoDraw = True
+21.8524 	EXP 	text_stimulus: autoDraw = True
+22.5333 	DATA 	Mouse: Left button down, pos=(1117,881)
+22.5499 	EXP 	start_box_3: autoDraw = False
+22.5499 	EXP 	response_box_2: autoDraw = False
+22.5499 	EXP 	text_stimulus: autoDraw = False
+22.5499 	EXP 	blank: autoDraw = True
+22.6500 	DATA 	Mouse:  Left button up, pos=(1121,881)
+23.1504 	EXP 	blank: autoDraw = False
+23.5360 	EXP 	New trial (rep=0, index=2): <Trial 2 (2 in rep 0) data={'digit': 3, 'trial_type': 'go', 'correct_response': 'click', 'thisN': 2, 'thisTrialN': 2, 'thisRepN': 0}>
+23.5508 	EXP 	blank: autoDraw = False
+23.5508 	EXP 	fixation_cross_3: autoDraw = True
+23.5508 	EXP 	start_box: autoDraw = True
+23.5508 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.5508 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.5675 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.5675 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.5841 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6008 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6175 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6342 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6509 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6675 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.6842 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7009 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7176 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7343 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7510 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7676 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.7843 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8010 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8177 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8344 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8510 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8677 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.8844 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9011 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9178 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9344 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9511 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9678 	EXP 	start_box: fillColor = [-1, -1, 1]
+23.9845 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0012 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0178 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0345 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0512 	EXP 	fixation_cross_3: autoDraw = False
+24.0512 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0679 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.0845 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1012 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1179 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1346 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1513 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1680 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.1846 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2013 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2180 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2347 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2514 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2681 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.2847 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3014 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3181 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3348 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3515 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3681 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.3848 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4015 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4182 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4349 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4515 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4682 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.4849 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5016 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5183 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5349 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5516 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5683 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.5850 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6017 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6183 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6350 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6517 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6684 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.6851 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7018 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7184 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7351 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7518 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7685 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.7851 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8018 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8185 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8352 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8519 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8686 	EXP 	start_box: fillColor = [-1, -1, 1]
+24.8853 	EXP 	start_box: fillColor = [-1, -1, 1]
+25.0521 	DATA 	Mouse: Left button down, pos=(981,208)
+25.2022 	DATA 	Mouse:  Left button up, pos=(981,207)
+25.4024 	EXP 	start_box: fillColor = [-1, -1, -1]
+25.4024 	EXP 	fixation_cross_3: autoDraw = False
+25.4024 	EXP 	start_box: autoDraw = False
+25.4024 	EXP 	start_box_2: autoDraw = True
+25.4024 	EXP 	response_box: autoDraw = True
+25.6723 	EXP 	start_box_2: autoDraw = False
+25.6723 	EXP 	response_box: autoDraw = False
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: text = '3'
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: height = np.float64(72.0)
+25.6723 	EXP 	text_stimulus: text = 3
+25.6723 	EXP 	start_box_3: autoDraw = True
+25.6723 	EXP 	response_box_2: autoDraw = True
+25.6723 	EXP 	text_stimulus: autoDraw = True
+26.3532 	DATA 	Mouse: Left button down, pos=(1146,913)
+26.3698 	EXP 	start_box_3: autoDraw = False
+26.3698 	EXP 	response_box_2: autoDraw = False
+26.3698 	EXP 	text_stimulus: autoDraw = False
+26.3698 	EXP 	blank: autoDraw = True
+26.4699 	DATA 	Mouse:  Left button up, pos=(1146,913)
+26.8702 	EXP 	blank: autoDraw = False
+27.3554 	EXP 	New trial (rep=0, index=3): <Trial 3 (3 in rep 0) data={'digit': 7, 'trial_type': 'go', 'correct_response': 'click', 'thisN': 3, 'thisTrialN': 3, 'thisRepN': 0}>
+27.3707 	EXP 	blank: autoDraw = False
+27.3707 	EXP 	fixation_cross_3: autoDraw = True
+27.3707 	EXP 	start_box: autoDraw = True
+27.3707 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.3707 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.3874 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.3874 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4040 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4207 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4374 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4541 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4707 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.4874 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.5041 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.5208 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.5375 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.5541 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.6542 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.6709 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.6876 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7043 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7209 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7376 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7543 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7710 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.7877 	EXP 	start_box: fillColor = [-1, -1, 1]
+27.8711 	EXP 	fixation_cross_3: autoDraw = False
+28.0546 	DATA 	Mouse: Left button down, pos=(957,192)
+28.1714 	DATA 	Mouse:  Left button up, pos=(957,192)
+28.3048 	EXP 	start_box: fillColor = [-1, -1, -1]
+28.3048 	EXP 	fixation_cross_3: autoDraw = False
+28.3048 	EXP 	start_box: autoDraw = False
+28.3048 	EXP 	start_box_2: autoDraw = True
+28.3048 	EXP 	response_box: autoDraw = True
+28.6081 	EXP 	start_box_2: autoDraw = False
+28.6081 	EXP 	response_box: autoDraw = False
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: text = '7'
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: height = np.float64(72.0)
+28.6081 	EXP 	text_stimulus: text = 7
+28.6081 	EXP 	start_box_3: autoDraw = True
+28.6081 	EXP 	response_box_2: autoDraw = True
+28.6081 	EXP 	text_stimulus: autoDraw = True
+29.3057 	DATA 	Mouse: Left button down, pos=(1160,879)
+29.3223 	EXP 	start_box_3: autoDraw = False
+29.3223 	EXP 	response_box_2: autoDraw = False
+29.3223 	EXP 	text_stimulus: autoDraw = False
+29.3223 	EXP 	blank: autoDraw = True
+29.4558 	DATA 	Mouse:  Left button up, pos=(1161,879)
+30.1230 	EXP 	blank: autoDraw = False
+30.3078 	EXP 	New trial (rep=0, index=4): <Trial 4 (4 in rep 0) data={'digit': 8, 'trial_type': 'go', 'correct_response': 'click', 'thisN': 4, 'thisTrialN': 4, 'thisRepN': 0}>
+30.3231 	EXP 	blank: autoDraw = False
+30.3231 	EXP 	fixation_cross_3: autoDraw = True
+30.3231 	EXP 	start_box: autoDraw = True
+30.3231 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3231 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3398 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3398 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3565 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3732 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.3899 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4066 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4232 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4399 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4566 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4733 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.4900 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5067 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5233 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5400 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5567 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5734 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.5900 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6067 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6234 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6401 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6568 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6734 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.6902 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7068 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7235 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7402 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7568 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7735 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.7902 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8069 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8236 	EXP 	fixation_cross_3: autoDraw = False
+30.8236 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8403 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8569 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8736 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.8903 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9070 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9237 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9403 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9570 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9737 	EXP 	start_box: fillColor = [-1, -1, 1]
+30.9904 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0071 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0237 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0404 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0571 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0738 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.0905 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1071 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1238 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1405 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1572 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1738 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.1905 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2072 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2239 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2406 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2573 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2740 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.2906 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3073 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3240 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3407 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3574 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3740 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3907 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.3908 	DATA 	Keypress: escape
+31.3911 	EXP 	Device response: <KeyPress from None: t=31.387105464935303, value=escape, duration=None>
+31.4074 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.4241 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.4408 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.4575 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.4741 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.4908 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.5075 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.5241 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.5408 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.5411 	EXP 	Device response: <KeyPress from None: t=31.387105464935303, value=escape, duration=0.14363598823547363>
+31.5411 	EXP 	go_nogo_dm: status = STOPPED
+31.5575 	EXP 	start_box: fillColor = [-1, -1, 1]
+31.5575 	EXP 	start_box: autoDraw = False
+31.5576 	EXP 	go_nogo_dm: status = STOPPED
+31.5768 	INFO 	saved data to '/media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/paradigm/psychopy/data/171100_go_nogo_dm_2026-09-28_10h17.53.830.csv'
+31.5889 	INFO 	saved data to /media/Data03/Studies/Research_BEEHub/Git_repository/BEEHub/Projects/MT/paradigm/psychopy/data/171100_go_nogo_dm_2026-09-28_10h17.53.830.psydat

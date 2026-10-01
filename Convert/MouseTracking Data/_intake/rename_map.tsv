@@ -1,0 +1,72 @@
+source	target	action	note
+Convert/MouseTracking Data/Mahesan et al. 2026 - bioRxiv.pdf	Projects/MT/literature/Mahesan_2026_mousetracking_gonogo.pdf	copy	paper, renamed per layout
+Convert/MouseTracking Data/README_MT.md	Projects/MT/literature/README_MT.md	copy	author README
+Convert/MouseTracking Data/1. compute_stopping.R	Projects/MT/code/1. compute_stopping.R	copy	analysis script
+Convert/MouseTracking Data/2. ER_RT.R	Projects/MT/code/2. ER_RT.R	copy	analysis script
+Convert/MouseTracking Data/3. Kinematics.R	Projects/MT/code/3. Kinematics.R	copy	analysis script
+Convert/MouseTracking Data/go_nogo_compiledData.csv	Projects/MT/code/go_nogo_compiledData.csv	copy	lossy reference compilation (A5/Q4); raw CSVs are column authority
+Convert/MouseTracking Data/Program_final_german/go_nogo_dm.py	Projects/MT/paradigm/psychopy/go_nogo_dm.py	copy	 PsychoPy experiment script (primary paradigm)
+Convert/MouseTracking Data/Program_final_german/hover_up_click_007b_review.psyexp	Projects/MT/paradigm/psychopy/hover_up_click_007b_review.psyexp	copy	PsychoPy experiment; references Slide7.PNG, Slide8.PNG, xlsx by exact name
+Convert/MouseTracking Data/Program_final_german/hover_up_click_007b_review_lastrun.py	Projects/MT/paradigm/psychopy/hover_up_click_007b_review_lastrun.py	copy	PsychoPy last-run script
+Convert/MouseTracking Data/Program_final_german/block_sequence.xlsx	Projects/MT/paradigm/psychopy/block_sequence.xlsx	copy	condition file: 16-block sequence (13 main + 2 practice)
+Convert/MouseTracking Data/Program_final_german/go_nogo_prac.xlsx	Projects/MT/paradigm/psychopy/go_nogo_prac.xlsx	copy	condition file
+Convert/MouseTracking Data/Program_final_german/go_nogo.xlsx	Projects/MT/paradigm/psychopy/go_nogo.xlsx	copy	condition file
+Convert/MouseTracking Data/Program_final_german/go_only.xlsx	Projects/MT/paradigm/psychopy/go_only.xlsx	copy	condition file
+Convert/MouseTracking Data/Program_final_german/gopractice.xlsx	Projects/MT/paradigm/psychopy/gopractice.xlsx	copy	condition file (dead: not referenced by code, anomaly #1)
+Convert/MouseTracking Data/Program_final_german/Slide7.PNG	Projects/MT/paradigm/psychopy/Slide7.PNG	copy	instruction image referenced by .psyexp
+Convert/MouseTracking Data/Program_final_german/Slide8.PNG	Projects/MT/paradigm/psychopy/Slide8.PNG	copy	instruction image referenced by .psyexp
+Convert/MouseTracking Data/Program_final_german/Instructions (1).pptx	Projects/MT/literature/instructions_de.pptx	copy	instruction deck (A6); renamed per notes: drop space and parentheses
+Convert/MouseTracking Data/Raw Data	Projects/MT/sourcedata/raw	copytree	50 original raw CSVs, original names preserved
+Convert/MouseTracking Data/Raw Data/10a_go_nogo_dm_2025-05-05_10h59.26.576.csv	Projects/MT/bids_data/sub-010/ses-01/beh/sub-010_ses-01_task-gonogo_beh.tsv	csv2tsv	10a_go_nogo_dm_2025-05-05_10h59.26.576.csv (010 -> ses-01)
+Convert/MouseTracking Data/Raw Data/10b_go_nogo_dm_2025-05-14_14h28.49.892.csv	Projects/MT/bids_data/sub-010/ses-02/beh/sub-010_ses-02_task-gonogo_beh.tsv	csv2tsv	10b_go_nogo_dm_2025-05-14_14h28.49.892.csv (010 -> ses-02)
+Convert/MouseTracking Data/Raw Data/11a_go_nogo_dm_2025-05-05_15h04.22.916.csv	Projects/MT/bids_data/sub-011/ses-01/beh/sub-011_ses-01_task-gonogo_beh.tsv	csv2tsv	11a_go_nogo_dm_2025-05-05_15h04.22.916.csv (011 -> ses-01)
+Convert/MouseTracking Data/Raw Data/11b_go_nogo_dm_2025-05-12_10h30.42.666.csv	Projects/MT/bids_data/sub-011/ses-02/beh/sub-011_ses-02_task-gonogo_beh.tsv	csv2tsv	11b_go_nogo_dm_2025-05-12_10h30.42.666.csv (011 -> ses-02)
+Convert/MouseTracking Data/Raw Data/12a_go_nogo_dm_2025-05-05_17h07.14.960.csv	Projects/MT/bids_data/sub-012/ses-01/beh/sub-012_ses-01_task-gonogo_beh.tsv	csv2tsv	12a_go_nogo_dm_2025-05-05_17h07.14.960.csv (012 -> ses-01)
+Convert/MouseTracking Data/Raw Data/12b_go_nogo_dm_2025-05-14_16h31.40.550.csv	Projects/MT/bids_data/sub-012/ses-02/beh/sub-012_ses-02_task-gonogo_beh.tsv	csv2tsv	12b_go_nogo_dm_2025-05-14_16h31.40.550.csv (012 -> ses-02)
+Convert/MouseTracking Data/Raw Data/13a_go_nogo_dm_2025-05-07_10h11.53.760.csv	Projects/MT/bids_data/sub-013/ses-01/beh/sub-013_ses-01_task-gonogo_beh.tsv	csv2tsv	13a_go_nogo_dm_2025-05-07_10h11.53.760.csv (013 -> ses-01)
+Convert/MouseTracking Data/Raw Data/13b_go_nogo_dm_2025-05-15_10h02.31.661.csv	Projects/MT/bids_data/sub-013/ses-02/beh/sub-013_ses-02_task-gonogo_beh.tsv	csv2tsv	13b_go_nogo_dm_2025-05-15_10h02.31.661.csv (013 -> ses-02)
+Convert/MouseTracking Data/Raw Data/14a_go_nogo_dm_2025-05-08_10h08.04.029.csv	Projects/MT/bids_data/sub-014/ses-01/beh/sub-014_ses-01_task-gonogo_beh.tsv	csv2tsv	14a_go_nogo_dm_2025-05-08_10h08.04.029.csv (014 -> ses-01)
+Convert/MouseTracking Data/Raw Data/14b_go_nogo_dm_2025-05-19_13h54.00.209.csv	Projects/MT/bids_data/sub-014/ses-02/beh/sub-014_ses-02_task-gonogo_beh.tsv	csv2tsv	14b_go_nogo_dm_2025-05-19_13h54.00.209.csv (014 -> ses-02)
+Convert/MouseTracking Data/Raw Data/15a_go_nogo_dm_2025-05-08_13h16.07.660.csv	Projects/MT/bids_data/sub-015/ses-01/beh/sub-015_ses-01_task-gonogo_beh.tsv	csv2tsv	15a_go_nogo_dm_2025-05-08_13h16.07.660.csv (015 -> ses-01)
+Convert/MouseTracking Data/Raw Data/15b_go_nogo_dm_2025-05-15_11h06.58.416.csv	Projects/MT/bids_data/sub-015/ses-02/beh/sub-015_ses-02_task-gonogo_beh.tsv	csv2tsv	15b_go_nogo_dm_2025-05-15_11h06.58.416.csv (015 -> ses-02)
+Convert/MouseTracking Data/Raw Data/16a_go_nogo_dm_2025-05-08_14h09.10.963.csv	Projects/MT/bids_data/sub-016/ses-01/beh/sub-016_ses-01_task-gonogo_beh.tsv	csv2tsv	16a_go_nogo_dm_2025-05-08_14h09.10.963.csv (016 -> ses-01)
+Convert/MouseTracking Data/Raw Data/16b_go_nogo_dm_2025-05-15_13h58.28.050.csv	Projects/MT/bids_data/sub-016/ses-02/beh/sub-016_ses-02_task-gonogo_beh.tsv	csv2tsv	16b_go_nogo_dm_2025-05-15_13h58.28.050.csv (016 -> ses-02)
+Convert/MouseTracking Data/Raw Data/17a_go_nogo_dm_2025-05-08_16h06.48.747.csv	Projects/MT/bids_data/sub-017/ses-01/beh/sub-017_ses-01_task-gonogo_beh.tsv	csv2tsv	17a_go_nogo_dm_2025-05-08_16h06.48.747.csv (017 -> ses-01)
+Convert/MouseTracking Data/Raw Data/17b_go_nogo_dm_2025-05-15_14h55.23.958.csv	Projects/MT/bids_data/sub-017/ses-02/beh/sub-017_ses-02_task-gonogo_beh.tsv	csv2tsv	17b_go_nogo_dm_2025-05-15_14h55.23.958.csv (017 -> ses-02)
+Convert/MouseTracking Data/Raw Data/18a_go_nogo_dm_2025-05-09_12h10.29.775.csv	Projects/MT/bids_data/sub-018/ses-01/beh/sub-018_ses-01_task-gonogo_beh.tsv	csv2tsv	18a_go_nogo_dm_2025-05-09_12h10.29.775.csv (018 -> ses-01)
+Convert/MouseTracking Data/Raw Data/18b_go_nogo_dm_2025-05-23_09h09.59.955.csv	Projects/MT/bids_data/sub-018/ses-02/beh/sub-018_ses-02_task-gonogo_beh.tsv	csv2tsv	18b_go_nogo_dm_2025-05-23_09h09.59.955.csv (018 -> ses-02)
+Convert/MouseTracking Data/Raw Data/19a_go_nogo_dm_2025-05-09_12h57.02.829.csv	Projects/MT/bids_data/sub-019/ses-01/beh/sub-019_ses-01_task-gonogo_beh.tsv	csv2tsv	19a_go_nogo_dm_2025-05-09_12h57.02.829.csv (019 -> ses-01)
+Convert/MouseTracking Data/Raw Data/19b_go_nogo_dm_2025-05-23_12h05.02.071.csv	Projects/MT/bids_data/sub-019/ses-02/beh/sub-019_ses-02_task-gonogo_beh.tsv	csv2tsv	19b_go_nogo_dm_2025-05-23_12h05.02.071.csv (019 -> ses-02)
+Convert/MouseTracking Data/Raw Data/1a_go_nogo_dm_2025-04-30_11h24.50.998.csv	Projects/MT/bids_data/sub-001/ses-01/beh/sub-001_ses-01_task-gonogo_beh.tsv	csv2tsv	1a_go_nogo_dm_2025-04-30_11h24.50.998.csv (001 -> ses-01)
+Convert/MouseTracking Data/Raw Data/1b_go_nogo_dm_2025-05-16_15h08.06.371.csv	Projects/MT/bids_data/sub-001/ses-02/beh/sub-001_ses-02_task-gonogo_beh.tsv	csv2tsv	1b_go_nogo_dm_2025-05-16_15h08.06.371.csv (001 -> ses-02)
+Convert/MouseTracking Data/Raw Data/20a_go_nogo_dm_2025-05-12_15h08.15.944.csv	Projects/MT/bids_data/sub-020/ses-01/beh/sub-020_ses-01_task-gonogo_beh.tsv	csv2tsv	20a_go_nogo_dm_2025-05-12_15h08.15.944.csv (020 -> ses-01)
+Convert/MouseTracking Data/Raw Data/20b_go_nogo_dm_2025-05-22_15h07.32.101.csv	Projects/MT/bids_data/sub-020/ses-02/beh/sub-020_ses-02_task-gonogo_beh.tsv	csv2tsv	20b_go_nogo_dm_2025-05-22_15h07.32.101.csv (020 -> ses-02)
+Convert/MouseTracking Data/Raw Data/21a_go_nogo_dm_2025-05-12_17h04.56.114.csv	Projects/MT/bids_data/sub-021/ses-01/beh/sub-021_ses-01_task-gonogo_beh.tsv	csv2tsv	21a_go_nogo_dm_2025-05-12_17h04.56.114.csv (021 -> ses-01)
+Convert/MouseTracking Data/Raw Data/21b_go_nogo_dm_2025-05-19_11h58.27.098.csv	Projects/MT/bids_data/sub-021/ses-02/beh/sub-021_ses-02_task-gonogo_beh.tsv	csv2tsv	21b_go_nogo_dm_2025-05-19_11h58.27.098.csv (021 -> ses-02)
+Convert/MouseTracking Data/Raw Data/22a_go_nogo_dm_2025-05-14_10h59.12.016.csv	Projects/MT/bids_data/sub-022/ses-01/beh/sub-022_ses-01_task-gonogo_beh.tsv	csv2tsv	22a_go_nogo_dm_2025-05-14_10h59.12.016.csv (022 -> ses-01)
+Convert/MouseTracking Data/Raw Data/22b_go_nogo_dm_2025-05-26_09h00.31.758.csv	Projects/MT/bids_data/sub-022/ses-02/beh/sub-022_ses-02_task-gonogo_beh.tsv	csv2tsv	22b_go_nogo_dm_2025-05-26_09h00.31.758.csv (022 -> ses-02)
+Convert/MouseTracking Data/Raw Data/23a_go_nogo_dm_2025-05-14_15h42.16.532.csv	Projects/MT/bids_data/sub-023/ses-01/beh/sub-023_ses-01_task-gonogo_beh.tsv	csv2tsv	23a_go_nogo_dm_2025-05-14_15h42.16.532.csv (023 -> ses-01)
+Convert/MouseTracking Data/Raw Data/23b_go_nogo_dm_2025-05-22_16h12.08.418.csv	Projects/MT/bids_data/sub-023/ses-02/beh/sub-023_ses-02_task-gonogo_beh.tsv	csv2tsv	23b_go_nogo_dm_2025-05-22_16h12.08.418.csv (023 -> ses-02)
+Convert/MouseTracking Data/Raw Data/24a_go_nogo_dm_2025-05-15_12h15.07.497.csv	Projects/MT/bids_data/sub-024/ses-01/beh/sub-024_ses-01_task-gonogo_beh.tsv	csv2tsv	24a_go_nogo_dm_2025-05-15_12h15.07.497.csv (024 -> ses-01)
+Convert/MouseTracking Data/Raw Data/24b_go_nogo_dm_2025-05-22_12h03.17.178.csv	Projects/MT/bids_data/sub-024/ses-02/beh/sub-024_ses-02_task-gonogo_beh.tsv	csv2tsv	24b_go_nogo_dm_2025-05-22_12h03.17.178.csv (024 -> ses-02)
+Convert/MouseTracking Data/Raw Data/25a_go_nogo_dm_2025-05-16_09h04.08.233.csv	Projects/MT/bids_data/sub-025/ses-01/beh/sub-025_ses-01_task-gonogo_beh.tsv	csv2tsv	25a_go_nogo_dm_2025-05-16_09h04.08.233.csv (025 -> ses-01)
+Convert/MouseTracking Data/Raw Data/25b_go_nogo_dm_2025-05-26_11h48.41.612.csv	Projects/MT/bids_data/sub-025/ses-02/beh/sub-025_ses-02_task-gonogo_beh.tsv	csv2tsv	25b_go_nogo_dm_2025-05-26_11h48.41.612.csv (025 -> ses-02)
+Convert/MouseTracking Data/Raw Data/26a_go_nogo_dm_2025-05-16_12h06.49.709.csv	Projects/MT/bids_data/sub-026/ses-01/beh/sub-026_ses-01_task-gonogo_beh.tsv	csv2tsv	26a_go_nogo_dm_2025-05-16_12h06.49.709.csv (026 -> ses-01)
+Convert/MouseTracking Data/Raw Data/26b_go_nogo_dm_2025-05-26_13h01.21.617.csv	Projects/MT/bids_data/sub-026/ses-02/beh/sub-026_ses-02_task-gonogo_beh.tsv	csv2tsv	26b_go_nogo_dm_2025-05-26_13h01.21.617.csv (026 -> ses-02)
+Convert/MouseTracking Data/Raw Data/2a_go_nogo_dm_2025-04-30_13h08.21.622.csv	Projects/MT/bids_data/sub-002/ses-01/beh/sub-002_ses-01_task-gonogo_beh.tsv	csv2tsv	2a_go_nogo_dm_2025-04-30_13h08.21.622.csv (002 -> ses-01)
+Convert/MouseTracking Data/Raw Data/3a_go_nogo_dm_2025-04-30_15h10.07.957.csv	Projects/MT/bids_data/sub-003/ses-01/beh/sub-003_ses-01_task-gonogo_beh.tsv	csv2tsv	3a_go_nogo_dm_2025-04-30_15h10.07.957.csv (003 -> ses-01)
+Convert/MouseTracking Data/Raw Data/3b_go_nogo_dm_2025-05-09_10h08.35.144.csv	Projects/MT/bids_data/sub-003/ses-02/beh/sub-003_ses-02_task-gonogo_beh.tsv	csv2tsv	3b_go_nogo_dm_2025-05-09_10h08.35.144.csv (003 -> ses-02)
+Convert/MouseTracking Data/Raw Data/4a_go_nogo_dm_2025-04-30_17h14.47.665.csv	Projects/MT/bids_data/sub-004/ses-01/beh/sub-004_ses-01_task-gonogo_beh.tsv	csv2tsv	4a_go_nogo_dm_2025-04-30_17h14.47.665.csv (004 -> ses-01)
+Convert/MouseTracking Data/Raw Data/5a_go_nogo_dm_2025-05-02_11h11.19.108.csv	Projects/MT/bids_data/sub-005/ses-01/beh/sub-005_ses-01_task-gonogo_beh.tsv	csv2tsv	5a_go_nogo_dm_2025-05-02_11h11.19.108.csv (005 -> ses-01)
+Convert/MouseTracking Data/Raw Data/5b_go_nogo_dm_2025-05-14_09h03.55.358.csv	Projects/MT/bids_data/sub-005/ses-02/beh/sub-005_ses-02_task-gonogo_beh.tsv	csv2tsv	5b_go_nogo_dm_2025-05-14_09h03.55.358.csv (005 -> ses-02)
+Convert/MouseTracking Data/Raw Data/6a_go_nogo_dm_2025-05-02_13h09.41.284.csv	Projects/MT/bids_data/sub-006/ses-01/beh/sub-006_ses-01_task-gonogo_beh.tsv	csv2tsv	6a_go_nogo_dm_2025-05-02_13h09.41.284.csv (006 -> ses-01)
+Convert/MouseTracking Data/Raw Data/6b_go_nogo_dm_2025-05-12_13h54.04.138.csv	Projects/MT/bids_data/sub-006/ses-02/beh/sub-006_ses-02_task-gonogo_beh.tsv	csv2tsv	6b_go_nogo_dm_2025-05-12_13h54.04.138.csv (006 -> ses-02)
+Convert/MouseTracking Data/Raw Data/7a_go_nogo_dm_2025-05-02_15h05.52.221.csv	Projects/MT/bids_data/sub-007/ses-01/beh/sub-007_ses-01_task-gonogo_beh.tsv	csv2tsv	7a_go_nogo_dm_2025-05-02_15h05.52.221.csv (007 -> ses-01)
+Convert/MouseTracking Data/Raw Data/7b_go_nogo_dm_2025-05-12_11h50.21.922.csv	Projects/MT/bids_data/sub-007/ses-02/beh/sub-007_ses-02_task-gonogo_beh.tsv	csv2tsv	7b_go_nogo_dm_2025-05-12_11h50.21.922.csv (007 -> ses-02)
+Convert/MouseTracking Data/Raw Data/8a_go_nogo_dm_2025-05-02_17h09.16.491.csv	Projects/MT/bids_data/sub-008/ses-01/beh/sub-008_ses-01_task-gonogo_beh.tsv	csv2tsv	8a_go_nogo_dm_2025-05-02_17h09.16.491.csv (008 -> ses-01)
+Convert/MouseTracking Data/Raw Data/8b_go_nogo_dm_2025-05-09_11h08.07.388.csv	Projects/MT/bids_data/sub-008/ses-02/beh/sub-008_ses-02_task-gonogo_beh.tsv	csv2tsv	8b_go_nogo_dm_2025-05-09_11h08.07.388.csv (008 -> ses-02)
+Convert/MouseTracking Data/Raw Data/9a_go_nogo_dm_2025-05-05_09h04.40.012.csv	Projects/MT/bids_data/sub-009/ses-01/beh/sub-009_ses-01_task-gonogo_beh.tsv	csv2tsv	9a_go_nogo_dm_2025-05-05_09h04.40.012.csv (009 -> ses-01)
+Convert/MouseTracking Data/Raw Data/9b_go_nogo_dm_2025-05-15_15h55.25.144.csv	Projects/MT/bids_data/sub-009/ses-02/beh/sub-009_ses-02_task-gonogo_beh.tsv	csv2tsv	9b_go_nogo_dm_2025-05-15_15h55.25.144.csv (009 -> ses-02)
+Convert/MouseTracking Data/_intake/INTAKE_PLAN.md	Projects/MT/agent_out/01_intake_plan.md	copy	intake plan
+Convert/MouseTracking Data/_intake/code_check.md	Projects/MT/agent_out/01_code_check.md	copy	intake code check
+Convert/MouseTracking Data/Program_final_german/readme.md		skip	empty file, 0 bytes (anomaly #2)

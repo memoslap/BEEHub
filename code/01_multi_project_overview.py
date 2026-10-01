@@ -279,6 +279,11 @@ class ProjectOverviewGenerator:
             df = pd.read_csv(filepath, sep='\t')
             df['subject_id'] = file_info.get('sub', 'unknown')
             df['session']    = file_info.get('ses', 'unknown')
+            # Block/ITI metadata rows have no trial_type (and none of the
+            # outcome columns). Keep only actual trial rows so downstream
+            # trial-type splitting never sees a NaN.
+            if 'trial_type' in df.columns:
+                df = df[df['trial_type'].notna()]
             return df
         except Exception:
             return pd.DataFrame()
@@ -1437,11 +1442,25 @@ class ProjectOverviewGenerator:
                 icc_aclo  = metrics.get(f'{om_id}_icc_agreement_ci_low')
                 icc_achi  = metrics.get(f'{om_id}_icc_agreement_ci_high')
 
+                def _is_num(v):
+                    # A usable CI/point bound: not None and not NaN (float('nan') passes `is not None`)
+                    if v is None:
+                        return False
+                    try:
+                        return not np.isnan(v)
+                    except (TypeError, ValueError):
+                        return True
+
                 def _fmt_icc(point, lo, hi):
                     if point is None:
                         return None
+                    try:
+                        if np.isnan(point):
+                            return None
+                    except (TypeError, ValueError):
+                        pass
                     s = f'{point:.2f}'
-                    if lo is not None and hi is not None:
+                    if _is_num(lo) and _is_num(hi):
                         s += f' [{lo:.2f}, {hi:.2f}]'
                     return s
 

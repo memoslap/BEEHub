@@ -1,221 +1,159 @@
 {
   "full_name": "Mouse Tracking Go/No-Go Study",
-  "short_description": "A mouse-tracking go/no-go paradigm with a dynamic start that captures response inhibition during ongoing movement execution, evaluated for test-retest reliability of behavioral and kinematic stopping measures across two sessions.",
-  "long_description": "The Mouse Tracking Go/No-Go Study develops and evaluates a continuous-response go/no-go paradigm designed to capture inhibitory control during ongoing motor execution. Participants performed a mouse-tracking task where a stimulus digit appeared in a response box only after the cursor crossed a movement-contingent threshold above a start box, ensuring that inhibitory processes are engaged during active movement rather than before movement initiation. On go trials (digits 2, 3, 4, 6, 7, 8), participants responded by clicking within the response box within a 1500 ms deadline. On no-go trials (digits 1, 9), participants were required to inhibit the ongoing movement and withhold any click. Successful stopping on no-go trials was operationalized using a velocity-threshold method (speed dropping below 10 px/s for 150 ms, with a sustained stopping verification). The study employed a 2 (session) × 2 (trial type: go, no-go) repeated-measures within-subjects design. Twenty-six participants completed the task in two sessions separated by approximately one week; two participants were absent from session 2 and were excluded from reliability analyses. Across all measures, robust differences between go and no-go trials were found, supporting construct validity. All behavioral and kinematic measures demonstrated moderate-to-good test-retest reliability (ICCs ranging from .59 to .85), establishing the paradigm's suitability for cross-sectional and longitudinal research targeting inhibitory control.",
-  "procedure": "Each session began with two practice blocks (18 trials each: block 1 go-only, block 2 MIXED go/no-go — 14 go / 4 no-go, driven by go_nogo_prac.xlsx; the preprint §2.3 describes block 2 as no-go-only, which the data contradicts in all 50 sessions). The main experiment consisted of 15 blocks arranged as repeated sequences of three blocks: one go-only block (18 trials) followed by two mixed go/no-go blocks (60 trials each; 80% go, 20% no-go), repeated four times, plus a final go-only block for symmetrical design (5 go-only + 8 mixed blocks). Each trial started with a 500 ms fixation cross, then a blue start box appeared at screen bottom center. Participants positioned and held the cursor in the start box for 500 ms (mouse movement initiation requirement). The box turned black, the response box appeared in the upper-right quadrant, and the stimulus digit appeared only after the cursor crossed a vertical threshold 100 pixels above the start position. On go trials, participants clicked in the response box within 1500 ms. On no-go trials, participants withheld response. A variable ITI (0.5–1.0 s) followed, during which the cursor was not visible.",
-  "trial_structure": "Trial onset: 500 ms fixation → start box (blue) → participant holds cursor for 500 ms → start box turns black → response box appears → stimulus appears after cursor crosses threshold → go: click within response box within 1500 ms deadline; no-go: withhold click → ITI (0.5–1.0 s, cursor hidden). Digits 1 and 9 = no-go (6 presentations each per mixed block); digits 2, 3, 4, 6, 7, 8 = go (8 each per mixed block). Trial order within mixed blocks pseudorandomized with constraints on go/no-go transitions.",
-  "design": "Within-subjects, repeated-measures. Two sessions per participant separated by approximately one week (test-retest design). Two trial types (go, no-go) within each block. Mixed blocks: 80% go, 20% no-go. Five go-only blocks and eight mixed blocks per session.",
+  "short_description": "A two-session (test-retest) mouse-tracking go/no-go paradigm measuring continuous cursor-control dynamics and stopping behaviour in 26 healthy adults.",
+  "long_description": "Participants completed a go/no-go task in which a cursor was moved toward one of two target boxes using the mouse. On go trials they moved the cursor into the target box as fast and accurately as possible; on no-go trials they had to stop the ongoing movement. The raw per-trial mouse-trajectory samples were scored with the delivered R script, which detects target-box entry and no-go stopping to produce per-trial reaction time, stopping time, accuracy, path length, velocity and acceleration. The study was run twice per participant (test-retest) to support inter-session reliability (ICC) estimates. The paper (Mahesan et al., 2026, bioRxiv) reports the behavioural and kinematic results.",
+  "background": "The study uses mouse tracking to measure continuous control and inhibitory behaviour in a go/no-go task, in line with the paper's aim of characterising stopping dynamics and their reliability across repeated testing. The paper (Mahesan et al., 2026, bioRxiv) describes the task, participants and analysis; the present description records the restructured BEEHub data, the scored derivation and the PI-declared outcomes.",
+  "procedure": "Participants performed a go/no-go mouse-tracking task in two sessions (test-retest). Each session comprised 15 blocks: two practice blocks (go-only, then go/nogo practice, 18 trials each) followed by 13 experimental blocks (five go-only and eight go/nogo blocks). On each trial a stimulus appeared and, on go trials, the participant moved the mouse cursor into the target box; on no-go trials the participant stopped the movement. Inter-trial intervals were randomised between 0.5 and 1.0 s. Raw per-trial mouse samples were scored offline (target-box entry and no-go stopping detection) to produce per-trial outcome columns.",
+  "trial_structure": "611 trials per session (measured, identical across all complete participants), broken down as 506 go, 100 no-go and 5 'n/a' (practice/blank) rows. Blocks per session: 15 total, of which 2 are practice (block 1 go-only, block 2 go/nogo practice, 18 trials each) and 13 experimental (5 go-only blocks of 18 trials, 8 go/nogo blocks of 60 trials). The 506 go rows comprise 90 from go-only blocks plus 480 from go/nogo blocks; the 100 no-go rows plus 5 practice 'n/a' rows account for the remainder. The measured 611 rows match the design derived from block_sequence.xlsx exactly.",
+  "design": "Two-session test-retest within-participants design. 26 participants; sessions a and b map to ses-01 and ses-02 (a precedes b by acquisition date). 24 participants have both sessions; participants 2 and 4 have ses-01 only, giving 50 data files. Outcome columns were derived per trial from raw mouse-trajectory samples; inter-session reliability was to be assessed with ICC on the declared outcome measures.",
   "modality": "visual",
   "cognitive_domain": "cognitive control",
   "task_type": "go / no-go",
   "language": "german",
   "experimental_context": "behavioral",
   "software_original": "PsychoPy",
-  "language_original": "german",
+  "language_original": "python",
   "implementations": [
     {
       "software": "PsychoPy",
-      "type": "original",
-      "languages_available": [
-        "german"
-      ],
-      "folder": "paradigm/psychopy/MT_paradigm",
-      "note": "Builder-generated experiment (go_nogo_dm.py) plus its condition tables, stimulus images and German instruction deck. The .psyexp / _lastrun.py pair must stay together."
-    },
-    {
-      "software": "PsychoPy",
-      "type": "compatible",
-      "languages_available": [
-        "german"
-      ],
-      "folder": "paradigm/psychopy/MT_paradigm_short",
-      "note": "Hand-written single-file re-implementation (MT_paradigm_short.py) plus a browser demo (MT_demo.html). Same geometry, timings and scoring rules as go_nogo_dm.py, verified line by line; it is a shorter SCRIPT, not a shortened paradigm."
+      "language": "python",
+      "version": "2024.2.4",
+      "path": "paradigm/psychopy/go_nogo_dm.py"
     }
   ],
   "keywords": [
-    "response inhibition",
     "mouse tracking",
     "go/no-go",
+    "inhibition",
+    "reaction time",
+    "stopping time",
     "kinematics",
-    "test-retest reliability",
-    "cognitive control",
-    "motor execution",
-    "stopping"
+    "reliability",
+    "test-retest",
+    "inter-class correlation"
   ],
-  "response_device": "standard USB optical mouse",
+  "response_device": "mouse",
   "timing": {
-    "fixation_duration_s": 0.5,
-    "start_hold_duration_s": 0.5,
-    "max_response_time_s": 1.5,
-    "iti_duration_s": [
+    "n_trials_per_session": 611,
+    "n_blocks_per_session": 15,
+    "n_go_trials_per_session": 506,
+    "n_nogo_trials_per_session": 100,
+    "iti_s": [
       0.5,
-      0.6,
-      0.7,
-      0.8,
-      0.9,
       1.0
     ],
-    "n_blocks_per_session": 15,
-    "n_go_only_blocks": 5,
-    "n_mixed_blocks": 8,
-    "trials_per_go_block": 18,
-    "trials_per_mixed_block": 60,
-    "go_trials_per_mixed_block": 48,
-    "nogo_trials_per_mixed_block": 12,
-    "nogo_digit_set": [
-      1,
-      9
-    ],
-    "go_digit_set": [
-      2,
-      3,
-      4,
-      6,
-      7,
-      8
-    ],
-    "response_deadline_s": 1.5,
-    "practice_blocks": 2,
-    "practice_trials_per_block": 18,
-    "iti_duration_note": "Six discrete steps drawn with random.choice (go_nogo_dm.py 513, 2437), not a continuous range."
+    "frame_rate_hz": 60
   },
   "outcome_measures": [
-    {
+      {
       "id": "ACCBIN",
-      "role": "primary",
-      "suffix": "_ACCBIN_beh.tsv",
-      "column": "accuracy_binary",
+      "suffix": "desc-scored_beh.tsv",
+      "column": "accuracy",
       "label": "Accuracy",
-      "axis_label": "Accuracy (%)",
+      "axis_label": "Accuracy (correct = 1)",
       "higher_is_better": true,
       "is_binary": true,
       "requires_correct_filter": false,
       "is_helper": false,
-      "is_global": false,
-      "display_priority": 1,
-      "description": "Go: first left click inside the response box, exactly one click, no other button. No-go: a validated stop with no button press."
+      "display_priority": 2,
+      "role": "undecided"
     },
     {
       "id": "RT",
-      "role": "secondary",
-      "suffix": "_RT_beh.tsv",
-      "column": "response_time_ms",
-      "label": "Reaction Time",
-      "axis_label": "RT (ms)",
+      "suffix": "desc-scored_beh.tsv",
+      "column": "rt_combined",
+      "label": "Go RT",
+      "axis_label": "Reaction time (s)",
       "higher_is_better": false,
       "is_binary": false,
       "requires_correct_filter": false,
       "is_helper": false,
-      "is_global": false,
-      "display_priority": 2,
-      "description": "Go: latency from stimulus onset to the correct click. No-go: stopping latency (inhibition latency), 0 where no movement was initiated."
+      "display_priority": 1,
+      "role": "undecided"
     },
     {
-      "id": "PATHLEN",
-      "suffix": "_PATHLEN_beh.tsv",
-      "column": "path_length",
-      "label": "Path Length",
-      "axis_label": "Path length (px)",
+      "id": "NOGO_STOP_TIME",
+      "suffix": "desc-scored_beh.tsv",
+      "column": "nogo_stop_time",
+      "label": "Stop time",
+      "axis_label": "Stopping time (s)",
       "higher_is_better": false,
       "is_binary": false,
       "requires_correct_filter": false,
       "is_helper": false,
-      "is_global": false,
       "display_priority": 3,
-      "description": "Total cursor distance travelled over the trial epoch."
+      "is_global": false,
+      "role": "primary"
     },
     {
-      "id": "VELOCITY",
-      "suffix": "_VELOCITY_beh.tsv",
-      "column": "mean_velocity",
-      "label": "Mean Velocity",
+      "id": "AVG_VELOCITY",
+      "suffix": "desc-scored_beh.tsv",
+      "column": "avg_velocity",
+      "label": "Mean velocity",
       "axis_label": "Mean velocity (px/s)",
       "higher_is_better": false,
       "is_binary": false,
       "requires_correct_filter": false,
       "is_helper": false,
-      "is_global": false,
       "display_priority": 4,
-      "description": "Path length divided by movement duration."
+      "is_global": false,
+      "role": "secondary"
     },
     {
-      "id": "ACCEL",
-      "suffix": "_ACCEL_beh.tsv",
-      "column": "mean_acceleration",
-      "label": "Mean Acceleration",
-      "axis_label": "Mean acceleration (px/s²)",
+      "id": "PATH_LENGTH",
+      "suffix": "desc-scored_beh.tsv",
+      "column": "path_length",
+      "label": "Path length",
+      "axis_label": "Path length (px)",
       "higher_is_better": false,
       "is_binary": false,
       "requires_correct_filter": false,
       "is_helper": false,
-      "is_global": false,
       "display_priority": 5,
-      "description": "Time-weighted mean absolute acceleration."
+      "is_global": false,
+      "role": "undecided"
     }
   ],
   "n_sessions": 2,
   "software": "PsychoPy",
-  "derivation": {
-    "required": true,
-    "script": "code/convert_MT.py",
-    "language": "Python",
-    "original_script": "code/1__compute_stopping.R, code/3__Kinematics.R",
-    "input": "sourcedata/raw/*.csv",
-    "output": [
-      "bids_data/sub-*/ses-*/beh/*_task-gonogo_beh.tsv",
-      "derivatives/stopping/sub-*/ses-*/beh/*_desc-stopping_beh.tsv",
-      "derivatives/kinematics/sub-*/ses-*/beh/*_desc-kinematics_beh.tsv",
-      "bids_data/sub-*/ses-*/beh/*_run-01_{ACCBIN,RT,PATHLEN,VELOCITY,ACCEL}_beh.tsv"
-    ],
-    "output_grain": "one row per trial",
-    "description": "Stage 1 projects the raw PsychoPy export onto the analysis column set and drops the four leading and one trailing non-trial rows. Stage 2 ports 1__compute_stopping.R: parses trajectory arrays, extracts left-button clicks inside the target box, detects no-go stopping by velocity threshold with sustained-stillness verification, scores accuracy and combined RT. Stage 3 ports 3__Kinematics.R: path length, mean velocity, mean acceleration over the trial epoch, time-weighted. Stage 4 emits per-outcome files restricted to the analysed subset.",
-    "analysed_subset": "block_type == 'go_nogo' — the eight mixed blocks of 60 trials, 480 per session. Practice and go-only blocks stay in bids_data but are excluded from the outcome files, matching go_nogo_compiledData.csv (23,040 rows = 48 sessions x 480).",
-    "parameters": {
-      "target_box_px": {
-        "x_min": 150,
-        "x_max": 250,
-        "y_min": 250,
-        "y_max": 350,
-        "include_boundary": false
-      },
-      "velocity_threshold_px_s": 10,
-      "min_still_s": 0.15,
-      "post_still_s": 0.25,
-      "post_still_criterion": 0.9,
-      "no_movement_max_px": 5,
-      "deadline_s": 1.5,
-      "kinematics_epoch_tail_s": 0.15
-    },
-    "parameter_hazard": "post_still_s (0.25) sizes the post-stop stillness CHECK in the stopping script. kinematics_epoch_tail_s (0.150) sizes the no-go kinematics WINDOW; 3__Kinematics.R names its own constant POST_STILL_SEC, which is NOT the same quantity. Confusing them inflates every no-go duration by 100 ms and depresses no-go velocity and acceleration by ~15%, while leaving path length, all go measures and ALL ICCs correct — reliability checks alone cannot detect it.",
-    "exclusions": "Trials with unparseable trajectory arrays are scored n/a, never 0 — a parse failure must not inflate accuracy. Outcome files are NOT outlier-trimmed; the paper's ±2.5 SD cell-wise trim is applied at analysis time by code/reproduce_paper_MT.py.",
-    "verified": "2026-08 by convert_MT.py + reproduce_paper_MT.py: reproduced the preprint's N (23), outlier rate (2.11% vs 2.1%), error rates, RTs, path length, no-go velocity and acceleration, and all ten ICCs with confidence intervals. Residual: go mean velocity +1.31% and go mean acceleration +1.34%, with go path length exact."
+  "derivations": [
+    {
+      "name": "scored",
+      "script": "code/1. compute_stopping.R",
+      "input": "bids_data",
+      "output": "derivatives/scored",
+      "params": "code/scored_params.json",
+      "output_glob": "sub-*/ses-*/beh/*_desc-scored_beh.tsv"
+    }
+  ],
+  "_provenance": {
+    "full_name": "Agent/notes/MT.md (Identity); bIDS stub dataset_description.json",
+    "short_description": "synthesised from literature/Mahesan_2026_mousetracking_gonogo.md (abstract) + measured data",
+    "long_description": "synthesised from literature/Mahesan_2026_mousetracking_gonogo.md (Methods) + Agent/notes/MT.md + code/derivations.json",
+    "background": "literature/Mahesan_2026_mousetracking_gonogo.md (introduction/aim)",
+    "procedure": "paradigm/psychopy/go_nogo_dm.py + paradigm/psychopy/block_sequence.xlsx + Agent/notes/MT.md",
+    "trial_structure": "measured: bids_data raw beh (611 rows, 506 go/100 nogo/5 n/a) cross-checked against block_sequence.xlsx (15 blocks: 2 practice x18 + 5 go-only x18 + 8 go/nogo x60)",
+    "design": "Agent/notes/MT.md (Sessions) + measured inventory (26 participants, 50 files, sub-002 & sub-004 incomplete)",
+    "modality": "paradigm/psychopy/go_nogo_dm.py (visual cursor/stimuli); no auditory/linguistic channel",
+    "cognitive_domain": "literature/Mahesan_2026_mousetracking_gonogo.md (go/no-go = cognitive control)",
+    "task_type": "literature/Mahesan_2026_mousetracking_gonogo.md + Agent/notes/MT.md (task label gonogo)",
+    "language": "Agent/notes/MT.md (Paradigm: presented material german)",
+    "experimental_context": "paradigm/psychopy/go_nogo_dm.py (behavioural mouse-tracking, no concurrent neuroimaging)",
+    "software_original": "Agent/notes/MT.md (Paradigm: PsychoPy)",
+    "language_original": "paradigm/psychopy/go_nogo_dm.py (python)",
+    "implementations": "paradigm/psychopy/go_nogo_dm.py (PsychoPy 2024.2.4, frameDur=1/60)",
+    "keywords": "synthesised from literature + measured outcome measures",
+    "response_device": "paradigm/psychopy/go_nogo_dm.py (mouse cursor control)",
+    "timing": "measured bids_data raw beh (611 rows) + block_sequence.xlsx (15 blocks) + go_nogo_dm.py (ITI 0.5-1.0 s, 60 Hz frame)",
+    "outcome_measures": "Agent/notes/MT.md (Outcome measures, DECIDED PI 2026-09-25) + reviewer request (2026-09-30): primary outcomes = no-go RT, distance, velocity. Roles: NOGO_STOP_TIME primary, AVG_VELOCITY secondary, PATH_LENGTH undecided (per reviewer; schema allows one primary + one secondary). Columns verified in derivatives/scored/sub-001/ses-01 beh header (rt_combined, accuracy, nogo_stop_time, avg_velocity, path_length)",
+    "n_sessions": "Agent/notes/MT.md (Sessions: 2 test-retest) + measured inventory (ses-01/ses-02)",
+    "software": "Agent/notes/MT.md (Paradigm: PsychoPy)",
+    "derivations": "code/derivations.json (label scored)"
   },
   "_open_questions": [
     {
-      "field": "participants.tsv",
-      "why": "Does not exist. No per-participant age, sex or handedness is recorded anywhere in the repository — verified by search. The preprint reports group-level values only (26 participants, 15 female, 1 diverse, mean age 22.9, range 18-33), which cannot be assigned to rows. Must come from the PI."
-    },
-    {
-      "field": "cronbach_alpha",
-      "why": "MT_data.json computes Cronbach's alpha over 100 trials treated as items. code/split_half.py argues alpha is inappropriate for trial-level behavioural measures. Decide whether to report it for this project at all."
-    },
-    {
-      "field": "timing.iti_duration_s",
-      "why": "RESOLVED 2026-08 in favour of this file. go_nogo_dm.py line 513 defines possible_iti_durations = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] and line 2437 draws from it with random.choice — six discrete 100 ms steps, not a fixed 1000 ms. The preprint §2.3 is wrong. Kept as a note because the published Methods should be corrected."
-    },
-    {
-      "field": "derivation.verified",
-      "why": "Go mean velocity is +1.31% and go mean acceleration +1.34% against published, while go path length is exact. Hypothesis: the published go figures may be ratio-of-means rather than mean-of-ratios. Confirm against go_nogo_scored_final.xlsx, which is not in the repository."
-    },
-    {
-      "field": "keywords",
-      "why": "Inferred from the preprint — verify against the paper's own keyword list if available."
-    },
-    {
-      "field": "dashboard primary ICC value",
-      "why": "The dashboard card shows 0.63 for ACCBIN, the MEAN of the go (0.68) and no-go (0.59) ICCs. MT is the only project whose reliability_metrics are keyed by trial type (go, nogo) rather than by a single condition, so it is the only one whose card value is an average across conditions. 0.63 corresponds to no figure in the preprint, which reports go and no-go separately (.75 and .59 for error rate). Decide whether the card should show the mean, the primary trial type, or both. Note also that the card's go value (0.68) differs from reproduce_paper_MT.py's (0.75) because the outcome files are not outlier-trimmed."
+      "field": "outcome_measures",
+      "why": "Reviewer requested three primary outcomes (no-go RT, distance, velocity) on 2026-09-30, but the schema/dashboard allows only one 'primary' and one 'secondary' per project. NOGO_STOP_TIME was set primary and AVG_VELOCITY secondary; PATH_LENGTH (distance) is left 'undecided' (still appears in the overview) pending a further PI decision if a second primary is wanted."
     }
-  ],
-  "_role_decision": "PI decision 2026-08: ACCBIN primary, RT secondary, declared explicitly via the `role` keys. Follows the abstract's split into standard behavioural measures and three kinematic features, and matches the ACCBIN/RT pairing in APPL and OLM. Recorded tension: no-go accuracy has the weakest reliability of all ten measures (ICC .59), so the primary outcome is the least reliable one. Polarity note: ACCBIN is accuracy (higher is better); the paper reports error rate. ICC(3,1) is unchanged by x -> 1-x, so reliability figures stay directly comparable.",
-  "_file_placement_rule": "PI rule 2026-08: paradigm/ holds every file needed to RUN the paradigm — scripts, condition tables, stimulus images and the instruction deck (instructions_de.pptx). literature/ holds only the PDF publications and related papers. This overrides MT_migration_plan.md and the earlier note in Agent/notes/MT.md, both of which sent instructions_de.pptx to literature/."
+  ]
 }
